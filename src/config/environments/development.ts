@@ -2,19 +2,23 @@ import type { DefineNuxtConfig } from 'nuxt/config'
 
 import { IS_IN_STACK, SITE_NAME } from '../../node/static'
 
+// matches `.config/certificates/mkcert.sh`
+const CERTIFICATE_SUFFIX = process.env.CI ? '-ci' : '-dev'
+
 export const developmentConfig: ReturnType<DefineNuxtConfig> = {
   $development: {
-    devServer: {
-      ...(IS_IN_STACK
+    // the stack terminates tls in front of the container, while the e2e tests
+    // reach the server directly; the stack's host comes from the Dockerfile
+    devServer:
+      IS_IN_STACK && !process.env.NUXT_PUBLIC_VIO_IS_TESTING
         ? {}
         : {
             host: 'app.localhost',
             https: {
-              key: './.config/certificates/ssl-dev.key',
-              cert: './.config/certificates/ssl-dev.crt',
+              key: `./.config/certificates/ssl${CERTIFICATE_SUFFIX}.key`,
+              cert: `./.config/certificates/ssl${CERTIFICATE_SUFFIX}.crt`,
             },
-          }),
-    },
+          },
     devtools: {
       enabled: !process.env.NUXT_PUBLIC_VIO_IS_TESTING,
     },
@@ -32,9 +36,6 @@ export const developmentConfig: ReturnType<DefineNuxtConfig> = {
     },
 
     // modules
-    gtag: {
-      enabled: false,
-    },
     security: {
       headers: {
         strictTransportSecurity: false, // prevent endless reload in Chrome

@@ -16,9 +16,11 @@
 
 E-Mail: contact+legal-notice@maev.si
 
+Kontaktformular: https://vibetype.app/de/support/contact
+
 **Gesetzliche Vertretungsberechtigte**
 <br />
-Jonas Thelemann, Tony Krieger, Alexander Gensicke
+Jonas Thelemann, Tony Krieger
 <br />
 (Geschäftsführer)
 
@@ -54,11 +56,18 @@ Die Zahl der durchschnittlichen, monatlich aktiven Nutzer beträgt:  -->
 ## Kontaktstellen für Nutzer gemäß Art. 12 der VO \[EU\] 2022/2065 (Digital Services Act)
 
 - Nutzer haben die Möglichkeit, ein sog. Meldeverfahren einzuleiten, um rechtswidrige Inhalte d. h. solche, bei denen der Nutzer der Ansicht ist, dass diese gegen Gesetze, unsere Nutzungsbedingungen und/oder unsere Verhaltensrichtlinie verstoßen, zu melden und hierfür das für diesen Zweck eingerichtete Meldeformular zu nutzen: https://vibetype.app/de/support/report
-- Um alle weiteren Anliegen zu klären, können Sie sich an unsere hierfür eingerichtete Kontaktstelle wenden: contact+legal-notice@maev.si
+- Um alle weiteren Anliegen zu klären, können Sie sich per E-Mail (contact+legal-notice@maev.si) oder über das Kontaktformular an unsere hierfür eingerichtete Kontaktstelle wenden: https://vibetype.app/de/support/contact
+- Die Kommunikation ist in deutscher sowie englischer Sprache möglich und erfolgt durch Menschen, nicht ausschließlich automatisiert.
 
 ## Datenschutzhinweis
 
 Unsere Datenschutzerklärung finden Sie unter: https://vibetype.app/de/docs/legal/privacy
+
+## Barrierefreiheit
+
+Wir möchten, dass alle VIBETYPE nutzen können, und orientieren uns an den Web Content Accessibility Guidelines (WCAG) 2.2 auf Stufe AA.
+Einige Bereiche erfüllen diese möglicherweise noch nicht.
+Wenn Sie auf eine Barriere stoßen, teilen Sie uns dies bitte per E-Mail (contact+legal-notice@maev.si) oder über das Kontaktformular mit: https://vibetype.app/de/support/contact
 
 ## Haftungsausschluss
 

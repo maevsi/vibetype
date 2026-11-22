@@ -1,35 +1,9 @@
-import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page } from '@playwright/test'
-import { joinURL, withoutTrailingSlash } from 'ufo'
+import { withoutTrailingSlash } from 'ufo'
 
 import { TESTING_COOKIE_NAME } from '#src/node/static'
 import { appTest } from '#tests/e2e/fixtures/appTest'
-import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
-
-export const testA11y = (url: string) =>
-  appTest.describe('a11y', () => {
-    appTest(
-      'should not have any automatically detectable accessibility issues',
-      async ({ defaultPage }) => {
-        await defaultPage.goto(url)
-
-        const accessibilityScanResults = await new AxeBuilder({
-          page: defaultPage.page,
-        }).analyze()
-
-        expect(
-          accessibilityScanResults.violations
-            .map(
-              (x) =>
-                `${x.id}\n${x.nodes.map(
-                  (y) => `${y.failureSummary}\n(${y.html}\n(${y.target})`,
-                )}`,
-            )
-            .join('\n'),
-        ).toEqual('')
-      },
-    )
-  })
+import { PAGE_READY, SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 
 export const testMetadata = async ({
   page,
@@ -40,39 +14,12 @@ export const testMetadata = async ({
   path: string
   title: string
 }) => {
-  await page.goto(path)
-
-  expect(await page.title()).toStrictEqual(title)
-
   const meta = [
     {
       tag: 'html',
       attributes: [
         { key: 'dir', value: 'ltr' },
         { key: 'lang', value: 'en' },
-      ],
-    },
-    {
-      tag: 'link',
-      attributes: [
-        {
-          key: 'data-testid',
-          value: 'polyfill-preload',
-        },
-        { key: 'rel', value: 'preload' },
-        {
-          key: 'href',
-          value:
-            'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=Promise%2CrequestAnimationFrame&flags=gated',
-        },
-        {
-          key: 'crossorigin',
-          value: 'anonymous',
-        },
-        {
-          key: 'as',
-          value: 'script',
-        },
       ],
     },
     {
@@ -131,38 +78,8 @@ export const testMetadata = async ({
       tag: 'meta',
       attributes: [
         {
-          key: 'name',
-          value: 'twitter:image',
-        },
-        // content is checked below
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
-          key: 'name',
-          value: 'twitter:image:src',
-        },
-        // content is checked below
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
           key: 'property',
           value: 'og:image:width',
-        },
-        { key: 'content', value: '1200' },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
-          key: 'name',
-          value: 'twitter:image:width',
         },
         { key: 'content', value: '1200' },
       ],
@@ -181,28 +98,8 @@ export const testMetadata = async ({
       tag: 'meta',
       attributes: [
         {
-          key: 'name',
-          value: 'twitter:image:height',
-        },
-        { key: 'content', value: '600' },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
           key: 'property',
           value: 'og:image:alt',
-        },
-        { key: 'content', value: "VIBETYPE's logo." },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
-          key: 'name',
-          value: 'twitter:image:alt',
         },
         { key: 'content', value: "VIBETYPE's logo." },
       ],
@@ -278,7 +175,7 @@ export const testMetadata = async ({
         },
         {
           key: 'href',
-          value: `${SITE_URL}${path}`,
+          value: withoutTrailingSlash(`${SITE_URL}${path}`),
         },
       ],
     },
@@ -358,7 +255,7 @@ export const testMetadata = async ({
         },
         {
           key: 'content',
-          value: `${SITE_URL}${path}`,
+          value: withoutTrailingSlash(`${SITE_URL}${path}`),
         },
       ],
     },
@@ -391,6 +288,8 @@ export const testMetadata = async ({
         },
         { key: 'content', value: '#ffffff' },
       ],
+      // the color mode is only known on the client, see `useAppLayout`
+      isClientOnly: true,
     },
     {
       tag: 'meta',
@@ -416,28 +315,8 @@ export const testMetadata = async ({
       tag: 'meta',
       attributes: [
         {
-          key: 'name',
-          value: 'twitter:description',
-        },
-        { key: 'content', value: 'Find events, guests and friends 💙❤️💚' },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
           key: 'property',
           value: 'og:title',
-        },
-        { key: 'content', value: title },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
-          key: 'name',
-          value: 'twitter:title',
         },
         { key: 'content', value: title },
       ],
@@ -474,16 +353,37 @@ export const testMetadata = async ({
     },
   ]
 
-  for (const object of meta) {
-    await expect(
-      page.locator(
-        object.tag +
-          object.attributes
-            ?.map((attribute) => `[${attribute.key}="${attribute.value}"]`)
-            .join(''),
-      ),
-    ).toBeAttached()
+  const expectMeta = async (target: Page, { isServer = false } = {}) => {
+    expect(await target.title()).toStrictEqual(title)
+
+    for (const object of meta) {
+      if (isServer && 'isClientOnly' in object) continue
+
+      await expect(
+        target.locator(
+          object.tag +
+            object.attributes
+              ?.map((attribute) => `[${attribute.key}="${attribute.value}"]`)
+              .join(''),
+        ),
+      ).toBeAttached()
+    }
   }
+
+  // crawlers read the server's html without running scripts, while the hydrated head can still differ from it, so both are checked
+  const serverContext = await page.context().browser()!.newContext({
+    baseURL: SITE_URL,
+    ignoreHTTPSErrors: true,
+    javaScriptEnabled: false,
+  })
+  const serverPage = await serverContext.newPage()
+  await serverPage.goto(path)
+  await expectMeta(serverPage, { isServer: true })
+  await serverContext.close()
+
+  await page.goto(path)
+  await PAGE_READY({ page })
+  await expectMeta(page)
 
   expect(
     await page.locator('script[data-hid="schema-org-graph"]').innerText(),
@@ -499,18 +399,19 @@ export const testMetadata = async ({
   //   ).toMatchSnapshot(`content-security-policy.txt`)
   // }
 
-  for (const locator of [
-    'meta[property="og:image"]',
-    'meta[name="twitter:image"]',
-    'meta[name="twitter:image:src"]',
-  ]) {
-    const content = await page.locator(locator).getAttribute('content')
-    expect(content).toBeTruthy()
-    expect(content?.startsWith(SITE_URL)).toBeTruthy()
-    expect(content).toMatch(/(\/_og\/[ds]\/).+\.png$/)
-  }
+  const ogImageContent = await page
+    .locator('meta[property="og:image"]')
+    .getAttribute('content')
+  expect(ogImageContent).toBeTruthy()
+  expect(ogImageContent?.startsWith(SITE_URL)).toBeTruthy()
+  expect(ogImageContent).toMatch(/(\/_og\/[ds]\/).+\.png$/)
+
+  // X reads the image from the Open Graph tags, so the mirrored Twitter image
+  // tags are turned off
+  await expect(page.locator('meta[name^="twitter:image"]')).toHaveCount(0)
 }
 
+// the og image's url is signed with the app secret, so it cannot be hardcoded here - it is read from the page's og:image tag instead
 export const testOgImage = (paths: {
   static?: { en: string; de: string }
   dynamic?: { en: string; de: string }
@@ -528,13 +429,18 @@ export const testOgImage = (paths: {
         )
       }
 
-      const serverPrefix = isStaticServer ? 's' : 'd'
+      for (const path of [serverPaths.en, serverPaths.de]) {
+        await page.goto(path)
 
-      await page.goto(joinURL(`/_og/${serverPrefix}/${serverPaths.en}`))
-      await expect(page).toHaveScreenshot()
+        const ogImageUrl = await page
+          .locator('meta[property="og:image"]')
+          .getAttribute('content')
 
-      await page.goto(joinURL(`/_og/${serverPrefix}/${serverPaths.de}`))
-      await expect(page).toHaveScreenshot()
+        if (!ogImageUrl) throw new Error('The og:image url is not given.')
+
+        await page.goto(ogImageUrl)
+        await expect(page).toHaveScreenshot()
+      }
     })
   })
 
@@ -550,12 +456,20 @@ export const testPageLoad = (url: string, status = 200) =>
     })
   })
 
-export const testVisualRegression = (url: string, plain?: boolean) =>
-  appTest.describe('visual regression', () => {
-    appTest('looks as before', async ({ defaultPage, page }) => {
+export const testVisualRegression = (
+  url: string,
+  plain?: boolean,
+  {
+    fullPage,
+    test = appTest,
+  }: { fullPage?: boolean; test?: typeof appTest } = {},
+) =>
+  test.describe('visual regression', () => {
+    test('looks as before', async ({ defaultPage, page }) => {
       await (plain ? page : defaultPage).goto(url)
 
       await expect(plain ? page : defaultPage.page).toHaveScreenshot({
+        fullPage,
         timeout: TIMEOUT,
       })
     })

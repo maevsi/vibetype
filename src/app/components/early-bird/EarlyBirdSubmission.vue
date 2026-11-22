@@ -1,24 +1,30 @@
 <template>
   <LayoutPage>
-    <LayoutPageResult type="success">
-      <TypographyBodySmall>
-        {{ t('description2') }}
-      </TypographyBodySmall>
-      <template #description>
-        {{ t('description1') }}
-      </template>
-      <template #title>
+    <div class="flex flex-col items-start gap-3">
+      <div
+        aria-hidden="true"
+        class="flex size-16 items-center justify-center rounded-full bg-success-tint text-action-primary"
+      >
+        <AppIconCheckCircle class="size-8" />
+      </div>
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
-      </template>
-    </LayoutPageResult>
+      </span>
+      <span class="text-body text-fg-2">
+        {{ t('description1') }}
+      </span>
+      <span class="text-body-small text-fg-3">
+        {{ t('description2') }}
+      </span>
+    </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="store.navigateBack"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

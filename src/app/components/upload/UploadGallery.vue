@@ -5,7 +5,7 @@
       postgres53100: t('postgres53100'),
     }"
   >
-    <Card>
+    <AppCard>
       <ul class="flex flex-wrap items-center justify-center">
         <template v-if="uploads?.length">
           <li
@@ -14,20 +14,22 @@
             :key="upload.rowId"
             class="relative box-border border-4"
             :class="[
-              ...(pending.deletions.includes(upload.rowId)
+              ...(isDeleteDrawerOpen && uploadToDelete?.rowId === upload.rowId
                 ? ['animate-pulse']
                 : []),
               ...(isSelectable && upload === selectedItem
-                ? ['border-red-600']
+                ? ['border-action-danger']
                 : ['border-transparent']),
             ]"
-            :disabled="pending.deletions.includes(upload.rowId)"
+            :disabled="
+              isDeleteDrawerOpen && uploadToDelete?.rowId === upload.rowId
+            "
             @click="toggleSelect(upload)"
           >
-            <LoaderImage
+            <AppImage
               :alt="upload.storageKey ? t('uploadAlt') : t('uploadAltFailed')"
               aspect="aspect-square"
-              class="size-32"
+              class="size-32 object-cover"
               height="128"
               :src="getUploadImageSrc(upload.storageKey || '')"
               :title="t('uploadSize', { size: bytesToString(upload.sizeByte) })"
@@ -35,78 +37,86 @@
             />
             <div
               v-if="!isReadonly"
-              class="absolute top-0 right-0 flex rounded-bl-lg bg-red-600/75"
+              class="absolute top-0 right-0 flex rounded-bl-medium bg-action-danger/75"
             >
               <AppButton
                 :aria-label="t('iconTrashLabel')"
                 class="flex h-full justify-center"
-                @click="deleteUpload(upload)"
+                size="none"
+                variant="ghost"
+                @click="onDeleteSelect(upload)"
               >
-                <AppIconTrash
-                  class="text-text-bright m-1"
-                  :title="t('iconTrash')"
-                />
+                <AppIconTrash class="m-1 text-white" :title="t('iconTrash')" />
               </AppButton>
             </div>
           </li>
         </template>
         <li class="relative box-border border-4 border-transparent">
-          <AppButton
-            :aria-label="
-              t('iconAdd', {
-                sizeUsed: bytesToString(sizeByteTotal),
-                sizeTotal: bytesToString(accountUploadQuotaBytes),
-              })
-            "
-            class="flex size-32 justify-center bg-gray-300 dark:bg-gray-200"
+          <AppInputFile
+            accept="image/*"
+            class="size-32 rounded-medium p-0"
             :title="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),
                 sizeTotal: bytesToString(accountUploadQuotaBytes),
               })
             "
-            @click="selectProfilePicture"
+            @click="onProfilePictureClick"
+            @select="onProfilePictureSelect"
           >
-            <AppIconPlusSolid class="size-12 text-gray-500" />
-          </AppButton>
-          <input
-            ref="inputProfilePicture"
-            accept="image/*"
-            hidden
-            name="input-profile-picture"
-            type="file"
-            @change="loadProfilePicture"
-          />
+            <AppIconPlusSolid class="size-12 text-fg-2" />
+            <span class="sr-only">
+              {{
+                t('iconAdd', {
+                  sizeUsed: bytesToString(sizeByteTotal),
+                  sizeTotal: bytesToString(accountUploadQuotaBytes),
+                })
+              }}
+            </span>
+          </AppInputFile>
         </li>
       </ul>
       <div
         v-if="api.data.allUploads?.pageInfo.hasNextPage"
         class="flex justify-center"
       >
-        <ButtonColored
+        <AppButton
           :aria-label="t('globalShowMore')"
           @click="after = api.data.allUploads.pageInfo.endCursor"
         >
           {{ t('globalShowMore') }}
-        </ButtonColored>
+        </AppButton>
       </div>
-    </Card>
-    <Modal
-      id="ModalUploadGallery"
-      :submit-name="t('upload')"
-      :submit-task-provider="getUploadBlobPromise"
-    >
+    </AppCard>
+    <AppDrawer v-model="isDrawerUploadGalleryOpen">
       <Cropper
         ref="cropper"
+        class="h-[60dvh]"
+        data-vaul-no-drag
+        :default-size="({ imageSize }: { imageSize: Size }) => imageSize"
         :init-stretcher
         :src="fileSelectedUrl"
-        :stencil-props="{
-          aspectRatio: 1,
-        }"
       />
-      <template #header>{{ t('uploadNew') }}</template>
-      <template #submit-icon><AppIconArrowUpTray /></template>
-    </Modal>
+      <AppAlert v-if="uploadSubmitErrors" class="mb-4" variant="error">
+        <AppSpanList :span="uploadSubmitErrors" />
+      </AppAlert>
+      <template #title>{{ t('uploadNew') }}</template>
+      <template #footer>
+        <AppButton
+          :aria-label="t('upload')"
+          :loading="isUploadSubmitting"
+          @click="onUploadSubmit"
+        >
+          {{ t('upload') }}
+          <template #prefix><AppIconArrowUpTray /></template>
+        </AppButton>
+      </template>
+    </AppDrawer>
+    <UploadDeleteDrawer
+      v-if="uploadToDelete"
+      v-model:open="isDeleteDrawerOpen"
+      :upload-row-id="uploadToDelete.rowId"
+    />
   </Loader>
 </template>
 
@@ -117,13 +127,10 @@ import prettyBytes from 'pretty-bytes'
 import type { UnwrapRef } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import type { CropperResult, Size } from 'vue-advanced-cropper'
+import { useMutation } from '@urql/vue'
 
-import { useCreateUploadMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
-import { useAccountUploadQuotaBytesQuery } from '~~/gql/documents/queries/account/accountUploadQuotaBytes'
-import { useAllUploadsQuery } from '~~/gql/documents/queries/upload/uploadsAll'
-import { getUploadItem } from '~~/gql/documents/fragments/uploadItem'
-import { useDeleteUploadByRowIdMutation } from '~~/gql/documents/mutations/upload/uploadDeleteByRowId'
-import type { UploadItemFragment } from '~~/gql/generated/graphql'
+import { graphql } from '~~/gql/generated'
+import type { AllUploadsQueryVariables } from '~~/gql/generated/graphql'
 
 const { isReadonly, isSelectable } = defineProps<{
   isReadonly?: boolean
@@ -141,41 +148,89 @@ const runtimeConfig = useRuntimeConfig()
 const TUSD_FILES_URL = useTusdFilesUrl()
 const localePath = useLocalePath()
 const templateCropper = useTemplateRef('cropper')
-const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 
 // data
 const after = ref<string | null>()
+const fileSelected = ref<File>()
 const fileSelectedUrl = ref<string>()
 const fileSelectedMimeType = ref<string>()
-const pending = reactive({
-  deletions: ref<string[]>([]),
-})
+const isDeleteDrawerOpen = ref(false)
+const isDrawerUploadGalleryOpen = ref<boolean>()
+const isUploadSubmitting = ref(false)
+const uploadSubmitErrors = ref()
+const uploadToDelete = ref<{
+  rowId: string
+}>()
 const selectedItem = ref<{
   rowId?: string | null
 }>()
 
 // api data
-const accountUploadQuotaBytesQuery = useAccountUploadQuotaBytesQuery({})
-const allUploadsQuery = useAllUploadsQuery(
-  computed(() => ({
+const accountUploadQuotaBytesQuery = useApiQuery({
+  query: graphql(`
+    query AccountUploadQuotaBytes {
+      accountUploadQuotaBytes
+    }
+  `),
+})
+const allUploadsQuery = useApiQuery({
+  query: graphql(`
+    query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {
+      allUploads(
+        after: $after
+        condition: { createdBy: $createdBy }
+        first: $first
+      ) {
+        nodes {
+          id
+          rowId
+          sizeByte
+          storageKey
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        totalCount
+      }
+    }
+  `),
+  variables: computed<AllUploadsQueryVariables>(() => ({
     after: after.value,
     first: ITEMS_PER_PAGE,
     createdBy: store.signedInAccountId,
   })),
+})
+const uploadCreateMutation = useMutation(
+  graphql(`
+    mutation CreateUpload($input: CreateUploadInput!) {
+      createUpload(input: $input) {
+        clientMutationId
+        upload {
+          id
+          rowId
+        }
+      }
+    }
+  `),
 )
-const deleteUploadByRowIdMutation = useDeleteUploadByRowIdMutation()
-const uploadCreateMutation = useCreateUploadMutation()
+const uploadDeleteMutation = useMutation(
+  graphql(`
+    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {
+      deleteUploadByRowId(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const api = await useApiData([
   accountUploadQuotaBytesQuery,
   allUploadsQuery,
-  deleteUploadByRowIdMutation,
   uploadCreateMutation,
 ])
 const uploads = computed(
   () =>
-    api.value.data.allUploads?.nodes
-      .map((x) => getUploadItem(x))
-      .filter(isNeitherNullNorUndefined) || [],
+    api.value.data.allUploads?.nodes.filter(isNeitherNullNorUndefined) || [],
 )
 const accountUploadQuotaBytes = computed(
   () => api.value.data.accountUploadQuotaBytes,
@@ -204,33 +259,32 @@ const initStretcher = ({
   stretcher.style.height = `${cropper.parentElement?.clientHeight}px`
   stretcher.style.width = `${cropper.parentElement?.clientWidth}px`
 }
-const selectProfilePicture = async () => {
-  const pathUpload = localePath('upload')
-
-  if (route.path === pathUpload.toString()) {
-    templateInputProfilePicture.value?.click()
-  } else {
-    await navigateTo(pathUpload)
-  }
+const redirectToUpload = async () => {
+  await navigateTo(localePath('upload'))
 }
-const executeUrqlRequest = useExecuteUrqlRequest()
-const deleteUpload = async (upload: Pick<UploadItemFragment, 'rowId'>) => {
-  // pending.deletions.push(upload.rowId)
-  const result = await executeUrqlRequest({
-    errorMessageI18n: t('uploadDeleteFailed'),
-    progress: {
-      id: upload.rowId,
-      idArray: pending.deletions,
-    },
-    request: deleteUploadByRowIdMutation.executeMutation({
-      input: { rowId: upload.rowId },
-    }),
-  })
-  // pending.deletions.splice(pending.deletions.indexOf(upload.rowId), 1)
+const isOnUploadPage = () => route.path === localePath('upload').toString()
+// the picker only opens on the upload page, elsewhere the tile navigates there
+const onProfilePictureClick = async (event: Event) => {
+  if (isOnUploadPage()) return
 
-  if (!result) return
+  event.preventDefault()
+  await redirectToUpload()
+}
+const onProfilePictureSelect = async ([file]: File[]) => {
+  if (!file) return
 
-  allUploadsQuery.executeQuery()
+  if (!isOnUploadPage()) {
+    await redirectToUpload()
+    return
+  }
+
+  loadProfilePicture(file)
+}
+const onDeleteSelect = (
+  upload: Pick<(typeof uploads.value)[number], 'rowId'>,
+) => {
+  uploadToDelete.value = upload
+  isDeleteDrawerOpen.value = true
 }
 const getMimeType = (file: ArrayBuffer, fallback?: string) => {
   const byteArray = new Uint8Array(file).subarray(0, 4)
@@ -253,15 +307,8 @@ const getMimeType = (file: ArrayBuffer, fallback?: string) => {
 }
 const getUploadImageSrc = (uploadStorageKey: string) =>
   TUSD_FILES_URL + uploadStorageKey
-const loadProfilePicture = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  const files = Array.from(target.files ?? [])
-
-  if (files.length !== 1) return
-
-  const file = files[0]
-
-  if (!file) return
+const loadProfilePicture = (file: File) => {
+  fileSelected.value = file
 
   if (fileSelectedUrl.value) {
     URL.revokeObjectURL(fileSelectedUrl.value)
@@ -276,7 +323,7 @@ const loadProfilePicture = (event: Event) => {
         e.target?.result as ArrayBuffer,
         file.type,
       )
-      store.modals.push({ id: 'ModalUploadGallery' })
+      isDrawerUploadGalleryOpen.value = true
     }
     fileReader.readAsDataURL(file)
   } catch (error) {
@@ -292,84 +339,99 @@ const toggleSelect = (upload: UnwrapRef<typeof selectedItem>) => {
     emit('selection', selectedItem.value?.rowId)
   }
 }
-const getUploadBlobPromise = () =>
-  new Promise<void>((resolve, reject) => {
-    ;(templateCropper.value?.getResult() as CropperResult).canvas?.toBlob(
-      async (blob) => {
-        if (
-          !store.signedInAccountId ||
-          !blob ||
-          !templateInputProfilePicture.value?.files?.[0]
-        )
-          return
+const uploadBlob = async () => {
+  const canvas = (
+    templateCropper.value?.getResult() as CropperResult | undefined
+  )?.canvas
+  const file = fileSelected.value
 
-        const result = await uploadCreateMutation.executeMutation({
-          input: {
-            upload: {
-              createdBy: store.signedInAccountId,
-              sizeByte: blob.size,
-            },
+  if (!store.signedInAccountId || !canvas || !file)
+    throw new Error(t('globalErrorNoData'))
+
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, 'image/jpeg'),
+  )
+
+  if (!blob) throw new Error(t('globalErrorNoData'))
+
+  const uppy = new Uppy({
+    id: 'profile-picture',
+    debug: !runtimeConfig.public.vio.isInProduction,
+    restrictions: {
+      maxFileSize: +runtimeConfig.public[SITE_NAME].upload.sizeMax,
+      maxNumberOfFiles: 1,
+      minNumberOfFiles: 1,
+      allowedFileTypes: ['image/*'],
+    },
+    onBeforeUpload: (files) =>
+      Object.fromEntries(
+        Object.entries(files).map(([key, value]) => [
+          key,
+          {
+            ...value,
+            name: `/profile-pictures/${value.name}`,
           },
-        })
-
-        const data = getResultData(result)
-        if (!data)
-          return reject(result.error ?? new Error(t('globalErrorNoData')))
-
-        const uppy = new Uppy({
-          id: 'profile-picture',
-          debug: !runtimeConfig.public.vio.isInProduction,
-          restrictions: {
-            maxFileSize: 1048576,
-            maxNumberOfFiles: 1,
-            minNumberOfFiles: 1,
-            allowedFileTypes: ['image/*'],
-          },
-          meta: {
-            id: data.createUpload?.upload?.rowId,
-          },
-          onBeforeUpload: (files) =>
-            Object.fromEntries(
-              Object.entries(files).map(([key, value]) => [
-                key,
-                {
-                  ...value,
-                  name: `/profile-pictures/${value.name}`,
-                },
-              ]),
-            ),
-        })
-
-        uppy.on('restriction-failed', (_file, error: Error) => {
-          return reject(error.message)
-        })
-
-        uppy.use(Tus, {
-          endpoint: TUSD_FILES_URL,
-          limit: 1,
-          removeFingerprintOnSuccess: true,
-        })
-
-        uppy.addFile({
-          source: 'cropper',
-          name: templateInputProfilePicture.value.files[0].name,
-          type: blob.type,
-          data: blob,
-        })
-
-        const uploadResult = await uppy.upload()
-
-        allUploadsQuery.executeQuery()
-
-        if (!uploadResult?.failed || uploadResult.failed.length > 0) {
-          return reject(t('uploadError'))
-        } else {
-          return resolve()
-        }
-      },
-      'image/jpeg',
-    )
+        ]),
+      ),
   })
+
+  uppy.use(Tus, {
+    endpoint: TUSD_FILES_URL,
+    limit: 1,
+    removeFingerprintOnSuccess: true,
+  })
+
+  // checks the restrictions before the upload row exists, as a rejected
+  // file would otherwise leave a row without stored file behind
+  uppy.addFile({
+    source: 'cropper',
+    name: file.name,
+    type: blob.type,
+    data: blob,
+  })
+
+  const result = await uploadCreateMutation.executeMutation({
+    input: {
+      upload: {
+        createdBy: store.signedInAccountId,
+        sizeByte: blob.size,
+      },
+    },
+  })
+
+  const uploadRowId = getResultData(result)?.createUpload?.upload?.rowId
+  if (!uploadRowId) throw result.error ?? new Error(t('globalErrorNoData'))
+
+  uppy.setMeta({ id: uploadRowId })
+
+  const uploadResult = await uppy.upload().catch(() => undefined)
+
+  if (!uploadResult?.failed || uploadResult.failed.length > 0) {
+    await uploadDeleteMutation.executeMutation({
+      input: { rowId: uploadRowId },
+    })
+    throw new Error(t('uploadError'))
+  }
+
+  // tusd sets `storageKey` behind GraphQL's back, so the cache can't know
+  allUploadsQuery.executeQuery({ requestPolicy: 'network-only' })
+}
+const onUploadSubmit = async () => {
+  isUploadSubmitting.value = true
+  uploadSubmitErrors.value = undefined
+
+  try {
+    await uploadBlob()
+    isDrawerUploadGalleryOpen.value = false
+  } catch (errorsLocal) {
+    uploadSubmitErrors.value = [
+      errorsLocal instanceof Error ? errorsLocal.message : String(errorsLocal),
+    ]
+    console.error(errorsLocal)
+  }
+
+  isUploadSubmitting.value = false
+}
 </script>
 
 <style>
@@ -385,7 +447,6 @@ de:
   upload: Hochladen
   uploadAlt: Ein hochgeladenes Bild.
   uploadAltFailed: Ein Bild, das nicht vollständig hochgeladen wurde.
-  uploadDeleteFailed: Das Löschen des Elements ist fehlgeschlagen!
   uploadError: 'Fehler: Dateien wurden nicht erfolgreich hochgeladen!'
   uploadNew: Lade ein neues Bild hoch
   uploadSize: 'Größe: {size}'
@@ -397,7 +458,6 @@ en:
   upload: Upload
   uploadAlt: An uploaded image.
   uploadAltFailed: "An image which hasn't been fully uploaded."
-  uploadDeleteFailed: Deleting upload failed!
   uploadError: 'Error: Upload failed!'
   uploadNew: Upload a new image
   uploadSize: 'Size: {size}'

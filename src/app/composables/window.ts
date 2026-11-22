@@ -22,14 +22,15 @@ export const useCopy = () => {
   const alertError = useAlertError()
 
   const copy = async (text: string) => {
-    if (!import.meta.client) return
+    if (!import.meta.client) return false
 
-    if (!isSupported) {
+    if (!isSupported.value) {
       alertError(t('globalErrorClipboard'))
-      return
+      return false
     }
 
     await clipboardCopy(text)
+    return true
   }
 
   return { copy }

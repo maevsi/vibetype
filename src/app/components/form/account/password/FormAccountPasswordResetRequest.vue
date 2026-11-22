@@ -4,29 +4,31 @@
     @submit.prevent="handleSubmit"
   >
     <form.Field v-slot="{ field }" name="emailAddress">
-      <FormAuthInput
+      <AppInput
         :aria-invalid="!!emailError"
+        :aria-label="t('emailAddress')"
         :model-value="field.state.value"
         :placeholder="t('emailAddress')"
         type="email"
         @blur="handleEmailBlur(field)"
-        @input="handleEmailInput(field, $event)"
+        @update:model-value="handleEmailInput(field, $event)"
       >
-        <template #icon>
+        <template #prefix>
           <IHeroiconsEnvelope />
         </template>
-      </FormAuthInput>
-      <p v-if="emailError" class="mt-1 text-sm text-red-500 dark:text-red-400">
+      </AppInput>
+      <p v-if="emailError" class="mt-1 text-caption text-error">
         {{ emailError }}
       </p>
     </form.Field>
-    <FormAuthButton :aria-label="t('send')" class="mt-4" type="submit">
+    <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
+    <AppButton :aria-label="t('send')" class="mt-4 w-full" type="submit">
       {{ t('send') }}
-    </FormAuthButton>
-    <p class="mt-6 text-center text-[15px] text-gray-500 dark:text-gray-400">
+    </AppButton>
+    <p class="mt-6 text-center text-body text-fg-2">
       {{ t('rememberPassword') }}
       <NuxtLinkLocale
-        class="font-semibold text-green-600 dark:text-green-400"
+        class="font-semibold text-link underline"
         to="session-create"
       >
         {{ t('signIn') }}
@@ -37,9 +39,10 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
 import { z } from 'zod'
 
-import { useAccountPasswordResetRequestMutation } from '~~/gql/documents/mutations/account/accountPasswordResetRequest'
+import { graphql } from '~~/gql/generated'
 
 const emit = defineEmits<{
   success: [emailAddress: string]
@@ -50,16 +53,22 @@ const modelError = defineModel<Error>('error')
 const { locale, t } = useI18n()
 
 // api data
-const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
-const api = await useApiData([passwordResetRequestMutation])
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
+const passwordResetRequestMutation = useMutation(
+  graphql(`
+    mutation AccountPasswordResetRequest(
+      $input: AccountPasswordResetRequestInput!
+    ) {
+      accountPasswordResetRequest(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
 )
+const api = await useApiData([passwordResetRequestMutation])
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 
 // validation
 const emailTouched = ref(false)
@@ -97,24 +106,43 @@ const handleEmailInput = (
 }
 
 // form
+const { csrf } = useCsrf()
+const captchaIsUsed = ref<boolean>()
+
 const formSchema = z.object({
+  captcha: SCHEMA_CAPTCHA,
   emailAddress: SCHEMA_EMAIL_ADDRESS_REQUIRED,
 })
 
 const form = useForm({
   defaultValues: {
+    captcha: '',
     emailAddress: '',
   },
   validators: {
     onSubmit: formSchema,
   },
   onSubmit: async ({ value }) => {
-    const result = await passwordResetRequestMutation.executeMutation({
-      input: {
-        emailAddress: value.emailAddress,
-        language: locale.value,
+    const result = await passwordResetRequestMutation.executeMutation(
+      {
+        input: {
+          emailAddress: value.emailAddress,
+          language: locale.value,
+          timeZone: useTimeZone(),
+        },
       },
-    })
+      {
+        // Replaces the client's fetch options, so the CSRF header has to be repeated.
+        fetchOptions: {
+          headers: {
+            [CSRF_HEADER_NAME]: csrf,
+            ...(value.captcha && { [TURNSTILE_HEADER_KEY]: value.captcha }),
+          },
+        },
+      },
+    )
+
+    captchaIsUsed.value = true
 
     if (!getResultData(result)) return
 

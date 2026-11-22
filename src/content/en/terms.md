@@ -76,8 +76,11 @@ These features include in particular:
   Participation is generally not open to everyone unless the person purchases a ticket.
   Participation in public events is generally open to everyone.
 - **Sharing Public Events**: Registered users can share public events they created with other users, meaning the event will be publicly announced on the platform and visible or searchable for all users.
-- **Inviting Users to a Private Event**: Registered users can invite other users to participate in private events they created using the invitation function.
+- **Inviting Users to a Private Event**: Registered users can invite other individuals to participate in private events they created, using the invitation function and an address book of contacts they maintain on the platform.
+  An invited individual does not need to be a registered user; they can access, accept, or decline the invitation via a personal link, without creating a user account.
   For private events, the invitation is a prerequisite for purchasing a ticket for the respective event.
+  Registered users who add a contact to their address book for this purpose are responsible for having the necessary rights or consent to share that person's data, as set out in § 4 and § 8 of these Terms of Use.
+  Contacts can be entered manually or imported from the address book of the user's device or from a contact file; the same responsibility applies to every imported contact.
 - **Searching for Events**: The registered user has the option to browse events shared by other users and view their descriptions, etc.
 - **Offering Tickets for Events**: Registered users can offer tickets for the events they created.
   Tickets can be offered for a fee or free of charge.
@@ -92,11 +95,11 @@ These features include in particular:
 
 (2) The features of "VIBETYPE" mentioned in § 3 (1) of these terms of use are available to the registered user free of charge both on the platform's website and via the mobile app.
 The user has no claim to the maintenance of individual platform functionalities.
-The platform has sole discretion to restrict or expand the features of the mobile app and website.
+The platform may restrict or expand the features of the mobile app and website if this is reasonable for the user, taking the interests of the platform into account.
 
 (3) The platform reserves the right to offer additional paid features and services (e.g., subscriptions) in the future.
 
-(4) The platform is entitled to block or delete individual features at any time, for example, if there is suspicion that they violate applicable law or the rights of third parties or are being used in an abusive manner or in a way that violates applicable law.
+(4) The platform is entitled to block or delete individual features, for example, if there are concrete indications that they violate applicable law or the rights of third parties or are being used in an abusive manner or in a way that violates applicable law.
 
 (5) The platform strives to ensure the smooth operation of the mobile app and website.
 This is naturally limited to services that the platform has control over.
@@ -127,7 +130,6 @@ The platform is also not acting as an intermediary and does not receive any comm
 - Copyright-infringing content or content that violates other intellectual property rights,
 - Sexual harassment of users and third parties,
 - Pornography, content harmful to minors, or offensive, sexist, obscene, vulgar, disgusting, or repulsive content and expressions.
-The prohibition of such content also applies if, in individual cases, the content does not violate applicable law, third-party rights, good morals, or our behavioral guidelines.
 
 (4) Our behavioral guidelines are summarized in a code of conduct. The code of conduct can be viewed at https://vibetype.app/docs/legal/conduct.
 
@@ -142,25 +144,46 @@ The prohibition of such content also applies if, in individual cases, the conten
 
 (8) Should there be disruptions in the use of the platform or its functionalities in the app or on the website, the user will immediately notify the platform of this disruption.
 
-**§ 5 Measures of the Platform in Case of Illegal Content, Policy Violations, and Abuse**
+**§ 5 Content Moderation, Measures, and Legal Remedies**
 
-(1) The platform is not obligated to monitor the content shared by users on the platform or their behavior for possible illegality or to actively investigate circumstances that may indicate illegal activity. However, the platform reserves the right to voluntarily and at its discretion randomly review the content uploaded, posted, shared, or made accessible by users for legality and compliance with the platform's guidelines (especially the code of conduct), and if necessary, to block or remove it. The platform may, at its discretion, block or permanently remove user content in the case of identified illegality or policy violations. Furthermore, the platform may warn the user and/or temporarily or permanently restrict or block the user account.
+(1) Restrictions on content: Content and behavior on the platform are restricted by these terms of use (in particular § 4) and the code of conduct (https://vibetype.app/docs/legal/conduct).
+Content that violates applicable law is not permitted in any case.
 
-(2) The platform is also authorized to take all necessary actions, including restricting, temporarily blocking, or permanently removing content (including reviews and statements in comments, ratings, messages, chats, etc.) and other information uploaded, posted, shared, or made accessible by users, as well as user accounts, if an official order, judicial decision, law, or other official measure obligates the platform to do so. This also applies if the platform deems it necessary to restrict or remove content or user accounts to prevent dangers at its discretion.
+(2) The platform is not obligated to monitor the content shared by users on the platform or their behavior for possible illegality or to actively investigate circumstances that may indicate illegal activity.
+However, the platform may review content for legality and compliance with these terms and the code of conduct, in particular after a report (§ 6), on its own initiative, or after an order by an authority or court.
+The platform may, in the case of identified illegality or policy violations, block, restrict, downgrade, or remove user content, warn the user, restrict or suspend the user account temporarily, or terminate it permanently.
+The platform decides which measure is appropriate in the individual case, taking into account the severity and consequences of the violation, whether it was repeated, and the legitimate interests of the user concerned.
 
-(3) Finally, the platform is also entitled to take all necessary actions, including restricting, temporarily blocking, or permanently removing content (including reviews and statements in comments, ratings, messages, chats, etc.) and other information uploaded, posted, shared, or made accessible by users, as well as user accounts, if the platform or the functions and services provided by the platform are used for purposes other than those specified in § 1 of these Terms of Use ("Overview of the Services and Purposes of the VIBETYPE Platform") or are otherwise abused.
+(3) The platform may also take these measures if an official order, judicial decision, or law obligates it to do so, if this is necessary to prevent dangers, or if the platform or its functions are used for purposes other than those specified in § 1 or are otherwise abused.
+
+(4) Procedure and tools: Reports and moderation decisions are handled and decided by people.
+The platform does not currently use automated means to decide on the removal or restriction of content or accounts.
+Should this change, the platform will state it here and in the statement of reasons under paragraph (5).
+
+(5) Statement of reasons: If the platform removes or restricts content, suspends or terminates an account, or suspends or terminates the service in whole or in part, it will inform the affected user without undue delay and at the latest when the measure takes effect, by email or in the app, and state the following: the measure and its scope and duration, the facts and circumstances relied on, the legal or contractual ground, whether automated means were used, and the legal remedies according to paragraphs (6) and (7).
+This does not apply if the platform has no electronic contact details of the user or if an authority has ordered that no information be given.
+
+(6) Complaint: The user can lodge a complaint against such a decision via the contact form (https://vibetype.app/support/contact) or by email (contact+legal-notice@maev.si) for at least six months after being informed of the decision.
+The complaint is reviewed by a person who was not involved in the original decision.
+The platform will inform the complainant of the result and the remaining legal remedies without undue delay and will reverse the measure if the complaint shows that it was unjustified.
+
+(7) Out-of-court dispute settlement and courts: The user may bring a dispute about such a decision before a certified out-of-court dispute settlement body under Art. 21 of Regulation (EU) 2022/2065, where available, or before the competent courts.
+Using the complaint procedure beforehand is not required.
 
 **§ 6 Reporting Procedure for Illegal Content**
 
 (1) If the user becomes aware of content published by other users that they believe is illegal, the user has a so-called reporting procedure available to report the content they consider illegal to the platform. The reporting procedure can easily be initiated by the user through the app and/or the website using a corresponding form. A reporting form will be provided by the platform (report form).
 
-(2) The reporting user must sufficiently justify the report of the illegality of the content and provide the content to the platform, for example, by submitting the precise URL where the content can be accessed. At the same time, the report must include a declaration from the reporting user about the accuracy and completeness of the information contained in the report.
+(2) The reporting person must sufficiently explain why the content is illegal and state the exact location of the content (in particular the precise URL).
+The report must also contain a statement that the reporting person believes in good faith that the information and allegations in it are accurate and complete.
+The reporting person is asked to provide their name and email address, but this is optional.
+Without an email address, the platform cannot send a confirmation of receipt or the decision.
 
-(3) If the report contains the electronic contact details of the reporting user, the platform will immediately send a confirmation of receipt regarding the report to the reporting user.
+(3) If the report contains the electronic contact details of the reporting person, the platform will send a confirmation of receipt without undue delay.
 
 (4) The platform will process all reports and decide promptly, carefully, without arbitrariness, and objectively on the reported information.
 
-(5) After making a decision, the platform will immediately notify the relevant user of its decision regarding the reported information and point out the possibility of out-of-court dispute resolution (§ 15 (5) of these Terms of Use) and any other possible legal remedies against the decision.
+(5) After making a decision, the platform will notify the reporting person and the user concerned without undue delay of its decision regarding the reported information, state the reasons as set out in § 5 (5), and point out the legal remedies according to § 5 (6) and (7).
 
 (6) The following decisions may be made by the platform after reviewing the reported content:
 
@@ -170,13 +193,13 @@ The prohibition of such content also applies if, in individual cases, the conten
 
 **§ 7 Usage Rights and Intellectual Property**
 
-(1) The user grants the platform an unlimited, irrevocable, transferable, non-exclusive, free usage right for the content they upload with respect to copyright, intellectual property rights, industrial property rights, personal rights, and other rights.
-The platform is entitled at any time to use, edit, and exploit the content within the platform, the associated app, and as part of advertising measures.
-This includes in particular the digital reproduction right, the online distribution right, the right of public performance, and the right of public accessibility.
+(1) The user grants the platform a non-exclusive, free usage right for the content they upload, limited to what is necessary to operate, display, and promote the platform and its app, including in particular the digital reproduction right, the online distribution right, the right of public performance, and the right of public accessibility.
+The right ends when the content or the user account is deleted, except for copies that are technically necessary for a limited time (e.g., backups) and for content that other users have already shared or that is required for ongoing events.
 
-(2) The user waives the right to be named as the author.
+(2) The user's right to be named as the author remains unaffected.
+The platform may display content under the user's profile name.
 
-(3) All rights to the user's own content on the app, website, and the platform itself are held by the platform.
+(3) All rights to the content provided by the platform itself on the app, website, and the platform itself are held by the platform.
 The user is prohibited from using, reproducing, distributing, and/or publishing, including editing, content or parts of content uploaded or made available by the platform, other users, or third parties.
 Any reproduction, distribution, public performance, public accessibility, and/or other use (including editing) of any platform content (or parts or edits thereof) without prior express consent from the platform is prohibited.
 
@@ -191,11 +214,13 @@ Reimbursable costs also include those for reasonable legal defense.
 
 (3) The user is obliged to support the platform in case the platform is involved in a claim due to alleged violations of rights by third parties, providing documents and evidence of their ownership of rights or rights acquisition, and submitting any necessary declarations.
 
+(4) Insofar as the user stores personal data of other individuals on the platform (e.g., as part of the contact or invitation functions described in § 3), the user guarantees that they possess all necessary rights, legal bases, or consents required under applicable data protection law, in particular the GDPR, to share this data with the platform. Paragraphs (2) and (3) above apply accordingly to a breach of this guarantee.
+
 **§ 9 Liability and Limitation of Liability**
 
 (1) The content published by users in the app or on the website does not represent the opinion of the platform, and the platform generally does not check these contents for legality, accuracy, and completeness without cause.
 
-(2) The platform assumes no liability regarding the information provided by users about created or shared events (e.g., location, date, time, costs, lineup, participation conditions, ticket prices, etc.).
+(2) Subject to paragraphs (5) to (7), the platform assumes no liability regarding the information provided by users about created or shared events (e.g., location, date, time, costs, lineup, participation conditions, ticket prices, etc.).
 In particular, the platform does not guarantee the accuracy or completeness of the information or the execution of the event.
 The platform also assumes no liability for last-minute changes and/or cancellations of events or for the user’s eligibility to participate.
 
@@ -204,8 +229,7 @@ This particularly applies to all liability, warranty, and other claims from even
 
 (4) The platform is not liable for contractual claims arising from event contracts between organizing users and participating users.
 
-(5) The platform is liable according to the statutory provisions only for intent and gross negligence and in accordance with the Product Liability Act.
-For minor negligence, the platform is liable for damages caused by the injury to life, body, or health.
+(5) The platform is liable without limitation for intent and gross negligence, for injury to life, body, or health (including in the case of minor negligence), under the Product Liability Act, and for fraudulently concealed defects and assumed guarantees.
 
 (6) In all other cases, the following limited liability applies: In the case of minor negligence, the platform is only liable for the violation of a material contractual obligation, the fulfillment of which is essential for the proper execution of the contract and on which the user can regularly rely.
 The liability for minor negligence is limited to the damages that are foreseeable at the time of the conclusion of the contract and which typically arise.
@@ -229,7 +253,7 @@ If the user has set future events, a cancellation and deletion of the relevant e
 
 (3) In the case of a valid termination, the user will no longer have access to their user profile and the content they uploaded, events they created, and the data and information stored in their user profile, etc.
 The user account will be deactivated upon termination, and the user will no longer be able to access the user account.
-User data, content, and settings will be stored by VIBTYPE for one month.
+User data, content, and settings will be stored by VIBETYPE for one month.
 During this period, the user has the opportunity to reactivate their user account with all user data, content, and settings.
 If the user does not reactivate their account within this period, all profile and user account data, including content and settings, will be permanently deleted.
 
@@ -240,16 +264,18 @@ After successful reactivation, the user can continue to use the platform without
 
 **§ 12 Right of Withdrawal**
 
-A right of withdrawal for the consumer does not apply here according to § 312 para. 1a BGB.
+The platform is free of charge for users and personal data are processed only to provide it (see § 14 (3)).
+Therefore the consumer contract provisions of §§ 312 ff. BGB, including the right of withdrawal, do not apply according to § 312 para. 1a sentence 2 BGB.
 
 **§ 13 Change of Terms of Use**
 
-(1) The platform operator is entitled to change or supplement the provisions of these Terms of Use at any time with effect for the future, particularly if this is necessary due to legal or substantive or functional adjustments to the platform (website and/or app), for example, in the case of technical changes or adjustments to functions.
+(1) The platform operator may propose changes or supplements to these Terms of Use with effect for the future if there is a valid reason, in particular legal changes, orders by authorities or courts, or technical or functional adjustments to the platform (website and/or app), and the change is reasonable for the user.
 
-(2) A change or supplement will be announced to the user at least 30 days before it becomes effective via email, without the need to send the changed or supplemented terms individually or the entire new version of the terms. It suffices to inform the user about the changes or additions made.
-The platform will provide a link in the announcement where the user can view the full revised Terms of Use.
+(2) A proposed change or supplement will be announced to the user at least 30 days before it is to take effect via email, stating the changes and with a link to the full revised Terms of Use.
 
-(3) If the user does not object to the change or supplement within 30 days after the announcement of the change or supplement and continues to use the services, this will be considered as agreement to the change or supplement; the platform will specifically inform the user of this in the announcement.
+(3) A change takes effect only if the user consents to it, for example by confirming it on the website or in the app.
+Silence is not consent.
+If the user does not consent, the previous Terms of Use continue to apply, and the right of either party to terminate under § 11 remains unaffected.
 
 **§ 14 Provision of Digital Products**
 
@@ -258,7 +284,8 @@ The app can be downloaded for free from the relevant app stores and installed on
 
 (2) The use of the app is not mandatory, as the platform can also be accessed and used via the website.
 
-(3) The personal data collected for registration with VIBTYPE or in the app will only be used for the purposes specified in § 1 and will not be disclosed, so §§ 327 ff. BGB according to § 327 para. 3 in conjunction with § 312 para. 1a S. 2 BGB do not apply.
+(3) The personal data collected for registration with VIBETYPE or in the app will only be processed to provide the platform as described in § 1 and not for other purposes; service providers that the platform uses to provide it act on its behalf.
+Therefore §§ 327 ff. BGB according to § 327 para. 3 in conjunction with § 312 para. 1a S. 2 BGB do not apply.
 
 (4) The platform reserves the right to make changes to the app to adjust or improve its functionality and to meet legal requirements and obligations.
 
@@ -270,11 +297,12 @@ The app can be downloaded for free from the relevant app stores and installed on
 
 (2) The services of the platform and the provision of the platform and its features are exclusively based on these Terms of Use.
 
-(3) No oral side agreements exist. Changes and additions to the Terms of Use require written form to be effective.
-The written form requirement can only be waived in writing.
+(3) Changes and additions to the Terms of Use require text form to be effective, unless an individual agreement has priority (§ 305b BGB).
 
-(4) The Terms of Use and the contractual relationship between the platform and the users are exclusively governed by German law.
+(4) The Terms of Use and the contractual relationship between the platform and the users are governed by German law.
+For consumers, this applies only insofar as it does not deprive them of the protection of mandatory provisions of the law of the state in which they have their habitual residence.
 
-(5) The exclusive place of jurisdiction for all disputes arising from or in connection with the contract is – unless agreed otherwise between the parties – the location of the platform, unless another jurisdiction is mandatorily required by law.
+(5) If the user is an entrepreneur, a legal entity under public law, or a special fund under public law, the place of jurisdiction for all disputes arising from or in connection with the contract is the location of the platform.
+For consumers, the statutory places of jurisdiction apply.
 
-Date: 2025-04-03
+Date: 2026-11-18

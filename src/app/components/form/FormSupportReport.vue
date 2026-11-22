@@ -1,16 +1,12 @@
 <template>
-  <form
-    ref="formRef"
-    class="flex flex-col gap-4"
-    @submit.prevent="form.handleSubmit"
-  >
+  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
     <FieldGroup>
       <form.Field v-slot="{ field }" name="itemDescription">
         <Field :data-invalid="isFieldInvalid(field)">
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               {{ t('itemDescription') }}
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
           <Textarea
             :id="field.name"
@@ -29,12 +25,34 @@
           />
         </Field>
       </form.Field>
+      <form.Field v-slot="{ field }" name="itemUrl">
+        <Field :data-invalid="isFieldInvalid(field)">
+          <FieldLabel :for="field.name">
+            <span class="text-body">
+              {{ t('itemUrl') }}
+            </span>
+          </FieldLabel>
+          <AppInput
+            :id="field.name"
+            :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            :name="field.name"
+            type="url"
+            @blur="field.handleBlur"
+            @update:model-value="field.handleChange"
+          />
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
+        </Field>
+      </form.Field>
       <form.Field v-slot="{ field }" name="userName">
         <Field :data-invalid="isFieldInvalid(field)">
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               {{ t('userName') }}
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
           <AppInput
             :id="field.name"
@@ -43,9 +61,7 @@
             :name="field.name"
             type="text"
             @blur="field.handleBlur"
-            @input="
-              field.handleChange(($event.target as HTMLInputElement).value)
-            "
+            @update:model-value="field.handleChange"
           />
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -56,9 +72,9 @@
       <form.Field v-slot="{ field }" name="userEmailAddress">
         <Field :data-invalid="isFieldInvalid(field)">
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               {{ t('userEmailAddress') }}
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
           <AppInput
             :id="field.name"
@@ -67,9 +83,7 @@
             :name="field.name"
             type="email"
             @blur="field.handleBlur"
-            @input="
-              field.handleChange(($event.target as HTMLInputElement).value)
-            "
+            @update:model-value="field.handleChange"
           />
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -90,9 +104,9 @@
           />
           <div class="flex flex-col gap-1">
             <FieldLabel :for="field.name">
-              <TypographySubtitleSmall>
+              <span class="text-body">
                 {{ t('userConsentAccuracy') }}
-              </TypographySubtitleSmall>
+              </span>
             </FieldLabel>
             <FieldError
               v-if="isFieldInvalid(field)"
@@ -114,7 +128,7 @@
           />
           <div class="flex flex-col gap-1">
             <FieldLabel :for="field.name">
-              <TypographySubtitleSmall>
+              <span class="text-body">
                 <i18n-t keypath="userConsentProcessing">
                   <template #contactForm>
                     <AppLink is-underlined :to="localePath('support-contact')">
@@ -130,7 +144,7 @@
                     </AppLink>
                   </template>
                 </i18n-t>
-              </TypographySubtitleSmall>
+              </span>
             </FieldLabel>
             <FieldError
               v-if="isFieldInvalid(field)"
@@ -155,12 +169,12 @@ const emit = defineEmits<{
 
 // form
 const modelError = defineModel<Error>('error')
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
 const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
   captcha: SCHEMA_CAPTCHA,
   itemDescription: SCHEMA_ITEM_DESCRIPTION_REQUIRED,
+  itemUrl: SCHEMA_URL_HTTPS_REQUIRED,
   userConsentAccuracy: SCHEMA_CONSENT_REQUIRED,
   userConsentProcessing: SCHEMA_CONSENT_REQUIRED,
   userEmailAddress: SCHEMA_EMAIL_ADDRESS_OPTIONAL,
@@ -172,6 +186,7 @@ const form = useForm({
   defaultValues: {
     captcha: '',
     itemDescription: '',
+    itemUrl: '',
     userConsentAccuracy: false,
     userConsentProcessing: false,
     userEmailAddress: '',
@@ -202,9 +217,6 @@ const form = useForm({
   },
 })
 
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({ submit })
-
 // template
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -212,16 +224,18 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  itemDescription: Beschreibung
-  userConsentAccuracy: Ich stelle sicher, nach bestem Wissen und Gewissen, dass alle oben offengelegten Informationen korrekt und wahrheitsgemäß sind.
+  itemDescription: Begründung, warum der Inhalt rechtswidrig ist
+  itemUrl: Genauer Ort des Inhalts (URL)
+  userConsentAccuracy: Ich bin in gutem Glauben überzeugt, dass die in dieser Meldung enthaltenen Angaben und Behauptungen richtig und vollständig sind.
   userConsentProcessing: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
   userConsentProcessingContactForm: Kontaktformular
   userConsentProcessingPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
-  itemDescription: Description
-  userConsentAccuracy: I ensure, to the best of my ability and knowledge, that all the information disclosed above is accurate and true.
+  itemDescription: Explanation of why the content is illegal
+  itemUrl: Exact location of the content (URL)
+  userConsentAccuracy: I have a bona fide belief that the information and allegations contained in this report are accurate and complete.
   userConsentProcessing: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
   userConsentProcessingContactForm: contact form
   userConsentProcessingPrivacyPolicy: privacy policy

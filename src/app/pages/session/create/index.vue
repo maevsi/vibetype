@@ -1,26 +1,29 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <FormAuthPageHeader :title-id="templateIdTitle" @back="navigateBack">
-      <template #title>
-        {{ t('welcomeBack') }}<br />{{ t('goodToSeeYou') }}
-      </template>
-      <template #subtitle>{{ t('subtitle') }}</template>
-    </FormAuthPageHeader>
-    <CardStateSuccess v-if="verified" class="mt-4 rounded-none">
-      <TypographySubtitleMedium>
+    <LayoutTopBar>
+      <span :id="templateIdTitle">{{ title }}</span>
+    </LayoutTopBar>
+    <AppAlert v-if="verified" class="rounded-none" variant="success">
+      <span class="text-headline">
         {{ t('accountVerified') }}
-      </TypographySubtitleMedium>
-    </CardStateSuccess>
-    <CardStateInfo v-if="to" class="mt-4 rounded-none">
+      </span>
+    </AppAlert>
+    <AppAlert v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
-    </CardStateInfo>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    </AppAlert>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>
+            {{ t('welcomeBack') }}<br />{{ t('goodToSeeYou') }}
+          </template>
+          <template #subtitle>{{ t('subtitle') }}</template>
+        </FormAuthHeader>
         <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('contactSupport')"
         class="w-full max-w-md"
         :to="
@@ -31,23 +34,21 @@
         variant="secondary"
       >
         {{ t('contactSupport') }}
-      </ButtonColored>
-      <ButtonColored
+      </AppButton>
+      <AppButton
         :aria-label="t('backToLogin')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToLogin') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'plain',
-})
+import type { Language } from '~~/gql/generated/graphql'
 
 // page
 const { t } = useI18n()
@@ -57,9 +58,6 @@ const templateIdTitle = useId()
 
 // navigation
 const router = useRouter()
-const navigateBack = () => {
-  router.back()
-}
 
 // sign in
 const localePath = useLocalePath()
@@ -83,21 +81,56 @@ const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )
 const verified = computed(() => route.query.verified === null)
-const onSignIn = async (username: string) => {
+const nuxtApp = useNuxtApp()
+const store = useStore()
+const getRouteBaseName = useRouteBaseName()
+// the session opens in the language of the account, which may differ from the one the sign-in page was opened in
+const getSignInTarget = ({
+  language,
+  username,
+}: {
+  language?: Language
+  username: string
+}) => {
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
-  // TODO: generalize, potentially whitelist valid redirection targets
   if (to.value === 'account-deletion') {
-    return await navigateTo(
-      localePath({
+    return localePath(
+      {
         name: 'account-edit-username',
         params: { username: username },
-      }),
+      },
+      language,
     )
   }
 
-  if (to.value) return await navigateTo(to.value)
+  if (to.value && getIsSitePath(to.value)) {
+    const target = router.resolve(to.value)
+    const name = getRouteBaseName(target)
 
-  return await navigateTo(localePath(`dashboard`))
+    if (!name) return to.value
+
+    return localePath(
+      {
+        hash: target.hash,
+        name,
+        params: target.params,
+        query: target.query,
+      },
+      language,
+    )
+  }
+
+  return localePath(`dashboard`, language)
+}
+const onSignIn = async (username: string) => {
+  const language = await syncLocaleCookieToOwnContactLanguage({
+    nuxtApp,
+    store,
+  })
+
+  await navigateTo(getSignInTarget({ language, username }), {
+    replace: true,
+  })
 }
 </script>
 

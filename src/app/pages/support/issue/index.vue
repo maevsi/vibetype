@@ -9,7 +9,6 @@
     :success-description="t('successDescription2')"
     :success-title="t('successDescription1')"
     :title="title"
-    @submit="templateForm?.submit"
   >
     <template #error>
       <i18n-t keypath="errorDescription2" tag="span">
@@ -20,20 +19,17 @@
         </template>
       </i18n-t>
     </template>
-    <FormSupportIssue
-      ref="form"
-      v-model:error="error"
-      @success="step = 'success'"
-    />
+    <template #default="{ formId }">
+      <FormSupportIssue
+        :id="formId"
+        v-model:error="error"
+        @success="step = 'success'"
+      />
+    </template>
   </LayoutSupportPage>
 </template>
 
 <script setup lang="ts">
-// compiler
-definePageMeta({
-  layout: 'default-no-header',
-})
-
 // page
 const { t } = useI18n()
 const title = t('title')
@@ -42,7 +38,6 @@ useHeadDefault({ title })
 // template
 const localePath = useLocalePath()
 const { error, step } = useStepper<'success'>()
-const templateForm = useTemplateRef('form')
 </script>
 
 <i18n lang="yaml">

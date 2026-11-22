@@ -2,18 +2,23 @@ import * as Sentry from '@sentry/nuxt'
 
 const runtimeConfig = useRuntimeConfig()
 const sharedSentryConfig = useSharedSentryConfig()
+const sentryFeatures = runtimeConfig.public.sentry.features
+
+// session replay and profiling are added by `plugins/sentry.client.ts` once consent is given
 
 if (sharedSentryConfig.dsn) {
   Sentry.init({
     ...sharedSentryConfig,
     integrations: [
-      Sentry.browserProfilingIntegration(),
-      Sentry.captureConsoleIntegration(),
-      Sentry.consoleLoggingIntegration(),
+      ...(sentryFeatures.consoleCapture
+        ? [Sentry.captureConsoleIntegration({ levels: ['error', 'warn'] })]
+        : []),
+      ...(runtimeConfig.public.sentry.logs.enable
+        ? [Sentry.consoleLoggingIntegration()]
+        : []),
       Sentry.graphqlClientIntegration({ endpoints: [/\/graphql$/] }),
       Sentry.httpClientIntegration(),
-      Sentry.piniaIntegration(usePinia()),
-      Sentry.replayIntegration(),
+      ...(sentryFeatures.pinia ? [Sentry.piniaIntegration(usePinia())] : []),
       Sentry.zodErrorsIntegration(),
 
       // // enable if more components or hooks should be tracked
@@ -24,10 +29,12 @@ if (sharedSentryConfig.dsn) {
       //   },
       // }),
     ],
-    replaysOnErrorSampleRate:
-      runtimeConfig.public.sentry.replays.onError.sampleRate,
-    replaysSessionSampleRate:
-      runtimeConfig.public.sentry.replays.session.sampleRate,
+    replaysOnErrorSampleRate: sentryFeatures.replay
+      ? runtimeConfig.public.sentry.replays.onError.sampleRate
+      : 0,
+    replaysSessionSampleRate: sentryFeatures.replay
+      ? runtimeConfig.public.sentry.replays.session.sampleRate
+      : 0,
     tracePropagationTargets: [
       /^https:\/\/postgraphile\.(localhost|vibetype\.app)\/graphql/,
       /^https:\/\/(localhost|vibetype\.app)\/api/,

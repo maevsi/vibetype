@@ -4,78 +4,66 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
-      <template v-if="previous" #back>
-        <ButtonIcon :aria-label="t('back')" @click="step = previous">
+      <template #back>
+        <!-- a slot holding only a false `v-if` falls back to the default back button, which would duplicate the close button -->
+        <AppButton
+          v-if="previous"
+          :aria-label="t('back')"
+          size="none"
+          variant="ghost"
+          @click="step = previous"
+        >
           <AppIconBack />
-        </ButtonIcon>
+        </AppButton>
+        <div v-else />
       </template>
-      <template v-if="!error && ['default', 'form'].includes(step)" #close>
+      <template v-if="!error && ['default', 'form'].includes(step)" #actions>
         <ButtonIconBackRoute :aria-label="t('iconAltClose')">
           <AppIconClose />
         </ButtonIconBackRoute>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <EarlyBirdWelcome v-bind="attributes" @next="step = 'form'" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'form'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'form'">
       <EarlyBirdForm
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'submission'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'submission'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'submission'">
       <EarlyBirdSubmission v-bind="attributes" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
-          <span v-if="error && error.message">
-            {{ error.message }}
-          </span>
+        <LayoutPageResult :message="error?.message" type="error">
           <template #description>
             {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="t('backToForm')"
             class="w-full max-w-md"
             variant="primary"
             @click="restart"
           >
             {{ t('backToForm') }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
   </section>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'default-no-header',
-})
-
 const { t } = useI18n()
 const templateIdTitle = useId()
 
 // validation
-const store = useStore()
-const localePath = useLocalePath()
-const route = useRoute()
-if (!store.signedInUsername) {
-  await navigateTo({
-    path: localePath({
-      name: 'session-create',
-    }),
-    query: {
-      to: route.fullPath,
-    },
-    replace: true,
-  })
-}
+await useSignInRequired()
 
 // stepper
 const { error, previous, restart, step, title } = useStepperPage<
@@ -98,12 +86,12 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  back: zurück
+  back: Zurück
   backToForm: Zurück zum Formular
   iconAltClose: Schließen
   title: Früher Vogel Programm
 en:
-  back: back
+  back: Back
   backToForm: Back to Form
   iconAltClose: Close
   title: Early Bird Program

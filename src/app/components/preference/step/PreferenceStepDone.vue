@@ -1,21 +1,27 @@
 <template>
   <LayoutPage>
-    <LayoutPageResult type="success">
-      <template #title>
+    <div class="flex flex-col items-start gap-3">
+      <div
+        aria-hidden="true"
+        class="flex size-16 items-center justify-center rounded-full bg-success-tint text-action-primary"
+      >
+        <AppIconCheckCircle class="size-8" />
+      </div>
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
-      </template>
-      <template #description>
+      </span>
+      <span class="text-body text-fg-2">
         {{ t('description') }}
-      </template>
-    </LayoutPageResult>
+      </span>
+    </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="emit('next')"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

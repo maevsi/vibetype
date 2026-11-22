@@ -1,18 +1,14 @@
 import * as Sentry from '@sentry/nuxt'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
-
-import type { Modal } from '~/types/modal'
 
 export const useStore = defineStore(SITE_NAME, () => {
   const localePath = useLocalePath()
+  const router = useRouter()
+  const runtimeConfig = useRuntimeConfig()
 
   // const jwt = ref<string>() // we don't store the JWT itself for security reasons
   const jwtPayload = ref<Jwt>()
-  const modals = ref<Modal[]>([])
-  const routeHistory = ref<string[]>([])
-  const routeHistoryDisabled = ref<boolean>(false)
   const signedInAccountId = ref<string>()
   const signedInUsername = ref<string>()
 
@@ -31,10 +27,13 @@ export const useStore = defineStore(SITE_NAME, () => {
       signedInAccountId.value = jwtPayloadNew.sub as string | undefined
       signedInUsername.value = jwtPayloadNew.username as string | undefined
 
-      Sentry.setUser({
-        id: jwtPayloadNew.sub as string | undefined,
-        username: jwtPayloadNew.username as string | undefined,
-      })
+      // the sign-out keeps clearing the user, so a disabled tracking never leaves stale user data on the sentry project
+      if (runtimeConfig.public.sentry.features.userTracking) {
+        Sentry.setUser({
+          id: jwtPayloadNew.sub as string | undefined,
+          username: jwtPayloadNew.username as string | undefined,
+        })
+      }
     } else {
       jwtPayload.value = undefined
       signedInAccountId.value = undefined
@@ -44,32 +43,20 @@ export const useStore = defineStore(SITE_NAME, () => {
     }
   }
 
-  const modalRemove = (modalId: string) => {
-    modals.value = modals.value.filter((modal) => {
-      return modal.id !== modalId
-    })
-  }
-
-  const navigateBack = async () => {
-    routeHistoryDisabled.value = true
-    await navigateTo(
-      localePath(
-        (routeHistory.value.pop() as keyof RouteNamedMapI18n) || 'index',
-      ),
-    )
-    routeHistoryDisabled.value = false
-  }
+  // the browser's history is the only one that also knows about its own back button, deep links and replaced redirects, while `back` is the previous in-app entry vue-router records in it
+  const navigateBack = () =>
+    window.history.state?.back
+      ? router.back()
+      : navigateTo(localePath(signedInUsername.value ? 'dashboard' : 'index'), {
+          replace: true,
+        })
 
   return {
     jwtPayload,
-    modals,
-    routeHistory,
-    routeHistoryDisabled,
     signedInAccountId,
     signedInUsername,
     jwtRemove,
     jwtSet,
-    modalRemove,
     navigateBack,
   }
 })

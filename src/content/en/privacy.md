@@ -206,6 +206,39 @@
 
             The data will be deleted as soon as the respective purpose ceases to apply and deletion is possible in accordance with legal requirements.
 
+        1. **Contacts and invitations**
+
+            Registered users can save personal data about other individuals ("contacts") in an address book built into the platform, for example to invite them as a guest to a private event. A contact does not need to be a registered user of the platform themselves; the invitation can be accepted or declined via a link, without creating a user account.
+
+            For this purpose, the following data about the contact may be stored:
+
+            - First and last name
+            - Nickname
+            - Email address
+            - Phone number
+            - Weblink
+            - Notes entered by the registered user
+
+            This data is provided to us by the registered user who creates the contact, not by the person it concerns. The legal basis for this processing is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest, together with our registered users, in enabling them to organize and manage invitations to private events.
+
+            Registered users can enter a contact manually or import contacts, either by selecting them in their device's address book through the contact picker of the operating system or browser, or by choosing a contact file (vCard).
+            In both cases, the selection and the reading of the file take place on the registered user's device.
+            Only the contacts the registered user confirms are transmitted to us, and of those only the name, email address, and phone number.
+            We receive no ongoing access to the address book, and contact files are not uploaded to us.
+            Contacts without an email address are not imported.
+
+            The registered user who creates or edits a contact assures us that they are entitled to share the respective person's data with us, in particular that a legal basis for doing so exists under applicable data protection law, and indemnifies us against claims and administrative fines arising from data shared without such authorization. Further details can be found in our Terms of Use.
+
+            The data is deleted once the registered user removes the contact, or, at the latest, when the registered user's own account is deleted in accordance with § 11 of the Terms of Use.
+
+            1. **Information for people who are not registered users**
+
+                If a registered user has stored your contact data with us, for example to invite you to an event, this section applies to you even if you never use the platform yourself.
+
+                We only process the data listed above for the purpose of enabling the invitation and any related communication about the respective event. The data does not originate from you, but from the registered user who created the contact; the legal basis for this processing is Art. 6 para. 1 lit. f GDPR, as explained above.
+
+                You can ask us at any time whether data about you is stored with us, and request its rectification or erasure, using the contact details given in the "The person in charge" section above. If you request erasure, we will additionally record the minimum data necessary to identify you (e.g., a hashed email address or phone number) on an internal block list, so that the same data cannot be stored about you again through another registered user's contacts. You can object to this block list entry at any time.
+
         1. **Contact**
 
             <ol type="a">
@@ -781,7 +814,8 @@
 
             This is a collaborative project that aims to create and offer freely usable geographical data, such as street maps. As it is an open-source project, the data is contributed and updated by a community of cartographers from around the world. This data can be used for a variety of purposes, from displaying maps on websites to use in GIS applications, mobile apps and more.
 
-            When using the maps, a connection is established to the servers of the OpenStreetMap Foundation. This does not involve cookies that are used for tracking website visitors, but only those that are limited to the functionality of the website.
+            Map tiles and address searches are requested from the OpenStreetMap Foundation by our server, not by your browser.
+            Your IP address is therefore not transmitted to the OpenStreetMap Foundation, only the search terms you enter.
 
             The legal basis for the processing is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest in showing locations or providing geographical information.
 
@@ -883,17 +917,18 @@
 
             We integrate the functions of the OpenAI API on our website. This service is offered by OpenAI Inc., 3180 18th Street, San Francisco, California 94110, USA.
 
-            OpenAI specializes in artificial intelligence and machine learning. With the OpenAI API, we can develop AI tools based on the databases and capabilities of ChatGPT/OpenAI.
+            We use the OpenAI API for poster hunting: when you upload a photo of an event poster, an AI model reads the event's details from it, which we use to prefill the form for creating the event.
+            Before that, OpenAI checks the photo for prohibited content.
 
-            All inputs in our tool are processed. These inputs — such as natural language, images, or other data formats — are processed by OpenAI to develop machine learning models. This data is then used to improve or train the respective tool.
+            The photo is sent to OpenAI from our server, not from your device.
+            OpenAI therefore neither receives your IP address nor sets cookies on your device, and we don't send any details of your account.
+            OpenAI receives personal data only where the photo itself shows some, such as people or names on the poster.
 
-            OpenAI collects the IP address when the tool is used. If the tool is not used to process personal data, no personal data other than the IP address is collected.
+            OpenAI doesn't use data sent through the API to train its models.
+            OpenAI keeps it for up to 30 days to detect abuse and deletes it afterwards.
 
-            OpenAI may set cookies, but only with prior consent. The legal basis for this is Art. 6 para. 1 lit. a GDPR.
-
-            Otherwise, the legal basis for data processing is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest in using AI and ML models in our tools and integrating them into our website to optimize our service both technically and economically.
-
-            If the function to automatically delete the chat history is not activated, the data entered will remain with OpenAI for 30 days for model training purposes.
+            The legal basis for this processing is Art. 6 para. 1 lit. f GDPR.
+            We have a legitimate interest in making it easier for you to create events from posters.
 
             In the case of data transfer to the USA, the standard contractual clauses (SCCs) of the EU Commission apply.
 

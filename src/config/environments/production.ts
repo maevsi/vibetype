@@ -11,11 +11,6 @@ export const productionConfig: ReturnType<DefineNuxtConfig> = {
     },
 
     // modules
-    gtag: {
-      config: {
-        cookie_flags: 'samesite=strict;secure',
-      },
-    },
     security: {
       headers: {
         crossOriginEmbedderPolicy: 'credentialless', // OpenStreepMap

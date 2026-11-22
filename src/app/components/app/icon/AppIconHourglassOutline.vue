@@ -1,6 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <ISolarHourglassOutline v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IHeroiconsClock v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 

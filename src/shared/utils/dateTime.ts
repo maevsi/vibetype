@@ -97,22 +97,108 @@ export const dateTimeFormatOptions: Intl.DateTimeFormatOptions = {
 }
 
 /**
- * Returns a date-time formatter function for use in emails which don't support targeted locales yet.
+ * Returns a date-time formatter function for use in emails.
  *
- * The formatter uses the specified locale and a fixed UTC time zone.
+ * The formatter uses the specified locale and time zone, falling back to UTC when no time zone
+ * is given, e.g. because the receiving contact hasn't set one, or when the given time zone isn't
+ * a valid IANA time zone name.
  *
  * @param {string} locale - A BCP 47 language tag (e.g., "en-US", "fr-FR") used to format the date/time.
- * @returns {Intl.DateTimeFormat} A formatter instance that formats dates in the specified locale and UTC time zone.
+ * @param {string} [timeZone] - An IANA time zone name (e.g., "Europe/Berlin"); defaults to "UTC".
+ * @returns {Intl.DateTimeFormat} A formatter instance that formats dates in the specified locale and time zone.
  *
  * @example
- * const format = getEmailDateTimeFormatter('en-US')
+ * const format = getEmailDateTimeFormatter('en-US', 'America/New_York')
  * format.format(new Date('2025-07-15T18:00:00Z'))
- * // → "Jul 15, 2025, 6:00 PM UTC"
+ * // → "Jul 15, 2025, 2:00 PM EDT"
  */
 export const getEmailDateTimeFormatter = (
   locale: string,
-): Intl.DateTimeFormat =>
-  Intl.DateTimeFormat(locale, {
-    ...dateTimeFormatOptions,
-    timeZone: 'UTC',
-  })
+  timeZone = 'UTC',
+): Intl.DateTimeFormat => {
+  try {
+    return Intl.DateTimeFormat(locale, {
+      ...dateTimeFormatOptions,
+      timeZone,
+    })
+  } catch (error) {
+    if (error instanceof RangeError) {
+      console.warn(`Invalid time zone "${timeZone}", falling back to UTC.`)
+      return Intl.DateTimeFormat(locale, {
+        ...dateTimeFormatOptions,
+        timeZone: 'UTC',
+      })
+    }
+
+    throw error
+  }
+}
+
+// the calendar day in the given time zone as midnight UTC, so that days can be
+// compared and counted without daylight saving time shifting them
+const getDay = (date: Date, timeZone?: string) => {
+  const parts = Intl.DateTimeFormat('en-US', {
+    day: 'numeric',
+    month: 'numeric',
+    timeZone,
+    year: 'numeric',
+  }).formatToParts(date)
+  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
+    Number(parts.find((part) => part.type === type)?.value)
+
+  return Date.UTC(getPart('year'), getPart('month') - 1, getPart('day'))
+}
+
+/**
+ * Splits items into runs of consecutive items that fall on the same calendar day in the given time zone.
+ *
+ * The items keep their order, so a day that recurs later in the list starts a new group instead of joining the earlier one.
+ *
+ * @param {(item: T) => string} getDate - Returns an item's date as an ISO string.
+ * @param {readonly T[]} items - The items to group, in display order.
+ * @param {Date} now - The moment that "today" and "tomorrow" refer to.
+ * @param {string} [timeZone] - An IANA time zone name; defaults to the runtime's time zone.
+ * @returns The groups, each with its calendar day as midnight UTC, so that it is to be formatted in UTC.
+ *
+ * @example
+ * groupByDay({ getDate: (event) => event.start, items: events, now, timeZone: 'Europe/Berlin' })
+ * // → [{ day: Date, items: [...], relativeDay: 'today' }, { day: Date, items: [...] }]
+ */
+export const groupByDay = <T>({
+  getDate,
+  items,
+  now,
+  timeZone,
+}: {
+  getDate: (item: T) => string
+  items: readonly T[]
+  now: Date
+  timeZone?: string
+}) => {
+  const today = getDay(now, timeZone)
+  const tomorrow = today + 24 * 60 * 60 * 1000
+  const groups: {
+    day: Date
+    items: T[]
+    relativeDay?: 'today' | 'tomorrow'
+  }[] = []
+
+  for (const item of items) {
+    const day = getDay(new Date(getDate(item)), timeZone)
+    const groupLast = groups.at(-1)
+
+    if (groupLast?.day.getTime() === day) {
+      groupLast.items.push(item)
+      continue
+    }
+
+    groups.push({
+      day: new Date(day),
+      items: [item],
+      relativeDay:
+        day === today ? 'today' : day === tomorrow ? 'tomorrow' : undefined,
+    })
+  }
+
+  return groups
+}

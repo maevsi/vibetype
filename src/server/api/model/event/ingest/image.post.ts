@@ -1,36 +1,26 @@
-import { zodResponseFormat } from 'openai/helpers/zod'
+import type { H3Event } from 'h3'
 import sharp from 'sharp'
 import { z } from 'zod'
 
 const eventIngestImagePostBodySchema = z.object({
-  base64Image: z.string(),
+  base64Image: z.string().max(EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM),
 })
-const eventSchema = z.object({
-  description: z.string(),
-  end: z.string().optional(),
-  is_event: z.boolean(),
-  location: z.string().optional(),
-  name: z.string().optional(),
-  start: z.string().optional(),
-  url: z.string().optional(),
-})
-const prompt = `You are a data extraction specialist responsible for identifying and accurately cataloging event information.
+
+const getPrompt =
+  () => `You are a data extraction specialist responsible for identifying and accurately cataloging event information.
 Only accept images. Only if the image is an event poster containing event information, extract that information into JSON. In all other cases, set \`is_event\` to \`false\`.
 If the image contains event information:
-- format \`start\` and \`end\` according to ISO 8601 and use the current year (${new Date().getFullYear()}) if no year is given
+- format \`start\` and \`end\` according to ISO 8601 and, if no year is given, use the year of the next occurrence on or after today (${new Date().toISOString().slice(0, 10)})
 - output data exactly as given, i.e. in the same language
 - don't repeat the \`name\` in the \`description\``
 
-export default defineEventHandler(async (event) => {
-  if (!import.meta.dev) {
-    throw createAppError({
-      status: 503,
-      statusText:
-        'This endpoint is currently disabled until proper authentication and cost tracking is implemented.',
-    })
-  }
+// typing the event lets `$fetch` check the request body against the schema // TODO: switch to `defineValidatedHandler` from `nuxt/server` once available (https://github.com/nuxt/nuxt/issues/36475)
+type EventIngestImagePostEvent = H3Event<{
+  body: z.input<typeof eventIngestImagePostBodySchema>
+}>
 
-  const { client: openAiClient, getCompletionCost } = useOpenAi()
+export default defineEventHandler(async (event: EventIngestImagePostEvent) => {
+  const { client: openAiClient, getCompletionCost, model } = useOpenAi()
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
 
   const jwt = getJwtFromCookie()
@@ -47,17 +37,25 @@ export default defineEventHandler(async (event) => {
     schema: eventIngestImagePostBodySchema,
   })
 
+  const { assertBelowLimit, count } = useEventIngestQuota(jwtPayload.sub)
+
+  assertBelowLimit()
+
   const base64Buffer = Buffer.from(body.base64Image, 'base64')
   const sharpBuffer = await sharp(base64Buffer)
+    .rotate() // applies the orientation phone cameras store as metadata, which the resize would drop
     .resize({
-      width: 1024,
-      height: 1024,
+      width: POSTER_SIZE_MAXIMUM,
+      height: POSTER_SIZE_MAXIMUM,
       fit: 'inside',
       withoutEnlargement: true,
     })
     .jpeg()
     .toBuffer()
   const base64Image = sharpBuffer.toString('base64')
+  // count only now, as invalid images fail before reaching OpenAI
+  count()
+
   // moderation is free of charge (https://platform.openai.com/docs/pricing#moderation)
   const moderation = await openAiClient.moderations.create({
     model: 'omni-moderation-latest',
@@ -82,7 +80,7 @@ export default defineEventHandler(async (event) => {
       .join(', ')
 
     throw createAppError({
-      status: 403,
+      status: 422,
       statusText: `The image seems to contain content that has been moderated to be of the following type${flaggedCategories.length > 1 ? 's' : ''}: ${flaggedCategories}`,
     })
   }
@@ -91,7 +89,7 @@ export default defineEventHandler(async (event) => {
     messages: [
       {
         role: 'system',
-        content: prompt,
+        content: getPrompt(),
       },
       {
         role: 'user',
@@ -99,19 +97,24 @@ export default defineEventHandler(async (event) => {
           {
             type: 'image_url',
             image_url: {
+              detail: 'high', // automatic detail may shrink the poster to 512 pixels, too small for its fine print
               url: `data:image/jpeg;base64,${base64Image}`,
             },
           },
         ],
       },
     ],
-    model: 'gpt-4o-mini',
-    response_format: zodResponseFormat(eventSchema, 'event'),
+    model,
+    response_format: eventIngestResponseFormat,
+  })
+
+  console.info('Poster reading', {
+    account: jwtPayload.sub,
+    costs: getCompletionCost(completion),
+    usage: completion.usage,
   })
 
   return {
     output: completion.choices[0]?.message?.parsed,
-    usage: completion.usage,
-    costs: getCompletionCost(completion),
   }
 })

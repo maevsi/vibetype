@@ -1,45 +1,53 @@
 <template>
-  <LayoutPage :aria-hidden>
+  <LayoutPage :hidden>
     <div class="flex flex-col gap-4">
-      <AppStepIndex :count="4" :index="4" />
-      <TypographyH3 class="text-center">
+      <AppStepProgress class="justify-start" :count="4" :index="4" />
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
-      </TypographyH3>
-      <div class="relative isolate -mx-6">
-        <AppMap v-if="!ariaHidden" ref="map" geocoder :position-initial />
-        <div
-          class="pointer-events-none absolute inset-0 z-400 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
-        />
+      </span>
+      <div class="overflow-hidden rounded-large bg-surface-raised">
+        <AppMap
+          v-if="!hidden"
+          ref="map"
+          geocoder
+          is-zoom-control-hidden
+          :position-initial
+        >
+          <div
+            class="absolute inset-0 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
+          />
+        </AppMap>
       </div>
-      <TypographyBodyMedium v-if="mapCutoutRadiusInMeters" class="text-center">
+      <span v-if="mapCutoutRadiusInMeters" class="text-body">
         {{ t('radius', { radius: formattedRadius }) }}
-      </TypographyBodyMedium>
-      <TypographyBodyMedium
-        class="text-center text-(--semantic-base-text-secondary)"
-      >
+      </span>
+      <span class="text-body text-fg-2">
         {{ t('description') }}
-      </TypographyBodyMedium>
+      </span>
     </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="save"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>
 
 <script setup lang="ts">
-import { useAllPreferenceEventLocationsQuery } from '~~/gql/documents/queries/preference/preferenceEventLocationsAll'
-import { useCreatePreferenceEventLocationMutation } from '~~/gql/documents/mutations/preference/preferenceEventLocationCreate'
-import { useDeletePreferenceEventLocationByRowIdMutation } from '~~/gql/documents/mutations/preference/preferenceEventLocationDeleteByRowId'
-import { getPreferenceEventLocationItem } from '~~/gql/documents/fragments/preferenceEventLocationItem'
+import { useMutation } from '@urql/vue'
 
-const { ariaHidden } = defineProps<{
-  ariaHidden: boolean
+import { graphql } from '~~/gql/generated'
+import {
+  getPreferenceEventLocationItem,
+  useAllPreferenceEventLocationsQuery,
+} from '~~/shared/utils/preference/eventLocation'
+
+const { hidden } = defineProps<{
+  hidden: boolean
 }>()
 
 const emit = defineEmits<{
@@ -50,10 +58,30 @@ const { t, locale } = useI18n()
 
 // api data
 const allPreferenceEventLocationsQuery = useAllPreferenceEventLocationsQuery()
-const createPreferenceEventLocationMutation =
-  useCreatePreferenceEventLocationMutation()
-const deletePreferenceEventLocationByRowIdMutation =
-  useDeletePreferenceEventLocationByRowIdMutation()
+const createPreferenceEventLocationMutation = useMutation(
+  graphql(`
+    mutation CreatePreferenceEventLocation(
+      $input: CreatePreferenceEventLocationInput!
+    ) {
+      createPreferenceEventLocation(input: $input) {
+        preferenceEventLocation {
+          ...PreferenceEventLocationItem
+        }
+      }
+    }
+  `),
+)
+const deletePreferenceEventLocationByRowIdMutation = useMutation(
+  graphql(`
+    mutation DeletePreferenceEventLocationByRowId(
+      $input: DeletePreferenceEventLocationByRowIdInput!
+    ) {
+      deletePreferenceEventLocationByRowId(input: $input) {
+        deletedPreferenceEventLocationId
+      }
+    }
+  `),
+)
 const api = await useApiData([
   allPreferenceEventLocationsQuery,
   createPreferenceEventLocationMutation,
@@ -164,12 +192,15 @@ const save = async () => {
 
   const map = templateMap.value
 
+  // without the map, as long as external content is not allowed, there is no area to store
   if (
     map?.mapCenter === undefined ||
     map.mapZoom === undefined ||
     mapCutoutRadiusInMeters.value === undefined
-  )
+  ) {
+    emit('next')
     return
+  }
 
   for (const preferenceEventLocation of preferenceEventLocations.value) {
     const result =
@@ -210,14 +241,10 @@ const save = async () => {
 }
 
 const modelError = defineModel<Error>('error')
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 </script>
 
 <i18n lang="yaml">
@@ -225,12 +252,12 @@ de:
   button: Weiter
   description: "@.upper:{'globalSiteName'} schlägt dir gelegentlich auch Events außerhalb dieses Gebiets vor, wenn sie für dich relevant sind."
   radius: 'Umkreis: {radius}'
-  title: Welche Gegend interessiert dich am meisten?
+  title: Wo sollen wir nach Events für dich suchen?
   # title: Finde lokale Events, die zu deinem Vibe passen.
 en:
   button: Next
   description: "@.upper:{'globalSiteName'} suggests events outside of this area from time to time too when they're relevant for you."
   radius: 'Radius: {radius}'
-  title: Which area is most interesting to you?
+  title: Where should we look for events for you?
   # title: Find local events that match your vibe.
 </i18n>

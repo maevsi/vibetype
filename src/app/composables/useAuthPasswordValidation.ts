@@ -1,27 +1,24 @@
 export interface AuthPasswordValidationMessages {
   minimumLength: string
   passwordMismatch: string
-  specialCharacter: string
-  uppercase: string
+  tooWeak: string
 }
 
-export const getStrongPasswordError = ({
+export const getStrongPasswordError = async ({
   messages,
   password,
 }: {
-  messages: AuthPasswordValidationMessages
+  messages: Pick<AuthPasswordValidationMessages, 'minimumLength' | 'tooWeak'>
   password: string
-}): string => {
-  if (password.length < VALIDATION_PASSWORD_LENGTH_MINIMUM_V2) {
+}): Promise<string> => {
+  if (password.length < VALIDATION_PASSWORD_LENGTH_MINIMUM) {
     return messages.minimumLength
   }
 
-  if (!/[A-Z]/.test(password)) {
-    return messages.uppercase
-  }
-
-  if (!VALIDATION_PASSWORD_SCHEMA.test(password)) {
-    return messages.specialCharacter
+  if (
+    (await getPasswordStrengthScore(password)) < PASSWORD_STRENGTH_SCORE_MINIMUM
+  ) {
+    return messages.tooWeak
   }
 
   return ''
@@ -32,7 +29,7 @@ export const getPasswordConfirmationError = ({
   password,
   repetition,
 }: {
-  messages: AuthPasswordValidationMessages
+  messages: Pick<AuthPasswordValidationMessages, 'passwordMismatch'>
   password: string
   repetition: string
 }): string => {

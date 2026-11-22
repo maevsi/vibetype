@@ -1,18 +1,17 @@
 <template>
   <AppIconCheckCircleSolid
     v-if="feedback === InvitationFeedback.Accepted"
-    class="text-green-600"
+    class="text-link"
     :title="t('feedbackAccepted')"
   />
   <AppIconXCircleSolid
     v-else-if="feedback === InvitationFeedback.Canceled"
-    class="text-(--semantic-critic-text)"
+    class="text-error"
     :title="t('feedbackCanceled')"
   />
-  <!-- TODO: check if can be replaced with `AppIconQuestionMarkCircle` -->
   <AppIconQuestionMarkCircleSolid
     v-else-if="feedback === null"
-    class="text-gray-600"
+    class="text-fg-2"
     :title="t('feedbackNone')"
   />
   <AppIconBugAnt v-else :title="t('bug')" />

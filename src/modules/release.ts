@@ -7,6 +7,9 @@ export default defineNuxtModule({
     name: 'release',
   },
   async setup(_moduleOptions, nuxt) {
-    nuxt.options.runtimeConfig.public.vio.releaseName = await RELEASE_NAME()
+    const releaseName = await RELEASE_NAME()
+    if (!releaseName) return
+
+    nuxt.options.runtimeConfig.public.vio.releaseName = releaseName
   },
 })

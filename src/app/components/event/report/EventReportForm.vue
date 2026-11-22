@@ -1,11 +1,11 @@
 <template>
-  <form ref="formRef" @submit.prevent="form.handleSubmit">
+  <form @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="reason">
       <Field>
         <FieldLabel class="justify-center">
-          <TypographySubtitleSmall>
+          <span class="text-body">
             {{ t('drawerDescription') }}
-          </TypographySubtitleSmall>
+          </span>
         </FieldLabel>
         <FieldContent>
           <AppRadioGroup
@@ -30,9 +30,10 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
 import { z } from 'zod'
 
-import { useCreateReportMutation } from '~~/gql/documents/mutations/report/reportCreate'
+import { graphql } from '~~/gql/generated'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { t } = useI18n()
@@ -56,20 +57,25 @@ const reasons = [
   { label: t('drawerRadioDrugs'), value: 'drugs' },
   { label: t('drawerRadioOther'), value: 'other' },
 ]
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
-
 // form
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({
-  submit,
-})
-
 const formSchema = z.object({
   reason: z.string().min(1).max(2000),
 })
 
 // api data
-const createReportMutation = useCreateReportMutation()
+const createReportMutation = useMutation(
+  graphql(`
+    mutation CreateReport($input: CreateReportInput!) {
+      createReport(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
+
+defineExpose({
+  isSubmitting: computed(() => createReportMutation.fetching.value),
+})
 
 const form = useForm({
   defaultValues: {

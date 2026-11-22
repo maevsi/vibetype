@@ -13,9 +13,40 @@ To get started with open-source contributions and to ensure a structured approac
 
 Whenever switching branches, it makes sense to run `pnpm install` while the development server is stopped. This prevents issues with dependencies as they tend to differ between all branches.
 
+### Dependencies
+
+Occasionally a dependency has to be held back, for example when a new release breaks the lint run over code that is actually fine.
+Pin it with a [pnpm override](https://pnpm.io/settings#overrides) in `pnpm-workspace.yaml` and add a comment naming the upstream issue and the condition under which the pin can be dropped again.
+
+An override on its own does not hold, though.
+Renovate reads `pnpm-workspace.yaml` and will open a pull request that raises the pinned version straight back up, so disable the package in `.renovaterc.json` as well.
+
 ### Semantic Versioning
 
 Read [@dargmuesli's guide on Semantic Versioning](https://gist.github.com/dargmuesli/430b7d902a22df02d88d1969a22a81b5#file-semantic-versioning-md) to find out how to correctly format pull request, issue and commit titles and how this necessity speeds up our development.
+
+### Breaking changes
+
+A change is breaking when it only works with something new from another service of the stack, for example a database function, a token claim or an environment variable that only a newer `sqitch`, `postgraphile` or `stack` release provides.
+A new major release is how the stack learns that it has to deploy the other service first, so the change is breaking even when nothing changes for users.
+
+1. Mark the pull request title with `!` and target `beta`.
+1. State the requirement in the pull request body: the service, its minimum version, and what happens when it is missing.
+1. Once merged, add the pull request to the draft release pull request from `beta` to `main` and extend its upgrade instructions.
+
+Breaking changes stay on `beta` until the stack releases the majors of its services together.
+The [release bundle document of `stack`](https://github.com/maevsi/stack/blob/main/docs/release-bundle.md) holds the rules that all services share, including the order in which their release pull requests are merged.
+
+### Components
+
+Components in `src/app/components/app/` follow the shadcn-vue components in `src/app/components/scn/`.
+
+1. Wrap the shadcn-vue or reka-ui primitive if one exists.
+1. Accept a `class` prop and merge it last with `cn`.
+1. Set `data-slot` to the component's role, for example `button`.
+1. Let attributes and native events fall through instead of redeclaring and re-emitting them.
+1. Use `defineModel` for two-way bindings.
+1. Express variants as `data-variant` and `data-size` attributes styled with `data-[variant=…]:` utilities instead of conditional class lists.
 
 ### Vue
 
@@ -42,6 +73,8 @@ If you find yourself adding empty lines to a Vue component's template to add str
 
 We use [Playwright](https://playwright.dev/docs/intro) for end-to-end testing.
 If your CI pipeline is failing because of incorrect test snapshots, `pnpm build` the application, update the snapshots using `pnpm test:e2e:docker:server:node:update` and commit the resulting changes if they match your expectation.
+
+Pages backed by GraphQL data can't be tested against a real database in e2e tests, since Playwright's network mocking only intercepts requests made from the browser, not the server-side fetches Nuxt's SSR performs. Instead, when `NUXT_PUBLIC_VIO_IS_TESTING` is set (which the Playwright config always sets for its `webServer`), the app's GraphQL client is pointed at `server/api/test/service/postgraphile/graphql.get.ts`, a Nitro route that returns fixed, deterministic responses per `operationName` instead of talking to a real backend. If you're writing an e2e test for a page that queries GraphQL data, add a `case` for its operation name there rather than trying to mock the network in the test itself.
 
 ### Tailwind CSS
 

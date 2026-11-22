@@ -1,6 +1,6 @@
 # Imprint of VIBETYPE
 
-(Mandatory information according to § 5 of the German <abbr>DSA</abbr> (Digitale-Dienste-Gesetz, <abbr>DDG</abbr>))
+(Mandatory information according to § 5 of the German Digital Services Act (Digitale-Dienste-Gesetz, <abbr>DDG</abbr>))
 
 ## Service Provider (Operator of the ‘VIBETYPE’ Platform)
 
@@ -18,9 +18,11 @@
 
 Email: contact+legal-notice@maev.si
 
+Contact form: https://vibetype.app/support/contact
+
 **Legally Authorized Representatives**
 <br />
-Jonas Thelemann, Tony Krieger, Alexander Gensicke
+Jonas Thelemann, Tony Krieger
 <br />
 (Managing Directors)
 
@@ -57,11 +59,18 @@ The number of average monthly active users is:  -->
 
 - Users have the option to initiate a so-called reporting procedure to report illegal content, i.e., content that they believe violates laws, our terms of use, and/or our code of conduct. For this purpose, they can use the reporting form provided: https://vibetype.app/support/report
 
-- For all other concerns, users can contact our designated contact point: contact+legal-notice@maev.si
+- For all other concerns, users can contact our designated contact point by email (contact+legal-notice@maev.si) or via the contact form: https://vibetype.app/support/contact
+- Communication is possible in both German and English and is handled by people, not solely by automated means.
 
 ## Data Protection Notice
 
 You can find our Privacy Policy at: https://vibetype.app/docs/legal/privacy
+
+## Accessibility
+
+We want everyone to be able to use VIBETYPE and are guided by the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
+Some parts may not meet them yet.
+If you encounter a barrier, please let us know by email (contact+legal-notice@maev.si) or via the contact form: https://vibetype.app/support/contact
 
 ## Disclaimer
 

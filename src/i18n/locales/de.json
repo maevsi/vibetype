@@ -3,13 +3,17 @@
   "globalErrorMessage": "Es ist ein Fehler aufgetreten.",
   "globalErrorNoData": "Antwort ohne Daten",
   "globalErrorClipboard": "Dein Browser unterstützt das moderne Kopieren in die Zwischenablage nicht.",
+  "globalErrorDetailsCopy": "Details kopieren",
+  "globalErrorDetailsCopySuccess": "Details in die Zwischenablage kopiert.",
   "globalFormErrorAge18": "Du musst 18 Jahre alt sein.",
+  "globalLeaveConfirm": "Ungespeicherte Änderungen verwerfen?",
   "globalLoading": "Lade...",
   "globalPlaceholderAddress": "Veranstaltungsstraße 1,\n12345 Gaststadt",
   "globalPlaceholderFirstName": "Vorname",
   "globalPlaceholderLastName": "Nachname",
-  "globalPlaceholderPhoneNumber": "+1234567890",
+  "globalPlaceholderPhoneNumber": "+12345678901",
   "globalPlaceholderUrl": "https://websei.te",
+  "globalPosterScanFailed": "Das Plakat konnte nicht gescannt werden.",
   "globalSeoOgImageAlt": "@.upper:{'globalSiteName'}s Logo.",
   "globalShowMore": "Mehr anzeigen",
   "globalSiteName": "Vibetype",
@@ -34,6 +38,13 @@
   "globalValidationShortness": "Zu kurz",
   "nuxtSiteConfig": {
     "description": "Finde Veranstaltungen, Gäste und Freunde 💙❤️💚",
-    "name": "Vibetype"
+    "name": "Vibetype",
+    "pwa": {
+      "screenshotLabelEvents": "Veranstaltungen",
+      "screenshotLabelRoot": "Startseite",
+      "shortcutDescription": "Zeigt eine Liste von Veranstaltungen.",
+      "shortcutName": "Veranstaltungen entdecken",
+      "shortcutShortName": "Events"
+    }
   }
 }

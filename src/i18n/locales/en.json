@@ -3,13 +3,17 @@
   "globalErrorMessage": "An error occurred.",
   "globalErrorNoData": "Response without data",
   "globalErrorClipboard": "Your browser does not support modern copying to the clipboard.",
+  "globalErrorDetailsCopy": "Copy details",
+  "globalErrorDetailsCopySuccess": "Details copied to the clipboard.",
   "globalFormErrorAge18": "You must be 18 years old.",
+  "globalLeaveConfirm": "Discard your unsaved changes?",
   "globalLoading": "Loading...",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
   "globalPlaceholderFirstName": "Firstname",
   "globalPlaceholderLastName": "Lastname",
-  "globalPlaceholderPhoneNumber": "+1234567890",
+  "globalPlaceholderPhoneNumber": "+12345678901",
   "globalPlaceholderUrl": "https://websi.te",
+  "globalPosterScanFailed": "The poster could not be scanned.",
   "globalSeoOgImageAlt": "@.upper:{'globalSiteName'}'s logo.",
   "globalShowMore": "Show more",
   "globalSiteName": "Vibetype",
@@ -34,6 +38,13 @@
   "globalValidationShortness": "Too short",
   "nuxtSiteConfig": {
     "description": "Find events, guests and friends 💙❤️💚",
-    "name": "Vibetype"
+    "name": "Vibetype",
+    "pwa": {
+      "screenshotLabelEvents": "events",
+      "screenshotLabelRoot": "root",
+      "shortcutDescription": "See a list of events.",
+      "shortcutName": "Explore events",
+      "shortcutShortName": "Events"
+    }
   }
 }

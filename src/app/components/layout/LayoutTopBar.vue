@@ -1,28 +1,42 @@
 <template>
+  <!-- the menu's pages have no back button, as the menu leads away from them -->
   <div
-    class="sticky top-0 z-10 flex h-15 items-center border-b border-(--semantic-base-line) bg-(--semantic-base-background) px-3 py-1.5 shadow-xs"
+    v-if="isMenuRoute"
+    class="flex w-full max-w-2xl items-center gap-3 self-center px-4 pt-6 empty:hidden"
+    data-slot="top-bar"
   >
-    <div class="flex p-3">
-      <slot v-if="$slots.back" name="back" />
-      <div v-else class="size-6" />
-    </div>
-    <TypographyH6 class="flex-1 text-center">
+    <h1
+      v-if="$slots.default"
+      class="m-0 min-w-0 flex-1 truncate text-heading-large"
+    >
       <slot />
-    </TypographyH6>
-    <div class="flex p-3">
-      <slot v-if="$slots.close" name="close" />
-      <div v-else class="size-6" />
+    </h1>
+    <slot name="actions" />
+  </div>
+  <div v-else class="sticky top-0 z-10 bg-glass backdrop-blur-xl">
+    <div
+      class="mx-auto flex h-16 w-full max-w-2xl items-center gap-3 px-4 py-2"
+      data-slot="top-bar"
+    >
+      <div class="flex size-12 items-center justify-center">
+        <slot name="back">
+          <ButtonIconBackRoute />
+        </slot>
+      </div>
+      <h1
+        v-if="$slots.default"
+        class="m-0 min-w-0 flex-1 truncate text-center text-title3"
+      >
+        <slot />
+      </h1>
+      <div v-else class="flex-1" />
+      <div class="flex h-12 min-w-12 items-center justify-center">
+        <slot name="actions" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// const { variant } = defineProps<{
-//   variant:
-//     | 'for-image-back'
-//     | 'for-image'
-//     | 'label-big'
-//     | 'label-event'
-//     | 'label-medium'
-// }>()
+const isMenuRoute = useIsMenuRoute()
 </script>

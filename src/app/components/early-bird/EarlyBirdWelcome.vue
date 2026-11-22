@@ -1,52 +1,60 @@
 <template>
   <LayoutPage>
-    <div class="flex flex-col gap-2">
-      <TypographyH6 class="text-center">
-        {{ t('title1', { username: store.signedInUsername }) }}
-      </TypographyH6>
-      <TypographyBodyMedium>
-        {{ t('description1') }}
-      </TypographyBodyMedium>
-    </div>
-    <div class="flex flex-col gap-5">
-      <div class="flex flex-col gap-2">
-        <TypographySubtitleMedium>
-          {{ t('title2') }}
-        </TypographySubtitleMedium>
-        <TypographyBodySmall>
-          {{ t('description2') }}
-        </TypographyBodySmall>
+    <div class="flex flex-col items-start gap-3">
+      <div
+        aria-hidden="true"
+        class="flex size-16 items-center justify-center rounded-full bg-surface-raised text-action-primary"
+      >
+        <AppIconEarlyBird class="size-8" />
       </div>
-      <div class="flex flex-col gap-2">
-        <TypographySubtitleMedium>
+      <AppStepProgress class="justify-start" :count="2" :index="1" />
+      <span class="text-heading-large text-balance">
+        {{ t('title1', { username: store.signedInUsername }) }}
+      </span>
+      <span class="text-body text-fg-2">
+        {{ t('description1') }}
+      </span>
+    </div>
+    <ul class="flex flex-col gap-3">
+      <li class="flex flex-col gap-1 rounded-medium bg-surface-raised p-4">
+        <span class="text-headline">
+          {{ t('title2') }}
+        </span>
+        <span class="text-body-small text-fg-2">
+          {{ t('description2') }}
+        </span>
+      </li>
+      <li class="flex flex-col gap-1 rounded-medium bg-surface-raised p-4">
+        <span class="text-headline">
           {{ t('title3') }}
-        </TypographySubtitleMedium>
-        <i18n-t keypath="description3">
-          <TypographyBodySmall>
-            {{ t('description3') }}
-          </TypographyBodySmall>
+        </span>
+        <i18n-t
+          class="text-body-small text-fg-2"
+          keypath="description3"
+          tag="span"
+        >
           <template #br>
             <br />
           </template>
         </i18n-t>
-      </div>
-      <div class="flex flex-col gap-2">
-        <TypographySubtitleMedium>
+      </li>
+      <li class="flex flex-col gap-1 rounded-medium bg-surface-raised p-4">
+        <span class="text-headline">
           {{ t('title4') }}
-        </TypographySubtitleMedium>
-        <TypographyBodySmall>
+        </span>
+        <span class="text-body-small text-fg-2">
           {{ t('description4') }}
-        </TypographyBodySmall>
-      </div>
-    </div>
+        </span>
+      </li>
+    </ul>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="emit('next')"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

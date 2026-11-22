@@ -1,13 +1,18 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <!-- TODO: fill page with content instead (https://github.com/maevsi/vibetype/issues/773) -->
-    <CardStateInfo>
-      {{ t('attendanceDescription') }}
-    </CardStateInfo>
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <!-- TODO: fill page with content instead (https://github.com/maevsi/vibetype/issues/773) -->
+      <AppAlert>
+        {{ t('attendanceDescription') }}
+      </AppAlert>
+    </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
+useFeatureRequired('participation')
+
 defineRouteRules({
   robots: false, // TODO: reactive once page is filled with content (https://github.com/maevsi/vibetype/issues/773)
 })

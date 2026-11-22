@@ -1,12 +1,23 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
+import { I18N_COOKIE_NAME } from '../../node/static'
+
 export const i18nConfig: ReturnType<DefineNuxtConfig> = {
   i18n: {
     defaultLocale: 'en', // Must be set for the default prefix_except_default prefix strategy.
-    detectBrowserLanguage: false,
-    // experimental: {
-    //   compactRoutes: true, // TODO: reenable (https://github.com/nuxt-modules/sitemap/issues/617)
-    // },
+    detectBrowserLanguage: {
+      cookieKey: I18N_COOKIE_NAME,
+      cookieSecure: process.env.NODE_ENV === 'production',
+      fallbackLocale: 'en',
+      // redirecting only the visitors landing on the root keeps the search engines' crawl of the deep links free of language redirects
+      redirectOn: 'root',
+      useCookie: true,
+    },
+    experimental: {
+      compactRoutes: true,
+      prerenderMessages: true, // static files the service worker precaches, as the offline app shell has no server to load messages from
+      strictSeo: true,
+    },
     locales: [
       {
         code: 'de',

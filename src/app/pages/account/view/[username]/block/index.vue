@@ -1,21 +1,12 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
-  <div v-else>
-    <LayoutTopBar>
-      <span>
-        {{ title }}
-      </span>
-      <template #back>
-        <ButtonIconBackRoute />
-      </template>
-    </LayoutTopBar>
+  <Loader :api is-page>
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-3">
-        <FormInputSearch v-model="searchQuery" />
+        <AppInputSearch v-model="searchQuery" />
         <ul
           v-if="blockedAccountsFiltered?.length"
-          class="flex flex-col divide-y divide-(--faint-line)"
-          role="list"
+          class="flex flex-col divide-y divide-line"
         >
           <li
             v-for="blockedAccount in blockedAccountsFiltered"
@@ -29,55 +20,52 @@
                 height="48"
                 width="48"
               />
-              <TypographySubtitleLarge>
-                {{ blockedAccount.username }}
-              </TypographySubtitleLarge>
+              <span class="text-headline">
+                {{ `@${blockedAccount.username}` }}
+              </span>
             </div>
-            <ButtonColored
+            <AppButton
               :aria-label="t('unblock')"
               size="small"
               variant="secondary"
               @click="openUnblockDrawer(blockedAccount)"
             >
               {{ t('unblock') }}
-            </ButtonColored>
+            </AppButton>
           </li>
         </ul>
-        <TypographyBodyMedium
+        <span
           v-else-if="searchQuery && !blockedAccountsFiltered?.length"
+          class="text-body"
         >
           {{ t('errorNotFound') }}
-        </TypographyBodyMedium>
-        <TypographyBodyMedium v-else>
+        </span>
+        <span v-else class="text-body">
           {{ t('noBlockedAccounts') }}
-        </TypographyBodyMedium>
+        </span>
       </div>
     </LayoutPage>
     <AccountBlockRemoveDrawer
       v-if="blockRemoveAccount"
       v-model:open="isBlockRemoveDrawerOpen"
       :account="blockRemoveAccount"
-      @success="accountBlockAccountsQuery.executeQuery"
     />
-  </div>
+  </Loader>
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphcache'
 
-// compiler
-definePageMeta({
-  layout: 'default-no-header',
-})
-
 // validation
+await useSignInRequired()
 const store = useStore()
 const route = useRoute()
 const { createA11yError } = useA11yError()
-if (route.params.username !== store.signedInUsername) {
+if (
+  store.signedInUsername &&
+  route.params.username !== store.signedInUsername
+) {
   throw createA11yError({
     status: 403,
   })
@@ -89,7 +77,7 @@ const title = t('title')
 useHeadDefault({ title })
 
 // api data
-const accountBlockAccountsQuery = useQuery({
+const accountBlockAccountsQuery = useApiQuery({
   query: graphql(`
     query AccountBlockAccounts {
       accountBlockAccounts {

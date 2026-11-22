@@ -1,25 +1,9 @@
-export default defineEventHandler(() => {
-  const isTesting = useIsTesting({ isCookieEnabled: false })
+export default defineEventHandler(async (event) => {
+  const { operationName, variables } = getQuery(event)
 
-  if (!isTesting) {
-    throw createAppError({
-      status: 403,
-      statusText: 'This endpoint is only available in the testing environment.',
-    })
-  }
-
-  return {
-    data: {
-      allLegalTerms: {
-        nodes: [
-          {
-            rowId: '858ab35b-0433-4698-902f-ff42a25ec94a',
-            term: '# Terms of Use',
-            __typename: 'LegalTerm',
-          },
-        ],
-        __typename: 'LegalTermConnection',
-      },
-    },
-  }
+  return await getTestingGraphqlResult({
+    operationName,
+    variables:
+      typeof variables === 'string' ? JSON.parse(variables) : undefined,
+  })
 })

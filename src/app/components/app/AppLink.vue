@@ -6,9 +6,14 @@
     :external="isExternal"
     :target="targetComputed"
     :to
-    @click="emit('click')"
+    @click="onClick"
   >
     <slot />
+    <AppExternalLinkDrawer
+      v-if="isLeavingSite"
+      v-model="isDrawerExternalLinkOpen"
+      :url="to.toString()"
+    />
   </NuxtLink>
 </template>
 
@@ -41,23 +46,35 @@ const {
 >()
 
 const emit = defineEmits<{
-  click: []
+  click: [event: MouseEvent]
 }>()
+
+// data
+const isDrawerExternalLinkOpen = ref(false)
 
 // computations
 const classComputed = computed(() =>
   [
     'rounded',
-    ...(isColored ? ['text-(--accent-strong) dark:text-link-bright'] : []),
+    ...(isColored ? ['text-link'] : []),
     ...(isDisabled ? ['disabled'] : []),
     ...(isUnderlined ? ['underline'] : []),
   ].join(' '),
 )
+const isLeavingSite = computed(() => /^(ftp|http(s)?):\/\//.test(to.toString()))
+const isMailto = computed(() => /^mailto:/.test(to.toString()))
 const targetComputed = computed(
   () =>
-    target ||
-    (to.toString().match(/^((ftp|http(s)?):\/\/|(mailto):)/)
-      ? '_blank'
-      : undefined),
+    target || (isLeavingSite.value || isMailto.value ? '_blank' : undefined),
 )
+
+// methods
+const onClick = (event: MouseEvent) => {
+  if (isLeavingSite.value) {
+    event.preventDefault()
+    isDrawerExternalLinkOpen.value = true
+  }
+
+  emit('click', event)
+}
 </script>

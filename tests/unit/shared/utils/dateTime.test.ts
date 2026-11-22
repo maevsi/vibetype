@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest'
 import {
   getDuration,
   getEmailDateTimeFormatter,
+  groupByDay,
 } from '#src/shared/utils/dateTime'
 
 describe('getDuration', () => {
@@ -141,5 +142,62 @@ describe('getEmailDateTimeFormatter', () => {
 
     expect(enFormatted).toContain('UTC')
     expect(frFormatted).toContain('UTC')
+  })
+
+  test('should format date in the given time zone when provided', () => {
+    const formatter = getEmailDateTimeFormatter('en-US', 'America/New_York')
+
+    expect(formatter.resolvedOptions().timeZone).toBe('America/New_York')
+
+    const parts = formatter.formatToParts(testDate)
+    const hourPart = parts.find((part) => part.type === 'hour')
+    const minutePart = parts.find((part) => part.type === 'minute')
+    expect(hourPart?.value).toBe('10')
+    expect(minutePart?.value).toBe('30')
+  })
+
+  test('should fall back to UTC for an invalid time zone', () => {
+    const formatter = getEmailDateTimeFormatter('en-US', 'not-a-time-zone')
+    expect(formatter.resolvedOptions().timeZone).toBe('UTC')
+  })
+})
+
+describe('groupByDay', () => {
+  test('groups consecutive items by their calendar day in the time zone', () => {
+    const groups = groupByDay({
+      getDate: (start) => start,
+      items: [
+        '2026-11-16T22:00:00Z',
+        '2026-11-17T04:59:00Z', // 23:59 in New York, but already the next day in UTC
+        '2026-11-17T05:00:00Z',
+        '2026-11-19T18:00:00Z',
+        '2026-11-16T23:00:00Z',
+      ],
+      now: new Date('2026-11-16T20:00:00Z'),
+      timeZone: 'America/New_York',
+    })
+
+    expect(groups).toEqual([
+      {
+        day: new Date('2026-11-16T00:00:00Z'),
+        items: ['2026-11-16T22:00:00Z', '2026-11-17T04:59:00Z'],
+        relativeDay: 'today',
+      },
+      {
+        day: new Date('2026-11-17T00:00:00Z'),
+        items: ['2026-11-17T05:00:00Z'],
+        relativeDay: 'tomorrow',
+      },
+      {
+        day: new Date('2026-11-19T00:00:00Z'),
+        items: ['2026-11-19T18:00:00Z'],
+        relativeDay: undefined,
+      },
+      {
+        day: new Date('2026-11-16T00:00:00Z'),
+        items: ['2026-11-16T23:00:00Z'],
+        relativeDay: 'today',
+      },
+    ])
   })
 })

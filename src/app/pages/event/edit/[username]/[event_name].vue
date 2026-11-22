@@ -1,57 +1,75 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
-  <AppError v-else-if="!event" :error="{ status: 404 }" />
-  <div v-else class="flex flex-col gap-4">
-    <section>
-      <LayoutPageTitle :title="t('title')" />
-      <FormEvent :event />
-    </section>
-    <section>
-      <h2>{{ t('titleDelete') }}</h2>
-      <FormDelete
-        id="deleteEvent"
-        :error-pg-ids="{
-          postgres28P01: t('postgres28P01'),
-          postgresP0002: t('postgresP0002'),
-        }"
-        :item-name-deletion="t('formDeleteItemNameDeletion')"
-        :item-name-success="t('formDeleteItemNameSuccess')"
-        :mutation="eventDeleteMutation"
-        :variables="{
-          id: event.rowId,
-        }"
-        @success="navigateTo(localePath(`dashboard`))"
-      />
-    </section>
-  </div>
+  <Loader :api is-page>
+    <AppError v-if="!event" :error="{ status: 404 }" />
+    <div v-else class="flex flex-1 flex-col">
+      <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
+      <LayoutPage>
+        <div class="flex flex-col gap-4">
+          <FormEvent :event />
+          <section>
+            <h2>{{ t('titleDelete') }}</h2>
+            <EventDeleteDrawer :event-id="event.rowId" />
+          </section>
+        </div>
+      </LayoutPage>
+    </div>
+  </Loader>
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
-import { useEventDeleteMutation } from '~~/gql/documents/mutations/event/eventDelete'
 import { graphql } from '~~/gql/generated'
 
 // validation
+await useSignInRequired()
 const route = useRoute()
 const store = useStore()
 const { createA11yError } = useA11yError()
-if (route.params.username !== store.signedInUsername) {
+if (
+  store.signedInUsername &&
+  route.params.username !== store.signedInUsername
+) {
   throw createA11yError({
     status: 403,
   })
 }
 
 // api data
-const eventQuery = useQuery({
+const eventQuery = useApiQuery({
   query: graphql(`
     query EventEdit($slug: String!, $username: String!) {
       accountByUsername(username: $username) {
         eventsByCreatedBy(condition: { slug: $slug }) {
           nodes {
+            addressByAddressId {
+              city
+              country
+              id
+              line1
+              line2
+              location {
+                latitude
+                longitude
+              }
+              name
+              postalCode
+              region
+              rowId
+            }
             createdBy
             description
             end
+            eventCategoryMappingsByEventId {
+              nodes {
+                categoryId
+                id
+              }
+            }
+            eventFormatMappingsByEventId {
+              nodes {
+                formatId
+                id
+              }
+            }
             id
             guestCountMaximum
             isArchived
@@ -79,12 +97,11 @@ const eventQuery = useQuery({
 const api = await useApiData([eventQuery])
 const account = computed(() => api.value.data?.accountByUsername)
 const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
-const eventDeleteMutation = useEventDeleteMutation()
 
 // page
 const { t } = useI18n()
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
     showAppError({ status: 404, message: 'Event unavailable' })
     return
@@ -95,22 +112,13 @@ const title = computed(() => {
 useHeadDefault({ title })
 
 // template
-const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">
 de:
-  formDeleteItemNameDeletion: Veranstaltung
-  formDeleteItemNameSuccess: Veranstaltung
-  postgres28P01: Passwort falsch! Überprüfe, ob du alles richtig geschrieben hast.
-  postgresP0002: Die Veranstaltung wurde nicht gefunden!
   title: Veranstaltung bearbeiten
   titleDelete: Veranstaltung löschen
 en:
-  formDeleteItemNameDeletion: event
-  formDeleteItemNameSuccess: Event
-  postgres28P01: Password incorrect! Check for spelling mistakes.
-  postgresP0002: Event could not be found!
   title: Edit event
   titleDelete: Delete event
 </i18n>

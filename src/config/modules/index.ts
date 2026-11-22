@@ -1,11 +1,18 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
+import { defineAddress, defineOrganization } from 'nuxt-schema-org/schema'
 
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'
+import { scriptsConfig } from './scripts'
 import { securityConfig } from './security'
 
+import { SITE_NAME } from '../../node/static'
+import { HTML_VALIDATE_CONFIG } from '../htmlValidate'
+
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
+  // the site exposes personal data (e.g. account profiles) that must not be served to AI crawlers
+  aiReady: false,
   content: {
     experimental: {
       sqliteConnector: 'native',
@@ -28,36 +35,39 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     npm: {
       remote: false,
     },
-  },
-  gtag: {
-    config: {
-      cookie_flags: 'samesite=strict',
+    providers: {
+      // Only the local `npm` and `local` providers are used (Raleway ships via
+      // `@fontsource-variable/raleway`), so disable the remaining default
+      // providers. Each of them fetches font metadata from a remote CDN during
+      // the build, which makes the build depend on external network
+      // availability and fail when a CDN is unreachable (e.g. fonts.google.com)
+      adobe: false,
+      bunny: false,
+      fontshare: false,
+      fontsource: false,
+      google: false,
+      googleicons: false,
     },
-    id: 'G-WMQ1JY99XH',
-    initCommands: [
-      [
-        'consent',
-        'default',
-        {
-          ad_user_data: 'denied',
-          ad_personalization: 'denied',
-          ad_storage: 'denied',
-          analytics_storage: 'denied',
-          wait_for_update: 500,
-        },
-      ],
-    ],
-    initMode: 'manual',
   },
   htmlValidator: {
     failOnError: true,
     logLevel: 'warning',
+    options: HTML_VALIDATE_CONFIG,
   },
   ...i18nConfig,
   ...pwaConfig,
   linkChecker: {
     failOnError: true,
   },
+  nuxtEmailRenderer: {
+    codeHighlighting: false,
+  },
+  ogImage: {
+    // X reads the image from the Open Graph tags, so mirroring them into
+    // `twitter:image` tags only grows every page's head
+    includeTwitter: false,
+  },
+  ...scriptsConfig,
   ...securityConfig,
   sentry: {
     org: 'maevsi',
@@ -75,15 +85,37 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     componentDir: 'app/components/scn',
   },
   schemaOrg: {
-    reactive: false, // TODO: for a strict trusted type policy, evaluate linking schema org json instead of reatively updating it inline (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
+    identity: defineOrganization({
+      address: defineAddress({
+        addressCountry: 'DE',
+        addressLocality: 'Kassel',
+        postalCode: '34121',
+        streetAddress: 'Virchowstraße 4',
+      }),
+      legalName: 'maevsi UG (haftungsbeschränkt)',
+      logo: '/assets/static/favicon/apple-touch-icon-180x180.png',
+      name: SITE_NAME.toUpperCase(),
+      sameAs: [
+        'https://instagram.com/vibetype.app/',
+        'https://facebook.com/profile.php?id=61573494951867',
+        'https://tiktok.com/@vibetype',
+        'https://linkedin.com/company/92700414/',
+      ],
+    }),
+    reactive: false, // for a strict trusted type policy the script may not change and it must be inlined / cannot be linked (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
+  },
+  site: {
+    // the client only `/offline` shell renders without the server side i18n entry, so its injected site config would otherwise lack a name until the locale's messages load
+    name: 'Vibetype',
+  },
+  // the storage persists across builds because the dockerfile seeds it from the previously released image (see `SKEW_PROTECTION_SOURCE_IMAGE`) and carries it into the next one
+  skewProtection: {
+    // the retained assets are baked into every image, so keep the retention low to bound the image size
+    retentionDays: 7,
+    maxNumberOfVersions: 3,
   },
   sitemap: {
     credits: false,
-  },
-  zodI18n: {
-    localeCodesMapping: {
-      'de-DE': 'de',
-      'en-GB': 'en',
-    },
+    sources: ['/api/__sitemap__/accounts', '/api/__sitemap__/events'],
   },
 }

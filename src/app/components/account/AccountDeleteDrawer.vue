@@ -1,29 +1,29 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="text-center">
-        <TypographySubtitleSmall>
+        <span class="text-body">
           {{ t('deleteAccountQuestion') }}
-        </TypographySubtitleSmall>
+        </span>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'password'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'password'">
       <FormDelete
-        ref="deleteForm"
         v-bind="attributes"
         v-model:error="error"
         :errors-pg-ids="{
           postgres23503: t('postgres23503'),
           postgres28P01: t('postgres28P01'),
         }"
+        is-error-toast-hidden
         is-toast-hidden
         :item-name-deletion="t('account')"
         :item-name-success="t('account')"
         :mutation="accountDeleteMutation"
         @success="step = 'success'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
       <div v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -31,77 +31,77 @@
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <div v-bind="attributes">
-        <LayoutPageResult type="error">
-          <template v-if="error" #description>
-            {{ error.message }}
+        <LayoutPageResult :message="error?.message" type="error">
+          <template #description>
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
+    </AppStepPanel>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
           {{ t('deleteAccount') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'password'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'password'">
         <span v-bind="attributes">
           {{ t('confirmPassword') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
         <span v-bind="attributes">
           {{ t('accountDeleted') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
           {{ t('error') }}
         </span>
-      </AppStep>
+      </AppStepPanel>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('stay')"
           variant="secondary"
           @click="closeDrawer"
         >
           {{ t('stay') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('confirmDelete')"
           variant="primary-critical"
           @click="step = 'password'"
         >
           {{ t('confirmDelete') }}
-        </ButtonColored>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
-        <ButtonColored
+        </AppButton>
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('toHomepage')"
           variant="primary"
           @click="navigateToRoot"
         >
           {{ t('toHomepage') }}
-        </ButtonColored>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+        </AppButton>
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('restart')"
           variant="tertiary"
           @click="restart"
         >
           {{ t('restart') }}
-        </ButtonColored>
-      </AppStep>
+        </AppButton>
+      </AppStepPanel>
     </template>
   </AppDrawer>
 </template>

@@ -1,7 +1,8 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <EventReportForm
+        :id="templateIdForm"
         ref="form"
         v-bind="attributes"
         v-model:error="error"
@@ -9,8 +10,11 @@
         :event
         @submit-success="step = 'reportConfirmation'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
+    </AppStepPanel>
+    <AppStepPanel
+      v-slot="attributes"
+      :is-active="step === 'reportConfirmation'"
+    >
       <div v-bind="attributes" class="text-center">
         {{
           t('contentReportConfirmation', {
@@ -18,8 +22,8 @@
           })
         }}
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'blockConfirmation'">
       <div v-bind="attributes" class="text-center">
         {{
           t('contentBlockConfirmation', {
@@ -27,97 +31,113 @@
           })
         }}
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <div v-bind="attributes" class="text-center">
         <span v-if="error && error.message">
           {{ error.message }}
         </span>
       </div>
-    </AppStep>
+    </AppStepPanel>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
           {{ t('titleReport') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'reportConfirmation'"
+      >
         <span v-bind="attributes">
           {{ t('titleReportConfirmation') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'blockConfirmation'"
+      >
         <span v-bind="attributes">
           {{ t('titleBlockConfirmation') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
           {{ t('globalError') }}
         </span>
-      </AppStep>
+      </AppStepPanel>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('buttonReportSubmit')"
+          :form="templateIdForm"
+          :loading="templateForm?.isSubmitting"
           type="submit"
           variant="primary-critical"
-          @click="templateForm?.submit"
         >
           {{ t('buttonReportSubmit') }}
-        </ButtonColored>
+        </AppButton>
         <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored
+          <AppButton
             :aria-label="t('buttonReportCancel')"
             variant="secondary-critical"
           >
             {{ t('buttonReportCancel') }}
-          </ButtonColored>
+          </AppButton>
         </DrawerClose>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
-        <ButtonColored
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'reportConfirmation'"
+      >
+        <AppButton
           v-bind="attributes"
           :aria-label="t('buttonReportConfirmationBlock')"
+          :loading="createAccountBlockMutation.fetching.value"
           variant="secondary-critical"
           @click="blockOrganizer"
         >
           {{ t('buttonReportConfirmationBlock') }}
-        </ButtonColored>
+        </AppButton>
         <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored :aria-label="t('buttonReportConfirmationClose')">
+          <AppButton :aria-label="t('buttonReportConfirmationClose')">
             {{ t('buttonReportConfirmationClose') }}
-          </ButtonColored>
+          </AppButton>
         </DrawerClose>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'blockConfirmation'"
+      >
         <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored
+          <AppButton
             :aria-label="t('buttonBlockConfirmation')"
             @click="backToDashboard"
           >
             {{ t('buttonBlockConfirmation') }}
-          </ButtonColored>
+          </AppButton>
         </DrawerClose>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('globalTryAgain')"
           variant="primary"
           @click="restart"
         >
           {{ t('globalTryAgain') }}
-        </ButtonColored>
-      </AppStep>
+        </AppButton>
+      </AppStepPanel>
     </template>
   </AppDrawer>
 </template>
 
 <script setup lang="ts">
-import { useCreateAccountBlockMutation } from '~~/gql/documents/mutations/accountBlock/accountBlockCreate'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const localePath = useLocalePath()
@@ -130,6 +150,7 @@ const { accountId, event } = defineProps<{
 
 // template
 const templateForm = useTemplateRef('form')
+const templateIdForm = useId()
 
 // drawer
 const isOpen = defineModel<boolean>('open')
@@ -150,7 +171,15 @@ const onAnimationEnd = (isOpen: boolean) => {
 }
 
 // block
-const createAccountBlockMutation = useCreateAccountBlockMutation()
+const createAccountBlockMutation = useMutation(
+  graphql(`
+    mutation CreateAccountBlock($input: CreateAccountBlockInput!) {
+      createAccountBlock(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const blockOrganizer = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     input: {
@@ -185,8 +214,8 @@ de:
   buttonReportConfirmationClose: Schließen
   buttonReportConfirmationBlock: Veranstalter blockieren
   buttonReportSubmit: Meldung einreichen
-  contentBlockConfirmation: Der Benutzer {username} wurde blockiert.
-  contentReportConfirmation: Vielen Dank für die Meldung. Wir werden sie prüfen und dich über unsere Entscheidung benachrichtigen. Du kannst nun den Organisator {username} blockieren oder zur Event-Seite zurückkehren.
+  contentBlockConfirmation: Der Benutzer {'@'}{username} wurde blockiert.
+  contentReportConfirmation: Vielen Dank für die Meldung. Wir werden sie prüfen und dich über unsere Entscheidung benachrichtigen. Du kannst nun den Organisator {'@'}{username} blockieren oder zur Event-Seite zurückkehren.
   errorBlock: Der Benutzer konnte nicht blockiert werden
   titleBlockConfirmation: Benutzer blockiert
   titleReport: Event melden
@@ -197,8 +226,8 @@ en:
   buttonReportConfirmationClose: Close
   buttonReportConfirmationBlock: Block organizer
   buttonReportSubmit: Report
-  contentBlockConfirmation: The user {username} has been blocked.
-  contentReportConfirmation: Thank you for your report. We will review it and notify you about our decision. You can block the organizer {username} now or return to the event.
+  contentBlockConfirmation: The user {'@'}{username} has been blocked.
+  contentReportConfirmation: Thank you for your report. We will review it and notify you about our decision. You can block the organizer {'@'}{username} now or return to the event.
   errorBlock: The user could not be blocked
   titleBlockConfirmation: User blocked
   titleReport: Report event
