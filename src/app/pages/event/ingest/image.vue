@@ -154,7 +154,7 @@ const { isCameraAvailable, pickFromCamera, pickFromLibrary } =
   usePosterPicker(readPoster)
 
 // the iOS app hands over posters shared to it from other apps
-onMounted(() => {
+onMounted(async () => {
   window.webkit?.messageHandlers?.['poster-shared-request']?.postMessage(
     'poster-shared-request',
   )
@@ -165,7 +165,13 @@ onMounted(() => {
   if (file) {
     posterPicked.value = undefined
     readPoster(file)
+    return
   }
+
+  // the service worker stored a poster shared to the installed app
+  const posterShared = await takePosterShared()
+
+  if (posterShared) readPoster(posterShared)
 })
 onBeforeUnmount(() => {
   if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)

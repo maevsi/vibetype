@@ -74,7 +74,7 @@
           <AppTableHeader>
             <tr>
               <AppTableHead class="w-0" scope="col">
-                <AppCheckbox
+                <Checkbox
                   :aria-label="t('guestSelectAll')"
                   class="bg-surface"
                   :model-value="

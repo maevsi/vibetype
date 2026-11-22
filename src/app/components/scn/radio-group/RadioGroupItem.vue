@@ -24,7 +24,7 @@ const forwardedProps = useForwardProps(delegatedProps)
     v-bind="forwardedProps"
     :class="
       cn(
-        'aspect-square size-6 shrink-0 rounded-small bg-surface-raised text-on-action-primary outline-none focus-visible:focus-ring disabled:cursor-not-allowed disabled:opacity-40 aria-invalid:ring-2 aria-invalid:ring-error data-[state=checked]:bg-action-primary',
+        'aspect-square size-6 shrink-0 rounded-full bg-surface-raised text-on-action-primary outline-none focus-visible:focus-ring disabled:cursor-not-allowed disabled:opacity-40 aria-invalid:ring-2 aria-invalid:ring-error data-[state=checked]:bg-action-primary',
         props.class,
       )
     "

@@ -2,23 +2,22 @@
   <form @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="reason">
       <Field>
-        <FieldLabel class="justify-center">
-          <span class="text-body">
-            {{ t('drawerDescription') }}
-          </span>
-        </FieldLabel>
-        <FieldContent>
-          <AppRadioGroup
-            :items="reasons"
-            :model-value="field.state.value"
-            @update:model-value="
-              (value) => {
-                field.handleChange(String(value ?? ''))
-                field.handleBlur()
-              }
-            "
-          />
-        </FieldContent>
+        <AppRadioGroup
+          :items="reasons"
+          :model-value="field.state.value"
+          @update:model-value="
+            (value) => {
+              field.handleChange(String(value ?? ''))
+              field.handleBlur()
+            }
+          "
+        >
+          <template #legend>
+            <span class="block text-center text-body">
+              {{ t('drawerDescription') }}
+            </span>
+          </template>
+        </AppRadioGroup>
         <FieldError
           v-if="isFieldInvalid(field)"
           :errors="field.state.meta.errors"

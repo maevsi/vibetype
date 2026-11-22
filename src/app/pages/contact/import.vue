@@ -23,47 +23,31 @@
             <span class="text-body-small">{{ t('fileHint') }}</span>
           </AppInputFile>
           <template v-if="rows.length">
-            <ul class="flex flex-col gap-2">
-              <li
+            <AppCheckboxGroup
+              v-model="selectedIndexes"
+              :aria-label="t('contacts')"
+            >
+              <AppCheckboxGroupItem
                 v-for="(row, index) in rows"
                 :key="index"
-                class="flex items-start gap-4"
+                :disabled="row.status !== 'importable'"
+                :value="index"
               >
-                <AppCheckbox
-                  v-if="row.status === 'importable'"
-                  :id="`contact-${index}`"
-                  class="mt-1"
-                  :model-value="selectedIndexes.includes(index)"
-                  @update:model-value="onSelect(index, $event)"
-                />
-                <span v-else class="size-6 shrink-0" />
-                <div class="flex min-w-0 flex-1 flex-col">
-                  <label
-                    class="truncate"
-                    :for="
-                      row.status === 'importable'
-                        ? `contact-${index}`
-                        : undefined
-                    "
-                  >
-                    {{ getRowLabel(row) }}
-                  </label>
-                  <span class="truncate text-body-small text-fg-2">
+                <span class="truncate">{{ getRowLabel(row) }}</span>
+                <template #description>
+                  <span class="truncate">
                     {{
                       [row.emailAddress, row.phoneNumber]
                         .filter(Boolean)
                         .join(' · ')
                     }}
                   </span>
-                  <span
-                    v-if="getRowHint(row, index)"
-                    class="text-body-small text-fg-2"
-                  >
+                  <span v-if="getRowHint(row, index)" class="block">
                     {{ getRowHint(row, index) }}
                   </span>
-                </div>
-              </li>
-            </ul>
+                </template>
+              </AppCheckboxGroupItem>
+            </AppCheckboxGroup>
             <AppButton
               :aria-label="t('import', selectedIndexes.length)"
               class="self-start"
@@ -222,12 +206,6 @@ const importSelected = async () => {
 
   await navigateTo(localePath('contact'))
 }
-const onSelect = (index: number, isSelected: boolean | 'indeterminate') => {
-  selectedIndexes.value =
-    isSelected === true
-      ? [...selectedIndexes.value, index]
-      : selectedIndexes.value.filter((selectedIndex) => selectedIndex !== index)
-}
 const onFileChange = async ([file]: File[]) => {
   if (!file) return
 
@@ -311,6 +289,7 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  contacts: Kontakte
   duplicate: Bereits in deinen Kontakten
   failed: Der Kontakt konnte nicht importiert werden.
   fileChoose: vCard-Datei auswählen
@@ -330,6 +309,7 @@ de:
   title: Kontakte importieren
   unnamed: Ohne Namen
 en:
+  contacts: Contacts
   duplicate: Already in your contacts
   failed: The contact could not be imported.
   fileChoose: Choose vCard file
