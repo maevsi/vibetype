@@ -95,6 +95,7 @@
 <script setup lang="ts">
 import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
+import { eventHasEnded } from '~~/shared/utils/event'
 
 const { t } = useI18n()
 
@@ -452,7 +453,6 @@ const savedEvents = computed(() => {
 
   if (!nodes) return
 
-  // like the server's `hasEnded`, an event without an end ends at its start
   // Deliberate shortcut: the saved events are matched by name in the browser, without the server's word stems and typo tolerance, as they are filtered here anyway; the SQL function named above would let the server search them too
   const searchLowerCase = search?.toLocaleLowerCase()
 
@@ -464,9 +464,7 @@ const savedEvents = computed(() => {
         event.name.toLocaleLowerCase().includes(searchLowerCase),
     )
     .filter(
-      (event) =>
-        new Date(event.end ?? event.start) <= now.value ===
-        (time.value === 'past'),
+      (event) => eventHasEnded(event, now.value) === (time.value === 'past'),
     )
     .toSorted(
       (a, b) =>
