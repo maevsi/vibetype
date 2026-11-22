@@ -96,84 +96,52 @@
               {{ t('username', { username: route.params.username }) }}
             </span>
           </div>
-          <!-- the stat cards only fill the row once friends exist, before that the event list below covers the same -->
-          <AppFeature feature="friends">
-            <div
-              class="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-4"
+          <!-- the stat cards fill the row next to the friends card -->
+          <div
+            class="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-4"
+          >
+            <AppCard
+              class="relative flex flex-col items-center gap-1 p-5 has-focus-visible:focus-ring"
+              data-testid="events-card"
             >
-              <AppCard
-                class="relative flex flex-col items-center gap-1 p-5 has-focus-visible:focus-ring"
-                data-testid="events-card"
-              >
-                <div class="mb-3 flex h-16 items-center justify-center">
-                  <AppIconToday class="size-10 text-fg-2" />
-                </div>
-                <span class="text-heading-large">
-                  {{ account.eventsByCreatedBy.totalCount }}
-                </span>
-                <AppButton
-                  :aria-label="t('events')"
-                  class="focus-visible:ring-0"
-                  size="none"
-                  :to="
-                    localePath({
-                      name: 'event-view-username',
-                      params: { username: route.params.username },
-                    })
-                  "
-                  variant="ghost"
-                >
-                  <!-- the overlay stretches the link over the whole card -->
-                  <span class="absolute inset-0 z-10" />
-                  <span class="text-body-small text-link">
-                    {{ t('events') }}
-                  </span>
-                </AppButton>
-              </AppCard>
-            </div>
-          </AppFeature>
-          <AppFeature feature="friends">
-            <AppButton
-              v-if="store.signedInUsername !== route.params.username"
-              :aria-label="t('friendAdd')"
-              disabled
-              variant="secondary"
-            >
-              {{ t('friendAdd') }}
-            </AppButton>
-          </AppFeature>
-          <AppFeature feature="friends">
-            <h2 class="text-title3">
-              {{ t('friends') }}
-            </h2>
-            <!-- @vue-ignore -->
-            <AppCardButton
-              class="relative"
-              disabled
-              :to="`/friend/view/$username`"
-            >
-              <div class="isolate flex -space-x-2 overflow-hidden p-1">
-                <AccountProfilePicture
-                  account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                  class="rounded-full ring-3 ring-surface-raised"
-                  height="64"
-                  width="64"
-                />
-                <AccountProfilePicture
-                  account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                  class="rounded-full ring-3 ring-surface-raised"
-                  height="64"
-                  width="64"
-                />
-                <AccountProfilePicture
-                  account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                  class="rounded-full ring-3 ring-surface-raised"
-                  height="64"
-                  width="64"
-                />
+              <div class="mb-3 flex h-16 items-center justify-center">
+                <AppIconToday class="size-10 text-fg-2" />
               </div>
-            </AppCardButton>
-          </AppFeature>
+              <span class="text-heading-large">
+                {{ account.eventsByCreatedBy.totalCount }}
+              </span>
+              <AppButton
+                :aria-label="t('events')"
+                class="focus-visible:ring-0"
+                size="none"
+                :to="
+                  localePath({
+                    name: 'event-view-username',
+                    params: { username: route.params.username },
+                  })
+                "
+                variant="ghost"
+              >
+                <!-- the overlay stretches the link over the whole card -->
+                <span class="absolute inset-0 z-10" />
+                <span class="text-body-small text-link">
+                  {{ t('events') }}
+                </span>
+              </AppButton>
+            </AppCard>
+          </div>
+          <template v-if="store.signedInAccountId">
+            <AccountFriendshipAction
+              v-if="!isOwnProfile"
+              :account-id="account.rowId"
+              :signed-in-account-id="store.signedInAccountId"
+              :username="route.params.username"
+            />
+            <AccountFriendshipCard
+              :account-id="account.rowId"
+              :username="route.params.username"
+            />
+          </template>
           <AppFeature v-if="isOwnProfile" feature="account-management">
             <AppButton
               :aria-label="t('contactBook')"
@@ -469,8 +437,6 @@ de:
   edit: Profil bearbeiten
   eventMore: Alle ansehen
   events: Events
-  friendAdd: Freundschaftsanfrage senden
-  friends: Freunde
   imprint: Impressum
   logout: Abmelden
   more: Mehr
@@ -490,8 +456,6 @@ en:
   edit: Edit profile
   eventMore: See all
   events: Events
-  friendAdd: Send friend request
-  friends: Friends
   imprint: Imprint
   logout: Log Out
   more: More

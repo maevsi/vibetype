@@ -14,16 +14,14 @@
             {{ t('errorContactNone') }}
           </AppAlert>
           <div class="flex">
-            <AppFeature feature="friends">
-              <AppButton
-                v-if="authentication.isSignedIn"
-                :aria-label="t('addFriend')"
-                :title="t('addFriend')"
-                @click="friendAdd"
-              >
-                {{ t('addFriend') }}
-              </AppButton>
-            </AppFeature>
+            <AppButton
+              v-if="authentication.isSignedIn"
+              :aria-label="t('addFriend')"
+              :title="t('addFriend')"
+              @click="friendAdd"
+            >
+              {{ t('addFriend') }}
+            </AppButton>
           </div>
         </section>
         <section v-if="eventApps.length" class="flex flex-col gap-4">
@@ -251,7 +249,6 @@ const friendAdd = async () => {
     localePath({
       name: 'account-view-username',
       params: { username: contact.value.accountByAccountId.username },
-      query: { action: 'add-friend' },
     }),
   )
 }

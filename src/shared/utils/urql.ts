@@ -137,8 +137,14 @@ const invalidateCache = (
           cache.invalidate('Query', field.fieldKey)
         })
 
+const FRIENDSHIP_QUERY_NAMES = [
+  'allFriendships',
+  'friendshipByAccountAIdAndAccountBId',
+]
+
 // The database's row level security hides a blocked account's accounts,
-// contacts, events and guests, so every list of them changes with a block
+// contacts, events, friendships and guests, so every list of them changes
+// with a block
 const invalidateAccountBlockDependents = (cache: Cache) =>
   [
     'accountBlockAccounts',
@@ -147,7 +153,13 @@ const invalidateAccountBlockDependents = (cache: Cache) =>
     'allEvents',
     'allGuests',
     'eventSearch',
+    ...FRIENDSHIP_QUERY_NAMES,
   ].forEach((name) => invalidateCache(cache, name))
+
+// A friendship shows up in the lists and counts of both of its accounts, so
+// every query for friendships changes with one of them
+const invalidateFriendships = (cache: Cache) =>
+  FRIENDSHIP_QUERY_NAMES.forEach((name) => invalidateCache(cache, name))
 
 const cacheListAppend = <
   Fragment,
@@ -256,6 +268,7 @@ export const getUrqlClient = async ({
         allAccounts: relayPagination(),
         allContacts: relayPagination(),
         allEvents: relayPagination(),
+        allFriendships: relayPagination(),
         allGuests: relayPagination(),
         allUploads: relayPagination(),
       },
@@ -315,6 +328,8 @@ export const getUrqlClient = async ({
             'eventUploadsByEventId',
           )
         },
+        createFriendship: (_result, _args, cache, _info) =>
+          invalidateFriendships(cache),
         createPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
@@ -360,6 +375,12 @@ export const getUrqlClient = async ({
           invalidateCache(cache, 'allEvents')
           invalidateCache(cache, 'eventSearch')
         },
+        deleteFriendshipByAccountAIdAndAccountBId: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateFriendships(cache),
         deleteGuestByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Guest', args),
         deleteEventFavoriteByRowId: (_result, args, cache, _info) =>
@@ -479,6 +500,14 @@ export const getUrqlClient = async ({
           invalidateCache(cache, 'ProfilePicture', args),
         deleteUploadByRowId: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allUploads'),
+
+        // update
+        updateFriendshipByAccountAIdAndAccountBId: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateFriendships(cache),
       },
     },
   }

@@ -66,9 +66,9 @@ export type Account = Node & {
   /** Reads and enables pagination through a set of `Event`. */
   eventsByCreatedBy: EventConnection
   /** Reads and enables pagination through a set of `Friendship`. */
-  friendshipsByAAccountId: FriendshipConnection
+  friendshipsByAccountAId: FriendshipConnection
   /** Reads and enables pagination through a set of `Friendship`. */
-  friendshipsByBAccountId: FriendshipConnection
+  friendshipsByAccountBId: FriendshipConnection
   /** Reads and enables pagination through a set of `Friendship`. */
   friendshipsByCreatedBy: FriendshipConnection
   /** Reads and enables pagination through a set of `Friendship`. */
@@ -280,7 +280,7 @@ export type AccountEventsByCreatedByArgs = {
 }
 
 /** Public account data. */
-export type AccountFriendshipsByAAccountIdArgs = {
+export type AccountFriendshipsByAccountAIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
   condition?: InputMaybe<FriendshipCondition>
@@ -291,7 +291,7 @@ export type AccountFriendshipsByAAccountIdArgs = {
 }
 
 /** Public account data. */
-export type AccountFriendshipsByBAccountIdArgs = {
+export type AccountFriendshipsByAccountBIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
   condition?: InputMaybe<FriendshipCondition>
@@ -2640,12 +2640,12 @@ export type DeleteEventUploadPayloadEventUploadEdgeArgs = {
   orderBy?: Array<EventUploadOrderBy>
 }
 
-/** All input for the `deleteFriendshipByAAccountIdAndBAccountId` mutation. */
-export type DeleteFriendshipByAAccountIdAndBAccountIdInput = {
-  /** The 'left' side of the friend relation. It must be lexically less than the 'right' side. */
-  aAccountId: Scalars['UUID']['input']
-  /** The 'right' side of the friend relation. It must be lexically greater than the 'left' side. */
-  bAccountId: Scalars['UUID']['input']
+/** All input for the `deleteFriendshipByAccountAIdAndAccountBId` mutation. */
+export type DeleteFriendshipByAccountAIdAndAccountBIdInput = {
+  /** The friendship's account with the lexically smaller id. */
+  accountAId: Scalars['UUID']['input']
+  /** The friendship's account with the lexically greater id. */
+  accountBId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -2660,7 +2660,7 @@ export type DeleteFriendshipByRowIdInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The friend relation's internal id. */
+  /** The friendship's internal id. */
   rowId: Scalars['UUID']['input']
 }
 
@@ -4095,34 +4095,34 @@ export enum EventVisibility {
   Unlisted = 'unlisted',
 }
 
-/** A friend relation together with its status. */
+/** A friendship between two accounts. A row with status `requested` is a pending friend request by `created_by`, which the other account accepts by setting the status to `accepted`. Deleting the row withdraws or rejects a request, or ends the friendship. */
 export type Friendship = Node & {
   __typename?: 'Friendship'
-  /** The 'left' side of the friend relation. It must be lexically less than the 'right' side. */
-  aAccountId: Scalars['UUID']['output']
+  /** The friendship's account with the lexically smaller id. */
+  accountAId: Scalars['UUID']['output']
+  /** The friendship's account with the lexically greater id. */
+  accountBId: Scalars['UUID']['output']
   /** Reads a single `Account` that is related to this `Friendship`. */
-  accountByAAccountId?: Maybe<Account>
+  accountByAccountAId?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Friendship`. */
-  accountByBAccountId?: Maybe<Account>
+  accountByAccountBId?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Friendship`. */
   accountByCreatedBy?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Friendship`. */
   accountByUpdatedBy?: Maybe<Account>
-  /** The 'right' side of the friend relation. It must be lexically greater than the 'left' side. */
-  bAccountId: Scalars['UUID']['output']
-  /** The timestamp when the friend relation was created. */
+  /** Timestamp of when the friendship was requested. */
   createdAt: Scalars['Datetime']['output']
-  /** The account that created the friend relation. */
+  /** The account that requested the friendship. */
   createdBy: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output']
-  /** The friend relation's internal id. */
+  /** The friendship's internal id. */
   rowId: Scalars['UUID']['output']
-  /** The status of the friend relation. */
+  /** The friendship's status. */
   status: FriendshipStatus
-  /** The timestamp when the friend relation's status was updated. */
+  /** Timestamp of when the friendship was accepted. */
   updatedAt?: Maybe<Scalars['Datetime']['output']>
-  /** The account that updated the friend relation's status. */
+  /** The account that accepted the friendship. */
   updatedBy?: Maybe<Scalars['UUID']['output']>
 }
 
@@ -4131,10 +4131,10 @@ export type Friendship = Node & {
  * for equality and combined with a logical ‘and.’
  */
 export type FriendshipCondition = {
-  /** Checks for equality with the object’s `aAccountId` field. */
-  aAccountId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `bAccountId` field. */
-  bAccountId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `accountAId` field. */
+  accountAId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `accountBId` field. */
+  accountBId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
   createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
@@ -4167,20 +4167,20 @@ export type FriendshipEdge = {
 
 /** An input for mutations affecting `Friendship` */
 export type FriendshipInput = {
-  /** The 'left' side of the friend relation. It must be lexically less than the 'right' side. */
-  aAccountId: Scalars['UUID']['input']
-  /** The 'right' side of the friend relation. It must be lexically greater than the 'left' side. */
-  bAccountId: Scalars['UUID']['input']
-  /** The account that created the friend relation. */
+  /** The friendship's account with the lexically smaller id. */
+  accountAId: Scalars['UUID']['input']
+  /** The friendship's account with the lexically greater id. */
+  accountBId: Scalars['UUID']['input']
+  /** The account that requested the friendship. */
   createdBy: Scalars['UUID']['input']
 }
 
 /** Methods to use when ordering `Friendship`. */
 export enum FriendshipOrderBy {
-  AAccountIdAsc = 'A_ACCOUNT_ID_ASC',
-  AAccountIdDesc = 'A_ACCOUNT_ID_DESC',
-  BAccountIdAsc = 'B_ACCOUNT_ID_ASC',
-  BAccountIdDesc = 'B_ACCOUNT_ID_DESC',
+  AccountAIdAsc = 'ACCOUNT_A_ID_ASC',
+  AccountAIdDesc = 'ACCOUNT_A_ID_DESC',
+  AccountBIdAsc = 'ACCOUNT_B_ID_ASC',
+  AccountBIdDesc = 'ACCOUNT_B_ID_DESC',
   CreatedByAsc = 'CREATED_BY_ASC',
   CreatedByDesc = 'CREATED_BY_DESC',
   Natural = 'NATURAL',
@@ -4194,7 +4194,7 @@ export enum FriendshipOrderBy {
 
 /** Represents an update to a `Friendship`. Fields that are set will be updated. */
 export type FriendshipPatch = {
-  /** The status of the friend relation. */
+  /** The friendship's status. */
   status?: InputMaybe<FriendshipStatus>
 }
 
@@ -4774,7 +4774,7 @@ export type Mutation = {
   /** Deletes a single `Friendship` using its globally unique id. */
   deleteFriendship?: Maybe<DeleteFriendshipPayload>
   /** Deletes a single `Friendship` using a unique key. */
-  deleteFriendshipByAAccountIdAndBAccountId?: Maybe<DeleteFriendshipPayload>
+  deleteFriendshipByAccountAIdAndAccountBId?: Maybe<DeleteFriendshipPayload>
   /** Deletes a single `Friendship` using a unique key. */
   deleteFriendshipByRowId?: Maybe<DeleteFriendshipPayload>
   /** Deletes a single `Guest` using its globally unique id. */
@@ -4821,7 +4821,7 @@ export type Mutation = {
   deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
   /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
   eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
+  /** Adds an outbox event of type `guest.invited`.\n\nError codes:\n- **P0002** when the guest, contact, the contact email address, or the account email address is not accessible. */
   invite?: Maybe<InvitePayload>
   /** Creates a JWT token that will securely identify an account and give it certain permissions. */
   jwtCreate?: Maybe<JwtCreatePayload>
@@ -4831,8 +4831,8 @@ export type Mutation = {
   jwtUpdateAttendanceAdd?: Maybe<JwtUpdateAttendanceAddPayload>
   /** Adds a guest claim to the current session. */
   jwtUpdateGuestAdd?: Maybe<JwtUpdateGuestAddPayload>
-  /** Allows to set the acknowledgement state of a notification.\n\nError codes:\n- **P0002** when no notification with the given id is found. */
-  notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
+  /** Marks an outbox event as processed. Marking an already processed event again has no effect. Markers older than 30 days are deleted along the way. */
+  outboxMarkProcessed?: Maybe<OutboxMarkProcessedPayload>
   /** Sets the picture with the given upload id as the invoker's profile picture. */
   profilePictureSet?: Maybe<ProfilePictureSetPayload>
   /** Updates a single `Account` using its globally unique id and a patch. */
@@ -4876,7 +4876,7 @@ export type Mutation = {
   /** Updates a single `Friendship` using its globally unique id and a patch. */
   updateFriendship?: Maybe<UpdateFriendshipPayload>
   /** Updates a single `Friendship` using a unique key and a patch. */
-  updateFriendshipByAAccountIdAndBAccountId?: Maybe<UpdateFriendshipPayload>
+  updateFriendshipByAccountAIdAndAccountBId?: Maybe<UpdateFriendshipPayload>
   /** Updates a single `Friendship` using a unique key and a patch. */
   updateFriendshipByRowId?: Maybe<UpdateFriendshipPayload>
   /** Updates a single `Guest` using its globally unique id and a patch. */
@@ -5186,8 +5186,8 @@ export type MutationDeleteFriendshipArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteFriendshipByAAccountIdAndBAccountIdArgs = {
-  input: DeleteFriendshipByAAccountIdAndBAccountIdInput
+export type MutationDeleteFriendshipByAccountAIdAndAccountBIdArgs = {
+  input: DeleteFriendshipByAccountAIdAndAccountBIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5333,8 +5333,8 @@ export type MutationJwtUpdateGuestAddArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationNotificationAcknowledgeArgs = {
-  input: NotificationAcknowledgeInput
+export type MutationOutboxMarkProcessedArgs = {
+  input: OutboxMarkProcessedInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5444,8 +5444,8 @@ export type MutationUpdateFriendshipArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateFriendshipByAAccountIdAndBAccountIdArgs = {
-  input: UpdateFriendshipByAAccountIdAndBAccountIdInput
+export type MutationUpdateFriendshipByAccountAIdAndAccountBIdArgs = {
+  input: UpdateFriendshipByAccountAIdAndAccountBIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5504,20 +5504,19 @@ export type Node = {
   id: Scalars['ID']['output']
 }
 
-/** All input for the `notificationAcknowledge` mutation. */
-export type NotificationAcknowledgeInput = {
+/** All input for the `outboxMarkProcessed` mutation. */
+export type OutboxMarkProcessedInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
-  id: Scalars['UUID']['input']
-  isAcknowledged: Scalars['Boolean']['input']
+  outboxId: Scalars['UUID']['input']
 }
 
-/** The output of our `notificationAcknowledge` mutation. */
-export type NotificationAcknowledgePayload = {
-  __typename?: 'NotificationAcknowledgePayload'
+/** The output of our `outboxMarkProcessed` mutation. */
+export type OutboxMarkProcessedPayload = {
+  __typename?: 'OutboxMarkProcessedPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -6123,7 +6122,7 @@ export type Query = Node & {
   /** Reads a single `Friendship` using its globally unique `ID`. */
   friendship?: Maybe<Friendship>
   /** Get a single `Friendship`. */
-  friendshipByAAccountIdAndBAccountId?: Maybe<Friendship>
+  friendshipByAccountAIdAndAccountBId?: Maybe<Friendship>
   /** Get a single `Friendship`. */
   friendshipByRowId?: Maybe<Friendship>
   /** Reads a single `Guest` using its globally unique `ID`. */
@@ -6156,6 +6155,8 @@ export type Query = Node & {
   legalTermByRowId?: Maybe<LegalTerm>
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>
+  /** Returns whether an outbox event was marked as processed. */
+  outboxIsProcessed?: Maybe<Scalars['Boolean']['output']>
   /** Reads a single `PreferenceEventCategory` using its globally unique `ID`. */
   preferenceEventCategory?: Maybe<PreferenceEventCategory>
   /** Get a single `PreferenceEventCategory`. */
@@ -6821,9 +6822,9 @@ export type QueryFriendshipArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryFriendshipByAAccountIdAndBAccountIdArgs = {
-  aAccountId: Scalars['UUID']['input']
-  bAccountId: Scalars['UUID']['input']
+export type QueryFriendshipByAccountAIdAndAccountBIdArgs = {
+  accountAId: Scalars['UUID']['input']
+  accountBId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6893,6 +6894,11 @@ export type QueryLegalTermByRowIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryNodeArgs = {
   id: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOutboxIsProcessedArgs = {
+  outboxId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7515,12 +7521,12 @@ export type UpdateEventPayloadEventEdgeArgs = {
   orderBy?: Array<EventOrderBy>
 }
 
-/** All input for the `updateFriendshipByAAccountIdAndBAccountId` mutation. */
-export type UpdateFriendshipByAAccountIdAndBAccountIdInput = {
-  /** The 'left' side of the friend relation. It must be lexically less than the 'right' side. */
-  aAccountId: Scalars['UUID']['input']
-  /** The 'right' side of the friend relation. It must be lexically greater than the 'left' side. */
-  bAccountId: Scalars['UUID']['input']
+/** All input for the `updateFriendshipByAccountAIdAndAccountBId` mutation. */
+export type UpdateFriendshipByAccountAIdAndAccountBIdInput = {
+  /** The friendship's account with the lexically smaller id. */
+  accountAId: Scalars['UUID']['input']
+  /** The friendship's account with the lexically greater id. */
+  accountBId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -7539,7 +7545,7 @@ export type UpdateFriendshipByRowIdInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Friendship` being updated. */
   friendshipPatch: FriendshipPatch
-  /** The friend relation's internal id. */
+  /** The friendship's internal id. */
   rowId: Scalars['UUID']['input']
 }
 
@@ -8163,8 +8169,8 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<LegalTermConnection>,
   ) => null | string
   LegalTermEdge?: (data: WithTypename<LegalTermEdge>) => null | string
-  NotificationAcknowledgePayload?: (
-    data: WithTypename<NotificationAcknowledgePayload>,
+  OutboxMarkProcessedPayload?: (
+    data: WithTypename<OutboxMarkProcessedPayload>,
   ) => null | string
   PageInfo?: (data: WithTypename<PageInfo>) => null | string
   PreferenceEventCategory?: (
@@ -8680,9 +8686,9 @@ export type GraphCacheResolvers = {
       QueryFriendshipArgs,
       WithTypename<Friendship> | string
     >
-    friendshipByAAccountIdAndBAccountId?: GraphCacheResolver<
+    friendshipByAccountAIdAndAccountBId?: GraphCacheResolver<
       WithTypename<Query>,
-      QueryFriendshipByAAccountIdAndBAccountIdArgs,
+      QueryFriendshipByAccountAIdAndAccountBIdArgs,
       WithTypename<Friendship> | string
     >
     friendshipByRowId?: GraphCacheResolver<
@@ -8794,6 +8800,11 @@ export type GraphCacheResolvers = {
       | WithTypename<Report>
       | WithTypename<Upload>
       | string
+    >
+    outboxIsProcessed?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryOutboxIsProcessedArgs,
+      Scalars['Boolean']['output'] | string
     >
     preferenceEventCategory?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8997,14 +9008,14 @@ export type GraphCacheResolvers = {
       AccountEventsByCreatedByArgs,
       WithTypename<EventConnection> | string
     >
-    friendshipsByAAccountId?: GraphCacheResolver<
+    friendshipsByAccountAId?: GraphCacheResolver<
       WithTypename<Account>,
-      AccountFriendshipsByAAccountIdArgs,
+      AccountFriendshipsByAccountAIdArgs,
       WithTypename<FriendshipConnection> | string
     >
-    friendshipsByBAccountId?: GraphCacheResolver<
+    friendshipsByAccountBId?: GraphCacheResolver<
       WithTypename<Account>,
-      AccountFriendshipsByBAccountIdArgs,
+      AccountFriendshipsByAccountBIdArgs,
       WithTypename<FriendshipConnection> | string
     >
     friendshipsByCreatedBy?: GraphCacheResolver<
@@ -11699,17 +11710,22 @@ export type GraphCacheResolvers = {
     >
   }
   Friendship?: {
-    aAccountId?: GraphCacheResolver<
+    accountAId?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
       Scalars['UUID']['output'] | string
     >
-    accountByAAccountId?: GraphCacheResolver<
+    accountBId?: GraphCacheResolver<
+      WithTypename<Friendship>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    accountByAccountAId?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
       WithTypename<Account> | string
     >
-    accountByBAccountId?: GraphCacheResolver<
+    accountByAccountBId?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
       WithTypename<Account> | string
@@ -11723,11 +11739,6 @@ export type GraphCacheResolvers = {
       WithTypename<Friendship>,
       Record<string, never>,
       WithTypename<Account> | string
-    >
-    bAccountId?: GraphCacheResolver<
-      WithTypename<Friendship>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<Friendship>,
@@ -12178,14 +12189,14 @@ export type GraphCacheResolvers = {
       WithTypename<LegalTerm> | string
     >
   }
-  NotificationAcknowledgePayload?: {
+  OutboxMarkProcessedPayload?: {
     clientMutationId?: GraphCacheResolver<
-      WithTypename<NotificationAcknowledgePayload>,
+      WithTypename<OutboxMarkProcessedPayload>,
       Record<string, never>,
       Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
-      WithTypename<NotificationAcknowledgePayload>,
+      WithTypename<OutboxMarkProcessedPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -13234,8 +13245,8 @@ export type GraphCacheOptimisticUpdaters = {
     MutationDeleteFriendshipArgs,
     Maybe<WithTypename<DeleteFriendshipPayload>>
   >
-  deleteFriendshipByAAccountIdAndBAccountId?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteFriendshipByAAccountIdAndBAccountIdArgs,
+  deleteFriendshipByAccountAIdAndAccountBId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteFriendshipByAccountAIdAndAccountBIdArgs,
     Maybe<WithTypename<DeleteFriendshipPayload>>
   >
   deleteFriendshipByRowId?: GraphCacheOptimisticMutationResolver<
@@ -13350,9 +13361,9 @@ export type GraphCacheOptimisticUpdaters = {
     MutationJwtUpdateGuestAddArgs,
     Maybe<WithTypename<JwtUpdateGuestAddPayload>>
   >
-  notificationAcknowledge?: GraphCacheOptimisticMutationResolver<
-    MutationNotificationAcknowledgeArgs,
-    Maybe<WithTypename<NotificationAcknowledgePayload>>
+  outboxMarkProcessed?: GraphCacheOptimisticMutationResolver<
+    MutationOutboxMarkProcessedArgs,
+    Maybe<WithTypename<OutboxMarkProcessedPayload>>
   >
   profilePictureSet?: GraphCacheOptimisticMutationResolver<
     MutationProfilePictureSetArgs,
@@ -13438,8 +13449,8 @@ export type GraphCacheOptimisticUpdaters = {
     MutationUpdateFriendshipArgs,
     Maybe<WithTypename<UpdateFriendshipPayload>>
   >
-  updateFriendshipByAAccountIdAndBAccountId?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateFriendshipByAAccountIdAndBAccountIdArgs,
+  updateFriendshipByAccountAIdAndAccountBId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateFriendshipByAccountAIdAndAccountBIdArgs,
     Maybe<WithTypename<UpdateFriendshipPayload>>
   >
   updateFriendshipByRowId?: GraphCacheOptimisticMutationResolver<
@@ -13894,9 +13905,9 @@ export type GraphCacheUpdaters = {
       { friendship: Maybe<WithTypename<Friendship>> },
       QueryFriendshipArgs
     >
-    friendshipByAAccountIdAndBAccountId?: GraphCacheUpdateResolver<
-      { friendshipByAAccountIdAndBAccountId: Maybe<WithTypename<Friendship>> },
-      QueryFriendshipByAAccountIdAndBAccountIdArgs
+    friendshipByAccountAIdAndAccountBId?: GraphCacheUpdateResolver<
+      { friendshipByAccountAIdAndAccountBId: Maybe<WithTypename<Friendship>> },
+      QueryFriendshipByAccountAIdAndAccountBIdArgs
     >
     friendshipByRowId?: GraphCacheUpdateResolver<
       { friendshipByRowId: Maybe<WithTypename<Friendship>> },
@@ -13994,6 +14005,10 @@ export type GraphCacheUpdaters = {
         >
       },
       QueryNodeArgs
+    >
+    outboxIsProcessed?: GraphCacheUpdateResolver<
+      { outboxIsProcessed: Maybe<Scalars['Boolean']['output']> },
+      QueryOutboxIsProcessedArgs
     >
     preferenceEventCategory?: GraphCacheUpdateResolver<
       { preferenceEventCategory: Maybe<WithTypename<PreferenceEventCategory>> },
@@ -14449,13 +14464,13 @@ export type GraphCacheUpdaters = {
       { deleteFriendship: Maybe<WithTypename<DeleteFriendshipPayload>> },
       MutationDeleteFriendshipArgs
     >
-    deleteFriendshipByAAccountIdAndBAccountId?: GraphCacheUpdateResolver<
+    deleteFriendshipByAccountAIdAndAccountBId?: GraphCacheUpdateResolver<
       {
-        deleteFriendshipByAAccountIdAndBAccountId: Maybe<
+        deleteFriendshipByAccountAIdAndAccountBId: Maybe<
           WithTypename<DeleteFriendshipPayload>
         >
       },
-      MutationDeleteFriendshipByAAccountIdAndBAccountIdArgs
+      MutationDeleteFriendshipByAccountAIdAndAccountBIdArgs
     >
     deleteFriendshipByRowId?: GraphCacheUpdateResolver<
       { deleteFriendshipByRowId: Maybe<WithTypename<DeleteFriendshipPayload>> },
@@ -14635,13 +14650,9 @@ export type GraphCacheUpdaters = {
       { jwtUpdateGuestAdd: Maybe<WithTypename<JwtUpdateGuestAddPayload>> },
       MutationJwtUpdateGuestAddArgs
     >
-    notificationAcknowledge?: GraphCacheUpdateResolver<
-      {
-        notificationAcknowledge: Maybe<
-          WithTypename<NotificationAcknowledgePayload>
-        >
-      },
-      MutationNotificationAcknowledgeArgs
+    outboxMarkProcessed?: GraphCacheUpdateResolver<
+      { outboxMarkProcessed: Maybe<WithTypename<OutboxMarkProcessedPayload>> },
+      MutationOutboxMarkProcessedArgs
     >
     profilePictureSet?: GraphCacheUpdateResolver<
       { profilePictureSet: Maybe<WithTypename<ProfilePictureSetPayload>> },
@@ -14747,13 +14758,13 @@ export type GraphCacheUpdaters = {
       { updateFriendship: Maybe<WithTypename<UpdateFriendshipPayload>> },
       MutationUpdateFriendshipArgs
     >
-    updateFriendshipByAAccountIdAndBAccountId?: GraphCacheUpdateResolver<
+    updateFriendshipByAccountAIdAndAccountBId?: GraphCacheUpdateResolver<
       {
-        updateFriendshipByAAccountIdAndBAccountId: Maybe<
+        updateFriendshipByAccountAIdAndAccountBId: Maybe<
           WithTypename<UpdateFriendshipPayload>
         >
       },
-      MutationUpdateFriendshipByAAccountIdAndBAccountIdArgs
+      MutationUpdateFriendshipByAccountAIdAndAccountBIdArgs
     >
     updateFriendshipByRowId?: GraphCacheUpdateResolver<
       { updateFriendshipByRowId: Maybe<WithTypename<UpdateFriendshipPayload>> },
@@ -14884,13 +14895,13 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Account>>,
       AccountEventsByCreatedByArgs
     >
-    friendshipsByAAccountId?: GraphCacheUpdateResolver<
+    friendshipsByAccountAId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
-      AccountFriendshipsByAAccountIdArgs
+      AccountFriendshipsByAccountAIdArgs
     >
-    friendshipsByBAccountId?: GraphCacheUpdateResolver<
+    friendshipsByAccountBId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
-      AccountFriendshipsByBAccountIdArgs
+      AccountFriendshipsByAccountBIdArgs
     >
     friendshipsByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
@@ -17088,15 +17099,19 @@ export type GraphCacheUpdaters = {
     >
   }
   Friendship?: {
-    aAccountId?: GraphCacheUpdateResolver<
+    accountAId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Friendship>>,
       Record<string, never>
     >
-    accountByAAccountId?: GraphCacheUpdateResolver<
+    accountBId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Friendship>>,
       Record<string, never>
     >
-    accountByBAccountId?: GraphCacheUpdateResolver<
+    accountByAccountAId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Friendship>>,
+      Record<string, never>
+    >
+    accountByAccountBId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Friendship>>,
       Record<string, never>
     >
@@ -17105,10 +17120,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     accountByUpdatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<Friendship>>,
-      Record<string, never>
-    >
-    bAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Friendship>>,
       Record<string, never>
     >
@@ -17479,13 +17490,13 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  NotificationAcknowledgePayload?: {
+  OutboxMarkProcessedPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<NotificationAcknowledgePayload>>,
+      Maybe<WithTypename<OutboxMarkProcessedPayload>>,
       Record<string, never>
     >
     query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<NotificationAcknowledgePayload>>,
+      Maybe<WithTypename<OutboxMarkProcessedPayload>>,
       Record<string, never>
     >
   }

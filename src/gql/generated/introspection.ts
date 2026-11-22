@@ -1120,7 +1120,7 @@ export default {
             ],
           },
           {
-            name: 'friendshipsByAAccountId',
+            name: 'friendshipsByAccountAId',
             type: {
               kind: 'NON_NULL',
               ofType: {
@@ -1188,7 +1188,7 @@ export default {
             ],
           },
           {
-            name: 'friendshipsByBAccountId',
+            name: 'friendshipsByAccountBId',
             type: {
               kind: 'NON_NULL',
               ofType: {
@@ -9422,7 +9422,7 @@ export default {
         name: 'Friendship',
         fields: [
           {
-            name: 'aAccountId',
+            name: 'accountAId',
             type: {
               kind: 'NON_NULL',
               ofType: {
@@ -9433,7 +9433,18 @@ export default {
             args: [],
           },
           {
-            name: 'accountByAAccountId',
+            name: 'accountBId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'accountByAccountAId',
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -9442,7 +9453,7 @@ export default {
             args: [],
           },
           {
-            name: 'accountByBAccountId',
+            name: 'accountByAccountBId',
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -9465,17 +9476,6 @@ export default {
               kind: 'OBJECT',
               name: 'Account',
               ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: 'bAccountId',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'SCALAR',
-                name: 'Any',
-              },
             },
             args: [],
           },
@@ -11796,7 +11796,7 @@ export default {
             ],
           },
           {
-            name: 'deleteFriendshipByAAccountIdAndBAccountId',
+            name: 'deleteFriendshipByAccountAIdAndAccountBId',
             type: {
               kind: 'OBJECT',
               name: 'DeleteFriendshipPayload',
@@ -12376,10 +12376,10 @@ export default {
             ],
           },
           {
-            name: 'notificationAcknowledge',
+            name: 'outboxMarkProcessed',
             type: {
               kind: 'OBJECT',
-              name: 'NotificationAcknowledgePayload',
+              name: 'OutboxMarkProcessedPayload',
               ofType: null,
             },
             args: [
@@ -12816,7 +12816,7 @@ export default {
             ],
           },
           {
-            name: 'updateFriendshipByAAccountIdAndBAccountId',
+            name: 'updateFriendshipByAccountAIdAndAccountBId',
             type: {
               kind: 'OBJECT',
               name: 'UpdateFriendshipPayload',
@@ -13180,7 +13180,7 @@ export default {
       },
       {
         kind: 'OBJECT',
-        name: 'NotificationAcknowledgePayload',
+        name: 'OutboxMarkProcessedPayload',
         fields: [
           {
             name: 'clientMutationId',
@@ -17326,7 +17326,7 @@ export default {
             ],
           },
           {
-            name: 'friendshipByAAccountIdAndBAccountId',
+            name: 'friendshipByAccountAIdAndAccountBId',
             type: {
               kind: 'OBJECT',
               name: 'Friendship',
@@ -17334,7 +17334,7 @@ export default {
             },
             args: [
               {
-                name: 'aAccountId',
+                name: 'accountAId',
                 type: {
                   kind: 'NON_NULL',
                   ofType: {
@@ -17344,7 +17344,7 @@ export default {
                 },
               },
               {
-                name: 'bAccountId',
+                name: 'accountBId',
                 type: {
                   kind: 'NON_NULL',
                   ofType: {
@@ -17661,6 +17661,25 @@ export default {
             args: [
               {
                 name: 'id',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'outboxIsProcessed',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [
+              {
+                name: 'outboxId',
                 type: {
                   kind: 'NON_NULL',
                   ofType: {

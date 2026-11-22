@@ -25,6 +25,7 @@ const PAGE_PATHS_DYNAMIC: Record<string, string> = {
   '/account/edit/[username]': ACCOUNT_EDIT_PATH,
   '/account/view/[username]': ACCOUNT_VIEW_PATH,
   '/account/view/[username]/block': `${ACCOUNT_VIEW_PATH}/block`,
+  '/account/view/[username]/friend': `${ACCOUNT_VIEW_PATH}/friend`,
   '/attendance/view/[id]': `/attendance/view/${TESTING_ATTENDANCE_ROW_ID}`,
   '/event/edit/[username]/[event_name]': EVENT_EDIT_PATH,
   '/event/view/[username]': `/event/view/${TESTING_ACCOUNT_USERNAME}`,

@@ -20,6 +20,10 @@ type Documents = {
   '\n  query AccountSearch($after: Cursor, $first: Int, $query: String) {\n    accountSearch(after: $after, first: $first, query: $query) {\n      nodes {\n        displayName\n        id\n        rowId\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AccountSearchDocument
   '\n    mutation CreateAccountBlock($input: CreateAccountBlockInput!) {\n      createAccountBlock(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.CreateAccountBlockDocument
   '\n    mutation DeleteAccountBlock(\n      $input: DeleteAccountBlockByCreatedByAndBlockedAccountIdInput!\n    ) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteAccountBlockDocument
+  '\n    query Friendship($accountAId: UUID!, $accountBId: UUID!) {\n      friendshipByAccountAIdAndAccountBId(\n        accountAId: $accountAId\n        accountBId: $accountBId\n      ) {\n        createdBy\n        id\n        status\n      }\n    }\n  ': typeof types.FriendshipDocument
+  '\n    query FriendshipCount($accountId: UUID!) {\n      friendshipsAccepted: allFriendships(\n        condition: { updatedBy: $accountId }\n      ) {\n        totalCount\n      }\n      friendshipsCreated: allFriendships(condition: { createdBy: $accountId }) {\n        totalCount\n      }\n      friendshipsPending: allFriendships(\n        condition: { createdBy: $accountId, updatedBy: null }\n      ) {\n        totalCount\n      }\n    }\n  ': typeof types.FriendshipCountDocument
+  '\n    query AccountFriendships(\n      $accountId: UUID!\n      $afterAccepted: Cursor\n      $afterCreated: Cursor\n      $first: Int!\n    ) {\n      friendshipsAccepted: allFriendships(\n        after: $afterAccepted\n        condition: { updatedBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n      friendshipsCreated: allFriendships(\n        after: $afterCreated\n        condition: { createdBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByUpdatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          status\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ': typeof types.AccountFriendshipsDocument
+  '\n    query FriendshipRequests($after: Cursor, $first: Int!) {\n      friendshipRequests: allFriendships(\n        after: $after\n        condition: { updatedBy: null }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          createdBy\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ': typeof types.FriendshipRequestsDocument
   '\n    query AttendanceGuest($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          firstName\n          id\n          lastName\n          language\n          nickname\n          rowId\n        }\n        attendanceByGuestId {\n          checkedOut\n          id\n          rowId\n          updatedAt\n        }\n        feedback\n        id\n        rowId\n      }\n    }\n  ': typeof types.AttendanceGuestDocument
   '\n    mutation DeleteContactByRowId($input: DeleteContactByRowIdInput!) {\n      deleteContactByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteContactByRowIdDocument
   '\n    query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {\n      allContacts(\n        after: $after\n        condition: { createdBy: $createdBy }\n        first: $first\n        orderBy: [PRIMARY_KEY_ASC]\n      ) {\n        nodes {\n          ...ContactItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllContactsDocument
@@ -73,6 +77,9 @@ type Documents = {
   '\n    query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n      allUploads(\n        after: $after\n        condition: { createdBy: $createdBy }\n        first: $first\n      ) {\n        nodes {\n          id\n          rowId\n          sizeByte\n          storageKey\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllUploadsDocument
   '\n    mutation CreateUpload($input: CreateUploadInput!) {\n      createUpload(input: $input) {\n        clientMutationId\n        upload {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateUploadDocument
   '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteFailedUploadDocument
+  '\n      mutation CreateFriendship($input: CreateFriendshipInput!) {\n        createFriendship(input: $input) {\n          clientMutationId\n        }\n      }\n    ': typeof types.CreateFriendshipDocument
+  '\n      mutation DeleteFriendshipByAccountAIdAndAccountBId(\n        $input: DeleteFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        deleteFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ': typeof types.DeleteFriendshipByAccountAIdAndAccountBIdDocument
+  '\n      mutation UpdateFriendshipByAccountAIdAndAccountBId(\n        $input: UpdateFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        updateFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ': typeof types.UpdateFriendshipByAccountAIdAndAccountBIdDocument
   '\n  query OwnContact($accountId: UUID!) {\n    contactByCreatedByAndAccountId(\n      accountId: $accountId\n      createdBy: $accountId\n    ) {\n      id\n      language\n      rowId\n    }\n  }\n': typeof types.OwnContactDocument
   '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        id\n        language\n        rowId\n      }\n    }\n  }\n': typeof types.UpdateOwnContactLanguageDocument
   '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ': typeof types.JwtUpdateGuestAddGuestDocument
@@ -134,6 +141,14 @@ const documents: Documents = {
     types.CreateAccountBlockDocument,
   '\n    mutation DeleteAccountBlock(\n      $input: DeleteAccountBlockByCreatedByAndBlockedAccountIdInput!\n    ) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteAccountBlockDocument,
+  '\n    query Friendship($accountAId: UUID!, $accountBId: UUID!) {\n      friendshipByAccountAIdAndAccountBId(\n        accountAId: $accountAId\n        accountBId: $accountBId\n      ) {\n        createdBy\n        id\n        status\n      }\n    }\n  ':
+    types.FriendshipDocument,
+  '\n    query FriendshipCount($accountId: UUID!) {\n      friendshipsAccepted: allFriendships(\n        condition: { updatedBy: $accountId }\n      ) {\n        totalCount\n      }\n      friendshipsCreated: allFriendships(condition: { createdBy: $accountId }) {\n        totalCount\n      }\n      friendshipsPending: allFriendships(\n        condition: { createdBy: $accountId, updatedBy: null }\n      ) {\n        totalCount\n      }\n    }\n  ':
+    types.FriendshipCountDocument,
+  '\n    query AccountFriendships(\n      $accountId: UUID!\n      $afterAccepted: Cursor\n      $afterCreated: Cursor\n      $first: Int!\n    ) {\n      friendshipsAccepted: allFriendships(\n        after: $afterAccepted\n        condition: { updatedBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n      friendshipsCreated: allFriendships(\n        after: $afterCreated\n        condition: { createdBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByUpdatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          status\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ':
+    types.AccountFriendshipsDocument,
+  '\n    query FriendshipRequests($after: Cursor, $first: Int!) {\n      friendshipRequests: allFriendships(\n        after: $after\n        condition: { updatedBy: null }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          createdBy\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ':
+    types.FriendshipRequestsDocument,
   '\n    query AttendanceGuest($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          firstName\n          id\n          lastName\n          language\n          nickname\n          rowId\n        }\n        attendanceByGuestId {\n          checkedOut\n          id\n          rowId\n          updatedAt\n        }\n        feedback\n        id\n        rowId\n      }\n    }\n  ':
     types.AttendanceGuestDocument,
   '\n    mutation DeleteContactByRowId($input: DeleteContactByRowIdInput!) {\n      deleteContactByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
@@ -240,6 +255,12 @@ const documents: Documents = {
     types.CreateUploadDocument,
   '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteFailedUploadDocument,
+  '\n      mutation CreateFriendship($input: CreateFriendshipInput!) {\n        createFriendship(input: $input) {\n          clientMutationId\n        }\n      }\n    ':
+    types.CreateFriendshipDocument,
+  '\n      mutation DeleteFriendshipByAccountAIdAndAccountBId(\n        $input: DeleteFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        deleteFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ':
+    types.DeleteFriendshipByAccountAIdAndAccountBIdDocument,
+  '\n      mutation UpdateFriendshipByAccountAIdAndAccountBId(\n        $input: UpdateFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        updateFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ':
+    types.UpdateFriendshipByAccountAIdAndAccountBIdDocument,
   '\n  query OwnContact($accountId: UUID!) {\n    contactByCreatedByAndAccountId(\n      accountId: $accountId\n      createdBy: $accountId\n    ) {\n      id\n      language\n      rowId\n    }\n  }\n':
     types.OwnContactDocument,
   '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        id\n        language\n        rowId\n      }\n    }\n  }\n':
@@ -386,6 +407,30 @@ export function graphql(
 export function graphql(
   source: '\n    mutation DeleteAccountBlock(\n      $input: DeleteAccountBlockByCreatedByAndBlockedAccountIdInput!\n    ) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation DeleteAccountBlock(\n      $input: DeleteAccountBlockByCreatedByAndBlockedAccountIdInput!\n    ) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query Friendship($accountAId: UUID!, $accountBId: UUID!) {\n      friendshipByAccountAIdAndAccountBId(\n        accountAId: $accountAId\n        accountBId: $accountBId\n      ) {\n        createdBy\n        id\n        status\n      }\n    }\n  ',
+): (typeof documents)['\n    query Friendship($accountAId: UUID!, $accountBId: UUID!) {\n      friendshipByAccountAIdAndAccountBId(\n        accountAId: $accountAId\n        accountBId: $accountBId\n      ) {\n        createdBy\n        id\n        status\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query FriendshipCount($accountId: UUID!) {\n      friendshipsAccepted: allFriendships(\n        condition: { updatedBy: $accountId }\n      ) {\n        totalCount\n      }\n      friendshipsCreated: allFriendships(condition: { createdBy: $accountId }) {\n        totalCount\n      }\n      friendshipsPending: allFriendships(\n        condition: { createdBy: $accountId, updatedBy: null }\n      ) {\n        totalCount\n      }\n    }\n  ',
+): (typeof documents)['\n    query FriendshipCount($accountId: UUID!) {\n      friendshipsAccepted: allFriendships(\n        condition: { updatedBy: $accountId }\n      ) {\n        totalCount\n      }\n      friendshipsCreated: allFriendships(condition: { createdBy: $accountId }) {\n        totalCount\n      }\n      friendshipsPending: allFriendships(\n        condition: { createdBy: $accountId, updatedBy: null }\n      ) {\n        totalCount\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query AccountFriendships(\n      $accountId: UUID!\n      $afterAccepted: Cursor\n      $afterCreated: Cursor\n      $first: Int!\n    ) {\n      friendshipsAccepted: allFriendships(\n        after: $afterAccepted\n        condition: { updatedBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n      friendshipsCreated: allFriendships(\n        after: $afterCreated\n        condition: { createdBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByUpdatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          status\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query AccountFriendships(\n      $accountId: UUID!\n      $afterAccepted: Cursor\n      $afterCreated: Cursor\n      $first: Int!\n    ) {\n      friendshipsAccepted: allFriendships(\n        after: $afterAccepted\n        condition: { updatedBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n      friendshipsCreated: allFriendships(\n        after: $afterCreated\n        condition: { createdBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByUpdatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          status\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query FriendshipRequests($after: Cursor, $first: Int!) {\n      friendshipRequests: allFriendships(\n        after: $after\n        condition: { updatedBy: null }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          createdBy\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query FriendshipRequests($after: Cursor, $first: Int!) {\n      friendshipRequests: allFriendships(\n        after: $after\n        condition: { updatedBy: null }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          createdBy\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -704,6 +749,24 @@ export function graphql(
 export function graphql(
   source: '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation CreateFriendship($input: CreateFriendshipInput!) {\n        createFriendship(input: $input) {\n          clientMutationId\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation CreateFriendship($input: CreateFriendshipInput!) {\n        createFriendship(input: $input) {\n          clientMutationId\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation DeleteFriendshipByAccountAIdAndAccountBId(\n        $input: DeleteFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        deleteFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation DeleteFriendshipByAccountAIdAndAccountBId(\n        $input: DeleteFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        deleteFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation UpdateFriendshipByAccountAIdAndAccountBId(\n        $input: UpdateFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        updateFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation UpdateFriendshipByAccountAIdAndAccountBId(\n        $input: UpdateFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        updateFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
