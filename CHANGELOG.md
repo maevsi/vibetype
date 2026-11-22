@@ -1,3 +1,10 @@
+## [18.0.0-beta.15](https://github.com/maevsi/vibetype/compare/18.0.0-beta.14...18.0.0-beta.15) (2026-11-22)
+
+### Features
+
+* **event:** receive shared posters ([#2807](https://github.com/maevsi/vibetype/issues/2807)) ([714ef9e](https://github.com/maevsi/vibetype/commit/714ef9e4fdc2b97a56bb51233556ccfe7e41c3f9))
+* **form:** unify checkbox and radio groups ([#2806](https://github.com/maevsi/vibetype/issues/2806)) ([96f596f](https://github.com/maevsi/vibetype/commit/96f596fcfd3c8ce19f7780e7c5b400b519af54d0))
+
 ## [18.0.0-beta.14](https://github.com/maevsi/vibetype/compare/18.0.0-beta.13...18.0.0-beta.14) (2026-11-22)
 
 ### Features
