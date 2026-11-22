@@ -2017,7 +2017,12 @@ export type AttendanceCheckOutMutationVariables = Exact<{
 
 export type AttendanceCheckOutMutation = {
   updateAttendanceByRowId: {
-    attendance: { id: string; checkedOut: boolean | null; rowId: string } | null
+    attendance: {
+      id: string
+      checkedOut: boolean | null
+      rowId: string
+      updatedAt: string | null
+    } | null
   } | null
 }
 
@@ -2208,7 +2213,22 @@ export type AttendanceCreateMutationVariables = Exact<{
 }>
 
 export type AttendanceCreateMutation = {
-  createAttendance: { attendance: { id: string; rowId: string } | null } | null
+  createAttendance: {
+    attendance: {
+      id: string
+      rowId: string
+      guestByGuestId: {
+        id: string
+        rowId: string
+        attendanceByGuestId: {
+          checkedOut: boolean | null
+          id: string
+          rowId: string
+          updatedAt: string | null
+        } | null
+      } | null
+    } | null
+  } | null
 }
 
 export type EventGuestsQueryVariables = Exact<{
@@ -10103,6 +10123,10 @@ export const AttendanceCheckOutDocument = {
                         name: { kind: 'Name', value: 'checkedOut' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
                     ],
                   },
                 },
@@ -11442,6 +11466,51 @@ export const AttendanceCreateDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestByGuestId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'attendanceByGuestId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'checkedOut' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
