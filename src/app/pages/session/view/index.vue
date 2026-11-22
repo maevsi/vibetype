@@ -181,15 +181,20 @@
                 <ul class="flex flex-col gap-2">
                   <template v-for="feature in FEATURE_FLAGS" :key="feature">
                     <li class="flex items-center justify-between">
-                      <div class="flex items-center gap-2">
+                      <div class="flex min-w-0 items-center gap-2">
                         <AppIconCheckCircle
                           v-if="isFeatureEnabled(feature).value"
-                          class="text-link"
+                          class="shrink-0 text-link"
                         />
-                        <AppIconXCircle v-else class="text-error" />
-                        <span class="font-mono">
-                          {{ feature }}
-                        </span>
+                        <AppIconXCircle v-else class="shrink-0 text-error" />
+                        <div class="flex min-w-0 flex-col">
+                          <span class="font-mono">
+                            {{ feature }}
+                          </span>
+                          <span class="text-body-small text-fg-2">
+                            {{ featureFlagDescriptions[feature] }}
+                          </span>
+                        </div>
                       </div>
                       <div>
                         <AppButton
@@ -379,6 +384,19 @@ defineRouteRules({
 
 const { $urqlCache, $urqlReset } = useNuxtApp()
 const { t } = useI18n()
+const featureFlagDescriptions = computed<Record<FeatureFlag, string>>(() => ({
+  'account-management': t('featureFlagAccountManagement'),
+  'category-browse': t('featureFlagCategoryBrowse'),
+  'developer-tools': t('featureFlagDeveloperTools'),
+  'event-attending': t('featureFlagEventAttending'),
+  'event-drafts': t('featureFlagEventDrafts'),
+  friends: t('featureFlagFriends'),
+  invitations: t('featureFlagInvitations'),
+  'location-live': t('featureFlagLocationLive'),
+  notifications: t('featureFlagNotifications'),
+  participation: t('featureFlagParticipation'),
+  'social-login': t('featureFlagSocialLogin'),
+}))
 const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
@@ -524,6 +542,17 @@ de:
   endNow: Diese Sitzung beenden
   fcmToken: FCM-Token
   fcmTokenUndefined: Das FCM-Token ist nicht verfügbar
+  featureFlagAccountManagement: Kontaktbuch und Uploads im eigenen Profil, Kontakte hinzufügen beim Einladen
+  featureFlagCategoryBrowse: Kategorien in der Veranstaltungssuche
+  featureFlagDeveloperTools: Eintrag zu dieser Seite in den Einstellungen
+  featureFlagEventAttending: Kachel „Dabei“ in den eigenen Veranstaltungen
+  featureFlagEventDrafts: Kachel „Entwürfe“ in den eigenen Veranstaltungen
+  featureFlagFriends: Freunde und Statistikkarten im Profil, Freund hinzufügen in Profil und Teilnahme
+  featureFlagInvitations: Seite mit den eigenen Einladungen
+  featureFlagLocationLive: Knopf zum Orten auf Karten
+  featureFlagNotifications: Benachrichtigungsseite und ihr Knopf im Dashboard
+  featureFlagParticipation: Teilnahmekacheln auf Veranstaltungen und Seite mit den eigenen Teilnahmen
+  featureFlagSocialLogin: Anmeldung über andere Dienste auf der Startseite
   featureFlags: Feature-Flags
   featureFlagsDisable: Deaktivieren
   featureFlagsEnable: Aktivieren
@@ -567,6 +596,17 @@ en:
   endNow: End this session
   fcmToken: FCM token
   fcmTokenUndefined: The FCM token is not available
+  featureFlagAccountManagement: Contact book and uploads on your profile, adding contacts when inviting
+  featureFlagCategoryBrowse: Categories in the event search
+  featureFlagDeveloperTools: Entry to this page in the settings
+  featureFlagEventAttending: Going tile in your events
+  featureFlagEventDrafts: Drafts tile in your events
+  featureFlagFriends: Friends and stat cards on profiles, adding friends on profiles and attendances
+  featureFlagInvitations: Page listing your invitations
+  featureFlagLocationLive: Locate button on maps
+  featureFlagNotifications: Notifications page and its button on the dashboard
+  featureFlagParticipation: Participation tiles on events and the page listing your attendances
+  featureFlagSocialLogin: Sign in with other services on the start page
   featureFlags: Feature Flags
   featureFlagsDisable: Disable
   featureFlagsEnable: Enable

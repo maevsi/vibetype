@@ -2,11 +2,11 @@
   <Loader :api is-page>
     <AppError
       v-if="!account"
-      :error="{ message: t('errorAccountMissing'), status: 404 }"
+      :error="{ data: { vibetype: t('errorAccountMissing') }, status: 404 }"
     />
     <AppError
       v-else-if="!event"
-      :error="{ message: t('errorEventMissing'), status: 404 }"
+      :error="{ data: { vibetype: t('errorEventMissing') }, status: 404 }"
     />
     <div v-else class="flex flex-1 flex-col">
       <!-- the event's name below is the page's heading -->
@@ -103,6 +103,32 @@
                 :options="{ day: 'numeric' }"
               />
             </div>
+            <span
+              v-if="eventState"
+              :class="
+                cn(
+                  'absolute right-3 bottom-3 flex items-center gap-1.5 rounded-pill px-3 py-1 text-caption text-fg-1',
+                  eventState === 'upcoming'
+                    ? 'bg-info-tint'
+                    : eventState === 'ongoing'
+                      ? 'bg-success-tint'
+                      : 'bg-surface-raised text-fg-2',
+                )
+              "
+            >
+              <span
+                v-if="eventState === 'ongoing'"
+                aria-hidden="true"
+                class="size-2 rounded-full bg-current motion-safe:animate-pulse"
+              />
+              {{
+                eventState === 'upcoming'
+                  ? t('stateUpcoming')
+                  : eventState === 'ongoing'
+                    ? t('stateOngoing')
+                    : t('stateEnded')
+              }}
+            </span>
           </div>
           <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-1">
             <h1 class="m-0 text-title3">
@@ -174,6 +200,7 @@
           <AppFeature
             v-else-if="
               !routeQueryIc &&
+              eventState !== 'ended' &&
               (guestOwn || event.visibility === EventVisibility.Public)
             "
             feature="participation"
@@ -271,6 +298,7 @@
 import { useMutation } from '@urql/vue'
 import { sanitize } from 'isomorphic-dompurify'
 
+import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
 import {
   EventVisibility,
@@ -474,6 +502,10 @@ const eventDescriptionTemplate = computed(() => {
   return descriptionNoTemplates
 })
 const routeQueryIc = computed(() => route.query.ic)
+const now = useNow()
+const eventState = computed(() =>
+  event.value ? getEventState(event.value, now.value) : undefined,
+)
 
 // page
 const description = computed(() =>
@@ -488,7 +520,11 @@ const description = computed(() =>
 const title = computed(() => {
   if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
-    showAppError({ status: 404, message: 'Event unavailable' })
+    showAppError({
+      data: { vibetype: t('errorEventMissing') },
+      message: 'Event unavailable',
+      status: 404,
+    })
     return
   }
 
@@ -574,8 +610,8 @@ de:
   delete: Veranstaltung löschen
   details: Details
   edit: Veranstaltung bearbeiten
-  errorAccountMissing: Nutzerkonto nicht verfügbar
-  errorEventMissing: Veranstaltung nicht verfügbar
+  errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
   invite: Einladen
@@ -586,14 +622,17 @@ de:
   participateError: Teilnahme fehlgeschlagen
   participation: Deine Teilnahme
   report: Veranstaltung melden
+  stateEnded: Vorbei
+  stateOngoing: Läuft gerade
+  stateUpcoming: Bevorstehend
 en:
   about: About the event
   attendances: Check in
   delete: Delete event
   details: Details
   edit: Edit event
-  errorAccountMissing: Account not available
-  errorEventMissing: Event not available
+  errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
+  errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorTemplate: value available in invitation only
   guests: Guests
   invite: Invite
@@ -604,4 +643,7 @@ en:
   participateError: Participation failed
   participation: Your participation
   report: Report event
+  stateEnded: Ended
+  stateOngoing: Happening now
+  stateUpcoming: Upcoming
 </i18n>

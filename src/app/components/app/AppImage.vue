@@ -89,7 +89,7 @@ watch(
 
 <i18n lang="yaml">
 de:
-  error: Bild konnte nicht geladen werden!
+  error: Das Bild konnte nicht geladen werden.
 en:
-  error: Image could not be loaded!
+  error: The image couldn't be loaded.
 </i18n>

@@ -2496,6 +2496,7 @@ export type CreateGuestMutation = {
 export type EventListAccountQueryVariables = Exact<{
   after?: string | null | undefined
   first: number
+  search?: string | null | undefined
   username: string
 }>
 
@@ -13315,6 +13316,14 @@ export const EventListAccountDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
+            name: { kind: 'Name', value: 'search' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
             name: { kind: 'Name', value: 'username' },
           },
           type: {
@@ -13355,6 +13364,23 @@ export const EventListAccountDocument = {
                       value: {
                         kind: 'Variable',
                         name: { kind: 'Name', value: 'after' },
+                      },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'condition' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'search' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'search' },
+                            },
+                          },
+                        ],
                       },
                     },
                     {

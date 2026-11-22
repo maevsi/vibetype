@@ -135,12 +135,12 @@ const toggleEventFavorite = async () => {
 <i18n lang="yaml">
 de:
   favoriteCreate: Als Favorit markieren
-  favoriteCreateError: Favorit konnte nicht hinzugefügt werden
+  favoriteCreateError: Favorit konnte nicht hinzugefügt werden. Prüfe deine Verbindung und versuche es erneut.
   favoriteDelete: Nicht mehr als Favorit markieren
-  favoriteDeleteError: Favorit konnte nicht entfernt werden
+  favoriteDeleteError: Favorit konnte nicht entfernt werden. Prüfe deine Verbindung und versuche es erneut.
 en:
   favoriteCreate: Mark as favorite
-  favoriteCreateError: Favorite could not be added
+  favoriteCreateError: Favorite could not be added. Check your connection and try again.
   favoriteDelete: Unmark as favorite
-  favoriteDeleteError: Favorite could not be removed
+  favoriteDeleteError: Favorite could not be removed. Check your connection and try again.
 </i18n>

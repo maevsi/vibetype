@@ -102,87 +102,6 @@
             :errors="normalizeFieldErrors(slugField.state.meta.errors)"
           />
         </form.Field>
-        <form.Field v-slot="{ field }" name="visibility">
-          <Field>
-            <FieldLabel>{{ t('visibility') }}</FieldLabel>
-            <FieldContent>
-              <AppRadioGroup
-                :default-value="field.state.value"
-                :items="[
-                  {
-                    label: t('visibilityPublic'),
-                    value: EventVisibility.Public,
-                  },
-                  {
-                    label: t('visibilityPrivate'),
-                    value: EventVisibility.Private,
-                  },
-                  {
-                    label: t('visibilityUnlisted'),
-                    value: EventVisibility.Unlisted,
-                  },
-                ]"
-                @update:model-value="
-                  (value) =>
-                    field.handleChange(String(value ?? '') as EventVisibility)
-                "
-              />
-            </FieldContent>
-            <FieldError
-              v-if="isFieldInvalid(field)"
-              :errors="field.state.meta.errors"
-            />
-          </Field>
-        </form.Field>
-        <form.Field v-slot="{ field }" name="categoryIds">
-          <Field>
-            <FieldLabel>{{ t('categories') }}</FieldLabel>
-            <FieldContent>
-              <FormEventCategorySelect
-                :model-value="field.state.value"
-                @update:model-value="field.handleChange($event)"
-              />
-            </FieldContent>
-          </Field>
-        </form.Field>
-        <form.Field v-slot="{ field }" name="formatIds">
-          <Field>
-            <FieldLabel>{{ t('formats') }}</FieldLabel>
-            <FieldContent>
-              <FormEventFormatSelect
-                :model-value="field.state.value"
-                @update:model-value="field.handleChange($event)"
-              />
-            </FieldContent>
-          </Field>
-        </form.Field>
-        <form.Field
-          v-if="form.getFieldValue('visibility') === EventVisibility.Public"
-          v-slot="{ field }"
-          name="guestCountMaximum"
-        >
-          <Field>
-            <FieldLabel for="input-invitee-count-maximum">{{
-              t('maximumInviteeCount')
-            }}</FieldLabel>
-            <FieldContent>
-              <Input
-                id="input-invitee-count-maximum"
-                :aria-invalid="isFieldInvalid(field)"
-                :model-value="field.state.value"
-                type="number"
-                @blur="field.handleBlur"
-                @input="
-                  field.handleChange(($event.target as HTMLInputElement).value)
-                "
-              />
-            </FieldContent>
-            <FieldError
-              v-if="isFieldInvalid(field)"
-              :errors="field.state.meta.errors"
-            />
-          </Field>
-        </form.Field>
         <form.Field v-slot="{ field }" name="start">
           <Field class="flex flex-col">
             <FieldLabel for="button-start">{{ t('start') }}</FieldLabel>
@@ -447,6 +366,87 @@
               v-if="isFieldInvalid(field)"
               :errors="field.state.meta.errors"
             />
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="visibility">
+          <Field>
+            <FieldLabel>{{ t('visibility') }}</FieldLabel>
+            <FieldContent>
+              <AppRadioGroup
+                :default-value="field.state.value"
+                :items="[
+                  {
+                    label: t('visibilityPublic'),
+                    value: EventVisibility.Public,
+                  },
+                  {
+                    label: t('visibilityPrivate'),
+                    value: EventVisibility.Private,
+                  },
+                  {
+                    label: t('visibilityUnlisted'),
+                    value: EventVisibility.Unlisted,
+                  },
+                ]"
+                @update:model-value="
+                  (value) =>
+                    field.handleChange(String(value ?? '') as EventVisibility)
+                "
+              />
+            </FieldContent>
+            <FieldError
+              v-if="isFieldInvalid(field)"
+              :errors="field.state.meta.errors"
+            />
+          </Field>
+        </form.Field>
+        <form.Field
+          v-if="form.getFieldValue('visibility') === EventVisibility.Public"
+          v-slot="{ field }"
+          name="guestCountMaximum"
+        >
+          <Field>
+            <FieldLabel for="input-invitee-count-maximum">{{
+              t('maximumInviteeCount')
+            }}</FieldLabel>
+            <FieldContent>
+              <Input
+                id="input-invitee-count-maximum"
+                :aria-invalid="isFieldInvalid(field)"
+                :model-value="field.state.value"
+                type="number"
+                @blur="field.handleBlur"
+                @input="
+                  field.handleChange(($event.target as HTMLInputElement).value)
+                "
+              />
+            </FieldContent>
+            <FieldError
+              v-if="isFieldInvalid(field)"
+              :errors="field.state.meta.errors"
+            />
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="categoryIds">
+          <Field>
+            <FieldLabel>{{ t('categories') }}</FieldLabel>
+            <FieldContent>
+              <FormEventCategorySelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="formatIds">
+          <Field>
+            <FieldLabel>{{ t('formats') }}</FieldLabel>
+            <FieldContent>
+              <FormEventFormatSelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
           </Field>
         </form.Field>
         <div class="flex flex-col items-center justify-between">

@@ -189,7 +189,7 @@ de:
   skip: Überspringen
   skipCancel: Abbrechen
   skipConfirm: KI-Einrichtung überspringen
-  skipDescription1: Ohne deine Angaben zeigen wir dir eine breite Auswahl an Events. Vielleicht findest du trotzdem deinen perfekten Vibe!
+  skipDescription1: Ohne deine Angaben zeigen wir dir eine breite Auswahl an Veranstaltungen. Vielleicht findest du trotzdem deinen perfekten Vibe!
   skipDescription2: Du kannst deine Präferenzen jederzeit später anpassen.
   skipTitle: Willst du die KI-Einrichtung wirklich überspringen?
   title: KI einrichten

@@ -1,7 +1,7 @@
 <template>
   <AppError
     v-if="!account"
-    :error="{ message: t('errorAccountMissing'), status: 404 }"
+    :error="{ data: { vibetype: t('errorAccountMissing') }, status: 404 }"
   />
   <div v-else class="flex flex-1 flex-col">
     <LayoutTopBar>{{ title }}</LayoutTopBar>
@@ -369,7 +369,7 @@ de:
   displayNameUseContact: „{name}“ verwenden
   display: Anzeige
   earlyBirdStart: Early Bird beitreten
-  errorAccountMissing: Konto nicht verfügbar
+  errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorUpdate: Beim Speichern des Profils ist ein Problem aufgetreten
   imprint: Impressum
   imprintInvalid: Gib einen Link an, der mit https:// beginnt und keine Leerzeichen enthält.
@@ -395,7 +395,7 @@ en:
   displayNameUseContact: Use “{name}”
   display: Display
   earlyBirdStart: Join Early Bird
-  errorAccountMissing: Account unavailable
+  errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorUpdate: There was a problem saving the profile
   imprint: Imprint
   imprintInvalid: Enter a link that starts with https:// and contains no spaces.

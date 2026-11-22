@@ -326,7 +326,7 @@ const initialize = async () => {
   ) {
     locateControl = new Control({ position: 'topleft' })
     locateControl.onAdd = () => {
-      const container = DomUtil.create('div', 'leaflet-bar')
+      const container = DomUtil.create('div', 'leaflet-bar feature-preview')
       const button = DomUtil.create(
         'a',
         'flex! items-center justify-center',

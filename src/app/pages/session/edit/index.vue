@@ -102,6 +102,20 @@
           </span>
           <div class="flex flex-col">
             <AppMenuItem
+              :title="t('legalNotice')"
+              :to="localePath('docs-legal-imprint')"
+              tone="success"
+            >
+              <AppIconLegal />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('privacy')"
+              :to="localePath('docs-legal-privacy')"
+              tone="success"
+            >
+              <AppIconVerifiedUser />
+            </AppMenuItem>
+            <AppMenuItem
               :title="t('privacySettings')"
               :to="
                 localePath({
@@ -118,20 +132,6 @@
               tone="success"
             >
               <AppIconContract />
-            </AppMenuItem>
-            <AppMenuItem
-              :title="t('legalNotice')"
-              :to="localePath('docs-legal-imprint')"
-              tone="success"
-            >
-              <AppIconLegal />
-            </AppMenuItem>
-            <AppMenuItem
-              :title="t('privacy')"
-              :to="localePath('docs-legal-privacy')"
-              tone="success"
-            >
-              <AppIconVerifiedUser />
             </AppMenuItem>
           </div>
         </section>
