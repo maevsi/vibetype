@@ -62,6 +62,7 @@
       <NuxtPage />
     </NuxtLayout>
     <AppSonner />
+    <FormLeaveDrawer />
     <ClientOnly>
       <!-- hidden, as it only persists the choices made in `ConsentScreen` and the privacy settings to its cookies and removes the cookies of withdrawn purposes -->
       <CookieControl class="hidden" :locale />
