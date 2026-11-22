@@ -282,10 +282,14 @@ const initialize = async () => {
       searchLabel: t('searchLabel'),
       showMarker: false,
       showResultListOnSubmit: true,
+      // an always open bar has no toggle that could close it and drop the typed text instead of searching
+      style: 'bar',
       theme: colorMode.value === 'dark' ? 'dark' : 'light',
       updateMap: false,
     })
     geosearch.addTo(map.value)
+    // the bar has no search button, so touch keyboards label their enter key as the search
+    geosearch.searchElement.input.enterKeyHint = 'search'
     // the control reads its texts when it is built, so refresh them when the locale changes
     watch(locale, (localeValue) => {
       provider.options.params = { 'accept-language': localeValue }
@@ -303,36 +307,6 @@ const initialize = async () => {
           colorModeValue === 'dark',
         ),
     )
-    // the privacy policy does not cover reading the device position and sending it to the reverse geocoder yet
-    if ('geolocation' in navigator && isFeatureEnabled('location-live').value) {
-      locateControl = new Control({ position: 'topleft' })
-      locateControl.onAdd = () => {
-        const container = DomUtil.create('div', 'leaflet-bar')
-        const button = DomUtil.create(
-          'a',
-          'flex! items-center justify-center',
-          container,
-        )
-        button.href = '#'
-        button.role = 'button'
-        button.title = t('locate')
-        button.setAttribute('aria-label', t('locate'))
-        button.innerHTML = locateIcon
-        const onActivate = (activateEvent: Event) => {
-          activateEvent.preventDefault()
-          locate()
-        }
-        DomEvent.on(button, 'click', onActivate)
-        DomEvent.on(button, 'keydown', (keyboardEvent) => {
-          if ((keyboardEvent as KeyboardEvent).key === ' ')
-            onActivate(keyboardEvent)
-        })
-        DomEvent.disableClickPropagation(container)
-        locateButton = button
-        return container
-      }
-      locateControl.addTo(map.value)
-    }
     map.value.on('geosearch/error', () => toast.error(t('geocodeError')))
     map.value.on('geosearch/showlocation', (showLocationEvent) => {
       const { location } = showLocationEvent
@@ -342,6 +316,41 @@ const initialize = async () => {
         label: location.label,
       })
     })
+  }
+  // the privacy policy does not cover reading the device position and sending it to the reverse geocoder yet
+  if (
+    // the event form searches in a field of its own, so its map has no search control but still takes the position
+    (geocoder || isGeocodeListened) &&
+    'geolocation' in navigator &&
+    isFeatureEnabled('location-live').value
+  ) {
+    locateControl = new Control({ position: 'topleft' })
+    locateControl.onAdd = () => {
+      const container = DomUtil.create('div', 'leaflet-bar')
+      const button = DomUtil.create(
+        'a',
+        'flex! items-center justify-center',
+        container,
+      )
+      button.href = '#'
+      button.role = 'button'
+      button.title = t('locate')
+      button.setAttribute('aria-label', t('locate'))
+      button.innerHTML = locateIcon
+      const onActivate = (activateEvent: Event) => {
+        activateEvent.preventDefault()
+        locate()
+      }
+      DomEvent.on(button, 'click', onActivate)
+      DomEvent.on(button, 'keydown', (keyboardEvent) => {
+        if ((keyboardEvent as KeyboardEvent).key === ' ')
+          onActivate(keyboardEvent)
+      })
+      DomEvent.disableClickPropagation(container)
+      locateButton = button
+      return container
+    }
+    locateControl.addTo(map.value)
   }
 
   // with one-finger dragging disabled, leaflet leaves `touch-action: pan-x pan-y` on the container, so the page scrolls and pinching still zooms and pans the map

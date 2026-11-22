@@ -31,10 +31,6 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import type {
-  RouteLocationAsPathGeneric,
-  RouteLocationAsRelativeGeneric,
-} from 'vue-router'
 
 import { cn } from '@/utils/shadcn'
 
@@ -46,8 +42,8 @@ const {
 } = defineProps<{
   class?: HTMLAttributes['class']
   title: string
-  // untyped, as the typed route union grows with every page and became too complex to represent in a destructured optional prop (TS2590)
-  to?: string | RouteLocationAsPathGeneric | RouteLocationAsRelativeGeneric
+  // an optional prop typed with all routes exceeds the union size Vue's prop types can represent (https://github.com/vuejs/core/issues/10514), so links take localized paths until that is fixed
+  to?: string
   tone?: 'danger' | 'info' | 'success' | 'warning'
   variant?: 'critical' | 'default'
 }>()

@@ -293,19 +293,53 @@
                   t('location')
                 }}</FieldLabel>
                 <FieldContent>
-                  <Input
-                    id="input-location-name"
-                    :aria-invalid="isFieldInvalid(locationNameField)"
-                    :model-value="locationNameField.state.value"
-                    :placeholder="t('locationPlaceholder')"
-                    type="text"
-                    @blur="locationNameField.handleBlur"
-                    @input="
-                      locationNameField.handleChange(
-                        ($event.target as HTMLInputElement).value,
-                      )
-                    "
-                  />
+                  <div class="flex gap-2">
+                    <Input
+                      id="input-location-name"
+                      :aria-invalid="isFieldInvalid(locationNameField)"
+                      class="flex-1"
+                      enterkeyhint="search"
+                      :model-value="locationNameField.state.value"
+                      :placeholder="t('locationPlaceholder')"
+                      type="text"
+                      @blur="locationNameField.handleBlur"
+                      @input="
+                        locationNameField.handleChange(
+                          ($event.target as HTMLInputElement).value,
+                        )
+                      "
+                      @keydown.enter.prevent="
+                        searchLocation(locationNameField.state.value)
+                      "
+                    />
+                    <AppButton
+                      :aria-label="t('locationSearch')"
+                      :disabled="isLocationSearching"
+                      size="icon"
+                      variant="secondary"
+                      @click="searchLocation(locationNameField.state.value)"
+                    >
+                      <AppIconMagnifyingGlass />
+                    </AppButton>
+                  </div>
+                  <ul
+                    v-if="locationResults.length"
+                    :aria-label="t('locationResults')"
+                    class="flex flex-col rounded-medium bg-surface-raised p-1"
+                  >
+                    <li
+                      v-for="locationResult in locationResults"
+                      :key="locationResult.place_id"
+                    >
+                      <button
+                        class="w-full rounded-small px-3 py-2 text-left text-body hover:bg-line focus-visible:focus-ring"
+                        type="button"
+                        @click="selectLocation(locationResult)"
+                      >
+                        {{ locationResult.display_name }}
+                      </button>
+                    </li>
+                  </ul>
                 </FieldContent>
                 <FieldDescription>{{ t('locationHint') }}</FieldDescription>
                 <FieldError
@@ -317,7 +351,6 @@
             <AppMap
               ref="map"
               class="h-64"
-              geocoder
               :position-initial="locationPositionInitial"
               @geocode="onGeocode"
             >
@@ -685,6 +718,40 @@ const addressFields = ref<AddressFields>({
   postalCode: event?.addressByAddressId?.postalCode,
   region: event?.addressByAddressId?.region,
 })
+type LocationResult = {
+  display_name: string
+  lat: string
+  lon: string
+  place_id: number
+} & Parameters<typeof getAddressFromNominatim>[0]
+const fetchLocations = (q: string) =>
+  $fetch<LocationResult[]>('/api/service/nominatim/search', {
+    query: { 'accept-language': locale.value, q },
+  })
+const locationResults = ref<LocationResult[]>([])
+const isLocationSearching = ref(false)
+// Nominatim's usage policy forbids autocomplete, so the field only searches on the button or enter
+const searchLocation = async (query: string) => {
+  const q = query.trim()
+  // the search endpoint rejects shorter queries
+  if (q.length < 2 || isLocationSearching.value) return
+
+  isLocationSearching.value = true
+
+  try {
+    locationResults.value = await fetchLocations(q)
+    if (!locationResults.value.length) toast.info(t('locationNotFound'))
+  } catch {
+    toast.error(t('locationSearchError'))
+  } finally {
+    isLocationSearching.value = false
+  }
+}
+const selectLocation = (result: LocationResult) => {
+  locationResults.value = []
+  templateMap.value?.map?.setView([Number(result.lat), Number(result.lon)], 15)
+  onGeocode({ ...getAddressFromNominatim(result), label: result.display_name })
+}
 const onGeocode = (result: GeocodeResult) => {
   form.setFieldValue('locationName', result.name ?? result.label)
   // missing fields are null so that they clear what an earlier place left behind
@@ -709,19 +776,13 @@ if (locationNameImported) {
       if (!map) return
 
       try {
-        const [result] = await $fetch<
-          ({ lat: string; lon: string } & Parameters<
-            typeof getAddressFromNominatim
-          >[0])[]
-        >('/api/service/nominatim/search', {
-          query: { 'accept-language': locale.value, q: locationNameImported },
-        })
+        const [result] = await fetchLocations(locationNameImported)
         if (!result) return
 
         map.setView([Number(result.lat), Number(result.lon)], 15)
         addressFields.value = getAddressFromNominatim(result).address
       } catch {
-        // the search control still lets the place be found by hand
+        // the location field still lets the place be found by hand
       }
     },
     { once: true },
@@ -1016,7 +1077,11 @@ de:
   isRemote: digital
   location: Ort
   locationHint: Suche nach einer Adresse oder verschiebe die Karte, um den Ort zu bestimmen.
+  locationNotFound: Nichts gefunden.
   locationPlaceholder: Adresse oder Ort suchen
+  locationResults: Suchergebnisse
+  locationSearch: Ort suchen
+  locationSearchError: Die Adresssuche ist fehlgeschlagen. Bitte versuche es später erneut.
   maximumInviteeCount: Maximale Gästezahl
   name: Name
   namePlaceholder: Willkommensfeier
@@ -1042,7 +1107,11 @@ en:
   isRemote: remote
   location: Location
   locationHint: Search for an address or move the map to set the location.
+  locationNotFound: Nothing found.
   locationPlaceholder: Search for an address or place
+  locationResults: Search results
+  locationSearch: Search location
+  locationSearchError: The address search failed. Please try again later.
   maximumInviteeCount: Maximum guest count
   name: Name
   namePlaceholder: Welcome Party

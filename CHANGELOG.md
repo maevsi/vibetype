@@ -1,3 +1,13 @@
+## [17.36.0](https://github.com/maevsi/vibetype/compare/17.35.0...17.36.0) (2026-11-21)
+
+### Features
+
+* **account:** add profile picture selection page ([#2778](https://github.com/maevsi/vibetype/issues/2778)) ([8de69ea](https://github.com/maevsi/vibetype/commit/8de69eabfca27f919f6b3b1349e4bfc6ae7745fa))
+* **attendance:** add check in code scan page ([#2779](https://github.com/maevsi/vibetype/issues/2779)) ([2e7d103](https://github.com/maevsi/vibetype/commit/2e7d1039471651661dee9a008b05aa99cbd2d758))
+* **contact:** add create and edit pages ([#2777](https://github.com/maevsi/vibetype/issues/2777)) ([40d0d78](https://github.com/maevsi/vibetype/commit/40d0d7851239de2333d129fc86bbf63aa55af687))
+* **drawer:** close on back navigation ([#2775](https://github.com/maevsi/vibetype/issues/2775)) ([ec5c221](https://github.com/maevsi/vibetype/commit/ec5c221b1d7ef84449caffd4f0e3a0e6608989e1))
+* **invitations:** allow group actions ([#2776](https://github.com/maevsi/vibetype/issues/2776)) ([faa2897](https://github.com/maevsi/vibetype/commit/faa2897d2235ba10272cc9d424b95b0057438de7))
+
 ## [17.35.0](https://github.com/maevsi/vibetype/compare/17.34.0...17.35.0) (2026-11-20)
 
 ### Features
