@@ -494,7 +494,17 @@ const updateEventMutation = useMutation(
     mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {
       updateEventByRowId(input: $input) {
         event {
+          description
+          end
+          guestCountMaximum
           id
+          isInPerson
+          isRemote
+          name
+          slug
+          start
+          url
+          visibility
         }
       }
     }
