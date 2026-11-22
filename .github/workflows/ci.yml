@@ -27,7 +27,7 @@ jobs:
     needs: ci-optimization
     if: needs.ci-optimization.outputs.continue == 'true'
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@ec1208db30dfa20f05c0d273ae10772bd3184e0c # 6.0.0-beta.4
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@f0f5e9384febc2b9fc6de091b8a352a6dbb27d1c # dargmuesli/github-actions#127
     permissions:
       contents: write
       id-token: write
@@ -70,7 +70,7 @@ jobs:
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@ec1208db30dfa20f05c0d273ae10772bd3184e0c # 6.0.0-beta.4
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@f0f5e9384febc2b9fc6de091b8a352a6dbb27d1c # dargmuesli/github-actions#127
     permissions:
       contents: write
       id-token: write
