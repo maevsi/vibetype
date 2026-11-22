@@ -2,7 +2,7 @@
   <label
     :class="
       cn(
-        'flex min-h-12 cursor-pointer items-start gap-4 py-3 has-disabled:cursor-not-allowed has-disabled:opacity-40',
+        'flex cursor-pointer items-start gap-4 has-disabled:cursor-not-allowed has-disabled:opacity-40',
         'group-data-[variant=card]/selection:min-h-14 group-data-[variant=card]/selection:items-center group-data-[variant=card]/selection:rounded-small group-data-[variant=card]/selection:border-2 group-data-[variant=card]/selection:border-line group-data-[variant=card]/selection:px-4 group-data-[variant=card]/selection:py-2 group-data-[variant=card]/selection:has-data-[state=checked]:border-action-primary',
         props.class,
       )

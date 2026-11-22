@@ -10,7 +10,7 @@
     <CheckboxGroupRoot
       v-bind="{ ...forwarded, ...$attrs }"
       :aria-labelledby="$slots.legend ? templateIdLegend : undefined"
-      class="group/selection flex flex-col gap-0 data-[variant=card]:gap-3"
+      class="group/selection flex flex-col gap-2 data-[variant=card]:gap-3"
       data-slot="checkbox-group"
       :data-variant="variant"
       role="group"

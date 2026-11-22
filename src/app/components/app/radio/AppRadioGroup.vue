@@ -10,7 +10,7 @@
     <RadioGroup
       v-bind="{ ...forwarded, ...$attrs }"
       :aria-labelledby="$slots.legend ? templateIdLegend : undefined"
-      class="group/selection gap-0 data-[variant=card]:gap-3"
+      class="group/selection gap-2 data-[variant=card]:gap-3"
       :data-variant="variant"
     >
       <slot>
