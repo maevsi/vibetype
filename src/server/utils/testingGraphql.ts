@@ -592,6 +592,7 @@ export const getTestingGraphqlResult = async ({
             },
             id: getNodeId('Attendance', TESTING_ATTENDANCE_ROW_ID),
             rowId: TESTING_ATTENDANCE_ROW_ID,
+            tagSerialNumber: null,
             updatedAt: null,
             __typename: 'Attendance',
           },

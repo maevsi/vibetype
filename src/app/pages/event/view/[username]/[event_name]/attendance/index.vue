@@ -138,6 +138,24 @@ const createAttendanceMutation = useMutation(
     }
   `),
 )
+const tagSerialNumberUpdateMutation = useMutation(
+  graphql(`
+    mutation AttendanceTagSerialNumberUpdate(
+      $id: UUID!
+      $attendancePatch: AttendancePatch!
+    ) {
+      updateAttendanceByRowId(
+        input: { rowId: $id, attendancePatch: $attendancePatch }
+      ) {
+        attendance {
+          id
+          rowId
+          tagSerialNumber
+        }
+      }
+    }
+  `),
+)
 const { siteUrlTyped: siteUrl } = useSiteUrl()
 const localePath = useLocalePath()
 const onClick = async () => {
@@ -156,7 +174,7 @@ const onClick = async () => {
   const attendanceId = result?.data?.createAttendance?.attendance?.rowId
   if (!attendanceId) return
 
-  await writeTag({
+  const tag = await writeTag({
     records: [
       {
         recordType: 'url',
@@ -166,6 +184,15 @@ const onClick = async () => {
         })}`,
       },
     ],
+  })
+  if (!tag?.serialNumber) return
+
+  await executeUrqlRequest({
+    errorMessageI18n: t('errorTagSerialNumberSave'),
+    request: tagSerialNumberUpdateMutation.executeMutation({
+      id: attendanceId,
+      attendancePatch: { tagSerialNumber: tag.serialNumber },
+    }),
   })
 }
 
@@ -208,9 +235,18 @@ onMounted(() => {
   })
 })
 const writeTag = async (data: NDEFMessageSource) => {
+  const controller = new AbortController()
+
   try {
-    await new NDEFReader().write(data)
+    const reader = new NDEFReader()
+    // reading the tag first keeps its serial number, which tells this tag apart from a copy of its link later
+    const serialNumber = await nfcTagSerialNumberRead({
+      reader,
+      signal: controller.signal,
+    })
+    await reader.write(data)
     toast.success(t('successWrite'))
+    return { serialNumber }
   } catch (error) {
     if (error instanceof DOMException) {
       let errorMessage: string = error.message
@@ -240,6 +276,8 @@ const writeTag = async (data: NDEFMessageSource) => {
     } else {
       alert(`Unexpected error: ${error}`)
     }
+  } finally {
+    controller.abort()
   }
 }
 const isNfcError = computed(() => {
@@ -253,6 +291,7 @@ const isNfcError = computed(() => {
 <i18n lang="yaml">
 de:
   errorAttendanceCreate: Beim Erstellen der Anwesenheit ist ein Fehler aufgetreten.
+  errorTagSerialNumberSave: Die Seriennummer des Tags konnte nicht gespeichert werden.
   errorNavigatorPermissionsNotSupported: Navigator-Berechtigungen werden nicht unterstützt! {hintUpdateOrChrome}
   errorNfcAbort: Der NFC-Scan wurde unterbrochen! {hintTryAgain}
   errorNfcNetwork: Die NFC-Übertragung wurde unterbrochen! {hintTryAgain}
@@ -269,6 +308,7 @@ de:
   title: Check-in
 en:
   errorAttendanceCreate: Failed to create attendance.
+  errorTagSerialNumberSave: Failed to save the tag's serial number.
   errorNavigatorPermissionsNotSupported: Navigator permissions are not supported! {hintUpdateOrChrome}
   errorNfcAbort: The NFC scan was interrupted! {hintTryAgain}
   errorNfcNetwork: The NFC transmission was interrupted! {hintTryAgain}

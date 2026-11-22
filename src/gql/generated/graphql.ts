@@ -148,12 +148,16 @@ export type AttendanceInput = {
   contactId?: string | null | undefined
   /** Who this entry is for. */
   guestId: string
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  tagSerialNumber?: string | null | undefined
 }
 
 /** Represents an update to a `Attendance`. Fields that are set will be updated. */
 export type AttendancePatch = {
   /** Shows if the person has left. When this turns on, the time is saved automatically. */
   checkedOut?: boolean | null | undefined
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  tagSerialNumber?: string | null | undefined
 }
 
 /** An input for mutations affecting `Contact` */
@@ -2061,6 +2065,7 @@ export type AttendanceQuery = {
     createdAt: string
     id: string
     rowId: string
+    tagSerialNumber: string | null
     updatedAt: string | null
     contactByContactId: {
       firstName: string | null
@@ -2339,6 +2344,21 @@ export type AttendanceCreateMutationVariables = Exact<{
 
 export type AttendanceCreateMutation = {
   createAttendance: { attendance: { id: string; rowId: string } | null } | null
+}
+
+export type AttendanceTagSerialNumberUpdateMutationVariables = Exact<{
+  id: string
+  attendancePatch: AttendancePatch
+}>
+
+export type AttendanceTagSerialNumberUpdateMutation = {
+  updateAttendanceByRowId: {
+    attendance: {
+      id: string
+      rowId: string
+      tagSerialNumber: string | null
+    } | null
+  } | null
 }
 
 export type EventGuestsQueryVariables = Exact<{
@@ -10561,6 +10581,10 @@ export const AttendanceDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tagSerialNumber' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
             },
@@ -12306,6 +12330,99 @@ export const AttendanceCreateDocument = {
 } as unknown as DocumentNode<
   AttendanceCreateMutation,
   AttendanceCreateMutationVariables
+>
+export const AttendanceTagSerialNumberUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AttendanceTagSerialNumberUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'attendancePatch' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AttendancePatch' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAttendanceByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'rowId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'attendancePatch' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'attendancePatch' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'attendance' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tagSerialNumber' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AttendanceTagSerialNumberUpdateMutation,
+  AttendanceTagSerialNumberUpdateMutationVariables
 >
 export const EventGuestsDocument = {
   kind: 'Document',

@@ -115,6 +115,17 @@
             >
               {{ isOwn ? t('leave') : t('checkOut') }}
             </AppButton>
+            <AppButton
+              v-if="isOrganizer"
+              :aria-label="t('tagVerify')"
+              :loading="isTagVerifying"
+              @click="onTagVerify"
+            >
+              {{ t('tagVerify') }}
+              <template #prefix>
+                <AppIconUserTag />
+              </template>
+            </AppButton>
           </div>
         </section>
         <section v-if="guest" class="flex flex-col gap-4">
@@ -202,6 +213,7 @@ const queryAttendance = useApiQuery({
         }
         id
         rowId
+        tagSerialNumber
         updatedAt
       }
       eventByAttendanceId(attendanceId: $id) {
@@ -314,6 +326,46 @@ const dateTimeFormat = (dateTime: string) =>
     timeZone,
   }).format(new Date(dateTime))
 
+// tag
+const isTagVerifying = ref(false)
+const onTagVerify = async () => {
+  if (!attendance.value) return
+
+  if (!attendance.value.tagSerialNumber) {
+    toast.info(t('tagVerifyNone'))
+    return
+  }
+
+  if (!('NDEFReader' in window)) {
+    toast.error(t('errorNfcNotSupported'))
+    return
+  }
+
+  const controller = new AbortController()
+  isTagVerifying.value = true
+
+  try {
+    const serialNumber = await nfcTagSerialNumberRead({
+      reader: new NDEFReader(),
+      signal: controller.signal,
+    })
+
+    // a copied link on another tag, or a tag whose serial number cannot be read, both fail here
+    if (serialNumber === attendance.value.tagSerialNumber) {
+      toast.success(t('tagVerifySuccess'))
+    } else {
+      toast.error(t('tagVerifyMismatch'))
+    }
+  } catch (error) {
+    toast.error(t('errorTagVerify'), {
+      description: error instanceof Error ? error.message : undefined,
+    })
+  } finally {
+    controller.abort()
+    isTagVerifying.value = false
+  }
+}
+
 // contact
 const localePath = useLocalePath()
 const friendAdd = async () => {
@@ -357,12 +409,18 @@ de:
   errorAttendanceCheckOut: Auschecken nicht möglich. Bitte erneut versuchen.
   errorContactNone: Es gibt keine Kontaktinformationen für diesen Gast. Bitte freundlich darum, welche hinzuzufügen!
   errorContactNoAccount: Der Gast hat sein Konto noch nicht zu seinen Kontaktinformationen hinzugefügt. Bitte freundlich darum, dies zu tun!
+  errorNfcNotSupported: Es wurde kein kompatibler NFC-Adapter gefunden. Versuche deinen Browser zu aktualisieren oder Google Chrome zu verwenden.
+  errorTagVerify: Der Tag konnte nicht gelesen werden.
   event: Veranstaltung
   guest: Gast
   guestView: Einladung anzeigen
   leave: Veranstaltung verlassen
   statusCheckedIn: Eingecheckt am {time}
   statusCheckedOut: Verlassen am {time}
+  tagVerify: Tag prüfen
+  tagVerifyMismatch: Dieser Tag ist nicht der für diese Anwesenheit beschriebene. Prüfe die Einladung des Gastes stattdessen von Hand.
+  tagVerifyNone: Für diese Anwesenheit ist kein Tag gespeichert.
+  tagVerifySuccess: Dieser Tag ist der für diese Anwesenheit beschriebene.
   title: Anwesenheitsdetails für {name}
   titleOwn: Deine Anwesenheit
 en:
@@ -375,12 +433,18 @@ en:
   errorAttendanceCheckOut: Could not check out. Please try again.
   errorContactNone: There is no contact information for this guest. Kindly ask them to add some!
   errorContactNoAccount: The guest has not added contact information about their account yet. Kindly ask them to do so!
+  errorNfcNotSupported: No compatible NFC adapter was found. Try updating your browser or use Google Chrome.
+  errorTagVerify: Could not read the tag.
   event: Event
   guest: Guest
   guestView: Show invitation
   leave: Leave event
   statusCheckedIn: Checked in on {time}
   statusCheckedOut: Left on {time}
+  tagVerify: Verify tag
+  tagVerifyMismatch: This tag is not the one written for this attendance. Check the guest's invitation by hand instead.
+  tagVerifyNone: No tag is stored for this attendance.
+  tagVerifySuccess: This tag is the one written for this attendance.
   title: Attendance Details for {name}
   titleOwn: Your Attendance
 </i18n>
