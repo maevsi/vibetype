@@ -1,7 +1,7 @@
 <template>
   <AppStepPanel v-slot="attributes" :is-active="isActive">
     <LayoutPage v-bind="attributes">
-      <div class="flex w-full max-w-md flex-col self-center px-3 lg:px-6">
+      <div class="flex flex-col">
         <slot />
       </div>
     </LayoutPage>

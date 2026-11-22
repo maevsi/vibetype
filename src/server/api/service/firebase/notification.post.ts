@@ -44,13 +44,35 @@ export default defineEventHandler(async (event) => {
 
   const messaging = getMessaging(adminApp)
 
-  return Promise.all(
+  // `allSettled` so one failing token does not hide the others' results, and
+  // so every failure code is logged. Failures still fail the request, so
+  // monitoring sees them as 500s.
+  const results = await Promise.allSettled(
     fcmTokens.map((token) =>
       messaging.send({
         notification: body.payload.notification,
         token,
       }),
     ),
+  )
+
+  const failures = results.filter(
+    (result): result is PromiseRejectedResult => result.status === 'rejected',
+  )
+
+  if (failures.length > 0) {
+    const codes = failures.map(({ reason }) => reason?.code ?? 'unknown')
+
+    for (const { reason } of failures) console.error('FCM send failed:', reason)
+
+    throw createAppError({
+      status: 500,
+      statusText: `FCM send failed for ${failures.length} of ${results.length} token(s): ${[...new Set(codes)].join(', ')}`,
+    })
+  }
+
+  return results.map(
+    (result) => (result as PromiseFulfilledResult<string>).value,
   )
 })
 

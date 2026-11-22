@@ -20,21 +20,14 @@
           :signed-in-account-id="authentication.signedInAccountId"
           :username="route.params.username"
         />
-        <LayoutCallToAction
-          v-else
-          :call-to-action="t('anonymousCta')"
-          :call-to-action-description="t('anonymousCtaDescription')"
-        />
       </LayoutPage>
     </template>
   </Loader>
 </template>
 
 <script setup lang="ts">
-// compiler
-definePageMeta({
-  layout: 'default-no-header',
-})
+// validation
+await useSignInRequired()
 
 // page
 const authentication = useAuthentication()
@@ -61,13 +54,9 @@ const account = computed(() => accountQuery.data.value?.accountByUsername)
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Finde es auf @.upper:{'globalSiteName'} heraus
-  anonymousCtaDescription: Wer ist mit wem befreundet?
   title: Freunde von {username}
   titleOwn: Meine Freunde
 en:
-  anonymousCta: Find out on @.upper:{'globalSiteName'}
-  anonymousCtaDescription: Who is friends with whom?
   title: "{username}'s friends"
   titleOwn: My friends
 </i18n>

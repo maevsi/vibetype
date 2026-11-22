@@ -55,6 +55,8 @@ export type Account = Node & {
   devicesByCreatedBy: DeviceConnection
   /** Reads and enables pagination through a set of `Device`. */
   devicesByUpdatedBy: DeviceConnection
+  /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
+  displayName?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `EventApp`. */
   eventAppsByCreatedBy: EventAppConnection
   /** Reads and enables pagination through a set of `EventFavorite`. */
@@ -683,6 +685,8 @@ export type AccountPasswordResetRequestPayload = {
 export type AccountPatch = {
   /** The account's description. Must not exceed 1,000 characters. */
   description?: InputMaybe<Scalars['String']['input']>
+  /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
+  displayName?: InputMaybe<Scalars['String']['input']>
   /** The account's imprint URL. Must start with "https://" and not exceed 2,000 characters. */
   imprintUrl?: InputMaybe<Scalars['String']['input']>
 }
@@ -3553,16 +3557,30 @@ export type EventCondition = {
   addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
   createdBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `end` field. */
-  end?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events ending before this instant, exclusive, where an event without an end ends at its start. */
+  endsBefore?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events ending at or after this instant, inclusive, where an event without an end ends at its start. */
+  endsFrom?: InputMaybe<Scalars['Datetime']['input']>
+  /** Whether the event has ended, judged by its end, or by its start if it has no end, against the database clock. */
+  hasEnded?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether the invoker attends the event, that is whether one of their contacts accepted a guest invitation to it. Combine with `hasEnded` to split upcoming from past events. */
+  isAttending?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether the invoker is invited to the event, that is whether they claimed one of its guest invitations or one of their contacts was invited to it, whatever the feedback. Combine with `hasEnded` to split upcoming from past invitations. */
+  isInvited?: InputMaybe<Scalars['Boolean']['input']>
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
+  /** Events matching the search text by prefix on their name and description, or by similarity to their name. A blank text matches every event. Combine with other conditions such as `createdBy` to search within a subset. */
+  search?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `slug` field. */
   slug?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `start` field. */
   start?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events starting before this instant, exclusive. */
+  startsBefore?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events starting at or after this instant, inclusive. */
+  startsFrom?: InputMaybe<Scalars['Datetime']['input']>
 }
 
 /** A connection to a list of `Event` values. */
@@ -4181,8 +4199,8 @@ export type FriendshipPatch = {
 }
 
 /**
- * Possible status values of a friendship.
- * There is no status `rejected` because the friendship is deleted when its request is rejected.
+ * Possible status values of a friend relation.
+ * There is no status `rejected` because friendship records will be deleted when a friendship request is rejected.
  */
 export enum FriendshipStatus {
   Accepted = 'accepted',
@@ -6093,7 +6111,7 @@ export type Query = Node & {
   eventRecommendation?: Maybe<EventRecommendation>
   /** Get a single `EventRecommendation`. */
   eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
-  /** Searches events by name and description. Matches by prefix so partial words match as the user types, and falls back to trigram similarity on the name for typo tolerance. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
+  /** Searches events by name and description. Matches by prefix so partial words match as the user types, and falls back to trigram similarity on the name for typo tolerance. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
   eventSearch?: Maybe<EventConnection>
   /** Reads a single `EventUpload` using its globally unique `ID`. */
   eventUpload?: Maybe<EventUpload>
@@ -6777,6 +6795,7 @@ export type QueryEventRecommendationByAccountIdAndEventIdArgs = {
 export type QueryEventSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
+  includeEnded?: InputMaybe<Scalars['Boolean']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   query?: InputMaybe<Scalars['String']['input']>
 }
@@ -8963,6 +8982,11 @@ export type GraphCacheResolvers = {
       WithTypename<Account>,
       AccountDevicesByUpdatedByArgs,
       WithTypename<DeviceConnection> | string
+    >
+    displayName?: GraphCacheResolver<
+      WithTypename<Account>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
     >
     eventAppsByCreatedBy?: GraphCacheResolver<
       WithTypename<Account>,
@@ -14850,6 +14874,10 @@ export type GraphCacheUpdaters = {
     devicesByUpdatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountDevicesByUpdatedByArgs
+    >
+    displayName?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      Record<string, never>
     >
     eventAppsByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,

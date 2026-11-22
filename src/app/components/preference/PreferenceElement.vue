@@ -1,18 +1,22 @@
 <template>
-  <button
-    :aria-pressed="selected.includes(id)"
-    class="group flex size-27.5 flex-col items-center justify-center gap-2 rounded-medium bg-surface-raised p-2 aria-pressed:inset-ring-3 aria-pressed:inset-ring-action-primary"
-    type="button"
+  <label
+    class="group relative flex h-full min-h-25 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-medium bg-surface-raised p-3 has-checked:inset-ring-3 has-checked:inset-ring-action-primary has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-action-primary"
   >
-    <span class="flex size-12 items-center justify-center">
+    <input
+      :checked="selected.includes(id)"
+      class="absolute inset-0 size-full cursor-pointer appearance-none rounded-medium outline-none"
+      type="checkbox"
+      @change="emit('toggle')"
+    />
+    <span aria-hidden="true" class="flex size-16 items-center justify-center">
       <slot>
-        <AppIconImage class="size-12 text-fg-3" />
+        <AppIconImage class="size-8 text-fg-3" />
       </slot>
     </span>
-    <span class="block w-full truncate text-center text-caption">
+    <span class="block w-full text-center text-caption text-balance">
       {{ name }}
     </span>
-  </button>
+  </label>
 </template>
 
 <script setup lang="ts">
@@ -20,5 +24,9 @@ const { id, name, selected } = defineProps<{
   id: string
   name: string
   selected: string[]
+}>()
+
+const emit = defineEmits<{
+  toggle: []
 }>()
 </script>

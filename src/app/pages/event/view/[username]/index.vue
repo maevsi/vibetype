@@ -1,12 +1,12 @@
 <template>
   <Loader :api>
     <AppError
-      v-if="!account"
+      v-if="!isOwn && !account"
       :error="{ message: 'Account data missing', status: 404 }"
     />
-    <div v-else>
-      <LayoutPageTitle title="-">
-        <i18n-t keypath="title" tag="h1">
+    <div v-else class="flex flex-1 flex-col">
+      <LayoutTopBar>
+        <i18n-t keypath="title">
           <template #name>
             <AppLink
               :to="
@@ -20,17 +20,22 @@
             </AppLink>
           </template>
         </i18n-t>
-      </LayoutPageTitle>
-      <EventList
-        :events
-        :has-next-page="
-          api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
-        "
-        @load-more="
-          queryAfter =
-            api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
-        "
-      />
+      </LayoutTopBar>
+      <LayoutPage>
+        <EventListMine v-if="isOwn" />
+        <EventList
+          v-else
+          :events
+          :has-next-page="
+            api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
+          "
+          is-grouped-by-day
+          @load-more="
+            queryAfter =
+              api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
+          "
+        />
+      </LayoutPage>
     </div>
   </Loader>
 </template>
@@ -66,6 +71,18 @@ const queryEventListAccount = graphql(`
                 name
               }
               id
+            }
+          }
+          eventUploadsByEventId {
+            nodes {
+              id
+              isHeaderImage
+              rowId
+              uploadByUploadId {
+                id
+                rowId
+                storageKey
+              }
             }
           }
           guestsByEventId(first: 1) {
@@ -109,6 +126,8 @@ useHeadDefault({
 
 // api data
 const queryAfter = ref<string | null>()
+const store = useStore()
+const isOwn = computed(() => route.params.username === store.signedInUsername)
 const query = useApiQuery({
   query: queryEventListAccount,
   variables: computed(() => ({

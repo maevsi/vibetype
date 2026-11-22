@@ -15,12 +15,10 @@ const PAGE_PATH = `/account/view/${TESTING_ACCOUNT_USERNAME}/friend`
 const { accepted, requestReceived, requestSent } = TESTING_FRIENDSHIP_ACCOUNTS
 
 appTest.describe('signed out', () => {
-  appTest('asks to sign in', async ({ defaultPage }) => {
+  appTest('redirects to the sign-in page', async ({ defaultPage }) => {
     await defaultPage.goto(PAGE_PATH)
 
-    await expect(
-      defaultPage.page.getByRole('link', { name: 'Find out on VIBETYPE' }),
-    ).toBeVisible()
+    await defaultPage.page.waitForURL(/\/session\/create/)
     await expect(
       defaultPage.page.getByRole('region', { name: 'Friends' }),
     ).toHaveCount(0)

@@ -1,18 +1,21 @@
 <template>
-  <div>
-    <LayoutPageTitle :title />
-    <ColorScheme>
-      <AppRadioGroup
-        :default-value="colorMode.preference"
-        :items="colorSchemes"
-        @update:model-value="
-          (value: AcceptableValue) => (colorMode.preference = String(value))
-        "
-      />
-      <template #placeholder>
-        <AppRadioGroup :items="colorSchemes" />
-      </template>
-    </ColorScheme>
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <ColorScheme>
+        <AppRadioGroup
+          class="gap-0 *:min-h-12"
+          :default-value="colorMode.preference"
+          :items="colorSchemes"
+          @update:model-value="
+            (value: AcceptableValue) => (colorMode.preference = String(value))
+          "
+        />
+        <template #placeholder>
+          <AppRadioGroup class="gap-0 *:min-h-12" :items="colorSchemes" />
+        </template>
+      </ColorScheme>
+    </LayoutPage>
   </div>
 </template>
 

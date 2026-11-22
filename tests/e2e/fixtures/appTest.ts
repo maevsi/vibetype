@@ -17,17 +17,10 @@ const createDefaultPage = (page: Page) => {
     goto: async (
       url: string,
       options?: {
-        cookieControl?: boolean
         isLoading?: boolean
       },
     ) => {
       await page.goto(url)
-
-      // if (!options || options.cookieControl !== false) {
-      //   await expect(
-      //     page.getByRole('button', { name: 'Cookie control' }),
-      //   ).toBeVisible()
-      // }
 
       if (!options || options.isLoading !== false) {
         await expect(page.getByTestId('is-loading')).toHaveAttribute(

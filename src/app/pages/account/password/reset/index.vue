@@ -1,14 +1,14 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <h1 :id="templateIdTitle" class="sr-only">
-      {{ title }}
-    </h1>
-    <FormAuthPageHeader v-if="step === 'default'" @back="navigateBack">
-      <template #title>{{ t('title') }}</template>
-      <template #subtitle>{{ t('subtitle') }}</template>
-    </FormAuthPageHeader>
+    <LayoutTopBar>
+      <span :id="templateIdTitle">{{ t('titleShort') }}</span>
+    </LayoutTopBar>
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>{{ t('title') }}</template>
+          <template #subtitle>{{ t('subtitle') }}</template>
+        </FormAuthHeader>
         <FormAccountPasswordReset
           v-if="route.query.code && !Array.isArray(route.query.code)"
           v-model:error="error"
@@ -46,10 +46,6 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'plain',
-})
-
 defineRouteRules({
   robots: false,
 })
@@ -87,12 +83,6 @@ useHeadDefault({ title })
 
 // template
 const templateIdTitle = useId()
-
-// navigation
-const store = useStore()
-const navigateBack = () => {
-  store.navigateBack()
-}
 </script>
 
 <i18n lang="yaml">
@@ -102,6 +92,7 @@ de:
   signIn: Einloggen
   subtitle: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
   title: Neues Passwort festlegen
+  titleShort: Passwort zurücksetzen
   tryAgain: Erneut versuchen
 en:
   instructionsSuccessDescription: You can now log in using your new password.
@@ -109,5 +100,6 @@ en:
   signIn: Log in
   subtitle: At least 8 characters that aren't easy to guess.
   title: Set your new password
+  titleShort: Reset password
   tryAgain: Try again
 </i18n>

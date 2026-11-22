@@ -12,7 +12,12 @@ export default defineEventHandler(async () => {
     })
 
   // the testing environment runs without reccoom
-  if (useIsTesting({ isCookieEnabled: false })) return []
+  if (useIsTesting({ isCookieEnabled: false }))
+    return TESTING_EVENT_RECOMMENDATION_ROW_IDS.map((eventId, index) => ({
+      event_id: eventId,
+      score: 1 - index / 10,
+      score_type: 'testing',
+    }))
 
   const { stagingHost } = runtimeConfig.public.vio
   const baseURL = getServiceHref({ name: 'reccoom' })

@@ -57,6 +57,8 @@ export const useStepperPage = <T extends string>({
     () => step.value !== 'error' && steps[step.value]?.previous,
   )
 
+  watch(step, focusHeading)
+
   return {
     error,
     previous,

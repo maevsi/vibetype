@@ -4,15 +4,14 @@ const runtimeConfig = useRuntimeConfig()
 const sharedSentryConfig = useSharedSentryConfig()
 const sentryFeatures = runtimeConfig.public.sentry.features
 
+// session replay and profiling are added by `plugins/sentry.client.ts` once consent is given
+
 if (sharedSentryConfig.dsn) {
   Sentry.init({
     ...sharedSentryConfig,
     integrations: [
-      ...(sentryFeatures.profiling
-        ? [Sentry.browserProfilingIntegration()]
-        : []),
       ...(sentryFeatures.consoleCapture
-        ? [Sentry.captureConsoleIntegration()]
+        ? [Sentry.captureConsoleIntegration({ levels: ['error', 'warn'] })]
         : []),
       ...(runtimeConfig.public.sentry.logs.enable
         ? [Sentry.consoleLoggingIntegration()]
@@ -20,7 +19,6 @@ if (sharedSentryConfig.dsn) {
       Sentry.graphqlClientIntegration({ endpoints: [/\/graphql$/] }),
       Sentry.httpClientIntegration(),
       ...(sentryFeatures.pinia ? [Sentry.piniaIntegration(usePinia())] : []),
-      ...(sentryFeatures.replay ? [Sentry.replayIntegration()] : []),
       Sentry.zodErrorsIntegration(),
 
       // // enable if more components or hooks should be tracked
