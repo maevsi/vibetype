@@ -34,12 +34,12 @@
         #actions
       >
         <AppButton
-          :aria-label="t('skip')"
+          :aria-label="t('later')"
           size="small"
           variant="secondary"
           @click="isSkipOpen = true"
         >
-          {{ t('skip') }}
+          {{ t('later') }}
         </AppButton>
       </template>
     </LayoutTopBar>
@@ -186,21 +186,23 @@ useHeadDefault({ title })
 de:
   back: Zurück
   errorBack: Zurück zum KI-Setup
+  later: Später einrichten
   skip: Überspringen
   skipCancel: Abbrechen
-  skipConfirm: KI-Einrichtung überspringen
+  skipConfirm: Später einrichten
   skipDescription1: Ohne deine Angaben zeigen wir dir eine breite Auswahl an Veranstaltungen. Vielleicht findest du trotzdem deinen perfekten Vibe!
   skipDescription2: Du kannst deine Präferenzen jederzeit später anpassen.
-  skipTitle: Willst du die KI-Einrichtung wirklich überspringen?
+  skipTitle: KI-Einrichtung auf später verschieben?
   title: KI einrichten
 en:
   back: Back
   errorBack: Back to AI setup
+  later: Set up later
   skip: Skip
   skipCancel: Cancel
-  skipConfirm: Skip AI setup
+  skipConfirm: Set up later
   skipDescription1: Without your details, we'll show you a wide selection of events. Maybe you'll still find your perfect vibe!
   skipDescription2: You can adjust your preferences anytime later.
-  skipTitle: Do you really want to skip the AI setup?
+  skipTitle: Set up AI later?
   title: Set up AI
 </i18n>

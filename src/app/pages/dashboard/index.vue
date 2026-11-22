@@ -472,7 +472,7 @@ de:
   posterHuntPhoto: Foto aufnehmen
   posterHuntTitle: Plakatjagd
   preferenceAction: KI einrichten
-  preferenceDescription: Sag uns, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen.
+  preferenceDescription: Sag uns in einer Minute direkt hier, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen. Nichts zu installieren.
   preferenceTitle: Stell Deinen Vibe ein
   recommendationEmptyDescription: Wir schlagen dir Veranstaltungen vor, sobald welche zu deinem Vibe passen. Stöbere in der Zwischenzeit durch das Angebot.
   recommendationEmptyDescriptionPreference: Sag uns, was du magst, und wir schlagen dir passende Veranstaltungen vor.
@@ -495,7 +495,7 @@ en:
   posterHuntPhoto: Take photo
   posterHuntTitle: Poster hunting
   preferenceAction: Set up AI
-  preferenceDescription: Tell us what you like and get events that fit you.
+  preferenceDescription: Tell us what you like right here in a minute and get events that fit you. Nothing to install.
   preferenceTitle: Set up your vibe
   recommendationEmptyDescription: We'll suggest events as soon as some match your vibe. Meanwhile, explore what's on.
   recommendationEmptyDescriptionPreference: Tell us what you like and we'll suggest events for you.
