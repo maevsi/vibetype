@@ -1,85 +1,115 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <!-- Header -->
-    <FormAuthPageHeader
-      :header-key="step"
-      :title-id="templateIdTitle"
-      @back="handleBackClick"
-    >
-      <template #title>{{ title }}</template>
-      <template v-if="subtitle" #subtitle>{{ subtitle }}</template>
-    </FormAuthPageHeader>
+    <LayoutTopBar>
+      <span :id="templateIdTitle">{{ t('titleShort') }}</span>
+      <template v-if="previous" #back>
+        <AppButton
+          :aria-label="t('back')"
+          size="none"
+          variant="ghost"
+          @click="step = previous"
+        >
+          <AppIconBack />
+        </AppButton>
+      </template>
+    </LayoutTopBar>
 
     <!-- Step: Email -->
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
-        <div class="flex flex-col gap-6">
-          <FormAuthInput
+        <FormAuthHeader>
+          <template #title>{{ t('titleEmail') }}</template>
+          <template #subtitle>{{ t('subtitleEmail') }}</template>
+        </FormAuthHeader>
+        <form
+          class="flex flex-col gap-6"
+          novalidate
+          @submit.prevent="handleEmailContinue"
+        >
+          <AppInput
+            :aria-describedby="
+              emailField.error.value ? templateIdEmailError : undefined
+            "
+            :aria-invalid="!!emailField.error.value"
             :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
             :placeholder="t('emailPlaceholder')"
             type="email"
             @blur="emailField.handleBlur"
-            @input="emailField.handleInput($event)"
+            @update:model-value="emailField.handleInput"
           >
-            <template #icon>
+            <template #prefix>
               <IHeroiconsEnvelope />
             </template>
-          </FormAuthInput>
-          <p v-if="emailField.error.value" class="text-sm text-red-600">
+          </AppInput>
+          <p
+            v-if="emailField.error.value"
+            :id="templateIdEmailError"
+            class="text-caption text-error"
+          >
             {{ emailField.error.value }}
           </p>
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
-            <FormCheckbox
-              :aria-label="t('agreeCheckboxLabel')"
-              :value="agreedToTerms"
-              @change="agreedToTerms = $event"
+            <AppCheckbox
+              id="agree-to-terms"
+              :aria-describedby="termsError ? templateIdTermsError : undefined"
+              :aria-invalid="!!termsError"
+              class="mt-0.5 shrink-0"
+              :model-value="agreedToTerms"
+              @update:model-value="
+                (checked) => (agreedToTerms = checked === true)
+              "
             />
-            <span class="text-sm text-gray-500 dark:text-gray-400">
-              {{ t('agreePrefix') }}
-              <NuxtLinkLocale
-                class="font-semibold text-green-600"
-                to="docs-legal-terms"
-                >{{ t('termsOfService') }}</NuxtLinkLocale
-              >{{ t('legalComma') }}
-              <NuxtLinkLocale
-                class="font-semibold text-green-600"
-                to="docs-legal-imprint"
-                >{{ t('imprint') }}</NuxtLinkLocale
-              >
-              {{ t('and') }}
-              <NuxtLinkLocale
-                class="font-semibold text-green-600"
-                to="docs-legal-privacy"
-                >{{ t('privacyPolicy') }}</NuxtLinkLocale
-              >
-            </span>
+            <label for="agree-to-terms">
+              <span class="text-body-small text-fg-2">
+                {{ t('agreePrefix') }}
+                <NuxtLinkLocale
+                  class="font-semibold text-link underline"
+                  to="docs-legal-terms"
+                  >{{ t('termsOfUse') }}</NuxtLinkLocale
+                >
+              </span>
+            </label>
           </div>
-          <p v-if="termsError" class="text-sm text-red-600">
+          <p
+            v-if="termsError"
+            :id="templateIdTermsError"
+            class="text-caption text-error"
+          >
             {{ termsError }}
           </p>
-          <FormAuthButton
-            :aria-label="t('continue')"
-            @click="handleEmailContinue"
-          >
+          <p class="text-body-small text-fg-2">
+            {{ t('privacyNoticePrefix') }}
+            <NuxtLinkLocale
+              class="font-semibold text-link underline"
+              to="docs-legal-privacy"
+              >{{ t('privacyPolicy') }}</NuxtLinkLocale>{{
+              t('privacyNoticeSuffix')
+            }}
+          </p>
+          <AppButton :aria-label="t('continue')" class="w-full" type="submit">
             {{ t('continue') }}
-          </FormAuthButton>
-          <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
+          </AppButton>
+          <p class="text-center text-body text-fg-2">
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
-              class="font-semibold text-green-600"
+              class="font-semibold text-link underline"
               to="session-create"
               >{{ t('signInLink') }}</NuxtLinkLocale
             >
           </p>
-        </div>
+        </form>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Password -->
-    <AppStep v-slot="attributes" :is-active="step === 'password'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'password'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>{{ t('titlePassword') }}</template>
+          <template #subtitle>{{ t('subtitlePassword') }}</template>
+        </FormAuthHeader>
         <FormAccountRegistration
           v-model:captcha-is-used="captchaIsUsed"
           @submit="
@@ -89,91 +119,139 @@
             }
           "
         />
+        <p class="text-body-small text-fg-2">
+          {{ t('privacyNoticePrefix') }}
+          <NuxtLinkLocale
+            class="font-semibold text-link underline"
+            to="docs-legal-privacy"
+            >{{ t('privacyPolicy') }}</NuxtLinkLocale>{{
+            t('privacyNoticeSuffix')
+          }}
+        </p>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Username -->
-    <AppStep v-slot="attributes" :is-active="step === 'username'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'username'">
       <LayoutPage v-bind="attributes">
-        <div class="flex flex-col gap-4">
+        <FormAuthHeader>
+          <template #title>{{ t('titleUsername') }}</template>
+          <template #subtitle>{{ t('subtitleUsername') }}</template>
+        </FormAuthHeader>
+        <form
+          class="flex flex-col gap-4"
+          novalidate
+          @submit.prevent="handleUsernameContinue"
+        >
           <div class="relative">
-            <FormAuthInput
+            <AppInput
+              :aria-describedby="
+                usernameField.error.value ? templateIdUsernameError : undefined
+              "
+              :aria-invalid="!!usernameField.error.value"
               :aria-label="t('usernamePlaceholder')"
-              :disabled="usernameField.isLoading.value"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"
               @blur="usernameField.handleBlur"
-              @input="handleUsernameInput($event)"
+              @update:model-value="handleUsernameInput"
             >
-              <template #icon>
+              <template #prefix>
                 <IHeroiconsUser />
               </template>
-            </FormAuthInput>
+            </AppInput>
             <div
               v-if="usernameField.isLoading.value"
               class="absolute top-1/2 right-4 -translate-y-1/2"
             >
               <div
-                class="size-5 animate-spin rounded-full border-2 border-gray-300 border-t-green-600"
+                class="size-5 animate-spin rounded-full border-2 border-line border-t-green-600"
               />
             </div>
           </div>
-          <p v-if="usernameField.error.value" class="text-sm text-red-600">
+          <p
+            v-if="usernameField.error.value"
+            :id="templateIdUsernameError"
+            class="text-caption text-error"
+          >
             {{ usernameField.error.value }}
           </p>
-          <FormAuthButton
+          <AppButton
             :aria-label="t('continue')"
+            class="w-full"
             :disabled="
               !usernameField.value.value || !!usernameField.error.value
             "
-            @click="handleUsernameContinue"
+            type="submit"
           >
             {{ t('continue') }}
-          </FormAuthButton>
-        </div>
+          </AppButton>
+          <p class="text-body-small text-fg-2">
+            {{ t('privacyNoticePrefix') }}
+            <NuxtLinkLocale
+              class="font-semibold text-link underline"
+              to="docs-legal-privacy"
+              >{{ t('privacyPolicy') }}</NuxtLinkLocale>{{
+              t('privacyNoticeSuffix')
+            }}
+          </p>
+        </form>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Age -->
-    <AppStep v-slot="attributes" :is-active="step === 'age'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'age'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>{{ t('titleAge') }}</template>
+          <template #subtitle>{{ t('subtitleAge') }}</template>
+        </FormAuthHeader>
         <div class="flex flex-col gap-4">
           <FormAccountRegistrationAge
-            ref="ageForm"
+            :id="templateIdAgeForm"
             @success="handleAgeSuccess"
           />
-          <FormAuthButton
+          <AppButton
             :aria-label="t('confirmAge')"
-            @click="ageFormRef?.submit()"
+            class="w-full"
+            :form="templateIdAgeForm"
+            type="submit"
           >
             {{ t('confirmAge') }}
-          </FormAuthButton>
+          </AppButton>
+          <p class="text-body-small text-fg-2">
+            {{ t('privacyNoticePrefix') }}
+            <NuxtLinkLocale
+              class="font-semibold text-link underline"
+              to="docs-legal-privacy"
+              >{{ t('privacyPolicy') }}</NuxtLinkLocale>{{
+              t('privacyNoticeSuffix')
+            }}
+          </p>
         </div>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Success -->
     <FormAuthStepSuccess :is-active="step === 'success'">
       <div class="flex flex-col gap-4">
-        <p
-          class="text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
-        >
+        <FormAuthHeader>
+          <template #title>{{ t('titleVerification') }}</template>
+        </FormAuthHeader>
+        <p class="text-body text-fg-2">
           {{ t('verificationSentTo') }}
-          <span class="font-semibold text-gray-900 dark:text-gray-100">{{
+          <span class="font-semibold text-fg-1">{{
             emailField.value.value
           }}</span>
         </p>
-        <p
-          class="text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
-        >
+        <p class="text-body text-fg-2">
           {{ t('verificationOpenLink') }}
         </p>
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+        <p class="text-body-small text-fg-2">
           {{ t('verificationDescription') }}
         </p>
         <NuxtLinkLocale
-          class="flex items-center justify-center gap-2 text-[15px] text-gray-500 dark:text-gray-400"
+          class="flex items-center justify-center gap-2 text-body text-fg-2"
           to="support-contact"
         >
           <IHeroiconsQuestionMarkCircle class="size-5" />
@@ -184,61 +262,38 @@
 
     <!-- Step: Error -->
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('backToRegistration')"
-        class="w-full max-w-sm"
+        class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToRegistration') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
+import { useMutation, useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
-import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
+import { accountRegistrationMutation as accountRegistrationDocument } from '~~/shared/utils/account'
 import {
   useValidationDedup,
   useValidationField,
 } from '~/composables/useValidation'
 
-definePageMeta({
-  layout: 'plain',
-})
-
 const { locale, t } = useI18n()
 
-// navigation
-const router = useRouter()
-const navigateBack = () => {
-  router.back()
-}
-
 // api data
-const accountRegistrationMutation = useAccountRegistrationMutation()
+const accountRegistrationMutation = useMutation(accountRegistrationDocument)
 const api = await useApiData([accountRegistrationMutation])
-
-// TODO: move into api utility as `errorsTranslated`
-watch(
-  () => api.value.errors,
-  (current) => {
-    error.value = current?.length
-      ? new Error(
-          getCombinedErrorMessages(current, {
-            postgresVTAUV: t('postgresVTAUV'),
-            postgresVTBDA: t('postgresVTBDA'),
-            postgresVTPLL: t('postgresVTPLL'),
-          })[0],
-        )
-      : undefined
-  },
-)
 
 // template
 const templateIdTitle = useId()
+const templateIdEmailError = useId()
+const templateIdTermsError = useId()
+const templateIdUsernameError = useId()
 const birthDate = ref<string>()
 const agreedToTerms = ref(false)
 const termsError = ref('')
@@ -292,7 +347,7 @@ const handleUsernameInput = (newValue: string) => {
 }
 
 // age step
-const ageFormRef = useTemplateRef<{ submit: () => void }>('ageForm')
+const templateIdAgeForm = useId()
 const handleAgeSuccess = async (date: string) => {
   birthDate.value = date
   await submit()
@@ -351,6 +406,7 @@ const submit = async () => {
         language: locale.value,
         legalTermId: legalTermIdValue,
         password: passwordData.value.password,
+        timeZone: useTimeZone(),
         username: usernameField.value.value,
       },
     },
@@ -375,7 +431,7 @@ const submit = async () => {
 }
 
 // stepper
-const { error, previous, restart, step, title } = useStepperPage<
+const { error, previous, restart, step } = useStepperPage<
   'age' | 'password' | 'success' | 'username'
 >({
   steps: {
@@ -399,25 +455,17 @@ const { error, previous, restart, step, title } = useStepperPage<
     },
   },
 })
-
-// subtitle (only shown on email step)
-const subtitle = computed(() => {
-  if (step.value === 'age') return t('subtitleAge')
-  if (step.value === 'default') return t('subtitleEmail')
-  if (step.value === 'password') return t('subtitlePassword')
-  if (step.value === 'username') return t('subtitleUsername')
-  return undefined
+useApiErrorModel({
+  errorModel: error,
+  errors: () => api.value.errors,
+  postgresErrorMap: {
+    postgresVTAUV: t('postgresVTAUV'),
+    postgresVTBDA: t('postgresVTBDA'),
+    postgresVTPLL: t('postgresVTPLL'),
+  },
 })
 
 // handlers
-const handleBackClick = () => {
-  if (step.value === 'default') {
-    navigateBack()
-  } else {
-    step.value = previous.value || 'default'
-  }
-}
-
 const handleEmailContinue = async () => {
   if (!emailField.value.value) {
     emailField.error.value = t('emailRequired')
@@ -440,15 +488,15 @@ const handleUsernameContinue = async () => {
 }
 
 // page
-useHeadDefault({ title: title.value })
+const titlePage = t('titleEmail')
+useHeadDefault({ title: titlePage })
 </script>
 
 <i18n lang="yaml">
 de:
-  agreeCheckboxLabel: Ich stimme den Bedingungen zu
-  agreePrefix: "Ich stimme Vibetype's "
+  agreePrefix: 'Ich akzeptiere die '
   alreadyHaveAccount: 'Du hast bereits ein Konto?'
-  and: ' und '
+  back: Zurück
   backToRegistration: Zurück zur Registrierung
   birthDateUnavailable: Das Geburtsdatum ist nicht verfügbar. Bitte versuche es erneut.
   confirmAge: Alter bestätigen
@@ -456,25 +504,26 @@ de:
   emailInvalid: Bitte gib eine gültige E-Mail-Adresse ein
   emailPlaceholder: E-Mail-Adresse eingeben
   emailRequired: Bitte gib eine E-Mail-Adresse ein
-  imprint: Impressum
-  legalComma: ', '
   legalTermsUnavailable: Die rechtlichen Bedingungen konnten nicht geladen werden. Bitte versuche es später erneut.
   passwordUnavailable: Das Passwort ist nicht verfügbar. Bitte versuche es erneut.
   postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
   postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
   postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
-  privacyPolicy: Datenschutzrichtlinie
+  privacyNoticePrefix: 'Informationen dazu, wie wir deine Daten verarbeiten, findest du in unserer '
+  privacyNoticeSuffix: .
+  privacyPolicy: Datenschutzerklärung
   signInLink: Anmelden
   subtitleAge: Für den richtigen Vibe und deine Sicherheit zeigt dir Vibetype nur Events, die zu deinem Alter passen.
   subtitleEmail: Wir verwenden sie, um dir einen Bestätigungslink zu senden und dein Konto zu sichern.
-  subtitlePassword: Mindestens 12 Zeichen mit mindestens 1 Großbuchstaben und 1 Sonderzeichen.
+  subtitlePassword: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
   subtitleUsername: Dieser Name wird anderen Nutzern angezeigt.
   support: Support kontaktieren
-  termsOfService: Nutzungsbedingungen
-  termsRequired: Bitte stimme den Bedingungen zu
+  termsOfUse: Nutzungsbedingungen
+  termsRequired: Bitte akzeptiere die Nutzungsbedingungen
   titleAge: Alter bestätigen
   titleEmail: Registriere dich mit deiner E-Mail
   titlePassword: Erstelle dein Passwort
+  titleShort: Registrieren
   titleUsername: Wähle deinen Nutzernamen
   titleVerification: Überprüfe dein Postfach
   usernameAlreadyTaken: Dieser Nutzername ist bereits vergeben
@@ -485,10 +534,9 @@ de:
   verificationOpenLink: Öffne den Link, um zu bestätigen, dass du es wirklich bist.
   verificationSentTo: 'Wir haben dir gerade einen Bestätigungslink gesendet an '
 en:
-  agreeCheckboxLabel: I agree to the terms
-  agreePrefix: "I agree to Vibetype's "
+  agreePrefix: 'I accept the '
   alreadyHaveAccount: 'Already have an account?'
-  and: ' and '
+  back: Back
   backToRegistration: Back to Registration
   birthDateUnavailable: Birth date is unavailable. Please try again.
   confirmAge: Confirm age
@@ -496,25 +544,26 @@ en:
   emailInvalid: Please enter a valid email address
   emailPlaceholder: Enter your email
   emailRequired: Please enter an email address
-  imprint: Imprint
-  legalComma: ', '
   legalTermsUnavailable: We could not load the legal terms. Please try again later.
   passwordUnavailable: Password is unavailable. Please try again.
   postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
   postgresVTBDA: You must be at least 18 years old to register.
   postgresVTPLL: Your password is too short! Think of a longer one.
+  privacyNoticePrefix: 'Information on how we process your data can be found in our '
+  privacyNoticeSuffix: .
   privacyPolicy: Privacy Policy
   signInLink: Sign in
   subtitleAge: To keep things fun and safe, Vibetype curates just the right events for your age and vibe.
   subtitleEmail: We'll use it to send your verification link and keep your account secure.
-  subtitlePassword: Minimum 12 characters with at least 1 uppercase letter and 1 special character.
+  subtitlePassword: At least 8 characters that aren't easy to guess.
   subtitleUsername: This name will be visible to other users.
   support: Contact support
-  termsOfService: Terms of Service
-  termsRequired: Please agree to the terms
+  termsOfUse: Terms of Use
+  termsRequired: Please accept the Terms of Use
   titleAge: Confirm your age
   titleEmail: Sign up using your email
   titlePassword: Create your password
+  titleShort: Sign up
   titleUsername: Choose your username
   titleVerification: Check your inbox for a verification link
   usernameAlreadyTaken: This username is already taken

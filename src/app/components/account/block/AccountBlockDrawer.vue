@@ -1,13 +1,13 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="text-center">
-        <TypographySubtitleSmall>
+        <span class="text-body">
           {{ t('blockAccountQuestion', { username: blockedUsername }) }}
-        </TypographySubtitleSmall>
+        </span>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
       <div v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -15,86 +15,89 @@
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <div v-bind="attributes">
-        <LayoutPageResult type="error">
-          <template v-if="error" #description>
-            {{ error.message }}
+        <LayoutPageResult :message="error?.message" type="error">
+          <template #description>
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
+    </AppStepPanel>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
           {{ t('blockAccount') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
         <span v-bind="attributes">
           {{ t('userBlocked') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
           {{ t('error') }}
         </span>
-      </AppStep>
+      </AppStepPanel>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('confirmBlock')"
+          :loading="createAccountBlockMutation.fetching.value"
           variant="primary-critical"
           @click="blockUser"
         >
           {{ t('confirmBlock') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('cancel')"
           variant="secondary-critical"
           @click="closeDrawer"
         >
           {{ t('cancel') }}
-        </ButtonColored>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
-        <ButtonColored
+        </AppButton>
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('toDashboard')"
           variant="primary"
           @click="toDashboard"
         >
           {{ t('toDashboard') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('accountsBlocked')"
           variant="secondary"
           @click="toBlockList"
         >
           {{ t('accountsBlocked') }}
-        </ButtonColored>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+        </AppButton>
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('restart')"
           variant="tertiary"
           @click="restart"
         >
           {{ t('restart') }}
-        </ButtonColored>
-      </AppStep>
+        </AppButton>
+      </AppStepPanel>
     </template>
   </AppDrawer>
 </template>
 
 <script setup lang="ts">
-import { useCreateAccountBlockMutation } from '~~/gql/documents/mutations/accountBlock/accountBlockCreate'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
 
 // compiler
 const { blockedAccountId, blockedUsername, blockingAccountId } = defineProps<{
@@ -122,8 +125,15 @@ const onAnimationEnd = (isOpen: boolean) => {
 }
 
 // api data
-const createAccountBlockMutation = useCreateAccountBlockMutation()
-// const api = await useApiData([createAccountBlockMutation]) // TODO: show loading state, error details
+const createAccountBlockMutation = useMutation(
+  graphql(`
+    mutation CreateAccountBlock($input: CreateAccountBlockInput!) {
+      createAccountBlock(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const blockUser = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     input: {
@@ -170,8 +180,8 @@ const { t } = useI18n()
 de:
   accountsBlocked: Zur Blockliste
   blockAccount: Benutzer blockieren
-  blockAccountConfirmation: Der Benutzer {username} wurde blockiert.
-  blockAccountQuestion: Möchtest du {username} wirklich blockieren? Du wirst keine Einladungen mehr von diesem Benutzer erhalten.
+  blockAccountConfirmation: Der Benutzer {'@'}{username} wurde blockiert.
+  blockAccountQuestion: Möchtest du {'@'}{username} wirklich blockieren? Du wirst keine Einladungen mehr von diesem Benutzer erhalten.
   cancel: Abbrechen
   confirmBlock: Ja, blockieren
   error: Fehler
@@ -181,8 +191,8 @@ de:
 en:
   accountsBlocked: To blocklist
   blockAccount: Block User
-  blockAccountConfirmation: The user {username} has been blocked.
-  blockAccountQuestion: Do you really want to block {username}? You will no longer get invitations from this user.
+  blockAccountConfirmation: The user {'@'}{username} has been blocked.
+  blockAccountQuestion: Do you really want to block {'@'}{username}? You will no longer get invitations from this user.
   cancel: Cancel
   confirmBlock: Yes, block user
   error: Error

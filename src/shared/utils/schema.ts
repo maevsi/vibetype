@@ -3,7 +3,7 @@ import { z } from 'zod'
 const emptyToUndefined = (value: unknown) => (value === '' ? undefined : value)
 const itemDescription = z.string().min(1).max(10000)
 const userConsent = z.boolean().refine((value) => value === true)
-const userEmailAddress = z.string().min(1).email().max(1000)
+const userEmailAddress = z.email().min(1).max(1000)
 const userEmailAddressOptional = z.preprocess(
   emptyToUndefined,
   userEmailAddress.optional(),
@@ -36,6 +36,7 @@ export const schemaFormIssue = z.object({
 })
 export const schemaFormReport = z.object({
   itemDescription,
+  itemUrl: z.url().min(1).max(2000),
   userConsentAccuracy: userConsent,
   userConsentProcessing: userConsent,
   userEmailAddress: userEmailAddressOptional,

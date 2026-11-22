@@ -1,19 +1,22 @@
 <template>
   <LayoutPage>
-    <div class="flex flex-col gap-4 text-center">
-      <AppStepIndex :count="4" :index="2" />
-      <TypographyH3>
+    <div class="flex flex-col gap-4">
+      <AppStepProgress class="justify-start" :count="4" :index="2" />
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
-      </TypographyH3>
+      </span>
+      <span class="text-body text-fg-2">
+        {{ t('description') }}
+      </span>
       <div>
-        <ul class="flex flex-wrap justify-center gap-5">
+        <ul class="grid grid-cols-3 gap-3">
           <li v-for="eventFormat in eventFormats" :key="eventFormat.rowId">
             <PreferenceElement
               v-if="eventFormat.label && eventFormat.label !== eventFormat.name"
               :id="eventFormat.rowId"
               :name="eventFormat.label"
               :selected="preferenceEventFormatIds"
-              @click="togglePreferenceSelection(eventFormat.rowId)"
+              @toggle="togglePreferenceSelection(eventFormat.rowId)"
             >
               <AppIconPreferenceFormatConference
                 v-if="eventFormat.name === 'conference'"
@@ -57,24 +60,25 @@
       </div>
     </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="emit('next')"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>
 
 <script setup lang="ts">
-import { useAllEventFormatsQuery } from '~~/gql/documents/queries/event/eventFormatsAll'
-import { useAllPreferenceEventFormatsQuery } from '~~/gql/documents/queries/preference/preferenceEventFormatsAll'
-import { useCreatePreferenceEventFormatMutation } from '~~/gql/documents/mutations/preference/preferenceEventFormatCreate'
-import { useDeletePreferenceEventFormatByAccountIdAndFormatIdMutation } from '~~/gql/documents/mutations/preference/preferenceEventFormatDeleteByAccountIdAndEventFormat'
-import { getPreferenceEventFormatItem } from '~~/gql/documents/fragments/preferenceEventFormatItem'
-import { getEventFormatItem } from '~~/gql/documents/fragments/eventFormatItem'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
+import {
+  getPreferenceEventFormatItem,
+  useAllPreferenceEventFormatsQuery,
+} from '~~/shared/utils/preference/eventFormat'
 
 const emit = defineEmits<{
   next: []
@@ -114,12 +118,44 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allFormatsQuery = useAllEventFormatsQuery()
+const allFormatsQuery = useApiQuery({
+  query: graphql(`
+    query AllEventFormats {
+      allEventFormats {
+        nodes {
+          id
+          name
+          rowId
+        }
+      }
+    }
+  `),
+})
 const allPreferenceEventFormatsQuery = useAllPreferenceEventFormatsQuery()
-const createPreferenceEventFormatMutation =
-  useCreatePreferenceEventFormatMutation()
-const deletePreferenceEventFormatByAccountIdAndFormatIdMutation =
-  useDeletePreferenceEventFormatByAccountIdAndFormatIdMutation()
+const createPreferenceEventFormatMutation = useMutation(
+  graphql(`
+    mutation CreatePreferenceEventFormat(
+      $input: CreatePreferenceEventFormatInput!
+    ) {
+      createPreferenceEventFormat(input: $input) {
+        preferenceEventFormat {
+          ...PreferenceEventFormatItem
+        }
+      }
+    }
+  `),
+)
+const deletePreferenceEventFormatByAccountIdAndFormatIdMutation = useMutation(
+  graphql(`
+    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(
+      $input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput!
+    ) {
+      deletePreferenceEventFormatByAccountIdAndFormatId(input: $input) {
+        deletedPreferenceEventFormatId
+      }
+    }
+  `),
+)
 const api = await useApiData([
   allFormatsQuery,
   allPreferenceEventFormatsQuery,
@@ -129,7 +165,6 @@ const api = await useApiData([
 
 const eventFormats = computed(() =>
   api.value.data.allEventFormats?.nodes
-    .map(getEventFormatItem)
     .filter(isNeitherNullNorUndefined)
     .map((item) => ({ ...item, label: translate(item.name) }))
     .sort((a, b) => {
@@ -172,19 +207,16 @@ const togglePreferenceSelection = async (formatId: string) => {
 }
 
 const modelError = defineModel<Error>('error')
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 </script>
 
 <i18n lang="yaml">
 de:
   button: Weiter
+  description: 'Ob gemütliches Beisammensein oder lebhaftes Festival: Wir möchten deine Favoriten kennen! Teile einfach ein paar deiner Lieblingsformate.'
   formatConference: Konferenz
   formatDemonstration: Demonstration
   formatExhibition: Ausstellung
@@ -200,6 +232,7 @@ de:
   title: Wähle deine bevorzugten Event-Formate!
 en:
   button: Next
+  description: Whether it's a cozy gathering or a lively festival, we'd love to hear your favorites! Just share some of your top picks.
   formatConference: Conference
   formatDemonstration: Demonstration
   formatExhibition: Exhibition

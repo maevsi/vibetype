@@ -1,26 +1,28 @@
 <template>
   <LayoutPage>
-    <div class="flex flex-col gap-3">
-      <TypographyH6 class="text-center">
+    <div class="flex flex-col items-start gap-3">
+      <AppStepProgress class="justify-start" :count="2" :index="2" />
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
-      </TypographyH6>
-      <TypographyBodyMedium>
+      </span>
+      <span class="text-body text-fg-2">
         {{ t('description') }}
-      </TypographyBodyMedium>
+      </span>
     </div>
     <FormEarlyBird
-      ref="form"
+      :id="templateIdForm"
       v-model:error="modelError"
       @success="emit('next')"
     />
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
-        @click="templateForm?.submit"
+        :form="templateIdForm"
+        type="submit"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>
@@ -32,7 +34,7 @@ const emit = defineEmits<{
 
 const modelError = defineModel<Error>('error')
 const { t } = useI18n()
-const templateForm = useTemplateRef('form')
+const templateIdForm = useId()
 </script>
 
 <i18n lang="yaml">

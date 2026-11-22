@@ -1,13 +1,13 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="text-center">
-        <TypographySubtitleSmall>
+        <span class="text-body">
           {{ t('unblockAccountQuestion') }}
-        </TypographySubtitleSmall>
+        </span>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
       <div v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -17,79 +17,80 @@
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <div v-bind="attributes">
-        <LayoutPageResult type="error">
-          <template v-if="error" #description>
-            {{ error.message }}
+        <LayoutPageResult :message="error?.message" type="error">
+          <template #description>
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
+    </AppStepPanel>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
           {{ t('title') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
         <span v-bind="attributes">
           {{ t('userUnblocked') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
           {{ t('error') }}
         </span>
-      </AppStep>
+      </AppStepPanel>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('keepBlocked')"
           variant="secondary"
           @click="closeDrawer"
         >
           {{ t('keepBlocked') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('unblock')"
+          :loading="deleteAccountBlockMutation.fetching.value"
           @click="unblockUser"
         >
           {{ t('unblock') }}
-        </ButtonColored>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
-        <ButtonColored
+        </AppButton>
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('ok')"
           variant="primary"
           @click="closeDrawer"
         >
           {{ t('ok') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('toProfile')"
           variant="secondary"
           @click="toProfile"
         >
           {{ t('toProfile') }}
-        </ButtonColored>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+        </AppButton>
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('restart')"
           variant="tertiary"
           @click="restart"
         >
           {{ t('restart') }}
-        </ButtonColored>
-      </AppStep>
+        </AppButton>
+      </AppStepPanel>
     </template>
   </AppDrawer>
 </template>
@@ -186,7 +187,7 @@ de:
   title: Benutzer entsperren
   toProfile: Zum Profil
   unblock: Ja, entsperren
-  unblockAccountConfirmation: Der Benutzer {username} wurde entsperrt.
+  unblockAccountConfirmation: Der Benutzer {'@'}{username} wurde entsperrt.
   unblockAccountQuestion: Möchtest du den Nutzer wirklich entsperren? Er wird dir wieder Einladungen senden können.
   userUnblocked: Benutzer entsperrt
 en:
@@ -199,7 +200,7 @@ en:
   title: Unblock user
   toProfile: To profile
   unblock: Yes, unblock
-  unblockAccountConfirmation: The user {username} has been unblocked.
+  unblockAccountConfirmation: The user {'@'}{username} has been unblocked.
   unblockAccountQuestion: Do you really want to unblock the user? They will be able to send you invitations again.
   userUnblocked: User unblocked
 </i18n>

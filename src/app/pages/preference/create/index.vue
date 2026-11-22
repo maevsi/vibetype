@@ -4,80 +4,131 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
-      <template v-if="previous" #back>
-        <ButtonIcon :aria-label="t('back')" @click="step = previous">
+      <template #back>
+        <!-- a slot holding only a false `v-if` falls back to the default back button, which would duplicate the close button -->
+        <AppButton
+          v-if="previous"
+          :aria-label="t('back')"
+          size="none"
+          variant="ghost"
+          @click="step = previous"
+        >
           <AppIconBack />
-        </ButtonIcon>
+        </AppButton>
+        <div v-else />
+      </template>
+      <template v-if="step === 'notification'" #actions>
+        <AppButton
+          :aria-label="t('skip')"
+          size="small"
+          variant="secondary"
+          @click="step = 'size'"
+        >
+          {{ t('skip') }}
+        </AppButton>
       </template>
       <template
-        v-if="
+        v-else-if="
           ['default', 'size', 'format', 'category', 'location'].includes(step)
         "
-        #close
+        #actions
       >
-        <ButtonIconBackRoute :aria-label="t('iconAltClose')">
-          <AppIconClose />
-        </ButtonIconBackRoute>
+        <AppButton
+          :aria-label="t('skip')"
+          size="small"
+          variant="secondary"
+          @click="isSkipOpen = true"
+        >
+          {{ t('skip') }}
+        </AppButton>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
-      <PreferenceStepWelcome v-bind="attributes" @next="step = 'size'" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'size'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
+      <PreferenceStepWelcome
+        v-bind="attributes"
+        @next="step = isNotificationStepRequired ? 'notification' : 'size'"
+      />
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'notification'">
+      <PreferenceStepNotification v-bind="attributes" @next="step = 'size'" />
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'size'">
       <PreferenceStepSize
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'format'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'format'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'format'">
       <PreferenceStepFormat
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'category'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'category'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'category'">
       <PreferenceStepCategory
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'location'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'location'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'location'">
       <PreferenceStepLocation
-        v-bind="{ ariaHidden: attributes['aria-hidden'], ...attributes }"
+        v-bind="attributes"
         v-model:error="error"
         @next="step = 'done'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'done'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'done'">
       <PreferenceStepDone
         v-bind="attributes"
         @next="navigateTo(localePath({ name: 'dashboard' }))"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
+        <LayoutPageResult :message="error?.message" type="error">
           <template #description>
-            <span v-if="error && error.message">
-              {{ error.message }}
-            </span>
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="t('errorBack')"
             class="w-full max-w-sm"
             variant="primary"
             @click="error = undefined"
           >
             {{ t('errorBack') }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
+    <AppDrawer v-model="isSkipOpen">
+      <template #title>{{ t('skipTitle') }}</template>
+      <template #description>{{ t('skipDescription1') }}</template>
+      <div class="flex flex-col gap-2 text-fg-2">
+        <p class="text-body">{{ t('skipDescription1') }}</p>
+        <p class="text-body">{{ t('skipDescription2') }}</p>
+      </div>
+      <template #footer>
+        <AppButton
+          :aria-label="t('skipConfirm')"
+          variant="primary-critical"
+          @click="navigateTo(localePath({ name: 'dashboard' }))"
+        >
+          {{ t('skipConfirm') }}
+        </AppButton>
+        <AppButton
+          :aria-label="t('skipCancel')"
+          variant="tertiary"
+          @click="isSkipOpen = false"
+        >
+          {{ t('skipCancel') }}
+        </AppButton>
+      </template>
+    </AppDrawer>
   </section>
 </template>
 
@@ -86,36 +137,28 @@ defineRouteRules({
   robots: false,
 })
 
-definePageMeta({
-  layout: 'default-no-header',
-})
-
 const { t } = useI18n()
 const templateIdTitle = useId()
+const isSkipOpen = ref(false)
 
 // validation
-const store = useStore()
 const localePath = useLocalePath()
-const route = useRoute()
-if (!store.signedInUsername) {
-  await navigateTo({
-    path: localePath({
-      name: 'session-create',
-    }),
-    query: {
-      to: route.fullPath,
-    },
-    replace: true,
-  })
-}
+await useSignInRequired()
+
+// notifications
+const { isStepRequired: isNotificationStepRequired } =
+  useNotificationOnboarding()
 
 // stepper
 const { error, step, previous, title } = useStepperPage<
-  'size' | 'format' | 'category' | 'location' | 'done'
+  'notification' | 'size' | 'format' | 'category' | 'location' | 'done'
 >({
   steps: {
     default: {
       title: t('title'),
+    },
+    notification: {
+      previous: 'default',
     },
     size: {
       previous: 'default',
@@ -141,13 +184,23 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  back: zurück
+  back: Zurück
   errorBack: Zurück zum KI-Setup
-  iconAltClose: Schließen
-  title: Fühl den Vibe, finde dein Event!
+  skip: Überspringen
+  skipCancel: Abbrechen
+  skipConfirm: KI-Einrichtung überspringen
+  skipDescription1: Ohne deine Angaben zeigen wir dir eine breite Auswahl an Events. Vielleicht findest du trotzdem deinen perfekten Vibe!
+  skipDescription2: Du kannst deine Präferenzen jederzeit später anpassen.
+  skipTitle: Willst du die KI-Einrichtung wirklich überspringen?
+  title: KI einrichten
 en:
-  back: back
+  back: Back
   errorBack: Back to AI setup
-  iconAltClose: Close
-  title: Feel the Vibe, find your event!
+  skip: Skip
+  skipCancel: Cancel
+  skipConfirm: Skip AI setup
+  skipDescription1: Without your details, we'll show you a wide selection of events. Maybe you'll still find your perfect vibe!
+  skipDescription2: You can adjust your preferences anytime later.
+  skipTitle: Do you really want to skip the AI setup?
+  title: Set up AI
 </i18n>

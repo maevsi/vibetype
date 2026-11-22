@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <AppCard>
     <div class="flex items-center gap-4">
       <div class="px-2">
         <AccountProfilePicture
@@ -13,17 +13,17 @@
         <i18n-t keypath="message" tag="span">
           <template #username>
             <span class="font-bold">
-              {{ username }}
+              {{ `@${username}` }}
             </span>
           </template>
         </i18n-t>
       </div>
       <div class="relative flex gap-1">
-        <AppIconXCircle class="size-10 text-gray-500 dark:text-gray-400" />
-        <AppIconCheckCircle class="size-10 text-green-500" />
+        <AppIconXCircle class="size-10 text-fg-2" />
+        <AppIconCheckCircle class="size-10 text-link" />
       </div>
     </div>
-  </Card>
+  </AppCard>
 </template>
 
 <script setup lang="ts">

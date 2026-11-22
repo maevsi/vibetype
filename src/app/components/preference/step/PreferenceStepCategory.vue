@@ -1,12 +1,15 @@
 <template>
   <LayoutPage>
-    <div class="flex flex-col gap-4 text-center">
-      <AppStepIndex :count="4" :index="3" />
-      <TypographyH3>
+    <div class="flex flex-col gap-4">
+      <AppStepProgress class="justify-start" :count="4" :index="3" />
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
-      </TypographyH3>
+      </span>
+      <span class="text-body text-fg-2">
+        {{ t('description') }}
+      </span>
       <div>
-        <ul class="flex flex-wrap justify-center gap-5">
+        <ul class="grid grid-cols-3 gap-3">
           <li
             v-for="eventCategory in eventCategories"
             :key="eventCategory.rowId"
@@ -19,7 +22,7 @@
               :id="eventCategory.rowId"
               :name="eventCategory.label"
               :selected="preferenceEventCategoryIds"
-              @click="togglePreferenceSelection(eventCategory.rowId)"
+              @toggle="togglePreferenceSelection(eventCategory.rowId)"
             >
               <AppIconPreferenceCategoryArtAndCulture
                 v-if="eventCategory.name === 'art-and-culture'"
@@ -63,24 +66,25 @@
       </div>
     </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="emit('next')"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>
 
 <script setup lang="ts">
-import { useAllEventCategoriesQuery } from '~~/gql/documents/queries/event/eventCategoriesAll'
-import { useAllPreferenceEventCategoriesQuery } from '~~/gql/documents/queries/preference/preferenceEventCategoriesAll'
-import { useCreatePreferenceEventCategoryMutation } from '~~/gql/documents/mutations/preference/preferenceEventCategoryCreate'
-import { useDeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation } from '~~/gql/documents/mutations/preference/preferenceEventCategoryDeleteByAccountIdAndEventCategory'
-import { getPreferenceEventCategoryItem } from '~~/gql/documents/fragments/preferenceEventCategoryItem'
-import { getEventCategoryItem } from '~~/gql/documents/fragments/eventCategoryItem'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
+import {
+  getPreferenceEventCategoryItem,
+  useAllPreferenceEventCategoriesQuery,
+} from '~~/shared/utils/preference/eventCategory'
 
 const emit = defineEmits<{
   next: []
@@ -120,12 +124,45 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allCategoriesQuery = useAllEventCategoriesQuery()
+const allCategoriesQuery = useApiQuery({
+  query: graphql(`
+    query AllEventCategories {
+      allEventCategories {
+        nodes {
+          id
+          name
+          rowId
+        }
+      }
+    }
+  `),
+})
 const allPreferenceEventCategoriesQuery = useAllPreferenceEventCategoriesQuery()
-const createPreferenceEventCategoryMutation =
-  useCreatePreferenceEventCategoryMutation()
+const createPreferenceEventCategoryMutation = useMutation(
+  graphql(`
+    mutation CreatePreferenceEventCategory(
+      $input: CreatePreferenceEventCategoryInput!
+    ) {
+      createPreferenceEventCategory(input: $input) {
+        preferenceEventCategory {
+          ...PreferenceEventCategoryItem
+        }
+      }
+    }
+  `),
+)
 const deletePreferenceEventCategoryByAccountIdAndCategoryIdMutation =
-  useDeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation()
+  useMutation(
+    graphql(`
+      mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(
+        $input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput!
+      ) {
+        deletePreferenceEventCategoryByAccountIdAndCategoryId(input: $input) {
+          deletedPreferenceEventCategoryId
+        }
+      }
+    `),
+  )
 const api = await useApiData([
   allCategoriesQuery,
   allPreferenceEventCategoriesQuery,
@@ -135,7 +172,6 @@ const api = await useApiData([
 
 const eventCategories = computed(() =>
   api.value.data.allEventCategories?.nodes
-    .map(getEventCategoryItem)
     .filter(isNeitherNullNorUndefined)
     .map((item) => ({ ...item, label: translate(item.name) }))
     .sort((a, b) => {
@@ -178,19 +214,16 @@ const togglePreferenceSelection = async (categoryId: string) => {
 }
 
 const modelError = defineModel<Error>('error')
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 </script>
 
 <i18n lang="yaml">
 de:
   button: Weiter
+  description: Wir möchten wissen, welche Genres dich begeistern! Teile deine Favoriten, von Kunst bis Sport.
   formatArtAndCulture: Kunst & Kultur
   formatBusiness: Wirtschaft
   formatComedy: Komödie
@@ -206,6 +239,7 @@ de:
   title: Welches Genre spricht dich an?
 en:
   button: Next
+  description: We want to know what genres excite you! Share your favorites, from art to sports.
   formatArtAndCulture: Art & Culture
   formatBusiness: Business
   formatComedy: Comedy

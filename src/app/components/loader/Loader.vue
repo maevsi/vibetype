@@ -1,31 +1,31 @@
 <template>
-  <div>
-    <div v-if="api.isFetching" :class="classProps">
-      <LoaderIndicatorPing v-if="indicator === 'ping'" />
-      <LoaderIndicatorSpinner v-else-if="indicator === 'spinner'" />
-      <LoaderIndicatorText v-else-if="indicator === 'text'" />
-      <LoaderIndicatorText v-else />
-    </div>
-    <CardStateAlert v-if="errorMessages.length">
+  <div :class="cn('flex flex-1 flex-col', classProps)">
+    <AppAlert v-if="errorMessages.length" variant="error">
       <AppSpanList :span="errorMessages" />
-    </CardStateAlert>
-    <slot v-if="api.data" /><!--  && Object.keys(api.data).length -->
+    </AppAlert>
+    <slot v-if="hasData" />
+    <template v-else-if="api.isFetching">
+      <LoaderPage v-if="isPage" />
+      <AppLoaderPlaceholder v-else />
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { HtmlHTMLAttributes, UnwrapRef } from 'vue'
 
+import { cn } from '@/utils/shadcn'
+
 const {
   api,
   class: classProps = undefined,
   errorPgIds = undefined,
-  indicator = undefined,
+  isPage = false,
 } = defineProps<
   {
     api: UnwrapRef<Awaited<ReturnType<typeof useApiData>>>
     errorPgIds?: Record<string, string>
-    indicator?: string
+    isPage?: boolean
   } & { class?: HtmlHTMLAttributes['class'] }
 >()
 
@@ -33,10 +33,8 @@ const {
 const errorMessages = computed(() =>
   getCombinedErrorMessages(api.errors, errorPgIds),
 )
-</script>
-
-<script lang="ts">
-export default {
-  name: 'AppLoader',
-}
+// `api.data` is always an object (`useApiData` merges responses into it
+// incrementally), so a plain truthiness check never reflects whether any
+// response has actually arrived yet.
+const hasData = computed(() => Object.keys(api.data).length > 0)
 </script>

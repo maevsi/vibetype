@@ -1,272 +1,293 @@
 <template>
-  <div v-if="editor" class="flex flex-col gap-2">
-    <div class="flex flex-wrap gap-x-4 gap-y-2 xl:gap-6">
+  <div
+    v-if="editor"
+    class="flex flex-col overflow-hidden rounded-medium bg-surface-raised"
+  >
+    <div
+      :aria-label="t('formatting')"
+      class="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-line px-3 py-2"
+      role="group"
+    >
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('undo')"
-          class="rounded-sm p-1"
+          class="rounded-small p-1"
+          size="none"
           :title="t('undo')"
+          variant="ghost"
           @click="editor.chain().focus().undo().run()"
         >
           <AppIconArrowRotateLeft />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('redo')"
-          class="rounded-sm p-1"
+          class="rounded-small p-1"
+          size="none"
           :title="t('redo')"
+          variant="ghost"
           @click="editor.chain().focus().redo().run()"
         >
           <AppIconArrowRotateRight />
-        </ButtonIcon>
+        </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
-        <!-- <ButtonIcon
+        <!-- <AppButton
+          size="none" variant="ghost"
           :aria-label="t('paragraph')"
           :title="t('paragraph')"
           @click="editor.chain().focus().setParagraph().run()"
         >
           <AppIconParagraph />
         </ButtonIcon /> -->
-        <ButtonIcon
+        <AppButton
           :aria-label="t('heading1')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.heading1
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.heading1 ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('heading1')"
+          variant="ghost"
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number1') }}</span>
-          </div>
-        </ButtonIcon>
-        <ButtonIcon
+          </span>
+        </AppButton>
+        <AppButton
           :aria-label="t('heading2')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.heading2
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.heading2 ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('heading2')"
+          variant="ghost"
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number2') }}</span>
-          </div>
-        </ButtonIcon>
-        <ButtonIcon
+          </span>
+        </AppButton>
+        <AppButton
           :aria-label="t('heading3')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.heading3
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.heading3 ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('heading3')"
+          variant="ghost"
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number3') }}</span>
-          </div>
-        </ButtonIcon>
+          </span>
+        </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('bold')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.bold
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.bold ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('bold')"
+          variant="ghost"
           @click="editor.chain().focus().toggleBold().run()"
         >
           <AppIconBold />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('italic')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.italic
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.italic ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('italic')"
+          variant="ghost"
           @click="editor.chain().focus().toggleItalic().run()"
         >
           <AppIconItalic />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('strike')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.strike
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.strike ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('strike')"
+          variant="ghost"
           @click="editor.chain().focus().toggleStrike().run()"
         >
           <AppIconStrikethrough />
-        </ButtonIcon>
+        </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('formatAlignLeft')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.textAlignLeft
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.textAlignLeft ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('formatAlignLeft')"
+          variant="ghost"
           @click="editor.chain().focus().setTextAlign('left').run()"
         >
           <AppIconAlignLeft />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('formatAlignCenter')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.textAlignCenter
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.textAlignCenter ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('formatAlignCenter')"
+          variant="ghost"
           @click="editor.chain().focus().setTextAlign('center').run()"
         >
           <AppIconAlignCenter />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('formatAlignRight')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.textAlignRight
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.textAlignRight ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('formatAlignRight')"
+          variant="ghost"
           @click="editor.chain().focus().setTextAlign('right').run()"
         >
           <AppIconAlignRight />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('formatAlignJustify')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.textAlignJustify
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.textAlignJustify ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('formatAlignJustify')"
+          variant="ghost"
           @click="editor.chain().focus().setTextAlign('justify').run()"
         >
           <AppIconAlignJustify />
-        </ButtonIcon>
+        </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('listUl')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.bulletList
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.bulletList ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('listUl')"
+          variant="ghost"
           @click="editor.chain().focus().toggleBulletList().run()"
         >
           <AppIconListUl />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('listOl')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.orderedList
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.orderedList ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('listOl')"
+          variant="ghost"
           @click="editor.chain().focus().toggleOrderedList().run()"
         >
           <AppIconListOl />
-        </ButtonIcon>
+        </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('link')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.link
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.link ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('link')"
+          variant="ghost"
           @click="setLink"
         >
           <IFa6SolidLink />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('linkRemove')"
-          class="rounded-sm p-1"
+          class="rounded-small p-1"
           :disabled="!isActive.link"
+          size="none"
           :title="t('linkRemove')"
+          variant="ghost"
           @click="editor.chain().focus().unsetLink().run()"
         >
           <AppIconLinkSlash />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('blockquote')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.blockquote
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.blockquote ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('blockquote')"
+          variant="ghost"
           @click="editor.chain().focus().toggleBlockquote().run()"
         >
           <AppIconQuoteLeft />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('code')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.code
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.code ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('code')"
+          variant="ghost"
           @click="editor.chain().focus().toggleCode().run()"
         >
           <AppIconCode />
-        </ButtonIcon>
+        </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('horizontalRule')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.horizontalRule
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.horizontalRule ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('horizontalRule')"
+          variant="ghost"
           @click="editor.chain().focus().setHorizontalRule().run()"
         >
           <AppIconMinus />
-        </ButtonIcon>
+        </AppButton>
       </div>
       <!--
       <AppButton
-        :class="{ 'bg-background-bright dark:bg-background-dark': isActive.codeBlock }"
+        size="none" variant="ghost"
+        :class="{ 'bg-surface': isActive.codeBlock }"
         @click="editor.chain().focus().toggleCodeBlock().run()"
       >
         code block
@@ -282,7 +303,8 @@ import { TextAlign } from '@tiptap/extension-text-align'
 import { StarterKit } from '@tiptap/starter-kit'
 import { debounce } from 'lodash-es'
 
-const { value } = defineProps<{
+const { ariaLabel, value } = defineProps<{
+  ariaLabel: string
   value: string | undefined
 }>()
 
@@ -296,8 +318,9 @@ const editor = useEditor({
   content: value,
   editorProps: {
     attributes: {
+      'aria-label': ariaLabel,
       class:
-        'rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) flex-1 px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-none min-h-[100px]',
+        'min-h-28 flex-1 px-6 py-4 text-body placeholder-fg-3 outline-none',
     },
   },
   extensions: [
@@ -312,6 +335,16 @@ const editor = useEditor({
     updateIsActive()
   },
 })
+
+watch(
+  () => value,
+  (newValue) => {
+    if (!editor.value) return
+    if ((newValue ?? '') === editor.value.getHTML()) return
+
+    editor.value.commands.setContent(newValue ?? '', { emitUpdate: false })
+  },
+)
 
 // data
 const isActive = reactive({
@@ -387,7 +420,9 @@ const setLink = () => {
   }
 
   const location = getLocation(url)
-  const urlHost = `${location.hostname}:${location.port}`
+  const urlHost = location.port
+    ? `${location.hostname}:${location.port}`
+    : location.hostname
 
   // update link
   editor.value
@@ -400,11 +435,16 @@ const setLink = () => {
 const updateDebounced = debounce(
   () => {
     if (!editor.value) return
-    emit('input', editor.value?.getHTML())
+    emit('input', editor.value.isEmpty ? '' : editor.value.getHTML())
   },
   1000,
   { leading: true },
 )
+
+onBeforeUnmount(() => {
+  updateIsActive.cancel()
+  updateDebounced.cancel()
+})
 </script>
 
 <i18n lang="yaml">
@@ -416,9 +456,10 @@ de:
   formatAlignLeft: Links ausrichten
   formatAlignRight: Rechts ausrichten
   formatAlignJustify: Blocksatz
-  heading1: Überschrift (groß)
-  heading2: Überschrift (mittelgroß)
-  heading3: Überschrift (klein)
+  formatting: Formatierung
+  heading1: Überschrift 1 (groß)
+  heading2: Überschrift 2 (mittelgroß)
+  heading3: Überschrift 3 (klein)
   horizontalRule: Horizontaler Trennstrich
   italic: Kursiv
   link: Link
@@ -440,9 +481,10 @@ en:
   formatAlignLeft: Align left
   formatAlignRight: Align right
   formatAlignJustify: Justified
-  heading1: Heading (large)
-  heading2: Heading (medium)
-  heading3: Heading (small)
+  formatting: Formatting
+  heading1: Heading 1 (large)
+  heading2: Heading 2 (medium)
+  heading3: Heading 3 (small)
   horizontalRule: Horizontal rule
   italic: Italic
   link: Link

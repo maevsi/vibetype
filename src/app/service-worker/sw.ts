@@ -1,6 +1,13 @@
 /// <reference lib="WebWorker" />
 import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw'
-import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
+import * as navigationPreload from '@vite-pwa/workbox-swkit/navigation-preload'
+import {
+  cleanupOutdatedCaches,
+  precacheAndRoute,
+  PrecacheFallbackPlugin,
+} from '@vite-pwa/workbox-swkit/precaching'
+import { NavigationRoute, registerRoute } from '@vite-pwa/workbox-swkit/routing'
+import { NetworkOnly } from '@vite-pwa/workbox-swkit/strategies'
 
 import { initializeFirebaseClient } from '../utils/dependencies/firebase'
 
@@ -18,7 +25,21 @@ class CustomPushEvent extends Event {
 
 cleanupOutdatedCaches()
 
-precacheAndRoute(self.__WB_MANIFEST)
+precacheAndRoute(self.__WB_MANIFEST, {
+  parallel: { concurrency: 5, enabled: true },
+})
+
+// lets the navigation request below start while the worker is still booting
+navigationPreload.enable()
+
+// the prerendered `/offline` route rule in `nuxt.config.ts`
+registerRoute(
+  new NavigationRoute(
+    new NetworkOnly({
+      plugins: [new PrecacheFallbackPlugin({ fallbackURL: '/offline' })],
+    }),
+  ),
+)
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting()

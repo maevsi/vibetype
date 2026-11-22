@@ -3,13 +3,14 @@ export {
   COOKIE_CONTROL_CONSENT_COOKIE_NAME,
   CSRF_COOKIE_NAME,
   CSRF_HEADER_NAME,
+  EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
   IS_IN_FRONTEND_DEVELOPMENT,
   IS_IN_STACK,
   IS_NITRO_OPENAPI_ENABLED,
-  POLYFILLS,
+  LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
   PRODUCTION_HOST,
   SITE_NAME,
   TESTING_COOKIE_NAME,
@@ -19,23 +20,31 @@ export {
 } from '~~/node/static'
 
 export const COOKIE_SAME_SITE = 'lax' as const // cannot be `strict` as this would block cookies when coming from external sources
+export const EVENT_STREAM_DEDUPE_TTL_SECONDS =
+  60 * 60 * 24 /* redelivery window */
 export const ITEMS_PER_PAGE = 10
 export const ITEMS_PER_PAGE_LARGE = 100
 export const JWT_ALGORITHM = 'ES256'
 export type LOCALE_CODES = 'de' | 'en'
-export const MAEVSI_EMAIL_LIMIT_24H = 150
+export const MAEVSI_EMAIL_RATE_LIMIT_PER_DAY = 150
+export const MAEVSI_EMAIL_RATE_LIMIT_PER_SECOND = 14
+// OpenAI's high detail scales the shorter side to 768 pixels, which a portrait poster within 2048 pixels still reaches
+export const POSTER_SIZE_MAXIMUM = 2048
 export const POSTGRES_INTEGER_MAXIMUM = Math.pow(2, 31) - 1
-export const REGEX_PHONE_NUMBER = /^\+(?:[0-9] ?){6,14}[0-9]$/
 export const REGEX_SLUG = /^[-A-Za-z0-9]+$/
 export const REGEX_UPPERCASE_NONE = /^[^A-Z]+$/
 export const REGEX_URL_HTTPS = /^https:\/\//
 export const REGEX_UUID =
   /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/
 export const SEO_META_TWITTER_SITE = '@maev_si'
+export const STATE_KEY_EVENT_IMPORTED = 'eventImported'
 export const STATE_KEY_NOW = 'dateTimeNow'
+export const STATE_KEY_POSTER_PICKED = 'posterPicked'
+export const STATE_KEY_TIME_ZONE = 'dateTimeTimeZone'
 export const STATE_LOADING_IDS_NAME = 'loadingIds'
 export const FEATURE_FLAGS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
-export const THEME_COLOR_DARK = '#191911'
+export const LOCKDOWN_MODE_DISMISSED_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
+export const THEME_COLOR_DARK = '#121312'
 export const TITLE_TEMPLATE = ({
   siteName,
   title,

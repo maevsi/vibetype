@@ -3,25 +3,24 @@ export const useAppLayout = () => {
   const siteConfig = useSiteConfig()
   const { isApp } = usePlatform()
 
-  if (import.meta.server) {
-    // app
-    if (isApp) {
-      useHeadSafe({
-        meta: [
-          {
-            content:
-              'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
-            name: 'viewport',
-          },
-        ],
-      })
-    }
+  // app, registered on the client too, as the client would otherwise replace it with the default viewport after hydration
+  if (isApp) {
+    useHeadSafe({
+      meta: [
+        {
+          content:
+            'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
+          name: 'viewport',
+        },
+      ],
+    })
+  }
 
+  if (import.meta.server) {
     // style
     useHeadSafe({
       bodyAttrs: {
-        class:
-          'bg-(--semantic-base-background) text-(--semantic-base-text-primary) max-lg:select-none',
+        class: 'bg-surface text-fg-1 max-lg:select-none',
       },
     })
 
@@ -45,9 +44,6 @@ export const useAppLayout = () => {
         },
       ],
     })
-
-    // i18n
-    useHeadSafe(useLocaleHead().value)
 
     // seo
     useSeoMeta({
@@ -80,6 +76,12 @@ export const useHeadDefault = (
   input: Parameters<typeof useSeoMeta>[0],
   ogImageProps?: Parameters<typeof defineOgImage>[1],
 ) => {
+  // a page whose setup resumes after an await that navigated away, like the
+  // index page's redirect to the dashboard, is already unmounted: its stopped
+  // scope never runs the watcher that fills `useSiteConfig`, so the site name
+  // is undefined, and head entries added now would never be disposed
+  if (getCurrentScope()?.active === false) return
+
   const { t } = useI18n({ useScope: 'global' })
   const siteConfig = useSiteConfig()
 
@@ -95,10 +97,11 @@ export const useHeadDefault = (
       ? {
           description,
           ogDescription: description,
-          twitterDescription: description,
         }
       : {}),
-    ...(title ? { title, ogTitle: title, twitterTitle: title } : {}),
+    ...(title ? { title, ogTitle: title } : {}),
+    // `defineOgImage` adds no image tags on the client while hydrating, so the card nuxt-seo-utils infers there would replace the server's `summary_large_image` with `summary` (https://github.com/nuxt-modules/og-image/issues/791)
+    twitterCard: 'summary_large_image',
     ...input,
   })
   defineOgImage(
@@ -112,33 +115,4 @@ export const useHeadDefault = (
       alt: t('globalSeoOgImageAlt'), // TODO: update text
     },
   )
-}
-
-const POLYFILLS_URL = `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=${POLYFILLS.join(
-  '%2C',
-)}&flags=gated`
-
-export const usePolyfills = () => {
-  if (!POLYFILLS.length) return
-
-  if (import.meta.server) {
-    useHead({
-      link: [
-        {
-          rel: 'preload',
-          href: POLYFILLS_URL,
-          crossorigin: 'anonymous',
-          as: 'script',
-          'data-testid': 'polyfill-preload',
-        },
-      ],
-      script: [
-        {
-          src: POLYFILLS_URL,
-          crossorigin: 'anonymous',
-          'data-testid': 'polyfill-script',
-        },
-      ],
-    })
-  }
 }

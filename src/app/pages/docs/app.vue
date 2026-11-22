@@ -1,42 +1,39 @@
 <template>
-  <div class="flex flex-1 flex-col justify-center">
-    <div class="flex flex-col gap-8 rounded-lg p-8 text-center">
-      <div class="flex flex-col gap-4">
-        <div class="text-4xl leading-tight font-bold tracking-tight">
-          {{ t('descriptionTitle') }}
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ t('descriptionTitle') }}</LayoutTopBar>
+    <LayoutPage>
+      <div
+        class="flex flex-1 flex-col justify-center gap-8 rounded-medium p-8 text-center"
+      >
+        <div class="flex flex-col gap-4">
+          <div>
+            {{ t('descriptionContent') }}
+          </div>
         </div>
-        <div>
-          {{ t('descriptionContent') }}
+        <div class="flex flex-col justify-center gap-4 lg:flex-row lg:gap-8">
+          <AppCardButton
+            is-external
+            :title="t('appStore')"
+            to="https://testflight.apple.com/join/kkStPDoc"
+          >
+            <AppIconAppStore />
+          </AppCardButton>
+          <AppCardButton
+            class="lg:h-32"
+            is-external
+            :title="t('googlePlay')"
+            to="https://play.google.com/store/apps/details?id=si.maev.twa"
+          >
+            <AppIconGooglePlay />
+          </AppCardButton>
         </div>
       </div>
-      <div class="flex flex-col justify-center gap-4 lg:flex-row lg:gap-8">
-        <CardButton
-          is-external
-          :title="t('appStore')"
-          to="https://testflight.apple.com/join/kkStPDoc"
-        >
-          <AppIconAppStore />
-        </CardButton>
-        <CardButton
-          class="lg:h-32"
-          is-external
-          :title="t('googlePlay')"
-          to="https://play.google.com/store/apps/details?id=si.maev.twa"
-        >
-          <AppIconGooglePlay />
-        </CardButton>
-      </div>
-    </div>
+    </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
 import { UAParser } from 'ua-parser-js'
-
-// compiler
-definePageMeta({
-  layout: 'plain',
-})
 
 // redirect
 const { isApp } = usePlatform()
@@ -65,11 +62,6 @@ if (isApp) {
         replace: true,
       })
     }
-
-    console.debug(
-      'Not redirecting, neither Android nor iOS detected',
-      JSON.stringify({ os, userAgent }),
-    )
   }
 }
 

@@ -1,9 +1,15 @@
 export const FEATURE_FLAGS = [
+  'account-management',
+  'category-browse',
   'developer-tools',
+  'event-attending',
+  'event-drafts',
+  'event-search-account',
   'friends',
-  'map',
+  'invitations',
+  'location-live',
   'notifications',
-  'poster-hunt',
+  'participation',
   'social-login',
 ] as const
 export type FeatureFlag = (typeof FEATURE_FLAGS)[number]
@@ -25,23 +31,18 @@ const parseFeatureFlags = (value?: unknown | null): FeatureFlag[] => {
 }
 
 /**
- * Manages feature flags via cookies. Flags are stored as comma-separated values
- * in `${SITE_NAME}_feature-flags` (when consented) and synced reactively.
+ * Manages feature flags via a cookie. The cookie is the single source of
+ * truth: enabled flags are always derived from it, never mirrored into a
+ * second reactive state, so nothing can drift out of sync with it. The
+ * cookie needs no consent, as users request flags themselves (§ 25 (2) no. 2
+ * TDDDG).
  *
  * @example
  * const { enableFeature, isFeatureEnabled } = useFeatureFlags()
- * enableFeature('map')
- * if (isFeatureEnabled('map').value) { ... }
+ * enableFeature('friends')
+ * if (isFeatureEnabled('friends').value) { ... }
  */
 export const useFeatureFlags = () => {
-  const featureFlags = useState<Set<FeatureFlag>>(
-    'feature-flags',
-    () => new Set(),
-  )
-  const isFeatureEnabledCache = useState<
-    Map<FeatureFlag, ComputedRef<boolean>>
-  >('feature-flags-cache', () => new Map())
-  const cookieControl = useCookieControl()
   const isSecure = useIsSecure()
 
   const cookie = useCookie<string | null>(FEATURE_FLAGS_COOKIE_NAME, {
@@ -50,71 +51,42 @@ export const useFeatureFlags = () => {
     secure: isSecure,
   })
 
-  const canUseFeatureFlags = computed(
-    () =>
-      cookieControl.cookiesEnabledIds.value?.includes(
-        FEATURE_FLAGS_COOKIE_ID,
-      ) ?? false,
+  const enabledFlags = computed<Set<FeatureFlag>>(
+    () => new Set(parseFeatureFlags(cookie.value)),
   )
 
-  const hydrateFromCookie = (value: string | null | undefined): void => {
-    featureFlags.value.clear()
-    parseFeatureFlags(value).forEach((flag) => featureFlags.value.add(flag))
-  }
-
-  const persistToCookie = (): void => {
-    if (!canUseFeatureFlags.value) return
-
-    cookie.value = Array.from(featureFlags.value).join(',')
-  }
-
-  const reset = (): void => {
-    featureFlags.value.clear()
-    cookie.value = null
-  }
-
-  if (canUseFeatureFlags.value) {
-    hydrateFromCookie(cookie.value)
-  }
-
-  watch(
-    () => cookie.value,
-    (newValue) => {
-      if (!canUseFeatureFlags.value) return
-      hydrateFromCookie(newValue)
-    },
-  )
-
-  watch(canUseFeatureFlags, (isAllowed) => {
-    if (isAllowed) {
-      hydrateFromCookie(cookie.value)
-      persistToCookie()
-      return
-    }
-
-    reset()
-  })
-
-  const disableFeature = (feature: FeatureFlag): void => {
-    if (!canUseFeatureFlags.value || !featureFlags.value.has(feature)) return
-
-    featureFlags.value.delete(feature)
-    persistToCookie()
+  const writeFlags = (flags: Set<FeatureFlag>): void => {
+    cookie.value = flags.size ? Array.from(flags).join(',') : null
   }
 
   const enableFeature = (feature: FeatureFlag): void => {
-    if (!canUseFeatureFlags.value || featureFlags.value.has(feature)) return
+    if (enabledFlags.value.has(feature)) return
 
-    featureFlags.value.add(feature)
-    persistToCookie()
+    writeFlags(new Set(enabledFlags.value).add(feature))
   }
 
+  const disableFeature = (feature: FeatureFlag): void => {
+    if (!enabledFlags.value.has(feature)) return
+
+    const next = new Set(enabledFlags.value)
+    next.delete(feature)
+    writeFlags(next)
+  }
+
+  // Cached per flag so repeated calls (e.g. from a template) return the same
+  // ComputedRef instance instead of allocating a new one on every access.
+  // Kept as a plain local (not `useState`), since a `ComputedRef` doesn't
+  // survive the SSR payload round-trip: Nuxt's payload revival treats it
+  // like a `ref` and replaces it with a plain ref frozen at its
+  // server-render value, permanently disconnecting it from `enabledFlags`.
+  const isFeatureEnabledCache = new Map<FeatureFlag, ComputedRef<boolean>>()
+
   const isFeatureEnabled = (feature: FeatureFlag): ComputedRef<boolean> => {
-    const cached = isFeatureEnabledCache.value.get(feature)
+    const cached = isFeatureEnabledCache.get(feature)
     if (cached) return cached
 
-    const state = computed(() => featureFlags.value.has(feature))
-    isFeatureEnabledCache.value.set(feature, state)
+    const state = computed(() => enabledFlags.value.has(feature))
+    isFeatureEnabledCache.set(feature, state)
     return state
   }
 
@@ -133,4 +105,17 @@ export const useFeatureFlags = () => {
     isFeatureEnabled,
     toggleFeature,
   }
+}
+
+/** Answers a page whose feature is unfinished with a 404 in production unless its flag is enabled, as `AppFeature` does for parts of a page. */
+export const useFeatureRequired = (feature: FeatureFlag) => {
+  const { createA11yError } = useA11yError()
+  const { isFeatureEnabled } = useFeatureFlags()
+  const runtimeConfig = useRuntimeConfig()
+
+  if (
+    !isFeatureEnabled(feature).value &&
+    runtimeConfig.public.vio.environment === 'production'
+  )
+    throw createA11yError({ status: 404 })
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form novalidate @submit.prevent="form.handleSubmit">
+    <form novalidate @submit.prevent="submit">
       <div class="flex flex-col gap-4">
         <form.Field v-slot="{ field: nameField }" name="name">
           <Field>
@@ -27,7 +27,7 @@
             />
             <p
               v-if="event && event.name !== nameField.state.value"
-              class="text-sm text-yellow-600 dark:text-yellow-400"
+              class="rounded-small bg-warning-tint px-3 py-2 text-body-small text-fg-1"
             >
               {{ t('validationWarningNameChangeSlug') }}
             </p>
@@ -73,7 +73,6 @@
                     value: EventVisibility.Unlisted,
                   },
                 ]"
-                name="visibility"
                 @update:model-value="
                   (value) =>
                     field.handleChange(String(value ?? '') as EventVisibility)
@@ -84,6 +83,28 @@
               v-if="isFieldInvalid(field)"
               :errors="field.state.meta.errors"
             />
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="categoryIds">
+          <Field>
+            <FieldLabel>{{ t('categories') }}</FieldLabel>
+            <FieldContent>
+              <FormEventCategorySelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="formatIds">
+          <Field>
+            <FieldLabel>{{ t('formats') }}</FieldLabel>
+            <FieldContent>
+              <FormEventFormatSelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
           </Field>
         </form.Field>
         <form.Field
@@ -114,18 +135,56 @@
           </Field>
         </form.Field>
         <form.Field v-slot="{ field }" name="start">
-          <Field>
-            <FieldLabel for="input-start">{{ t('start') }}</FieldLabel>
+          <Field class="flex flex-col">
+            <FieldLabel for="button-start">{{ t('start') }}</FieldLabel>
             <FieldContent>
-              <Input
-                id="input-start"
-                :aria-invalid="isFieldInvalid(field)"
-                :model-value="dateTimeFormatter(field.state.value)"
-                :placeholder="dateTimeFormatter(now.toISOString())"
-                readonly
-                type="text"
-                @click="store.modals.push({ id: 'ModalDateTimeStart' })"
-              />
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-start"
+                    :aria-invalid="isFieldInvalid(field)"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :max-value="isoToCalendarDate(form.getFieldValue('end'))"
+                      :model-value="isoToCalendarDate(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
             </FieldContent>
             <FieldError
               v-if="isFieldInvalid(field)"
@@ -133,24 +192,64 @@
             />
             <p
               v-if="isWarningStartPastShown"
-              class="text-sm text-yellow-600 dark:text-yellow-400"
+              class="rounded-small bg-warning-tint px-3 py-2 text-body-small text-fg-1"
             >
               {{ t('globalValidationNowOrFuture') }}
             </p>
           </Field>
         </form.Field>
         <form.Field v-slot="{ field }" name="end">
-          <Field>
-            <FieldLabel for="input-end">{{ t('end') }}</FieldLabel>
+          <Field class="flex flex-col">
+            <FieldLabel for="button-end">{{ t('end') }}</FieldLabel>
             <FieldContent>
-              <Input
-                id="input-end"
-                :model-value="dateTimeFormatter(field.state.value)"
-                :placeholder="dateTimeFormatter(now.toISOString())"
-                readonly
-                type="text"
-                @click="store.modals.push({ id: 'ModalDateTimeEnd' })"
-              />
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-end"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :min-value="
+                        isoToCalendarDate(form.getFieldValue('start'))
+                      "
+                      :model-value="isoToCalendarDate(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
             </FieldContent>
           </Field>
         </form.Field>
@@ -158,25 +257,109 @@
           <FieldLabel>{{ t('attendanceType') }}</FieldLabel>
           <FieldContent>
             <form.Field v-slot="{ field }" name="isInPerson">
-              <FormCheckbox
-                form-key="is-in-person"
-                :value="field.state.value"
-                @change="field.handleChange($event)"
-              >
-                {{ t('isInPerson') }}
-              </FormCheckbox>
+              <div class="flex items-center gap-4">
+                <AppCheckbox
+                  id="is-in-person"
+                  :model-value="field.state.value"
+                  @update:model-value="
+                    (checked) => field.handleChange(checked === true)
+                  "
+                />
+                <label for="is-in-person">{{ t('isInPerson') }}</label>
+              </div>
             </form.Field>
             <form.Field v-slot="{ field }" name="isRemote">
-              <FormCheckbox
-                form-key="is-remote"
-                :value="field.state.value"
-                @change="field.handleChange($event)"
-              >
-                {{ t('isRemote') }}
-              </FormCheckbox>
+              <div class="flex items-center gap-4">
+                <AppCheckbox
+                  id="is-remote"
+                  :model-value="field.state.value"
+                  @update:model-value="
+                    (checked) => field.handleChange(checked === true)
+                  "
+                />
+                <label for="is-remote">{{ t('isRemote') }}</label>
+              </div>
             </form.Field>
           </FieldContent>
         </Field>
+        <form.Field v-slot="{ field: isInPersonField }" name="isInPerson">
+          <template v-if="isInPersonField.state.value">
+            <form.Field
+              v-slot="{ field: locationNameField }"
+              name="locationName"
+            >
+              <Field>
+                <FieldLabel for="input-location-name">{{
+                  t('location')
+                }}</FieldLabel>
+                <FieldContent>
+                  <div class="flex gap-2">
+                    <Input
+                      id="input-location-name"
+                      :aria-invalid="isFieldInvalid(locationNameField)"
+                      class="flex-1"
+                      enterkeyhint="search"
+                      :model-value="locationNameField.state.value"
+                      :placeholder="t('locationPlaceholder')"
+                      type="text"
+                      @blur="locationNameField.handleBlur"
+                      @input="
+                        locationNameField.handleChange(
+                          ($event.target as HTMLInputElement).value,
+                        )
+                      "
+                      @keydown.enter.prevent="
+                        searchLocation(locationNameField.state.value)
+                      "
+                    />
+                    <AppButton
+                      :aria-label="t('locationSearch')"
+                      :disabled="isLocationSearching"
+                      size="icon"
+                      variant="secondary"
+                      @click="searchLocation(locationNameField.state.value)"
+                    >
+                      <AppIconMagnifyingGlass />
+                    </AppButton>
+                  </div>
+                  <ul
+                    v-if="locationResults.length"
+                    :aria-label="t('locationResults')"
+                    class="flex flex-col rounded-medium bg-surface-raised p-1"
+                  >
+                    <li
+                      v-for="locationResult in locationResults"
+                      :key="locationResult.place_id"
+                    >
+                      <button
+                        class="w-full rounded-small px-3 py-2 text-left text-body hover:bg-line focus-visible:focus-ring"
+                        type="button"
+                        @click="selectLocation(locationResult)"
+                      >
+                        {{ locationResult.display_name }}
+                      </button>
+                    </li>
+                  </ul>
+                </FieldContent>
+                <FieldDescription>{{ t('locationHint') }}</FieldDescription>
+                <FieldError
+                  v-if="isFieldInvalid(locationNameField)"
+                  :errors="locationNameField.state.meta.errors"
+                />
+              </Field>
+            </form.Field>
+            <AppMap
+              ref="map"
+              class="h-64"
+              :position-initial="locationPositionInitial"
+              @geocode="onGeocode"
+            >
+              <AppIconMapPinSolid
+                class="absolute top-1/2 left-1/2 size-8 -translate-x-1/2 -translate-y-full text-error"
+              />
+            </AppMap>
+          </template>
+        </form.Field>
         <form.Field v-slot="{ field }" name="url">
           <Field>
             <FieldLabel for="input-url">{{ t('url') }}</FieldLabel>
@@ -205,6 +388,7 @@
             <FieldContent>
               <client-only>
                 <AppTipTap
+                  :aria-label="t('description')"
                   :value="field.state.value"
                   @input="field.handleChange($event)"
                 />
@@ -217,66 +401,47 @@
           </Field>
         </form.Field>
         <div class="flex flex-col items-center justify-between">
-          <ButtonColored
+          <AppButton
             :aria-label="
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             "
             class="w-full"
+            :loading="api.isFetching"
             type="submit"
           >
             {{
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             }}
-          </ButtonColored>
+          </AppButton>
         </div>
-        <CardStateAlert v-if="errorMessages?.length">
+        <AppAlert v-if="errorMessages?.length" variant="error">
           <AppSpanList :span="errorMessages" />
-        </CardStateAlert>
+        </AppAlert>
       </div>
     </form>
-    <Modal id="ModalDateTimeStart">
-      <div class="flex justify-center">
-        <DatePicker
-          :first-day-of-week="2"
-          :is-dark="colorMode.value === 'dark'"
-          :is24hr="locale !== 'en'"
-          :locale
-          :masks="{ input: 'YYYY-MM-DD h:mm A' }"
-          :max-date="form.getFieldValue('end')"
-          :minute-increment="5"
-          mode="dateTime"
-          :model-value="form.getFieldValue('start')"
-          @update:model-value="form.setFieldValue('start', $event as string)"
-        />
-      </div>
-    </Modal>
-    <Modal id="ModalDateTimeEnd">
-      <div class="flex justify-center">
-        <DatePicker
-          :first-day-of-week="2"
-          :is-dark="colorMode.value === 'dark'"
-          :is24hr="locale !== 'en'"
-          :locale
-          :masks="{ input: 'YYYY-MM-DD h:mm A' }"
-          :min-date="form.getFieldValue('start')"
-          :minute-increment="5"
-          mode="dateTime"
-          :model-value="form.getFieldValue('end')"
-          @update:model-value="form.setFieldValue('end', $event as string)"
-        />
-      </div>
-    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { AddressFields, GeocodeResult } from '#shared/utils/address'
+import type { DateValue, TimeValue } from 'reka-ui'
+import {
+  fromDate,
+  getLocalTimeZone,
+  parseAbsoluteToLocal,
+  toCalendarDate,
+  toCalendarDateTime,
+} from '@internationalized/date'
+import { toDate } from 'reka-ui/date'
 import { useForm } from '@tanstack/vue-form'
 import type { AnyFieldApi } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
+import slugify from 'slugify'
 import { z } from 'zod'
-import { DatePicker } from 'v-calendar'
 
-import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
-import { useUpdateEventByRowIdMutation } from '~~/gql/documents/mutations/event/eventUpdateByRowId'
+import { cn } from '@/utils/shadcn'
+
+import { graphql } from '~~/gql/generated'
 import { EventVisibility } from '~~/gql/generated/graphcache'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
@@ -294,22 +459,153 @@ const { event = undefined } = defineProps<{
     | 'url'
     | 'description'
     | 'rowId'
-  >
+  > & {
+    addressByAddressId?:
+      | (AddressFields & {
+          location?: { latitude: number; longitude: number } | null
+          name?: string | null
+          rowId?: string | null
+        })
+      | null
+    eventCategoryMappingsByEventId?: {
+      nodes: readonly { categoryId: string }[]
+    } | null
+    eventFormatMappingsByEventId?: {
+      nodes: readonly { formatId: string }[]
+    } | null
+  }
 }>()
 
 const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
-const colorMode = useColorMode()
 const timeZone = useTimeZone()
 
 // data
 const now = useNow()
 
 // api data
-const createEventMutation = useCreateEventMutation()
-const updateEventMutation = useUpdateEventByRowIdMutation()
-const api = await useApiData([createEventMutation, updateEventMutation])
+const createEventMutation = useMutation(
+  graphql(`
+    mutation CreateEvent($input: CreateEventInput!) {
+      createEvent(input: $input) {
+        event {
+          id
+          rowId
+        }
+      }
+    }
+  `),
+)
+const updateEventMutation = useMutation(
+  graphql(`
+    mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {
+      updateEventByRowId(input: $input) {
+        event {
+          id
+        }
+      }
+    }
+  `),
+)
+const createAddressMutation = useMutation(
+  graphql(`
+    mutation CreateAddress($input: CreateAddressInput!) {
+      createAddress(input: $input) {
+        address {
+          rowId
+        }
+      }
+    }
+  `),
+)
+const updateAddressByRowIdMutation = useMutation(
+  graphql(`
+    mutation UpdateAddressByRowId($input: UpdateAddressByRowIdInput!) {
+      updateAddressByRowId(input: $input) {
+        address {
+          rowId
+        }
+      }
+    }
+  `),
+)
+const createEventCategoryMappingMutation = useMutation(
+  graphql(`
+    mutation CreateEventCategoryMapping(
+      $input: CreateEventCategoryMappingInput!
+    ) {
+      createEventCategoryMapping(input: $input) {
+        eventCategoryMapping {
+          categoryId
+          eventByEventId {
+            id
+          }
+          id
+        }
+      }
+    }
+  `),
+)
+const deleteEventCategoryMappingByEventIdAndCategoryIdMutation = useMutation(
+  graphql(`
+    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(
+      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!
+    ) {
+      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {
+        deletedEventCategoryMappingId
+        eventCategoryMapping {
+          eventByEventId {
+            id
+          }
+          id
+        }
+      }
+    }
+  `),
+)
+const createEventFormatMappingMutation = useMutation(
+  graphql(`
+    mutation CreateEventFormatMapping($input: CreateEventFormatMappingInput!) {
+      createEventFormatMapping(input: $input) {
+        eventFormatMapping {
+          eventByEventId {
+            id
+          }
+          formatId
+          id
+        }
+      }
+    }
+  `),
+)
+const deleteEventFormatMappingByEventIdAndFormatIdMutation = useMutation(
+  graphql(`
+    mutation DeleteEventFormatMappingByEventIdAndFormatId(
+      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!
+    ) {
+      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {
+        deletedEventFormatMappingId
+        eventFormatMapping {
+          eventByEventId {
+            id
+          }
+          id
+        }
+      }
+    }
+  `),
+)
+const api = await useApiData([
+  createAddressMutation,
+  createEventMutation,
+  updateAddressByRowIdMutation,
+  updateEventMutation,
+  createEventCategoryMappingMutation,
+  deleteEventCategoryMappingByEventIdAndCategoryIdMutation,
+  createEventFormatMappingMutation,
+  deleteEventFormatMappingByEventIdAndFormatIdMutation,
+])
 
 // slug validation
 const validateEventSlugFn = async (value: string) => {
@@ -330,28 +626,232 @@ const validateEventSlugFn = async (value: string) => {
 
 // form
 const formSchema = z.object({
+  categoryIds: z.array(z.string()),
   description: SCHEMA_EVENT_DESCRIPTION_OPTIONAL,
   end: z.string(),
+  formatIds: z.array(z.string()),
   guestCountMaximum: z.string(),
   isInPerson: z.boolean(),
   isRemote: z.boolean(),
+  locationName: SCHEMA_EVENT_LOCATION_NAME_OPTIONAL,
   name: SCHEMA_EVENT_NAME_REQUIRED,
   rowId: z.string(),
   slug: SCHEMA_EVENT_SLUG_REQUIRED,
   start: z.string().min(1),
   url: SCHEMA_URL_HTTPS_OPTIONAL,
-  visibility: z.nativeEnum(EventVisibility),
+  visibility: z.enum(EventVisibility),
 })
+
+const syncEventCategoryMappings = async ({
+  eventId,
+  originalCategoryIds,
+  selectedCategoryIds,
+}: {
+  eventId: string
+  originalCategoryIds: string[]
+  selectedCategoryIds: string[]
+}) => {
+  const results = await Promise.all([
+    ...selectedCategoryIds
+      .filter((categoryId) => !originalCategoryIds.includes(categoryId))
+      .map((categoryId) =>
+        createEventCategoryMappingMutation.executeMutation({
+          input: { eventCategoryMapping: { categoryId, eventId } },
+        }),
+      ),
+    ...originalCategoryIds
+      .filter((categoryId) => !selectedCategoryIds.includes(categoryId))
+      .map((categoryId) =>
+        deleteEventCategoryMappingByEventIdAndCategoryIdMutation.executeMutation(
+          { input: { categoryId, eventId } },
+        ),
+      ),
+  ])
+
+  return results.every((result) => !result.error)
+}
+const syncEventFormatMappings = async ({
+  eventId,
+  originalFormatIds,
+  selectedFormatIds,
+}: {
+  eventId: string
+  originalFormatIds: string[]
+  selectedFormatIds: string[]
+}) => {
+  const results = await Promise.all([
+    ...selectedFormatIds
+      .filter((formatId) => !originalFormatIds.includes(formatId))
+      .map((formatId) =>
+        createEventFormatMappingMutation.executeMutation({
+          input: { eventFormatMapping: { eventId, formatId } },
+        }),
+      ),
+    ...originalFormatIds
+      .filter((formatId) => !selectedFormatIds.includes(formatId))
+      .map((formatId) =>
+        deleteEventFormatMappingByEventIdAndFormatIdMutation.executeMutation({
+          input: { eventId, formatId },
+        }),
+      ),
+  ])
+
+  return results.every((result) => !result.error)
+}
+
+// location
+const addressRowIdOriginal = event?.addressByAddressId?.rowId
+const locationPositionInitial = event?.addressByAddressId?.location
+  ? {
+      latitude: event.addressByAddressId.location.latitude,
+      longitude: event.addressByAddressId.location.longitude,
+      zoomLevel: 15,
+    }
+  : undefined
+const templateMap = useTemplateRef('map')
+// a geocode replaces the stored fields, so they only change with a new search
+const addressFields = ref<AddressFields>({
+  city: event?.addressByAddressId?.city,
+  country: event?.addressByAddressId?.country,
+  line1: event?.addressByAddressId?.line1,
+  line2: event?.addressByAddressId?.line2,
+  postalCode: event?.addressByAddressId?.postalCode,
+  region: event?.addressByAddressId?.region,
+})
+type LocationResult = {
+  display_name: string
+  lat: string
+  lon: string
+  place_id: number
+} & Parameters<typeof getAddressFromNominatim>[0]
+const fetchLocations = (q: string) =>
+  $fetch<LocationResult[]>('/api/service/nominatim/search', {
+    query: { 'accept-language': locale.value, q },
+  })
+const locationResults = ref<LocationResult[]>([])
+const isLocationSearching = ref(false)
+// Nominatim's usage policy forbids autocomplete, so the field only searches on the button or enter
+const searchLocation = async (query: string) => {
+  const q = query.trim()
+  // the search endpoint rejects shorter queries
+  if (q.length < 2 || isLocationSearching.value) return
+
+  isLocationSearching.value = true
+
+  try {
+    locationResults.value = await fetchLocations(q)
+    if (!locationResults.value.length) toast.info(t('locationNotFound'))
+  } catch {
+    toast.error(t('locationSearchError'))
+  } finally {
+    isLocationSearching.value = false
+  }
+}
+const selectLocation = (result: LocationResult) => {
+  locationResults.value = []
+  templateMap.value?.map?.setView([Number(result.lat), Number(result.lon)], 15)
+  onGeocode({ ...getAddressFromNominatim(result), label: result.display_name })
+}
+const onGeocode = (result: GeocodeResult) => {
+  form.setFieldValue('locationName', result.name ?? result.label)
+  // missing fields are null so that they clear what an earlier place left behind
+  addressFields.value = {
+    city: result.address.city ?? null,
+    country: result.address.country ?? null,
+    line1: result.address.line1 ?? null,
+    line2: null,
+    postalCode: result.address.postalCode ?? null,
+    region: result.address.region ?? null,
+  }
+}
+// an import names the place without its position, so the pin would stay on the default centre
+const locationNameImported = event?.rowId
+  ? undefined
+  : !event?.addressByAddressId?.location &&
+    event?.addressByAddressId?.name?.trim()
+if (locationNameImported) {
+  watch(
+    () => templateMap.value?.map,
+    async (map) => {
+      if (!map) return
+
+      try {
+        const [result] = await fetchLocations(locationNameImported)
+        if (!result) return
+
+        map.setView([Number(result.lat), Number(result.lon)], 15)
+        addressFields.value = getAddressFromNominatim(result).address
+      } catch {
+        // the location field still lets the place be found by hand
+      }
+    },
+    { once: true },
+  )
+}
+const syncAddress = async (
+  locationName: string,
+): Promise<string | null | undefined> => {
+  const trimmedLocationName = locationName.trim()
+
+  if (!form.getFieldValue('isInPerson') || !trimmedLocationName) return null
+
+  const mapCenter = templateMap.value?.mapCenter
+  if (!mapCenter) return addressRowIdOriginal ?? null
+
+  // an untouched map would store its default centre as the location
+  const location =
+    locationPositionInitial || templateMap.value?.isPositionSet
+      ? {
+          type: 'Point' as const,
+          coordinates: [mapCenter.lng, mapCenter.lat],
+        }
+      : null
+
+  if (addressRowIdOriginal) {
+    const result = await updateAddressByRowIdMutation.executeMutation({
+      input: {
+        addressPatch: {
+          ...addressFields.value,
+          location,
+          name: trimmedLocationName,
+        },
+        rowId: addressRowIdOriginal,
+      },
+    })
+    return getResultData(result) ? addressRowIdOriginal : undefined
+  }
+
+  const result = await createAddressMutation.executeMutation({
+    input: {
+      address: {
+        ...addressFields.value,
+        createdBy: store.signedInAccountId || '',
+        location,
+        name: trimmedLocationName,
+      },
+    },
+  })
+  return getResultData(result)?.createAddress?.address?.rowId
+}
 
 const form = useForm({
   defaultValues: {
+    categoryIds:
+      event?.eventCategoryMappingsByEventId?.nodes
+        .filter(isNeitherNullNorUndefined)
+        .map((node) => node.categoryId) ?? [],
     description: (event?.description as string) ?? '',
     end: (event?.end as string) ?? '',
+    formatIds:
+      event?.eventFormatMappingsByEventId?.nodes
+        .filter(isNeitherNullNorUndefined)
+        .map((node) => node.formatId) ?? [],
     guestCountMaximum: event?.guestCountMaximum
       ? String(event.guestCountMaximum)
       : '',
     isInPerson: event?.isInPerson ?? false,
     isRemote: event?.isRemote ?? false,
+    locationName: event?.addressByAddressId?.name ?? '',
     name: (event?.name as string) ?? '',
     rowId: '',
     slug: (event?.slug as string) ?? '',
@@ -368,10 +868,14 @@ const form = useForm({
 
     if (value.rowId) {
       // Edit
+      const addressId = await syncAddress(value.locationName)
+      if (addressId === undefined) return
+
       const result = await updateEventMutation.executeMutation({
         input: {
           rowId: value.rowId,
           eventPatch: {
+            addressId,
             createdBy: store.signedInAccountId,
             description: value.description || null,
             end: value.end || null,
@@ -391,12 +895,36 @@ const form = useForm({
 
       if (!getResultData(result)) return
 
+      const categoryMappingsSynced = await syncEventCategoryMappings({
+        eventId: value.rowId,
+        originalCategoryIds:
+          event?.eventCategoryMappingsByEventId?.nodes
+            .filter(isNeitherNullNorUndefined)
+            .map((node) => node.categoryId) ?? [],
+        selectedCategoryIds: value.categoryIds,
+      })
+      const formatMappingsSynced = await syncEventFormatMappings({
+        eventId: value.rowId,
+        originalFormatIds:
+          event?.eventFormatMappingsByEventId?.nodes
+            .filter(isNeitherNullNorUndefined)
+            .map((node) => node.formatId) ?? [],
+        selectedFormatIds: value.formatIds,
+      })
+      if (!categoryMappingsSynced || !formatMappingsSynced) return
+
       toast.success(t('eventUpdateSuccess'))
+      // the saved values are the new baseline for unsaved changes
+      form.reset(value)
     } else {
       // Add
+      const addressId = await syncAddress(value.locationName)
+      if (addressId === undefined) return
+
       const result = await createEventMutation.executeMutation({
         input: {
           event: {
+            addressId,
             createdBy: store.signedInAccountId || '',
             description: value.description || null,
             end: value.end || null,
@@ -414,7 +942,23 @@ const form = useForm({
         },
       })
 
-      if (!getResultData(result)) return
+      const data = getResultData(result)
+      if (!data) return
+
+      const eventId = data.createEvent?.event?.rowId
+      if (eventId) {
+        const categoryMappingsSynced = await syncEventCategoryMappings({
+          eventId,
+          originalCategoryIds: [],
+          selectedCategoryIds: value.categoryIds,
+        })
+        const formatMappingsSynced = await syncEventFormatMappings({
+          eventId,
+          originalFormatIds: [],
+          selectedFormatIds: value.formatIds,
+        })
+        if (!categoryMappingsSynced || !formatMappingsSynced) return
+      }
 
       toast.success(t('eventCreateSuccess'))
 
@@ -423,6 +967,7 @@ const form = useForm({
           'Aborting navigation: required data for path templating is missing!',
         )
 
+      form.reset(value)
       await navigateTo(
         localePath({
           name: 'event-view-username-event_name',
@@ -436,6 +981,8 @@ const form = useForm({
   },
 })
 
+useLeaveConfirmation(form.useStore((state) => state.isDirty))
+
 // methods
 const dateTimeFormatter = (x?: string) =>
   x
@@ -445,13 +992,42 @@ const dateTimeFormatter = (x?: string) =>
         timeZone,
       })
     : undefined
-const onInputName = async (value: string, nameField: AnyFieldApi) => {
-  nameField.handleChange(value)
-  await updateSlug()
-}
-const updateSlug = async () => {
-  const slugify = (await import('slugify')).default
+// the calendars compare whole days, as their bounds' time of day would otherwise disable the bounding day itself
+const isoToCalendarDate = (value?: string) =>
+  value ? toCalendarDate(parseAbsoluteToLocal(value)) : undefined
+const isoToCalendarDateTime = (value?: string) =>
+  value ? toCalendarDateTime(parseAbsoluteToLocal(value)) : undefined
+const applyDateSelection = (field: AnyFieldApi, date?: DateValue) => {
+  if (!date) {
+    field.handleChange('')
+    return
+  }
 
+  const time =
+    isoToCalendarDateTime(field.state.value) ?? nowCalendarDateTime.value
+  field.handleChange(
+    toDate(toCalendarDateTime(date, time), getLocalTimeZone()).toISOString(),
+  )
+}
+const applyTimeSelection = (field: AnyFieldApi, time?: TimeValue) => {
+  if (!time) {
+    field.handleChange('')
+    return
+  }
+
+  const date =
+    isoToCalendarDateTime(field.state.value) ?? nowCalendarDateTime.value
+  field.handleChange(
+    toDate(toCalendarDateTime(date, time), getLocalTimeZone()).toISOString(),
+  )
+}
+// stays synchronous: lazily importing `slugify` here let a submit right after
+// typing race the slug update, which silently dropped the save
+const onInputName = (value: string, nameField: AnyFieldApi) => {
+  nameField.handleChange(value)
+  updateSlug()
+}
+const updateSlug = () => {
   form.setFieldValue(
     'slug',
     slugify(form.getFieldValue('name') ?? '', {
@@ -462,6 +1038,9 @@ const updateSlug = async () => {
 }
 
 // computations
+const nowCalendarDateTime = computed(() =>
+  toCalendarDateTime(fromDate(now.value, getLocalTimeZone())),
+)
 const isWarningStartPastShown = computed(() => {
   const start = form.getFieldValue('start')
   return !!start && new Date(start) < now.value
@@ -470,32 +1049,42 @@ const errorMessages = computed(() =>
   api.value.errors ? getCombinedErrorMessages(api.value.errors) : undefined,
 )
 
+// `handleSubmit` silently drops a first attempt while a field is still
+// validating, as the debounced slug check is right after the name changes
+const submit = async () => {
+  await form.validateAllFields('change')
+  await form.handleSubmit()
+}
+
 // initialization — set rowId for edit mode
 if (event?.rowId) {
   form.setFieldValue('rowId', event.rowId)
 }
 </script>
 
-<style>
-@import url('~~/node_modules/v-calendar/dist/style.css');
-</style>
-
 <i18n lang="yaml">
 de:
   attendanceType: Anwesenheitstyp
+  categories: Kategorien
   description: Einladungstext
   end: Ende
   eventCreate: Veranstaltung erstellen
   eventCreateSuccess: Veranstaltung erfolgreich erstellt.
   eventUpdate: Änderungen speichern
   eventUpdateSuccess: Aktualisiert
-  # stateInfoLocation: Ein Suchbegriff für Google Maps.
+  formats: Formate
   isInPerson: vor Ort
   isRemote: digital
+  location: Ort
+  locationHint: Suche nach einer Adresse oder verschiebe die Karte, um den Ort zu bestimmen.
+  locationNotFound: Nichts gefunden.
+  locationPlaceholder: Adresse oder Ort suchen
+  locationResults: Suchergebnisse
+  locationSearch: Ort suchen
+  locationSearchError: Die Adresssuche ist fehlgeschlagen. Bitte versuche es später erneut.
   maximumInviteeCount: Maximale Gästezahl
   name: Name
   namePlaceholder: Willkommensfeier
-  # location: Ort
   start: Beginn
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
@@ -506,19 +1095,26 @@ de:
   url: Weblink
 en:
   attendanceType: Attendance type
+  categories: Categories
   description: Invitation text
   end: End
   eventCreate: Create event
   eventCreateSuccess: Event created successfully.
   eventUpdate: Save changes
   eventUpdateSuccess: Updated
-  # stateInfoLocation: A search phrase for Google Maps.
+  formats: Formats
   isInPerson: in person
   isRemote: remote
+  location: Location
+  locationHint: Search for an address or move the map to set the location.
+  locationNotFound: Nothing found.
+  locationPlaceholder: Search for an address or place
+  locationResults: Search results
+  locationSearch: Search location
+  locationSearchError: The address search failed. Please try again later.
   maximumInviteeCount: Maximum guest count
   name: Name
   namePlaceholder: Welcome Party
-  # location: Location
   start: Start
   validationExistenceNone: You have already created an event with id "{slug}"
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work

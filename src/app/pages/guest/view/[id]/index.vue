@@ -1,310 +1,334 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
-  <AppError
-    v-else-if="!guest"
-    :error="{ message: t('errorGuestMissing'), status: 404 }"
-  />
-  <AppError
-    v-else-if="!event || !event.accountByCreatedBy"
-    :error="{ message: t('errorEventMissing'), status: 404 }"
-  />
-  <AppError
-    v-else-if="!account"
-    :error="{ message: t('errorAccountMissing'), status: 404 }"
-  />
-  <div v-else class="flex flex-col gap-4">
-    <CardStateInfo
-      v-if="
-        account.rowId === store.signedInAccountId &&
-        guest.contactByContactId?.accountByAccountId?.rowId !==
-          store.signedInAccountId
-      "
-      class="flex flex-col gap-2"
-    >
-      {{ t('invitationViewFor', { name: contactName }) }}
-      <ButtonColored
-        :aria-label="t('invitationSelectionClear')"
-        :to="
-          localePath({
-            name: 'event-view-username-event_name-guest',
-            params: {
-              event_name: event.slug,
-              username: account.username,
-            },
-          })
-        "
+  <Loader :api is-page>
+    <AppError
+      v-if="!guest"
+      :error="{ message: t('errorGuestMissing'), status: 404 }"
+    />
+    <AppError
+      v-else-if="!event || !event.accountByCreatedBy"
+      :error="{ message: t('errorEventMissing'), status: 404 }"
+    />
+    <AppError
+      v-else-if="!account"
+      :error="{ message: t('errorAccountMissing'), status: 404 }"
+    />
+    <div v-else class="flex flex-1 flex-col">
+      <!-- the event's name below is the page's heading -->
+      <LayoutTopBar />
+      <AppAlert
+        v-if="isOrganizerPreview"
+        class="flex flex-col gap-2 rounded-none"
       >
-        {{ t('invitationSelectionClear') }}
-        <template #prefix>
-          <AppIconArrowLeft />
-        </template>
-      </ButtonColored>
-    </CardStateInfo>
-    <div v-if="contact" class="flex flex-col gap-2">
-      <div class="flex items-center justify-between gap-2">
-        <div>
-          <p class="mb-2 text-2xl font-bold">
-            {{
-              t('greeting', {
-                usernameString: contactName ? ' ' + contactName : '',
-              })
-            }}
-          </p>
-          <p>{{ t('greetingDescription') }}</p>
-        </div>
-        <ButtonColored
-          v-if="guest.feedback === InvitationFeedback.Accepted"
-          :aria-label="t('qrCodeShow')"
-          @click="qrCodeShow"
+        {{ t('invitationViewFor', { name: contactName }) }}
+        <AppButton
+          :aria-label="t('invitationSelectionClear')"
+          :to="
+            localePath({
+              name: 'event-view-username-event_name-guest',
+              params: {
+                event_name: event.slug,
+                username: account.username,
+              },
+            })
+          "
         >
-          {{ t('qrCodeShow') }}
+          {{ t('invitationSelectionClear') }}
           <template #prefix>
-            <AppIconQrCode />
+            <AppIconArrowLeft />
           </template>
-        </ButtonColored>
-      </div>
-    </div>
-    <div class="flex flex-col gap-4">
-      <div>
-        <div class="relative">
-          <EventHeroImage :event />
-          <div
-            class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
-          >
-            <div />
-            <div>
-              <ButtonIcon
-                :aria-label="t('iCalDownload')"
-                class="flex size-12 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
-                @click="downloadIcal"
+        </AppButton>
+      </AppAlert>
+      <LayoutPage>
+        <div class="flex flex-col gap-4">
+          <div v-if="contact" class="flex flex-col gap-2">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <p class="mb-2 text-heading-medium">
+                  {{
+                    t('greeting', {
+                      usernameString: contactName ? ' ' + contactName : '',
+                    })
+                  }}
+                </p>
+                <p>{{ t('greetingDescription') }}</p>
+              </div>
+              <AppButton
+                v-if="guest.feedback === InvitationFeedback.Accepted"
+                :aria-label="t('qrCodeShow')"
+                @click="qrCodeShow"
               >
-                <AppIconArrowDownTray :title="t('iCalDownload')" />
-              </ButtonIcon>
-              <!-- TODO: share & favorite button -->
-              <template
-                v-if="
-                  store.signedInAccountId &&
-                  event.createdBy !== store.signedInAccountId
-                "
-              >
-                <AppDropdown>
-                  <AppDropdownItem
-                    variant="destructive"
-                    @select="isOpenReportDrawer = true"
-                  >
-                    {{ t('report') }}
-                  </AppDropdownItem>
-                  <template #trigger>
-                    <span
-                      class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
-                    >
-                      <AppIconMoreVertical />
-                    </span>
-                  </template>
-                </AppDropdown>
-                <EventReportDrawer
-                  v-model:open="isOpenReportDrawer"
-                  :account-id="store.signedInAccountId"
-                  :event
-                />
-              </template>
+                {{ t('qrCodeShow') }}
+                <template #prefix>
+                  <AppIconQrCode />
+                </template>
+              </AppButton>
             </div>
           </div>
-        </div>
-        <Card class="flex flex-col items-stretch gap-6 rounded-t-none">
-          <div
-            class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
-          >
-            <h1 class="m-0">
-              {{ event.name }}
-            </h1>
-            <EventOwner link :username="event.accountByCreatedBy.username" />
+          <div class="flex flex-col gap-4">
+            <div>
+              <div class="relative">
+                <EventHeroImage :event />
+                <div
+                  class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
+                >
+                  <div />
+                  <div class="flex items-center gap-2">
+                    <AppDropdown>
+                      <AppDropdownItem @select="downloadIcal">
+                        <AppIconArrowDownTray />
+                        <span>{{ t('iCalDownload') }}</span>
+                      </AppDropdownItem>
+                      <AppDropdownItem @select="googleCalendarOpen">
+                        <AppIconCalendar />
+                        <span>{{ t('googleCalendarAdd') }}</span>
+                      </AppDropdownItem>
+                      <template #trigger>
+                        <span
+                          class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+                        >
+                          <AppIconCalendar :title="t('calendarAdd')" />
+                        </span>
+                      </template>
+                    </AppDropdown>
+                    <EventShareButton
+                      class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                      :event
+                    />
+                    <EventFavoriteButton
+                      class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                      :event
+                    />
+                    <template
+                      v-if="
+                        store.signedInAccountId &&
+                        event.createdBy !== store.signedInAccountId
+                      "
+                    >
+                      <AppDropdown>
+                        <AppDropdownItem
+                          variant="destructive"
+                          @select="isOpenReportDrawer = true"
+                        >
+                          {{ t('report') }}
+                        </AppDropdownItem>
+                        <template #trigger>
+                          <span
+                            class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                          >
+                            <AppIconMoreVertical />
+                          </span>
+                        </template>
+                      </AppDropdown>
+                      <EventReportDrawer
+                        v-model:open="isOpenReportDrawer"
+                        :account-id="store.signedInAccountId"
+                        :event
+                      />
+                    </template>
+                  </div>
+                </div>
+              </div>
+              <AppCard class="flex flex-col items-stretch gap-6 rounded-t-none">
+                <div
+                  class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
+                >
+                  <h1 class="m-0">
+                    {{ event.name }}
+                  </h1>
+                  <EventOwner
+                    link
+                    :username="event.accountByCreatedBy.username"
+                  />
+                </div>
+                <div class="flex flex-col gap-2">
+                  <EventDashletStart :contact :event :guest />
+                  <EventDashletDuration :event />
+                  <EventDashletLocation :address :event />
+                  <EventDashletVisibility :event with-text />
+                  <!-- <EventDashletAttendanceType :event />
+              <EventDashletLink :event /> -->
+                </div>
+                <AppMap
+                  v-if="positionInitial"
+                  class="h-42 rounded-large"
+                  :events
+                  is-static
+                  :position-initial
+                />
+              </AppCard>
+            </div>
+            <div
+              class="flex flex-col items-center gap-2"
+              :class="
+                guest.feedback === InvitationFeedback.Accepted
+                  ? 'col-span-3'
+                  : 'col-span-6'
+              "
+            >
+              <div
+                v-if="isOrganizerPreview"
+                class="flex items-center justify-center gap-4"
+              >
+                <div
+                  v-if="guest.feedback === InvitationFeedback.Accepted"
+                  class="flex items-center font-semibold text-link"
+                >
+                  <AppIconCheckCircleSolid class="mr-2 shrink-0" />
+                  <span>
+                    {{ t('invitationAcceptedAdmin', { name: contactName }) }}
+                  </span>
+                </div>
+                <div
+                  v-else-if="guest.feedback === InvitationFeedback.Canceled"
+                  class="flex items-center font-semibold text-error"
+                >
+                  <AppIconXCircleSolid class="mr-2 shrink-0" />
+                  <span>
+                    {{ t('invitationCanceledAdmin', { name: contactName }) }}
+                  </span>
+                </div>
+                <div v-else class="flex items-center font-semibold">
+                  <span>{{
+                    t('invitationPendingAdmin', { name: contactName })
+                  }}</span>
+                </div>
+              </div>
+              <div v-else class="flex items-center justify-center gap-4">
+                <AppButton
+                  v-if="
+                    guest.feedback === null ||
+                    guest.feedback === InvitationFeedback.Canceled
+                  "
+                  :aria-label="t('invitationAccept')"
+                  :loading="isUpdatingAccept"
+                  @click="accept"
+                >
+                  <span>{{ t('invitationAccept') }}</span>
+                  <template #prefix>
+                    <AppIconCheckCircleSolid class="shrink-0" />
+                  </template>
+                </AppButton>
+                <div
+                  v-if="guest.feedback === InvitationFeedback.Accepted"
+                  class="flex items-center font-semibold text-link"
+                >
+                  <AppIconCheckCircleSolid
+                    class="mr-2 shrink-0"
+                    :title="t('invitationAccepted')"
+                  />
+                  <span>{{ t('invitationAccepted') }}</span>
+                </div>
+                <AppButton
+                  v-if="
+                    guest.feedback === null ||
+                    guest.feedback === InvitationFeedback.Accepted
+                  "
+                  :aria-label="t('invitationCancel')"
+                  :loading="isUpdatingCancel"
+                  @click="cancel"
+                >
+                  <span>{{ t('invitationCancel') }}</span>
+                  <template #prefix>
+                    <AppIconXCircleSolid class="shrink-0" />
+                  </template>
+                </AppButton>
+                <div
+                  v-if="guest.feedback === InvitationFeedback.Canceled"
+                  class="flex items-center font-semibold text-error"
+                >
+                  <AppIconXCircleSolid
+                    class="mr-2 shrink-0"
+                    :title="t('invitationCanceled')"
+                  />
+                  <span>{{ t('invitationCanceled') }}</span>
+                </div>
+              </div>
+            </div>
+            <AppCard v-if="eventDescriptionHtml">
+              <LayoutProse class="w-full">
+                <AppHtml :html="eventDescriptionHtml" />
+              </LayoutProse>
+            </AppCard>
           </div>
-          <div class="flex flex-col gap-2">
-            <EventDashletStart :contact :event :guest />
-            <EventDashletDuration :event />
-            <EventDashletLocation :address :event />
-            <EventDashletVisibility :event with-text />
-            <!-- <EventDashletAttendanceType :event />
-            <EventDashletLink :event /> -->
-          </div>
-          <AppMap
-            v-if="positionInitial"
-            class="h-42 rounded-xl"
-            :events
-            :position-initial
-          />
-        </Card>
-      </div>
-      <div
-        class="flex flex-col items-center gap-2"
-        :class="
-          guest.feedback === InvitationFeedback.Accepted
-            ? 'col-span-3'
-            : 'col-span-6'
-        "
-      >
-        <div class="flex items-center justify-center gap-4">
-          <ButtonColored
-            v-if="
-              guest.feedback === null ||
-              guest.feedback === InvitationFeedback.Canceled
-            "
-            :aria-label="
-              event.accountByCreatedBy.username !== store.signedInUsername
-                ? t('invitationAccept')
-                : t('invitationAcceptAdmin', {
-                    name: contactName,
-                  })
-            "
-            :disabled="isUpdatingAccept"
-            @click="accept"
-          >
-            <span>
-              {{
-                event.accountByCreatedBy.username !== store.signedInUsername
-                  ? t('invitationAccept')
-                  : t('invitationAcceptAdmin', {
-                      name: contactName,
-                    })
-              }}
-            </span>
-            <template #prefix>
-              <LoaderIndicatorSpinner v-if="isUpdatingAccept" class="size-8" />
-              <AppIconCheckCircleSolid v-else class="shrink-0" />
+          <AppDrawer v-model="isDrawerGuestQrCodeOpen">
+            <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
+              <QrcodeVue
+                id="qrCode"
+                :margin="4"
+                :size="232"
+                :value="guest.rowId"
+              />
+              <p class="text-body-small text-fg-2">
+                {{ t('hintQrCode') }}
+              </p>
+            </div>
+            <template #title>{{ t('qrCode') }}</template>
+            <template #footer>
+              <AppButton
+                v-if="isTicketShareable"
+                :aria-label="t('ticketShare')"
+                :disabled="!ticketFile"
+                :loading="isTicketFetching"
+                variant="secondary"
+                @click="ticketShare"
+              >
+                {{ t('ticketShare') }}
+                <template #prefix>
+                  <AppIconShare />
+                </template>
+              </AppButton>
+              <!-- the iOS app's share sheet covers saving and printing, whereas Android's usually lacks a print target -->
+              <AppButton
+                v-if="!isIos"
+                :aria-label="t('ticketDownload')"
+                :disabled="!ticketFile"
+                :loading="isTicketFetching"
+                variant="secondary"
+                @click="ticketDownload"
+              >
+                {{ t('ticketDownload') }}
+                <template #prefix>
+                  <AppIconArrowDownTray />
+                </template>
+              </AppButton>
             </template>
-          </ButtonColored>
-          <div
-            v-if="guest.feedback === InvitationFeedback.Accepted"
-            class="flex items-center font-semibold text-green-600 dark:text-green-500"
-          >
-            <AppIconCheckCircleSolid
-              class="mr-2 shrink-0"
-              :title="t('invitationAccepted')"
-            />
-            <span>
-              {{
-                event.accountByCreatedBy.username !== store.signedInUsername
-                  ? t('invitationAccepted')
-                  : t('invitationAcceptedAdmin', {
-                      name: contactName,
-                    })
-              }}
-            </span>
-          </div>
-          <ButtonColored
-            v-if="
-              guest.feedback === null ||
-              guest.feedback === InvitationFeedback.Accepted
-            "
-            :aria-label="
-              event.accountByCreatedBy.username !== store.signedInUsername
-                ? t('invitationCancel')
-                : t('invitationCancelAdmin', {
-                    name: contactName,
-                  })
-            "
-            :disabled="isUpdatingCancel"
-            @click="cancel"
-          >
-            <span>
-              {{
-                event.accountByCreatedBy.username !== store.signedInUsername
-                  ? t('invitationCancel')
-                  : t('invitationCancelAdmin', {
-                      name: contactName,
-                    })
-              }}
-            </span>
-            <template #prefix>
-              <LoaderIndicatorSpinner v-if="isUpdatingCancel" class="size-8" />
-              <AppIconXCircleSolid v-else class="shrink-0" />
-            </template>
-          </ButtonColored>
-          <div
-            v-if="guest.feedback === InvitationFeedback.Canceled"
-            class="flex items-center font-semibold text-(--semantic-critic-text)"
-          >
-            <AppIconXCircleSolid
-              class="mr-2 shrink-0"
-              :title="t('invitationCanceled')"
-            />
-            <span>
-              {{
-                event.accountByCreatedBy.username !== store.signedInUsername
-                  ? t('invitationCanceled')
-                  : t('invitationCanceledAdmin', {
-                      name: contactName,
-                    })
-              }}
-            </span>
-          </div>
+          </AppDrawer>
         </div>
-      </div>
-      <Card v-if="eventDescriptionTemplate">
-        <!-- eslint-disable vue/no-v-html -->
-        <LayoutProse class="w-full">
-          <div v-html="eventDescriptionTemplate" />
-        </LayoutProse>
-        <!-- eslint-enable vue/no-v-html -->
-      </Card>
+      </LayoutPage>
     </div>
-    <Modal id="ModalGuestQrCode">
-      <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
-        <div class="bg-white p-4">
-          <QrcodeVue id="qrCode" :size="200" :value="guest.rowId" />
-        </div>
-        <p class="text-sm text-gray-500 dark:text-gray-400">
-          {{ t('hintQrCode') }}
-        </p>
-      </div>
-      <template #footer>
-        <!-- TODO: check printing support in app -->
-        <ButtonColored
-          v-if="!isApp"
-          :aria-label="t('print')"
-          variant="secondary"
-          @click="print"
-        >
-          {{ t('print') }}
-          <template #prefix>
-            <AppIconPrinter />
-          </template>
-        </ButtonColored>
-        <ButtonColored
-          :aria-label="t('close')"
-          @click="store.modalRemove('ModalGuestQrCode')"
-        >
-          {{ t('close') }}
-          <template #prefix>
-            <AppIconXMark />
-          </template>
-        </ButtonColored>
-      </template>
-    </Modal>
-  </div>
+  </Loader>
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 import downloadJs from 'downloadjs'
 import { sanitize } from 'isomorphic-dompurify'
-import mustache from 'mustache'
-import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
 
-import { useUpdateGuestByRowIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateByRowId'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
-const { isApp } = usePlatform()
-const { t } = useI18n()
+const { isIos } = usePlatform()
+const { locale, t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
-const updateGuestByRowIdMutation = useUpdateGuestByRowIdMutation()
+const updateGuestByRowIdMutation = useMutation(
+  graphql(`
+    mutation UpdateGuestByRowId($input: UpdateGuestByRowIdInput!) {
+      updateGuestByRowId(input: $input) {
+        guest {
+          feedback
+          id
+          rowId
+        }
+      }
+    }
+  `),
+)
 const store = useStore()
 
+const isDrawerGuestQrCodeOpen = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
 const alertError = useAlertError()
 
@@ -313,7 +337,8 @@ const jwtUpdateGuestAdd = import.meta.server
   ? useJwtUpdateGuestAdd({ guestId: route.params.id })
   : undefined
 const jwt = jwtUpdateGuestAdd ? await jwtUpdateGuestAdd() : undefined
-const eventQuery = useQuery({
+const cookie = jwt ? useCsrfCookieHeader() : undefined
+const eventQuery = useApiQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
       guestByRowId(rowId: $id) {
@@ -337,17 +362,50 @@ const eventQuery = useQuery({
             username
           }
           addressByAddressId {
+            city
+            country
             id
+            line1
+            line2
             location {
               latitude
               longitude
             }
             name
+            postalCode
+            region
             rowId
           }
           createdBy
           description
           end
+          eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+            nodes {
+              categoryId
+              eventCategoryByCategoryId {
+                id
+                name
+              }
+              id
+            }
+          }
+          eventFavoritesByEventId(first: 1) {
+            nodes {
+              createdBy
+              id
+              rowId
+            }
+          }
+          eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+            nodes {
+              eventFormatByFormatId {
+                id
+                name
+              }
+              formatId
+              id
+            }
+          }
           id
           isArchived
           isInPerson
@@ -371,9 +429,13 @@ const eventQuery = useQuery({
   ...(jwt
     ? {
         context: {
+          // Replaces the client's fetch options, so the CSRF header and
+          // cookie have to be repeated for a query sent by POST
           fetchOptions: {
             headers: {
               Authorization: `Bearer ${jwt}`,
+              [CSRF_HEADER_NAME]: useCsrf().csrf,
+              ...(cookie ? { cookie } : {}),
             },
           },
         },
@@ -420,35 +482,108 @@ const { $csrfFetch } = useNuxtApp()
 const downloadIcal = async () => {
   if (!event.value) return
 
-  const response = await $csrfFetch('/api/model/event/ical', {
-    body: {
-      contact,
-      event,
-      guest,
-    },
-    method: 'POST',
-  })
   const fileName = `${event.value.accountByCreatedBy ? `${event.value.accountByCreatedBy.username}_` : ''}${event.value.slug}.ics`
 
-  if (!response.data.value) {
-    alertError(t('iCalFetchError')) // TODO: add suggestion (https://github.com/maevsi/vibetype/issues/903) })
-    return
-  }
+  try {
+    // `$csrfFetch` wraps `$fetch`, which resolves to the response body itself
+    const ical = await $csrfFetch<string>('/api/model/event/ical', {
+      body: {
+        event: event.value,
+        guest: guest.value,
+        language: locale.value,
+      },
+      method: 'POST',
+    })
 
-  downloadJs(
-    new Blob([response.data.value]), // Blob necessary for charset utf-8
-    fileName,
-    'text/calendar',
+    downloadJs(
+      new Blob([ical]), // Blob necessary for charset utf-8
+      fileName,
+      'text/calendar',
+    )
+  } catch {
+    alertError(t('iCalFetchError'))
+  }
+}
+const requestUrl = useRequestURL()
+const googleCalendarOpen = () => {
+  if (!event.value) return
+
+  navigateTo(
+    getGoogleCalendarUrl({
+      description: event.value.description
+        ? getTextFromHtml(event.value.description)
+        : undefined,
+      end: event.value.end,
+      location: event.value.isInPerson
+        ? [address.value?.name, getAddressText(address.value)]
+            .filter(Boolean)
+            .join(', ')
+        : undefined,
+      name: event.value.name,
+      start: event.value.start,
+      url: requestUrl.href,
+    }),
+    { external: true, open: { target: '_blank' } },
   )
 }
-const print = () => {
-  prntr({
-    printable: 'qrCode',
-    type: 'html',
+const isTicketShareable = ref<boolean>()
+const isTicketFetching = ref<boolean>()
+const ticketFile = ref<File>()
+onMounted(() => {
+  isTicketShareable.value = !!navigator.canShare?.({
+    files: [new File([], 'ticket.pdf', { type: 'application/pdf' })],
   })
+})
+const ticketFetch = async () => {
+  if (!event.value || !guest.value || ticketFile.value) return
+
+  isTicketFetching.value = true
+
+  try {
+    const blob = await $csrfFetch('/api/model/guest/ticket', {
+      body: { guestId: guest.value.rowId, locale: locale.value },
+      method: 'POST',
+      responseType: 'blob',
+    })
+
+    ticketFile.value = new File([blob], `${event.value.slug}.pdf`, {
+      type: 'application/pdf',
+    })
+  } catch (error) {
+    alertError({
+      error: error instanceof Error ? error : undefined,
+      messageI18n: t('ticketError'),
+    })
+  } finally {
+    isTicketFetching.value = false
+  }
+}
+watch(isDrawerGuestQrCodeOpen, (isOpen) => {
+  if (isOpen) ticketFetch()
+})
+// called without awaiting anything first, as iOS drops the user activation
+// that navigator.share requires once an await runs
+const ticketShare = async () => {
+  if (!ticketFile.value) return
+
+  try {
+    await navigator.share({ files: [ticketFile.value] })
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') return
+
+    alertError({
+      error: error instanceof Error ? error : undefined,
+      messageI18n: t('ticketShareError'),
+    })
+  }
+}
+const ticketDownload = () => {
+  if (!ticketFile.value) return
+
+  downloadJs(ticketFile.value, ticketFile.value.name, 'application/pdf')
 }
 const qrCodeShow = () => {
-  store.modals.push({ id: 'ModalGuestQrCode' })
+  isDrawerGuestQrCodeOpen.value = true
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
   const result = await updateGuestByRowIdMutation.executeMutation({
@@ -461,17 +596,10 @@ const update = async (id: string, guestPatch: GuestPatch) => {
 }
 
 // computations
-const eventDescriptionTemplate = computed(() => {
+const eventDescriptionHtml = computed(() => {
   if (!event.value?.description) return
 
-  return sanitize(
-    mustache.render(event.value.description, {
-      contact: contact.value,
-      event,
-      invitation: guest.value,
-    }),
-    { ADD_ATTR: ['target'] },
-  )
+  return sanitize(event.value.description, { ADD_ATTR: ['target'] })
 })
 const contact = computed(() => guest.value?.contactByContactId)
 const contactAccount = computed(() => contact.value?.accountByAccountId)
@@ -479,6 +607,12 @@ const contactName = computed(() =>
   contact.value
     ? getContactName({ account: contactAccount.value, contact: contact.value })
     : undefined,
+)
+const isOrganizerPreview = computed(
+  () =>
+    account.value?.rowId === store.signedInAccountId &&
+    guest.value?.contactByContactId?.accountByAccountId?.rowId !==
+      store.signedInAccountId,
 )
 
 // map
@@ -504,9 +638,9 @@ const description = computed(() =>
     : undefined,
 )
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
-    showAppError({ statusCode: 404, message: 'Event unavailable' })
+    showAppError({ status: 404, message: 'Event unavailable' })
     return
   }
 
@@ -516,68 +650,68 @@ useHeadDefault({
   description,
   title,
 })
-defineOgImage(
-  'Event.takumi',
-  {
-    description,
-  },
-  {
-    alt: t('ogImageAlt'),
-  },
-)
+defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 </script>
 
 <i18n lang="yaml">
 de:
-  close: Schließen
+  calendarAdd: Zum Kalender hinzufügen
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorGuestMissing: Gast nicht verfügbar
+  googleCalendarAdd: Zu Google Kalender hinzufügen
   greeting: Hey{usernameString}!
   greetingDescription: Du wurdest zu folgender Veranstaltung eingeladen.
   hintQrCode: Dieses Bild ist deine Zugangsberechtigung für die Veranstaltung
-  iCalDownload: Als Kalendereintrag herunterladen
+  iCalDownload: Als Kalenderdatei herunterladen
   # iCalHint: Die heruntergeladene Datei kann dann mit deiner Kalender-Anwendung geöffnet werden.
   iCalFetchError: iCal-Daten konnten nicht geladen werden!
   invitationAccept: Einladung annehmen
-  invitationAcceptAdmin: Einladung im Namen von {name} annehmen
   invitationAccepted: Einladung angenommen
   invitationAcceptedAdmin: Einladung im Namen von {name} angenommen
   invitationCancel: Einladung ablehnen
-  invitationCancelAdmin: Einladung im Namen von {name} ablehnen
   invitationCanceled: Einladung abgelehnt
   invitationCanceledAdmin: Einladung im Namen von {name} abgelehnt
+  invitationPendingAdmin: '{name} hat noch nicht geantwortet.'
   invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
-  print: Drucken
+  qrCode: Check-in-Code
   qrCodeShow: Check-in-Code anzeigen
   report: Veranstaltung melden
   success: Deine Eingabe wurde erfolgreich gespeichert.
+  ticketDownload: Ticket herunterladen
+  ticketError: Das Ticket konnte nicht erstellt werden.
+  ticketShare: Ticket teilen
+  ticketShareError: Das Ticket konnte nicht geteilt werden.
 en:
-  close: Close
+  calendarAdd: Add to calendar
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorGuestMissing: Guest not available
+  googleCalendarAdd: Add to Google Calendar
   greeting: Hey{usernameString}!
   greetingDescription: "You've been invited to the following event."
   hintQrCode: This picture is your access authorization for the event
-  iCalDownload: Download for your calendar
+  iCalDownload: Download calendar file
   # iCalHint: You can open the downloaded file in your calendar app.
   iCalFetchError: Could not get iCal data!
   invitationAccept: Accept invitation
-  invitationAcceptAdmin: Accept invitation on behalf of {name}
   invitationAccepted: Invitation accepted
   invitationAcceptedAdmin: Invitation accepted on behalf of {name}
   invitationCancel: Decline invitation
-  invitationCancelAdmin: Decline invitation on behalf of {name}
   invitationCanceled: Invitation declined
   invitationCanceledAdmin: Invitation declined on behalf of {name}
+  invitationPendingAdmin: '{name} has not responded yet.'
   invitationSelectionClear: Back to the invitation overview
   invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
   ogImageAlt: The event's preview image.
-  print: Print
+  qrCode: Check in code
   qrCodeShow: Show check in code
   report: Report event
   success: Your input was saved succesfully.
+  ticketDownload: Download ticket
+  ticketError: The ticket could not be created.
+  ticketShare: Share ticket
+  ticketShareError: The ticket could not be shared.
 </i18n>

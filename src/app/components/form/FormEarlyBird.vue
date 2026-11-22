@@ -1,20 +1,18 @@
 <template>
-  <form
-    ref="formRef"
-    class="flex flex-col gap-4"
-    @submit.prevent="form.handleSubmit"
-  >
+  <form class="flex flex-col gap-5" @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="userName">
       <Field>
-        <FieldLabel>
-          <TypographySubtitleSmall>
+        <FieldLabel :for="field.name">
+          <span class="text-body">
             {{ t('userName') }}
-          </TypographySubtitleSmall>
+          </span>
         </FieldLabel>
         <FieldContent>
           <Input
+            :id="field.name"
             :aria-invalid="isFieldInvalid(field)"
             :model-value="field.state.value"
+            :name="field.name"
             type="text"
             @blur="field.handleBlur"
             @input="
@@ -30,15 +28,17 @@
     </form.Field>
     <form.Field v-slot="{ field }" name="userEmailAddress">
       <Field>
-        <FieldLabel>
-          <TypographySubtitleSmall>
+        <FieldLabel :for="field.name">
+          <span class="text-body">
             {{ t('userEmailAddress') }}
-          </TypographySubtitleSmall>
+          </span>
         </FieldLabel>
         <FieldContent>
           <Input
+            :id="field.name"
             :aria-invalid="isFieldInvalid(field)"
             :model-value="field.state.value"
+            :name="field.name"
             type="email"
             @blur="field.handleBlur"
             @input="
@@ -57,6 +57,7 @@
         <div class="flex gap-3">
           <FieldContent class="mt-1">
             <AppCheckbox
+              :id="field.name"
               :aria-invalid="isFieldInvalid(field)"
               :model-value="field.state.value"
               required
@@ -65,8 +66,8 @@
               "
             />
           </FieldContent>
-          <FieldLabel>
-            <TypographySubtitleSmall>
+          <FieldLabel :for="field.name">
+            <span class="text-body">
               <i18n-t keypath="userConsent">
                 <template #contactForm>
                   <AppLink is-underlined :to="localePath('support-contact')">
@@ -79,7 +80,7 @@
                   </AppLink>
                 </template>
               </i18n-t>
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
         </div>
         <FieldError
@@ -103,7 +104,6 @@ const emit = defineEmits<{
 
 // form
 const modelError = defineModel<Error>('error')
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
 const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
@@ -142,11 +142,6 @@ const form = useForm({
   },
 })
 
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({
-  submit,
-})
-
 // template
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -154,13 +149,13 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Teilnahme am Früher Vogel Programm und zur Kontaktaufnahme dazu verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
   userConsentContactForm: Kontaktformular
   userConsentPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
+  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for participation in the Early Bird program and for contacting me about it. I can withdraw my consent at any time using the {contactForm}.'
   userConsentContactForm: contact form
   userConsentPrivacyPolicy: privacy policy
   userEmailAddress: Email address

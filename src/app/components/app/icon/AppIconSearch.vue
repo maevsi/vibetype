@@ -1,6 +1,9 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IVibetypeSearch v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IHeroiconsMagnifyingGlass
+      v-bind="attributes"
+      :aria-label="t('ariaLabel')"
+    />
   </AppIcon>
 </template>
 

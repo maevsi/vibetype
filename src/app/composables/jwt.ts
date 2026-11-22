@@ -30,6 +30,25 @@ export const useAuthentication = () => {
   })
 }
 
+/** Sends visitors who are not signed in to the sign-in page, which returns them to the current page afterwards. */
+export const useSignInRequired = async () => {
+  const store = useStore()
+
+  if (store.signedInUsername) return
+
+  const localePath = useLocalePath()
+  const route = useRoute()
+
+  // without history, as the back button would return to the current page otherwise, which only redirects again
+  await navigateTo(
+    {
+      path: localePath('session-create'),
+      query: { to: route.fullPath },
+    },
+    { replace: true },
+  )
+}
+
 export const useJwtCookie = (
   options:
     { options: CookieOptions & { readonly: false } } | undefined = undefined,
@@ -48,19 +67,49 @@ export const useJwtCookie = (
 }
 
 export const useJwtDelete = () => {
-  const { $urqlReset } = useNuxtApp()
-  const requestFetch = useRequestFetch()
+  const { $csrfFetch, $urql, $urqlReset } = useNuxtApp()
   const store = useStore()
+  const notificationStore = useNotificationStore()
 
-  return async () =>
+  return async () => {
+    // captured before `jwtDelete` clears `store.signedInAccountId`
+    const signedInAccountId = store.signedInAccountId
+
+    if (signedInAccountId) {
+      // Best-effort: `unregisterDevice` reports its own errors and never
+      // rejects on a GraphQL-level failure, so sign-out always proceeds
+      // below even if the device couldn't be unregistered.
+      await notificationStore.unregisterDevice($urql.value, signedInAccountId)
+    }
+
     await jwtDelete({
       $urqlReset,
-      requestFetch,
+      requestFetch: $csrfFetch,
       store,
     })
+  }
+}
+
+/** Deletes the session and sends the visitor to the home page. */
+export const useSignOutToRoot = () => {
+  const jwtDelete = useJwtDelete()
+  const localePath = useLocalePath()
+
+  return async () => {
+    await jwtDelete()
+    return navigateTo(
+      localePath({
+        name: 'index',
+        query: {
+          signOut: null,
+        },
+      }),
+    )
+  }
 }
 
 export const useJwtInitialize = async () => {
+  const nuxtApp = useNuxtApp()
   const store = useStore()
 
   const { data: initialData } = await useFetch('/api/model/jwt')
@@ -71,12 +120,11 @@ export const useJwtInitialize = async () => {
   const jwtId = store.jwtPayload.jti
 
   try {
-    const { data: updatedData, error } = await useCsrfRequestFetch(
-      '/api/model/jwt',
-      {
+    const { data: updatedData, error } = await nuxtApp.runWithContext(() =>
+      useCsrfRequestFetch('/api/model/jwt', {
         body: { id: jwtId },
         method: 'PUT',
-      },
+      }),
     )
 
     if (error.value) throw error.value
@@ -90,6 +138,8 @@ export const useJwtInitialize = async () => {
   } catch (error) {
     console.error('JWT update failed:', error)
   }
+
+  return await syncLocaleCookieToOwnContactLanguage({ nuxtApp, store })
 }
 
 export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
@@ -106,16 +156,10 @@ export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
       }
     }
   `)
-  const { csrfToken, csrfCookieValue } = useCsrfImmediately()
-  const headers = requestEvent.headers
-  const cookieHeaderValue = [
-    ...(!headers.get('cookie')?.includes(`${CSRF_COOKIE_NAME}=`) &&
-    csrfCookieValue
-      ? [`${CSRF_COOKIE_NAME}=${csrfCookieValue}`]
-      : []),
-    ...(headers.get('cookie') ? [headers.get('cookie')] : []),
-  ].join('; ')
-  const csrfHeaderValue = headers.get(CSRF_HEADER_NAME) || csrfToken
+  const { csrfToken } = useCsrfImmediately()
+  const cookieHeaderValue = useCsrfCookieHeader()
+  const csrfHeaderValue =
+    requestEvent.headers.get(CSRF_HEADER_NAME) || csrfToken
   const jwtUpdateGuestAddMutation = useMutation(mutationJwtUpdateGuestAdd)
   const jwtCookie = useJwtCookie()
 
@@ -138,6 +182,7 @@ export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
 
     const jwt = getJwtFromResult({
       context: 'JWT guest add',
+      createAppError,
       extract: (data) => data.jwtUpdateGuestAdd?.result,
       result,
     })

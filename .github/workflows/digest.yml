@@ -1,0 +1,64 @@
+name: Digest
+# Runs ending before now get their own title, so only runs ending now mark the start of the next default time span.
+run-name: ${{ inputs.until && format('Digest from {0} to {1}', inputs.since || 'the last run', inputs.until) || 'Digest' }}
+
+permissions: {}
+
+on:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: Start of the time span, in any format `date -d` reads, by default the start of the last successful run without `until`, else 7 days ago
+        required: false
+      until:
+        description: End of the time span, in any format `date -d` reads, by default now
+        required: false
+
+jobs:
+  digest:
+    name: Digest
+    runs-on: ubuntu-26.04
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: .github
+
+      - name: Collect merged pull requests
+        id: collect
+        env:
+          # Optional fine-grained token to include private repositories.
+          GH_TOKEN: ${{ secrets.DIGEST_GH_TOKEN || github.token }}
+          RUNS_TOKEN: ${{ github.token }}
+          SINCE: ${{ inputs.since }}
+          UNTIL: ${{ inputs.until }}
+        run: |
+          if [ -z "$SINCE" ]; then
+            SINCE=$(GH_TOKEN=$RUNS_TOKEN gh run list -R "$GITHUB_REPOSITORY" -w digest.yml -s success -L 100 \
+              --json createdAt,displayTitle -q 'map(select(.displayTitle == "Digest"))[0].createdAt // empty')
+            export SINCE
+          fi
+          .github/digest.sh collect > "$RUNNER_TEMP/context.json"
+          echo "total=$(jq .counts.total "$RUNNER_TEMP/context.json")" >> "$GITHUB_OUTPUT"
+
+      - name: Summarize
+        if: steps.collect.outputs.total > 0
+        env:
+          ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+          ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+          ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+          ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
+        # The summary is never printed: run logs of this public repository are public,
+        # and with DIGEST_GH_TOKEN it describes private repositories.
+        run: .github/digest.sh summarize < "$RUNNER_TEMP/context.json" > "$RUNNER_TEMP/summary.md"
+
+      - name: Post to Discord
+        if: steps.collect.outputs.total > 0
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: .github/digest.sh post "$RUNNER_TEMP/context.json" "$RUNNER_TEMP/summary.md"

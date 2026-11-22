@@ -1,29 +1,105 @@
 import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core'
 import {
+  CombinedError,
   createClient,
+  createRequest,
   ssrExchange as getSsrExchange,
   fetchExchange,
 } from '@urql/core'
 import type { ClientOptions } from '@urql/core'
 import { offlineExchange as getOfflineExchange } from '@urql/exchange-graphcache'
-import type { Cache, Entity, FieldArgs } from '@urql/exchange-graphcache'
+import type { Cache } from '@urql/exchange-graphcache'
 import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { requestPolicyExchange } from '@urql/exchange-request-policy'
 import { devtoolsExchange } from '@urql/devtools'
+import type { AnyVariables, UseQueryArgs, UseQueryState } from '@urql/vue'
+import { useClientHandle, useQuery } from '@urql/vue'
 import type { DocumentNode } from 'graphql'
 import type { useRuntimeConfig } from 'nuxt/app'
-import { ref } from 'vue'
+import { ref, toValue } from 'vue'
 
 import type { FragmentType } from '~~/gql/generated'
 import type { GraphCacheConfig, Maybe } from '~~/gql/generated/graphcache'
 import schema from '~~/gql/generated/introspection'
-import { allPreferenceEventCategoriesQuery } from '~~/gql/documents/queries/preference/preferenceEventCategoriesAll'
-import { allPreferenceEventFormatsQuery } from '~~/gql/documents/queries/preference/preferenceEventFormatsAll'
-import { getPreferenceEventFormatItem } from '~~/gql/documents/fragments/preferenceEventFormatItem'
-import { getPreferenceEventCategoryItem } from '~~/gql/documents/fragments/preferenceEventCategoryItem'
-import { allPreferenceEventLocationsQuery } from '~~/gql/documents/queries/preference/preferenceEventLocationsAll'
-import { getPreferenceEventLocationItem } from '~~/gql/documents/fragments/preferenceEventLocationItem'
+import {
+  allPreferenceEventCategoriesQuery,
+  getPreferenceEventCategoryItem,
+} from '~~/shared/utils/preference/eventCategory'
+import {
+  allPreferenceEventFormatsQuery,
+  getPreferenceEventFormatItem,
+} from '~~/shared/utils/preference/eventFormat'
+import {
+  allPreferenceEventLocationsQuery,
+  getPreferenceEventLocationItem,
+} from '~~/shared/utils/preference/eventLocation'
+import {
+  getRefetchBeforeHydrationExchange,
+  getSsrHydrationExchanges,
+} from '~~/shared/utils/urqlSsrHydration'
+
+// A `useQuery` that settles on the server: the query is paused at creation,
+// and awaiting the response executes it exactly once and fills its state, so
+// the page and its head can be rendered with the data. The client behaves
+// like a plain `useQuery`
+export const useApiQuery = <S, V extends AnyVariables = AnyVariables>(
+  args: UseQueryArgs<S, V>,
+) => {
+  const response = useQuery({
+    ...args,
+    ...(import.meta.server ? { pause: true } : {}),
+  })
+
+  if (import.meta.server) {
+    const { client } = useClientHandle()
+    const request = createRequest(
+      toValue(args.query),
+      // `toValue` resolves the variables' ref, but the optional `variables`
+      // prop of the query args types them as `V | undefined`
+      toValue(args.variables) as V,
+    )
+    // Built like `useQuery` builds it, so per query options such as an
+    // `Authorization` header in `fetchOptions` reach the server request too
+    const context = {
+      ...('requestPolicy' in args
+        ? { requestPolicy: toValue(args.requestPolicy) }
+        : {}),
+      ...toValue(args.context),
+    }
+    // A promise must never resolve to a thenable: the response itself is
+    // one, so the state is returned without its `then`, or the resolution
+    // would re-trigger it in an endless adoption loop
+    const settle = (): Promise<UseQueryState<S, V>> =>
+      client
+        .executeQuery(request, context)
+        .toPromise()
+        .then(
+          (result) => {
+            response.data.value = result.data ?? undefined
+            response.error.value = result.error ?? undefined
+            response.fetching.value = false
+            response.stale.value = false
+            const { then: _then, ...state } = response
+            return state
+          },
+          (error) => {
+            response.error.value = new CombinedError(error)
+            response.fetching.value = false
+            const { then: _then, ...state } = response
+            return state
+          },
+        )
+
+    let promise: Promise<UseQueryState<S, V>>
+    response.then = (onFulfilled, onRejected) => {
+      promise ??= settle()
+      return promise.then(onFulfilled, onRejected)
+    }
+  }
+
+  return response
+}
 
 type RelayConnection<T> = {
   nodes: T[]
@@ -33,6 +109,12 @@ type RelayConnection<T> = {
 type QueryData<T> = {
   [listKey: string]: RelayConnection<T>
 }
+
+// Postgraphile's `...ByRowId` delete mutations only ever supply `rowId`,
+// never the Relay `id` graphcache keys by default, so any type reachable
+// through one of those mutations has to be keyed by `rowId` too, or
+// `invalidateCache` below can't resolve a key and `cache.invalidate` throws.
+const keyByRowId = (data: { rowId?: string | null }) => data.rowId ?? null
 
 const invalidateCache = (
   cache: Cache,
@@ -55,34 +137,17 @@ const invalidateCache = (
           cache.invalidate('Query', field.fieldKey)
         })
 
-const cacheNodesAppend = ({
-  cache,
-  newNode,
-  parentKey,
-  parentProperty,
-  parentPropertyArguments,
-}: {
-  cache: Cache
-  newNode: Entity
-  parentKey: string
-  parentProperty: string
-  parentPropertyArguments: FieldArgs
-}) => {
-  const newNodeKey = cache.keyOfEntity(newNode)
-  if (!newNodeKey) return
-
-  const property = cache.resolve(
-    parentKey,
-    parentProperty,
-    parentPropertyArguments,
-  )
-  if (!property) return
-
-  const nodes = cache.resolve(property as string, 'nodes')
-  if (!nodes || !Array.isArray(nodes)) return
-
-  cache.link(property as string, 'nodes', [...nodes, newNodeKey])
-}
+// The database's row level security hides a blocked account's accounts,
+// contacts, events and guests, so every list of them changes with a block
+const invalidateAccountBlockDependents = (cache: Cache) =>
+  [
+    'accountBlockAccounts',
+    'allAccounts',
+    'allContacts',
+    'allEvents',
+    'allGuests',
+    'eventSearch',
+  ].forEach((name) => invalidateCache(cache, name))
 
 const cacheListAppend = <
   Fragment,
@@ -166,10 +231,12 @@ export const getUrqlClient = async ({
   clientOptions,
   runtimeConfig,
   baseUrl,
+  isSsr = true,
 }: {
   clientOptions?: Partial<ClientOptions>
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   baseUrl: string
+  isSsr?: boolean
 }) => {
   const ssrExchange = getSsrExchange({
     isClient: import.meta.client,
@@ -177,10 +244,11 @@ export const getUrqlClient = async ({
 
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
-      PreferenceEventCategory: (data) => data.id ?? null, // TODO: remove
-      PreferenceEventFormat: (data) => data.id ?? null, // TODO: remove
-      PreferenceEventSize: (data) => data.id ?? null, // TODO: remove
-      // GeographyPoint: (_data) => null,
+      Contact: (data) => keyByRowId(data),
+      EventFavorite: (data) => keyByRowId(data),
+      GeographyPoint: () => null,
+      Guest: (data) => keyByRowId(data),
+      ProfilePicture: (data) => keyByRowId(data),
     },
     schema,
     resolvers: {
@@ -195,28 +263,47 @@ export const getUrqlClient = async ({
     updates: {
       Mutation: {
         // create
+        createAccountBlock: (_result, _args, cache, _info) =>
+          invalidateAccountBlockDependents(cache),
         createContact: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allContacts'),
-        createGuest: (_result, _args, cache, _info) =>
+        createEvent: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allEvents')
+          invalidateCache(cache, 'eventSearch')
+        },
+        createGuests: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
         createEventFavorite: (result, _args, cache, _info) => {
           const newNode = result.createEventFavorite?.eventFavorite
-          if (!newNode || !newNode.__typename) return
+          if (!newNode?.eventByEventId?.id) return
 
-          const parentKey = cache.keyOfEntity({
-            __typename: 'Event',
-            id: newNode.eventId,
-          })
-          if (!parentKey) return
+          cache.invalidate(
+            { __typename: 'Event', id: newNode.eventByEventId.id },
+            'eventFavoritesByEventId',
+            { first: 1 },
+          )
+        },
+        createEventCategoryMapping: (result, _args, cache, _info) => {
+          const eventId =
+            result.createEventCategoryMapping?.eventCategoryMapping
+              ?.eventByEventId?.id
+          if (!eventId) return
 
-          cacheNodesAppend({
-            cache,
-            // @ts-expect-error typechecked above
-            newNode,
-            parentKey,
-            parentProperty: 'eventFavoritesByEventId',
-            parentPropertyArguments: { first: 1 },
-          })
+          cache.invalidate(
+            { __typename: 'Event', id: eventId },
+            'eventCategoryMappingsByEventId',
+          )
+        },
+        createEventFormatMapping: (result, _args, cache, _info) => {
+          const eventId =
+            result.createEventFormatMapping?.eventFormatMapping?.eventByEventId
+              ?.id
+          if (!eventId) return
+
+          cache.invalidate(
+            { __typename: 'Event', id: eventId },
+            'eventFormatMappingsByEventId',
+          )
         },
         createPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
@@ -245,12 +332,73 @@ export const getUrqlClient = async ({
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        createPreferenceEventSize: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allPreferenceEventSizes'),
+        createUpload: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allUploads'),
 
         // delete
+        deleteAccountBlockByCreatedByAndBlockedAccountId: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateAccountBlockDependents(cache),
         deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
+        eventDelete: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allEvents')
+          invalidateCache(cache, 'eventSearch')
+        },
         deleteGuestByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Guest', args),
+        deleteEventFavoriteByRowId: (_result, args, cache, _info) =>
+          invalidateCache(cache, 'EventFavorite', args),
+        deleteEventCategoryMappingByEventIdAndCategoryId: (
+          result,
+          _args,
+          cache,
+          _info,
+        ) => {
+          const payload =
+            result.deleteEventCategoryMappingByEventIdAndCategoryId
+          if (!payload) return
+
+          if (payload.deletedEventCategoryMappingId)
+            cache.invalidate({
+              __typename: 'EventCategoryMapping',
+              id: payload.deletedEventCategoryMappingId,
+            })
+
+          const eventId = payload.eventCategoryMapping?.eventByEventId?.id
+          if (eventId)
+            cache.invalidate(
+              { __typename: 'Event', id: eventId },
+              'eventCategoryMappingsByEventId',
+            )
+        },
+        deleteEventFormatMappingByEventIdAndFormatId: (
+          result,
+          _args,
+          cache,
+          _info,
+        ) => {
+          const payload = result.deleteEventFormatMappingByEventIdAndFormatId
+          if (!payload) return
+
+          if (payload.deletedEventFormatMappingId)
+            cache.invalidate({
+              __typename: 'EventFormatMapping',
+              id: payload.deletedEventFormatMappingId,
+            })
+
+          const eventId = payload.eventFormatMapping?.eventByEventId?.id
+          if (eventId)
+            cache.invalidate(
+              { __typename: 'Event', id: eventId },
+              'eventFormatMappingsByEventId',
+            )
+        },
         deletePreferenceEventCategoryByAccountIdAndCategoryId: (
           result,
           _args,
@@ -294,46 +442,102 @@ export const getUrqlClient = async ({
             query: allPreferenceEventLocationsQuery,
             result,
           }),
-        deleteEventFavoriteByRowId: (_result, args, cache, _info) =>
-          invalidateCache(cache, 'EventFavorite', args),
+        deletePreferenceEventSizeByAccountIdAndEventSize: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateCache(cache, 'allPreferenceEventSizes'),
         deleteProfilePictureByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'ProfilePicture', args),
+        deleteUploadByRowId: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allUploads'),
       },
     },
   }
 
   const cacheStorage = import.meta.client ? makeDefaultStorage() : undefined
-  const cacheExchange =
-    import.meta.client && cacheStorage
-      ? getOfflineExchange({
-          ...graphCacheConfig,
-          schema,
-          storage: cacheStorage,
-        })
-      : undefined
 
-  const _clientOptions: ClientOptions = {
-    ...clientOptions,
-    exchanges: [
-      ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
-      requestPolicyExchange({}),
-      ...(cacheExchange ? [cacheExchange] : []),
-      ssrExchange, // `ssrExchange` must be before `fetchExchange`
-      fetchExchange,
-    ],
-    url: `${baseUrl}/api/service/postgraphile/graphql`,
+  // `getOfflineExchange` binds a fresh in-memory store to whichever `storage`
+  // it's given at call time, so this has to be re-invoked (not just reused)
+  // whenever the client is rebuilt - otherwise `urqlReset` recreates the
+  // `Client`s but keeps serving normalized entities from the old store.
+  const buildClientOptions = () => {
+    let isCacheHydrated = false
+    const ssrHydrationExchanges = getSsrHydrationExchanges({
+      isCacheHydrated: () => isCacheHydrated,
+      ssrExchange,
+    })
+    const refetchBeforeHydration = getRefetchBeforeHydrationExchange()
+    const cacheExchange =
+      import.meta.client && cacheStorage
+        ? getOfflineExchange({
+            ...graphCacheConfig,
+            schema,
+            storage: {
+              ...cacheStorage,
+              onCacheHydrated: () => {
+                isCacheHydrated = true
+                refetchBeforeHydration.refetch()
+              },
+            },
+          })
+        : undefined
+
+    const clientOpts: ClientOptions = {
+      ...clientOptions,
+      exchanges: [
+        ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
+        requestPolicyExchange({}),
+        ...(cacheExchange
+          ? [
+              refetchBeforeHydration.exchange,
+              ssrHydrationExchanges.skipCacheRead,
+              cacheExchange,
+              ssrHydrationExchanges.answerFromSsr,
+            ]
+          : []),
+        ...(isSsr ? [ssrExchange] : []), // `ssrExchange` must be before `fetchExchange`
+        fetchExchange,
+      ],
+      url: `${baseUrl}/api/service/postgraphile/graphql`,
+    }
+
+    return {
+      clientOptions: clientOpts,
+      clientOptionsTesting: {
+        ...clientOpts,
+        url: `${baseUrl}/api/test/service/postgraphile/graphql`,
+      },
+    }
   }
-  const client = ref(createClient(_clientOptions))
 
-  const _clientOptionsTesting: ClientOptions = {
-    ..._clientOptions,
-    url: `${baseUrl}/api/test/service/postgraphile/graphql`,
+  const initial = buildClientOptions()
+  const client = ref(createClient(initial.clientOptions))
+  const clientTesting = ref(createClient(initial.clientOptionsTesting))
+
+  const urqlResetInThisTab = async () => {
+    // Drop persisted entities first so the rebuilt exchange below starts from an empty store instead of rehydrating the previous session's data.
+    await cacheStorage?.clear()
+
+    const next = buildClientOptions()
+    client.value = createClient(next.clientOptions)
+    clientTesting.value = createClient(next.clientOptionsTesting)
   }
-  const clientTesting = ref(createClient(_clientOptionsTesting))
 
-  const urqlReset = () => {
-    client.value = createClient(_clientOptions)
-    clientTesting.value = createClient(_clientOptionsTesting)
+  // Every tab holds its own in-memory store and writes it back to the shared storage on its next persist, so a reset that stops at the tab it was triggered in gets undone by the others.
+  const resetChannel = import.meta.client
+    ? new BroadcastChannel('urql-reset')
+    : undefined
+
+  resetChannel?.addEventListener('message', () => {
+    void urqlResetInThisTab()
+  })
+
+  const urqlReset = async () => {
+    // `postMessage` reaches the other tabs only, never the sender, so this tab still has to reset itself below.
+    resetChannel?.postMessage(undefined)
+    await urqlResetInThisTab()
   }
 
   return {

@@ -4,15 +4,15 @@ import ical, {
   ICalEventClass,
   ICalEventStatus,
 } from 'ical-generator'
-import mustache from 'mustache'
 
+import { type AddressFields, getAddressText } from '../../shared/utils/address'
 import { getTextFromHtml } from '../../shared/utils/text' // TODO: replace this with an e2e test (https://playwright.dev/docs/clock)
 import { EventVisibility } from '../../gql/generated/graphcache'
 import type {
-  ContactItemFragment,
   EventItemFragment,
   GuestItemFragment,
 } from '../../gql/generated/graphql'
+import { type AppLocale, getLocalePrefix } from './i18n'
 
 const visibilityToClass = {
   [EventVisibility.Public]: ICalEventClass.PUBLIC,
@@ -21,41 +21,55 @@ const visibilityToClass = {
 }
 
 export const getIcalString = ({
-  contact,
   event,
   guest,
+  language,
   siteUrl,
 }: {
-  contact?: Pick<ContactItemFragment, 'firstName' | 'lastName'>
   event: Pick<
     EventItemFragment,
-    // | 'addressByAddressId' // TODO: update for address
     'description' | 'end' | 'name' | 'rowId' | 'slug' | 'start' | 'visibility'
   > & {
+    isInPerson?: boolean | null
+    addressByAddressId?:
+      | (AddressFields & {
+          location?: { latitude: number; longitude: number } | null
+          name?: string | null
+        })
+      | null
     accountByCreatedBy: Omit<
       NonNullable<EventItemFragment['accountByCreatedBy']>,
       'id' | 'rowId'
     >
   }
   guest?: Pick<GuestItemFragment, 'rowId'>
+  language?: AppLocale
   siteUrl: string
 }) => {
   const eventAuthorUsername = event.accountByCreatedBy?.username
   const userEventPath = `${eventAuthorUsername}/${event.slug}`
+  const localePrefix = language ? getLocalePrefix(language) : ''
   const eventUrl = guest
-    ? `${siteUrl}/guest/view/${guest.rowId}`
-    : `${siteUrl}/event/view/${userEventPath}`
+    ? `${siteUrl}${localePrefix}/guest/view/${guest.rowId}`
+    : `${siteUrl}${localePrefix}/event/view/${userEventPath}`
   const eventDescriptionHtml = sanitize(
-    mustache.render(
-      event.description ? `${eventUrl}\n${event.description}` : '',
-      {
-        contact,
-        event,
-        guest,
-      },
-    ),
+    event.description ? `${eventUrl}\n${event.description}` : '',
   )
   const hostname = new URL(siteUrl).hostname
+  const address = event.isInPerson ? event.addressByAddressId : undefined
+  const addressText = getAddressText(address)
+  const icalLocation = address?.name
+    ? {
+        title: address.name,
+        ...(addressText && { address: addressText }),
+        ...(address.location && {
+          geo: {
+            lat: address.location.latitude,
+            lon: address.location.longitude,
+          },
+        }),
+      }
+    : undefined
 
   return ical({
     // `prodId` is generated automatically.
@@ -97,7 +111,7 @@ export const getIcalString = ({
           },
           // description: getTextFromHtml(DOMPurify.sanitize(eventDescriptionHtml)),
         }),
-        // location: event.location, // TODO: update for address
+        ...(icalLocation && { location: icalLocation }),
         organizer: {
           name: eventAuthorUsername,
           email: eventAuthorUsername + '@' + hostname,

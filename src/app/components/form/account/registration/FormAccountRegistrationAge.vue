@@ -1,9 +1,5 @@
 <template>
-  <form
-    ref="formRef"
-    class="flex flex-col gap-4"
-    @submit.prevent="form.handleSubmit"
-  >
+  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
     <form.Field
       v-slot="{ field }"
       name="birthDate"
@@ -44,6 +40,7 @@
                 :model-value="
                   field.state.value ? parseDate(field.state.value) : undefined
                 "
+                prevent-deselect
                 @update:model-value="
                   (v) => {
                     field.handleChange(v ? v.toString() : '')
@@ -82,7 +79,6 @@ const emit = defineEmits<{
 
 // form
 const { t, locale } = useI18n()
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
 
 const formSchema = z.object({
   birthDate: z
@@ -97,7 +93,7 @@ const formSchema = z.object({
 
         return birthDate.compare(targetDate) <= 0
       },
-      { message: t('globalFormErrorAge18') },
+      { error: t('globalFormErrorAge18') },
     ),
 })
 
@@ -111,11 +107,6 @@ const form = useForm({
   onSubmit: async ({ value }) => {
     emit('success', value.birthDate)
   },
-})
-
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({
-  submit,
 })
 
 // calendar

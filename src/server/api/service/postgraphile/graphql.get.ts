@@ -3,6 +3,11 @@ export default defineEventHandler(async (event) => {
 
   const baseURL = useServiceHrefPostgraphile()
   const jwt = getJwtFromCookie()
+  // A token handed over in the request wins over the cookie, as a server side
+  // request made right after a token change still carries the previous cookie
+  const authorization =
+    getRequestHeader(event, 'authorization') ??
+    (jwt ? `Bearer ${jwt}` : undefined)
   const query = getQuery(event)
 
   const variables = // TODO: remove if Postgraphile supports GET
@@ -30,11 +35,7 @@ export default defineEventHandler(async (event) => {
       variables,
     }, // TODO: remove if Postgraphile supports GET
     headers: {
-      ...(jwt
-        ? {
-            authorization: `Bearer ${jwt}`,
-          }
-        : {}),
+      ...(authorization ? { authorization } : {}),
     },
     method: 'POST', // TODO: 'GET' if Postgraphile supports GET
     // query, // TODO: reenable if Postgraphile supports GET

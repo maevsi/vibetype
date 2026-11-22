@@ -1,10 +1,10 @@
-import type { H3Event } from 'h3'
+import { getCookie, getRequestIP, type RequestEvent } from 'nuxt/server'
 
-const getTimeZone = async ({
+export const getTimeZone = async ({
   event,
   isTesting,
 }: {
-  event: H3Event
+  event: RequestEvent
   isTesting?: boolean
 }) => {
   const timeZoneBySsr = event.context.$timeZone
@@ -24,13 +24,6 @@ const getTimeZone = async ({
       if (timeZoneByIpApi) return timeZoneByIpApi
     }
   }
-}
-
-export const useTimeZone = async () => {
-  const event = useEvent()
-  const isTesting = useIsTesting()
-
-  return await getTimeZone({ event, isTesting })
 }
 
 export const getTimeZoneByIpApi = async ({ ip }: { ip: string }) => {

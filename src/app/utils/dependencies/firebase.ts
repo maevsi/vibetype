@@ -1,7 +1,10 @@
-import { initializeApp } from 'firebase/app'
+import { getApps, initializeApp } from 'firebase/app'
 import { getMessaging, getToken } from 'firebase/messaging'
 
+// Idempotent: `requestFcmToken` initializes on demand, so it cannot run before
+// the default app exists (`app/no-app`).
 export const initializeFirebaseClient = () =>
+  getApps()[0] ??
   initializeApp({
     apiKey: 'AIzaSyCN84hedLiyTvPmB2HGPgpQACQ419xx4zE',
     authDomain: 'maevsi-3f373.firebaseapp.com',
@@ -13,7 +16,7 @@ export const initializeFirebaseClient = () =>
   })
 
 export const requestFcmToken = async () => {
-  const messaging = getMessaging()
+  const messaging = getMessaging(initializeFirebaseClient())
   const serviceWorker = await navigator.serviceWorker.ready
 
   const token = await getToken(messaging, {

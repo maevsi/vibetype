@@ -12,6 +12,8 @@ export const getJwtPublicKey = async ({
 }: {
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
 }) => {
+  if (runtimeConfig.public.vio.isTesting) return TESTING_JWT_PUBLIC_KEY
+
   if (runtimeConfig.public.vio.stagingHost) {
     return await $fetch<string>(
       `https://${runtimeConfig.public.vio.stagingHost}/api/service/postgraphile/jwt-public-key`,

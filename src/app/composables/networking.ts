@@ -1,23 +1,22 @@
+import type { ServiceName } from '~~/shared/utils/services'
+
 export const useGetServiceHref = () => {
   const host = useHost()
   const runtimeConfig = useRuntimeConfig()
   const isTesting = useIsTesting()
 
   return ({
-    isSsr = true,
+    allowInternal = true,
     name,
-    port,
   }: {
-    isSsr?: boolean
-    name: string
-    port?: number
+    allowInternal?: boolean
+    name: ServiceName
   }) =>
     getServiceHref({
+      allowInternal,
       host,
-      isSsr,
       isTesting,
       name,
-      port,
       stagingHost: runtimeConfig.public.vio.stagingHost,
     })
 }
@@ -51,7 +50,7 @@ export const useSiteUrl = () =>
   getSiteUrl(useRuntimeConfig().public.i18n.baseUrl)
 
 export const useTusdFilesUrl = () => {
-  const { siteUrlTyped: siteUrl } = useSiteUrl()
+  const getServiceHref = useGetServiceHref()
 
-  return getTusdFilesUrl({ siteUrl })
+  return `${getServiceHref({ allowInternal: false, name: 'tusd' })}/files/`
 }

@@ -1,39 +1,8 @@
 <template>
   <Loader :api>
     <div class="flex flex-col gap-4">
-      <AppScrollContainer
-        v-if="event && guests.length"
-        class="max-h-[70vh]"
-        :has-next-page="!!api.data.allGuests?.pageInfo.hasNextPage"
-        @load-more="after = api.data.allGuests?.pageInfo.endCursor"
-      >
-        <LayoutTable class="border border-neutral-300 dark:border-neutral-600">
-          <LayoutThead>
-            <tr>
-              <LayoutTh scope="col">
-                {{ t('contact') }}
-              </LayoutTh>
-              <LayoutTh scope="col" />
-            </tr>
-          </LayoutThead>
-          <LayoutTbody>
-            <GuestListItem
-              v-for="guest in guests"
-              :key="guest.rowId"
-              :event
-              :guest
-            />
-          </LayoutTbody>
-        </LayoutTable>
-      </AppScrollContainer>
-      <div v-else class="flex flex-col items-center gap-2">
-        {{ t('guestNone') }}
-        <p class="text-sm text-gray-500 dark:text-gray-400">
-          {{ t('hintInviteSelf') }}
-        </p>
-      </div>
       <div class="flex flex-col items-center gap-1">
-        <ButtonColored
+        <AppButton
           :aria-label="t('guestAdd')"
           :disabled="
             event.guestCountMaximum && api.data.allGuests?.totalCount
@@ -46,14 +15,97 @@
           <template #prefix>
             <AppIconPlus />
           </template>
-        </ButtonColored>
-        <p class="text-center text-gray-500 dark:text-gray-400">
+        </AppButton>
+        <p class="text-center text-fg-2">
           {{
             t('guestsUsed', {
               amountCurrent: api.data.allGuests?.totalCount,
               amountMaximum: event.guestCountMaximum || '∞',
             })
           }}
+        </p>
+      </div>
+      <template v-if="event && guests.length">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <AppInputSearch v-model="searchString" class="flex-1" />
+          <Select v-model="feedbackFilter">
+            <SelectTrigger
+              :aria-label="t('feedbackFilter')"
+              class="w-full sm:w-56"
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{{ t('feedbackFilterAll') }}</SelectItem>
+              <SelectItem :value="InvitationFeedback.Accepted">
+                {{ t('accepted') }}
+              </SelectItem>
+              <SelectItem :value="InvitationFeedback.Canceled">
+                {{ t('canceled') }}
+              </SelectItem>
+              <SelectItem value="none">{{ t('noFeedback') }}</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <GuestListActions
+          v-if="guestsSelected.length"
+          :guests="guestsSelected"
+        />
+        <AppTable v-if="guestsFiltered.length" class="border border-line">
+          <AppTableHeader>
+            <tr>
+              <AppTableHead class="w-0" scope="col">
+                <AppCheckbox
+                  :aria-label="t('guestSelectAll')"
+                  class="bg-surface"
+                  :model-value="
+                    guestsSelected.length === guestsFiltered.length
+                      ? true
+                      : guestsSelected.length
+                        ? 'indeterminate'
+                        : false
+                  "
+                  @update:model-value="selectAll($event === true)"
+                />
+              </AppTableHead>
+              <AppTableHead scope="col">
+                {{ t('contact') }}
+              </AppTableHead>
+              <AppTableHead scope="col">
+                <span class="sr-only">{{ t('actions') }}</span>
+              </AppTableHead>
+            </tr>
+          </AppTableHeader>
+          <AppTableBody>
+            <GuestListItem
+              v-for="guest in guestsFiltered"
+              :key="guest.rowId"
+              :event
+              :guest
+              :selected="guestRowIdsSelected.includes(guest.rowId)"
+              @update:selected="select(guest.rowId, $event)"
+            />
+          </AppTableBody>
+        </AppTable>
+        <p v-else class="text-center">
+          {{ t('guestNoneFiltered') }}
+        </p>
+        <div
+          v-if="api.data.allGuests?.pageInfo.hasNextPage"
+          class="flex justify-center"
+        >
+          <AppButton
+            :aria-label="t('globalShowMore')"
+            @click="after = api.data.allGuests?.pageInfo.endCursor"
+          >
+            {{ t('globalShowMore') }}
+          </AppButton>
+        </div>
+      </template>
+      <div v-else class="flex flex-col items-center gap-2">
+        {{ t('guestNone') }}
+        <p class="text-body-small text-fg-2">
+          {{ t('hintInviteSelf') }}
         </p>
       </div>
       <div v-if="api.data.allGuests?.totalCount">
@@ -69,16 +121,24 @@
           />
         </div>
       </div>
-      <Modal id="ModalGuest" is-footer-hidden>
+      <AppDrawer
+        v-model="isModalGuestOpen"
+        class="sm:max-w-lg"
+        direction="right"
+        @close="onModalGuestClose"
+      >
         <FormGuest
           :event
           :guest-contact-ids-existing="guests.map((i) => i.contactId)"
-          @submit-success="onGuestSubmitSuccess"
+          @submit-success="onModalGuestClose"
         />
-        <template #header>
+        <template #title>
           {{ t('contactSelect') }}
         </template>
-      </Modal>
+        <template #description>
+          {{ t('contactSelectDescription') }}
+        </template>
+      </AppDrawer>
     </div>
   </Loader>
 </template>
@@ -96,10 +156,15 @@ import {
 } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
 
-import { useAllGuestsQuery } from '~~/gql/documents/queries/guest/guestsAll'
+import { graphql } from '~~/gql/generated'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
-import type { EventItemFragment } from '~~/gql/generated/graphql'
-import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
+import type {
+  AllGuestsQueryVariables,
+  EventItemFragment,
+  GuestItemFragment,
+} from '~~/gql/generated/graphql'
+import { getContactItem, getContactSortKey } from '~~/shared/utils/contact'
+import { getGuestItem } from '~~/shared/utils/guest'
 
 const { event } = defineProps<{
   event: Pick<
@@ -110,12 +175,15 @@ const { event } = defineProps<{
 
 const colorMode = useColorMode()
 const { t } = useI18n()
-const store = useStore()
 const runtimeConfig = useRuntimeConfig()
 const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 
 // data
 const after = ref<string | null>()
+const feedbackFilter = ref<string>('all')
+const guestRowIdsSelected = ref<string[]>([])
+const isModalGuestOpen = ref<boolean>()
+const searchString = ref<string>('')
 const options = {
   plugins: {
     legend: {
@@ -132,24 +200,52 @@ const options = {
 }
 
 // api data
-const guestsQuery = useAllGuestsQuery(
-  computed(() => ({
+const guestsQuery = useApiQuery({
+  query: graphql(`
+    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {
+      allGuests(
+        after: $after
+        condition: { eventId: $eventId }
+        first: $first
+      ) {
+        nodes {
+          ...GuestItem
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        totalCount
+      }
+    }
+  `),
+  variables: computed<AllGuestsQueryVariables>(() => ({
     after: after.value,
     eventId: event.rowId,
     first: ITEMS_PER_PAGE_LARGE,
   })),
-)
+})
 const api = await useApiData([guestsQuery])
 
 // methods
 const add = () => {
   guestsQuery.pause()
-  store.modals.push({ id: 'ModalGuest' })
+  isModalGuestOpen.value = true
 }
-const onGuestSubmitSuccess = () => {
-  store.modalRemove('ModalGuest')
+const onModalGuestClose = () => {
+  isModalGuestOpen.value = false
   after.value = undefined
   guestsQuery.resume()
+}
+const select = (guestRowId: string, isSelected?: boolean) => {
+  guestRowIdsSelected.value = isSelected
+    ? [...guestRowIdsSelected.value, guestRowId]
+    : guestRowIdsSelected.value.filter((rowId) => rowId !== guestRowId)
+}
+const selectAll = (isSelected: boolean) => {
+  guestRowIdsSelected.value = isSelected
+    ? guestsFiltered.value.map((guest) => guest.rowId)
+    : []
 }
 const updateChart = () => {
   Chart.defaults.color = colorMode.value === 'dark' ? '#fff' : '#000'
@@ -195,11 +291,48 @@ const dataComputed = computed(() => {
     ],
   }
 })
+const getGuestContactSortKey = (
+  guest: Pick<GuestItemFragment, 'contactByContactId'>,
+) => {
+  const contact = getContactItem(guest.contactByContactId)
+  return contact ? getContactSortKey(contact) : ''
+}
 const guests = computed(
   () =>
     api.value.data.allGuests?.nodes
       .map((x) => getGuestItem(x))
-      .filter(isNeitherNullNorUndefined) || [],
+      .filter(isNeitherNullNorUndefined)
+      .sort((a, b) =>
+        getGuestContactSortKey(a).localeCompare(getGuestContactSortKey(b)),
+      ) || [],
+)
+const guestsFiltered = computed(() => {
+  const normalizedSearch = searchString.value.toLowerCase().trim()
+  const searchStringParts = normalizedSearch.split(/\s+/).filter(Boolean)
+  const bySearch = searchStringParts.length
+    ? guests.value.filter((guest) =>
+        searchStringParts.some((searchStringPart) =>
+          getGuestContactSortKey(guest)
+            .toLowerCase()
+            .includes(searchStringPart),
+        ),
+      )
+    : guests.value
+
+  switch (feedbackFilter.value) {
+    case 'all':
+      return bySearch
+    case 'none':
+      return bySearch.filter((guest) => guest.feedback === null)
+    default:
+      return bySearch.filter((guest) => guest.feedback === feedbackFilter.value)
+  }
+})
+// guests hidden by the search or filter stay out, so an action never touches a guest that is not visible
+const guestsSelected = computed(() =>
+  guestsFiltered.value.filter((guest) =>
+    guestRowIdsSelected.value.includes(guest.rowId),
+  ),
 )
 
 // lifecycle
@@ -227,24 +360,36 @@ Chart.register(
 <i18n lang="yaml">
 de:
   accepted: akzeptiert
+  actions: Aktionen
   canceled: abgelehnt
   contact: Kontakt
   contactSelect: Kontakt auswählen
+  contactSelectDescription: Durchsuche dein Kontaktbuch und wähle die Personen aus, die du einladen möchtest.
   feedback: Rückmeldungen
+  feedbackFilter: Nach Rückmeldung filtern
+  feedbackFilterAll: Alle
   hintInviteSelf: 'Tipp: du kannst dich auch zuerst selbst einladen'
   guestAdd: Gäste hinzufügen
   guestNone: Es wurde noch kein Gast hinzugefügt 😕
+  guestNoneFiltered: Keine Gäste entsprechen diesem Filter 😕
+  guestSelectAll: Alle angezeigten Gäste auswählen
   guestsUsed: 'Gästekontingent genutzt: {amountCurrent} / {amountMaximum}'
   noFeedback: keine Rückmeldung
 en:
   accepted: accepted
+  actions: Actions
   canceled: declined
   contact: Contact
   contactSelect: Select Contact
+  contactSelectDescription: Search your contact book and select the people you want to invite.
   feedback: Guest responses
+  feedbackFilter: Filter by feedback
+  feedbackFilterAll: All
   hintInviteSelf: 'Hint: you can also invite yourself first'
   guestAdd: Add guests
   guestNone: No guest has been added yet 😕
+  guestNoneFiltered: No guests match this filter 😕
+  guestSelectAll: Select all shown guests
   guestsUsed: 'Guest quota used: {amountCurrent} / {amountMaximum}'
   noFeedback: no response
 </i18n>

@@ -1,33 +1,37 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <div
       v-if="event && route.params.username === store.signedInUsername"
-      class="flex flex-col gap-4"
+      class="flex flex-1 flex-col"
     >
-      <LayoutPageTitle :title="t('title')" />
-      <GuestList :event />
+      <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
+      <LayoutPage>
+        <GuestList :event />
+      </LayoutPage>
     </div>
     <AppError v-else :error="{ status: 403 }" />
   </Loader>
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 // validation
+await useSignInRequired()
 const route = useRoute()
 const store = useStore()
 const { createA11yError } = useA11yError()
-if (route.params.username !== store.signedInUsername) {
+if (
+  store.signedInUsername &&
+  route.params.username !== store.signedInUsername
+) {
   throw createA11yError({
     status: 403,
   })
 }
 
 // api data
-const queryEventGuests = useQuery({
+const queryEventGuests = useApiQuery({
   query: graphql(`
     query EventGuests($slug: String!, $username: String!) {
       accountByUsername(username: $username) {
@@ -79,13 +83,16 @@ const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 // page
 const { t } = useI18n()
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
-  if (route.params.username !== store.signedInUsername) {
+  if (api.value.isFetching && !event.value) return t('globalLoading')
+  if (
+    store.signedInUsername &&
+    route.params.username !== store.signedInUsername
+  ) {
     showAppError({ status: 403, message: 'Permission denied' })
     return
   }
   if (!event.value) {
-    showAppError({ status: 500, message: 'Event unavailable' })
+    showAppError({ status: 404, message: 'Event unavailable' })
     return
   }
 
@@ -96,7 +103,7 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  title: Gäste
+  title: Gästeliste
 en:
-  title: Guests
+  title: Guest list
 </i18n>

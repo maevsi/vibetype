@@ -1,5 +1,5 @@
 <template>
-  <form ref="formRef" novalidate @submit.prevent="form.handleSubmit">
+  <form novalidate @submit.prevent="form.handleSubmit">
     <div class="flex flex-col gap-4">
       <form.Field v-slot="{ field }" name="password">
         <Field>
@@ -7,12 +7,14 @@
             t('passwordAccount')
           }}</FieldLabel>
           <FieldContent>
-            <FormInputPassword
+            <AppInputPassword
               id="input-password"
               :aria-invalid="isFieldInvalid(field)"
+              autocomplete="current-password"
               :model-value="field.state.value"
               @blur="field.handleBlur"
-              @input="field.handleChange($event)"
+              @keydown.enter.prevent
+              @update:model-value="field.handleChange($event)"
             />
           </FieldContent>
           <FieldError
@@ -22,18 +24,16 @@
         </Field>
       </form.Field>
       <div class="flex flex-col items-center">
-        <ButtonColored
+        <AppButton
           :aria-label="t('deletion', { item: itemNameDeletion })"
           class="w-full"
+          :loading="api.isFetching"
           type="submit"
           variant="primary-critical"
         >
           {{ t('deletion', { item: itemNameDeletion }) }}
-        </ButtonColored>
+        </AppButton>
       </div>
-      <CardStateAlert v-if="errorMessages?.length">
-        <AppSpanList :span="errorMessages" />
-      </CardStateAlert>
     </div>
   </form>
 </template>
@@ -45,6 +45,7 @@ import { z } from 'zod'
 
 const {
   errorsPgIds = undefined,
+  isErrorToastHidden = undefined,
   isToastHidden = undefined,
   itemNameDeletion,
   itemNameSuccess,
@@ -52,6 +53,7 @@ const {
   variables = undefined,
 } = defineProps<{
   errorsPgIds?: Record<string, string>
+  isErrorToastHidden?: boolean
   isToastHidden?: boolean
   itemNameDeletion: string
   itemNameSuccess: string
@@ -66,9 +68,6 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({ submit })
 
 // api data
 const api = await useApiData([mutation])
@@ -107,21 +106,22 @@ const form = useForm({
   },
 })
 
-// computations
-const errorMessages = computed(() =>
-  api.value.errors
-    ? getCombinedErrorMessages(api.value.errors, errorsPgIds)
-    : undefined,
-)
+// errors
+const alertErrorDetails = useAlertErrorDetails()
 
 watch(
   () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current, errorsPgIds)[0])
-      : undefined
+  (errors) => {
+    if (errors.length && !isErrorToastHidden)
+      alertErrorDetails({ errors, postgresErrorMap: errorsPgIds })
   },
 )
+
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+  postgresErrorMap: errorsPgIds,
+})
 </script>
 
 <i18n lang="yaml">

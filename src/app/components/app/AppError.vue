@@ -1,187 +1,148 @@
 <template>
   <div class="flex flex-1 flex-col">
     <LayoutTopBar>
-      <span>
-        {{ statusName }}
-      </span>
+      <span class="sr-only">{{ statusName }}</span>
     </LayoutTopBar>
     <LayoutPage>
-      <div class="flex flex-1 flex-col gap-8">
-        <LayoutPageResult type="error">
-          <template v-if="!error.data?.vibetype" #default>
-            <span v-if="error.status === 403">
-              {{ t('error403Hint') }}
-            </span>
-            <span v-else-if="error.status === 404">
-              {{ t('error404Hint') }}
-            </span>
-            <span v-else-if="error.status === 429">
-              {{ t('error429Hint') }}
-            </span>
-            <span v-else-if="error.status === 500">
-              {{ t('error500Hint') }}
-            </span>
-            <span v-else>
-              {{ t('errorHint') }}
-            </span>
-          </template>
-          <template #description>
-            <span v-if="error.data?.vibetype">
-              {{ error.data.vibetype }}
-            </span>
-            <span v-else-if="error.status === 400">
-              {{ t('error400Description') }}
-            </span>
-            <span v-else-if="error.status === 403">
-              {{ t('error403Description') }}
-            </span>
-            <span v-else-if="error.status === 404">
-              {{ t('error404Description') }}
-            </span>
-            <span v-else-if="error.status === 418">
-              {{ t('error418Description') }}
-            </span>
-            <span v-else-if="error.status === 429">
-              {{ t('error429Description') }}
-            </span>
-            <span v-else-if="error.status === 500">
-              {{ t('error500Description') }}
-            </span>
-            <span v-else>
-              {{ t('errorDescription') }}
-            </span>
-          </template>
-          <!-- <template #title>{{ statusName }}</template> -->
-        </LayoutPageResult>
-        <Collapsible v-model:open="detailsIsOpen" class="flex flex-col gap-2">
-          <CollapsibleTrigger as-child>
-            <ButtonColored
-              v-if="!detailsIsOpen"
-              :aria-label="t('detailsMore')"
-              class="w-full"
-              size="small"
-              variant="tertiary"
-            >
-              <TypographyLabel>
-                {{ t('detailsMore') }}
-              </TypographyLabel>
-              <AppIconChevronDown class="size-4" />
-            </ButtonColored>
-            <ButtonColored
-              v-else
-              :aria-label="t('detailsLess')"
-              class="w-full"
-              size="small"
-              variant="tertiary"
-            >
-              <TypographyLabel>
-                {{ t('detailsLess') }}
-              </TypographyLabel>
-              <AppIconChevronUp class="size-4" />
-            </ButtonColored>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <Card>
-              <section
-                :aria-labelledby="templateIdDetails"
-                class="flex flex-col gap-4 p-2"
-              >
-                <h2 :id="templateIdDetails">{{ t('details') }}</h2>
-                <div>
-                  <span class="font-bold">
-                    {{ error.statusText }}
-                  </span>
-                  <!-- eslint-disable vue/no-v-html -->
-                  <div v-if="error.stack" v-html="error.stack" />
-                  <!-- eslint-enable vue/no-v-html -->
-                </div>
-              </section>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
-        <ButtonColored
+      <LayoutPageResult is-start-aligned :message type="error">
+        <template #title>{{ title }}</template>
+        <template #description>{{ t('description') }}</template>
+        <pre
+          v-if="isDev && error.stack"
+          class="overflow-x-auto text-body-small whitespace-pre-wrap"
+          >{{ error.stack }}</pre>
+      </LayoutPageResult>
+      <template #bottom>
+        <AppButton
+          :aria-label="t('retry')"
+          class="w-full max-w-md"
+          @click="reloadNuxtApp()"
+        >
+          {{ t('retry') }}
+        </AppButton>
+        <AppButton
+          :aria-label="t('back')"
+          class="w-full max-w-md data-[variant=secondary]:bg-surface"
+          variant="secondary"
+          @click="store.navigateBack()"
+        >
+          {{ t('back') }}
+        </AppButton>
+        <AppButton
           :aria-label="t('support')"
           size="small"
-          :to="
-            localePath({
-              name: 'support-contact',
-            })
-          "
+          :to="localePath('support-contact')"
           variant="tertiary"
         >
-          {{ t('support') }}
           <template #prefix>
             <AppIconHelp class="size-4" />
           </template>
-        </ButtonColored>
-      </div>
-      <template #bottom>
-        <ButtonList>
-          <ButtonSignIn v-if="[403, 404].includes(error.status)" />
-          <ButtonHome />
-        </ButtonList>
+          {{ t('support') }}
+        </AppButton>
       </template>
     </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { NuxtError } from '#app'
+import type { AppErrorInput } from '~~/shared/utils/error'
 
 const { error } = defineProps<{
-  error: Partial<NuxtError> &
-    Required<Pick<NuxtError, 'status'>> & {
-      data?: { vibetype?: string }
-    }
+  error: AppErrorInput
 }>()
 
-// status code
-const { ssrContext } = useNuxtApp()
-if (ssrContext && error.status) {
-  ssrContext.event.node.res.statusCode = error.status
+// status code (prerendered error pages like `404.html` must answer with 200 to be written)
+if (
+  import.meta.server &&
+  error.status &&
+  !(import.meta.prerender && /^\/\d{3}\.html$/.test(useRequestURL().pathname))
+) {
+  setResponseStatus(error.status)
 }
 const { statusName } = await useHttpStatusCode({ status: error.status })
 
 // template
 const { t } = useI18n()
 const localePath = useLocalePath()
-const detailsIsOpen = ref<boolean>()
-const templateIdDetails = useId()
+const store = useStore()
+const isDev = import.meta.dev
+const title = computed(() => {
+  switch (error.status) {
+    case 403:
+      return t('error403Title')
+    case 404:
+      return t('error404Title')
+    case 429:
+      return t('error429Title')
+    case 500:
+      return t('error500Title')
+    default:
+      return t('errorTitle')
+  }
+})
+const message = computed(() => {
+  const explanations: Partial<Record<number, string>> = {
+    400: t('error400Description'),
+    403: `${t('error403Description')} ${t('error403Hint')}`,
+    404: `${t('error404Description')} ${t('error404Hint')}`,
+    418: t('error418Description'),
+    429: `${t('error429Description')} ${t('error429Hint')}`,
+    500: `${t('error500Description')} ${t('error500Hint')}`,
+  }
+  const explanation =
+    error.data?.vibetype ??
+    explanations[error.status] ??
+    `${t('errorDescription')} ${t('errorHint')}`
+
+  return t('message', { explanation, status: error.status })
+})
 </script>
 
 <i18n lang="yaml">
 de:
-  details: Technische Details
-  detailsLess: Ausblenden
-  detailsMore: Technische Details anzeigen
-  errorDescription: Sieht so aus als wäre etwas nicht so wie es sein sollte.
-  errorHint: Bitte versuche es noch einmal und melde @.upper:{'globalSiteName'} diesen Fehler, wenn er weiterhin auftritt.
+  back: Zurück
+  description: Hoppla! Etwas ist schiefgelaufen. Bitte versuche es später erneut oder kontaktiere den Support.
   error400Description: "@.upper:{'globalSiteName'} hat andere Daten empfangen als erwartet."
   error403Description: Du bist aktuell nicht berechtigt, auf diese Seite zuzugreifen.
   error403Hint: Bist du richtig angemeldet? Wenn dich ein Link zu dieser Seite geführt hat, kann er abgelaufen sein. Du kannst in diesem Fall einen neuen Link von der Person erfragen, die dir den Link gesendet hat.
+  error403Title: Zugriff verweigert
   error404Description: "@.upper:{'globalSiteName'} kann nicht finden, wonach du suchst. Vielleicht wurde der Inhalt gelöscht oder dir fehlen Zugriffsberechtigungen."
   error404Hint: Du kannst überprüfen, ob du richtig angemeldet bist, und versuchen, über die Startseite an dein Ziel zu gelangen.
+  error404Title: Seite nicht gefunden
   error418Description: Ich werd' keinen Kaffee machen.
   error429Description: Es scheint so als wärst du schneller unterwegs, als @.upper:{'globalSiteName'} erlaubt! 👮
   error429Hint: Lehn dich einen Moment zurück und versuch es erneut – oder melde @.upper:{'globalSiteName'} den Fehler, wenn du glaubst, dass er unbegründet ist.
+  error429Title: Zu viele Anfragen
   error500Description: Sieht so aus als wäre etwas bei @.upper:{'globalSiteName'} nicht so wie es sein sollte.
   error500Hint: Bitte melde diesen Fehler.
+  error500Title: Interner Serverfehler
+  errorDescription: Sieht so aus als wäre etwas nicht so wie es sein sollte.
+  errorHint: Bitte versuche es noch einmal und melde @.upper:{'globalSiteName'} diesen Fehler, wenn er weiterhin auftritt.
+  errorTitle: Fehler
+  message: '{explanation} (Fehlercode: {status})'
+  retry: Erneut versuchen
   support: Support kontaktieren
 en:
-  details: Technical details
-  detailsLess: Hide
-  detailsMore: View technical details
-  errorDescription: Looks like something went not the way it should.
-  errorHint: Please try again and report this issue to @.upper:{'globalSiteName'} if it keeps happening.
+  back: Return back
+  description: Oops! Something went wrong. Please try again later or contact support.
   error400Description: "@.upper:{'globalSiteName'} received unexpected data."
   error403Description: You're not authorized to access this page.
   error403Hint: Are you signed in correctly? If a link led you to this page, it may have expired. In that case, you can request a new link from the person who provided it to you.
+  error403Title: Access denied
   error404Description: "@.upper:{'globalSiteName'} couldn't find what you're looking for. The content may have been deleted or you might lack the necessary permissions."
   error404Hint: Make sure you're logged in and try reaching your destination via the homepage.
+  error404Title: Page not found
   error418Description: I won't make coffee.
   error429Description: It appears you're going faster than @.upper:{'globalSiteName'} allows! 👮
   error429Hint: Take a short break and try again – or report this issue to @.upper:{'globalSiteName'} if you think it shouldn't have occurred.
+  error429Title: Too many requests
   error500Description: Looks like something went not the way it should at @.upper:{'globalSiteName'}.
   error500Hint: Please report this issue.
+  error500Title: Internal server error
+  errorDescription: Looks like something went not the way it should.
+  errorHint: Please try again and report this issue to @.upper:{'globalSiteName'} if it keeps happening.
+  errorTitle: Error
+  message: '{explanation} (Error code: {status})'
+  retry: Try again
   support: Contact support
 </i18n>

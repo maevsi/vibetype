@@ -4,21 +4,25 @@
       <form.Field v-slot="{ field }" name="username">
         <Field>
           <FieldContent>
-            <FormAuthInput
+            <AppInput
               :aria-invalid="!!usernameValidation.error.value"
+              :aria-label="t('emailAddressOrUsername')"
               autocomplete="username"
               :model-value="field.state.value"
               :placeholder="t('emailAddressOrUsername')"
               type="text"
               @blur="handleUsernameBlur(field)"
-              @input="handleUsernameInput(field, $event)"
+              @update:model-value="handleUsernameInput(field, $event)"
             >
-              <template #icon>
+              <template #prefix>
                 <IHeroiconsEnvelope />
               </template>
-            </FormAuthInput>
+            </AppInput>
           </FieldContent>
-          <p v-if="usernameValidation.error.value" class="text-sm text-red-600">
+          <p
+            v-if="usernameValidation.error.value"
+            class="text-caption text-error"
+          >
             {{ usernameValidation.error.value }}
           </p>
         </Field>
@@ -26,40 +30,50 @@
       <form.Field v-slot="{ field }" name="password">
         <Field>
           <FieldContent>
-            <FormAuthInputPassword
+            <AppInputPassword
               :aria-invalid="!!passwordValidation.error.value"
+              :aria-label="t('password')"
+              autocomplete="current-password"
               :model-value="field.state.value"
               :placeholder="t('password')"
               @blur="handlePasswordBlur(field)"
-              @input="handlePasswordInput(field, $event)"
-            />
+              @update:model-value="handlePasswordInput(field, $event)"
+            >
+              <template #prefix>
+                <IHeroiconsKey />
+              </template>
+            </AppInputPassword>
           </FieldContent>
-          <p v-if="passwordValidation.error.value" class="text-sm text-red-600">
+          <p
+            v-if="passwordValidation.error.value"
+            class="text-caption text-error"
+          >
             {{ passwordValidation.error.value }}
           </p>
         </Field>
       </form.Field>
       <div class="text-right">
         <NuxtLinkLocale
-          class="text-sm font-medium text-gray-900 dark:text-gray-200"
+          class="text-body text-fg-1"
           to="account-password-reset-request"
         >
           {{ t('forgotPassword') }}
         </NuxtLinkLocale>
       </div>
       <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
-      <FormAuthButton
+      <AppButton
         :aria-label="t('signIn')"
+        class="w-full"
         :loading="loading"
         type="submit"
       >
         {{ t('signIn') }}
-      </FormAuthButton>
+      </AppButton>
     </form>
-    <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
+    <p class="text-center text-body text-fg-2">
       {{ t('newToVibetype') }}
       <NuxtLinkLocale
-        class="font-semibold text-green-600 dark:text-green-400"
+        class="font-semibold text-link underline"
         to="account-create"
       >
         {{ t('register') }}
@@ -183,7 +197,7 @@ const form = useForm({
       }
 
       store.jwtSet(jwtPayload)
-      $urqlReset()
+      await $urqlReset()
       emit('signed-in', value.username)
     } catch (error) {
       alertError({

@@ -37,9 +37,7 @@ export function useFragment<TType>(
 export function useFragment<TType>(
   _documentNode: DocumentTypeDecoration<TType, any>,
   fragmentType:
-    | FragmentType<DocumentTypeDecoration<TType, any>>
-    | null
-    | undefined,
+    FragmentType<DocumentTypeDecoration<TType, any>> | null | undefined,
 ): TType | null | undefined
 // return array of non-nullable if `fragmentType` is array of non-nullable
 export function useFragment<TType>(
@@ -50,9 +48,7 @@ export function useFragment<TType>(
 export function useFragment<TType>(
   _documentNode: DocumentTypeDecoration<TType, any>,
   fragmentType:
-    | Array<FragmentType<DocumentTypeDecoration<TType, any>>>
-    | null
-    | undefined,
+    Array<FragmentType<DocumentTypeDecoration<TType, any>>> | null | undefined,
 ): Array<TType> | null | undefined
 // return readonly array of non-nullable if `fragmentType` is array of non-nullable
 export function useFragment<TType>(
@@ -89,9 +85,7 @@ export function isFragmentReady<TQuery, TFrag>(
   queryNode: DocumentTypeDecoration<TQuery, any>,
   fragmentNode: TypedDocumentNode<TFrag>,
   data:
-    | FragmentType<TypedDocumentNode<Incremental<TFrag>, any>>
-    | null
-    | undefined,
+    FragmentType<TypedDocumentNode<Incremental<TFrag>, any>> | null | undefined,
 ): data is FragmentType<typeof fragmentNode> {
   const deferredFields = (
     queryNode as {
@@ -102,8 +96,7 @@ export function isFragmentReady<TQuery, TFrag>(
   if (!deferredFields) return true
 
   const fragDef = fragmentNode.definitions[0] as
-    | FragmentDefinitionNode
-    | undefined
+    FragmentDefinitionNode | undefined
   const fragName = fragDef?.name?.value
 
   const fields = (fragName && deferredFields[fragName]) || []

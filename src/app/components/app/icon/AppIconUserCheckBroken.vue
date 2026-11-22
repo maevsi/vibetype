@@ -1,6 +1,9 @@
 <template>
   <AppIcon v-slot="attributes">
-    <ISolarUserCheckBroken v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IHeroiconsClipboardDocumentCheck
+      v-bind="attributes"
+      :aria-label="t('ariaLabel')"
+    />
   </AppIcon>
 </template>
 

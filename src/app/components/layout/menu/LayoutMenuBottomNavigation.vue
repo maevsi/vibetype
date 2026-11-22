@@ -4,8 +4,7 @@
     :aria-label="t('nav')"
     :class="
       cn(
-        'sticky bottom-0 z-1000 flex items-center justify-center gap-1 border-t border-(--semantic-base-line) bg-(--semantic-base-background) p-2 shadow-xs',
-        isIos && 'pb-6',
+        'sticky bottom-0 z-1000 flex min-h-16 items-center justify-center bg-glass-raised px-4 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] backdrop-blur-xl',
         classProps,
       )
     "
@@ -24,7 +23,6 @@ const { class: classProps = undefined } = defineProps<{
 }>()
 
 const { t } = useI18n()
-const { isIos } = usePlatform()
 </script>
 
 <i18n lang="yaml">

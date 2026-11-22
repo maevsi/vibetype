@@ -206,6 +206,39 @@
 
             Die Daten werden gelöscht, sobald der jeweilige Zweck entfällt und es gemäß den gesetzlichen Vorgaben möglich ist.
 
+        1. **Kontakte und Einladungen**
+
+            Registrierte Nutzer\*innen können personenbezogene Daten über andere Personen („Kontakte“) in einem in die Plattform integrierten Adressbuch speichern, zum Beispiel um sie als Gast zu einer privaten Veranstaltung einzuladen. Ein Kontakt muss dazu selbst kein registrierter Nutzer der Plattform sein; die Einladung kann über einen Link angenommen oder abgelehnt werden, ohne dass ein Nutzerkonto erstellt wird.
+
+            Zu diesem Zweck können folgende Daten über den Kontakt gespeichert werden:
+
+            - Vor- und Nachname
+            - Spitzname
+            - E-Mail-Adresse
+            - Telefonnummer
+            - Weblink
+            - von der registrierten Person eingegebene Notizen
+
+            Diese Daten werden uns von der registrierten Person mitgeteilt, die den Kontakt anlegt, nicht von der betroffenen Person selbst. Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben gemeinsam mit unseren registrierten Nutzer\*innen ein berechtigtes Interesse daran, ihnen die Organisation und Verwaltung von Einladungen zu privaten Veranstaltungen zu ermöglichen.
+
+            Registrierte Nutzer\*innen können einen Kontakt von Hand anlegen oder Kontakte importieren, entweder indem sie diese über die Kontaktauswahl des Betriebssystems oder Browsers im Adressbuch ihres Geräts auswählen oder indem sie eine Kontaktdatei (vCard) wählen.
+            In beiden Fällen finden die Auswahl und das Auslesen der Datei auf dem Gerät der registrierten Person statt.
+            An uns übermittelt werden nur die Kontakte, die die registrierte Person bestätigt, und von diesen nur Name, E-Mail-Adresse und Telefonnummer.
+            Wir erhalten keinen dauerhaften Zugriff auf das Adressbuch, und Kontaktdateien werden nicht zu uns hochgeladen.
+            Kontakte ohne E-Mail-Adresse werden nicht importiert.
+
+            Die registrierte Person, die einen Kontakt anlegt oder bearbeitet, sichert uns zu, zur Weitergabe der jeweiligen Daten berechtigt zu sein, insbesondere dass hierfür eine Rechtsgrundlage nach den anwendbaren Datenschutzgesetzen besteht, und stellt uns von Ansprüchen und behördlichen Bußgeldern frei, die aus einer ohne diese Berechtigung erfolgten Weitergabe entstehen. Weitere Einzelheiten findest Du in unseren Nutzungsbedingungen.
+
+            Die Daten werden gelöscht, sobald die registrierte Person den Kontakt entfernt, spätestens jedoch, wenn das Nutzerkonto der registrierten Person gemäß § 11 der Nutzungsbedingungen gelöscht wird.
+
+            1. **Hinweis für Personen, die nicht registrierte Nutzer\*innen sind**
+
+                Wenn eine registrierte Person Deine Kontaktdaten bei uns gespeichert hat, zum Beispiel um Dich zu einer Veranstaltung einzuladen, gilt dieser Abschnitt für Dich, auch wenn Du die Plattform selbst nie nutzt.
+
+                Wir verarbeiten die oben genannten Daten ausschließlich, um die Einladung sowie die damit verbundene Kommunikation zur jeweiligen Veranstaltung zu ermöglichen. Diese Daten stammen nicht von Dir, sondern von der registrierten Person, die den Kontakt angelegt hat; Rechtsgrundlage für diese Verarbeitung ist, wie oben erläutert, Art. 6 Abs. 1 lit. f DSGVO.
+
+                Du kannst jederzeit bei uns anfragen, ob Daten über Dich gespeichert sind, und deren Berichtigung oder Löschung verlangen; nutze dazu die oben unter „Die Verantwortliche“ genannten Kontaktdaten. Verlangst Du die Löschung, hinterlegen wir zusätzlich die dafür notwendigen Mindestdaten zu Deiner Identifizierung (z. B. eine gehashte E-Mail-Adresse oder Telefonnummer) auf einer internen Sperrliste, damit dieselben Daten nicht erneut über die Kontakte einer anderen registrierten Person bei uns gespeichert werden. Der Eintragung auf dieser Sperrliste kannst Du jederzeit widersprechen.
+
         1. **Kontaktaufnahme**
 
             <ol type="a">
@@ -785,7 +818,8 @@
 
             Dabei handelt es sich um ein kollaboratives Projekt, das darauf abzielt, frei nutzbare geografische Daten wie Straßenkarten zu erstellen und anzubieten. Da es sich um ein Open-Source-Projekt handelt, werden die Daten von einer Community von Kartographen aus der ganzen Welt beigetragen und aktualisiert. Diese Daten können für verschiedene Zwecke verwendet werden, von der Anzeige von Karten auf Websites bis hin zur Nutzung in GIS-Anwendungen, mobilen Apps und mehr.
 
-            Bei der Nutzung der Karten wird eine Verbindung zu den Servern der OpenStreetMap Foundation hergestellt. Dabei sind keine Cookies beteiligt, die für das Tracking der Website-Besucher verwendet werden, sondern allenfalls solche, die auf die Funktionalität der Website beschränkt sind.
+            Kartenkacheln und Adresssuchen ruft unser Server bei der OpenStreetMap Foundation ab, nicht dein Browser.
+            Deine IP-Adresse wird daher nicht an die OpenStreetMap Foundation übertragen, nur die Suchbegriffe, die du eingibst.
 
             Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, Standorte zu zeigen oder geografische Informationen bereitzustellen.
 
@@ -899,17 +933,18 @@
               USA
             </address>
 
-            OpenAI hat sich auf die Entwicklung von Künstlicher Intelligenz und Maschinellem Lernen fokussiert. Mit Hilfe der OpenAI API ist es uns möglich, eigene KI-Tools zu entwickeln, welche auf den Datenbanken und Fähigkeiten von ChatGPT/OpenAI basieren.
+            Wir nutzen die OpenAI API für die Plakatjagd: Wenn Du ein Foto eines Veranstaltungsplakats hochlädst, liest ein KI-Modell daraus die Angaben zur Veranstaltung, mit denen wir das Formular zum Erstellen der Veranstaltung vorausfüllen.
+            Zuvor prüft OpenAI das Foto auf unzulässige Inhalte.
 
-            Alle Eingaben in unserem Tool werden verarbeitet. Grundsätzlich werden diese Eingaben, z. B. natürliche Sprache, Bilder oder andere Datenformate, durch OpenAI verarbeitet, um Machine-Learning-Modelle entwickeln zu können. Diese Daten werden dann dafür verwendet, um das jeweilige Tool zu verbessern bzw. zu trainieren.
+            Das Foto wird von unserem Server an OpenAI übermittelt, nicht von Deinem Gerät.
+            OpenAI erhält daher weder Deine IP-Adresse noch setzt OpenAI Cookies auf Deinem Gerät, und wir übermitteln keine Angaben zu Deinem Konto.
+            Personenbezogene Daten erhält OpenAI nur, soweit das Foto selbst welche zeigt, etwa Personen oder Namen auf dem Plakat.
 
-            OpenAI erfasst bei der Nutzung eines Tools die IP-Adresse. Sofern das jeweilige Tool nicht mit personenbezogenen Daten gefüllt wird, werden auch keine personenbezogenen Daten, neben der IP-Adresse, erfasst.
+            OpenAI verwendet über die API übermittelte Daten nicht zum Training seiner Modelle.
+            OpenAI speichert sie bis zu 30 Tage, um Missbrauch zu erkennen, und löscht sie danach.
 
-            OpenAI kann Cookies setzen. Dies geschieht nur nach vorheriger Einwilligung. Rechtsgrundlage hierfür ist Art. 6 Abs. 1 lit. a DSGVO.
-
-            Im Übrigen ist Rechtsgrundlage für die Verarbeitung von Daten Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, die Möglichkeiten von KI und ML-Modellen in unseren Tools zu verwenden und diese auf unserer Website einzubinden, um so unseren Service technisch und wirtschaftlich zu optimieren.
-
-            Sofern die Funktion, den Chatverlauf automatisch zu löschen, nicht aktiviert ist, verbleiben die eingegebenen Daten 30 Tage bei OpenAI, um die Modelle zu trainieren.
+            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO.
+            Wir haben ein berechtigtes Interesse daran, Dir das Erstellen von Veranstaltungen aus Plakaten zu erleichtern.
 
             Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 

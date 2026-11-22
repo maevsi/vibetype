@@ -1,8 +1,8 @@
 <template>
-  <LoaderImage
+  <AppImage
     :alt="t('profilePictureAlt', { username: account?.username })"
     :aspect
-    :classes="classProps"
+    :class="['object-cover', classProps]"
     :height
     :src="profilePictureUrl || blankProfilePicture"
     :width
@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
 import type { HtmlHTMLAttributes } from 'vue'
 
 import blankProfilePicture from '~/assets/images/blank-profile-picture.svg'
@@ -35,7 +34,7 @@ const { t } = useI18n()
 const TUSD_FILES_URL = useTusdFilesUrl()
 
 // api data
-const query = useQuery({
+const query = useApiQuery({
   query: graphql(`
     query AccountByRowId($id: UUID!) {
       accountByRowId(rowId: $id) {
@@ -74,7 +73,7 @@ const profilePictureUrl = computed(() =>
 
 <i18n lang="yaml">
 de:
-  profilePictureAlt: Profilbild von {username}.
+  profilePictureAlt: Profilbild von {'@'}{username}.
 en:
-  profilePictureAlt: "{username}'s profile picture."
+  profilePictureAlt: "{'@'}{username}'s profile picture."
 </i18n>
