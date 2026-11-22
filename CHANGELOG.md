@@ -1,3 +1,9 @@
+## [17.43.0](https://github.com/maevsi/vibetype/compare/17.42.0...17.43.0) (2026-11-22)
+
+### Features
+
+* **moderation:** explain rejected text ([#2809](https://github.com/maevsi/vibetype/issues/2809)) ([4d30992](https://github.com/maevsi/vibetype/commit/4d309921ba18a71e6916121f2bcb5680290345f8))
+
 ## [17.42.0](https://github.com/maevsi/vibetype/compare/17.41.0...17.42.0) (2026-11-22)
 
 ### Features
