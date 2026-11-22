@@ -53,6 +53,24 @@
             :errors="normalizeFieldErrors(slugField.state.meta.errors)"
           />
         </form.Field>
+        <form.Field v-slot="{ field }" name="description">
+          <Field>
+            <FieldLabel>{{ t('description') }}</FieldLabel>
+            <FieldContent>
+              <client-only>
+                <AppTipTap
+                  :aria-label="t('description')"
+                  :value="field.state.value"
+                  @input="field.handleChange($event)"
+                />
+              </client-only>
+            </FieldContent>
+            <FieldError
+              v-if="isFieldInvalid(field)"
+              :errors="field.state.meta.errors"
+            />
+          </Field>
+        </form.Field>
         <form.Field v-slot="{ field }" name="start">
           <Field class="flex flex-col">
             <FieldLabel for="button-start">{{ t('start') }}</FieldLabel>
@@ -287,24 +305,6 @@
                   field.handleChange(($event.target as HTMLInputElement).value)
                 "
               />
-            </FieldContent>
-            <FieldError
-              v-if="isFieldInvalid(field)"
-              :errors="field.state.meta.errors"
-            />
-          </Field>
-        </form.Field>
-        <form.Field v-slot="{ field }" name="description">
-          <Field>
-            <FieldLabel>{{ t('description') }}</FieldLabel>
-            <FieldContent>
-              <client-only>
-                <AppTipTap
-                  :aria-label="t('description')"
-                  :value="field.state.value"
-                  @input="field.handleChange($event)"
-                />
-              </client-only>
             </FieldContent>
             <FieldError
               v-if="isFieldInvalid(field)"
