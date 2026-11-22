@@ -55,6 +55,8 @@ export type Account = Node & {
   devicesByCreatedBy: DeviceConnection
   /** Reads and enables pagination through a set of `Device`. */
   devicesByUpdatedBy: DeviceConnection
+  /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
+  displayName?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `EventApp`. */
   eventAppsByCreatedBy: EventAppConnection
   /** Reads and enables pagination through a set of `EventFavorite`. */
@@ -683,6 +685,8 @@ export type AccountPasswordResetRequestPayload = {
 export type AccountPatch = {
   /** The account's description. Must not exceed 1,000 characters. */
   description?: InputMaybe<Scalars['String']['input']>
+  /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
+  displayName?: InputMaybe<Scalars['String']['input']>
   /** The account's imprint URL. Must start with "https://" and not exceed 2,000 characters. */
   imprintUrl?: InputMaybe<Scalars['String']['input']>
 }
@@ -3561,10 +3565,16 @@ export type EventCondition = {
   endsFrom?: InputMaybe<Scalars['Datetime']['input']>
   /** Whether the event has ended, judged by its end, or by its start if it has no end, against the database clock. */
   hasEnded?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether the invoker attends the event, that is whether one of their contacts accepted a guest invitation to it. Combine with `hasEnded` to split upcoming from past events. */
+  isAttending?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether the invoker is invited to the event, that is whether they claimed one of its guest invitations or one of their contacts was invited to it, whatever the feedback. Combine with `hasEnded` to split upcoming from past invitations. */
+  isInvited?: InputMaybe<Scalars['Boolean']['input']>
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
+  /** Events matching the search text by prefix on their name and description, or by similarity to their name. A blank text matches every event. Combine with other conditions such as `createdBy` to search within a subset. */
+  search?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `slug` field. */
   slug?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `start` field. */
@@ -6280,6 +6290,8 @@ export type Query = Node & {
   eventFormatMappingByEventIdAndFormatId?: Maybe<EventFormatMapping>
   /** Add a function that returns the maximum guest count of an accessible event. */
   eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
+  /** Lists public in-person events within the given radius in meters around the given coordinates, nearest first. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
+  eventNearby?: Maybe<EventConnection>
   /** Reads a single `EventRecommendation` using its globally unique `ID`. */
   eventRecommendation?: Maybe<EventRecommendation>
   /** Get a single `EventRecommendation`. */
@@ -6960,6 +6972,17 @@ export type QueryEventFormatMappingByEventIdAndFormatIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryEventGuestCountMaximumArgs = {
   eventId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventNearbyArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  includeEnded?: InputMaybe<Scalars['Boolean']['input']>
+  latitude?: InputMaybe<Scalars['Float']['input']>
+  longitude?: InputMaybe<Scalars['Float']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  radius?: InputMaybe<Scalars['Float']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -8838,6 +8861,11 @@ export type GraphCacheResolvers = {
       QueryEventGuestCountMaximumArgs,
       Scalars['Int']['output'] | string
     >
+    eventNearby?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventNearbyArgs,
+      WithTypename<EventConnection> | string
+    >
     eventRecommendation?: GraphCacheResolver<
       WithTypename<Query>,
       QueryEventRecommendationArgs,
@@ -9164,6 +9192,11 @@ export type GraphCacheResolvers = {
       WithTypename<Account>,
       AccountDevicesByUpdatedByArgs,
       WithTypename<DeviceConnection> | string
+    >
+    displayName?: GraphCacheResolver<
+      WithTypename<Account>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
     >
     eventAppsByCreatedBy?: GraphCacheResolver<
       WithTypename<Account>,
@@ -14235,6 +14268,10 @@ export type GraphCacheUpdaters = {
       { eventGuestCountMaximum: Maybe<Scalars['Int']['output']> },
       QueryEventGuestCountMaximumArgs
     >
+    eventNearby?: GraphCacheUpdateResolver<
+      { eventNearby: Maybe<WithTypename<EventConnection>> },
+      QueryEventNearbyArgs
+    >
     eventRecommendation?: GraphCacheUpdateResolver<
       { eventRecommendation: Maybe<WithTypename<EventRecommendation>> },
       QueryEventRecommendationArgs
@@ -15236,6 +15273,10 @@ export type GraphCacheUpdaters = {
     devicesByUpdatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountDevicesByUpdatedByArgs
+    >
+    displayName?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      Record<string, never>
     >
     eventAppsByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,

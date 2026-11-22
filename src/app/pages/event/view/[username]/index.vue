@@ -7,41 +7,40 @@
     <div v-else class="flex flex-1 flex-col">
       <LayoutPage>
         <div class="flex flex-1 flex-col gap-4">
-          <EventSearchBar v-model:is-map-visible="isMapVisible">
-            <h1 :class="isSearchEnabled ? 'sr-only' : 'truncate text-title3'">
-              <i18n-t keypath="title">
-                <template #name>
-                  <AppLink
-                    :to="
-                      localePath({
-                        name: 'account-view-username',
-                        params: { username: route.params.username },
-                      })
-                    "
-                  >
-                    {{ `@${route.params.username}` }}
-                  </AppLink>
-                </template>
-              </i18n-t>
-            </h1>
-            <AppFeature feature="event-search-account">
-              <AppInputSearch
-                v-model="searchQuery"
-                class="h-12"
-                :placeholder="
-                  isOwn
-                    ? t('searchPlaceholderOwn')
-                    : t('searchPlaceholderOther', {
-                        name: route.params.username,
-                      })
-                "
-              />
-            </AppFeature>
+          <h1 class="sr-only">
+            <i18n-t keypath="title">
+              <template #name>
+                <AppLink
+                  :to="
+                    localePath({
+                      name: 'account-view-username',
+                      params: { username: route.params.username },
+                    })
+                  "
+                >
+                  {{ `@${route.params.username}` }}
+                </AppLink>
+              </template>
+            </i18n-t>
+          </h1>
+          <EventSearchBar
+            v-model:is-map-visible="isMapVisible"
+            v-model:search-query="searchQuery"
+            :placeholder="
+              isOwn
+                ? t('searchPlaceholderOwn')
+                : t('searchPlaceholderOther', { name: route.params.username })
+            "
+          >
             <template v-if="!isOwn" #back>
               <ButtonIconBackRoute />
             </template>
           </EventSearchBar>
-          <EventListMine v-if="isOwn" :is-map-visible />
+          <EventListMine
+            v-if="isOwn"
+            :is-map-visible
+            :search="searchVariable"
+          />
           <EventList
             v-else
             :events
@@ -62,12 +61,24 @@
 </template>
 
 <script setup lang="ts">
+import { refDebounced } from '@vueuse/core'
+
 import { graphql } from '~~/gql/generated'
 
 const queryEventListAccount = graphql(`
-  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {
+  query EventListAccount(
+    $after: Cursor
+    $first: Int!
+    $search: String
+    $username: String!
+  ) {
     accountByUsername(username: $username) {
-      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {
+      eventsByCreatedBy(
+        after: $after
+        condition: { search: $search }
+        first: $first
+        orderBy: START_DESC
+      ) {
         nodes {
           addressByAddressId {
             id
@@ -143,6 +154,19 @@ useHeadDefault({
 
 // api data
 const queryAfter = ref<string | null>()
+const searchQuery = ref<string>()
+const searchQueryDebounced = refDebounced(searchQuery, 300)
+const searchVariable = computed(
+  () => searchQueryDebounced.value?.trim() || undefined,
+)
+// resets the paging synchronously, so the query never runs with the new search and the old cursor
+watch(
+  searchVariable,
+  () => {
+    queryAfter.value = undefined
+  },
+  { flush: 'sync' },
+)
 const store = useStore()
 const isOwn = computed(() => route.params.username === store.signedInUsername)
 const query = useApiQuery({
@@ -150,6 +174,7 @@ const query = useApiQuery({
   variables: computed(() => ({
     after: queryAfter.value,
     first: ITEMS_PER_PAGE,
+    search: searchVariable.value,
     username: route.params.username,
   })),
 })
@@ -164,16 +189,6 @@ const events = computed(() =>
 
 // template
 const isMapVisible = useEventMapVisible()
-// the query does not filter by `searchQuery` yet, as the `search` condition of `allEvents` needs postgraphile 3.4.0 in production; once deployed, query `allEvents` with `condition: { createdBy, search }` and drop the flag
-// `AppFeature` shows the search outside production, so the heading only gives way to it under the same rule
-const { isFeatureEnabled } = useFeatureFlags()
-const runtimeConfig = useRuntimeConfig()
-const isSearchEnabled = computed(
-  () =>
-    isFeatureEnabled('event-search-account').value ||
-    runtimeConfig.public.vio.environment !== 'production',
-)
-const searchQuery = ref('')
 const localePath = useLocalePath()
 </script>
 

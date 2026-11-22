@@ -390,7 +390,6 @@ const featureFlagDescriptions = computed<Record<FeatureFlag, string>>(() => ({
   'developer-tools': t('featureFlagDeveloperTools'),
   'event-attending': t('featureFlagEventAttending'),
   'event-drafts': t('featureFlagEventDrafts'),
-  'event-search-account': t('featureFlagEventSearchAccount'),
   friends: t('featureFlagFriends'),
   invitations: t('featureFlagInvitations'),
   'location-live': t('featureFlagLocationLive'),
@@ -548,7 +547,6 @@ de:
   featureFlagDeveloperTools: Eintrag zu dieser Seite in den Einstellungen
   featureFlagEventAttending: Kachel „Dabei“ in den eigenen Veranstaltungen
   featureFlagEventDrafts: Kachel „Entwürfe“ in den eigenen Veranstaltungen
-  featureFlagEventSearchAccount: Suche in den Veranstaltungen eines Kontos
   featureFlagFriends: Freunde und Statistikkarten im Profil, Freund hinzufügen in Profil und Teilnahme
   featureFlagInvitations: Seite mit den eigenen Einladungen
   featureFlagLocationLive: Knopf zum Orten auf Karten
@@ -603,7 +601,6 @@ en:
   featureFlagDeveloperTools: Entry to this page in the settings
   featureFlagEventAttending: Going tile in your events
   featureFlagEventDrafts: Drafts tile in your events
-  featureFlagEventSearchAccount: Search in an account's events
   featureFlagFriends: Friends and stat cards on profiles, adding friends on profiles and attendances
   featureFlagInvitations: Page listing your invitations
   featureFlagLocationLive: Locate button on maps

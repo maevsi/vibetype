@@ -64,6 +64,8 @@ export type AccountPasswordResetRequestInput = {
 export type AccountPatch = {
   /** The account's description. Must not exceed 1,000 characters. */
   description?: string | null | undefined
+  /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
+  displayName?: string | null | undefined
   /** The account's imprint URL. Must start with "https://" and not exceed 2,000 characters. */
   imprintUrl?: string | null | undefined
 }
@@ -570,6 +572,40 @@ export type EventCategoryMappingInput = {
   eventId: string
 }
 
+/** A condition to be used against `Event` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type EventCondition = {
+  /** Checks for equality with the object’s `addressId` field. */
+  addressId?: string | null | undefined
+  /** Checks for equality with the object’s `createdBy` field. */
+  createdBy?: string | null | undefined
+  /** Checks for equality with the object’s `end` field. */
+  end?: string | null | undefined
+  /** Events ending before this instant, exclusive, where an event without an end ends at its start. */
+  endsBefore?: string | null | undefined
+  /** Events ending at or after this instant, inclusive, where an event without an end ends at its start. */
+  endsFrom?: string | null | undefined
+  /** Whether the event has ended, judged by its end, or by its start if it has no end, against the database clock. */
+  hasEnded?: boolean | null | undefined
+  /** Whether the invoker attends the event, that is whether one of their contacts accepted a guest invitation to it. Combine with `hasEnded` to split upcoming from past events. */
+  isAttending?: boolean | null | undefined
+  /** Whether the invoker is invited to the event, that is whether they claimed one of its guest invitations or one of their contacts was invited to it, whatever the feedback. Combine with `hasEnded` to split upcoming from past invitations. */
+  isInvited?: boolean | null | undefined
+  /** Checks for equality with the object’s `name` field. */
+  name?: string | null | undefined
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: string | null | undefined
+  /** Events matching the search text by prefix on their name and description, or by similarity to their name. A blank text matches every event. Combine with other conditions such as `createdBy` to search within a subset. */
+  search?: string | null | undefined
+  /** Checks for equality with the object’s `slug` field. */
+  slug?: string | null | undefined
+  /** Checks for equality with the object’s `start` field. */
+  start?: string | null | undefined
+  /** Events starting before this instant, exclusive. */
+  startsBefore?: string | null | undefined
+  /** Events starting at or after this instant, inclusive. */
+  startsFrom?: string | null | undefined
+}
+
 /** All input for the `eventDelete` mutation. */
 export type EventDeleteInput = {
   /**
@@ -1059,15 +1095,14 @@ export type EventInviteGuestsQuery = {
   allGuests: { nodes: Array<{ contactId: string; id: string }> } | null
 }
 
-export type EventListMineHostingQueryVariables = Exact<{
+export type EventListMineQueryVariables = Exact<{
   after?: string | null | undefined
-  createdBy: string
+  condition: EventCondition
   first: number
-  hasEnded: boolean
   orderBy?: Array<EventOrderBy> | EventOrderBy | null | undefined
 }>
 
-export type EventListMineHostingQuery = {
+export type EventListMineQuery = {
   allEvents: {
     nodes: Array<{
       end: string | null
@@ -2241,6 +2276,7 @@ export type EventQuery = {
 export type EventListAccountQueryVariables = Exact<{
   after?: string | null | undefined
   first: number
+  search?: string | null | undefined
   username: string
 }>
 
@@ -4110,13 +4146,13 @@ export const EventInviteGuestsDocument = {
   EventInviteGuestsQuery,
   EventInviteGuestsQueryVariables
 >
-export const EventListMineHostingDocument = {
+export const EventListMineDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'EventListMineHosting' },
+      name: { kind: 'Name', value: 'EventListMine' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -4130,11 +4166,14 @@ export const EventListMineHostingDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'createdBy' },
+            name: { kind: 'Name', value: 'condition' },
           },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'EventCondition' },
+            },
           },
         },
         {
@@ -4146,20 +4185,6 @@ export const EventListMineHostingDocument = {
           type: {
             kind: 'NonNullType',
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'hasEnded' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'Boolean' },
-            },
           },
         },
         {
@@ -4199,25 +4224,8 @@ export const EventListMineHostingDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'condition' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'createdBy' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'createdBy' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'hasEnded' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'hasEnded' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'condition' },
                 },
               },
               {
@@ -4565,10 +4573,7 @@ export const EventListMineHostingDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<
-  EventListMineHostingQuery,
-  EventListMineHostingQueryVariables
->
+} as unknown as DocumentNode<EventListMineQuery, EventListMineQueryVariables>
 export const EventListMineSavedDocument = {
   kind: 'Document',
   definitions: [
@@ -11977,6 +11982,14 @@ export const EventListAccountDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
+            name: { kind: 'Name', value: 'search' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
             name: { kind: 'Name', value: 'username' },
           },
           type: {
@@ -12017,6 +12030,23 @@ export const EventListAccountDocument = {
                       value: {
                         kind: 'Variable',
                         name: { kind: 'Name', value: 'after' },
+                      },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'condition' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'search' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'search' },
+                            },
+                          },
+                        ],
                       },
                     },
                     {
