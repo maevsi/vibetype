@@ -87,9 +87,14 @@ export const useExecuteUrqlRequest = () => {
       progress.idArray.splice(progress.idArray.indexOf(progress.id), 1)
 
     if (result.error) {
+      const isModerated = result.error.graphQLErrors.some(
+        (graphqlError: AppGraphQLError) =>
+          graphqlError.errcode === MODERATION_ERROR_CODE,
+      )
+
       alertError({
         error: result.error,
-        messageI18n: errorMessageI18n,
+        messageI18n: isModerated ? t('globalErrorModerated') : errorMessageI18n,
       })
       return
     }

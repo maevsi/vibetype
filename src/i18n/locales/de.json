@@ -1,6 +1,7 @@
 {
   "globalError": "Fehler",
   "globalErrorMessage": "Es ist ein Fehler aufgetreten.",
+  "globalErrorModerated": "Der Text enthält Inhalte, die nicht erlaubt sind. Bitte formuliere ihn um.",
   "globalErrorNoData": "Antwort ohne Daten",
   "globalErrorClipboard": "Dein Browser unterstützt das moderne Kopieren in die Zwischenablage nicht.",
   "globalErrorDetailsCopy": "Details kopieren",
