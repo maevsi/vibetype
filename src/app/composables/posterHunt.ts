@@ -12,6 +12,22 @@ const getFileFromDataUrl = (dataUrl: string) => {
   )
 }
 
+/** Takes the poster the service worker stored for a share to the app, if any. */
+export const takePosterShared = async () => {
+  if (!('caches' in globalThis)) return
+
+  const cache = await caches.open(POSTER_SHARE_CACHE_NAME)
+  const response = await cache.match(POSTER_SHARE_CACHE_KEY)
+
+  if (!response) return
+
+  await cache.delete(POSTER_SHARE_CACHE_KEY)
+
+  const blob = await response.blob()
+
+  return new File([blob], 'poster', { type: blob.type })
+}
+
 /** Holds a poster picked on another page until the ingest page reads it, in memory only. */
 export const usePosterPicked = () =>
   useState<File | undefined>(STATE_KEY_POSTER_PICKED)
