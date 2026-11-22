@@ -1,7 +1,8 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
+      <!-- the search bar leads the page, so the heading is only there for assistive technology -->
+      <h1 class="sr-only">{{ title }}</h1>
       <EventSearch />
     </LayoutPage>
   </div>

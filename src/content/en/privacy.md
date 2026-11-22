@@ -211,7 +211,6 @@
             Each of the following categories is switched on separately, and nothing in it is loaded or stored before your consent:
 
             - Analytics: Google Analytics (`_ga` and `_ga_*`)
-            - Maps: map tiles of OpenStreetMap
             - Session replay and profiling: recordings of sessions with errors and performance profiles through Sentry
 
         1. **Changing your privacy settings**
@@ -293,6 +292,12 @@
             - Notes entered by the registered user
 
             This data is provided to us by the registered user who creates the contact, not by the person it concerns. The legal basis for this processing is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest, together with our registered users, in enabling them to organize and manage invitations to private events.
+
+            Registered users can enter a contact manually or import contacts, either by selecting them in their device's address book through the contact picker of the operating system or browser, or by choosing a contact file (vCard).
+            In both cases, the selection and the reading of the file take place on the registered user's device.
+            Only the contacts the registered user confirms are transmitted to us, and of those only the name, email address, and phone number.
+            We receive no ongoing access to the address book, and contact files are not uploaded to us.
+            Contacts without an email address are not imported.
 
             The registered user who creates or edits a contact assures us that they are entitled to share the respective person's data with us, in particular that a legal basis for doing so exists under applicable data protection law, and indemnifies us against claims and administrative fines arising from data shared without such authorization. Further details can be found in our Terms of Use.
 
@@ -472,7 +477,7 @@
             Only with your consent in the category "Session replay and profiling" do we additionally use Sentry's session replay and browser profiling.
             If an error occurs, the session is then recorded, with texts and inputs masked by default, and 10 % of the sessions are profiled.
             Sessions without errors are not recorded.
-            The legal basis is Art. 6 para. 1 lit. a GDPR and § 25 para. 1 TDDDG.
+            The legal basis is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest in showing locations and in providing geographical information.
 
             The data is stored in the EU (Frankfurt).
             As Sentry is a company of the USA, access from there cannot be ruled out.
@@ -865,16 +870,15 @@
               United Kingdom
             </address>
 
-            When a map is shown, your browser loads map tiles from the servers of the OpenStreetMap Foundation, which transmits your IP address.
+            When a map is shown, our server requests the map tiles from the OpenStreetMap Foundation, not your browser, so your IP address is not transmitted to the OpenStreetMap Foundation.
+            We keep the map tiles on our server for up to seven days.
             No tracking cookies are used.
 
             When you search for an address on a map, our server sends only your search text and the language of the website to the geocoding service Nominatim of the OpenStreetMap Foundation.
             Your IP address and other data about you are not transmitted.
             We store the search results on our server for up to seven days, so that repeated searches for the same text are not sent again.
 
-            The maps, and with them the address search, are loaded only after your consent in the category "Maps", which you give in the privacy settings or directly on a map with "Show map".
-            The legal basis is Art. 6 para. 1 lit. a GDPR and § 25 para. 1 TDDDG.
-            Without consent, the maps and the address search are not available.
+            The legal basis is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest in showing locations and in providing geographical information.
 
             The data is transferred to the United Kingdom, for which an adequacy decision of the EU Commission exists.
 

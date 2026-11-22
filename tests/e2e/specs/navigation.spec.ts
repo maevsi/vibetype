@@ -12,6 +12,7 @@ appTest.describe('sign-in gate', () => {
     '/account/edit/someone',
     '/account/view/someone/block',
     '/contact',
+    '/contact/import',
     '/dashboard',
     '/event/edit/someone/some-event',
     '/event/view/someone/some-event/attendance',
@@ -39,8 +40,8 @@ appTest.describe('sign-in gate', () => {
       const { page } = defaultPage
 
       await defaultPage.goto('/session/edit')
-      await page.getByRole('link', { name: 'Join Early Bird' }).click()
-      await expect(page).toHaveURL(/\/session\/create\?to=/)
+      await page.getByRole('link', { name: 'Color scheme' }).click()
+      await expect(page).toHaveURL(/\/session\/edit\/color-scheme$/)
 
       await page.getByRole('button', BACK).click()
       await expect(page).toHaveURL(/\/session\/edit$/)
@@ -57,13 +58,13 @@ appTest.describe('back button', () => {
       await defaultPage.goto('/event')
       await page.getByRole('link', { name: 'Settings' }).click()
       await expect(page).toHaveURL(/\/session\/edit$/)
-      await page.getByRole('link', { name: 'Language' }).click()
-      await expect(page).toHaveURL(/\/session\/edit\/language$/)
+      await page.getByRole('link', { name: 'Color scheme' }).click()
+      await expect(page).toHaveURL(/\/session\/edit\/color-scheme$/)
 
       await page.goBack()
       await expect(page).toHaveURL(/\/session\/edit$/)
-      await page.getByRole('link', { name: 'Language' }).click()
-      await expect(page).toHaveURL(/\/session\/edit\/language$/)
+      await page.getByRole('link', { name: 'Color scheme' }).click()
+      await expect(page).toHaveURL(/\/session\/edit\/color-scheme$/)
       await page.getByRole('button', BACK).click()
       await expect(page).toHaveURL(/\/session\/edit$/)
 
@@ -101,8 +102,10 @@ appTest.describe('settings', () => {
       ).toHaveCount(0)
       await defaultPage.goto(`/account/view/${TESTING_ACCOUNT_USERNAME}`)
 
+      await defaultPage.page.getByRole('button', { name: 'More' }).click()
+
       await expect(
-        defaultPage.page.getByRole('link', { name: 'Settings' }),
+        defaultPage.page.getByRole('menuitem', { name: 'Settings' }),
       ).toHaveCount(1)
     },
   )

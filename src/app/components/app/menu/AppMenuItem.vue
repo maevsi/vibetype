@@ -14,7 +14,12 @@
   >
     <!-- the icon keeps the default foreground, as the dark error color reaches only 4.23:1 on the raised surface -->
     <span
-      class="flex size-10 shrink-0 items-center justify-center rounded-medium bg-surface-raised text-fg-1 [&>svg]:size-5"
+      :class="
+        cn(
+          'flex size-10 shrink-0 items-center justify-center rounded-medium bg-surface-raised [&>svg]:size-5',
+          tone ? toneClasses[tone] : 'text-fg-1',
+        )
+      "
     >
       <slot />
     </span>
@@ -26,20 +31,29 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
 
 import { cn } from '@/utils/shadcn'
 
 const {
   class: classProps = undefined,
   to = undefined,
+  tone = undefined,
   variant = 'default',
 } = defineProps<{
   class?: HTMLAttributes['class']
   title: string
-  to?: RouteLocationRaw
+  // an optional prop typed with all routes exceeds the union size Vue's prop types can represent (https://github.com/vuejs/core/issues/10514), so links take localized paths until that is fixed
+  to?: string
+  tone?: 'danger' | 'info' | 'success' | 'warning'
   variant?: 'critical' | 'default'
 }>()
+
+const toneClasses = {
+  danger: 'text-error',
+  info: 'text-info',
+  success: 'text-link',
+  warning: 'text-warning',
+} as const
 
 defineSlots<{
   default?: () => unknown

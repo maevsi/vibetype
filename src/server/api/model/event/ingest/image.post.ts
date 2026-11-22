@@ -3,14 +3,8 @@ import sharp from 'sharp'
 import { z } from 'zod'
 
 const eventIngestImagePostBodySchema = z.object({
-  base64Image: z.string().max(14_000_000), // about 10 MB of image data
+  base64Image: z.string().max(EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM),
 })
-const REQUESTS_PER_ACCOUNT_PER_DAY = 10
-// deliberate shortcut: counted in memory, so it resets on restart and is not shared across replicas; the upgrade path is a persistent per-account cost quota
-const requestCounts = new Map<string, number>()
-
-// OpenAI's high detail scales the shorter side to 768 pixels, which a portrait poster within 2048 pixels still reaches
-const IMAGE_SIZE_MAXIMUM = 2048
 
 const getPrompt =
   () => `You are a data extraction specialist responsible for identifying and accurately cataloging event information.
@@ -43,19 +37,7 @@ export default defineEventHandler(async (event: EventIngestImagePostEvent) => {
     schema: eventIngestImagePostBodySchema,
   })
 
-  const day = new Date().toISOString().slice(0, 10)
-  const requestCountKey = `${jwtPayload.sub}:${day}`
-  const assertBelowLimit = () => {
-    const requestCount = requestCounts.get(requestCountKey) ?? 0
-
-    if (requestCount >= REQUESTS_PER_ACCOUNT_PER_DAY)
-      throw createAppError({
-        status: 429,
-        statusText: 'The daily limit of poster readings has been reached.',
-      })
-
-    return requestCount
-  }
+  const { assertBelowLimit, count } = useEventIngestQuota(jwtPayload.sub)
 
   assertBelowLimit()
 
@@ -63,19 +45,16 @@ export default defineEventHandler(async (event: EventIngestImagePostEvent) => {
   const sharpBuffer = await sharp(base64Buffer)
     .rotate() // applies the orientation phone cameras store as metadata, which the resize would drop
     .resize({
-      width: IMAGE_SIZE_MAXIMUM,
-      height: IMAGE_SIZE_MAXIMUM,
+      width: POSTER_SIZE_MAXIMUM,
+      height: POSTER_SIZE_MAXIMUM,
       fit: 'inside',
       withoutEnlargement: true,
     })
     .jpeg()
     .toBuffer()
   const base64Image = sharpBuffer.toString('base64')
-  // count only now, as invalid images fail before reaching OpenAI, and check again, as parallel requests passed the first check during the resize
-  for (const key of requestCounts.keys())
-    if (!key.endsWith(`:${day}`)) requestCounts.delete(key)
-
-  requestCounts.set(requestCountKey, assertBelowLimit() + 1)
+  // count only now, as invalid images fail before reaching OpenAI
+  count()
 
   // moderation is free of charge (https://platform.openai.com/docs/pricing#moderation)
   const moderation = await openAiClient.moderations.create({

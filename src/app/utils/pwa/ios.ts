@@ -83,28 +83,3 @@ export const registerIosPushCallbackHandler = (
     }
   })
 }
-
-export const hasAttCapability =
-  window &&
-  window.webkit?.messageHandlers?.['att-request-permission'] !== undefined
-
-export const requestTrackingPermission = () => {
-  if (hasAttCapability) {
-    window.webkit?.messageHandlers['att-request-permission']?.postMessage(
-      'att-request-permission',
-    )
-  }
-}
-
-export const registerIosTrackingCallbackHandler = (
-  cookieControl: ReturnType<typeof useCookieControl>,
-) => {
-  window.addEventListener('att-permission-response', (event: Event) => {
-    const { detail } = event as CustomEvent<string>
-    if (detail === 'authorized') {
-      cookieControl.cookiesEnabledIds.value =
-        cookieControl.moduleOptions.cookies.optional.map((cookie) => cookie.id)
-      cookieControl.isConsentGiven.value = true
-    }
-  })
-}

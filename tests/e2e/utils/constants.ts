@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test'
 import type { Page } from 'playwright-core'
 
-export const COOKIE_CONTROL_CONSENT_COOKIE_DEFAULT_VALUE = 'acistlccfga'
+export const COOKIE_CONTROL_CONSENT_COOKIE_DEFAULT_VALUE = 'acistlccfsrga'
 export const TIMEOUT = 60000
 // hydration regularly takes longer than the default 5 second expect timeout on the dev server or a busy runner; stays below the 30 second test timeout so a page that never hydrates still fails here
 export const HYDRATION_TIMEOUT = 20000
@@ -12,17 +12,10 @@ export const PAGE_READY = async ({
 }: {
   page: Page
   options?: {
-    cookieControl?: boolean
     devTools?: boolean
     isLoading?: boolean
   }
 }) => {
-  if (!options || options.cookieControl !== false) {
-    await expect(
-      page.getByRole('button', { name: 'Cookie control' }),
-    ).toBeVisible()
-  }
-
   if (!options || options.isLoading !== false) {
     await expect(page.getByTestId('is-loading')).toHaveAttribute(
       'data-is-loading',

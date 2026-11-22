@@ -3,6 +3,7 @@ export {
   COOKIE_CONTROL_CONSENT_COOKIE_NAME,
   CSRF_COOKIE_NAME,
   CSRF_HEADER_NAME,
+  EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
@@ -10,7 +11,6 @@ export {
   IS_IN_STACK,
   IS_NITRO_OPENAPI_ENABLED,
   LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
-  POLYFILLS,
   PRODUCTION_HOST,
   SITE_NAME,
   TESTING_COOKIE_NAME,
@@ -28,6 +28,8 @@ export const JWT_ALGORITHM = 'ES256'
 export type LOCALE_CODES = 'de' | 'en'
 export const MAEVSI_EMAIL_RATE_LIMIT_PER_DAY = 150
 export const MAEVSI_EMAIL_RATE_LIMIT_PER_SECOND = 14
+// OpenAI's high detail scales the shorter side to 768 pixels, which a portrait poster within 2048 pixels still reaches
+export const POSTER_SIZE_MAXIMUM = 2048
 export const POSTGRES_INTEGER_MAXIMUM = Math.pow(2, 31) - 1
 export const REGEX_SLUG = /^[-A-Za-z0-9]+$/
 export const REGEX_UPPERCASE_NONE = /^[^A-Z]+$/
@@ -37,6 +39,7 @@ export const REGEX_UUID =
 export const SEO_META_TWITTER_SITE = '@maev_si'
 export const STATE_KEY_EVENT_IMPORTED = 'eventImported'
 export const STATE_KEY_NOW = 'dateTimeNow'
+export const STATE_KEY_POSTER_PICKED = 'posterPicked'
 export const STATE_KEY_TIME_ZONE = 'dateTimeTimeZone'
 export const STATE_LOADING_IDS_NAME = 'loadingIds'
 export const FEATURE_FLAGS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year

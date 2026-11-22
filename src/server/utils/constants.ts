@@ -41,7 +41,6 @@ export const GET_CSP = ({
         hrefApp, // `/api` requests
         hrefPostgraphile, // backend requests
         hrefTusd, // image upload requests
-        'https://nominatim.openstreetmap.org/search', // map's geocoder
       ],
       'font-src': [
         "'self'", // @fontsource/raleway, @nuxt/fonts / nuxt-og-image
@@ -50,23 +49,16 @@ export const GET_CSP = ({
       'form-action': ["'self'"], // forms
       'img-src': [
         'blob:',
-        'https://tile.openstreetmap.org/', // map
         hrefTusd, // users' image uploads
         'https://media3.giphy.com/', // gifs
-        'https://www.gravatar.com/avatar/', // profile picture fallback
       ],
       'manifest-src': ["'self'"],
       // 'prefetch-src': ["'self'"],
-      ...(process.env.NODE_ENV === 'development'
-        ? {
-            'require-trusted-types-for': "'script'", // csp-evaluator // TODO: enable for production once trusted types are properly implemented
-          }
-        : {}),
+      'require-trusted-types-for': "'script'", // csp-evaluator
       'script-src': [
         "'wasm-unsafe-eval'", // vue-qrcode-reader
       ],
       'script-src-elem': [
-        'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js', // ESLint plugin compat
         ...(process.env.NODE_ENV === 'development'
           ? [`${siteUrl}__devtools/`] // Nuxt DevTools
           : []),

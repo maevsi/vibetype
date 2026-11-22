@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <AppError
       v-if="!account"
       :error="{ message: 'Account data missing', status: 404 }"
@@ -13,15 +13,6 @@
             class="relative flex flex-col items-center gap-4 rounded-large bg-surface-raised p-6"
           >
             <div v-if="isOwnProfile" class="absolute top-4 right-4 flex gap-2">
-              <AppButton
-                :aria-label="t('settings')"
-                class="size-11 justify-center rounded-full bg-surface hover:bg-line"
-                size="none"
-                :to="localePath({ name: 'session-edit' })"
-                variant="ghost"
-              >
-                <AppIconSettings class="size-5" />
-              </AppButton>
               <AppButton
                 :aria-label="t('edit')"
                 class="size-11 justify-center rounded-full bg-surface hover:bg-line"
@@ -38,6 +29,24 @@
               >
                 <AppIconEdit class="size-5" />
               </AppButton>
+              <AppDropdown>
+                <AppDropdownItem
+                  @select="navigateTo(localePath({ name: 'session-edit' }))"
+                >
+                  {{ t('settings') }}
+                </AppDropdownItem>
+                <AppDropdownItem variant="destructive" @select="signOutToRoot">
+                  {{ t('logout') }}
+                </AppDropdownItem>
+                <template #trigger>
+                  <span
+                    class="flex size-11 items-center justify-center rounded-full bg-surface hover:bg-line"
+                  >
+                    <span class="sr-only">{{ t('more') }}</span>
+                    <AppIconMoreVertical />
+                  </span>
+                </template>
+              </AppDropdown>
             </div>
             <template v-else>
               <div
@@ -78,6 +87,62 @@
               {{ t('username', { username: route.params.username }) }}
             </h1>
           </div>
+          <!-- the stat cards only fill the row once friends exist, before that the event list below covers the same -->
+          <AppFeature feature="friends">
+            <div
+              class="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-4"
+            >
+              <!-- no friendship count exists in the API yet, so the count is omitted and the avatars are the same placeholders as before -->
+              <AppCard
+                class="flex h-full flex-col items-center gap-1 p-5"
+                data-testid="friends-card"
+              >
+                <div class="relative mb-3 h-16 w-20">
+                  <AccountProfilePicture
+                    v-for="(avatar, index) in friendAvatars"
+                    :key="index"
+                    account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
+                    class="absolute size-10 rounded-medium border-2 border-surface-raised"
+                    height="40"
+                    :style="avatar"
+                    width="40"
+                  />
+                </div>
+                <span class="text-body-small text-link">
+                  {{ t('friends') }}
+                </span>
+              </AppCard>
+              <AppCard
+                class="relative flex flex-col items-center gap-1 p-5 has-focus-visible:focus-ring"
+                data-testid="events-card"
+              >
+                <div class="mb-3 flex h-16 items-center justify-center">
+                  <AppIconToday class="size-10 text-fg-2" />
+                </div>
+                <span class="text-heading-large">
+                  {{ account.eventsByCreatedBy.totalCount }}
+                </span>
+                <AppButton
+                  :aria-label="t('events')"
+                  class="focus-visible:ring-0"
+                  size="none"
+                  :to="
+                    localePath({
+                      name: 'event-view-username',
+                      params: { username: route.params.username },
+                    })
+                  "
+                  variant="ghost"
+                >
+                  <!-- the overlay stretches the link over the whole card -->
+                  <span class="absolute inset-0 z-10" />
+                  <span class="text-body-small text-link">
+                    {{ t('events') }}
+                  </span>
+                </AppButton>
+              </AppCard>
+            </div>
+          </AppFeature>
           <AppFeature feature="friends">
             <AppButton
               v-if="store.signedInUsername !== route.params.username"
@@ -87,38 +152,6 @@
             >
               {{ t('friendAdd') }}
             </AppButton>
-          </AppFeature>
-          <AppFeature feature="friends">
-            <h2 class="text-title3">
-              {{ t('friends') }}
-            </h2>
-            <!-- @vue-ignore -->
-            <AppCardButton
-              class="relative"
-              disabled
-              :to="`/friend/view/$username`"
-            >
-              <div class="isolate flex -space-x-2 overflow-hidden p-1">
-                <AccountProfilePicture
-                  account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                  class="rounded-full ring-3 ring-surface-raised"
-                  height="64"
-                  width="64"
-                />
-                <AccountProfilePicture
-                  account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                  class="rounded-full ring-3 ring-surface-raised"
-                  height="64"
-                  width="64"
-                />
-                <AccountProfilePicture
-                  account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                  class="rounded-full ring-3 ring-surface-raised"
-                  height="64"
-                  width="64"
-                />
-              </div>
-            </AppCardButton>
           </AppFeature>
           <AppFeature v-if="isOwnProfile" feature="account-management">
             <AppButton
@@ -162,40 +195,29 @@
               {{ accountDescription }}
             </span>
           </div>
-          <div v-if="events?.length" class="flex flex-col gap-3 py-1.5">
+          <!-- with friends on, the events card above links to the same list -->
+          <div
+            v-if="events?.length && !isFeatureEnabled('friends').value"
+            class="flex flex-col gap-3 py-1.5"
+          >
             <div class="flex items-center justify-between pl-2">
               <h2 class="text-title3 text-balance">
                 {{ t('events') }}
               </h2>
-              <AppButton
-                v-if="isOwnProfile"
-                :aria-label="t('newEvent')"
-                class="data-[size=large]:gap-2 data-[type=primary]:px-4.5 data-[type=primary]:py-2"
-                :to="localePath('event-create')"
+              <AppLink
+                v-if="account.eventsByCreatedBy.totalCount > 3"
+                class="text-body-small text-link hover:text-link-hover"
+                :to="
+                  localePath({
+                    name: 'event-view-username',
+                    params: { username: route.params.username },
+                  })
+                "
               >
-                <span class="text-body">
-                  {{ t('newEvent') }}
-                </span>
-                <AppIconAdd />
-              </AppButton>
+                {{ t('eventMore') }}
+              </AppLink>
             </div>
             <EventCard v-for="event in events" :key="event.rowId" :event />
-            <AppButton
-              v-if="account.eventsByCreatedBy.totalCount > 3"
-              :aria-label="t('eventMore')"
-              :to="
-                localePath({
-                  name: 'event-view-username',
-                  params: { username: route.params.username },
-                })
-              "
-              variant="tertiary"
-            >
-              {{ t('eventMore') }}
-              <template #suffix>
-                <AppIconChevronDown />
-              </template>
-            </AppButton>
           </div>
           <div class="flex flex-col gap-3">
             <h2 class="px-2 text-title3 text-balance">
@@ -323,6 +345,7 @@ const isOwnProfile = computed(
   () => store.signedInUsername === route.params.username,
 )
 const { t } = useI18n()
+const { isFeatureEnabled } = useFeatureFlags()
 const title = computed(() =>
   isOwnProfile.value ? t('myProfile') : t('profile'),
 )
@@ -402,6 +425,12 @@ defineOgImage(
 // template
 const localePath = useLocalePath()
 const isBlockDrawerOpen = ref<boolean>()
+const signOutToRoot = useSignOutToRoot()
+const friendAvatars = [
+  { left: '10px', top: '0px', transform: 'rotate(-8deg)' },
+  { left: '28px', top: '5px', transform: 'rotate(5deg)' },
+  { left: '0px', top: '24px', transform: 'rotate(12deg)' },
+]
 </script>
 
 <i18n lang="yaml">
@@ -413,13 +442,14 @@ de:
   blockAccount: Konto blockieren
   contactBook: Kontaktbuch
   edit: Profil bearbeiten
-  eventMore: Mehr…
+  eventMore: Alle ansehen
   events: Events
   friendAdd: Freundschaftsanfrage senden
   friends: Freunde
   imprint: Impressum
+  logout: Abmelden
+  more: Mehr
   myProfile: Mein Profil
-  newEvent: Neues Event
   ogImageAlt: Das Profilbild des Kontos.
   profile: Profil
   settings: Einstellungen
@@ -433,13 +463,14 @@ en:
   blockAccount: Block Account
   contactBook: Contact Book
   edit: Edit profile
-  eventMore: Show more
+  eventMore: See all
   events: Events
   friendAdd: Send friend request
   friends: Friends
   imprint: Imprint
+  logout: Log Out
+  more: More
   myProfile: My Profile
-  newEvent: New event
   ogImageAlt: The account's profile picture.
   profile: Profile
   settings: Settings

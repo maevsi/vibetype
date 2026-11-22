@@ -10,11 +10,11 @@ import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 const EVENT_VIEW_PATH = `/event/view/${TESTING_ACCOUNT_USERNAME}/${TESTING_EVENT_SLUG}`
 const PAGE_CONTENT_WIDTH_MAXIMUM = 672 // tailwind's `max-w-2xl`
 
-// `isTitleInContent` marks the pages whose title is content and not a fixed name, so it is not shown in the top bar: a document's own heading, an event's name, an account's name and the welcome page's logo
+// `isTitleInContent` marks the pages whose title is content and not a fixed name, so it is not shown in the top bar: a document's own heading, an event's name, an account's name, the welcome page's logo and the search bar that replaces the top bar on event lists
 // the pages the menu leads to depend on whether an account is signed in
 const ROUTES_SIGNED_OUT = [
   { isMenuRoute: true, isTitleInContent: true, path: '/' },
-  { isMenuRoute: true, path: '/event' },
+  { isMenuRoute: true, isTitleInContent: true, path: '/event' },
   { isMenuRoute: true, path: '/session/edit' },
   { isMenuRoute: false, path: '/account/create' },
   { isMenuRoute: false, path: '/docs/legal/attributions' },
@@ -26,14 +26,19 @@ const ROUTES_SIGNED_OUT = [
 ]
 const ROUTES_SIGNED_IN = [
   { isMenuRoute: true, path: '/dashboard' },
-  { isMenuRoute: true, path: '/event' },
+  { isMenuRoute: true, isTitleInContent: true, path: '/event' },
   {
     isMenuRoute: true,
     isTitleInContent: true,
     path: `/account/view/${TESTING_ACCOUNT_USERNAME}`,
   },
-  { isMenuRoute: true, path: `/event/view/${TESTING_ACCOUNT_USERNAME}` },
+  {
+    isMenuRoute: true,
+    isTitleInContent: true,
+    path: `/event/view/${TESTING_ACCOUNT_USERNAME}`,
+  },
   { isMenuRoute: false, path: '/contact' },
+  { isMenuRoute: false, path: '/contact/import' },
   { isMenuRoute: false, path: '/event/create' },
   { isMenuRoute: false, isTitleInContent: true, path: EVENT_VIEW_PATH },
   { isMenuRoute: false, path: `${EVENT_VIEW_PATH}/guest` },
@@ -96,7 +101,11 @@ for (const [name, test, routes] of [
 }
 
 authenticatedTest.describe('chrome of a multi-step page', () => {
-  for (const path of ['/early-bird/create', '/preference/create']) {
+  // the preference flow starts with a welcome step that offers a skip button instead of a close button
+  for (const { closeCount, nextName, path } of [
+    { closeCount: 1, nextName: undefined, path: '/early-bird/create' },
+    { closeCount: 0, nextName: 'Start', path: '/preference/create' },
+  ]) {
     authenticatedTest(path, async ({ defaultPage }) => {
       const { page } = defaultPage
       const back = page.getByRole('button', { exact: true, name: 'Back' })
@@ -106,12 +115,16 @@ authenticatedTest.describe('chrome of a multi-step page', () => {
 
       // the first step can only be left, a later one leads back to its predecessor
       await expect(back).toHaveCount(0)
-      await expect(close).toHaveCount(1)
+      await expect(close).toHaveCount(closeCount)
       await expect(
         page.getByRole('navigation', { name: 'Bottom' }),
       ).toHaveCount(0)
 
-      await page.locator('main').getByRole('button').last().click()
+      await (
+        nextName
+          ? page.getByRole('button', { exact: true, name: nextName })
+          : page.locator('main').getByRole('button').last()
+      ).click()
       await expect(back).toHaveCount(1)
     })
   }

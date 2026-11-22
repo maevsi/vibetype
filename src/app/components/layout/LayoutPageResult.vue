@@ -1,7 +1,10 @@
 <template>
   <section
     :aria-labelledby="hasTitle ? templateIdTitle : undefined"
-    class="flex flex-col items-center text-center"
+    :class="[
+      'flex flex-col',
+      isStartAligned ? 'items-start text-start' : 'items-center text-center',
+    ]"
   >
     <div
       :class="[
@@ -34,7 +37,10 @@
     </p>
     <div
       v-if="message"
-      class="mt-6 rounded-medium bg-surface-raised p-4 text-left"
+      :class="[
+        'mt-6 rounded-medium bg-surface-raised p-4 text-start',
+        { 'self-stretch': isStartAligned },
+      ]"
     >
       <p class="mb-2 text-body text-fg-1">
         {{ t('messageLabel') }}
@@ -57,7 +63,12 @@
 </template>
 
 <script setup lang="ts">
-const { message = undefined, type } = defineProps<{
+const {
+  isStartAligned = false,
+  message = undefined,
+  type,
+} = defineProps<{
+  isStartAligned?: boolean
   message?: string
   type: 'error' | 'success' | 'warning'
 }>()

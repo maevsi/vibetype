@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-3">
@@ -21,7 +21,7 @@
                 width="48"
               />
               <span class="text-headline">
-                {{ blockedAccount.username }}
+                {{ `@${blockedAccount.username}` }}
               </span>
             </div>
             <AppButton

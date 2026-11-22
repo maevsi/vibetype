@@ -1,16 +1,22 @@
 <template>
   <LayoutPage>
-    <LayoutPageResult type="success">
-      <span class="text-body-small">
+    <div class="flex flex-col items-start gap-3">
+      <div
+        aria-hidden="true"
+        class="flex size-16 items-center justify-center rounded-full bg-success-tint text-action-primary"
+      >
+        <AppIconCheckCircle class="size-8" />
+      </div>
+      <span class="text-heading-large text-balance">
+        {{ t('title') }}
+      </span>
+      <span class="text-body text-fg-2">
+        {{ t('description1') }}
+      </span>
+      <span class="text-body-small text-fg-3">
         {{ t('description2') }}
       </span>
-      <template #description>
-        {{ t('description1') }}
-      </template>
-      <template #title>
-        {{ t('title') }}
-      </template>
-    </LayoutPageResult>
+    </div>
     <template #bottom>
       <AppButton
         :aria-label="t('button')"

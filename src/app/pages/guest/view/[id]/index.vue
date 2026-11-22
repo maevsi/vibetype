@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <AppError
       v-if="!guest"
       :error="{ message: t('errorGuestMissing'), status: 404 }"
@@ -73,15 +73,23 @@
                 >
                   <div />
                   <div class="flex items-center gap-2">
-                    <AppButton
-                      :aria-label="t('iCalDownload')"
-                      class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
-                      size="none"
-                      variant="ghost"
-                      @click="downloadIcal"
-                    >
-                      <AppIconArrowDownTray :title="t('iCalDownload')" />
-                    </AppButton>
+                    <AppDropdown>
+                      <AppDropdownItem @select="downloadIcal">
+                        <AppIconArrowDownTray />
+                        <span>{{ t('iCalDownload') }}</span>
+                      </AppDropdownItem>
+                      <AppDropdownItem @select="googleCalendarOpen">
+                        <AppIconCalendar />
+                        <span>{{ t('googleCalendarAdd') }}</span>
+                      </AppDropdownItem>
+                      <template #trigger>
+                        <span
+                          class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+                        >
+                          <AppIconCalendar :title="t('calendarAdd')" />
+                        </span>
+                      </template>
+                    </AppDropdown>
                     <EventShareButton
                       class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       :event
@@ -144,6 +152,7 @@
                   v-if="positionInitial"
                   class="h-42 rounded-large"
                   :events
+                  is-static
                   :position-initial
                 />
               </AppCard>
@@ -241,7 +250,7 @@
               </LayoutProse>
             </AppCard>
           </div>
-          <AppModal v-model="isModalGuestQrCodeOpen">
+          <AppDrawer v-model="isDrawerGuestQrCodeOpen">
             <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
               <QrcodeVue
                 id="qrCode"
@@ -253,6 +262,7 @@
                 {{ t('hintQrCode') }}
               </p>
             </div>
+            <template #title>{{ t('qrCode') }}</template>
             <template #footer>
               <AppButton
                 v-if="isTicketShareable"
@@ -281,17 +291,8 @@
                   <AppIconArrowDownTray />
                 </template>
               </AppButton>
-              <AppButton
-                :aria-label="t('close')"
-                @click="isModalGuestQrCodeOpen = false"
-              >
-                {{ t('close') }}
-                <template #prefix>
-                  <AppIconXMark />
-                </template>
-              </AppButton>
             </template>
-          </AppModal>
+          </AppDrawer>
         </div>
       </LayoutPage>
     </div>
@@ -327,7 +328,7 @@ const updateGuestByRowIdMutation = useMutation(
 )
 const store = useStore()
 
-const isModalGuestQrCodeOpen = ref<boolean>()
+const isDrawerGuestQrCodeOpen = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
 const alertError = useAlertError()
 
@@ -361,12 +362,18 @@ const eventQuery = useApiQuery({
             username
           }
           addressByAddressId {
+            city
+            country
             id
+            line1
+            line2
             location {
               latitude
               longitude
             }
             name
+            postalCode
+            region
             rowId
           }
           createdBy
@@ -475,25 +482,48 @@ const { $csrfFetch } = useNuxtApp()
 const downloadIcal = async () => {
   if (!event.value) return
 
-  const response = await $csrfFetch('/api/model/event/ical', {
-    body: {
-      event: event.value,
-      guest: guest.value,
-      language: locale.value,
-    },
-    method: 'POST',
-  })
   const fileName = `${event.value.accountByCreatedBy ? `${event.value.accountByCreatedBy.username}_` : ''}${event.value.slug}.ics`
 
-  if (!response.data.value) {
-    alertError(t('iCalFetchError'))
-    return
-  }
+  try {
+    // `$csrfFetch` wraps `$fetch`, which resolves to the response body itself
+    const ical = await $csrfFetch<string>('/api/model/event/ical', {
+      body: {
+        event: event.value,
+        guest: guest.value,
+        language: locale.value,
+      },
+      method: 'POST',
+    })
 
-  downloadJs(
-    new Blob([response.data.value]), // Blob necessary for charset utf-8
-    fileName,
-    'text/calendar',
+    downloadJs(
+      new Blob([ical]), // Blob necessary for charset utf-8
+      fileName,
+      'text/calendar',
+    )
+  } catch {
+    alertError(t('iCalFetchError'))
+  }
+}
+const requestUrl = useRequestURL()
+const googleCalendarOpen = () => {
+  if (!event.value) return
+
+  navigateTo(
+    getGoogleCalendarUrl({
+      description: event.value.description
+        ? getTextFromHtml(event.value.description)
+        : undefined,
+      end: event.value.end,
+      location: event.value.isInPerson
+        ? [address.value?.name, getAddressText(address.value)]
+            .filter(Boolean)
+            .join(', ')
+        : undefined,
+      name: event.value.name,
+      start: event.value.start,
+      url: requestUrl.href,
+    }),
+    { external: true, open: { target: '_blank' } },
   )
 }
 const isTicketShareable = ref<boolean>()
@@ -528,7 +558,7 @@ const ticketFetch = async () => {
     isTicketFetching.value = false
   }
 }
-watch(isModalGuestQrCodeOpen, (isOpen) => {
+watch(isDrawerGuestQrCodeOpen, (isOpen) => {
   if (isOpen) ticketFetch()
 })
 // called without awaiting anything first, as iOS drops the user activation
@@ -553,7 +583,7 @@ const ticketDownload = () => {
   downloadJs(ticketFile.value, ticketFile.value.name, 'application/pdf')
 }
 const qrCodeShow = () => {
-  isModalGuestQrCodeOpen.value = true
+  isDrawerGuestQrCodeOpen.value = true
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
   const result = await updateGuestByRowIdMutation.executeMutation({
@@ -625,14 +655,15 @@ defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 
 <i18n lang="yaml">
 de:
-  close: Schließen
+  calendarAdd: Zum Kalender hinzufügen
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorGuestMissing: Gast nicht verfügbar
+  googleCalendarAdd: Zu Google Kalender hinzufügen
   greeting: Hey{usernameString}!
   greetingDescription: Du wurdest zu folgender Veranstaltung eingeladen.
   hintQrCode: Dieses Bild ist deine Zugangsberechtigung für die Veranstaltung
-  iCalDownload: Als Kalendereintrag herunterladen
+  iCalDownload: Als Kalenderdatei herunterladen
   # iCalHint: Die heruntergeladene Datei kann dann mit deiner Kalender-Anwendung geöffnet werden.
   iCalFetchError: iCal-Daten konnten nicht geladen werden!
   invitationAccept: Einladung annehmen
@@ -645,6 +676,7 @@ de:
   invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
+  qrCode: Check-in-Code
   qrCodeShow: Check-in-Code anzeigen
   report: Veranstaltung melden
   success: Deine Eingabe wurde erfolgreich gespeichert.
@@ -653,14 +685,15 @@ de:
   ticketShare: Ticket teilen
   ticketShareError: Das Ticket konnte nicht geteilt werden.
 en:
-  close: Close
+  calendarAdd: Add to calendar
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorGuestMissing: Guest not available
+  googleCalendarAdd: Add to Google Calendar
   greeting: Hey{usernameString}!
   greetingDescription: "You've been invited to the following event."
   hintQrCode: This picture is your access authorization for the event
-  iCalDownload: Download for your calendar
+  iCalDownload: Download calendar file
   # iCalHint: You can open the downloaded file in your calendar app.
   iCalFetchError: Could not get iCal data!
   invitationAccept: Accept invitation
@@ -673,6 +706,7 @@ en:
   invitationSelectionClear: Back to the invitation overview
   invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
   ogImageAlt: The event's preview image.
+  qrCode: Check in code
   qrCodeShow: Show check in code
   report: Report event
   success: Your input was saved succesfully.

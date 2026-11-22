@@ -76,9 +76,9 @@ appTest.describe('internationalization', () => {
 })
 
 appTest.describe('visual regression', () => {
-  appTest('displays the cookie banner', async ({ page }) => {
+  appTest('displays the privacy screen', async ({ page }) => {
     await page.goto('/')
-    await PAGE_READY({ page, options: { cookieControl: false } })
+    await PAGE_READY({ page })
     await expect(page).toHaveScreenshot({ timeout: TIMEOUT })
   })
 })
@@ -87,7 +87,6 @@ authenticatedTest.describe('signed in', () => {
   authenticatedTest(
     'redirects a client side navigation to the dashboard without errors',
     async ({ defaultPage }) => {
-      // the error page links home
       await defaultPage.goto('/account/view/e2e-missing-account')
 
       // vue reports a failing setup to the console rather than as a page error;
@@ -98,7 +97,20 @@ authenticatedTest.describe('signed in', () => {
         if (message.type() === 'error') errors.push(message.text())
       })
 
-      await defaultPage.page.getByRole('link', { name: 'Head home' }).click()
+      // no page links the root for a signed-in account, so the app's router navigates there
+      await defaultPage.page.locator('#__nuxt').evaluate((element) =>
+        (
+          element as typeof element & {
+            __vue_app__: {
+              config: {
+                globalProperties: {
+                  $router: { push: (path: string) => Promise<unknown> }
+                }
+              }
+            }
+          }
+        ).__vue_app__.config.globalProperties.$router.push('/'),
+      )
 
       await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
       await expect(defaultPage.page).toHaveTitle(/^Dashboard · Vibetype$/)

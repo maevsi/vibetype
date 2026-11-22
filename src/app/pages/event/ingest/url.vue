@@ -2,70 +2,136 @@
   <div class="flex flex-1 flex-col">
     <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
     <LayoutPage>
-      <div class="flex flex-col gap-4">
-        <div>
-          <label for="url-input">
-            {{ t('addURL') }}
-          </label>
-          <input
-            id="url-input"
-            v-model="enteredURL"
-            class="w-full rounded-small text-fg-1"
-            :placeholder="t('enterEventLink')"
+      <form class="flex flex-col gap-6" @submit.prevent="readLink">
+        <div class="flex flex-col gap-2">
+          <h2 class="text-heading-medium">{{ t('heading') }}</h2>
+          <p class="text-body text-fg-2">{{ t('description') }}</p>
+        </div>
+        <p
+          v-if="isNoEvent"
+          class="rounded-medium bg-surface-raised p-4 text-center text-fg-2"
+          role="status"
+        >
+          {{ t('noEvent') }}
+        </p>
+        <div class="flex flex-col gap-2">
+          <AppInput
+            v-model="enteredUrl"
+            :aria-describedby="templateIdHint"
+            :aria-label="t('link')"
+            :placeholder="t('linkPlaceholder')"
+            required
             type="url"
-          />
+          >
+            <template #prefix>
+              <AppIconLink />
+            </template>
+          </AppInput>
+          <p :id="templateIdHint" class="text-caption text-fg-2">
+            {{ t('hint') }}
+          </p>
         </div>
         <AppButton
-          :aria-label="t('process')"
-          class="self-end"
-          :loading="isUploading"
-          @click="uploadURL"
+          :aria-label="t('next')"
+          class="w-full"
+          :disabled="!enteredUrl.trim()"
+          :loading="isReading"
+          type="submit"
         >
-          {{ t('process') }}
+          {{ t('next') }}
+          <template #loading>{{ t('reading') }}</template>
         </AppButton>
-      </div>
+      </form>
     </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  validate: () => import.meta.dev,
-})
+import { FetchError } from 'ofetch'
 
 const { t } = useI18n()
+const alertError = useAlertError()
 const { $csrfFetch } = useNuxtApp()
+const localePath = useLocalePath()
 
-const enteredURL = ref<string>()
-const isUploading = ref(false)
+// validation
+await useSignInRequired()
 
-const uploadURL = async () => {
-  if (!enteredURL.value) return
+// page
+useHeadDefault({ title: t('title') })
 
-  isUploading.value = true
+// data
+const enteredUrl = ref('')
+const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
+const isNoEvent = ref(false)
+const isReading = ref(false)
+
+// methods
+const readLink = async () => {
+  if (!enteredUrl.value) return
+
+  isReading.value = true
+  isNoEvent.value = false
 
   try {
-    await $csrfFetch('/api/model/event/ingest/url', {
-      body: { url: enteredURL.value },
+    const { output } = await $csrfFetch('/api/model/event/ingest/url', {
+      body: { url: enteredUrl.value },
       method: 'POST',
     })
+
+    if (!output?.is_event) {
+      isNoEvent.value = true
+      return
+    }
+
+    eventImported.value = await getEventImportedFromIngest(output)
+    await navigateTo(localePath('event-create'))
   } catch (error) {
-    console.error('Upload failed:', error)
+    const status = error instanceof FetchError ? error.statusCode : undefined
+
+    alertError({
+      ...(error instanceof Error ? { error } : {}),
+      messageI18n:
+        status === 429
+          ? t('errorLimitReached')
+          : status === 400
+            ? t('errorUnreadable')
+            : t('errorReadFailed'),
+    })
   } finally {
-    isUploading.value = false
+    isReading.value = false
   }
 }
+
+// template
+const templateIdHint = useId()
 </script>
 
 <i18n lang="yaml">
 de:
-  addURL: URL hinzufügen
-  enterEventLink: Veranstaltungslink eingeben
-  process: Verarbeiten
-  title: Link laden
+  description: Aus der Seite erstellen wir einen Entwurf, den Du vor dem Speichern prüfen kannst.
+  errorLimitReached: Du hast heute die maximale Anzahl an Importen erreicht. Versuche es morgen erneut.
+  errorReadFailed: Der Link konnte nicht gelesen werden.
+  errorUnreadable: Der Link ist ungültig, nicht erreichbar, leitet auf eine nicht öffentliche Seite weiter oder führt nicht zu einer Webseite.
+  heading: Link zur Veranstaltung angeben
+  hint: Seiten, die eine Anmeldung erfordern oder nur mit JavaScript angezeigt werden, etwa Instagram oder Facebook, können nicht gelesen werden.
+  link: Link zur Veranstaltung
+  linkPlaceholder: Link zur Veranstaltung eingeben
+  next: Weiter
+  noEvent: Auf dieser Seite wurde keine Veranstaltung gefunden. Probiere einen anderen Link.
+  reading: Veranstaltung wird geladen…
+  title: Plakatjagd
 en:
-  addURL: Add URL
-  enterEventLink: Enter event link
-  process: Process
-  title: Ingest URL
+  description: We create a draft from the page that you can review before saving.
+  errorLimitReached: You have reached today's maximum number of imports. Try again tomorrow.
+  errorReadFailed: The link could not be read.
+  errorUnreadable: The link is invalid, unreachable, redirects to a non-public page or does not lead to a web page.
+  heading: Provide link to event
+  hint: Pages that require a login or only render with JavaScript, such as Instagram or Facebook, cannot be read.
+  link: Event link
+  linkPlaceholder: Enter event link
+  next: Next
+  noEvent: No event found on this page. Try another link.
+  reading: Fetching event data…
+  title: Poster hunting
 </i18n>

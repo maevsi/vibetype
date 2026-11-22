@@ -39,3 +39,31 @@ export const getEventImported = async ({
     visibility: EventVisibility.Private,
   }
 }
+
+/** Builds the prefill from what an ingest route read, which the model answers without a time zone, so the browser takes it as local time. */
+export const getEventImportedFromIngest = (output: {
+  description?: string | null
+  end?: string | null
+  location?: string | null
+  name?: string | null
+  start?: string | null
+  url?: string | null
+}) => {
+  const getIsoString = (value?: string | null) => {
+    const date = value ? new Date(value) : undefined
+
+    return date && !Number.isNaN(date.getTime())
+      ? date.toISOString()
+      : undefined
+  }
+
+  return getEventImported({
+    description: output.description,
+    end: getIsoString(output.end),
+    isInPerson: !!output.location,
+    locationName: output.location,
+    name: output.name ?? '',
+    start: getIsoString(output.start),
+    url: output.url,
+  })
+}

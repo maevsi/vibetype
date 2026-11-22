@@ -384,6 +384,17 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'AccountProfilePicture':
+      return {
+        data: {
+          accountByUsername: {
+            id: ACCOUNT.id,
+            profilePictureByAccountId: null,
+            rowId: ACCOUNT.rowId,
+            __typename: 'Account',
+          },
+        },
+      }
     case 'AccountRegistration':
       return {
         data: {
@@ -395,6 +406,20 @@ export const getTestingGraphqlResult = async ({
       }
     case 'AccountUploadQuotaBytes':
       return { data: { accountUploadQuotaBytes: 10485760 } }
+    case 'AllContactsEmailAddresses':
+      return {
+        data: {
+          allContacts: {
+            nodes: [],
+            pageInfo: {
+              endCursor: null,
+              hasNextPage: false,
+              __typename: 'PageInfo',
+            },
+            __typename: 'ContactConnection',
+          },
+        },
+      }
     case 'AllContacts':
       return {
         data: {
@@ -504,6 +529,15 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'AllPreferenceEventLocations':
+      return {
+        data: {
+          allPreferenceEventLocations: {
+            nodes: [],
+            __typename: 'PreferenceEventLocationConnection',
+          },
+        },
+      }
     case 'AllUploads':
       return {
         data: {
@@ -551,6 +585,28 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'ContactByRowId':
+      return {
+        data: {
+          contactByRowId: {
+            ...CONTACT,
+            accountByAccountId: null,
+            accountByCreatedBy: {
+              id: ACCOUNT.id,
+              rowId: ACCOUNT.rowId,
+              username: ACCOUNT.username,
+              __typename: 'Account',
+            },
+            accountId: null,
+            createdBy: ACCOUNT.rowId,
+            emailAddress: null,
+            emailAddressHash: null,
+            note: null,
+            phoneNumber: null,
+            url: null,
+          },
+        },
+      }
     case 'DashboardEventRecommendations':
       return {
         data: {
@@ -581,6 +637,27 @@ export const getTestingGraphqlResult = async ({
               },
             ],
             __typename: 'EventConnection',
+          },
+        },
+      }
+    case 'DashboardPreferenceCount':
+      return {
+        data: {
+          allPreferenceEventCategories: {
+            totalCount: 1,
+            __typename: 'PreferenceEventCategoryConnection',
+          },
+          allPreferenceEventFormats: {
+            totalCount: 1,
+            __typename: 'PreferenceEventFormatConnection',
+          },
+          allPreferenceEventLocations: {
+            totalCount: 1,
+            __typename: 'PreferenceEventLocationConnection',
+          },
+          allPreferenceEventSizes: {
+            totalCount: 1,
+            __typename: 'PreferenceEventSizeConnection',
           },
         },
       }

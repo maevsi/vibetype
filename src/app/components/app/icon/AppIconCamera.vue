@@ -1,9 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IMaterialSymbolsCookieOutline
-      v-bind="attributes"
-      :aria-label="t('ariaLabel')"
-    />
+    <IHeroiconsCamera v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 
@@ -13,7 +10,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: Keks
+  ariaLabel: Kamera
 en:
-  ariaLabel: Cookie
+  ariaLabel: Camera
 </i18n>

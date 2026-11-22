@@ -3,20 +3,20 @@ export const useAppLayout = () => {
   const siteConfig = useSiteConfig()
   const { isApp } = usePlatform()
 
-  if (import.meta.server) {
-    // app
-    if (isApp) {
-      useHeadSafe({
-        meta: [
-          {
-            content:
-              'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
-            name: 'viewport',
-          },
-        ],
-      })
-    }
+  // app, registered on the client too, as the client would otherwise replace it with the default viewport after hydration
+  if (isApp) {
+    useHeadSafe({
+      meta: [
+        {
+          content:
+            'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
+          name: 'viewport',
+        },
+      ],
+    })
+  }
 
+  if (import.meta.server) {
     // style
     useHeadSafe({
       bodyAttrs: {
@@ -115,33 +115,4 @@ export const useHeadDefault = (
       alt: t('globalSeoOgImageAlt'), // TODO: update text
     },
   )
-}
-
-const POLYFILLS_URL = `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=${POLYFILLS.join(
-  '%2C',
-)}&flags=gated`
-
-export const usePolyfills = () => {
-  if (!POLYFILLS.length) return
-
-  if (import.meta.server) {
-    useHead({
-      link: [
-        {
-          rel: 'preload',
-          href: POLYFILLS_URL,
-          crossorigin: 'anonymous',
-          as: 'script',
-          'data-testid': 'polyfill-preload',
-        },
-      ],
-      script: [
-        {
-          src: POLYFILLS_URL,
-          crossorigin: 'anonymous',
-          'data-testid': 'polyfill-script',
-        },
-      ],
-    })
-  }
 }

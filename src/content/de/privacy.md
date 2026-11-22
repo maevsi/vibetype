@@ -211,7 +211,6 @@
             Jede der folgenden Kategorien wird getrennt eingeschaltet, und vor Deiner Einwilligung wird nichts davon geladen oder gespeichert:
 
             - Analyse: Google Analytics (`_ga` und `_ga_*`)
-            - Karten: Kartenkacheln von OpenStreetMap
             - Sitzungsaufzeichnung und Profiling: Aufzeichnungen von Sitzungen mit Fehlern und Leistungsprofile durch Sentry
 
         1. **Datenschutz-Einstellungen ändern**
@@ -293,6 +292,12 @@
             - von der registrierten Person eingegebene Notizen
 
             Diese Daten werden uns von der registrierten Person mitgeteilt, die den Kontakt anlegt, nicht von der betroffenen Person selbst. Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben gemeinsam mit unseren registrierten Nutzer\*innen ein berechtigtes Interesse daran, ihnen die Organisation und Verwaltung von Einladungen zu privaten Veranstaltungen zu ermöglichen.
+
+            Registrierte Nutzer\*innen können einen Kontakt von Hand anlegen oder Kontakte importieren, entweder indem sie diese über die Kontaktauswahl des Betriebssystems oder Browsers im Adressbuch ihres Geräts auswählen oder indem sie eine Kontaktdatei (vCard) wählen.
+            In beiden Fällen finden die Auswahl und das Auslesen der Datei auf dem Gerät der registrierten Person statt.
+            An uns übermittelt werden nur die Kontakte, die die registrierte Person bestätigt, und von diesen nur Name, E-Mail-Adresse und Telefonnummer.
+            Wir erhalten keinen dauerhaften Zugriff auf das Adressbuch, und Kontaktdateien werden nicht zu uns hochgeladen.
+            Kontakte ohne E-Mail-Adresse werden nicht importiert.
 
             Die registrierte Person, die einen Kontakt anlegt oder bearbeitet, sichert uns zu, zur Weitergabe der jeweiligen Daten berechtigt zu sein, insbesondere dass hierfür eine Rechtsgrundlage nach den anwendbaren Datenschutzgesetzen besteht, und stellt uns von Ansprüchen und behördlichen Bußgeldern frei, die aus einer ohne diese Berechtigung erfolgten Weitergabe entstehen. Weitere Einzelheiten findest Du in unseren Nutzungsbedingungen.
 
@@ -472,7 +477,7 @@
             Nur mit Deiner Einwilligung in der Kategorie „Sitzungsaufzeichnung und Profiling“ nutzen wir zusätzlich die Sitzungsaufzeichnung und das Browser-Profiling von Sentry.
             Tritt dann ein Fehler auf, wird die Sitzung aufgezeichnet, wobei Texte und Eingaben standardmäßig maskiert sind, und 10 % der Sitzungen werden profiliert.
             Sitzungen ohne Fehler werden nicht aufgezeichnet.
-            Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, Standorte zu zeigen und geografische Informationen bereitzustellen.
 
             Die Daten werden in der EU (Frankfurt) gespeichert.
             Da Sentry ein Unternehmen der USA ist, kann ein Zugriff von dort nicht ausgeschlossen werden.
@@ -869,16 +874,15 @@
               Vereinigtes Königreich
             </address>
 
-            Wird eine Karte angezeigt, lädt Dein Browser Kartenkacheln von den Servern der OpenStreetMap Foundation, wobei Deine IP-Adresse übermittelt wird.
+            Wird eine Karte angezeigt, ruft unser Server die Kartenkacheln bei der OpenStreetMap Foundation ab, nicht Dein Browser, sodass Deine IP-Adresse nicht an die OpenStreetMap Foundation übermittelt wird.
+            Die Kartenkacheln speichern wir bis zu sieben Tage auf unserem Server.
             Es werden keine Tracking-Cookies verwendet.
 
             Suchst Du auf einer Karte eine Adresse, sendet unser Server nur Deinen Suchtext und die Sprache der Website an den Geocoding-Dienst Nominatim der OpenStreetMap Foundation.
             Deine IP-Adresse und andere Daten über Dich werden dabei nicht übermittelt.
             Die Suchergebnisse speichern wir bis zu sieben Tage auf unserem Server, damit wiederholte Suchen nach demselben Text nicht erneut gesendet werden.
 
-            Die Karten und mit ihnen die Adresssuche werden erst nach Deiner Einwilligung in der Kategorie „Karten“ geladen, die Du in den Datenschutz-Einstellungen oder direkt auf einer Karte mit „Karte anzeigen“ erteilst.
-            Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
-            Ohne Einwilligung stehen die Karten und die Adresssuche nicht zur Verfügung.
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, Standorte zu zeigen und geografische Informationen bereitzustellen.
 
             Die Daten werden in das Vereinigte Königreich übermittelt, für das ein Angemessenheitsbeschluss der EU-Kommission besteht.
 

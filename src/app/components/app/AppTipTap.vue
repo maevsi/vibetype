@@ -1,6 +1,13 @@
 <template>
-  <div v-if="editor" class="flex flex-col gap-2">
-    <div class="flex flex-wrap gap-x-4 gap-y-2 xl:gap-6">
+  <div
+    v-if="editor"
+    class="flex flex-col overflow-hidden rounded-medium bg-surface-raised"
+  >
+    <div
+      :aria-label="t('formatting')"
+      class="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-line px-3 py-2"
+      role="group"
+    >
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('undo')"
@@ -23,6 +30,7 @@
           <AppIconArrowRotateRight />
         </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
         <!-- <AppButton
           size="none" variant="ghost"
@@ -81,6 +89,7 @@
           </span>
         </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('bold')"
@@ -122,6 +131,7 @@
           <AppIconStrikethrough />
         </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('formatAlignLeft')"
@@ -176,6 +186,7 @@
           <AppIconAlignJustify />
         </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('listUl')"
@@ -204,6 +215,7 @@
           <AppIconListOl />
         </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('link')"
@@ -256,6 +268,7 @@
           <AppIconCode />
         </AppButton>
       </div>
+      <div aria-hidden="true" class="h-5 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('horizontalRule')"
@@ -307,7 +320,7 @@ const editor = useEditor({
     attributes: {
       'aria-label': ariaLabel,
       class:
-        'min-h-28 flex-1 rounded-medium bg-surface-raised px-6 py-4 text-body placeholder-fg-3 outline-none',
+        'min-h-28 flex-1 px-6 py-4 text-body placeholder-fg-3 outline-none',
     },
   },
   extensions: [
@@ -443,6 +456,7 @@ de:
   formatAlignLeft: Links ausrichten
   formatAlignRight: Rechts ausrichten
   formatAlignJustify: Blocksatz
+  formatting: Formatierung
   heading1: Überschrift 1 (groß)
   heading2: Überschrift 2 (mittelgroß)
   heading3: Überschrift 3 (klein)
@@ -467,6 +481,7 @@ en:
   formatAlignLeft: Align left
   formatAlignRight: Align right
   formatAlignJustify: Justified
+  formatting: Formatting
   heading1: Heading 1 (large)
   heading2: Heading 2 (medium)
   heading3: Heading 3 (small)
