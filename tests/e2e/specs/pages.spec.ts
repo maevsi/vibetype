@@ -147,7 +147,9 @@ for (const [name, test] of [
             .toMatch(
               PAGE_PATHS_TITLE_SITE_NAME.includes(path)
                 ? /^Vibetype$/
-                : /^(?!Vibetype · ).+ · Vibetype$/,
+                : path === EVENT_VIEW_PATH
+                  ? /^.+ on Vibetype$/
+                  : /^(?!Vibetype · ).+ · Vibetype$/,
             )
         })
       }
