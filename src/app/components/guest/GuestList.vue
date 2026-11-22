@@ -122,15 +122,15 @@
         </div>
       </div>
       <AppDrawer
-        v-model="isModalGuestOpen"
+        v-model="isDrawerGuestOpen"
         class="sm:max-w-lg"
         direction="right"
-        @close="onModalGuestClose"
+        @close="onDrawerGuestClose"
       >
         <FormGuest
           :event
           :guest-contact-ids-existing="guests.map((i) => i.contactId)"
-          @submit-success="onModalGuestClose"
+          @submit-success="onDrawerGuestClose"
         />
         <template #title>
           {{ t('contactSelect') }}
@@ -182,7 +182,7 @@ const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 const after = ref<string | null>()
 const feedbackFilter = ref<string>('all')
 const guestRowIdsSelected = ref<string[]>([])
-const isModalGuestOpen = ref<boolean>()
+const isDrawerGuestOpen = ref<boolean>()
 const searchString = ref<string>('')
 const options = {
   plugins: {
@@ -230,10 +230,10 @@ const api = await useApiData([guestsQuery])
 // methods
 const add = () => {
   guestsQuery.pause()
-  isModalGuestOpen.value = true
+  isDrawerGuestOpen.value = true
 }
-const onModalGuestClose = () => {
-  isModalGuestOpen.value = false
+const onDrawerGuestClose = () => {
+  isDrawerGuestOpen.value = false
   after.value = undefined
   guestsQuery.resume()
 }
