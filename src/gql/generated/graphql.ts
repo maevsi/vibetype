@@ -1359,7 +1359,21 @@ export type UpdateEventByRowIdMutationVariables = Exact<{
 }>
 
 export type UpdateEventByRowIdMutation = {
-  updateEventByRowId: { event: { id: string } | null } | null
+  updateEventByRowId: {
+    event: {
+      description: string | null
+      end: string | null
+      guestCountMaximum: number | null
+      id: string
+      isInPerson: boolean | null
+      isRemote: boolean | null
+      name: string
+      slug: string
+      start: string
+      url: string | null
+      visibility: EventVisibility
+    } | null
+  } | null
 }
 
 export type CreateAddressMutationVariables = Exact<{
@@ -6143,7 +6157,32 @@ export const UpdateEventByRowIdDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCountMaximum' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isRemote' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'visibility' },
+                      },
                     ],
                   },
                 },
