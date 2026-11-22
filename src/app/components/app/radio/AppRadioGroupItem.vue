@@ -1,18 +1,29 @@
 <template>
-  <div>
-    <RadioGroupItem :id="templateIdLabel" :value />
-    <Label :for="templateIdLabel">
-      <span class="text-body">
-        <slot />
-      </span>
-    </Label>
-  </div>
+  <AppSelectionItem :class="props.class">
+    <template #control="ariaAttributes">
+      <RadioGroupItem v-bind="{ ...forwarded, ...ariaAttributes }" />
+    </template>
+    <slot />
+    <template v-if="$slots.description" #description>
+      <slot name="description" />
+    </template>
+  </AppSelectionItem>
 </template>
 
 <script setup lang="ts">
-const { value } = defineProps<{
-  value: string
-}>()
+import { useForwardProps } from 'reka-ui'
+import type { RadioGroupItemProps } from 'reka-ui'
+import type { HTMLAttributes } from 'vue'
 
-const templateIdLabel = useId()
+const props = defineProps<
+  RadioGroupItemProps & { class?: HTMLAttributes['class'] }
+>()
+
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props
+
+  return delegated
+})
+
+const forwarded = useForwardProps(delegatedProps)
 </script>

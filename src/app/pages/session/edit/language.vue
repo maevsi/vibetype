@@ -3,7 +3,7 @@
     <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <AppRadioGroup
-        class="gap-0 *:min-h-12"
+        :aria-label="title"
         :default-value="locale"
         :items="languages"
         @update:model-value="onI18nChange"

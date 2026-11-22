@@ -51,7 +51,7 @@
           </p>
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
-            <AppCheckbox
+            <Checkbox
               id="agree-to-terms"
               :aria-describedby="termsError ? templateIdTermsError : undefined"
               :aria-invalid="!!termsError"

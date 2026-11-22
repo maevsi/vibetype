@@ -6,7 +6,7 @@
     }"
   >
     <AppTableCell class="w-0">
-      <AppCheckbox
+      <Checkbox
         v-model="isSelected"
         :aria-label="t('guestSelect', { name: contactName })"
       />
