@@ -143,7 +143,7 @@ const localePath = useLocalePath()
 const onClick = async () => {
   if (!guestId.value) return
 
-  await executeUrqlRequest({
+  const result = await executeUrqlRequest({
     errorMessageI18n: t('errorAttendanceCreate'),
     request: createAttendanceMutation.executeMutation({
       input: {
@@ -153,6 +153,8 @@ const onClick = async () => {
       },
     }),
   })
+  const attendanceId = result?.data?.createAttendance?.attendance?.rowId
+  if (!attendanceId) return
 
   await writeTag({
     records: [
@@ -160,7 +162,7 @@ const onClick = async () => {
         recordType: 'url',
         data: `https://${siteUrl.host}${localePath({
           name: 'attendance-view-id',
-          params: { id: guestId.value },
+          params: { id: attendanceId },
         })}`,
       },
     ],

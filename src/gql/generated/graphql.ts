@@ -2058,6 +2058,7 @@ export type AttendanceQueryVariables = Exact<{
 export type AttendanceQuery = {
   attendanceByRowId: {
     checkedOut: boolean | null
+    createdAt: string
     id: string
     rowId: string
     updatedAt: string | null
@@ -2070,12 +2071,19 @@ export type AttendanceQuery = {
       rowId: string
       accountByAccountId: { id: string; rowId: string; username: string } | null
     } | null
-    guestByGuestId: { id: string; rowId: string } | null
+    guestByGuestId: {
+      id: string
+      rowId: string
+      contactByContactId: { accountId: string | null; id: string } | null
+    } | null
   } | null
   eventByAttendanceId: {
+    createdBy: string
     id: string
     name: string
+    slug: string
     rowId: string
+    accountByCreatedBy: { id: string; username: string } | null
     eventAppsByEventId: {
       nodes: Array<{
         id: string
@@ -2100,7 +2108,12 @@ export type AttendanceCheckOutMutationVariables = Exact<{
 
 export type AttendanceCheckOutMutation = {
   updateAttendanceByRowId: {
-    attendance: { id: string; checkedOut: boolean | null; rowId: string } | null
+    attendance: {
+      id: string
+      checkedOut: boolean | null
+      rowId: string
+      updatedAt: string | null
+    } | null
   } | null
 }
 
@@ -10517,12 +10530,30 @@ export const AttendanceDocument = {
                     ],
                   },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'guestByGuestId' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactByContactId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'accountId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
@@ -10550,8 +10581,24 @@ export const AttendanceDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'accountByCreatedBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'eventAppsByEventId' },
@@ -10702,6 +10749,10 @@ export const AttendanceCheckOutDocument = {
                         name: { kind: 'Name', value: 'checkedOut' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
                     ],
                   },
                 },

@@ -5,7 +5,40 @@
     <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-4">
-        <section class="flex flex-col gap-4">
+        <section v-if="isOwn && event" class="flex flex-col gap-4">
+          <span class="text-heading-large">
+            {{ t('event') }}
+          </span>
+          <AppButton
+            v-if="event.accountByCreatedBy"
+            :aria-label="event.name"
+            class="self-start"
+            :to="
+              localePath({
+                name: 'event-view-username-event_name',
+                params: {
+                  event_name: event.slug,
+                  username: event.accountByCreatedBy.username,
+                },
+              })
+            "
+          >
+            {{ event.name }}
+          </AppButton>
+          <span v-else>{{ event.name }}</span>
+          <p>
+            {{
+              attendance.checkedOut && attendance.updatedAt
+                ? t('statusCheckedOut', {
+                    time: dateTimeFormat(attendance.updatedAt),
+                  })
+                : t('statusCheckedIn', {
+                    time: dateTimeFormat(attendance.createdAt),
+                  })
+            }}
+          </p>
+        </section>
+        <section v-else class="flex flex-col gap-4">
           <span class="text-heading-large">
             {{ t('contact') }}
           </span>
@@ -69,18 +102,18 @@
             </ul>
           </section>
         </section>
-        <section v-if="guest?.rowId" class="flex flex-col gap-4">
+        <section v-if="isOwn || isOrganizer" class="flex flex-col gap-4">
           <span class="text-heading-large">
             {{ t('attendance') }}
           </span>
           <div class="flex gap-2">
             <AppButton
-              :aria-label="t('checkOut')"
+              :aria-label="isOwn ? t('leave') : t('checkOut')"
               :disabled="!canCheckOut"
               :loading="checkOutMutation.fetching.value"
               @click="onCheckOut"
             >
-              {{ t('checkOut') }}
+              {{ isOwn ? t('leave') : t('checkOut') }}
             </AppButton>
           </div>
         </section>
@@ -113,9 +146,11 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 const route = useRoute()
-const { t } = useI18n()
+const { locale, t } = useI18n()
 
 const store = useStore()
+// anonymous sessions keep their guest claims only in the token this request returns, as the store drops them
+const guestClaims = ref<string[]>([])
 try {
   const { data: jwtUpdateData, error: jwtUpdateError } =
     await useCsrfRequestFetch('/api/model/jwt', {
@@ -132,6 +167,7 @@ try {
   }
 
   store.jwtSet(jwtUpdateData.value.jwtPayload)
+  guestClaims.value = jwtUpdateData.value.jwtPayload.guests
 } catch (error) {
   console.error('JWT update failed:', error)
 }
@@ -155,7 +191,12 @@ const queryAttendance = useApiQuery({
           nickname
           rowId
         }
+        createdAt
         guestByGuestId {
+          contactByContactId {
+            accountId
+            id
+          }
           id
           rowId
         }
@@ -164,8 +205,14 @@ const queryAttendance = useApiQuery({
         updatedAt
       }
       eventByAttendanceId(attendanceId: $id) {
+        accountByCreatedBy {
+          id
+          username
+        }
+        createdBy
         id
         name
+        slug
         eventAppsByEventId {
           nodes {
             id
@@ -198,8 +245,23 @@ const contactName = computed(() =>
 const event = computed(() => api.value.data.eventByAttendanceId)
 const eventApps = computed(() => event.value?.eventAppsByEventId.nodes || [])
 
-// auth state (signed-in accounts are typically organizers)
+// auth state
 const authentication = useAuthentication()
+const isOrganizer = computed(
+  () =>
+    !!store.signedInAccountId &&
+    event.value?.createdBy === store.signedInAccountId,
+)
+const isOwn = computed(() => {
+  if (!guest.value) return false
+
+  const accountId = guest.value.contactByContactId?.accountId
+
+  return (
+    (!!accountId && accountId === store.signedInAccountId) ||
+    guestClaims.value.includes(guest.value.rowId)
+  )
+})
 
 // check-out mutation
 const executeUrqlRequest = useExecuteUrqlRequest()
@@ -216,6 +278,7 @@ const checkOutMutation = useMutation(
           id
           checkedOut
           rowId
+          updatedAt
         }
       }
     }
@@ -223,7 +286,11 @@ const checkOutMutation = useMutation(
 )
 
 const canCheckOut = computed(() =>
-  Boolean(attendance.value && !attendance.value.checkedOut),
+  Boolean(
+    attendance.value &&
+    !attendance.value.checkedOut &&
+    (isOwn.value || isOrganizer.value),
+  ),
 )
 
 const onCheckOut = async () => {
@@ -238,6 +305,14 @@ const onCheckOut = async () => {
     }),
   })
 }
+
+const timeZone = useTimeZone()
+const dateTimeFormat = (dateTime: string) =>
+  Intl.DateTimeFormat(locale.value, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone,
+  }).format(new Date(dateTime))
 
 // contact
 const localePath = useLocalePath()
@@ -259,6 +334,8 @@ const friendAdd = async () => {
 // page
 const title = computed(() => {
   if (api.value.isFetching && !attendance.value) return t('globalLoading')
+
+  if (isOwn.value) return t('titleOwn')
 
   if (contactName.value) {
     return t('title', { name: contactName.value })
@@ -283,7 +360,11 @@ de:
   event: Veranstaltung
   guest: Gast
   guestView: Einladung anzeigen
+  leave: Veranstaltung verlassen
+  statusCheckedIn: Eingecheckt am {time}
+  statusCheckedOut: Verlassen am {time}
   title: Anwesenheitsdetails für {name}
+  titleOwn: Deine Anwesenheit
 en:
   addFriend: Add friend
   apps: Apps
@@ -297,5 +378,9 @@ en:
   event: Event
   guest: Guest
   guestView: Show invitation
+  leave: Leave event
+  statusCheckedIn: Checked in on {time}
+  statusCheckedOut: Left on {time}
   title: Attendance Details for {name}
+  titleOwn: Your Attendance
 </i18n>
