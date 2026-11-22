@@ -85,13 +85,7 @@
 }
 
 @utility feature-preview {
-  position: relative;
-
-  &::after {
-    @apply pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(-45deg,#fb0,#fb0_10px,#0000_10px,#0000_30px)] opacity-20;
-    border-radius: inherit;
-    content: '';
-  }
+  @apply relative after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:bg-[repeating-linear-gradient(-45deg,#fb0,#fb0_10px,#0000_10px,#0000_30px)] after:opacity-20 after:content-[''];
 }
 
 @utility focus-ring {
