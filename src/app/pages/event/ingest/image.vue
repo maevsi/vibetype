@@ -83,7 +83,8 @@ await useSignInRequired()
 useHeadDefault({ title: t('title') })
 
 // data
-const { isGiven: isConsentGiven } = useEventIngestConsent()
+// the page records the consent itself, as a cookie ref of the drawer's own would not update this one
+const { give: giveConsent, isGiven: isConsentGiven } = useEventIngestConsent()
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
 const isConsentDrawerOpen = ref(false)
 const isNoEvent = ref(false)
@@ -121,6 +122,7 @@ const readPosterAsBase64 = async (file: File) => {
 const onConsentAllowed = () => {
   const file = posterPending.value
 
+  giveConsent()
   posterPending.value = undefined
   if (file) readPoster(file)
 }

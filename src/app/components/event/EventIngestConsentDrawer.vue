@@ -32,10 +32,8 @@ const isOpen = defineModel<boolean>()
 
 const { t } = useI18n()
 const localePath = useLocalePath()
-const { give } = useEventIngestConsent()
 
 const allow = () => {
-  give()
   isOpen.value = false
   emit('allowed')
 }
