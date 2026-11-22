@@ -1,3 +1,9 @@
+## [17.41.0](https://github.com/maevsi/vibetype/compare/17.40.0...17.41.0) (2026-11-22)
+
+### Features
+
+* **event:** show its state ([#2780](https://github.com/maevsi/vibetype/issues/2780)) ([3b6b13c](https://github.com/maevsi/vibetype/commit/3b6b13c921703e7ebeb773594670114bb68d9077))
+
 ## [17.40.0](https://github.com/maevsi/vibetype/compare/17.39.0...17.40.0) (2026-11-22)
 
 ### Features
