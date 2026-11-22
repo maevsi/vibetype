@@ -1,8 +1,10 @@
 <template>
   <div :class="cn('flex flex-1 flex-col', classProps)">
-    <AppAlert v-if="errorMessages.length" variant="error">
-      <AppSpanList :span="errorMessages" />
-    </AppAlert>
+    <LoaderError
+      v-if="errorMessages.length"
+      :messages="errorMessages"
+      @retry="api.retry()"
+    />
     <slot v-if="hasData" />
     <template v-else-if="api.isFetching">
       <LoaderPage v-if="isPage" />

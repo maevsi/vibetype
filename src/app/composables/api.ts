@@ -27,6 +27,12 @@ export const useApiData = async <
         query.error.value ? [query.error.value] : [],
       ),
       isFetching: queries.some((query) => query.fetching.value),
+      // mutations are left out, as repeating one could apply it twice
+      retry: () =>
+        queries.forEach((query) => {
+          if ('executeQuery' in query && query.error.value)
+            query.executeQuery({ requestPolicy: 'network-only' })
+        }),
     }),
   )
 
