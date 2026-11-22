@@ -216,6 +216,7 @@ const checkOutMutation = useMutation(
           id
           checkedOut
           rowId
+          updatedAt
         }
       }
     }
