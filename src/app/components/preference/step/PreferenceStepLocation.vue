@@ -250,10 +250,10 @@ useApiErrorModel({
 <i18n lang="yaml">
 de:
   button: Weiter
-  description: "@.upper:{'globalSiteName'} schlägt dir gelegentlich auch Events außerhalb dieses Gebiets vor, wenn sie für dich relevant sind."
+  description: "@.upper:{'globalSiteName'} schlägt dir gelegentlich auch Veranstaltungen außerhalb dieses Gebiets vor, wenn sie für dich relevant sind."
   radius: 'Umkreis: {radius}'
-  title: Wo sollen wir nach Events für dich suchen?
-  # title: Finde lokale Events, die zu deinem Vibe passen.
+  title: Wo sollen wir nach Veranstaltungen für dich suchen?
+  # title: Finde lokale Veranstaltungen, die zu deinem Vibe passen.
 en:
   button: Next
   description: "@.upper:{'globalSiteName'} suggests events outside of this area from time to time too when they're relevant for you."

@@ -154,6 +154,48 @@
 * **session:** require the csrf token to sign out ([#2689](https://github.com/maevsi/vibetype/issues/2689)) ([82bd74a](https://github.com/maevsi/vibetype/commit/82bd74aa72beefb048cdb99d51ee53af7aa93c6a))
 * **terms:** describe content moderation and remove invalid clauses ([#2698](https://github.com/maevsi/vibetype/issues/2698)) ([31bafbd](https://github.com/maevsi/vibetype/commit/31bafbda9b379448549cf312df607b7c0c447748))
 
+## [17.40.0](https://github.com/maevsi/vibetype/compare/17.39.0...17.40.0) (2026-11-22)
+
+### Features
+
+* **event:** order form and legal settings by relevance ([#2799](https://github.com/maevsi/vibetype/issues/2799)) ([3e328e5](https://github.com/maevsi/vibetype/commit/3e328e5130d087cb117f8e4edfc03bccc906434f))
+
+## [17.39.0](https://github.com/maevsi/vibetype/compare/17.38.0...17.39.0) (2026-11-22)
+
+### Features
+
+* **event:** search an account's events and list the ones you attend ([#2794](https://github.com/maevsi/vibetype/issues/2794)) ([1406a63](https://github.com/maevsi/vibetype/commit/1406a63edf18d0f2552888c636fdc61199f99252))
+
+### Bug Fixes
+
+* **docker:** forward stop signals to the server ([#2795](https://github.com/maevsi/vibetype/issues/2795)) ([9ef5cb7](https://github.com/maevsi/vibetype/commit/9ef5cb7c09e7b702640347add3566c4e18dfb906))
+* **error:** explain missing events and denied access in error pages ([#2797](https://github.com/maevsi/vibetype/issues/2797)) ([94edfa9](https://github.com/maevsi/vibetype/commit/94edfa951d3cfbafedd0fdc337089b1a068bbe55))
+* **event:** end an event without an end at its start ([#2796](https://github.com/maevsi/vibetype/issues/2796)) ([8edf517](https://github.com/maevsi/vibetype/commit/8edf517f09da48bffee892735ef1832576fb188e))
+* **i18n:** call events Veranstaltungen throughout the german copy ([#2798](https://github.com/maevsi/vibetype/issues/2798)) ([73b7c45](https://github.com/maevsi/vibetype/commit/73b7c450381c8fd353d2e3ed0e3f60948129b9ba))
+
+## [17.38.0](https://github.com/maevsi/vibetype/compare/17.37.0...17.38.0) (2026-11-22)
+
+### Features
+
+* **ui:** guide users out of empty and error states ([#2793](https://github.com/maevsi/vibetype/issues/2793)) ([d5f39c7](https://github.com/maevsi/vibetype/commit/d5f39c777385fd90b2fb21b59b91fa97778c3958))
+
+## [17.37.0](https://github.com/maevsi/vibetype/compare/17.36.1...17.37.0) (2026-11-22)
+
+### Features
+
+* **event:** name the weekday only for the coming week ([#2791](https://github.com/maevsi/vibetype/issues/2791)) ([4a72e90](https://github.com/maevsi/vibetype/commit/4a72e905c9d5874dc22a561bf9e4c3c054bc19a7))
+* **feature-flag:** describe each flag and mark flagged tiles and map controls ([#2788](https://github.com/maevsi/vibetype/issues/2788)) ([5192567](https://github.com/maevsi/vibetype/commit/51925676619569af06a479a31dfee0017271d663))
+
+### Bug Fixes
+
+* **app:** type route props without the typed route union ([#2784](https://github.com/maevsi/vibetype/issues/2784)) ([4762dfe](https://github.com/maevsi/vibetype/commit/4762dfeae0e6818559d2c8cf787bc67622ea5191))
+
+## [17.36.1](https://github.com/maevsi/vibetype/compare/17.36.0...17.36.1) (2026-11-22)
+
+### Bug Fixes
+
+* **map:** make location search explicit ([#2782](https://github.com/maevsi/vibetype/issues/2782)) ([4fe7070](https://github.com/maevsi/vibetype/commit/4fe7070f7b278b1fa4588fe0ef959d09d559c5c7))
+
 ## [17.36.0](https://github.com/maevsi/vibetype/compare/17.35.0...17.36.0) (2026-11-21)
 
 ### Features

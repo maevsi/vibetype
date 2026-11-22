@@ -215,10 +215,10 @@ de:
   buttonReportConfirmationBlock: Veranstalter blockieren
   buttonReportSubmit: Meldung einreichen
   contentBlockConfirmation: Der Benutzer {'@'}{username} wurde blockiert.
-  contentReportConfirmation: Vielen Dank für die Meldung. Wir werden sie prüfen und dich über unsere Entscheidung benachrichtigen. Du kannst nun den Organisator {'@'}{username} blockieren oder zur Event-Seite zurückkehren.
+  contentReportConfirmation: Vielen Dank für die Meldung. Wir werden sie prüfen und dich über unsere Entscheidung benachrichtigen. Du kannst nun den Organisator {'@'}{username} blockieren oder zur Veranstaltungsseite zurückkehren.
   errorBlock: Der Benutzer konnte nicht blockiert werden
   titleBlockConfirmation: Benutzer blockiert
-  titleReport: Event melden
+  titleReport: Veranstaltung melden
   titleReportConfirmation: Meldung erhalten
 en:
   buttonBlockConfirmation: Back to Dashboard

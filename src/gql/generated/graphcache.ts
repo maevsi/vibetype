@@ -6108,6 +6108,8 @@ export type Query = Node & {
   eventFormatMappingByEventIdAndFormatId?: Maybe<EventFormatMapping>
   /** Add a function that returns the maximum guest count of an accessible event. */
   eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
+  /** Lists public in-person events within the given radius in meters around the given coordinates, nearest first. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
+  eventNearby?: Maybe<EventConnection>
   /** Reads a single `EventRecommendation` using its globally unique `ID`. */
   eventRecommendation?: Maybe<EventRecommendation>
   /** Get a single `EventRecommendation`. */
@@ -6777,6 +6779,17 @@ export type QueryEventFormatMappingByEventIdAndFormatIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryEventGuestCountMaximumArgs = {
   eventId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventNearbyArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  includeEnded?: InputMaybe<Scalars['Boolean']['input']>
+  latitude?: InputMaybe<Scalars['Float']['input']>
+  longitude?: InputMaybe<Scalars['Float']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  radius?: InputMaybe<Scalars['Float']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -8644,6 +8657,11 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryEventGuestCountMaximumArgs,
       Scalars['Int']['output'] | string
+    >
+    eventNearby?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventNearbyArgs,
+      WithTypename<EventConnection> | string
     >
     eventRecommendation?: GraphCacheResolver<
       WithTypename<Query>,
@@ -13861,6 +13879,10 @@ export type GraphCacheUpdaters = {
     eventGuestCountMaximum?: GraphCacheUpdateResolver<
       { eventGuestCountMaximum: Maybe<Scalars['Int']['output']> },
       QueryEventGuestCountMaximumArgs
+    >
+    eventNearby?: GraphCacheUpdateResolver<
+      { eventNearby: Maybe<WithTypename<EventConnection>> },
+      QueryEventNearbyArgs
     >
     eventRecommendation?: GraphCacheUpdateResolver<
       { eventRecommendation: Maybe<WithTypename<EventRecommendation>> },

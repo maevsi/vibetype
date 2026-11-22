@@ -2,11 +2,11 @@
   <Loader :api is-page>
     <AppError
       v-if="!account"
-      :error="{ message: t('errorAccountMissing'), status: 404 }"
+      :error="{ data: { vibetype: t('errorAccountMissing') }, status: 404 }"
     />
     <AppError
       v-else-if="!event"
-      :error="{ message: t('errorEventMissing'), status: 404 }"
+      :error="{ data: { vibetype: t('errorEventMissing') }, status: 404 }"
     />
     <div v-else class="flex flex-1 flex-col">
       <!-- the event's name below is the page's heading -->
@@ -488,7 +488,11 @@ const description = computed(() =>
 const title = computed(() => {
   if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
-    showAppError({ status: 404, message: 'Event unavailable' })
+    showAppError({
+      data: { vibetype: t('errorEventMissing') },
+      message: 'Event unavailable',
+      status: 404,
+    })
     return
   }
 
@@ -574,8 +578,8 @@ de:
   delete: Veranstaltung löschen
   details: Details
   edit: Veranstaltung bearbeiten
-  errorAccountMissing: Nutzerkonto nicht verfügbar
-  errorEventMissing: Veranstaltung nicht verfügbar
+  errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
   invite: Einladen
@@ -592,8 +596,8 @@ en:
   delete: Delete event
   details: Details
   edit: Edit event
-  errorAccountMissing: Account not available
-  errorEventMissing: Event not available
+  errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
+  errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorTemplate: value available in invitation only
   guests: Guests
   invite: Invite

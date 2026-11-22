@@ -109,7 +109,7 @@ const form = useForm({
 
 <i18n lang="yaml">
 de:
-  drawerDescription: Warum möchtest du dieses Event melden?
+  drawerDescription: Warum möchtest du diese Veranstaltung melden?
   drawerRadioDrugs: Drogenmissbrauch
   drawerRadioNudity: Nacktheit
   drawerRadioOther: Anderes

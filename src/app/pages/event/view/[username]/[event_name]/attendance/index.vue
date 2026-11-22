@@ -102,11 +102,19 @@ const title = computed(() => {
     store.signedInUsername &&
     route.params.username !== store.signedInUsername
   ) {
-    showAppError({ status: 403, message: 'Permission denied' })
+    showAppError({
+      data: { vibetype: t('errorPermissionDenied') },
+      message: 'Permission denied',
+      status: 403,
+    })
     return
   }
   if (!event.value) {
-    showAppError({ status: 404, message: 'Event unavailable' })
+    showAppError({
+      data: { vibetype: t('errorEventMissing') },
+      message: 'Event unavailable',
+      status: 404,
+    })
     return
   }
 
@@ -291,13 +299,15 @@ const isNfcError = computed(() => {
 <i18n lang="yaml">
 de:
   errorAttendanceCreate: Beim Erstellen der Anwesenheit ist ein Fehler aufgetreten.
-  errorTagSerialNumberSave: Die Seriennummer des Tags konnte nicht gespeichert werden.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorNavigatorPermissionsNotSupported: Navigator-Berechtigungen werden nicht unterstützt! {hintUpdateOrChrome}
   errorNfcAbort: Der NFC-Scan wurde unterbrochen! {hintTryAgain}
   errorNfcNetwork: Die NFC-Übertragung wurde unterbrochen! {hintTryAgain}
   errorNfcNotAllowed: Berechtigung zum NFC-Zugriff fehlt! {hintBrowserSettings}
   errorNfcNotReadable: Zugriff auf den NFC-Adapter nicht möglich. Wird er von einem anderen Programm verwendet?
   errorNfcNotSupported: Es wurde kein kompatibler NFC-Adapter gefunden. {hintUpdateOrChrome}
+  errorPermissionDenied: Nur wer diese Veranstaltung organisiert, kann diese Seite öffnen. Wenn es deine Veranstaltung ist, melde dich mit dem Konto an, mit dem du sie erstellt hast.
+  errorTagSerialNumberSave: Die Seriennummer des Tags konnte nicht gespeichert werden.
   hintBrowserSettings: Sieh in deinen Browser-Einstellungen nach.
   hintUpdateOrChrome: Versuche deinen Browser zu aktualisieren oder Google Chrome zu verwenden.
   hintTryAgain: Versuch es noch einmal.
@@ -308,13 +318,15 @@ de:
   title: Check-in
 en:
   errorAttendanceCreate: Failed to create attendance.
-  errorTagSerialNumberSave: Failed to save the tag's serial number.
+  errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorNavigatorPermissionsNotSupported: Navigator permissions are not supported! {hintUpdateOrChrome}
   errorNfcAbort: The NFC scan was interrupted! {hintTryAgain}
   errorNfcNetwork: The NFC transmission was interrupted! {hintTryAgain}
   errorNfcNotAllowed: Need NFC access permission! {hintBrowserSettings}
   errorNfcNotReadable: Could not access NFC adapter. Is it in use by another program right now?
   errorNfcNotSupported: No compatible NFC adapter was found. {hintUpdateOrChrome}
+  errorPermissionDenied: Only the organizer of this event can open this page. If it's your event, sign in with the account that created it.
+  errorTagSerialNumberSave: Failed to save the tag's serial number.
   hintBrowserSettings: Check your browser settings.
   hintTryAgain: Try again.
   hintUpdateOrChrome: Try updating your browser or use Google Chrome.

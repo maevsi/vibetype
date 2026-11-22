@@ -43,6 +43,7 @@
               cn(
                 'w-full flex-col justify-center gap-1 px-2 py-3 text-body-small',
                 filter === option.value && 'ring-2 ring-action-primary',
+                'isFlagged' in option && 'feature-preview',
               )
             "
             size="none"
@@ -67,7 +68,27 @@
       :is-loading="!isWithoutData && api.isFetching && !events"
       :is-map-visible
       @load-more="loadMore"
-    />
+    >
+      <template #empty>
+        <AppEmptyState
+          :description="emptyState.description"
+          :title="emptyState.title"
+        >
+          <template #icon>
+            <component :is="emptyState.icon" />
+          </template>
+          <AppButton
+            v-for="(action, index) in emptyState.actions"
+            :key="action.label"
+            :aria-label="action.label"
+            :to="action.to"
+            :variant="index ? 'secondary' : 'primary'"
+          >
+            {{ action.label }}
+          </AppButton>
+        </AppEmptyState>
+      </template>
+    </EventList>
   </div>
 </template>
 
@@ -79,8 +100,9 @@ const { t } = useI18n()
 
 // compiler
 
-const { isMapVisible = false } = defineProps<{
+const { isMapVisible = false, search = undefined } = defineProps<{
   isMapVisible?: boolean
+  search?: string
 }>()
 
 const queryEvents = graphql(`
@@ -243,12 +265,14 @@ const isAttendingEnabled = isFeatureEnabled('event-attending')
 const isDraftsEnabled = isFeatureEnabled('event-drafts')
 // `AppFeature` would show an unflagged tile with a striped overlay in
 // development, which a tile in a grid cannot carry, so the flags decide here
+// and a flagged tile carries the stripes itself
 const filterOptions = computed(() => [
   ...(isAttendingEnabled.value
     ? [
         {
           color: 'text-green-600',
           icon: resolveComponent('AppIconCheckCircle'),
+          isFlagged: true,
           label: t('attending'),
           value: 'attending',
         } as const,
@@ -271,6 +295,7 @@ const filterOptions = computed(() => [
         {
           color: 'text-warning',
           icon: resolveComponent('AppIconEdit'),
+          isFlagged: true,
           label: t('drafts'),
           value: 'drafts',
         } as const,
@@ -278,8 +303,8 @@ const filterOptions = computed(() => [
     : []),
 ])
 const timeOptions = [
-  { label: t('upcoming'), value: 'upcoming' },
   { label: t('past'), value: 'past' },
+  { label: t('upcoming'), value: 'upcoming' },
 ] as const
 const route = useRoute()
 const store = useStore()
@@ -317,13 +342,80 @@ const getQuery = (override: { filter?: string; time?: string }) => {
   }
 }
 
+// empty state
+const localePath = useLocalePath()
+const emptyState = computed(() => {
+  const create = { label: t('emptyCreate'), to: localePath('event-create') }
+  const discover = { label: t('emptyDiscover'), to: localePath('event') }
+  const showUpcoming = {
+    label: t('emptyShowUpcoming'),
+    to: { query: getQuery({ time: 'upcoming' }) },
+  }
+  const isPast = time.value === 'past'
+
+  switch (filter.value) {
+    case 'attending':
+      return isPast
+        ? {
+            actions: [showUpcoming],
+            description: t('emptyAttendingPastDescription'),
+            icon: resolveComponent('AppIconCheckCircle'),
+            title: t('emptyAttendingPastTitle'),
+          }
+        : {
+            actions: [
+              discover,
+              { label: t('emptyInvitations'), to: localePath('guest') },
+            ],
+            description: t('emptyAttendingUpcomingDescription'),
+            icon: resolveComponent('AppIconCheckCircle'),
+            title: t('emptyAttendingUpcomingTitle'),
+          }
+    case 'drafts':
+      return {
+        actions: [create],
+        description: t('emptyDraftsDescription'),
+        icon: resolveComponent('AppIconEdit'),
+        title: t('emptyDraftsTitle'),
+      }
+    case 'saved':
+      return isPast
+        ? {
+            actions: [showUpcoming],
+            description: t('emptySavedPastDescription'),
+            icon: resolveComponent('AppIconHeart'),
+            title: t('emptySavedPastTitle'),
+          }
+        : {
+            actions: [discover],
+            description: t('emptySavedUpcomingDescription'),
+            icon: resolveComponent('AppIconHeart'),
+            title: t('emptySavedUpcomingTitle'),
+          }
+    default:
+      return isPast
+        ? {
+            actions: [showUpcoming],
+            description: t('emptyHostingPastDescription'),
+            icon: resolveComponent('AppIconCalendar'),
+            title: t('emptyHostingPastTitle'),
+          }
+        : {
+            actions: [create],
+            description: t('emptyHostingUpcomingDescription'),
+            icon: resolveComponent('AppIconCalendar'),
+            title: t('emptyHostingUpcomingTitle'),
+          }
+  }
+})
+
 // api data
 const eventsAfter = ref<string | null>()
 const savedVisibleCount = ref(ITEMS_PER_PAGE)
-// resets the paging with the filter and the time, synchronously so the query
-// never runs with the new condition and the old cursor
+// resets the paging with the filter, the time and the search, synchronously so
+// the query never runs with them changed and the old cursor
 watch(
-  [filter, time],
+  [filter, time, () => search],
   () => {
     eventsAfter.value = undefined
     savedVisibleCount.value = ITEMS_PER_PAGE
@@ -335,13 +427,13 @@ const eventsApi = useApiQuery({
   query: queryEvents,
   variables: computed(() => ({
     after: eventsAfter.value,
-    condition:
-      filter.value === 'attending'
-        ? { hasEnded: time.value === 'past', isAttending: true }
-        : {
-            createdBy: store.signedInAccountId ?? '',
-            hasEnded: time.value === 'past',
-          },
+    condition: {
+      ...(filter.value === 'attending'
+        ? { isAttending: true }
+        : { createdBy: store.signedInAccountId ?? '' }),
+      hasEnded: time.value === 'past',
+      ...(search ? { search } : {}),
+    },
     first: ITEMS_PER_PAGE,
     orderBy:
       time.value === 'past' ? ('START_DESC' as const) : ('START_ASC' as const),
@@ -363,9 +455,17 @@ const savedEvents = computed(() => {
 
   if (!nodes) return
 
+  // Deliberate shortcut: the saved events are matched by name in the browser, without the server's word stems and typo tolerance, as they are filtered here anyway; the SQL function named above would let the server search them too
+  const searchLowerCase = search?.toLocaleLowerCase()
+
   // like the server's `hasEnded`, an event without an end ends at its start
   return nodes
     .flatMap((node) => (node.eventByEventId ? [node.eventByEventId] : []))
+    .filter(
+      (event) =>
+        !searchLowerCase ||
+        event.name.toLocaleLowerCase().includes(searchLowerCase),
+    )
     .filter(
       (event) =>
         new Date(event.end ?? event.start) <= now.value ===
@@ -407,6 +507,24 @@ const loadMore = () => {
 de:
   attending: Dabei
   drafts: Entwürfe
+  emptyAttendingPastDescription: Veranstaltungen, bei denen du dabei warst, erscheinen hier, sobald sie vorbei sind.
+  emptyAttendingPastTitle: Keine vergangenen Veranstaltungen, bei denen du warst
+  emptyAttendingUpcomingDescription: Veranstaltungen, für die du eine Einladung annimmst oder denen du beitrittst, erscheinen hier.
+  emptyAttendingUpcomingTitle: Du bist noch bei nichts dabei
+  emptyCreate: Veranstaltung planen
+  emptyDiscover: Veranstaltungen entdecken
+  emptyDraftsDescription: Veranstaltungen, die du beginnst, aber noch nicht veröffentlichst, werden hier aufbewahrt.
+  emptyDraftsTitle: Keine Entwürfe
+  emptyHostingPastDescription: Veranstaltungen, die du organisiert hast, erscheinen hier, sobald sie vorbei sind.
+  emptyHostingPastTitle: Keine vergangenen Veranstaltungen von dir
+  emptyHostingUpcomingDescription: Plane eine Veranstaltung und lade deine Leute ein. Sie erscheint dann hier.
+  emptyHostingUpcomingTitle: Du veranstaltest noch nichts
+  emptyInvitations: Einladungen
+  emptySavedPastDescription: Gemerkte Veranstaltungen wandern hierher, sobald sie vorbei sind.
+  emptySavedPastTitle: Keine vergangenen gemerkten Veranstaltungen
+  emptySavedUpcomingDescription: Tippe bei einer Veranstaltung auf das Herz, um sie hier für später aufzuheben.
+  emptySavedUpcomingTitle: Noch nichts gemerkt
+  emptyShowUpcoming: Bevorstehende anzeigen
   filterLabel: Filter
   hosting: Von dir
   past: Vergangen
@@ -416,6 +534,24 @@ de:
 en:
   attending: Going
   drafts: Drafts
+  emptyAttendingPastDescription: Events you attended appear here once they're over.
+  emptyAttendingPastTitle: No past events you went to
+  emptyAttendingUpcomingDescription: Events you accept an invitation to or join show up here.
+  emptyAttendingUpcomingTitle: You're not going to anything yet
+  emptyCreate: Plan an event
+  emptyDiscover: Discover events
+  emptyDraftsDescription: Events you start but don't publish yet are kept here.
+  emptyDraftsTitle: No drafts
+  emptyHostingPastDescription: Events you hosted appear here once they're over.
+  emptyHostingPastTitle: No past events you hosted
+  emptyHostingUpcomingDescription: Plan an event and invite your people. It shows up here.
+  emptyHostingUpcomingTitle: You're not hosting anything yet
+  emptyInvitations: Invitations
+  emptySavedPastDescription: Saved events move here once they're over.
+  emptySavedPastTitle: No past saved events
+  emptySavedUpcomingDescription: Tap the heart on any event to keep it here for later.
+  emptySavedUpcomingTitle: Nothing saved yet
+  emptyShowUpcoming: Show upcoming
   filterLabel: Filter
   hosting: Hosting
   past: Past

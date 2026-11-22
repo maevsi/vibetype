@@ -115,7 +115,11 @@ const { t } = useI18n()
 const title = computed(() => {
   if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
-    showAppError({ status: 404, message: 'Event unavailable' })
+    showAppError({
+      data: { vibetype: t('errorEventMissing') },
+      message: 'Event unavailable',
+      status: 404,
+    })
     return
   }
 
@@ -128,9 +132,11 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
   title: Veranstaltung bearbeiten
   titleDelete: Veranstaltung löschen
 en:
+  errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   title: Edit event
   titleDelete: Delete event
 </i18n>
