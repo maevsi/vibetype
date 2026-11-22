@@ -463,7 +463,7 @@ const templateIdUpcoming = useId()
 
 <i18n lang="yaml">
 de:
-  discover: Events entdecken
+  discover: Veranstaltungen entdecken
   hunt: Jagd
   notifications: Benachrichtigungen
   posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
@@ -474,17 +474,17 @@ de:
   preferenceAction: KI einrichten
   preferenceDescription: Sag uns, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen.
   preferenceTitle: Stell Deinen Vibe ein
-  recommendationEmptyDescription: Wir schlagen dir Events vor, sobald welche zu deinem Vibe passen. Stöbere in der Zwischenzeit durch das Angebot.
-  recommendationEmptyDescriptionPreference: Sag uns, was du magst, und wir schlagen dir passende Events vor.
+  recommendationEmptyDescription: Wir schlagen dir Veranstaltungen vor, sobald welche zu deinem Vibe passen. Stöbere in der Zwischenzeit durch das Angebot.
+  recommendationEmptyDescriptionPreference: Sag uns, was du magst, und wir schlagen dir passende Veranstaltungen vor.
   recommendationEmptyTitle: Noch keine Empfehlungen
   recommendationTitle: Das solltest Du nicht verpassen
   seeAll: Alle ansehen
   title: Dashboard
   topPickTitle: Dein Top-Tipp
-  upcomingCreate: Event planen
-  upcomingEmptyDescription: Plane dein eigenes Event oder finde eins zum Mitmachen.
+  upcomingCreate: Veranstaltung planen
+  upcomingEmptyDescription: Plane deine eigene Veranstaltung oder finde eine zum Mitmachen.
   upcomingEmptyTitle: Noch nichts geplant
-  upcomingTitle: Dein nächstes Event
+  upcomingTitle: Deine nächste Veranstaltung
 en:
   discover: Discover new events
   hunt: Hunt

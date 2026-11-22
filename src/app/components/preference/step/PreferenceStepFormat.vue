@@ -229,7 +229,7 @@ de:
   formatParty: Party
   formatSeminar: Seminar
   formatWorkshop: Workshop
-  title: Wähle deine bevorzugten Event-Formate!
+  title: Wähle deine bevorzugten Veranstaltungsformate!
 en:
   button: Next
   description: Whether it's a cozy gathering or a lively festival, we'd love to hear your favorites! Just share some of your top picks.

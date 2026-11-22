@@ -388,10 +388,10 @@ watch(searchQueryVariable, async () => {
 
 <i18n lang="yaml">
 de:
-  emptyCreate: Event planen
-  emptyDescription: 'Sei die erste Person: Plane dein eigenes Event oder füge eins hinzu, das du auf einem Plakat entdeckt hast.'
+  emptyCreate: Veranstaltung planen
+  emptyDescription: 'Sei die erste Person: Plane deine eigene Veranstaltung oder füge eine hinzu, die du auf einem Plakat entdeckt hast.'
   emptyHunt: Plakat jagen
-  emptyTitle: Noch keine bevorstehenden Events
+  emptyTitle: Noch keine bevorstehenden Veranstaltungen
   searchClear: Suche zurücksetzen
   searchEmptyDescription: Prüfe die Schreibweise oder versuche ein allgemeineres Wort, zum Beispiel eine Stadt oder eine Kategorie.
   searchEmptyTitle: Nichts passt zu „{query}“

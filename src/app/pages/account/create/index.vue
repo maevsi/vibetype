@@ -513,7 +513,7 @@ de:
   privacyNoticeSuffix: .
   privacyPolicy: Datenschutzerklärung
   signInLink: Anmelden
-  subtitleAge: Für den richtigen Vibe und deine Sicherheit zeigt dir Vibetype nur Events, die zu deinem Alter passen.
+  subtitleAge: Für den richtigen Vibe und deine Sicherheit zeigt dir Vibetype nur Veranstaltungen, die zu deinem Alter passen.
   subtitleEmail: Wir verwenden sie, um dir einen Bestätigungslink zu senden und dein Konto zu sichern.
   subtitlePassword: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
   subtitleUsername: Dieser Name wird anderen Nutzern angezeigt.
