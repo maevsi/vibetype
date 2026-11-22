@@ -97,9 +97,9 @@ const contactName = computed(() =>
 de:
   invited: Eingeladen als {name}
   organizer: "Organisiert von {'@'}{username}"
-  unavailable: Zu diesem Code ist keine Einladung verfügbar.
+  unavailable: Zu diesem Code passt keine Einladung. Vielleicht gehört er zu einer anderen Veranstaltung. Bitte den Gast, die Einladung erneut zu öffnen.
 en:
   invited: Invited as {name}
   organizer: "Organized by {'@'}{username}"
-  unavailable: No invitation is available for this code.
+  unavailable: No invitation matches this code. It may belong to another event. Ask the guest to open their invitation again.
 </i18n>

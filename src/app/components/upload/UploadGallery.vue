@@ -6,6 +6,9 @@
     }"
   >
     <AppCard>
+      <p v-if="!uploads?.length" class="text-center text-body-small text-fg-2">
+        {{ t('emptyHint') }}
+      </p>
       <ul class="flex flex-wrap items-center justify-center">
         <template v-if="uploads?.length">
           <li
@@ -440,25 +443,27 @@ const onUploadSubmit = async () => {
 
 <i18n lang="yaml">
 de:
+  emptyHint: Lade Bilder hoch, um sie als Profilbild zu verwenden.
   iconAdd: 'Ein neues Bild hochladen. Genutzter Speicherplatz: {sizeUsed}/{sizeTotal}.'
   iconTrash: löschen
   iconTrashLabel: Dieses hochgeladene Bild löschen.
-  postgres53100: Der Speicherplatz deines Accounts ist aufgebraucht!
+  postgres53100: Dein Speicherplatz ist voll. Lösche Bilder, die du nicht mehr brauchst, um Platz zu schaffen.
   upload: Hochladen
   uploadAlt: Ein hochgeladenes Bild.
   uploadAltFailed: Ein Bild, das nicht vollständig hochgeladen wurde.
-  uploadError: 'Fehler: Dateien wurden nicht erfolgreich hochgeladen!'
+  uploadError: Das Hochladen ist fehlgeschlagen. Prüfe deine Verbindung und versuche es erneut.
   uploadNew: Lade ein neues Bild hoch
   uploadSize: 'Größe: {size}'
 en:
+  emptyHint: Upload images to use them as your profile picture.
   iconAdd: 'Upload a new image. Used storage space: {sizeUsed}/{sizeTotal}.'
   iconTrash: trash
   iconTrashLabel: Delete this image upload.
-  postgres53100: Your account storage space has been used up!
+  postgres53100: Your storage is full. Delete images you no longer need to free up space.
   upload: Upload
   uploadAlt: An uploaded image.
   uploadAltFailed: "An image which hasn't been fully uploaded."
-  uploadError: 'Error: Upload failed!'
+  uploadError: The upload failed. Check your connection and try again.
   uploadNew: Upload a new image
   uploadSize: 'Size: {size}'
 </i18n>
