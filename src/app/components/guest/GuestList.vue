@@ -111,10 +111,7 @@
           :description="t('guestNoneFilteredDescription')"
           :title="t('guestNoneFilteredTitle')"
         >
-          <AppButton
-            :aria-label="t('guestShowAll')"
-            @click="showAll"
-          >
+          <AppButton :aria-label="t('guestShowAll')" @click="showAll">
             {{ t('guestShowAll') }}
           </AppButton>
         </AppEmptyState>
