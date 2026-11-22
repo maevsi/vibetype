@@ -1,17 +1,10 @@
 import { graphql } from '~~/gql/generated'
 
-// Events without an explicit `end` are assumed to last this long from `start`
-// when deciding whether they've ended, matching typical event durations.
-const EVENT_END_GRACE_PERIOD_MS = 12 * 60 * 60 * 1000
-
+// like the server's `has_ended`, an event without an end ends at its start, following RFC 5545
 export const eventHasEnded = (
   event: { end?: string | null; start: string },
   now: Date,
-): boolean =>
-  event.end
-    ? now >= new Date(event.end)
-    : now >=
-      new Date(new Date(event.start).getTime() + EVENT_END_GRACE_PERIOD_MS)
+): boolean => now >= new Date(event.end ?? event.start)
 
 // Shared field-shape contract for `Event` data drilled through many
 // components (see `Pick<EventItemFragment, ...>` usages). Not spread into
