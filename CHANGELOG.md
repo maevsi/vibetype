@@ -1,3 +1,16 @@
+## [17.39.0](https://github.com/maevsi/vibetype/compare/17.38.0...17.39.0) (2026-11-22)
+
+### Features
+
+* **event:** search an account's events and list the ones you attend ([#2794](https://github.com/maevsi/vibetype/issues/2794)) ([1406a63](https://github.com/maevsi/vibetype/commit/1406a63edf18d0f2552888c636fdc61199f99252))
+
+### Bug Fixes
+
+* **docker:** forward stop signals to the server ([#2795](https://github.com/maevsi/vibetype/issues/2795)) ([9ef5cb7](https://github.com/maevsi/vibetype/commit/9ef5cb7c09e7b702640347add3566c4e18dfb906))
+* **error:** explain missing events and denied access in error pages ([#2797](https://github.com/maevsi/vibetype/issues/2797)) ([94edfa9](https://github.com/maevsi/vibetype/commit/94edfa951d3cfbafedd0fdc337089b1a068bbe55))
+* **event:** end an event without an end at its start ([#2796](https://github.com/maevsi/vibetype/issues/2796)) ([8edf517](https://github.com/maevsi/vibetype/commit/8edf517f09da48bffee892735ef1832576fb188e))
+* **i18n:** call events Veranstaltungen throughout the german copy ([#2798](https://github.com/maevsi/vibetype/issues/2798)) ([73b7c45](https://github.com/maevsi/vibetype/commit/73b7c450381c8fd353d2e3ed0e3f60948129b9ba))
+
 ## [17.38.0](https://github.com/maevsi/vibetype/compare/17.37.0...17.38.0) (2026-11-22)
 
 ### Features
