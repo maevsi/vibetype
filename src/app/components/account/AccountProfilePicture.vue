@@ -73,7 +73,7 @@ const profilePictureUrl = computed(() =>
 
 <i18n lang="yaml">
 de:
-  profilePictureAlt: Profilbild von {username}.
+  profilePictureAlt: Profilbild von {'@'}{username}.
 en:
-  profilePictureAlt: "{username}'s profile picture."
+  profilePictureAlt: "{'@'}{username}'s profile picture."
 </i18n>

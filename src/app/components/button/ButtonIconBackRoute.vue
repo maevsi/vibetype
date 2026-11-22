@@ -2,8 +2,9 @@
   <AppButton
     :aria-label="ariaLabel || t('back')"
     size="none"
+    :to
     variant="ghost"
-    @click="store.navigateBack()"
+    @click="to || store.navigateBack()"
   >
     <slot>
       <AppIconBack />
@@ -12,8 +13,10 @@
 </template>
 
 <script setup lang="ts">
-const { ariaLabel = undefined } = defineProps<{
+const { ariaLabel = undefined, to = undefined } = defineProps<{
   ariaLabel?: string
+  // leaves for this path instead of the previous page
+  to?: string
 }>()
 
 const store = useStore()

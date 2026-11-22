@@ -18,12 +18,19 @@
         <div v-else />
       </template>
       <template v-if="step === 'notification'" #actions>
-        <ButtonIconBackRoute :aria-label="t('iconAltClose')">
-          <AppIconClose />
-        </ButtonIconBackRoute>
+        <AppButton
+          :aria-label="t('skip')"
+          size="small"
+          variant="secondary"
+          @click="step = 'size'"
+        >
+          {{ t('skip') }}
+        </AppButton>
       </template>
       <template
-        v-else-if="['size', 'format', 'category', 'location'].includes(step)"
+        v-else-if="
+          ['default', 'size', 'format', 'category', 'location'].includes(step)
+        "
         #actions
       >
         <AppButton
@@ -40,7 +47,6 @@
       <PreferenceStepWelcome
         v-bind="attributes"
         @next="step = isNotificationStepRequired ? 'notification' : 'size'"
-        @skip="isSkipOpen = true"
       />
     </AppStepPanel>
     <AppStepPanel v-slot="attributes" :is-active="step === 'notification'">
@@ -180,7 +186,6 @@ useHeadDefault({ title })
 de:
   back: Zurück
   errorBack: Zurück zum KI-Setup
-  iconAltClose: Schließen
   skip: Überspringen
   skipCancel: Abbrechen
   skipConfirm: KI-Einrichtung überspringen
@@ -191,7 +196,6 @@ de:
 en:
   back: Back
   errorBack: Back to AI setup
-  iconAltClose: Close
   skip: Skip
   skipCancel: Cancel
   skipConfirm: Skip AI setup

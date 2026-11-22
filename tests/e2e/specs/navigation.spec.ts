@@ -12,6 +12,7 @@ appTest.describe('sign-in gate', () => {
     '/account/edit/someone',
     '/account/view/someone/block',
     '/contact',
+    '/contact/import',
     '/dashboard',
     '/event/edit/someone/some-event',
     '/event/view/someone/some-event/attendance',

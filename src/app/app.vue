@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex h-screen flex-col"
+    class="flex h-full flex-col"
     :data-is-loading="isLoading"
     data-testid="is-loading"
     vaul-drawer-wrapper
@@ -37,16 +37,23 @@
       >
         {{ t('offline') }}
       </AppAlert>
-      <AppModal
+      <AppDrawer
         v-if="!runtimeConfig.public.vio.isTesting"
         v-model="isLockdownModeLikely"
         @close="isLockdownModeDismissed = true"
-        @submit="isLockdownModeLikely = false"
       >
-        <template #header>{{ t('lockdownModeTitle') }}</template>
+        <template #title>{{ t('lockdownModeTitle') }}</template>
         <p>{{ t('lockdownModeDescription') }}</p>
         <p>{{ t('lockdownModeInstructions') }}</p>
-      </AppModal>
+        <template #footer>
+          <AppButton
+            :aria-label="t('ok')"
+            @click="isLockdownModeLikely = false"
+          >
+            {{ t('ok') }}
+          </AppButton>
+        </template>
+      </AppDrawer>
     </ClientOnly>
     <NuxtLoadingIndicator />
     <NuxtAnnouncer />
@@ -230,6 +237,7 @@ de:
   lockdownModeInstructions: "Nimm @.upper:{'globalSiteName'} vom Blockierungsmodus aus: für die App in der Einstellungen-App unter Datenschutz & Sicherheit › Blockierungsmodus › Web-Browsing konfigurieren, für Safari über Seitenmenü › Website-Einstellungen › Blockierungsmodus ausschalten."
   lockdownModeTitle: Blockierungsmodus erkannt
   offline: Du bist offline. Einige Funktionen sind erst wieder verfügbar, wenn deine Internetverbindung zurück ist.
+  ok: OK
 en:
   browserUnsupported: You're using a browser which does not support all features @.upper:{'globalSiteName'} offers. {link}.
   browserUnsupportedLink: Learn more
@@ -237,4 +245,5 @@ en:
   lockdownModeInstructions: "Exclude @.upper:{'globalSiteName'} from Lockdown Mode: for the app, open the Settings app and go to Privacy & Security › Lockdown Mode › Configure Web Browsing; for Safari, use page menu › Website Settings › turn off Lockdown Mode."
   lockdownModeTitle: Lockdown Mode detected
   offline: You're offline. Some features are unavailable until your internet connection is back.
+  ok: OK
 </i18n>

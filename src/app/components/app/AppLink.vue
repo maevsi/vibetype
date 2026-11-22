@@ -9,9 +9,9 @@
     @click="onClick"
   >
     <slot />
-    <ModalExternalLink
+    <AppExternalLinkDrawer
       v-if="isLeavingSite"
-      v-model="isModalExternalLinkOpen"
+      v-model="isDrawerExternalLinkOpen"
       :url="to.toString()"
     />
   </NuxtLink>
@@ -50,7 +50,7 @@ const emit = defineEmits<{
 }>()
 
 // data
-const isModalExternalLinkOpen = ref(false)
+const isDrawerExternalLinkOpen = ref(false)
 
 // computations
 const classComputed = computed(() =>
@@ -72,7 +72,7 @@ const targetComputed = computed(
 const onClick = (event: MouseEvent) => {
   if (isLeavingSite.value) {
     event.preventDefault()
-    isModalExternalLinkOpen.value = true
+    isDrawerExternalLinkOpen.value = true
   }
 
   emit('click', event)

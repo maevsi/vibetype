@@ -54,7 +54,7 @@
               {{ t('upcomingTitle') }}
             </h2>
             <AppLink
-              v-if="menuTargets.events"
+              v-if="eventUpcoming && menuTargets.events"
               class="text-body-small text-link hover:text-link-hover"
               :to="menuTargets.events"
             >
@@ -66,12 +66,20 @@
             :event="eventUpcoming"
             variant="highlight"
           />
-          <p
+          <div
             v-else
-            class="rounded-medium bg-surface-raised p-12 text-center text-fg-2"
+            class="flex flex-col items-center gap-4 rounded-medium bg-surface-raised p-12 text-center text-fg-2"
           >
-            {{ t('upcomingEmpty') }}
-          </p>
+            <p>{{ t('upcomingEmpty') }}</p>
+            <AppButton
+              :aria-label="t('upcomingCreate')"
+              :to="localePath('event-create')"
+              variant="primary"
+            >
+              <AppIconAdd />
+              {{ t('upcomingCreate') }}
+            </AppButton>
+          </div>
         </section>
         <section
           v-if="hasNoPreferences"
@@ -469,6 +477,7 @@ de:
   seeAll: Alle ansehen
   title: Dashboard
   topPickTitle: Dein Top-Tipp
+  upcomingCreate: Event planen
   upcomingEmpty: Noch nichts geplant
   upcomingTitle: Dein nächstes Event
 en:
@@ -488,6 +497,7 @@ en:
   seeAll: See all
   title: Dashboard
   topPickTitle: Your top pick
+  upcomingCreate: Plan an event
   upcomingEmpty: None planned yet
   upcomingTitle: Your next event
 </i18n>

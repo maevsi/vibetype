@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <div
       v-if="event && route.params.username === store.signedInUsername"
       class="flex flex-1 flex-col"

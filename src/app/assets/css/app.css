@@ -14,6 +14,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  html,
+  body,
+  /* stylelint-disable-next-line selector-id-pattern */
+  #__nuxt {
+    height: 100%;
+  }
+
   * {
     font-variant-numeric: lining-nums proportional-nums;
   }

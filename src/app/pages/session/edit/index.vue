@@ -168,7 +168,7 @@ de:
   privacySettings: Datenschutz-Einstellungen
   report: Meldung von Inhalten
   support: Hilfe
-  terms: Allgemeine Geschäftsbedingungen
+  terms: Nutzungsbedingungen
 en:
   bugReport: Issue
   colorScheme: Color scheme
@@ -184,5 +184,5 @@ en:
   privacySettings: Privacy settings
   report: Content Report
   support: Support
-  terms: General Terms and Conditions
+  terms: Terms of Use
 </i18n>
