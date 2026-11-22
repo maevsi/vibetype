@@ -89,7 +89,7 @@ export const useExecuteUrqlRequest = () => {
     if (result.error) {
       const isModerated = result.error.graphQLErrors.some(
         (graphqlError: AppGraphQLError) =>
-          graphqlError.errcode === MODERATION_ERROR_CODE,
+          getGraphQLErrorCode(graphqlError) === MODERATION_ERROR_CODE,
       )
 
       alertError({

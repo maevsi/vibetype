@@ -24,6 +24,13 @@ export const getCombinedErrorMessages = (
   return errorMessages
 }
 
+// PostGraphile v5 reports the code in the extensions, the top-level field is what older responses and test fixtures carry
+export const getGraphQLErrorCode = (graphqlError: AppGraphQLError) => {
+  const code = graphqlError.errcode ?? graphqlError.extensions?.['errcode']
+
+  return typeof code === 'string' ? code : undefined
+}
+
 export const getGraphQLErrorMessage = ({
   graphqlError,
   postgresErrorMap,
@@ -31,7 +38,8 @@ export const getGraphQLErrorMessage = ({
   graphqlError: AppGraphQLError
   postgresErrorMap?: Record<string, string>
 }) =>
-  (postgresErrorMap && postgresErrorMap[`postgres${graphqlError.errcode}`]) ||
+  (postgresErrorMap &&
+    postgresErrorMap[`postgres${getGraphQLErrorCode(graphqlError)}`]) ||
   graphqlError.message
 
 export const getJwtFromResult = <

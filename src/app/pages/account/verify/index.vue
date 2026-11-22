@@ -69,7 +69,7 @@ const result = await accountEmailAddressVerificationMutation.executeMutation({
 // result instead of the generic error page
 const combinedError: AppCombinedError | undefined = result.error
 const codeIsUnknown = combinedError?.graphQLErrors.some(
-  (graphqlError) => graphqlError.errcode === 'P0002',
+  (graphqlError) => getGraphQLErrorCode(graphqlError) === 'P0002',
 )
 
 if (!getResultData(result) && !codeIsUnknown) {

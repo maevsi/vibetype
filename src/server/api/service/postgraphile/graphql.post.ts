@@ -10,39 +10,16 @@ export default defineEventHandler(async (event) => {
     (jwt ? `Bearer ${jwt}` : undefined)
   const body = await readRawBody(event)
 
-  const moderationTexts = getModerationTexts(body)
-
-  // Shortcut: requests sent straight to PostGraphile's public address skip this check, and an OpenAI outage lets text through instead of blocking every event.
-  // Moving the check into a PostGraphile plugin that wraps these mutations would close both gaps.
-  if (moderationTexts.length && openAiClient) {
-    try {
-      // moderation is free of charge (https://platform.openai.com/docs/pricing#moderation)
-      const moderation = await openAiClient.moderations.create({
-        input: moderationTexts,
-        model: 'omni-moderation-latest',
-      })
-
-      if (moderation.results.some((result) => result.flagged))
-        return {
-          errors: [
-            {
-              errcode: MODERATION_ERROR_CODE,
-              message: 'The text contains content that is not allowed.',
-            },
-          ],
-        }
-    } catch (error) {
-      console.error('Text moderation failed', error)
-    }
-  }
-
+  // Errors PostGraphile answers with a status of their own, such as rejected text, carry their GraphQL errors in the body, which a thrown fetch error would replace with a generic one
   const graphql = await event.$fetch('/graphql', {
     baseURL,
     body,
     headers: {
       ...(authorization ? { authorization } : {}),
     },
+    ignoreResponseError: true,
     method: 'POST',
+    onResponse: ({ response }) => setResponseStatus(event, response.status),
   })
 
   return graphql
