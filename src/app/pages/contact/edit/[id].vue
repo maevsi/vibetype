@@ -2,7 +2,7 @@
   <Loader :api is-page>
     <AppError
       v-if="!contact"
-      :error="{ message: t('errorContactMissing'), status: 404 }"
+      :error="{ data: { vibetype: t('errorContactMissing') }, status: 404 }"
     />
     <div v-else class="flex flex-1 flex-col">
       <LayoutTopBar>
@@ -60,9 +60,9 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  errorContactMissing: Kontakt nicht verfügbar
+  errorContactMissing: Dieser Kontakt existiert nicht mehr. Er wurde möglicherweise gelöscht. Alle deine Kontakte findest du in deinem Kontaktbuch.
   title: Kontakt bearbeiten
 en:
-  errorContactMissing: Contact not available
+  errorContactMissing: This contact doesn't exist anymore. It may have been deleted. You can find all your contacts in your contact book.
   title: Edit contact
 </i18n>

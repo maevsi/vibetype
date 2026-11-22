@@ -2,7 +2,7 @@
   <Loader :api is-page>
     <AppError
       v-if="!account"
-      :error="{ message: 'Account data missing', status: 404 }"
+      :error="{ data: { vibetype: t('errorAccountMissing') }, status: 404 }"
     />
     <template v-else>
       <!-- the username below is the page's heading -->
@@ -442,6 +442,7 @@ de:
   blockAccount: Konto blockieren
   contactBook: Kontaktbuch
   edit: Profil bearbeiten
+  errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   eventMore: Alle ansehen
   events: Events
   friendAdd: Freundschaftsanfrage senden
@@ -463,6 +464,7 @@ en:
   blockAccount: Block Account
   contactBook: Contact Book
   edit: Edit profile
+  errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   eventMore: See all
   events: Events
   friendAdd: Send friend request
