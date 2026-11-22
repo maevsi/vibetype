@@ -7,12 +7,14 @@ redis.call('expire', KEYS[1], ARGV[2])
 return n`
 
 export const acquireRateLimitSlot = async ({
+  isFailOpen = true,
   key,
   limit,
   maxWaitMs,
   redis,
   windowSeconds = 1,
 }: {
+  isFailOpen?: boolean
   key: string
   limit: number
   maxWaitMs: number
@@ -41,6 +43,8 @@ export const acquireRateLimitSlot = async ({
       const waitMs = windowMs - (Date.now() % windowMs)
       await new Promise<void>((resolve) => setTimeout(resolve, waitMs))
     } catch (error) {
+      if (!isFailOpen) throw error
+
       console.warn(
         `Rate limiting unavailable for "${key}", proceeding: ${error}`,
       )

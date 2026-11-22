@@ -18,7 +18,7 @@
             ? 'w-auto'
             : variant === 'highlight'
               ? 'w-40'
-              : 'w-24',
+              : 'w-20',
         )
       "
     >
@@ -27,24 +27,36 @@
         :aria-label="t('heroImage')"
         :class="
           cn(
-            'flex w-full items-center justify-center gap-2 rounded-medium bg-surface-raised',
+            'flex w-full items-center justify-center gap-2 bg-surface-raised',
             variant === 'recommendation'
-              ? 'h-64 bg-surface'
+              ? 'aspect-[4/3] max-h-64 rounded-medium bg-surface'
               : variant === 'highlight'
-                ? 'h-30 bg-surface'
-                : 'h-24',
+                ? 'h-30 rounded-pill bg-surface'
+                : 'h-20 gap-1 rounded-pill',
           )
         "
         role="img"
       >
         <EventIconCategory
           v-if="categoryName"
-          :class="cn('size-10', variant === 'recommendation' && 'size-16')"
+          :class="
+            cn(
+              'size-10',
+              !variant && 'size-8',
+              variant === 'recommendation' && 'size-16',
+            )
+          "
           :name="categoryName"
         />
         <EventIconFormat
           v-if="formatName"
-          :class="cn('size-10', variant === 'recommendation' && 'size-16')"
+          :class="
+            cn(
+              'size-10',
+              !variant && 'size-8',
+              variant === 'recommendation' && 'size-16',
+            )
+          "
           :name="formatName"
         />
       </div>
@@ -52,36 +64,34 @@
         v-else
         :alt="t('heroImage')"
         :aspect="
-          variant === 'recommendation'
-            ? 'aspect-[345/259]'
-            : variant === 'highlight'
-              ? 'aspect-[4/3]'
-              : 'aspect-square'
+          variant === 'recommendation' || variant === 'highlight'
+            ? 'aspect-[4/3]'
+            : 'aspect-square'
         "
         :class="
           cn(
-            'w-full rounded-medium object-cover',
+            'w-full object-cover',
             variant === 'recommendation'
-              ? 'h-64'
+              ? 'max-h-64 rounded-medium'
               : variant === 'highlight'
-                ? 'h-30'
-                : 'h-24',
+                ? 'h-30 rounded-pill'
+                : 'h-20 rounded-pill',
           )
         "
         :height="
           variant === 'recommendation'
-            ? '259'
+            ? '300'
             : variant === 'highlight'
               ? '120'
-              : '96'
+              : '80'
         "
         :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
         :width="
           variant === 'recommendation'
-            ? '345'
+            ? '400'
             : variant === 'highlight'
               ? '160'
-              : '96'
+              : '80'
         "
       />
       <EventFavoriteButton
@@ -104,6 +114,49 @@
         <AppIconNetworkIntelligence class="size-5" />
         {{ t('match') }}
       </div>
+      <div
+        v-if="variant === 'recommendation'"
+        aria-hidden="true"
+        class="absolute bottom-3 left-3 flex flex-col items-center rounded-medium bg-surface-raised px-4 py-2"
+      >
+        <AppTime
+          class="text-body-small text-link"
+          :datetime="event.start"
+          :options="{ month: 'short' }"
+        />
+        <AppTime
+          class="text-headline text-fg-1"
+          :datetime="event.start"
+          :options="{ day: 'numeric' }"
+        />
+      </div>
+      <span
+        v-if="!variant && badgeKind"
+        :class="
+          cn(
+            'absolute bottom-1.5 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-small px-2 py-0.5 text-caption whitespace-nowrap text-fg-1',
+            badgeKind === 'draft'
+              ? 'bg-warning-tint'
+              : badgeKind === 'going'
+                ? 'bg-success-tint'
+                : badgeKind === 'saved'
+                  ? 'bg-surface-raised'
+                  : 'bg-info-tint',
+          )
+        "
+      >
+        <AppIconUsers
+          v-if="badgeKind === 'hosting'"
+          aria-hidden="true"
+          class="size-3"
+        />
+        <AppIconHeart
+          v-else-if="badgeKind === 'saved'"
+          aria-hidden="true"
+          class="size-3"
+        />
+        {{ badgeLabel }}
+      </span>
     </div>
     <div
       :class="
@@ -130,33 +183,39 @@
         variant="ghost"
       >
         <span class="absolute inset-0 z-10" />
-        <EventCardTitle>
+        <EventCardTitle :class="!variant && 'text-headline'">
           {{ event.name }}
         </EventCardTitle>
       </AppButton>
-      <EventCardTitle v-else>
+      <EventCardTitle v-else :class="!variant && 'text-headline'">
         {{ event.name }}
       </EventCardTitle>
       <span class="truncate text-body-small text-fg-3">
         <AppTime :datetime="event.start" />
       </span>
-      <span
-        v-if="!variant && (isDraft || isCreator || isGuest)"
-        :class="
-          cn(
-            'mt-1 inline-flex h-6.25 items-center self-start rounded-medium px-3 text-caption text-fg-1',
-            isDraft
-              ? 'bg-warning-tint'
-              : isCreator
-                ? 'bg-info-tint'
-                : 'bg-success-tint',
-          )
-        "
+      <div
+        v-if="distanceText || event.guestCount"
+        class="flex items-center gap-3 text-body-small text-fg-3"
       >
-        <template v-if="isDraft">{{ t('isDraft') }}</template>
-        <template v-else-if="isCreator">{{ t('isCreator') }}</template>
-        <template v-else>{{ t('isGuest') }}</template>
-      </span>
+        <span
+          v-if="distanceText"
+          :aria-label="t('distanceAway', { distance: distanceText })"
+          class="flex min-w-0 items-center gap-1"
+          role="img"
+        >
+          <AppIconMapPin aria-hidden="true" class="size-4 shrink-0" />
+          <span class="truncate">{{ distanceText }}</span>
+        </span>
+        <span
+          v-if="event.guestCount"
+          :aria-label="t('guestCountLabel', event.guestCount)"
+          class="flex items-center gap-1"
+          role="img"
+        >
+          <AppIconUsers aria-hidden="true" class="size-4 shrink-0" />
+          <span>{{ event.guestCount }}</span>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -167,6 +226,7 @@ import type { DeepReadonly } from 'vue'
 import { cn } from '@/utils/shadcn'
 
 // compiler
+export type EventCardBadge = 'draft' | 'going' | 'hosting' | 'saved'
 export type EventCardProps = {
   event: DeepReadonly<{
     accountByCreatedBy?: {
@@ -191,6 +251,7 @@ export type EventCardProps = {
         eventFormatByFormatId?: { name: string } | null
       }[]
     } | null
+    guestCount?: number
     guestsByEventId?: {
       nodes: {
         contactByContactId?: {
@@ -203,15 +264,24 @@ export type EventCardProps = {
       }[]
     } | null
     id: string
+    isInPerson?: boolean | null
     name: string
     rowId: string
     slug: string
     start: string
   }>
+  // replaces the badge derived from the viewer's relation to the event
+  badge?: EventCardBadge
+  distanceKilometers?: number
   // TODO: turn javascript usage into attribute based styles
   variant?: 'highlight' | 'recommendation' // alias for 'large'
 }
-const { event, variant = undefined } = defineProps<EventCardProps>()
+const {
+  badge = undefined,
+  distanceKilometers = undefined,
+  event,
+  variant = undefined,
+} = defineProps<EventCardProps>()
 
 // template
 const localePath = useLocalePath()
@@ -247,20 +317,65 @@ const isGuest = computed(() =>
         : undefined
     : undefined,
 )
-const { t } = useI18n()
+const badgeKind = computed<EventCardBadge | undefined>(
+  () =>
+    badge ??
+    (isDraft
+      ? 'draft'
+      : isCreator.value
+        ? 'hosting'
+        : isGuest.value
+          ? 'going'
+          : undefined),
+)
+const { locale, t } = useI18n()
+const badgeLabel = computed(() =>
+  badgeKind.value === 'draft'
+    ? t('draft')
+    : badgeKind.value === 'going'
+      ? t('going')
+      : badgeKind.value === 'hosting'
+        ? t('hosting')
+        : t('saved'),
+)
+
+// distance
+const distanceText = computed(() => {
+  if (distanceKilometers === undefined) return
+
+  const format = (kilometers: number) =>
+    new Intl.NumberFormat(locale.value, {
+      maximumFractionDigits: kilometers < 10 ? 1 : 0,
+      style: 'unit',
+      unit: 'kilometer',
+      unitDisplay: 'short',
+    }).format(kilometers)
+
+  return distanceKilometers < 1
+    ? t('distanceLessThanOneKilometer', { distance: format(1) })
+    : format(distanceKilometers)
+})
 </script>
 
 <i18n lang="yaml">
 de:
+  distanceAway: '{distance} entfernt'
+  distanceLessThanOneKilometer: Weniger als {distance}
+  draft: Entwurf
+  going: Dabei
+  guestCountLabel: Kein Gast | 1 Gast | {count} Gäste
   heroImage: Titelbild der Veranstaltung
-  isCreator: Du organisierst
-  isDraft: Im Entwurf
-  isGuest: Du nimmst teil
+  hosting: Von dir
   match: Match
+  saved: Gemerkt
 en:
+  distanceAway: '{distance} away'
+  distanceLessThanOneKilometer: Less than {distance}
+  draft: Draft
+  going: Going
+  guestCountLabel: No guests | 1 guest | {count} guests
   heroImage: Title picture of the event
-  isCreator: You're organizing
-  isDraft: In Draft
-  isGuest: You're attending
+  hosting: Hosting
   match: Match
+  saved: Saved
 </i18n>

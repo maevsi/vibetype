@@ -9,6 +9,7 @@ import { environmentsConfig } from './config/environments'
 
 import { iconCollectionOptimization } from './node'
 import {
+  EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM,
   GTAG_MEASUREMENT_ID,
   IS_IN_FRONTEND_DEVELOPMENT,
   IS_NITRO_OPENAPI_ENABLED,
@@ -114,11 +115,39 @@ export default defineNuxtConfig({
     '/api/model/event/ical': {
       csurf: false,
     },
+    '/api/model/event/ingest/image': {
+      security: {
+        requestSizeLimiter: {
+          maxRequestSizeInBytes: EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM, // the default of 2 MB answers larger posters with 413
+        },
+      },
+    },
     '/api/internal/service/tusd': {
       csurf: false, // tusd's http hooks carry no csrf token
     },
     '/api/service/firebase/notification': {
       csurf: false, // called by services, authenticated by secret
+    },
+    '/contact/**': {
+      robots: false, // pages for signed-in users only have nothing for search engines to index
+    },
+    '/dashboard': {
+      robots: false,
+    },
+    '/early-bird/create': {
+      robots: false,
+    },
+    '/event/create': {
+      robots: false,
+    },
+    '/event/ingest/**': {
+      robots: false,
+    },
+    '/notification': {
+      robots: false,
+    },
+    '/upload/**': {
+      robots: false,
     },
   },
   router: {
@@ -197,6 +226,9 @@ export default defineNuxtConfig({
       },
       kafka: {
         brokers: 'redpanda:9092',
+      },
+      nominatim: {
+        url: 'https://nominatim.openstreetmap.org', // set through `NUXT_VIBETYPE_NOMINATIM_URL` to switch the geocoding service
       },
       openai: {
         apiKey: '',
@@ -293,10 +325,6 @@ export default defineNuxtConfig({
         'vue-chartjs',
         'vue-qrcode-reader',
         'vue-sonner',
-        'workbox-navigation-preload',
-        'workbox-precaching',
-        'workbox-routing',
-        'workbox-strategies',
         'zod',
         'zod/locales',
       ],

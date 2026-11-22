@@ -1,13 +1,6 @@
 <template>
-  <Loader :api>
-    <LayoutTopBar>
-      <span>
-        {{ title }}
-      </span>
-      <template #back>
-        <ButtonIconBackRoute />
-      </template>
-    </LayoutTopBar>
+  <Loader :api is-page>
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-3">
         <AppInputSearch v-model="searchQuery" />
@@ -28,7 +21,7 @@
                 width="48"
               />
               <span class="text-headline">
-                {{ blockedAccount.username }}
+                {{ `@${blockedAccount.username}` }}
               </span>
             </div>
             <AppButton
@@ -64,16 +57,15 @@
 import { graphql } from '~~/gql/generated'
 import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphcache'
 
-// compiler
-definePageMeta({
-  layout: 'default-no-header',
-})
-
 // validation
+await useSignInRequired()
 const store = useStore()
 const route = useRoute()
 const { createA11yError } = useA11yError()
-if (route.params.username !== store.signedInUsername) {
+if (
+  store.signedInUsername &&
+  route.params.username !== store.signedInUsername
+) {
   throw createA11yError({
     status: 403,
   })

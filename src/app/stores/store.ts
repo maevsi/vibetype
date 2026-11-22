@@ -1,16 +1,14 @@
 import * as Sentry from '@sentry/nuxt'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
 
 export const useStore = defineStore(SITE_NAME, () => {
   const localePath = useLocalePath()
+  const router = useRouter()
   const runtimeConfig = useRuntimeConfig()
 
   // const jwt = ref<string>() // we don't store the JWT itself for security reasons
   const jwtPayload = ref<Jwt>()
-  const routeHistory = ref<string[]>([])
-  const routeHistoryDisabled = ref<boolean>(false)
   const signedInAccountId = ref<string>()
   const signedInUsername = ref<string>()
 
@@ -45,35 +43,20 @@ export const useStore = defineStore(SITE_NAME, () => {
     }
   }
 
+  // the browser's history is the only one that also knows about its own back button, deep links and replaced redirects, while `back` is the previous in-app entry vue-router records in it
   const navigateBack = () =>
-    navigateWithoutHistory(
-      localePath(
-        (routeHistory.value.pop() as keyof RouteNamedMapI18n) || 'index',
-      ),
-    )
-
-  // for navigations the user did not cause, like redirects, which must not become a back button target
-  const navigateWithoutHistory = async (
-    ...parameters: Parameters<typeof navigateTo>
-  ) => {
-    routeHistoryDisabled.value = true
-
-    try {
-      return await navigateTo(...parameters)
-    } finally {
-      routeHistoryDisabled.value = false
-    }
-  }
+    window.history.state?.back
+      ? router.back()
+      : navigateTo(localePath(signedInUsername.value ? 'dashboard' : 'index'), {
+          replace: true,
+        })
 
   return {
     jwtPayload,
-    routeHistory,
-    routeHistoryDisabled,
     signedInAccountId,
     signedInUsername,
     jwtRemove,
     jwtSet,
     navigateBack,
-    navigateWithoutHistory,
   }
 })

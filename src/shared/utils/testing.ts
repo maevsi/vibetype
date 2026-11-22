@@ -1,3 +1,5 @@
+export const TESTING_ACCOUNT_GERMAN_ROW_ID =
+  '7d2c4e8a-91b3-4f5d-a6e0-3b8c1d9f2a47'
 export const TESTING_ACCOUNT_ROW_ID = 'a3f8f6c2-6b1e-4b6a-9b9a-9f7d6a2e6c1a'
 export const TESTING_ACCOUNT_ID =
   'QWNjb3VudDphM2Y4ZjZjMi02YjFlLTRiNmEtOWI5YS05ZjdkNmEyZTZjMWE='
@@ -8,6 +10,10 @@ export const TESTING_ACCOUNT_DESCRIPTION =
 export const TESTING_ATTENDANCE_ROW_ID = 'e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b'
 export const TESTING_CONTACT_ROW_ID = 'd9e0f1a2-b3c4-4d5e-8f6a-7b8c9d0e1f2a'
 export const TESTING_EVENT_NAME = 'Community Meetup'
+export const TESTING_EVENT_RECOMMENDATION_ROW_IDS = [
+  '5c1d7e9a-2b3f-4a6c-8d0e-1f2a3b4c5d6e',
+  '9a8b7c6d-5e4f-4a3b-8c2d-1e0f9a8b7c6d',
+] as const
 export const TESTING_EVENT_ROW_ID = 'b7e2c9a4-3d1f-4c8e-9a5b-6f0d2e8c1b3a'
 export const TESTING_EVENT_SLUG = 'community-meetup'
 export const TESTING_GUEST_ROW_ID = 'c4d8e1f2-5a6b-4c7d-8e9f-0a1b2c3d4e5f'

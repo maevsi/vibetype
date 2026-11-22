@@ -1,32 +1,29 @@
 <template>
-  <div
-    v-if="status === 'success'"
-    class="flex flex-col gap-32 pt-8 pb-64 md:gap-64"
-  >
-    <LayoutPageResult type="success">
-      <div class="flex justify-center gap-4">
-        <AppButton
-          :aria-label="t('unlockDeny')"
-          variant="secondary"
-          @click="navigateTo(localePath('dashboard'))"
-        >
-          {{ t('unlockDeny') }}
-        </AppButton>
-        <AppButton
-          :aria-label="t('unlockConfirm')"
-          variant="primary"
-          @click="toProfile"
-        >
-          {{ t('unlockConfirm') }}
-        </AppButton>
-      </div>
-      <template #description>
-        {{ t('unlockText') }}
-      </template>
-      <template #title>
-        {{ t('unlockTitle') }}
-      </template>
-    </LayoutPageResult>
+  <div v-if="status === 'success'" class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ t('unlockTitle') }}</LayoutTopBar>
+    <LayoutPage>
+      <LayoutPageResult type="success">
+        <div class="flex justify-center gap-4">
+          <AppButton
+            :aria-label="t('unlockDeny')"
+            variant="secondary"
+            @click="navigateTo(localePath('dashboard'))"
+          >
+            {{ t('unlockDeny') }}
+          </AppButton>
+          <AppButton
+            :aria-label="t('unlockConfirm')"
+            variant="primary"
+            @click="toProfile"
+          >
+            {{ t('unlockConfirm') }}
+          </AppButton>
+        </div>
+        <template #description>
+          {{ t('unlockText') }}
+        </template>
+      </LayoutPageResult>
+    </LayoutPage>
     <canvas
       ref="canvas"
       class="pointer-events-none fixed inset-0 h-full w-full"
@@ -38,112 +35,114 @@
         {{ t('signedOut') }}
       </span>
     </AppAlert>
-    <div class="flex flex-1 flex-col items-center justify-between px-6 py-8">
-      <div
-        class="flex w-full max-w-md flex-1 flex-col items-center justify-center"
-      >
-        <!-- Logo -->
-        <div
-          class="mb-6 flex size-20 items-center justify-center rounded-large bg-surface-raised"
-        >
-          <AppIconLogo v-if="dateToday.month !== 6" class="size-12" />
-          <AppIconLogoPride v-else class="size-12" />
-        </div>
-
-        <!-- Welcome text -->
-        <h1 class="sr-only">
-          {{ t('welcomeWithSiteName') }}
-        </h1>
-        <p aria-hidden="true" class="mb-2 text-center text-body text-fg-2">
-          {{ t('welcome') }}
-        </p>
-        <AppIconLogoText aria-hidden="true" class="mb-12 h-6.5" />
-
-        <!-- Tagline -->
-        <p class="mb-8 text-center text-body text-fg-2">
-          {{ t('taglinePre') }}
-          <span class="text-link line-through">{{ t('taglineFomo') }}</span>
-          {{ t('taglinePost') }}
-        </p>
-
-        <!-- Buttons -->
-        <div class="flex w-full flex-col gap-2">
-          <AppButton
-            :aria-label="t('register')"
-            class="w-full"
-            :to="$localePath('account-create')"
+    <LayoutPage>
+      <div class="flex flex-1 flex-col items-center justify-between">
+        <div class="flex w-full flex-1 flex-col items-center justify-center">
+          <!-- Logo -->
+          <div
+            class="mb-6 flex size-20 items-center justify-center rounded-large bg-surface-raised"
           >
-            {{ t('createAccount') }}
-          </AppButton>
-
-          <AppButton
-            :aria-label="t('signIn')"
-            class="w-full"
-            :to="$localePath('session-create')"
-            variant="secondary"
-          >
-            {{ t('signIn') }}
-          </AppButton>
-        </div>
-
-        <!-- Social login (behind feature flag) -->
-        <AppFeature class="w-full" feature="social-login">
-          <div class="my-6 flex w-full items-center">
-            <div class="h-0.5 flex-1 rounded-medium bg-line" />
-            <span class="px-4 text-body-small text-fg-2">{{ t('or') }}</span>
-            <div class="h-0.5 flex-1 rounded-medium bg-line" />
+            <AppIconLogo v-if="dateToday.month !== 6" class="size-12" />
+            <AppIconLogoPride v-else class="size-12" />
           </div>
 
-          <div class="grid w-full grid-cols-2 gap-3">
-            <button
-              :aria-label="t('signInApple')"
-              class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
-              type="button"
-            >
-              <IFa6BrandsApple class="size-6 text-fg-1" />
-            </button>
-            <button
-              :aria-label="t('signInGoogle')"
-              class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
-              type="button"
-            >
-              <IFa6BrandsGoogle class="size-6" />
-            </button>
-          </div>
-        </AppFeature>
-      </div>
+          <!-- Welcome text -->
+          <h1 class="sr-only">
+            {{ t('welcomeWithSiteName') }}
+          </h1>
+          <p aria-hidden="true" class="mb-2 text-center text-body text-fg-2">
+            {{ t('welcome') }}
+          </p>
+          <AppIconLogoText aria-hidden="true" class="mb-12 h-6.5" />
 
-      <!-- Footer -->
-      <div class="mt-6 flex flex-col gap-4">
-        <AppButton
-          v-if="!isApp"
-          :aria-label="t('more')"
-          to="https://vibetype.de"
-          variant="tertiary"
-        >
-          {{ t('more') }}
-        </AppButton>
-        <p class="text-center text-caption text-fg-2">
-          {{ t('legalPre') }}
-          <NuxtLinkLocale
-            class="font-semibold text-link underline"
-            to="docs-legal-terms"
-            >{{ t('terms') }}</NuxtLinkLocale>{{ t('legalComma') }}
-          <NuxtLinkLocale
-            class="font-semibold text-link underline"
-            to="docs-legal-imprint"
-            >{{ t('imprint') }}</NuxtLinkLocale
+          <!-- Tagline -->
+          <p class="mb-8 text-center text-body text-fg-2">
+            {{ t('taglinePre') }}
+            <span class="text-link line-through">{{ t('taglineFomo') }}</span>
+            {{ t('taglinePost') }}
+          </p>
+
+          <!-- Buttons -->
+          <div class="flex w-full flex-col gap-2">
+            <AppButton
+              :aria-label="t('register')"
+              class="w-full"
+              :to="$localePath('account-create')"
+            >
+              {{ t('createAccount') }}
+            </AppButton>
+
+            <AppButton
+              :aria-label="t('signIn')"
+              class="w-full"
+              :to="$localePath('session-create')"
+              variant="secondary"
+            >
+              {{ t('signIn') }}
+            </AppButton>
+          </div>
+
+          <!-- Social login (behind feature flag) -->
+          <AppFeature class="w-full" feature="social-login">
+            <div class="my-6 flex w-full items-center">
+              <div class="h-0.5 flex-1 rounded-medium bg-line" />
+              <span class="px-4 text-body-small text-fg-2">{{ t('or') }}</span>
+              <div class="h-0.5 flex-1 rounded-medium bg-line" />
+            </div>
+
+            <div class="grid w-full grid-cols-2 gap-3">
+              <button
+                :aria-label="t('signInApple')"
+                class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
+                type="button"
+              >
+                <IFa6BrandsApple class="size-6 text-fg-1" />
+              </button>
+              <button
+                :aria-label="t('signInGoogle')"
+                class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
+                type="button"
+              >
+                <IFa6BrandsGoogle class="size-6" />
+              </button>
+            </div>
+          </AppFeature>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-6 flex flex-col gap-4">
+          <AppButton
+            v-if="!isApp"
+            :aria-label="t('more')"
+            to="https://vibetype.de"
+            variant="tertiary"
           >
-          {{ t('legalAnd') }}
-          <NuxtLinkLocale
-            class="font-semibold text-link underline"
-            to="docs-legal-privacy"
+            {{ t('more') }}
+          </AppButton>
+          <nav
+            :aria-label="t('legal')"
+            class="flex flex-wrap justify-center gap-x-4 text-caption"
           >
-            {{ t('privacy') }}
-          </NuxtLinkLocale>
-        </p>
+            <NuxtLinkLocale class="text-link underline" to="docs-legal-terms">
+              {{ t('terms') }}
+            </NuxtLinkLocale>
+            <NuxtLinkLocale class="text-link underline" to="docs-legal-imprint">
+              {{ t('imprint') }}
+            </NuxtLinkLocale>
+            <NuxtLinkLocale class="text-link underline" to="docs-legal-privacy">
+              {{ t('privacy') }}
+            </NuxtLinkLocale>
+          </nav>
+          <AppButton
+            :aria-label="t('privacySettings')"
+            :to="localePath('session-edit-privacy')"
+            variant="tertiary"
+          >
+            {{ t('privacySettings') }}
+          </AppButton>
+        </div>
       </div>
-    </div>
+    </LayoutPage>
   </div>
 </template>
 
@@ -153,10 +152,6 @@ import { useMutation } from '@urql/vue'
 import { stringifyQuery } from 'ufo'
 
 import { graphql } from '~~/gql/generated'
-
-definePageMeta({
-  layout: 'plain',
-})
 
 // achievement
 const route = useRoute()
@@ -170,7 +165,7 @@ if (
   store.signedInAccountId &&
   Object.keys(route.query).every((key) => key === 'source')
 ) {
-  await store.navigateWithoutHistory(localePath('dashboard'), { replace: true })
+  await navigateTo(localePath('dashboard'), { replace: true })
 }
 
 const achievementUnlockMutation = useMutation(
@@ -212,7 +207,7 @@ if (error.value) {
   console.debug(error.value.message) // there's no way to be certain that a user tried to unlock an achievement here, so no error is thrown
 
   if (store.signedInAccountId) {
-    await store.navigateWithoutHistory(localePath('dashboard'), {
+    await navigateTo(localePath('dashboard'), {
       replace: true,
     })
   }
@@ -267,12 +262,11 @@ useHeadDefault({ title: siteConfig.name })
 de:
   createAccount: Konto erstellen
   imprint: Impressum
-  legalAnd: und
-  legalComma: ','
-  legalPre: 'Mit der Nutzung von Vibetype stimmst du unseren'
+  legal: Rechtliches
   more: Webseite besuchen, um mehr zu erfahren
   or: ODER
-  privacy: Datenschutzrichtlinie
+  privacy: Datenschutzerklärung
+  privacySettings: Datenschutz-Einstellungen
   register: Konto erstellen
   signIn: Einloggen
   signInApple: Mit Apple anmelden
@@ -291,12 +285,11 @@ de:
 en:
   createAccount: Create account
   imprint: Imprint
-  legalAnd: and
-  legalComma: ','
-  legalPre: 'By using Vibetype, you agree to our'
+  legal: Legal
   more: Visit website to find out more
   or: OR
   privacy: Privacy Policy
+  privacySettings: Privacy settings
   register: Create account
   signIn: Sign in
   signInApple: Sign in with Apple
@@ -305,7 +298,7 @@ en:
   taglineFomo: fear of missing out
   taglinePost: from now on
   taglinePre: 'Join and experience no more '
-  terms: Terms of Service
+  terms: Terms of Use
   unlockConfirm: Go to my profile
   unlockDeny: Not now
   unlockText: Check out your new achievement on your profile.

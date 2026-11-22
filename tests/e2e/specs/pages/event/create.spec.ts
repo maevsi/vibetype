@@ -5,7 +5,7 @@ import { testVisualRegression } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = '/event/create'
 
-testVisualRegression(PAGE_PATH)
+testVisualRegression(PAGE_PATH, false, { test: authenticatedTest })
 
 authenticatedTest.describe('file handling', () => {
   authenticatedTest(
@@ -39,8 +39,10 @@ authenticatedTest.describe('file handling', () => {
         })
       })
 
-      await defaultPage.goto(PAGE_PATH)
+      // the manifest's `file_handlers` action, which hands over to this page
+      await defaultPage.goto('/event/import')
 
+      await expect(page).toHaveURL(/\/event\/create$/)
       await expect(page.locator('#input-name')).toHaveValue('Imported Meetup')
     },
   )

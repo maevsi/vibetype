@@ -4,9 +4,10 @@
       <PreferenceElement
         v-if="eventCategory.label"
         :id="eventCategory.rowId"
+        is-compact
         :name="eventCategory.label"
         :selected="modelValue"
-        @click="toggle(eventCategory.rowId)"
+        @toggle="toggle(eventCategory.rowId)"
       >
         <AppIconPreferenceCategoryArtAndCulture
           v-if="eventCategory.name === 'art-and-culture'"

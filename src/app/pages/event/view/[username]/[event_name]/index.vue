@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <AppError
       v-if="!account"
       :error="{ message: t('errorAccountMissing'), status: 404 }"
@@ -8,146 +8,222 @@
       v-else-if="!event"
       :error="{ message: t('errorEventMissing'), status: 404 }"
     />
-    <div v-else class="flex flex-col gap-4">
-      <AppButtonGroup
-        v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
-        class="justify-center"
-      >
-        <AppButton
-          :aria-label="t('guests')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-guest',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('guests') }}
-          <template #prefix>
-            <AppIconUsers />
-          </template>
-        </AppButton>
-        <AppButton
-          :aria-label="t('attendances')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-attendance',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('attendances') }}
-          <template #prefix>
-            <AppIconUserCheckBroken />
-          </template>
-        </AppButton>
-        <AppButton
-          :aria-label="t('settings')"
-          :to="
-            localePath({
-              name: 'event-edit-username-event_name',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('settings') }}
-          <template #prefix>
-            <AppIconPencil />
-          </template>
-        </AppButton>
-      </AppButtonGroup>
-      <div class="flex flex-col gap-4">
-        <div>
-          <div class="relative">
-            <EventHeroImage :event />
-            <div
-              class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
-            >
-              <div />
-              <div class="flex items-center gap-2">
-                <EventShareButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
-                  :event
-                />
-                <EventFavoriteButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
-                  :event
-                />
-                <template
-                  v-if="
-                    store.signedInAccountId &&
-                    event.createdBy !== store.signedInAccountId
+    <div v-else class="flex flex-1 flex-col">
+      <!-- the event's name below is the page's heading -->
+      <LayoutTopBar>
+        <template #actions>
+          <div class="flex items-center gap-2">
+            <EventShareButton
+              class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+              :event
+            />
+            <EventFavoriteButton
+              class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+              :event
+            />
+            <template v-if="store.signedInAccountId">
+              <AppDropdown>
+                <AppDropdownItem
+                  v-if="event.createdBy === store.signedInAccountId"
+                  @select="
+                    navigateTo(
+                      localePath({
+                        name: 'event-edit-username-event_name',
+                        params: {
+                          event_name: route.params.event_name,
+                          username: route.params.username,
+                        },
+                      }),
+                    )
                   "
                 >
-                  <AppDropdown>
-                    <AppDropdownItem
-                      variant="destructive"
-                      @select="isOpenReportDrawer = true"
-                    >
-                      {{ t('report') }}
-                    </AppDropdownItem>
-                    <template #trigger>
-                      <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
-                      >
-                        <AppIconMoreVertical />
-                      </span>
-                    </template>
-                  </AppDropdown>
-                  <EventReportDrawer
-                    v-model:open="isOpenReportDrawer"
-                    :account-id="store.signedInAccountId"
-                    :event
-                  />
+                  <AppIconPencil />
+                  <span>{{ t('edit') }}</span>
+                </AppDropdownItem>
+                <AppDropdownItem
+                  v-if="event.createdBy === store.signedInAccountId"
+                  variant="destructive"
+                  @select="isOpenDeleteDrawer = true"
+                >
+                  <AppIconTrash />
+                  <span>{{ t('delete') }}</span>
+                </AppDropdownItem>
+                <AppDropdownItem
+                  v-else
+                  variant="destructive"
+                  @select="isOpenReportDrawer = true"
+                >
+                  {{ t('report') }}
+                </AppDropdownItem>
+                <template #trigger>
+                  <span
+                    class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+                  >
+                    <AppIconMoreVertical />
+                  </span>
                 </template>
-              </div>
+              </AppDropdown>
+              <EventInviteDrawer
+                v-if="event.createdBy === store.signedInAccountId"
+                v-model:open="isOpenInviteDrawer"
+                :event
+              />
+              <EventDeleteDrawer
+                v-if="event.createdBy === store.signedInAccountId"
+                v-model:open="isOpenDeleteDrawer"
+                :event-id="event.rowId"
+                is-trigger-hidden
+              />
+              <EventReportDrawer
+                v-else
+                v-model:open="isOpenReportDrawer"
+                :account-id="store.signedInAccountId"
+                :event
+              />
+            </template>
+          </div>
+        </template>
+      </LayoutTopBar>
+      <LayoutPage>
+        <div class="flex flex-col gap-6">
+          <div class="relative">
+            <EventHeroImage class="h-64 rounded-large" :event />
+            <div
+              aria-hidden="true"
+              class="absolute bottom-3 left-3 flex flex-col items-center rounded-medium bg-surface px-4 py-2"
+            >
+              <AppTime
+                class="text-body-small text-link"
+                :datetime="event.start"
+                :options="{ month: 'short' }"
+              />
+              <AppTime
+                class="text-headline text-fg-1"
+                :datetime="event.start"
+                :options="{ day: 'numeric' }"
+              />
             </div>
           </div>
-          <AppCard
-            v-if="event?.accountByCreatedBy"
-            class="flex flex-col items-stretch gap-6 rounded-t-none"
+          <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-1">
+            <h1 class="m-0 text-title3">
+              {{ event.name }}
+            </h1>
+            <EventOwner link :username="event.accountByCreatedBy.username" />
+          </div>
+          <AppButtonGroup
+            v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
+            class="grid grid-cols-3 gap-2 lg:gap-2"
           >
-            <div
-              class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
+            <AppButton
+              :aria-label="t('guests')"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              size="none"
+              :to="
+                localePath({
+                  name: 'event-view-username-event_name-guest',
+                  params: {
+                    event_name: route.params.event_name,
+                    username: route.params.username,
+                  },
+                })
+              "
+              variant="secondary"
             >
-              <h1 class="m-0">
-                {{ event.name }}
-              </h1>
-              <EventOwner link :username="event.accountByCreatedBy.username" />
-            </div>
-            <div class="flex flex-col gap-2">
-              <EventDashletStart :event />
-              <EventDashletDuration :event />
-              <EventDashletVisibility :event with-text />
-              <EventDashletAttendanceType :event />
-              <EventDashletLocation :address :event />
-              <EventDashletLink :event />
-            </div>
-            <AppMap
-              v-if="positionInitial"
-              class="h-42 rounded-large"
-              :events
-              :position-initial
-            />
-          </AppCard>
+              {{ t('guests') }}
+              <template #prefix>
+                <AppIconUsers />
+              </template>
+            </AppButton>
+            <AppButton
+              :aria-label="t('attendances')"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              size="none"
+              :to="
+                localePath({
+                  name: 'event-view-username-event_name-attendance',
+                  params: {
+                    event_name: route.params.event_name,
+                    username: route.params.username,
+                  },
+                })
+              "
+              variant="secondary"
+            >
+              {{ t('attendances') }}
+              <template #prefix>
+                <AppIconUserCheckBroken />
+              </template>
+            </AppButton>
+            <AppButton
+              :aria-label="t('invite')"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              size="none"
+              variant="secondary"
+              @click="isOpenInviteDrawer = true"
+            >
+              {{ t('invite') }}
+              <template #prefix>
+                <AppIconUserPlus />
+              </template>
+            </AppButton>
+          </AppButtonGroup>
+          <AppFeature v-else-if="!routeQueryIc" feature="participation">
+            <!-- The tiles are inert, as an event can only be joined through an invitation yet; once guests can join by themselves, bind the actions and remove `inert` -->
+            <AppButtonGroup class="grid grid-cols-2 gap-2 lg:gap-2" inert>
+              <AppButton
+                :aria-label="t('participate')"
+                class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                size="none"
+              >
+                {{ t('participate') }}
+                <template #prefix>
+                  <AppIconTicket />
+                </template>
+              </AppButton>
+              <AppButton
+                :aria-label="t('participants')"
+                class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                size="none"
+                variant="secondary"
+              >
+                {{ t('participants') }}
+                <template #prefix>
+                  <AppIconUsers />
+                </template>
+              </AppButton>
+            </AppButtonGroup>
+          </AppFeature>
+          <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-6">
+            <section class="flex flex-col gap-2">
+              <h2 class="text-headline">{{ t('details') }}</h2>
+              <div class="flex flex-col gap-2 text-fg-2">
+                <EventDashletStart :event />
+                <EventDashletDuration :event />
+                <EventDashletVisibility :event with-text />
+                <EventDashletAttendanceType :event />
+                <EventDashletLink :event />
+              </div>
+            </section>
+            <section v-if="isLocationVisible" class="flex flex-col gap-2">
+              <h2 class="text-headline">{{ t('location') }}</h2>
+              <EventDashletLocation :address class="text-fg-2" :event />
+              <AppMap
+                v-if="positionInitial"
+                class="isolate h-48 rounded-medium"
+                :events
+                is-static
+                :position-initial
+              />
+            </section>
+          </div>
+          <section v-if="eventDescriptionTemplate" class="flex flex-col gap-2">
+            <h2 class="text-headline">{{ t('about') }}</h2>
+            <LayoutProse class="w-full">
+              <AppHtml :html="eventDescriptionTemplate" />
+            </LayoutProse>
+          </section>
         </div>
-        <AppCard v-if="eventDescriptionTemplate">
-          <!-- eslint-disable vue/no-v-html -->
-          <LayoutProse class="w-full">
-            <div v-html="eventDescriptionTemplate" />
-          </LayoutProse>
-          <!-- eslint-enable vue/no-v-html -->
-        </AppCard>
-      </div>
+      </LayoutPage>
     </div>
   </Loader>
 </template>
@@ -162,6 +238,8 @@ const store = useStore()
 const route = useRoute()
 const localePath = useLocalePath()
 
+const isOpenDeleteDrawer = ref<boolean>()
+const isOpenInviteDrawer = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
 
 // api data
@@ -177,12 +255,18 @@ const eventQuery = useApiQuery({
               username
             }
             addressByAddressId {
+              city
+              country
               id
+              line1
+              line2
               location {
                 latitude
                 longitude
               }
               name
+              postalCode
+              region
               rowId
             }
             createdBy
@@ -286,6 +370,24 @@ useHeadDefault({
   title,
 })
 defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
+const postalAddress = computed(() =>
+  address.value?.line1 ||
+  address.value?.postalCode ||
+  address.value?.city ||
+  address.value?.country
+    ? {
+        '@type': 'PostalAddress' as const,
+        addressCountry: address.value.country ?? undefined,
+        addressLocality: address.value.city ?? undefined,
+        addressRegion: address.value.region ?? undefined,
+        postalCode: address.value.postalCode ?? undefined,
+        streetAddress:
+          [address.value.line1, address.value.line2]
+            .filter(Boolean)
+            .join(', ') || undefined,
+      }
+    : address.value?.name,
+)
 defineEvent({
   description,
   endDate: event.value?.end,
@@ -299,7 +401,7 @@ defineEvent({
   location:
     event.value?.isInPerson && address.value?.name
       ? definePlace({
-          address: address.value.name,
+          address: postalAddress.value,
           latitude: address.value.location?.latitude ?? undefined,
           longitude: address.value.location?.longitude ?? undefined,
           name: address.value.name,
@@ -325,25 +427,44 @@ const positionInitial = computed(() =>
       }
     : undefined,
 )
+const isLocationVisible = computed(
+  () =>
+    (event.value?.isInPerson && !!address.value?.name) ||
+    !!positionInitial.value,
+)
 </script>
 
 <i18n lang="yaml">
 de:
+  about: Über die Veranstaltung
   attendances: Check-in
+  delete: Veranstaltung löschen
+  details: Details
+  edit: Veranstaltung bearbeiten
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
+  invite: Einladen
+  location: Ort
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
+  participants: Teilnehmende
+  participate: Teilnehmen
   report: Veranstaltung melden
-  settings: Bearbeiten
 en:
+  about: About the event
   attendances: Check in
+  delete: Delete event
+  details: Details
+  edit: Edit event
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorTemplate: value available in invitation only
   guests: Guests
+  invite: Invite
+  location: Location
   ogImageAlt: The event's preview image.
+  participants: Participants
+  participate: Participate
   report: Report event
-  settings: Edit
 </i18n>

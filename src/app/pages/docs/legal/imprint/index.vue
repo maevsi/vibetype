@@ -1,6 +1,11 @@
 <template>
   <AppError v-if="error" :error />
-  <AppContentPage v-else v-model:error="error" path="imprint" />
+  <div v-else class="flex flex-1 flex-col">
+    <LayoutTopBar />
+    <LayoutPage>
+      <AppContentPage v-model:error="error" path="imprint" />
+    </LayoutPage>
+  </div>
 </template>
 
 <script setup lang="ts">

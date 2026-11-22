@@ -1,8 +1,8 @@
 <template>
   <AppInput
     v-model="model"
-    :aria-label="t('search')"
-    :placeholder="t('search')"
+    :aria-label="placeholder ?? t('search')"
+    :placeholder="placeholder ?? t('search')"
     type="text"
   >
     <template #prefix>
@@ -23,6 +23,10 @@
 </template>
 
 <script setup lang="ts">
+const { placeholder = undefined } = defineProps<{
+  placeholder?: string
+}>()
+
 const model = defineModel<string>({ default: '' })
 
 const { t } = useI18n()

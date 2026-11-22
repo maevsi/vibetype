@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex h-screen flex-col"
+    class="flex h-full flex-col"
     :data-is-loading="isLoading"
     data-testid="is-loading"
   >
-    <NuxtLayout name="default-no-header">
+    <NuxtLayout>
       <AppError :error />
     </NuxtLayout>
   </div>

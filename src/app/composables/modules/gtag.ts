@@ -26,7 +26,11 @@ export const useAppGtag = () => {
       wait_for_update: 500,
     },
     onBeforeGtagStart: (gtag) => {
-      gtag('set', { cookie_flags: 'samesite=strict;secure' })
+      gtag('set', {
+        allow_ad_personalization_signals: false,
+        allow_google_signals: false,
+        cookie_flags: 'samesite=strict;secure',
+      })
     },
     scriptOptions: {
       trigger: useScriptTriggerConsent({ consent: isConsented }),

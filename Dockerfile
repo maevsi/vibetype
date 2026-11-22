@@ -5,8 +5,8 @@
 ARG SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype:latest
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/postgraphile:3.0.0
-FROM ghcr.io/maevsi/sqitch:13.2
+FROM ghcr.io/maevsi/postgraphile:3.1.0
+FROM ghcr.io/maevsi/sqitch:13.4
 # </DEPENDENCIES>
 
 FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source
@@ -65,14 +65,16 @@ FROM base-image AS prepare
 COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./package.json ./
 # COPY ./patches ./patches
 
+# glibc builds of native dependencies are for the e2e stage, which runs these `node_modules` on Ubuntu
 # TODO: evaluate dropping libc arguments by running e2e tests separately
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
     pnpm fetch --config.supportedArchitectures='{"libc":["musl","glibc"]}'
 
 COPY ./ ./
 
+# BuildKit can prune the cache mount while the fetch layer above stays cached, so missing tarballs are downloaded instead of failing the build
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm install --offline
+    pnpm install --prefer-offline
 
 
 ########################
@@ -136,7 +138,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.65.0 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.65.1 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true

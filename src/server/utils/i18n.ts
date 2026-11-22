@@ -7,3 +7,6 @@ export enum AppLocale {
   EN = 'en',
 }
 export const LocaleSchema = z.enum(AppLocale)
+
+export const getLocalePrefix = (language: AppLocale) =>
+  language !== LOCALE_DEFAULT ? '/' + language : ''

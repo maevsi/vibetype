@@ -4,9 +4,10 @@
       <PreferenceElement
         v-if="eventFormat.label"
         :id="eventFormat.rowId"
+        is-compact
         :name="eventFormat.label"
         :selected="modelValue"
-        @click="toggle(eventFormat.rowId)"
+        @toggle="toggle(eventFormat.rowId)"
       >
         <AppIconPreferenceFormatConference
           v-if="eventFormat.name === 'conference'"

@@ -1,6 +1,12 @@
 <template>
   <div class="flex flex-1 flex-col gap-4">
-    <AppInputSearch v-model="searchQuery" />
+    <EventSearchBar
+      v-model:is-map-visible="isMapVisible"
+      v-model:search-query="searchQuery"
+    />
+    <AppFeature v-if="!searchQueryVariable" feature="category-browse">
+      <EventCategoryBrowse />
+    </AppFeature>
     <AppAlert v-if="errorMessages.length" variant="error">
       <AppSpanList :span="errorMessages" />
     </AppAlert>
@@ -8,6 +14,7 @@
       :events
       :has-next-page="pageInfo?.hasNextPage"
       :is-loading="api.isFetching || isAdvancingUntilUpcomingEvent"
+      :is-map-visible="isMapVisible"
       @load-more="loadMore"
     />
   </div>
@@ -62,6 +69,7 @@ const queryEventList = graphql(`
             id
           }
         }
+        guestCount
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -74,6 +82,7 @@ const queryEventList = graphql(`
           }
         }
         id
+        isInPerson
         name
         rowId
         slug
@@ -130,6 +139,7 @@ const queryEventSearch = graphql(`
             id
           }
         }
+        guestCount
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -142,6 +152,7 @@ const queryEventSearch = graphql(`
           }
         }
         id
+        isInPerson
         name
         rowId
         slug
@@ -155,6 +166,8 @@ const queryEventSearch = graphql(`
     }
   }
 `)
+
+const isMapVisible = useEventMapVisible()
 
 const now = useNow()
 

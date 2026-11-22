@@ -9,6 +9,7 @@ import { HTML_VALIDATE_CONFIG } from '#src/config/htmlValidate'
 import {
   TESTING_ACCOUNT_USERNAME,
   TESTING_ATTENDANCE_ROW_ID,
+  TESTING_CONTACT_ROW_ID,
   TESTING_EVENT_SLUG,
   TESTING_GUEST_ROW_ID,
 } from '#src/shared/utils/testing'
@@ -23,13 +24,16 @@ const EVENT_VIEW_PATH = `/event/view/${TESTING_ACCOUNT_USERNAME}/${TESTING_EVENT
 // the data behind these paths is served by `src/server/utils/testingGraphql.ts`
 const PAGE_PATHS_DYNAMIC: Record<string, string> = {
   '/account/edit/[username]': ACCOUNT_EDIT_PATH,
+  '/account/edit/[username]/picture': `${ACCOUNT_EDIT_PATH}/picture`,
   '/account/view/[username]': ACCOUNT_VIEW_PATH,
   '/account/view/[username]/block': `${ACCOUNT_VIEW_PATH}/block`,
   '/attendance/view/[id]': `/attendance/view/${TESTING_ATTENDANCE_ROW_ID}`,
+  '/contact/edit/[id]': `/contact/edit/${TESTING_CONTACT_ROW_ID}`,
   '/event/edit/[username]/[event_name]': EVENT_EDIT_PATH,
   '/event/view/[username]': `/event/view/${TESTING_ACCOUNT_USERNAME}`,
   '/event/view/[username]/[event_name]': EVENT_VIEW_PATH,
   '/event/view/[username]/[event_name]/attendance': `${EVENT_VIEW_PATH}/attendance`,
+  '/event/view/[username]/[event_name]/attendance/scan': `${EVENT_VIEW_PATH}/attendance/scan`,
   '/event/view/[username]/[event_name]/guest': `${EVENT_VIEW_PATH}/guest`,
   '/guest/view/[id]': `/guest/view/${TESTING_GUEST_ROW_ID}`,
 }
@@ -58,17 +62,10 @@ const PAGE_PATHS = globSync('**/*.vue', {
 const PAGE_STATUSES: Record<string, number> = {
   '/account/password/reset': 400, // requires a reset code
   '/account/verify': 400, // requires a verification code
-  '/event/ingest/url': process.env.VIO_SERVER === 'development' ? 200 : 404, // development only
+  '/attendance': 404, // behind the `participation` feature flag
+  '/guest': 404, // behind the `invitations` feature flag
+  '/notification': 404, // behind the `notifications` feature flag
   '/🫖': 418,
-}
-
-// pages that only the testing account itself may see
-const PAGE_STATUSES_SIGNED_OUT: Record<string, number> = {
-  [`${ACCOUNT_VIEW_PATH}/block`]: 403,
-  [`${EVENT_VIEW_PATH}/attendance`]: 403,
-  [`${EVENT_VIEW_PATH}/guest`]: 403,
-  [ACCOUNT_EDIT_PATH]: 403,
-  [EVENT_EDIT_PATH]: 403,
 }
 
 // pages that redirect only once their client-side data settles, which can be after they report being loaded
@@ -84,8 +81,8 @@ const PAGE_PATHS_MISSING = [
   `/event/view/${TESTING_ACCOUNT_USERNAME}/e2e-missing-event`,
 ]
 
-// pages titled with the bare site name: the start page and the offline shell, which only redirects to it
-const PAGE_PATHS_TITLE_SITE_NAME = ['/', '/offline']
+// pages titled with the bare site name: the start page and the client only shells, which only redirect
+const PAGE_PATHS_TITLE_SITE_NAME = ['/', '/event/import', '/offline']
 
 // uses the browser context's cookies, so that signed in requests carry the session
 // redirect targets are checked on their own, external ones (e.g. app stores) not at all
@@ -114,13 +111,9 @@ for (const [name, test] of [
   ['signed out', appTest],
   ['signed in', authenticatedTest],
 ] as const) {
-  const pageStatuses =
-    name === 'signed out'
-      ? { ...PAGE_STATUSES, ...PAGE_STATUSES_SIGNED_OUT }
-      : PAGE_STATUSES
-
   test.describe(name, () => {
-    test.describe('html validation', () => {
+    // one request per page for both checks, as each check alone costs a full server render
+    test.describe('server-rendered html', () => {
       for (const path of PAGE_PATHS) {
         test(path, async ({ defaultPage }) => {
           const { isRedirect, response } = await requestPage(
@@ -130,75 +123,79 @@ for (const [name, test] of [
 
           if (isRedirect) return
 
-          expect(response.status()).toBe(pageStatuses[path] ?? 200)
+          expect(response.status()).toBe(PAGE_STATUSES[path] ?? 200)
 
-          const report = await htmlValidate.validateString(
-            await response.text(),
-          )
+          const html = await response.text()
+          const report = await htmlValidate.validateString(html)
 
-          expect(
-            report.results
-              .flatMap((result) => result.messages)
-              .map(
-                (message) =>
-                  `${message.ruleId}: ${message.message}\n(${message.selector})`,
-              )
-              .join('\n'),
-          ).toEqual('')
-        })
-      }
-    })
-
-    test.describe('page title', () => {
-      for (const path of PAGE_PATHS) {
-        test(path, async ({ defaultPage }) => {
-          const { isRedirect, response } = await requestPage(
-            defaultPage.page,
-            path,
-          )
-
-          if (isRedirect) return
-
-          const title = (await response.text()).match(
-            /<title>([^<]*)<\/title>/,
-          )?.[1]
+          expect
+            .soft(
+              report.results
+                .flatMap((result) => result.messages)
+                .map(
+                  (message) =>
+                    `${message.ruleId}: ${message.message}\n(${message.selector})`,
+                )
+                .join('\n'),
+              'html validation',
+            )
+            .toEqual('')
 
           // a page part that is missing, empty or just the site name again means the page sets no title of its own
-          expect(title).toMatch(
-            PAGE_PATHS_TITLE_SITE_NAME.includes(path)
-              ? /^Vibetype$/
-              : /^(?!Vibetype · ).+ · Vibetype$/,
-          )
+          expect
+            .soft(html.match(/<title>([^<]*)<\/title>/)?.[1], 'page title')
+            .toMatch(
+              PAGE_PATHS_TITLE_SITE_NAME.includes(path)
+                ? /^Vibetype$/
+                : /^(?!Vibetype · ).+ · Vibetype$/,
+            )
         })
       }
     })
 
-    // the color scheme only changes styles, so checking it once per page is enough
-    for (const colorScheme of name === 'signed out'
-      ? (['light', 'dark'] as const)
-      : (['light'] as const)) {
-      test.describe(`a11y ${colorScheme}`, () => {
-        for (const path of PAGE_PATHS) {
-          test(path, async ({ defaultPage }) => {
-            const { isRedirect } = await requestPage(defaultPage.page, path)
+    test.describe('a11y', () => {
+      for (const path of PAGE_PATHS) {
+        test(path, async ({ defaultPage, isMobile }) => {
+          const { isRedirect } = await requestPage(defaultPage.page, path)
 
-            if (isRedirect) return
+          if (isRedirect) return
 
-            await defaultPage.page.emulateMedia({ colorScheme })
-            await defaultPage.goto(path)
+          await defaultPage.page.emulateMedia({ colorScheme: 'light' })
+          await defaultPage.goto(path)
 
-            const redirectTarget =
-              name === 'signed in'
-                ? PAGE_REDIRECTS_CLIENT_SIGNED_IN[path]
-                : undefined
+          const redirectTarget =
+            name === 'signed in'
+              ? PAGE_REDIRECTS_CLIENT_SIGNED_IN[path]
+              : undefined
 
-            if (redirectTarget) {
-              await defaultPage.page.waitForURL(redirectTarget)
-              // the target keeps its own loading state, during which it shows no level one heading yet
-              await expect(
-                defaultPage.page.getByRole('heading', { level: 1 }),
-              ).toBeAttached()
+          if (redirectTarget) {
+            await defaultPage.page.waitForURL(redirectTarget)
+            // the target keeps its own loading state, during which it shows no level one heading yet
+            await expect(
+              defaultPage.page.getByRole('heading', { level: 1 }),
+            ).toBeAttached()
+          }
+
+          // the color scheme only changes styles, so the desktop viewport checks the dark one once per page, on the already loaded page
+          for (const colorScheme of name === 'signed out' && !isMobile
+            ? (['light', 'dark'] as const)
+            : (['light'] as const)) {
+            if (colorScheme === 'dark') {
+              await defaultPage.page.emulateMedia({ colorScheme })
+              await expect(defaultPage.page.locator('html')).toHaveClass(
+                /(^|\s)dark(\s|$)/,
+              )
             }
+
+            // axe would otherwise measure contrast on colors that are still fading, between the schemes or of a toast coming in
+            // polled from outside the page, as `waitForFunction` falls back to an `eval` that the content security policy blocks
+            await expect
+              .poll(() =>
+                defaultPage.page.evaluate(
+                  "document.getAnimations().every((animation) => !(animation instanceof CSSTransition) || animation.playState !== 'running')",
+                ),
+              )
+              .toBe(true)
 
             const { violations } = await new AxeBuilder({
               page: defaultPage.page,
@@ -206,19 +203,22 @@ for (const [name, test] of [
               .exclude('nuxt-devtools-frame') // only present on the development server
               .analyze()
 
-            expect(
-              violations
-                .map(
-                  (violation) =>
-                    `${violation.id}: ${violation.help}\n${violation.nodes
-                      .map((node) => `(${node.target})`)
-                      .join('\n')}`,
-                )
-                .join('\n'),
-            ).toEqual('')
-          })
-        }
-      })
-    }
+            expect
+              .soft(
+                violations
+                  .map(
+                    (violation) =>
+                      `${violation.id}: ${violation.help}\n${violation.nodes
+                        .map((node) => `(${node.target})`)
+                        .join('\n')}`,
+                  )
+                  .join('\n'),
+                colorScheme,
+              )
+              .toEqual('')
+          }
+        })
+      }
+    })
   })
 }

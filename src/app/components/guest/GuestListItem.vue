@@ -5,6 +5,12 @@
       'animate-pulse': pending.deletions.includes(guest.rowId),
     }"
   >
+    <AppTableCell class="w-0">
+      <AppCheckbox
+        v-model="isSelected"
+        :aria-label="t('guestSelect', { name: contactName })"
+      />
+    </AppTableCell>
     <AppTableCell class="max-w-0">
       <ContactPreview :contact :feedback="guest.feedback" />
     </AppTableCell>
@@ -136,6 +142,7 @@ import { useMagicKeys } from '@vueuse/core'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import { graphql } from '~~/gql/generated'
 import { getContactItem } from '~~/shared/utils/contact'
+import { getContactName } from '~~/shared/utils/model'
 import type {
   EventItemFragment,
   GuestItemFragment,
@@ -146,10 +153,12 @@ const { event, guest } = defineProps<{
   guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'rowId'>
 }>()
 
-const { locale, t } = useI18n()
+const { defaultLocale, locale, t } = useI18n()
 const localePath = useLocalePath()
 const { copy } = useCopy()
 const { shift } = useMagicKeys()
+
+const isSelected = defineModel<boolean>('selected')
 
 // data
 const isDeleteDrawerOpen = ref(false)
@@ -199,12 +208,17 @@ const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 
   if (
     await copy(
-      `${window.location.origin}${localePath({
-        name: 'guest-view-id',
-        params: {
-          id: guest.rowId,
+      // the guest's language is unknown here, so the mark lets the server pick it
+      `${window.location.origin}${localePath(
+        {
+          name: 'guest-view-id',
+          params: {
+            id: guest.rowId,
+          },
+          query: { language: 'auto' },
         },
-      })}`,
+        defaultLocale,
+      )}`,
     )
   )
     toast.success(t('copySuccess'))
@@ -254,6 +268,14 @@ const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 
 // computations
 const contact = computed(() => getContactItem(guest.contactByContactId))
+const contactName = computed(() =>
+  contact.value
+    ? getContactName({
+        account: contact.value.accountByAccountId,
+        contact: contact.value,
+      })
+    : undefined,
+)
 </script>
 
 <i18n lang="yaml">
@@ -265,6 +287,7 @@ de:
   guestFeedbackCancel: Als abgesagt markieren
   guestFeedbackSuccess: Der Rückmeldestatus wurde aktualisiert.
   guestLink: Einladungslink kopieren
+  guestSelect: Gast {name} auswählen
   guestSend: Einladung versenden
   guestView: Einladung anzeigen
   sendSuccess: Die Einladung wurde erfolgreich per E-Mail versandt.
@@ -277,6 +300,7 @@ en:
   guestFeedbackCancel: Mark as declined
   guestFeedbackSuccess: The feedback status was updated.
   guestLink: Copy invitation link
+  guestSelect: Select guest {name}
   guestSend: Send invitation
   guestView: View invitation
   sendSuccess: The invitation was successfully sent by email.

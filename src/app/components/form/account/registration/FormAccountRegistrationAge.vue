@@ -40,6 +40,7 @@
                 :model-value="
                   field.state.value ? parseDate(field.state.value) : undefined
                 "
+                prevent-deselect
                 @update:model-value="
                   (v) => {
                     field.handleChange(v ? v.toString() : '')

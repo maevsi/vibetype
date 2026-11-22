@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test'
 
 import { appTest } from '#tests/e2e/fixtures/appTest'
+import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 import { PAGE_READY, TIMEOUT } from '#tests/e2e/utils/constants'
 import {
   testMetadata,
@@ -75,9 +76,45 @@ appTest.describe('internationalization', () => {
 })
 
 appTest.describe('visual regression', () => {
-  appTest('displays the cookie banner', async ({ page }) => {
+  appTest('displays the privacy screen', async ({ page }) => {
     await page.goto('/')
-    await PAGE_READY({ page, options: { cookieControl: false } })
+    await PAGE_READY({ page })
     await expect(page).toHaveScreenshot({ timeout: TIMEOUT })
   })
+})
+
+authenticatedTest.describe('signed in', () => {
+  authenticatedTest(
+    'redirects a client side navigation to the dashboard without errors',
+    async ({ defaultPage }) => {
+      await defaultPage.goto('/account/view/e2e-missing-account')
+
+      // vue reports a failing setup to the console rather than as a page error;
+      // listening only from here skips the dev server's unrelated hydration mismatches
+      const errors: string[] = []
+      defaultPage.page.on('pageerror', (error) => errors.push(error.message))
+      defaultPage.page.on('console', (message) => {
+        if (message.type() === 'error') errors.push(message.text())
+      })
+
+      // no page links the root for a signed-in account, so the app's router navigates there
+      await defaultPage.page.locator('#__nuxt').evaluate((element) =>
+        (
+          element as typeof element & {
+            __vue_app__: {
+              config: {
+                globalProperties: {
+                  $router: { push: (path: string) => Promise<unknown> }
+                }
+              }
+            }
+          }
+        ).__vue_app__.config.globalProperties.$router.push('/'),
+      )
+
+      await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
+      await expect(defaultPage.page).toHaveTitle(/^Dashboard · Vibetype$/)
+      expect(errors).toEqual([])
+    },
+  )
 })

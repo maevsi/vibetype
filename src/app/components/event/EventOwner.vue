@@ -10,10 +10,10 @@
           })
         "
       >
-        {{ username }}
+        {{ `@${username}` }}
       </AppLink>
       <span v-else>
-        {{ username }}
+        {{ `@${username}` }}
       </span>
     </template>
   </i18n-t>

@@ -13,7 +13,7 @@
         <i18n-t keypath="message" tag="span">
           <template #username>
             <span class="font-bold">
-              {{ username }}
+              {{ `@${username}` }}
             </span>
           </template>
         </i18n-t>

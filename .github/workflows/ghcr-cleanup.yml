@@ -14,7 +14,7 @@ on:
 jobs:
   ghcr-cleanup:
     name: GHCR cleanup
-    uses: dargmuesli/github-actions/.github/workflows/ghcr-cleanup.yml@f32c68d81ab8d97c55392d02c3639d15bdf7efb4 # 6.0.0-beta.3
+    uses: dargmuesli/github-actions/.github/workflows/ghcr-cleanup.yml@ec1208db30dfa20f05c0d273ae10772bd3184e0c # 6.0.0-beta.4
     permissions:
       packages: write
     with:

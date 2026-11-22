@@ -30,11 +30,6 @@
 </template>
 
 <script setup lang="ts">
-// compiler
-definePageMeta({
-  layout: 'default-no-header',
-})
-
 // page
 const { t } = useI18n()
 const title = t('title')

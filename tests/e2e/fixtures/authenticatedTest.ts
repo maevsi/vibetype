@@ -11,7 +11,7 @@ import { SITE_URL } from '#tests/e2e/utils/constants'
 
 import { appTest } from './appTest'
 
-const signTestingAccountJwt = async () => {
+const signTestingAccountJwt = async (accountRowId: string) => {
   const privateKey = await importPKCS8(TESTING_JWT_PRIVATE_KEY, JWT_ALGORITHM)
 
   return await new SignJWT({
@@ -21,7 +21,7 @@ const signTestingAccountJwt = async () => {
     username: TESTING_ACCOUNT_USERNAME,
   })
     .setProtectedHeader({ alg: JWT_ALGORITHM })
-    .setSubject(TESTING_ACCOUNT_ROW_ID)
+    .setSubject(accountRowId)
     .setIssuer('postgraphile')
     .setAudience('postgraphile')
     .setJti(crypto.randomUUID())
@@ -29,16 +29,20 @@ const signTestingAccountJwt = async () => {
     .sign(privateKey)
 }
 
-export const authenticatedTest = appTest.extend<{ signedIn: void }>({
+export const authenticatedTest = appTest.extend<{
+  accountRowId: string
+  signedIn: void
+}>({
+  accountRowId: [TESTING_ACCOUNT_ROW_ID, { option: true }],
   signedIn: [
-    async ({ context }, use) => {
+    async ({ accountRowId, context }, use) => {
       await context.addCookies([
         {
           httpOnly: true,
           name: JWT_COOKIE_NAME,
           secure: true,
           url: SITE_URL,
-          value: await signTestingAccountJwt(),
+          value: await signTestingAccountJwt(accountRowId),
         },
       ])
 

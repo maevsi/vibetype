@@ -36,10 +36,35 @@ const emit = defineEmits<{
 
 const isOpen = defineModel<boolean>()
 
+// history
+// an open drawer owns one history entry, so a back navigation closes it instead of leaving the page behind it
+const id = useId()
+const onPopState = () => {
+  if (history.state?.drawer === id) return
+
+  isOpen.value = false
+}
+const historyEntryAdd = () => {
+  history.pushState({ ...history.state, drawer: id }, '')
+  window.addEventListener('popstate', onPopState)
+}
+const historyEntryRemove = () => {
+  window.removeEventListener('popstate', onPopState)
+
+  // only while the entry is still current, as a navigation away from the page must not be undone
+  if (history.state?.drawer === id) history.back()
+}
+
 // lifecycle
 watch(isOpen, (newValue) => {
-  if (!newValue) {
+  if (newValue) {
+    historyEntryAdd()
+  } else {
+    historyEntryRemove()
     emit('close')
   }
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('popstate', onPopState)
 })
 </script>

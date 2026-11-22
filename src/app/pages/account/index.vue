@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <h1>
-      {{ title }}
-    </h1>
-    <AccountSearch />
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <AccountSearch />
+    </LayoutPage>
   </div>
 </template>
 
