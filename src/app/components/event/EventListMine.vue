@@ -282,7 +282,7 @@ const filterOptions = computed(() => [
     : []),
   {
     color: 'text-accent-pink',
-    icon: resolveComponent('AppIconHeart'),
+    icon: resolveComponent('AppIconBookmark'),
     label: t('saved'),
     value: 'saved',
   } as const,
@@ -379,13 +379,13 @@ const emptyState = computed(() => {
         ? {
             actions: [showUpcoming],
             description: t('emptySavedPastDescription'),
-            icon: resolveComponent('AppIconHeart'),
+            icon: resolveComponent('AppIconBookmark'),
             title: t('emptySavedPastTitle'),
           }
         : {
             actions: [discover],
             description: t('emptySavedUpcomingDescription'),
-            icon: resolveComponent('AppIconHeart'),
+            icon: resolveComponent('AppIconBookmark'),
             title: t('emptySavedUpcomingTitle'),
           }
     default:
@@ -517,7 +517,7 @@ de:
   emptyInvitations: Einladungen
   emptySavedPastDescription: Gemerkte Veranstaltungen wandern hierher, sobald sie vorbei sind.
   emptySavedPastTitle: Keine vergangenen gemerkten Veranstaltungen
-  emptySavedUpcomingDescription: Tippe bei einer Veranstaltung auf das Herz, um sie hier für später aufzuheben.
+  emptySavedUpcomingDescription: Tippe bei einer Veranstaltung auf das Lesezeichen, um sie hier für später aufzuheben.
   emptySavedUpcomingTitle: Noch nichts gemerkt
   emptyShowUpcoming: Bevorstehende anzeigen
   filterLabel: Filter
@@ -544,7 +544,7 @@ en:
   emptyInvitations: Invitations
   emptySavedPastDescription: Saved events move here once they're over.
   emptySavedPastTitle: No past saved events
-  emptySavedUpcomingDescription: Tap the heart on any event to keep it here for later.
+  emptySavedUpcomingDescription: Tap the bookmark on any event to keep it here for later.
   emptySavedUpcomingTitle: Nothing saved yet
   emptyShowUpcoming: Show upcoming
   filterLabel: Filter

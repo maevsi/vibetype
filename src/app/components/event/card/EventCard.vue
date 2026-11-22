@@ -144,7 +144,7 @@
           aria-hidden="true"
           class="size-3"
         />
-        <AppIconHeart
+        <AppIconBookmark
           v-else-if="badgeKind === 'saved'"
           aria-hidden="true"
           class="size-3"
