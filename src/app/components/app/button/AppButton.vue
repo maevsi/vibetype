@@ -39,7 +39,10 @@
 
 <script setup lang="ts">
 import type { ButtonHTMLAttributes, HTMLAttributes } from 'vue'
-import type { RouteQueryAndHash } from 'vue-router'
+import type {
+  RouteLocationAsPathGeneric,
+  RouteLocationAsRelativeGeneric,
+} from 'vue-router'
 
 import { AppLink } from '#components'
 import { cn } from '@/utils/shadcn'
@@ -71,8 +74,8 @@ const {
   isExternal?: boolean
   loading?: boolean
   size?: AppButtonSize
-  // an optional prop typed with all routes exceeds the union size Vue's prop types can represent (https://github.com/vuejs/core/issues/10514), so links take localized paths or same-page queries until that is fixed
-  to?: string | RouteQueryAndHash
+  // an optional prop typed with all routes exceeds the union size Vue's prop types can represent (https://github.com/vuejs/core/issues/10514), so links take untyped route locations until that is fixed
+  to?: string | RouteLocationAsPathGeneric | RouteLocationAsRelativeGeneric
   type?: ButtonHTMLAttributes['type']
   variant?: AppButtonVariant
 }>()
