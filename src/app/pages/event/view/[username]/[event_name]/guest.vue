@@ -88,11 +88,19 @@ const title = computed(() => {
     store.signedInUsername &&
     route.params.username !== store.signedInUsername
   ) {
-    showAppError({ status: 403, message: 'Permission denied' })
+    showAppError({
+      data: { vibetype: t('errorPermissionDenied') },
+      message: 'Permission denied',
+      status: 403,
+    })
     return
   }
   if (!event.value) {
-    showAppError({ status: 404, message: 'Event unavailable' })
+    showAppError({
+      data: { vibetype: t('errorEventMissing') },
+      message: 'Event unavailable',
+      status: 404,
+    })
     return
   }
 
@@ -103,7 +111,11 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
+  errorPermissionDenied: Nur wer diese Veranstaltung organisiert, kann diese Seite öffnen. Wenn es deine Veranstaltung ist, melde dich mit dem Konto an, mit dem du sie erstellt hast.
   title: Gästeliste
 en:
+  errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
+  errorPermissionDenied: Only the organizer of this event can open this page. If it's your event, sign in with the account that created it.
   title: Guest list
 </i18n>
