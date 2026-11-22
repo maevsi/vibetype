@@ -1,3 +1,10 @@
+## [17.44.1](https://github.com/maevsi/vibetype/compare/17.44.0...17.44.1) (2026-11-22)
+
+### Bug Fixes
+
+* **achievement:** show a newly unlocked achievement on the profile right away ([#2831](https://github.com/maevsi/vibetype/issues/2831)) ([6d59463](https://github.com/maevsi/vibetype/commit/6d59463ea96a65e7ce9925367adc244288e22f5b))
+* **attendance:** show check-in and check-out right away ([#2830](https://github.com/maevsi/vibetype/issues/2830)) ([2e1cdb6](https://github.com/maevsi/vibetype/commit/2e1cdb65eba2b544d4cdceb7a5dddc318dce38e0))
+
 ## [17.44.0](https://github.com/maevsi/vibetype/compare/17.43.0...17.44.0) (2026-11-22)
 
 ### Features
