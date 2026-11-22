@@ -2,6 +2,10 @@ import type { PwaModuleOptions } from '@vite-pwa/nuxt'
 
 import deLocaleMessages from '../../i18n/locales/de.json'
 import enLocaleMessages from '../../i18n/locales/en.json'
+import {
+  POSTER_SHARE_ACTION,
+  POSTER_SHARE_FIELD_NAME,
+} from '../../shared/utils/posterShare.ts'
 import { CACHE_VERSION, THEME_COLOR } from './index.ts'
 
 // the `manifest` option of the pwa module, minus its `false` form which disables the manifest entirely
@@ -165,22 +169,19 @@ export const getPwaManifest = ({
       { origin: 'https://maev.si', type: 'origin' },
       { origin: 'https://vibetype.app', type: 'origin' },
     ],
-    // share_target: {
-    //   action: '/collect-files',
-    //   method: 'POST',
-    //   enctype: 'multipart/form-data',
-    //   params: {
-    //     title: 'title',
-    //     text: 'text',
-    //     url: 'url',
-    //     files: [
-    //       {
-    //         name: 'lists',
-    //         accept: ['text/csv', '.csv'],
-    //       },
-    //     ],
-    //   },
-    // },
+    share_target: {
+      action: POSTER_SHARE_ACTION,
+      enctype: 'multipart/form-data',
+      method: 'POST',
+      params: {
+        files: [
+          {
+            accept: ['image/jpeg', 'image/png'],
+            name: POSTER_SHARE_FIELD_NAME,
+          },
+        ],
+      },
+    },
     theme_color: THEME_COLOR,
     // widgets: [
     //   {

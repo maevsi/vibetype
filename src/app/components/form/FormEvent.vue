@@ -221,35 +221,28 @@
             </FieldContent>
           </Field>
         </form.Field>
-        <Field>
-          <FieldLabel>{{ t('attendanceType') }}</FieldLabel>
-          <FieldContent>
-            <form.Field v-slot="{ field }" name="isInPerson">
-              <div class="flex items-center gap-4">
-                <AppCheckbox
-                  id="is-in-person"
-                  :model-value="field.state.value"
-                  @update:model-value="
-                    (checked) => field.handleChange(checked === true)
-                  "
-                />
-                <label for="is-in-person">{{ t('isInPerson') }}</label>
-              </div>
-            </form.Field>
-            <form.Field v-slot="{ field }" name="isRemote">
-              <div class="flex items-center gap-4">
-                <AppCheckbox
-                  id="is-remote"
-                  :model-value="field.state.value"
-                  @update:model-value="
-                    (checked) => field.handleChange(checked === true)
-                  "
-                />
-                <label for="is-remote">{{ t('isRemote') }}</label>
-              </div>
-            </form.Field>
-          </FieldContent>
-        </Field>
+        <form.Field v-slot="{ field: isInPersonField }" name="isInPerson">
+          <form.Field v-slot="{ field: isRemoteField }" name="isRemote">
+            <AppCheckboxGroup
+              :items="[
+                { label: t('isInPerson'), value: 'isInPerson' },
+                { label: t('isRemote'), value: 'isRemote' },
+              ]"
+              :model-value="[
+                ...(isInPersonField.state.value ? ['isInPerson'] : []),
+                ...(isRemoteField.state.value ? ['isRemote'] : []),
+              ]"
+              @update:model-value="
+                (values) => {
+                  isInPersonField.handleChange(values.includes('isInPerson'))
+                  isRemoteField.handleChange(values.includes('isRemote'))
+                }
+              "
+            >
+              <template #legend>{{ t('attendanceType') }}</template>
+            </AppCheckboxGroup>
+          </form.Field>
+        </form.Field>
         <form.Field v-slot="{ field: isInPersonField }" name="isInPerson">
           <template v-if="isInPersonField.state.value">
             <form.Field
@@ -370,30 +363,29 @@
         </form.Field>
         <form.Field v-slot="{ field }" name="visibility">
           <Field>
-            <FieldLabel>{{ t('visibility') }}</FieldLabel>
-            <FieldContent>
-              <AppRadioGroup
-                :default-value="field.state.value"
-                :items="[
-                  {
-                    label: t('visibilityPublic'),
-                    value: EventVisibility.Public,
-                  },
-                  {
-                    label: t('visibilityPrivate'),
-                    value: EventVisibility.Private,
-                  },
-                  {
-                    label: t('visibilityUnlisted'),
-                    value: EventVisibility.Unlisted,
-                  },
-                ]"
-                @update:model-value="
-                  (value) =>
-                    field.handleChange(String(value ?? '') as EventVisibility)
-                "
-              />
-            </FieldContent>
+            <AppRadioGroup
+              :default-value="field.state.value"
+              :items="[
+                {
+                  label: t('visibilityPublic'),
+                  value: EventVisibility.Public,
+                },
+                {
+                  label: t('visibilityPrivate'),
+                  value: EventVisibility.Private,
+                },
+                {
+                  label: t('visibilityUnlisted'),
+                  value: EventVisibility.Unlisted,
+                },
+              ]"
+              @update:model-value="
+                (value) =>
+                  field.handleChange(String(value ?? '') as EventVisibility)
+              "
+            >
+              <template #legend>{{ t('visibility') }}</template>
+            </AppRadioGroup>
             <FieldError
               v-if="isFieldInvalid(field)"
               :errors="field.state.meta.errors"
