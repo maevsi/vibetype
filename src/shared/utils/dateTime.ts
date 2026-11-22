@@ -156,9 +156,9 @@ const getDay = (date: Date, timeZone?: string) => {
  *
  * @param {(item: T) => string} getDate - Returns an item's date as an ISO string.
  * @param {readonly T[]} items - The items to group, in display order.
- * @param {Date} now - The moment that "today" and "tomorrow" refer to.
+ * @param {Date} now - The moment that "today", "tomorrow" and the coming week refer to.
  * @param {string} [timeZone] - An IANA time zone name; defaults to the runtime's time zone.
- * @returns The groups, each with its calendar day as midnight UTC, so that it is to be formatted in UTC.
+ * @returns The groups, each with its calendar day as midnight UTC, so that it is to be formatted in UTC, and whether that day is today, tomorrow or one of the five days after.
  *
  * @example
  * groupByDay({ getDate: (event) => event.start, items: events, now, timeZone: 'Europe/Berlin' })
@@ -175,12 +175,14 @@ export const groupByDay = <T>({
   now: Date
   timeZone?: string
 }) => {
+  const dayMilliseconds = 24 * 60 * 60 * 1000
   const today = getDay(now, timeZone)
-  const tomorrow = today + 24 * 60 * 60 * 1000
+  const tomorrow = today + dayMilliseconds
+  const weekEnd = today + 7 * dayMilliseconds
   const groups: {
     day: Date
     items: T[]
-    relativeDay?: 'today' | 'tomorrow'
+    relativeDay?: 'today' | 'tomorrow' | 'week'
   }[] = []
 
   for (const item of items) {
@@ -196,7 +198,13 @@ export const groupByDay = <T>({
       day: new Date(day),
       items: [item],
       relativeDay:
-        day === today ? 'today' : day === tomorrow ? 'tomorrow' : undefined,
+        day === today
+          ? 'today'
+          : day === tomorrow
+            ? 'tomorrow'
+            : day > tomorrow && day < weekEnd
+              ? 'week'
+              : undefined,
     })
   }
 

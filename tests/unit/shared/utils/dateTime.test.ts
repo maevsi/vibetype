@@ -171,6 +171,9 @@ describe('groupByDay', () => {
         '2026-11-17T04:59:00Z', // 23:59 in New York, but already the next day in UTC
         '2026-11-17T05:00:00Z',
         '2026-11-19T18:00:00Z',
+        '2026-11-22T18:00:00Z', // the last day of the coming week
+        '2026-11-23T18:00:00Z', // a week from today
+        '2026-11-15T18:00:00Z', // yesterday
         '2026-11-16T23:00:00Z',
       ],
       now: new Date('2026-11-16T20:00:00Z'),
@@ -191,6 +194,21 @@ describe('groupByDay', () => {
       {
         day: new Date('2026-11-19T00:00:00Z'),
         items: ['2026-11-19T18:00:00Z'],
+        relativeDay: 'week',
+      },
+      {
+        day: new Date('2026-11-22T00:00:00Z'),
+        items: ['2026-11-22T18:00:00Z'],
+        relativeDay: 'week',
+      },
+      {
+        day: new Date('2026-11-23T00:00:00Z'),
+        items: ['2026-11-23T18:00:00Z'],
+        relativeDay: undefined,
+      },
+      {
+        day: new Date('2026-11-15T00:00:00Z'),
+        items: ['2026-11-15T18:00:00Z'],
         relativeDay: undefined,
       },
       {

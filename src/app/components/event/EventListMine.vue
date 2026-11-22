@@ -283,8 +283,8 @@ const filterOptions = computed(() => [
     : []),
 ])
 const timeOptions = [
-  { label: t('upcoming'), value: 'upcoming' },
   { label: t('past'), value: 'past' },
+  { label: t('upcoming'), value: 'upcoming' },
 ] as const
 const route = useRoute()
 const store = useStore()

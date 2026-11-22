@@ -94,18 +94,12 @@
               : '80'
         "
       />
+      <!-- the small list items leave saving to the event page, as a button on their thumbnail is too small to hit -->
       <EventFavoriteButton
-        v-if="!variant || variant === 'recommendation'"
-        :class="
-          cn(
-            'absolute z-20 flex items-center justify-center rounded-full bg-surface-raised',
-            variant === 'recommendation'
-              ? 'top-2 right-2 size-10'
-              : 'top-1 left-1 size-7',
-          )
-        "
+        v-if="variant === 'recommendation'"
+        class="absolute top-2 right-2 z-20 flex size-10 items-center justify-center rounded-full bg-surface-raised"
         :event
-        :icon-class="variant === 'recommendation' ? 'size-5' : 'size-4'"
+        icon-class="size-5"
       />
       <div
         v-if="variant === 'recommendation'"
