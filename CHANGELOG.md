@@ -1,3 +1,22 @@
+## [17.44.0](https://github.com/maevsi/vibetype/compare/17.43.0...17.44.0) (2026-11-22)
+
+### Features
+
+* **event:** present favorites as saved events with a bookmark ([#2820](https://github.com/maevsi/vibetype/issues/2820)) ([cd3b910](https://github.com/maevsi/vibetype/commit/cd3b910c9598bae2cbd60684256e40a356ff4d0a))
+* **event:** remove deletion from the edit page ([#2817](https://github.com/maevsi/vibetype/issues/2817)) ([7606970](https://github.com/maevsi/vibetype/commit/7606970e3d736b449cc0df95a21f3a4f1270b843))
+* **event:** show the city on event cards ([#2819](https://github.com/maevsi/vibetype/issues/2819)) ([b29bca0](https://github.com/maevsi/vibetype/commit/b29bca06998368c697f8afbf9f800b86f7407c62))
+* **event:** title event pages as the event on vibetype ([#2813](https://github.com/maevsi/vibetype/issues/2813)) ([82f311b](https://github.com/maevsi/vibetype/commit/82f311b215ce539783ba33c3fa1d033c939b697c))
+* **preference:** hide the event size step for now ([#2823](https://github.com/maevsi/vibetype/issues/2823)) ([4cfd388](https://github.com/maevsi/vibetype/commit/4cfd388552ddfcdb6af86bdd1f3384941ba189fc))
+
+### Bug Fixes
+
+* **dashboard:** address the top pick to the user ([#2812](https://github.com/maevsi/vibetype/issues/2812)) ([9b5fa89](https://github.com/maevsi/vibetype/commit/9b5fa894199dc86221b4e831e812e8a3d641f2a9))
+* **event:** show the updated guest count right after adding or removing guests ([#2829](https://github.com/maevsi/vibetype/issues/2829)) ([3e21647](https://github.com/maevsi/vibetype/commit/3e21647d6edd8fc2ca611c720202f4c6f4e3b688))
+* **event:** show the updated location right after saving ([#2828](https://github.com/maevsi/vibetype/issues/2828)) ([dd0a817](https://github.com/maevsi/vibetype/commit/dd0a817632aa1d28238370364b9c1297f9a11140))
+* **event:** show the updated visibility right after saving ([#2827](https://github.com/maevsi/vibetype/issues/2827)) ([b55765e](https://github.com/maevsi/vibetype/commit/b55765ec1bb918cb25b5d8dce4483f6c83ce5890))
+* **link:** align the external link prompt's actions with other prompts ([#2816](https://github.com/maevsi/vibetype/issues/2816)) ([1fec114](https://github.com/maevsi/vibetype/commit/1fec1140dc6afe96f40b26a386964f27989fa564))
+* **preference:** clarify setup prompt and exit action ([#2814](https://github.com/maevsi/vibetype/issues/2814)) ([7b0bb62](https://github.com/maevsi/vibetype/commit/7b0bb62723681b2e927ca7ea83b97efdf719f31e))
+
 ## [17.43.0](https://github.com/maevsi/vibetype/compare/17.42.0...17.43.0) (2026-11-22)
 
 ### Features
