@@ -36,7 +36,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       data-slot="checkbox-indicator"
     >
       <slot>
-        <Check class="size-3.5" />
+        <Check class="size-4" />
       </slot>
     </CheckboxIndicator>
   </CheckboxRoot>

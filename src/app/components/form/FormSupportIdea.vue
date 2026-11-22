@@ -71,7 +71,7 @@
       </form.Field>
       <form.Field v-slot="{ field }" name="userConsent">
         <Field :data-invalid="isFieldInvalid(field)" orientation="horizontal">
-          <AppCheckbox
+          <Checkbox
             :id="field.name"
             class="mt-1"
             :model-value="field.state.value"

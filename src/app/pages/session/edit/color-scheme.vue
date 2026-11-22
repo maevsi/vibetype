@@ -4,7 +4,7 @@
     <LayoutPage>
       <ColorScheme>
         <AppRadioGroup
-          class="gap-0 *:min-h-12"
+          :aria-label="title"
           :default-value="colorMode.preference"
           :items="colorSchemes"
           @update:model-value="
@@ -12,7 +12,7 @@
           "
         />
         <template #placeholder>
-          <AppRadioGroup class="gap-0 *:min-h-12" :items="colorSchemes" />
+          <AppRadioGroup :aria-label="title" :items="colorSchemes" />
         </template>
       </ColorScheme>
     </LayoutPage>

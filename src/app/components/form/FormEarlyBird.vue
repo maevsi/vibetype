@@ -56,7 +56,7 @@
       <Field>
         <div class="flex gap-3">
           <FieldContent class="mt-1">
-            <AppCheckbox
+            <Checkbox
               :id="field.name"
               :aria-invalid="isFieldInvalid(field)"
               :model-value="field.state.value"

@@ -79,22 +79,34 @@
             </div>
             <AppIconPlus class="ml-auto shrink-0" />
           </AppButton>
-          <label
-            v-for="contact in contactsFiltered"
-            :key="contact.rowId"
-            class="flex w-full shrink-0 cursor-pointer items-center gap-4 rounded-small border-2 border-line px-4 py-2 has-disabled:cursor-not-allowed has-disabled:opacity-40"
+          <AppCheckboxGroup
+            :aria-label="t('contactsSelect')"
+            class="shrink-0"
+            :model-value="[
+              ...(guestContactIdsExisting ?? []),
+              ...field.state.value,
+            ]"
+            variant="card"
+            @update:model-value="
+              (values) =>
+                field.handleChange(
+                  values
+                    .map(String)
+                    .filter(
+                      (value) => !guestContactIdsExisting?.includes(value),
+                    ),
+                )
+            "
           >
-            <ContactPreview :contact :is-username-linked="false" />
-            <AppCheckbox
-              class="ml-auto shrink-0"
+            <AppCheckboxGroupItem
+              v-for="contact in contactsFiltered"
+              :key="contact.rowId"
               :disabled="guestContactIdsExisting?.includes(contact.rowId)"
-              :model-value="
-                guestContactIdsExisting?.includes(contact.rowId) ||
-                field.state.value.includes(contact.rowId)
-              "
-              @update:model-value="selectToggle(contact.rowId, field)"
-            />
-          </label>
+              :value="contact.rowId"
+            >
+              <ContactPreview :contact :is-username-linked="false" />
+            </AppCheckboxGroupItem>
+          </AppCheckboxGroup>
         </div>
       </form.Field>
       <AppFeature feature="account-management">
@@ -133,7 +145,6 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
-import type { AnyFieldApi } from '@tanstack/vue-form'
 import { useMutation, useQuery } from '@urql/vue'
 import { refDebounced } from '@vueuse/core'
 import { z } from 'zod'
@@ -382,16 +393,6 @@ const contactCreate = async () => {
   ])
   contactsPinned.value = [...contactsPinned.value, contactCreated]
 }
-const selectToggle = (contactId: string, field: AnyFieldApi) => {
-  const currentIds = field.state.value as string[]
-  const index = currentIds.indexOf(contactId)
-
-  if (index === -1) {
-    field.handleChange([...currentIds, contactId])
-  } else {
-    field.handleChange(currentIds.filter((_: string, i: number) => i !== index))
-  }
-}
 
 // computations
 const isContactBookComplete = computed(
@@ -479,6 +480,7 @@ de:
   contactCreate: Zum Kontaktbuch hinzufügen
   contactExisting: Ein Kontakt für dieses Konto existiert bereits!
   contactsAdd: Zu meinem Kontaktbuch
+  contactsSelect: Kontakte auswählen
   placeholderContact: Max Mustermann
   select: Zur Gästeliste hinzufügen
   selectAndSend: Einladung senden
@@ -491,6 +493,7 @@ en:
   contactCreate: Add to contact book
   contactExisting: A contact for this account already exists!
   contactsAdd: To my contact book
+  contactsSelect: Select contacts
   placeholderContact: John Doe
   select: Add to guest list
   selectAndSend: Send invitation
