@@ -22,7 +22,7 @@
           :aria-label="t('skip')"
           size="small"
           variant="secondary"
-          @click="step = 'size'"
+          @click="step = stepFirst"
         >
           {{ t('skip') }}
         </AppButton>
@@ -46,11 +46,14 @@
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <PreferenceStepWelcome
         v-bind="attributes"
-        @next="step = isNotificationStepRequired ? 'notification' : 'size'"
+        @next="step = isNotificationStepRequired ? 'notification' : stepFirst"
       />
     </AppStepPanel>
     <AppStepPanel v-slot="attributes" :is-active="step === 'notification'">
-      <PreferenceStepNotification v-bind="attributes" @next="step = 'size'" />
+      <PreferenceStepNotification
+        v-bind="attributes"
+        @next="step = stepFirst"
+      />
     </AppStepPanel>
     <AppStepPanel v-slot="attributes" :is-active="step === 'size'">
       <PreferenceStepSize
@@ -149,6 +152,10 @@ await useSignInRequired()
 const { isStepRequired: isNotificationStepRequired } =
   useNotificationOnboarding()
 
+// The size step is hidden until enough users attend events for it to matter, set to `true` to restore it.
+const isSizeStepEnabled = false
+const stepFirst = isSizeStepEnabled ? 'size' : 'format'
+
 // stepper
 const { error, step, previous, title } = useStepperPage<
   'notification' | 'size' | 'format' | 'category' | 'location' | 'done'
@@ -164,7 +171,7 @@ const { error, step, previous, title } = useStepperPage<
       previous: 'default',
     },
     format: {
-      previous: 'size',
+      previous: isSizeStepEnabled ? 'size' : 'default',
     },
     category: {
       previous: 'format',
