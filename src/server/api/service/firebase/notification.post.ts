@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { getMessaging } from 'firebase-admin/messaging'
 
 const fcmMessageSchema = z
   .object({
@@ -22,7 +21,6 @@ const fcmMessageSchema = z
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig(event)
   const body = await getBodySafe({ event, schema: fcmMessageSchema })
-  const { adminApp } = useFirebase()
 
   if (!runtimeConfig.vibetype.api.notification.secret)
     throw createAppError({
@@ -36,52 +34,17 @@ export default defineEventHandler(async (event) => {
       statusText: 'Invalid secret',
     })
 
-  // `body.payload.token` narrows the ternary's true branch; the schema's
-  // `.refine()` guarantees `userId` is set whenever `token` isn't.
-  const fcmTokens = body.payload.token
-    ? [body.payload.token]
-    : await getFcmTokensByAccountId(body.payload.userId!)
+  const result = await sendPush({
+    accountId: body.payload.userId,
+    notification: body.payload.notification,
+    tokens: body.payload.token ? [body.payload.token] : undefined,
+  })
 
-  const messaging = getMessaging(adminApp)
-
-  // `allSettled` so one failing token does not hide the others' results, and
-  // so every failure code is logged. Failures still fail the request, so
-  // monitoring sees them as 500s.
-  const results = await Promise.allSettled(
-    fcmTokens.map((token) =>
-      messaging.send({
-        notification: body.payload.notification,
-        token,
-      }),
-    ),
-  )
-
-  const failures = results.filter(
-    (result): result is PromiseRejectedResult => result.status === 'rejected',
-  )
-
-  if (failures.length > 0) {
-    const codes = failures.map(({ reason }) => reason?.code ?? 'unknown')
-
-    for (const { reason } of failures) console.error('FCM send failed:', reason)
-
+  if (result.successCount === 0 && result.failureCount > 0)
     throw createAppError({
-      status: 500,
-      statusText: `FCM send failed for ${failures.length} of ${results.length} token(s): ${[...new Set(codes)].join(', ')}`,
+      status: 502,
+      statusText: 'Push notification could not be sent',
     })
-  }
 
-  return results.map(
-    (result) => (result as PromiseFulfilledResult<string>).value,
-  )
+  return result
 })
-
-const getFcmTokensByAccountId = async (accountId: string) => {
-  const rows = await executeQuery(
-    sql`SELECT fcm_token FROM vibetype.device WHERE created_by = ${accountId}`,
-  )
-
-  return rows
-    .map((row) => row.fcm_token as string | null)
-    .filter((fcmToken) => fcmToken !== null)
-}

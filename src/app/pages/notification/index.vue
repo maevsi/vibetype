@@ -1,55 +1,90 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutTopBar>
+      {{ title }}
+      <template #actions>
+        <AppButton
+          :aria-label="t('settings')"
+          size="icon"
+          :to="localePath('notification-settings')"
+          variant="secondary"
+        >
+          <AppIconSettings />
+        </AppButton>
+      </template>
+    </LayoutTopBar>
     <LayoutPage>
-      <div class="flex flex-col gap-8">
-        <AppFeature feature="notifications">
-          <div class="flex flex-col gap-8">
-            <section
-              v-if="store.signedInAccountId && store.signedInUsername"
-              class="flex flex-col gap-4"
-            >
-              <!-- <h2>{{ t('friendRequests') }}</h2> -->
-              <div>
-                <NotificationFriendRequest
-                  :account-id="store.signedInAccountId"
-                  :username="store.signedInUsername"
-                />
-                <!-- <NotificationFriendRequest
-              :account-id="store.signedInAccountId"
-              :username="store.signedInUsername"
-            />
-            <NotificationFriendRequest
-              :account-id="store.signedInAccountId"
-              :username="store.signedInUsername"
-            /> -->
-              </div>
-            </section>
-            <section class="flex flex-col gap-4">
-              <!-- <h2>{{ t('general') }}</h2> -->
-              <div class="flex flex-col gap-2">
-                <NotificationGeneral
-                  :category="t('locationChangedCategory')"
-                  is-unread
-                  :message="t('locationChangedMessage')"
-                >
-                  <template #icon>
-                    <AppIconMapPinSolid />
-                  </template>
-                </NotificationGeneral>
-                <NotificationGeneral
-                  :category="t('invitationCategory')"
-                  :message="t('invitationMessage')"
-                >
-                  <template #icon>
-                    <AppIconHeart />
-                  </template>
-                </NotificationGeneral>
-              </div>
-            </section>
-          </div>
-        </AppFeature>
-        <ButtonApp />
+      <AppAlert
+        v-if="error && !items.length"
+        class="flex flex-col items-center gap-2"
+        variant="error"
+      >
+        {{ t('loadError') }}
+        <AppButton
+          :aria-label="t('retry')"
+          size="small"
+          variant="secondary"
+          @click="load"
+        >
+          {{ t('retry') }}
+        </AppButton>
+      </AppAlert>
+      <AppLoaderPlaceholder v-else-if="!hasLoaded" />
+      <div
+        v-else-if="!items.length"
+        class="flex flex-1 flex-col items-center justify-center gap-4 p-6 text-center"
+      >
+        <div
+          class="flex size-16 items-center justify-center rounded-full bg-surface-raised text-fg-1"
+        >
+          <AppIconBellAlert class="size-8" />
+        </div>
+        <div class="flex flex-col gap-1">
+          <span class="text-heading-medium text-balance">{{
+            t('emptyTitle')
+          }}</span>
+          <p class="text-body-small font-normal text-fg-2">
+            {{ t('emptyDescription') }}
+          </p>
+        </div>
+        <AppButton
+          :aria-label="t('settings')"
+          :to="localePath('notification-settings')"
+          variant="secondary"
+        >
+          {{ t('settings') }}
+          <template #prefix>
+            <AppIconSettings />
+          </template>
+        </AppButton>
+      </div>
+      <div v-else class="flex flex-col gap-4">
+        <AppAlert
+          v-if="error"
+          class="flex flex-col items-center gap-2"
+          variant="error"
+        >
+          {{ t('refreshError') }}
+        </AppAlert>
+        <ul class="flex flex-col gap-1">
+          <NotificationListItem
+            v-for="notification in items"
+            :key="notification.rowId"
+            :is-unread="unreadRowIds.has(notification.rowId)"
+            :notification
+            @open="markRead(notification.rowId)"
+          />
+        </ul>
+        <div v-if="hasNextPage" class="flex justify-center">
+          <AppButton
+            :aria-label="t('loadMore')"
+            :loading="isLoadingMore"
+            variant="secondary"
+            @click="loadMore"
+          >
+            {{ t('loadMore') }}
+          </AppButton>
+        </div>
       </div>
     </LayoutPage>
   </div>
@@ -58,31 +93,47 @@
 <script setup lang="ts">
 useFeatureRequired('notifications')
 
+// validation
+await useSignInRequired()
+
 const { t } = useI18n()
-const store = useStore()
+const localePath = useLocalePath()
 
-// data
-const title = t('notifications')
+// api data
+const {
+  error,
+  hasLoaded,
+  hasNextPage,
+  isLoadingMore,
+  items,
+  load,
+  loadMore,
+  markRead,
+  unreadRowIds,
+} = useNotificationInbox()
 
-// initialization
+// page
+const title = t('title')
 useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">
 de:
-  # friendRequests: Freundschaftsanfragen
-  # general: Allgemein
-  invitationCategory: 'Du bist eingeladen:'
-  invitationMessage: TrapParty 23 von Jonas
-  locationChangedCategory: 'Neu:'
-  locationChangedMessage: Ortswechsel bei einer Veranstaltung
-  notifications: Benachrichtigungen
+  emptyDescription: Einladungen, Antworten und Freundschaftsanfragen erscheinen hier.
+  emptyTitle: Alles gelesen
+  loadError: Die Benachrichtigungen konnten nicht geladen werden.
+  loadMore: Ältere anzeigen
+  refreshError: Die Liste konnte nicht aktualisiert werden.
+  retry: Erneut versuchen
+  settings: Benachrichtigungseinstellungen
+  title: Benachrichtigungen
 en:
-  # friendRequests: Friend requests
-  # general: General
-  invitationCategory: 'You are invited:'
-  invitationMessage: TrapParty 23 by Jonas
-  locationChangedCategory: 'News:'
-  locationChangedMessage: place changed for an event
-  notifications: Notifications
+  emptyDescription: Invitations, replies and friend requests show up here.
+  emptyTitle: You're all caught up
+  loadError: The notifications could not be loaded.
+  loadMore: Show older
+  refreshError: The list could not be refreshed.
+  retry: Try again
+  settings: Notification settings
+  title: Notifications
 </i18n>

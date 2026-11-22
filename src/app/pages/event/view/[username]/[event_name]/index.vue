@@ -85,6 +85,7 @@
         </template>
       </LayoutTopBar>
       <LayoutPage>
+        <NotificationSoftAsk context="event" />
         <div class="flex flex-col gap-6">
           <div class="relative">
             <EventHeroImage class="h-64 rounded-large" :event />

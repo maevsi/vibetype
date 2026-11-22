@@ -21,14 +21,7 @@
           {{ t('hunt') }}
         </AppButton>
         <AppFeature feature="notifications">
-          <AppButton
-            :aria-label="t('notifications')"
-            size="icon"
-            :to="localePath('notification')"
-            variant="secondary"
-          >
-            <AppIconBellAlert />
-          </AppButton>
+          <NotificationBell />
         </AppFeature>
       </template>
     </LayoutTopBar>
@@ -455,7 +448,6 @@ const templateIdUpcoming = useId()
 de:
   discover: Neue Veranstaltungen entdecken
   hunt: Jagd
-  notifications: Benachrichtigungen
   posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
   posterHuntImage: Bild hochladen
   posterHuntLink: Link angeben
@@ -474,7 +466,6 @@ de:
 en:
   discover: Discover new events
   hunt: Hunt
-  notifications: Notifications
   posterHuntDescription: Saw an interesting event outside of @.upper:{'globalSiteName'}?
   posterHuntImage: Upload image
   posterHuntLink: Provide link

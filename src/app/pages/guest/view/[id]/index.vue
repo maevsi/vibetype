@@ -39,6 +39,7 @@
         </AppButton>
       </AppAlert>
       <LayoutPage>
+        <NotificationSoftAsk context="guest" />
         <div class="flex flex-col gap-4">
           <div v-if="contact" class="flex flex-col gap-2">
             <div class="flex items-center justify-between gap-2">
@@ -319,6 +320,7 @@ const updateGuestByRowIdMutation = useMutation(
   `),
 )
 const store = useStore()
+const { requestSoftAsk } = useNotificationPrompt()
 
 const isModalGuestQrCodeOpen = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
@@ -576,6 +578,8 @@ const update = async (id: string, guestPatch: GuestPatch) => {
   if (!getResultData(result)) return
 
   toast.success(t('success'))
+
+  if (guestPatch.feedback === InvitationFeedback.Accepted) requestSoftAsk()
 }
 
 // computations

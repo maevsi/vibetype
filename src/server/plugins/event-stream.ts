@@ -1,6 +1,9 @@
-const TOPICS_OUTBOX = ['account', 'guest', 'upload'].map(
-  (aggregateType) => `${SITE_NAME}.outbox.${aggregateType}`,
-)
+const TOPICS_OUTBOX = [
+  'account',
+  'account_notification',
+  'guest',
+  'upload',
+].map((aggregateType) => `${SITE_NAME}.outbox.${aggregateType}`)
 
 export default defineNitroPlugin(async (nitroApp) => {
   if (!IS_IN_STACK) return

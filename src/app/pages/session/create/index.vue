@@ -122,12 +122,26 @@ const getSignInTarget = ({
 
   return localePath(`dashboard`, language)
 }
+const notificationStore = useNotificationStore()
+const { isFeatureEnabled } = useFeatureFlags()
+const { isOnboardingSeen } = useNotificationPrompt()
 const onSignIn = async (username: string) => {
   const language = syncLocaleCookieToTokenLanguage({ nuxtApp, store })
+  const target = getSignInTarget({ language, username })
 
-  await navigateTo(getSignInTarget({ language, username }), {
-    replace: true,
-  })
+  // The first sign-in after the email address was verified follows the registration, which is when notifications are worth asking for.
+  const isOnboardingDue =
+    verified.value &&
+    isFeatureEnabled('notifications').value &&
+    notificationStore.permissionState === 'prompt' &&
+    !isOnboardingSeen()
+
+  await navigateTo(
+    isOnboardingDue
+      ? localePath({ name: 'notification-enable', query: { to: target } })
+      : target,
+    { replace: true },
+  )
 }
 </script>
 

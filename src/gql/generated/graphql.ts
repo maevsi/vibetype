@@ -37,6 +37,21 @@ export type AccountEmailAddressVerificationInput = {
   code: string
 }
 
+/** Represents an update to a `AccountNotification`. Fields that are set will be updated. */
+export type AccountNotificationPatch = {
+  /** The timestamp when the recipient read the notification. `NULL` while unread. */
+  readAt?: string | null | undefined
+}
+
+/** All input for the `accountNotificationReadAll` mutation. */
+export type AccountNotificationReadAllInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+}
+
 /** All input for the `accountPasswordReset` mutation. */
 export type AccountPasswordResetInput = {
   /**
@@ -256,17 +271,6 @@ export type CreateContactInput = {
   contact: ContactInput
 }
 
-/** All input for the create `Device` mutation. */
-export type CreateDeviceInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: string | null | undefined
-  /** The `Device` to be created by this mutation. */
-  device: DeviceInput
-}
-
 /** All input for the create `EventCategoryMapping` mutation. */
 export type CreateEventCategoryMappingInput = {
   /**
@@ -388,6 +392,17 @@ export type CreatePreferenceEventSizeInput = {
   preferenceEventSize: PreferenceEventSizeInput
 }
 
+/** All input for the create `PreferenceNotification` mutation. */
+export type CreatePreferenceNotificationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The `PreferenceNotification` to be created by this mutation. */
+  preferenceNotification: PreferenceNotificationInput
+}
+
 /** All input for the create `ProfilePicture` mutation. */
 export type CreateProfilePictureInput = {
   /**
@@ -445,17 +460,26 @@ export type DeleteContactByRowIdInput = {
   rowId: string
 }
 
-/** All input for the `deleteDeviceByCreatedByAndFcmToken` mutation. */
-export type DeleteDeviceByCreatedByAndFcmTokenInput = {
+/** All input for the `deleteDeviceByFcmToken` mutation. */
+export type DeleteDeviceByFcmTokenInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: string | null | undefined
-  /** Reference to the account that created the device. */
-  createdBy: string
-  /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
+  /** The Firebase Cloud Messaging token that is used to deliver notifications. Unique across all accounts. */
   fcmToken: string
+}
+
+/** All input for the `deleteDeviceByRowId` mutation. */
+export type DeleteDeviceByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The internal id of the device. */
+  rowId: string
 }
 
 /** All input for the `deleteEventCategoryMappingByEventIdAndCategoryId` mutation. */
@@ -493,6 +517,17 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdInput = {
   eventId: string
   /** A format id. */
   formatId: string
+}
+
+/** All input for the `deleteFriendshipByRowId` mutation. */
+export type DeleteFriendshipByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The friend relation's internal id. */
+  rowId: string
 }
 
 /** All input for the `deleteEventUploadByRowId` mutation. */
@@ -589,12 +624,19 @@ export type DeleteUploadByRowIdInput = {
   rowId: string
 }
 
-/** An input for mutations affecting `Device` */
-export type DeviceInput = {
-  /** Reference to the account that created the device. */
-  createdBy: string
-  /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
-  fcmToken: string
+/** Platforms a push registration is made on: android, ios, web. */
+export type DevicePlatform = 'android' | 'ios' | 'web'
+
+/** All input for the `deviceRegister` mutation. */
+export type DeviceRegisterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  fcmToken?: string | null | undefined
+  label?: string | null | undefined
+  platform?: DevicePlatform | null | undefined
 }
 
 /** An input for mutations affecting `EventCategoryMapping` */
@@ -760,6 +802,18 @@ export type EventUploadInput = {
 /** Possible visibilities of events and event groups: public, private and unlisted. */
 export type EventVisibility = 'private' | 'public' | 'unlisted'
 
+/** Represents an update to a `Friendship`. Fields that are set will be updated. */
+export type FriendshipPatch = {
+  /** The status of the friend relation. */
+  status?: FriendshipStatus | null | undefined
+}
+
+/**
+ * Possible status values of a friend relation.
+ * There is no status `rejected` because friendship records will be deleted when a friendship request is rejected.
+ */
+export type FriendshipStatus = 'accepted' | 'requested'
+
 /** An input for mutations affecting `Guest` */
 export type GuestInput = {
   /** The internal id of the guest's contact. */
@@ -841,6 +895,18 @@ export type JwtUpdateInput = {
 /** Supported ISO 639 language codes. */
 export type Language = 'de' | 'en'
 
+/**
+ * Kinds of notifications an account receives: event_deleted, event_invitation,
+ * event_updated, friendship_accepted, friendship_requested, guest_feedback.
+ */
+export type NotificationType =
+  | 'event_deleted'
+  | 'event_invitation'
+  | 'event_updated'
+  | 'friendship_accepted'
+  | 'friendship_requested'
+  | 'guest_feedback'
+
 /** An input for mutations affecting `PreferenceEventCategory` */
 export type PreferenceEventCategoryInput = {
   /** A user account id. */
@@ -881,6 +947,22 @@ export type PreferenceEventSizeInput = {
   rowId?: string | null | undefined
 }
 
+/** An input for mutations affecting `PreferenceNotification` */
+export type PreferenceNotificationInput = {
+  /** The account the preference belongs to. */
+  accountId: string
+  /** Whether push notifications of the type are delivered. */
+  isPushEnabled: boolean
+  /** The notification type the preference applies to. */
+  type: NotificationType
+}
+
+/** Represents an update to a `PreferenceNotification`. Fields that are set will be updated. */
+export type PreferenceNotificationPatch = {
+  /** Whether push notifications of the type are delivered. */
+  isPushEnabled?: boolean | null | undefined
+}
+
 /** An input for mutations affecting `ProfilePicture` */
 export type ProfilePictureInput = {
   /** The account's id. */
@@ -913,6 +995,19 @@ export type UpdateAccountByRowIdInput = {
    */
   clientMutationId?: string | null | undefined
   /** The account's internal id. */
+  rowId: string
+}
+
+/** All input for the `updateAccountNotificationByRowId` mutation. */
+export type UpdateAccountNotificationByRowIdInput = {
+  /** An object where the defined keys will be set on the `AccountNotification` being updated. */
+  accountNotificationPatch: AccountNotificationPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The notification's internal id. */
   rowId: string
 }
 
@@ -955,6 +1050,19 @@ export type UpdateEventByRowIdInput = {
   rowId: string
 }
 
+/** All input for the `updateFriendshipByRowId` mutation. */
+export type UpdateFriendshipByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** An object where the defined keys will be set on the `Friendship` being updated. */
+  friendshipPatch: FriendshipPatch
+  /** The friend relation's internal id. */
+  rowId: string
+}
+
 /** All input for the `updateGuestByRowId` mutation. */
 export type UpdateGuestByRowIdInput = {
   /**
@@ -965,6 +1073,19 @@ export type UpdateGuestByRowIdInput = {
   /** An object where the defined keys will be set on the `Guest` being updated. */
   guestPatch: GuestPatch
   /** The guest's internal id. */
+  rowId: string
+}
+
+/** All input for the `updatePreferenceNotificationByRowId` mutation. */
+export type UpdatePreferenceNotificationByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** An object where the defined keys will be set on the `PreferenceNotification` being updated. */
+  preferenceNotificationPatch: PreferenceNotificationPatch
+  /** The preference's internal id. */
   rowId: string
 }
 
@@ -1675,6 +1796,24 @@ export type UpdateGuestByRowIdFeedbackMutation = {
   } | null
 }
 
+export type AcceptFriendshipMutationVariables = Exact<{
+  input: UpdateFriendshipByRowIdInput
+}>
+
+export type AcceptFriendshipMutation = {
+  updateFriendshipByRowId: {
+    friendship: { id: string; rowId: string; status: FriendshipStatus } | null
+  } | null
+}
+
+export type DeclineFriendshipMutationVariables = Exact<{
+  input: DeleteFriendshipByRowIdInput
+}>
+
+export type DeclineFriendshipMutation = {
+  deleteFriendshipByRowId: { clientMutationId: string | null } | null
+}
+
 export type AllEventCategoriesQueryVariables = Exact<{ [key: string]: never }>
 
 export type AllEventCategoriesQuery = {
@@ -1876,6 +2015,130 @@ export type JwtUpdateGuestAddGuestMutationVariables = Exact<{
 
 export type JwtUpdateGuestAddGuestMutation = {
   jwtUpdateGuestAdd: { result: string | null } | null
+}
+
+export type AllDevicesQueryVariables = Exact<{ [key: string]: never }>
+
+export type AllDevicesQuery = {
+  allDevices: {
+    nodes: Array<{
+      fcmToken: string
+      id: string
+      label: string | null
+      lastSeenAt: string
+      platform: DevicePlatform
+      rowId: string
+    }>
+  } | null
+}
+
+export type DeleteDeviceByRowIdMutationVariables = Exact<{
+  input: DeleteDeviceByRowIdInput
+}>
+
+export type DeleteDeviceByRowIdMutation = {
+  deleteDeviceByRowId: { clientMutationId: string | null } | null
+}
+
+export type AllAccountNotificationsQueryVariables = Exact<{
+  after?: string | null | undefined
+  first: number
+}>
+
+export type AllAccountNotificationsQuery = {
+  allAccountNotifications: {
+    nodes: Array<{
+      actorAccountId: string | null
+      createdAt: string
+      eventId: string | null
+      friendshipId: string | null
+      guestId: string | null
+      id: string
+      payload: unknown
+      readAt: string | null
+      rowId: string
+      type: NotificationType
+    }>
+    pageInfo: { endCursor: string | null; hasNextPage: boolean }
+  } | null
+}
+
+export type AccountNotificationUnreadCountQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AccountNotificationUnreadCountQuery = {
+  accountNotificationUnreadCount: number | null
+}
+
+export type UpdateAccountNotificationReadAtMutationVariables = Exact<{
+  input: UpdateAccountNotificationByRowIdInput
+}>
+
+export type UpdateAccountNotificationReadAtMutation = {
+  updateAccountNotificationByRowId: {
+    accountNotification: {
+      id: string
+      readAt: string | null
+      rowId: string
+    } | null
+  } | null
+}
+
+export type AccountNotificationReadAllMutationVariables = Exact<{
+  input: AccountNotificationReadAllInput
+}>
+
+export type AccountNotificationReadAllMutation = {
+  accountNotificationReadAll: { result: number | null } | null
+}
+
+export type AllPreferenceNotificationsQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceNotificationsQuery = {
+  allPreferenceNotifications: {
+    nodes: Array<{
+      accountId: string
+      id: string
+      isPushEnabled: boolean
+      rowId: string
+      type: NotificationType
+    }>
+  } | null
+}
+
+export type CreatePreferenceNotificationMutationVariables = Exact<{
+  input: CreatePreferenceNotificationInput
+}>
+
+export type CreatePreferenceNotificationMutation = {
+  createPreferenceNotification: {
+    preferenceNotification: {
+      accountId: string
+      id: string
+      isPushEnabled: boolean
+      rowId: string
+      type: NotificationType
+    } | null
+  } | null
+}
+
+export type UpdatePreferenceNotificationByRowIdMutationVariables = Exact<{
+  input: UpdatePreferenceNotificationByRowIdInput
+}>
+
+export type UpdatePreferenceNotificationByRowIdMutation = {
+  updatePreferenceNotificationByRowId: {
+    preferenceNotification: {
+      accountId: string
+      id: string
+      isPushEnabled: boolean
+      rowId: string
+      type: NotificationType
+    } | null
+  } | null
 }
 
 export type AccountEditQueryVariables = Exact<{
@@ -2654,29 +2917,20 @@ export type AchievementUnlockMutation = {
   } | null
 }
 
-export type DeviceByCreatedByAndFcmTokenQueryVariables = Exact<{
-  createdBy: string
-  fcmToken: string
+export type DeviceRegisterMutationVariables = Exact<{
+  input: DeviceRegisterInput
 }>
 
-export type DeviceByCreatedByAndFcmTokenQuery = {
-  deviceByCreatedByAndFcmToken: { id: string } | null
+export type DeviceRegisterMutation = {
+  deviceRegister: { result: { id: string } | null } | null
 }
 
-export type CreateDeviceMutationVariables = Exact<{
-  input: CreateDeviceInput
+export type DeleteDeviceByFcmTokenMutationVariables = Exact<{
+  input: DeleteDeviceByFcmTokenInput
 }>
 
-export type CreateDeviceMutation = {
-  createDevice: { clientMutationId: string | null } | null
-}
-
-export type DeleteDeviceByCreatedByAndFcmTokenMutationVariables = Exact<{
-  input: DeleteDeviceByCreatedByAndFcmTokenInput
-}>
-
-export type DeleteDeviceByCreatedByAndFcmTokenMutation = {
-  deleteDeviceByCreatedByAndFcmToken: { clientMutationId: string | null } | null
+export type DeleteDeviceByFcmTokenMutation = {
+  deleteDeviceByFcmToken: { clientMutationId: string | null } | null
 }
 
 export type AccountByUsernameQueryVariables = Exact<{
@@ -8153,6 +8407,131 @@ export const UpdateGuestByRowIdFeedbackDocument = {
   UpdateGuestByRowIdFeedbackMutation,
   UpdateGuestByRowIdFeedbackMutationVariables
 >
+export const AcceptFriendshipDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AcceptFriendship' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateFriendshipByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateFriendshipByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'friendship' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'status' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AcceptFriendshipMutation,
+  AcceptFriendshipMutationVariables
+>
+export const DeclineFriendshipDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeclineFriendship' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteFriendshipByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteFriendshipByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeclineFriendshipMutation,
+  DeclineFriendshipMutationVariables
+>
 export const AllEventCategoriesDocument = {
   kind: 'Document',
   definitions: [
@@ -9379,6 +9758,595 @@ export const JwtUpdateGuestAddGuestDocument = {
 } as unknown as DocumentNode<
   JwtUpdateGuestAddGuestMutation,
   JwtUpdateGuestAddGuestMutationVariables
+>
+export const AllDevicesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllDevices' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allDevices' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'LAST_SEEN_AT_DESC' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fcmToken' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastSeenAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'platform' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AllDevicesQuery, AllDevicesQueryVariables>
+export const DeleteDeviceByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteDeviceByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteDeviceByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteDeviceByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteDeviceByRowIdMutation,
+  DeleteDeviceByRowIdMutationVariables
+>
+export const AllAccountNotificationsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllAccountNotifications' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allAccountNotifications' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'CREATED_AT_DESC' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'actorAccountId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'friendshipId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'payload' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'readAt' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllAccountNotificationsQuery,
+  AllAccountNotificationsQueryVariables
+>
+export const AccountNotificationUnreadCountDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountNotificationUnreadCount' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountNotificationUnreadCount' },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountNotificationUnreadCountQuery,
+  AccountNotificationUnreadCountQueryVariables
+>
+export const UpdateAccountNotificationReadAtDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAccountNotificationReadAt' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'UpdateAccountNotificationByRowIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAccountNotificationByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'accountNotification' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'readAt' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAccountNotificationReadAtMutation,
+  UpdateAccountNotificationReadAtMutationVariables
+>
+export const AccountNotificationReadAllDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AccountNotificationReadAll' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AccountNotificationReadAllInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountNotificationReadAll' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'result' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountNotificationReadAllMutation,
+  AccountNotificationReadAllMutationVariables
+>
+export const AllPreferenceNotificationsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceNotifications' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceNotifications' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isPushEnabled' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceNotificationsQuery,
+  AllPreferenceNotificationsQueryVariables
+>
+export const CreatePreferenceNotificationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceNotification' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'CreatePreferenceNotificationInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPreferenceNotification' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'preferenceNotification' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isPushEnabled' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceNotificationMutation,
+  CreatePreferenceNotificationMutationVariables
+>
+export const UpdatePreferenceNotificationByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdatePreferenceNotificationByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'UpdatePreferenceNotificationByRowIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'updatePreferenceNotificationByRowId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'preferenceNotification' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isPushEnabled' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdatePreferenceNotificationByRowIdMutation,
+  UpdatePreferenceNotificationByRowIdMutationVariables
 >
 export const AccountEditDocument = {
   kind: 'Document',
@@ -14274,86 +15242,13 @@ export const AchievementUnlockDocument = {
   AchievementUnlockMutation,
   AchievementUnlockMutationVariables
 >
-export const DeviceByCreatedByAndFcmTokenDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'DeviceByCreatedByAndFcmToken' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createdBy' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'fcmToken' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deviceByCreatedByAndFcmToken' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createdBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createdBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'fcmToken' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'fcmToken' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeviceByCreatedByAndFcmTokenQuery,
-  DeviceByCreatedByAndFcmTokenQueryVariables
->
-export const CreateDeviceDocument = {
+export const DeviceRegisterDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateDevice' },
+      name: { kind: 'Name', value: 'DeviceRegister' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14365,7 +15260,7 @@ export const CreateDeviceDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateDeviceInput' },
+              name: { kind: 'Name', value: 'DeviceRegisterInput' },
             },
           },
         },
@@ -14375,7 +15270,70 @@ export const CreateDeviceDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'createDevice' },
+            name: { kind: 'Name', value: 'deviceRegister' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeviceRegisterMutation,
+  DeviceRegisterMutationVariables
+>
+export const DeleteDeviceByFcmTokenDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteDeviceByFcmToken' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteDeviceByFcmTokenInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteDeviceByFcmToken' },
             arguments: [
               {
                 kind: 'Argument',
@@ -14401,68 +15359,8 @@ export const CreateDeviceDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  CreateDeviceMutation,
-  CreateDeviceMutationVariables
->
-export const DeleteDeviceByCreatedByAndFcmTokenDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'DeleteDeviceByCreatedByAndFcmToken' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: {
-                kind: 'Name',
-                value: 'DeleteDeviceByCreatedByAndFcmTokenInput',
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deleteDeviceByCreatedByAndFcmToken' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeleteDeviceByCreatedByAndFcmTokenMutation,
-  DeleteDeviceByCreatedByAndFcmTokenMutationVariables
+  DeleteDeviceByFcmTokenMutation,
+  DeleteDeviceByFcmTokenMutationVariables
 >
 export const AccountByUsernameDocument = {
   kind: 'Document',
