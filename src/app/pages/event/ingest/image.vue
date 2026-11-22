@@ -60,6 +60,10 @@
           </AppButton>
         </template>
       </div>
+      <EventIngestConsentDrawer
+        v-model="isConsentDrawerOpen"
+        @allowed="onConsentAllowed"
+      />
     </LayoutPage>
   </div>
 </template>
@@ -79,9 +83,12 @@ await useSignInRequired()
 useHeadDefault({ title: t('title') })
 
 // data
+const { isGiven: isConsentGiven } = useEventIngestConsent()
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
+const isConsentDrawerOpen = ref(false)
 const isNoEvent = ref(false)
 const isReading = ref(false)
+const posterPending = ref<File>()
 const posterPicked = usePosterPicked()
 const previewUrl = ref<string>()
 
@@ -111,7 +118,19 @@ const readPosterAsBase64 = async (file: File) => {
 
   return base64Image
 }
+const onConsentAllowed = () => {
+  const file = posterPending.value
+
+  posterPending.value = undefined
+  if (file) readPoster(file)
+}
 const readPoster = async (file: File) => {
+  if (!isConsentGiven.value) {
+    posterPending.value = file
+    isConsentDrawerOpen.value = true
+    return
+  }
+
   // avoid memory leaks
   if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
 

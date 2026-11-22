@@ -42,6 +42,10 @@
           <template #loading>{{ t('reading') }}</template>
         </AppButton>
       </form>
+      <EventIngestConsentDrawer
+        v-model="isConsentDrawerOpen"
+        @allowed="readLink"
+      />
     </LayoutPage>
   </div>
 </template>
@@ -61,14 +65,21 @@ await useSignInRequired()
 useHeadDefault({ title: t('title') })
 
 // data
+const { isGiven: isConsentGiven } = useEventIngestConsent()
 const enteredUrl = ref('')
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
+const isConsentDrawerOpen = ref(false)
 const isNoEvent = ref(false)
 const isReading = ref(false)
 
 // methods
 const readLink = async () => {
   if (!enteredUrl.value) return
+
+  if (!isConsentGiven.value) {
+    isConsentDrawerOpen.value = true
+    return
+  }
 
   isReading.value = true
   isNoEvent.value = false

@@ -943,8 +943,9 @@
             OpenAI verwendet über die API übermittelte Daten nicht zum Training seiner Modelle.
             OpenAI speichert sie bis zu 30 Tage, um Missbrauch zu erkennen, und löscht sie danach.
 
-            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO.
-            Wir haben ein berechtigtes Interesse daran, Dir das Erstellen von Veranstaltungen aus Plakaten zu erleichtern.
+            Wir übermitteln nichts an OpenAI, bevor Du es bei der ersten Nutzung der Plakatjagd erlaubst.
+            Rechtsgrundlage für die Verarbeitung ist daher Deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO.
+            Du kannst sie jederzeit in den Datenschutz-Einstellungen widerrufen.
 
             Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 

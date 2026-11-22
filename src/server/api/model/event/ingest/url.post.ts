@@ -111,6 +111,8 @@ export default defineEventHandler(async (event: EventIngestUrlPostEvent) => {
       statusText: 'This endpoint only available to registered users.',
     })
 
+  assertEventIngestConsent(event)
+
   const body = await getBodySafe({
     event,
     schema: eventIngestUrlPostBodySchema,
