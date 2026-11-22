@@ -27,7 +27,7 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
       git \
     && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
-    && npm i -g corepack && corepack enable
+    && npm i -g pnpm
 
 
 #############
@@ -149,9 +149,7 @@ ENV MKCERT_VERSION="1.4.4-1ubuntu3.2"
 
 WORKDIR /srv/app/
 
-# The playwright image no longer ships corepack; `--force` overwrites the
-# yarn shims it does still ship, which collide with corepack's own stubs
-RUN npm i -g corepack --force && corepack enable \
+RUN npm i -g pnpm \
     && apt-get update && apt-get install --no-install-recommends -y \
       mkcert="${MKCERT_VERSION}"
 
@@ -276,8 +274,8 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
 
 USER node
 
-# Install package manager as `node` user.
-RUN corepack prepare
+# Download the pinned pnpm version as `node` user, as the global one only switches to it on first use.
+RUN pnpm --version
 
 ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
