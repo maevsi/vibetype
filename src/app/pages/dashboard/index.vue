@@ -480,7 +480,7 @@ de:
   recommendationTitle: Das solltest Du nicht verpassen
   seeAll: Alle ansehen
   title: Dashboard
-  topPickTitle: Dein Top-Tipp
+  topPickTitle: Top-Tipp für dich
   upcomingCreate: Veranstaltung planen
   upcomingEmptyDescription: Plane deine eigene Veranstaltung oder finde eine zum Mitmachen.
   upcomingEmptyTitle: Noch nichts geplant
@@ -503,7 +503,7 @@ en:
   recommendationTitle: You should not miss
   seeAll: See all
   title: Dashboard
-  topPickTitle: Your top pick
+  topPickTitle: Top pick for you
   upcomingCreate: Plan an event
   upcomingEmptyDescription: Plan your own event or find one to join.
   upcomingEmptyTitle: Nothing planned yet
