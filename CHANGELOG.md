@@ -1,3 +1,22 @@
+## [18.0.0-beta.14](https://github.com/maevsi/vibetype/compare/18.0.0-beta.13...18.0.0-beta.14) (2026-11-22)
+
+### Features
+
+* **event:** name the weekday only for the coming week ([#2791](https://github.com/maevsi/vibetype/issues/2791)) ([4a72e90](https://github.com/maevsi/vibetype/commit/4a72e905c9d5874dc22a561bf9e4c3c054bc19a7))
+* **event:** order form and legal settings by relevance ([#2799](https://github.com/maevsi/vibetype/issues/2799)) ([3e328e5](https://github.com/maevsi/vibetype/commit/3e328e5130d087cb117f8e4edfc03bccc906434f))
+* **event:** search an account's events and list the ones you attend ([#2794](https://github.com/maevsi/vibetype/issues/2794)) ([1406a63](https://github.com/maevsi/vibetype/commit/1406a63edf18d0f2552888c636fdc61199f99252))
+* **event:** show its state ([#2780](https://github.com/maevsi/vibetype/issues/2780)) ([3b6b13c](https://github.com/maevsi/vibetype/commit/3b6b13c921703e7ebeb773594670114bb68d9077))
+* **feature-flag:** describe each flag and mark flagged tiles and map controls ([#2788](https://github.com/maevsi/vibetype/issues/2788)) ([5192567](https://github.com/maevsi/vibetype/commit/51925676619569af06a479a31dfee0017271d663))
+* **ui:** guide users out of empty and error states ([#2793](https://github.com/maevsi/vibetype/issues/2793)) ([d5f39c7](https://github.com/maevsi/vibetype/commit/d5f39c777385fd90b2fb21b59b91fa97778c3958))
+
+### Bug Fixes
+
+* **app:** type route props without the typed route union ([#2784](https://github.com/maevsi/vibetype/issues/2784)) ([4762dfe](https://github.com/maevsi/vibetype/commit/4762dfeae0e6818559d2c8cf787bc67622ea5191))
+* **docker:** forward stop signals to the server ([#2795](https://github.com/maevsi/vibetype/issues/2795)) ([9ef5cb7](https://github.com/maevsi/vibetype/commit/9ef5cb7c09e7b702640347add3566c4e18dfb906))
+* **error:** explain missing events and denied access in error pages ([#2797](https://github.com/maevsi/vibetype/issues/2797)) ([94edfa9](https://github.com/maevsi/vibetype/commit/94edfa951d3cfbafedd0fdc337089b1a068bbe55))
+* **event:** end an event without an end at its start ([#2796](https://github.com/maevsi/vibetype/issues/2796)) ([8edf517](https://github.com/maevsi/vibetype/commit/8edf517f09da48bffee892735ef1832576fb188e))
+* **i18n:** call events Veranstaltungen throughout the german copy ([#2798](https://github.com/maevsi/vibetype/issues/2798)) ([73b7c45](https://github.com/maevsi/vibetype/commit/73b7c450381c8fd353d2e3ed0e3f60948129b9ba))
+
 ## [18.0.0-beta.13](https://github.com/maevsi/vibetype/compare/18.0.0-beta.12...18.0.0-beta.13) (2026-11-22)
 
 ### ⚠ BREAKING CHANGES
