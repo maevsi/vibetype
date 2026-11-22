@@ -20,14 +20,14 @@ concurrency:
 jobs:
   ci-optimization:
     name: CI optimization
-    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@ec1208db30dfa20f05c0d273ae10772bd3184e0c # 6.0.0-beta.4
+    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@b5df3092b16390e86bd778060c38d11ee8ac738e # 6.0.0-beta.5
     permissions:
       pull-requests: read
   release_semantic_dry:
     needs: ci-optimization
     if: needs.ci-optimization.outputs.continue == 'true'
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@ae90ad2d128e50e45d16d972b74b56e9ca8d141c # dargmuesli/github-actions#127
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@b5df3092b16390e86bd778060c38d11ee8ac738e # 6.0.0-beta.5
     permissions:
       contents: write
       id-token: write
@@ -51,7 +51,7 @@ jobs:
           echo "digest=$digest" >> "$GITHUB_OUTPUT"
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@ec1208db30dfa20f05c0d273ae10772bd3184e0c # 6.0.0-beta.4
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@b5df3092b16390e86bd778060c38d11ee8ac738e # 6.0.0-beta.5
     needs: [release_semantic_dry, skew_protection_source]
     permissions:
       attestations: write
@@ -70,7 +70,7 @@ jobs:
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@ae90ad2d128e50e45d16d972b74b56e9ca8d141c # dargmuesli/github-actions#127
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@b5df3092b16390e86bd778060c38d11ee8ac738e # 6.0.0-beta.5
     permissions:
       contents: write
       id-token: write
