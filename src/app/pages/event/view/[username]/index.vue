@@ -194,9 +194,9 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  emptyDescription: Schau später wieder vorbei oder finde andere Events zum Mitmachen.
-  emptyDiscover: Events entdecken
-  emptyTitle: "{'@'}{name} hat noch keine Events veröffentlicht"
+  emptyDescription: Schau später wieder vorbei oder finde andere Veranstaltungen zum Mitmachen.
+  emptyDiscover: Veranstaltungen entdecken
+  emptyTitle: "{'@'}{name} hat noch keine Veranstaltungen veröffentlicht"
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   searchPlaceholderOther: Veranstaltungen von {name} durchsuchen
   searchPlaceholderOwn: Deine Veranstaltungen durchsuchen

@@ -444,7 +444,7 @@ de:
   edit: Profil bearbeiten
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   eventMore: Alle ansehen
-  events: Events
+  events: Veranstaltungen
   friendAdd: Freundschaftsanfrage senden
   friends: Freunde
   imprint: Impressum

@@ -492,22 +492,22 @@ const loadMore = () => {
 de:
   attending: Dabei
   drafts: Entwürfe
-  emptyAttendingPastDescription: Events, bei denen du dabei warst, erscheinen hier, sobald sie vorbei sind.
-  emptyAttendingPastTitle: Keine vergangenen Events, bei denen du warst
-  emptyAttendingUpcomingDescription: Events, für die du eine Einladung annimmst oder denen du beitrittst, erscheinen hier.
+  emptyAttendingPastDescription: Veranstaltungen, bei denen du dabei warst, erscheinen hier, sobald sie vorbei sind.
+  emptyAttendingPastTitle: Keine vergangenen Veranstaltungen, bei denen du warst
+  emptyAttendingUpcomingDescription: Veranstaltungen, für die du eine Einladung annimmst oder denen du beitrittst, erscheinen hier.
   emptyAttendingUpcomingTitle: Du bist noch bei nichts dabei
-  emptyCreate: Event planen
-  emptyDiscover: Events entdecken
-  emptyDraftsDescription: Events, die du beginnst, aber noch nicht veröffentlichst, werden hier aufbewahrt.
+  emptyCreate: Veranstaltung planen
+  emptyDiscover: Veranstaltungen entdecken
+  emptyDraftsDescription: Veranstaltungen, die du beginnst, aber noch nicht veröffentlichst, werden hier aufbewahrt.
   emptyDraftsTitle: Keine Entwürfe
-  emptyHostingPastDescription: Events, die du veranstaltet hast, erscheinen hier, sobald sie vorbei sind.
-  emptyHostingPastTitle: Keine vergangenen Events von dir
-  emptyHostingUpcomingDescription: Plane ein Event und lade deine Leute ein. Es erscheint dann hier.
+  emptyHostingPastDescription: Veranstaltungen, die du organisiert hast, erscheinen hier, sobald sie vorbei sind.
+  emptyHostingPastTitle: Keine vergangenen Veranstaltungen von dir
+  emptyHostingUpcomingDescription: Plane eine Veranstaltung und lade deine Leute ein. Sie erscheint dann hier.
   emptyHostingUpcomingTitle: Du veranstaltest noch nichts
   emptyInvitations: Einladungen
-  emptySavedPastDescription: Gemerkte Events wandern hierher, sobald sie vorbei sind.
-  emptySavedPastTitle: Keine vergangenen gemerkten Events
-  emptySavedUpcomingDescription: Tippe bei einem Event auf das Herz, um es hier für später aufzuheben.
+  emptySavedPastDescription: Gemerkte Veranstaltungen wandern hierher, sobald sie vorbei sind.
+  emptySavedPastTitle: Keine vergangenen gemerkten Veranstaltungen
+  emptySavedUpcomingDescription: Tippe bei einer Veranstaltung auf das Herz, um sie hier für später aufzuheben.
   emptySavedUpcomingTitle: Noch nichts gemerkt
   emptyShowUpcoming: Bevorstehende anzeigen
   filterLabel: Filter

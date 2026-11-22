@@ -243,7 +243,7 @@ useApiErrorModel({
 <i18n lang="yaml">
 de:
   button: Weiter
-  description: Die richtige Event-Größe sorgt für ein gelungenes Erlebnis. Sie erleichtert die Planung, hält Gäste wohl und gibt die Stimmung vor.
+  description: Die richtige Veranstaltungsgröße sorgt für ein gelungenes Erlebnis. Sie erleichtert die Planung, hält Gäste wohl und gibt die Stimmung vor.
   size1: Gemütlich
   size1Numbers: 1-9 Gäste
   size2: Lebhaft
@@ -252,7 +252,7 @@ de:
   size3Numbers: 50-999 Gäste
   size4: Episch
   size4Numbers: '>999 Gäste'
-  title: Wie groß dürfen Events sein?
+  title: Wie groß dürfen Veranstaltungen sein?
 en:
   button: Next
   description: Choosing the right event size is key to a great experience. It makes planning easier, keeps guests comfortable, and sets the mood.

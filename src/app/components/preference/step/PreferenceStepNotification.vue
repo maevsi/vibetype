@@ -59,7 +59,7 @@ const turnOn = () => {
 
 <i18n lang="yaml">
 de:
-  description: Aktiviere Benachrichtigungen und verpasse keine passenden Events und neuen Einladungen mehr. Keine Sorge, wir schicken dir keinen Spam.
+  description: Aktiviere Benachrichtigungen und verpasse keine passenden Veranstaltungen und neuen Einladungen mehr. Keine Sorge, wir schicken dir keinen Spam.
   iosInstall: Auf dem iPhone und iPad funktionieren Benachrichtigungen erst, wenn du die Seite zum Home-Bildschirm hinzufügst. Tippe auf „Teilen“ und dann auf „Zum Home-Bildschirm“.
   settingsNote: Das kannst du jederzeit später in den Einstellungen ändern.
   title: Bleib auf dem Laufenden
