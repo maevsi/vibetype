@@ -1,3 +1,9 @@
+## [17.36.1](https://github.com/maevsi/vibetype/compare/17.36.0...17.36.1) (2026-11-22)
+
+### Bug Fixes
+
+* **map:** make location search explicit ([#2782](https://github.com/maevsi/vibetype/issues/2782)) ([4fe7070](https://github.com/maevsi/vibetype/commit/4fe7070f7b278b1fa4588fe0ef959d09d559c5c7))
+
 ## [17.36.0](https://github.com/maevsi/vibetype/compare/17.35.0...17.36.0) (2026-11-21)
 
 ### Features
