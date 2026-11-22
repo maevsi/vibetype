@@ -1,8 +1,16 @@
 <template>
-  <DefineGroup v-slot="{ attributes, groupClass }">
+  <div :class="cn('flex flex-col gap-2', props.class)">
+    <span
+      v-if="$slots.legend"
+      :id="templateIdLegend"
+      class="text-body text-fg-1"
+    >
+      <slot name="legend" />
+    </span>
     <RadioGroup
-      v-bind="{ ...forwarded, ...attributes }"
-      :class="cn('group/selection gap-0 data-[variant=card]:gap-3', groupClass)"
+      v-bind="{ ...forwarded, ...$attrs }"
+      :aria-labelledby="$slots.legend ? templateIdLegend : undefined"
+      class="group/selection gap-0 data-[variant=card]:gap-3"
       :data-variant="variant"
     >
       <slot>
@@ -19,19 +27,10 @@
         </AppRadioGroupItem>
       </slot>
     </RadioGroup>
-  </DefineGroup>
-  <!-- a fieldset needs a legend, so an unlabeled group takes its name from attributes like `aria-label` -->
-  <FieldSet v-if="$slots.legend" v-bind="$attrs" :class="props.class">
-    <FieldLegend class="mb-2 text-body text-fg-1">
-      <slot name="legend" />
-    </FieldLegend>
-    <ReuseGroup />
-  </FieldSet>
-  <ReuseGroup v-else :attributes="$attrs" :group-class="props.class" />
+  </div>
 </template>
 
 <script setup lang="ts">
-import { createReusableTemplate } from '@vueuse/core'
 import { useForwardPropsEmits } from 'reka-ui'
 import type { RadioGroupRootEmits, RadioGroupRootProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
@@ -49,10 +48,7 @@ const props = defineProps<
 >()
 const emit = defineEmits<RadioGroupRootEmits>()
 
-const [DefineGroup, ReuseGroup] = createReusableTemplate<{
-  attributes?: Record<string, unknown>
-  groupClass?: HTMLAttributes['class']
-}>()
+const templateIdLegend = useId()
 
 const delegatedProps = computed(() => {
   const { class: _, items: _items, variant: _variant, ...delegated } = props
