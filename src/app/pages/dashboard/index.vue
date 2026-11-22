@@ -242,6 +242,7 @@ const eventQuery = graphql(`
         username
       }
       addressByAddressId {
+        city
         id
         location {
           latitude

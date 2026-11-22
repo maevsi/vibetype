@@ -127,6 +127,7 @@ const queryEvents = graphql(`
           username
         }
         addressByAddressId {
+          city
           id
           location {
             latitude
@@ -203,6 +204,7 @@ const querySaved = graphql(`
             username
           }
           addressByAddressId {
+            city
             id
             location {
               latitude

@@ -188,9 +188,14 @@
         <AppTime :datetime="event.start" />
       </span>
       <div
-        v-if="distanceText || event.guestCount"
+        v-if="
+          event.addressByAddressId?.city || distanceText || event.guestCount
+        "
         class="flex items-center gap-3 text-body-small text-fg-3"
       >
+        <span v-if="event.addressByAddressId?.city" class="min-w-0 truncate">
+          {{ event.addressByAddressId.city }}
+        </span>
         <span
           v-if="distanceText"
           :aria-label="t('distanceAway', { distance: distanceText })"
@@ -228,6 +233,7 @@ export type EventCardProps = {
       rowId?: string
       username: string
     } | null
+    addressByAddressId?: { city?: string | null } | null
     eventFavoritesByEventId?: {
       nodes: {
         createdBy: string
