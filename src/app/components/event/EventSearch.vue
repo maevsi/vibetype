@@ -1,19 +1,9 @@
 <template>
   <div class="flex flex-1 flex-col gap-4">
-    <div
-      class="sticky top-0 z-10 -mx-4 -mt-4 flex gap-2 bg-glass px-4 py-4 backdrop-blur-xl"
-    >
-      <AppInputSearch v-model="searchQuery" class="h-12 flex-1" />
-      <AppButton
-        :aria-label="t('map')"
-        :aria-pressed="isMapVisible"
-        size="icon"
-        :variant="isMapVisible ? 'primary' : 'secondary'"
-        @click="isMapVisible = !isMapVisible"
-      >
-        <AppIconMapPin />
-      </AppButton>
-    </div>
+    <EventSearchBar
+      v-model:is-map-visible="isMapVisible"
+      v-model:search-query="searchQuery"
+    />
     <AppFeature v-if="!searchQueryVariable" feature="category-browse">
       <EventCategoryBrowse />
     </AppFeature>
@@ -203,18 +193,7 @@ const queryEventSearch = graphql(`
   }
 `)
 
-const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
-
-// the toggle lives in the URL as `?map`, so a reload or shared link keeps it
-const isMapVisible = computed({
-  get: () => 'map' in route.query,
-  set: (value) => {
-    const { map: _map, ...queryRest } = route.query
-    router.replace({ query: value ? { ...queryRest, map: null } : queryRest })
-  },
-})
+const isMapVisible = useEventMapVisible()
 
 const allEventsQueryAfter = ref<string | null>()
 const allEventsQuery = useApiQuery({
@@ -293,10 +272,3 @@ const loadMore = () => {
   }
 }
 </script>
-
-<i18n lang="yaml">
-de:
-  map: Karte anzeigen
-en:
-  map: Show map
-</i18n>

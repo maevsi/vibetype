@@ -172,12 +172,12 @@ const eventGroups = computed(() => {
 <i18n lang="yaml">
 de:
   daySuffix: / {date}
-  noEvents: Keine Veranstaltungen verfügbar 😕
+  noEvents: Keine Veranstaltungen gefunden
   today: Heute
   tomorrow: Morgen
 en:
   daySuffix: / {date}
-  noEvents: No events available 😕
+  noEvents: No events found
   today: Today
   tomorrow: Tomorrow
 </i18n>

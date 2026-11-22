@@ -52,34 +52,27 @@
           </li>
         </template>
         <li class="relative box-border border-4 border-transparent">
-          <AppButton
-            :aria-label="
-              t('iconAdd', {
-                sizeUsed: bytesToString(sizeByteTotal),
-                sizeTotal: bytesToString(accountUploadQuotaBytes),
-              })
-            "
-            class="flex size-32 justify-center bg-surface-raised"
-            size="none"
+          <AppInputFile
+            accept="image/*"
+            class="size-32 rounded-medium p-0"
             :title="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),
                 sizeTotal: bytesToString(accountUploadQuotaBytes),
               })
             "
-            variant="ghost"
-            @click="selectProfilePicture"
+            @select="onProfilePictureSelect"
           >
             <AppIconPlusSolid class="size-12 text-fg-2" />
-          </AppButton>
-          <input
-            ref="inputProfilePicture"
-            accept="image/*"
-            hidden
-            name="input-profile-picture"
-            type="file"
-            @change="loadProfilePicture"
-          />
+            <span class="sr-only">
+              {{
+                t('iconAdd', {
+                  sizeUsed: bytesToString(sizeByteTotal),
+                  sizeTotal: bytesToString(accountUploadQuotaBytes),
+                })
+              }}
+            </span>
+          </AppInputFile>
         </li>
       </ul>
       <div
@@ -94,15 +87,11 @@
         </AppButton>
       </div>
     </AppCard>
-    <AppModal
-      v-model="isModalUploadGalleryOpen"
-      :is-submitting="isUploadSubmitting"
-      :submit-name="t('upload')"
-      @submit="onUploadSubmit"
-    >
+    <AppDrawer v-model="isDrawerUploadGalleryOpen">
       <Cropper
         ref="cropper"
         class="h-[60dvh]"
+        data-vaul-no-drag
         :default-size="({ imageSize }: { imageSize: Size }) => imageSize"
         :init-stretcher
         :src="fileSelectedUrl"
@@ -111,9 +100,18 @@
       <AppAlert v-if="uploadSubmitErrors" class="mb-4" variant="error">
         <AppSpanList :span="uploadSubmitErrors" />
       </AppAlert>
-      <template #header>{{ t('uploadNew') }}</template>
-      <template #submit-icon><AppIconArrowUpTray /></template>
-    </AppModal>
+      <template #title>{{ t('uploadNew') }}</template>
+      <template #footer>
+        <AppButton
+          :aria-label="t('upload')"
+          :loading="isUploadSubmitting"
+          @click="onUploadSubmit"
+        >
+          {{ t('upload') }}
+          <template #prefix><AppIconArrowUpTray /></template>
+        </AppButton>
+      </template>
+    </AppDrawer>
     <UploadDeleteDrawer
       v-if="uploadToDelete"
       v-model:open="isDeleteDrawerOpen"
@@ -153,14 +151,14 @@ const store = useStore()
 const runtimeConfig = useRuntimeConfig()
 const TUSD_FILES_URL = useTusdFilesUrl()
 const templateCropper = useTemplateRef('cropper')
-const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 
 // data
 const after = ref<string | null>()
+const fileSelected = ref<File>()
 const fileSelectedUrl = ref<string>()
 const fileSelectedMimeType = ref<string>()
 const isDeleteDrawerOpen = ref(false)
-const isModalUploadGalleryOpen = ref<boolean>()
+const isDrawerUploadGalleryOpen = ref<boolean>()
 const isUploadSubmitting = ref(false)
 const uploadSubmitErrors = ref()
 const uploadToDelete = ref<{
@@ -265,8 +263,10 @@ const initStretcher = ({
   stretcher.style.height = `${cropper.parentElement?.clientHeight}px`
   stretcher.style.width = `${cropper.parentElement?.clientWidth}px`
 }
-const selectProfilePicture = () => {
-  templateInputProfilePicture.value?.click()
+const onProfilePictureSelect = ([file]: File[]) => {
+  if (!file) return
+
+  loadProfilePicture(file)
 }
 const onDeleteSelect = (
   upload: Pick<(typeof uploads.value)[number], 'rowId'>,
@@ -295,15 +295,8 @@ const getMimeType = (file: ArrayBuffer, fallback?: string) => {
 }
 const getUploadImageSrc = (uploadStorageKey: string) =>
   TUSD_FILES_URL + uploadStorageKey
-const loadProfilePicture = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  const files = Array.from(target.files ?? [])
-
-  if (files.length !== 1) return
-
-  const file = files[0]
-
-  if (!file) return
+const loadProfilePicture = (file: File) => {
+  fileSelected.value = file
 
   if (fileSelectedUrl.value) {
     URL.revokeObjectURL(fileSelectedUrl.value)
@@ -318,7 +311,7 @@ const loadProfilePicture = (event: Event) => {
         e.target?.result as ArrayBuffer,
         file.type,
       )
-      isModalUploadGalleryOpen.value = true
+      isDrawerUploadGalleryOpen.value = true
     }
     fileReader.readAsDataURL(file)
   } catch (error) {
@@ -338,7 +331,7 @@ const uploadBlob = async () => {
   const canvas = (
     templateCropper.value?.getResult() as CropperResult | undefined
   )?.canvas
-  const file = templateInputProfilePicture.value?.files?.[0]
+  const file = fileSelected.value
 
   if (!store.signedInAccountId || !canvas || !file)
     throw new Error(t('globalErrorNoData'))
@@ -417,7 +410,7 @@ const onUploadSubmit = async () => {
 
   try {
     await uploadBlob()
-    isModalUploadGalleryOpen.value = false
+    isDrawerUploadGalleryOpen.value = false
   } catch (errorsLocal) {
     uploadSubmitErrors.value = [
       errorsLocal instanceof Error ? errorsLocal.message : String(errorsLocal),

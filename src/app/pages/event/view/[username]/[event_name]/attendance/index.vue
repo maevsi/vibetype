@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <div
       v-if="event && route.params.username === store.signedInUsername"
       class="flex flex-1 flex-col"
@@ -40,16 +40,6 @@
               </AppAlert>
             </div>
           </div>
-          <AppModal
-            v-model="isModalAttendanceScanQrCodeOpen"
-            :submit-name="t('close')"
-            @submit="modalClose"
-          >
-            <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
-            <template #submit-icon>
-              <AppIconXCircleSolid />
-            </template>
-          </AppModal>
         </div>
       </LayoutPage>
     </div>
@@ -58,8 +48,6 @@
 </template>
 
 <script lang="ts">
-import type { DetectedBarcode } from 'vue-qrcode-reader'
-
 import { graphql } from '~~/gql/generated'
 import { useMutation } from '@urql/vue'
 </script>
@@ -127,14 +115,16 @@ const title = computed(() => {
 useHeadDefault({ title })
 
 // qr code
-const isModalAttendanceScanQrCodeOpen = ref<boolean>()
-const qrCodeScan = () => {
-  isModalAttendanceScanQrCodeOpen.value = true
-}
-const modalClose = () => {
-  isModalAttendanceScanQrCodeOpen.value = false
-}
-const guestId = ref<string>()
+const qrCodeScan = () =>
+  navigateTo(
+    localePath({
+      name: 'event-view-username-event_name-attendance-scan',
+      params: route.params,
+    }),
+  )
+const guestId = computed(() =>
+  typeof route.query.guest === 'string' ? route.query.guest : undefined,
+)
 const executeUrqlRequest = useExecuteUrqlRequest()
 const createAttendanceMutation = useMutation(
   graphql(`
@@ -175,12 +165,6 @@ const onClick = async () => {
       },
     ],
   })
-}
-const onDetect = async (detectedBarcodes: DetectedBarcode[]) => {
-  if (!detectedBarcodes.length || !detectedBarcodes[0]) return
-  guestId.value = detectedBarcodes[0].rawValue
-  toast.success(t('successDetect'))
-  modalClose()
 }
 
 // nfc
@@ -266,7 +250,6 @@ const isNfcError = computed(() => {
 
 <i18n lang="yaml">
 de:
-  close: Schließen
   errorAttendanceCreate: Beim Erstellen der Anwesenheit ist ein Fehler aufgetreten.
   errorNavigatorPermissionsNotSupported: Navigator-Berechtigungen werden nicht unterstützt! {hintUpdateOrChrome}
   errorNfcAbort: Der NFC-Scan wurde unterbrochen! {hintTryAgain}
@@ -280,11 +263,9 @@ de:
   nfcWrite: NFC-Tag schreiben
   qrCodeScan: Check-in-Code scannen
   qrHint: Lass dir von Gästen den QR-Code auf ihrer Einladungsseite zeigen
-  successDetect: Tag erkannt
   successWrite: Tag beschrieben
   title: Check-in
 en:
-  close: Close
   errorAttendanceCreate: Failed to create attendance.
   errorNavigatorPermissionsNotSupported: Navigator permissions are not supported! {hintUpdateOrChrome}
   errorNfcAbort: The NFC scan was interrupted! {hintTryAgain}
@@ -298,7 +279,6 @@ en:
   nfcWrite: Write to NFC tag
   qrCodeScan: Scan check in code
   qrHint: Ask guests to show you the QR code on their invitation page
-  successDetect: Tag detected
   successWrite: Tag written
   title: Check in
 </i18n>

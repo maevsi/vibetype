@@ -55,11 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  EXTERNAL_MEDIA_COOKIE_ID,
-  GTAG_COOKIE_ID,
-  SENTRY_COOKIE_ID,
-} from '~~/node/static'
+import { GTAG_COOKIE_ID, SENTRY_COOKIE_ID } from '~~/node/static'
 
 const emit = defineEmits<{
   decided: []
@@ -76,11 +72,6 @@ const purposes = computed(() => [
     description: t('analyticsDescription'),
     id: GTAG_COOKIE_ID,
     title: t('analyticsTitle'),
-  },
-  {
-    description: t('mapsDescription'),
-    id: EXTERNAL_MEDIA_COOKIE_ID,
-    title: t('mapsTitle'),
   },
   {
     description: t('errorAnalysisDescription'),
@@ -118,22 +109,18 @@ de:
   allowAll: Alle erlauben
   allowNecessaryOnly: Nur Notwendiges
   analyticsDescription: "Zeigt uns, wie @.upper:{'globalSiteName'} genutzt wird, damit wir es verbessern können. Die Daten gehen an Google, ohne Werbefunktionen."
-  analyticsTitle: Nutzungsanalyse (Google Analytics)
+  analyticsTitle: Nutzungsanalyse
   errorAnalysisDescription: Zeichnet Bedienschritte und Bildschirminhalte deiner Sitzung auf und misst die Leistung, um Fehler zu beheben. Die Daten gehen an Sentry.
-  errorAnalysisTitle: Fehleranalyse (Sentry)
-  mapsDescription: Lädt Kartenkacheln von OpenStreetMap. Der Anbieter erhält dabei deine IP-Adresse.
-  mapsTitle: Karten (OpenStreetMap)
+  errorAnalysisTitle: Fehleranalyse
   privacyPolicy: Datenschutzerklärung
   save: Auswahl speichern
 en:
   allowAll: Allow all
   allowNecessaryOnly: Only necessary
   analyticsDescription: "Shows us how @.upper:{'globalSiteName'} is used so we can improve it. The data goes to Google, without advertising features."
-  analyticsTitle: Usage analytics (Google Analytics)
+  analyticsTitle: Usage analytics
   errorAnalysisDescription: Records interaction steps and screen contents of your session and measures performance to fix errors. The data goes to Sentry.
-  errorAnalysisTitle: Error analysis (Sentry)
-  mapsDescription: Loads map tiles from OpenStreetMap. The provider receives your IP address.
-  mapsTitle: Maps (OpenStreetMap)
+  errorAnalysisTitle: Error analysis
   privacyPolicy: Privacy policy
   save: Save selection
 </i18n>

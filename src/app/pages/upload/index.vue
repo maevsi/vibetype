@@ -2,7 +2,6 @@
   <div class="flex flex-1 flex-col">
     <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
-      <!-- "UploadGallery" must come after "ModalUploadSelection" for them to overlay properly! -->
       <UploadGallery v-if="authentication.isSignedIn" />
     </LayoutPage>
   </div>

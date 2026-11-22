@@ -119,25 +119,20 @@
           >
             {{ t('more') }}
           </AppButton>
-          <p class="text-center text-caption text-fg-2">
-            {{ t('legalPre') }}
-            <NuxtLinkLocale
-              class="font-semibold text-link underline"
-              to="docs-legal-terms"
-              >{{ t('terms') }}</NuxtLinkLocale>{{ t('legalComma') }}
-            <NuxtLinkLocale
-              class="font-semibold text-link underline"
-              to="docs-legal-imprint"
-              >{{ t('imprint') }}</NuxtLinkLocale
-            >
-            {{ t('legalAnd') }}
-            <NuxtLinkLocale
-              class="font-semibold text-link underline"
-              to="docs-legal-privacy"
-            >
+          <nav
+            :aria-label="t('legal')"
+            class="flex flex-wrap justify-center gap-x-4 text-caption"
+          >
+            <NuxtLinkLocale class="text-link underline" to="docs-legal-terms">
+              {{ t('terms') }}
+            </NuxtLinkLocale>
+            <NuxtLinkLocale class="text-link underline" to="docs-legal-imprint">
+              {{ t('imprint') }}
+            </NuxtLinkLocale>
+            <NuxtLinkLocale class="text-link underline" to="docs-legal-privacy">
               {{ t('privacy') }}
             </NuxtLinkLocale>
-          </p>
+          </nav>
           <AppButton
             :aria-label="t('privacySettings')"
             :to="localePath('session-edit-privacy')"
@@ -267,9 +262,7 @@ useHeadDefault({ title: siteConfig.name })
 de:
   createAccount: Konto erstellen
   imprint: Impressum
-  legalAnd: und
-  legalComma: ','
-  legalPre: 'Mit der Nutzung von Vibetype stimmst du unseren'
+  legal: Rechtliches
   more: Webseite besuchen, um mehr zu erfahren
   or: ODER
   privacy: Datenschutzerklärung
@@ -292,9 +285,7 @@ de:
 en:
   createAccount: Create account
   imprint: Imprint
-  legalAnd: and
-  legalComma: ','
-  legalPre: 'By using Vibetype, you agree to our'
+  legal: Legal
   more: Visit website to find out more
   or: OR
   privacy: Privacy Policy
@@ -307,7 +298,7 @@ en:
   taglineFomo: fear of missing out
   taglinePost: from now on
   taglinePre: 'Join and experience no more '
-  terms: Terms of Service
+  terms: Terms of Use
   unlockConfirm: Go to my profile
   unlockDeny: Not now
   unlockText: Check out your new achievement on your profile.

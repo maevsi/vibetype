@@ -5,20 +5,18 @@
       <span class="text-heading-large text-balance">
         {{ t('title') }}
       </span>
-      <div
-        class="relative isolate overflow-hidden rounded-large bg-surface-raised"
-      >
+      <div class="overflow-hidden rounded-large bg-surface-raised">
         <AppMap
           v-if="!hidden"
           ref="map"
           geocoder
           is-zoom-control-hidden
           :position-initial
-        />
-        <div
-          v-if="isMapConsented"
-          class="pointer-events-none absolute inset-0 z-400 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
-        />
+        >
+          <div
+            class="absolute inset-0 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
+          />
+        </AppMap>
       </div>
       <span v-if="mapCutoutRadiusInMeters" class="text-body">
         {{ t('radius', { radius: formattedRadius }) }}
@@ -43,7 +41,6 @@
 import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
-import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
 import {
   getPreferenceEventLocationItem,
   useAllPreferenceEventLocationsQuery,
@@ -106,7 +103,6 @@ const MAP_METERS_PER_PIXEL_AT = ({
 }) =>
   (MAP_METERS_PER_PIXEL_AT_ZOOM_0 * Math.cos((latitude * Math.PI) / 180)) /
   Math.pow(2, zoom)
-const isMapConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
 const templateMap = useTemplateRef('map')
 const mapCutoutRadiusInMeters = computed(() => {
   const map = templateMap.value

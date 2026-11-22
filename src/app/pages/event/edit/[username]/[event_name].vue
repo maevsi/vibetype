@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <AppError v-if="!event" :error="{ status: 404 }" />
     <div v-else class="flex flex-1 flex-col">
       <LayoutTopBar>{{ t('title') }}</LayoutTopBar>

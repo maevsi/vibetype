@@ -8,11 +8,10 @@ const CERTIFICATE_SUFFIX = process.env.CI ? '-ci' : '-dev'
 export const developmentConfig: ReturnType<DefineNuxtConfig> = {
   $development: {
     // the stack terminates tls in front of the container, while the e2e tests
-    // reach the server directly; left unset, nuxt resolves the host to `{}`,
-    // which crashes `nuxt dev`
+    // reach the server directly; the stack's host comes from the Dockerfile
     devServer:
       IS_IN_STACK && !process.env.NUXT_PUBLIC_VIO_IS_TESTING
-        ? { host: '0.0.0.0' }
+        ? {}
         : {
             host: 'app.localhost',
             https: {
