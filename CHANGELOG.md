@@ -1,3 +1,14 @@
+## [17.37.0](https://github.com/maevsi/vibetype/compare/17.36.1...17.37.0) (2026-11-22)
+
+### Features
+
+* **event:** name the weekday only for the coming week ([#2791](https://github.com/maevsi/vibetype/issues/2791)) ([4a72e90](https://github.com/maevsi/vibetype/commit/4a72e905c9d5874dc22a561bf9e4c3c054bc19a7))
+* **feature-flag:** describe each flag and mark flagged tiles and map controls ([#2788](https://github.com/maevsi/vibetype/issues/2788)) ([5192567](https://github.com/maevsi/vibetype/commit/51925676619569af06a479a31dfee0017271d663))
+
+### Bug Fixes
+
+* **app:** type route props without the typed route union ([#2784](https://github.com/maevsi/vibetype/issues/2784)) ([4762dfe](https://github.com/maevsi/vibetype/commit/4762dfeae0e6818559d2c8cf787bc67622ea5191))
+
 ## [17.36.1](https://github.com/maevsi/vibetype/compare/17.36.0...17.36.1) (2026-11-22)
 
 ### Bug Fixes
