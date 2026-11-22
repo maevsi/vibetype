@@ -6,6 +6,16 @@ export const eventHasEnded = (
   now: Date,
 ): boolean => now >= new Date(event.end ?? event.start)
 
+export const getEventState = (
+  event: { end?: string | null; start: string },
+  now: Date,
+): 'ended' | 'ongoing' | 'upcoming' =>
+  now < new Date(event.start)
+    ? 'upcoming'
+    : eventHasEnded(event, now)
+      ? 'ended'
+      : 'ongoing'
+
 // Shared field-shape contract for `Event` data drilled through many
 // components (see `Pick<EventItemFragment, ...>` usages). Not spread into
 // any operation itself; each page fetches its own tailored `Event` fields.
