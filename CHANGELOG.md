@@ -1,3 +1,13 @@
+## [18.0.0-beta.11](https://github.com/maevsi/vibetype/compare/18.0.0-beta.10...18.0.0-beta.11) (2026-11-22)
+
+### ⚠ BREAKING CHANGES
+
+* **event:** let accounts join public events (#2783)
+
+### Features
+
+* **event:** let accounts join public events ([#2783](https://github.com/maevsi/vibetype/issues/2783)) ([a9d5d36](https://github.com/maevsi/vibetype/commit/a9d5d36dfe100fd5c4fd6ed5a40b9254ed6dc3f6))
+
 ## [18.0.0-beta.10](https://github.com/maevsi/vibetype/compare/18.0.0-beta.9...18.0.0-beta.10) (2026-11-20)
 
 ### ⚠ BREAKING CHANGES
