@@ -30,6 +30,25 @@ export const useAuthentication = () => {
   })
 }
 
+/** Sends visitors who are not signed in to the sign-in page, which returns them to the current page afterwards. */
+export const useSignInRequired = async () => {
+  const store = useStore()
+
+  if (store.signedInUsername) return
+
+  const localePath = useLocalePath()
+  const route = useRoute()
+
+  // without history, as the back button would return to the current page otherwise, which only redirects again
+  await navigateTo(
+    {
+      path: localePath('session-create'),
+      query: { to: route.fullPath },
+    },
+    { replace: true },
+  )
+}
+
 export const useJwtCookie = (
   options:
     { options: CookieOptions & { readonly: false } } | undefined = undefined,
@@ -48,8 +67,7 @@ export const useJwtCookie = (
 }
 
 export const useJwtDelete = () => {
-  const { $urql, $urqlReset } = useNuxtApp()
-  const requestFetch = useRequestFetch()
+  const { $csrfFetch, $urql, $urqlReset } = useNuxtApp()
   const store = useStore()
   const notificationStore = useNotificationStore()
 
@@ -66,9 +84,27 @@ export const useJwtDelete = () => {
 
     await jwtDelete({
       $urqlReset,
-      requestFetch,
+      requestFetch: $csrfFetch,
       store,
     })
+  }
+}
+
+/** Deletes the session and sends the visitor to the home page. */
+export const useSignOutToRoot = () => {
+  const jwtDelete = useJwtDelete()
+  const localePath = useLocalePath()
+
+  return async () => {
+    await jwtDelete()
+    return navigateTo(
+      localePath({
+        name: 'index',
+        query: {
+          signOut: null,
+        },
+      }),
+    )
   }
 }
 
@@ -79,7 +115,7 @@ export const useJwtInitialize = async () => {
   const { data: initialData } = await useFetch('/api/model/jwt')
   store.jwtSet(initialData.value?.jwtPayload)
 
-  if (!store.jwtPayload) return false
+  if (!store.jwtPayload) return
 
   const jwtId = store.jwtPayload.jti
 
@@ -103,8 +139,7 @@ export const useJwtInitialize = async () => {
     console.error('JWT update failed:', error)
   }
 
-  // an existing session opens in the language of the account
-  return await syncLocaleToOwnContactLanguage({ nuxtApp, store })
+  return syncLocaleCookieToTokenLanguage({ nuxtApp, store })
 }
 
 export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {

@@ -1,6 +1,11 @@
 <template>
   <AppError v-if="error" :error="{ message: error.message, status: 500 }" />
-  <ContentLegalTerms v-else v-model:error="error" />
+  <div v-else class="flex flex-1 flex-col">
+    <LayoutTopBar />
+    <LayoutPage>
+      <ContentLegalTerms v-model:error="error" />
+    </LayoutPage>
+  </div>
 </template>
 
 <script setup lang="ts">

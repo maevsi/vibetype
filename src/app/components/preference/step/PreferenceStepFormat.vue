@@ -1,19 +1,22 @@
 <template>
   <LayoutPage>
-    <div class="flex flex-col gap-4 text-center">
-      <AppStepProgress :count="4" :index="2" />
-      <span class="text-heading-medium text-balance">
+    <div class="flex flex-col gap-4">
+      <AppStepProgress class="justify-start" :count="4" :index="2" />
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
       </span>
+      <span class="text-body text-fg-2">
+        {{ t('description') }}
+      </span>
       <div>
-        <ul class="flex flex-wrap justify-center gap-2">
+        <ul class="grid grid-cols-3 gap-3">
           <li v-for="eventFormat in eventFormats" :key="eventFormat.rowId">
             <PreferenceElement
               v-if="eventFormat.label && eventFormat.label !== eventFormat.name"
               :id="eventFormat.rowId"
               :name="eventFormat.label"
               :selected="preferenceEventFormatIds"
-              @click="togglePreferenceSelection(eventFormat.rowId)"
+              @toggle="togglePreferenceSelection(eventFormat.rowId)"
             >
               <AppIconPreferenceFormatConference
                 v-if="eventFormat.name === 'conference'"
@@ -213,6 +216,7 @@ useApiErrorModel({
 <i18n lang="yaml">
 de:
   button: Weiter
+  description: 'Ob gemütliches Beisammensein oder lebhaftes Festival: Wir möchten deine Favoriten kennen! Teile einfach ein paar deiner Lieblingsformate.'
   formatConference: Konferenz
   formatDemonstration: Demonstration
   formatExhibition: Ausstellung
@@ -228,6 +232,7 @@ de:
   title: Wähle deine bevorzugten Event-Formate!
 en:
   button: Next
+  description: Whether it's a cozy gathering or a lively festival, we'd love to hear your favorites! Just share some of your top picks.
   formatConference: Conference
   formatDemonstration: Demonstration
   formatExhibition: Exhibition

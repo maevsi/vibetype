@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
+  <form class="flex flex-col gap-5" @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="userName">
       <Field>
         <FieldLabel :for="field.name">
@@ -149,13 +149,13 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Teilnahme am Früher Vogel Programm und zur Kontaktaufnahme dazu verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
   userConsentContactForm: Kontaktformular
   userConsentPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
+  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for participation in the Early Bird program and for contacting me about it. I can withdraw my consent at any time using the {contactForm}.'
   userConsentContactForm: contact form
   userConsentPrivacyPolicy: privacy policy
   userEmailAddress: Email address

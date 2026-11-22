@@ -90,6 +90,10 @@ export const SCHEMA_URL_HTTPS_OPTIONAL = z
   .regex(REGEX_URL_HTTPS)
   .max(VALIDATION_URL_LENGTH_MAXIMUM)
   .or(z.literal(''))
+export const SCHEMA_URL_HTTPS_REQUIRED = z
+  .string()
+  .regex(REGEX_URL_HTTPS)
+  .max(VALIDATION_URL_LENGTH_MAXIMUM)
 export const SCHEMA_USERNAME_OPTIONAL = z
   .string()
   .max(VALIDATION_USERNAME_LENGTH_MAXIMUM)

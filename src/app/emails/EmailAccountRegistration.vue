@@ -86,7 +86,7 @@ const t = locales[locale]
           <AppText
             class="text-secondary"
             style="
-              color: #555;
+              color: #5f6461;
               font-size: 13px;
               margin-top: 8px;
               text-align: center;

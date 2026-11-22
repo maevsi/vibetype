@@ -8,8 +8,23 @@ const icalPostBodySchema = z.object({
     accountByCreatedBy: z.object({
       username: z.string(),
     }),
+    addressByAddressId: z
+      .object({
+        city: z.string().nullish(),
+        country: z.string().nullish(),
+        line1: z.string().nullish(),
+        line2: z.string().nullish(),
+        location: z
+          .object({ latitude: z.number(), longitude: z.number() })
+          .nullish(),
+        name: z.string().nullish(),
+        postalCode: z.string().nullish(),
+        region: z.string().nullish(),
+      })
+      .nullish(),
     description: z.string().nullable(),
     end: z.string().nullable(),
+    isInPerson: z.boolean().nullish(),
     name: z.string(),
     rowId: z.string(),
     start: z.string(),
@@ -21,6 +36,7 @@ const icalPostBodySchema = z.object({
       rowId: z.string(),
     })
     .optional(),
+  language: LocaleSchema.optional(),
 })
 
 export default defineEventHandler(async (h3Event) => {
@@ -35,5 +51,10 @@ export default defineEventHandler(async (h3Event) => {
     'Content-Disposition': `attachment; filename="${eventAuthorUsername}_${event.slug}.ics"`,
   })
 
-  return getIcalString({ event, guest, siteUrl: SITE_URL })
+  return getIcalString({
+    event,
+    guest,
+    language: body.language,
+    siteUrl: SITE_URL,
+  })
 })

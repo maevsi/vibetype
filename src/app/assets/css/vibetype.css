@@ -37,6 +37,8 @@
   --success-tint: #c2f5ca;
   --surface-overlay: #fff;
   --surface-raised: #eff0ef;
+
+  /* mirrored in `THEME_COLOR` (checked by `tests/unit/app/assets/themeColor.test.ts`) and in `themeColor` of maevsi/android's `app/build.gradle.kts`, which needs a manual update */
   --surface: #fff;
   --warning-tint: #f5f0c2;
   --warning: #a7991b;
@@ -63,6 +65,8 @@
   --success-tint: #12361a;
   --surface-overlay: #2c2e2c;
   --surface-raised: #1f211f;
+
+  /* mirrored in `THEME_COLOR_DARK` (checked by `tests/unit/app/assets/themeColor.test.ts`) and in `themeColorDark` of maevsi/android's `app/build.gradle.kts`, which needs a manual update */
   --surface: #121312;
   --warning-tint: #36320f;
   --warning: #cab921;

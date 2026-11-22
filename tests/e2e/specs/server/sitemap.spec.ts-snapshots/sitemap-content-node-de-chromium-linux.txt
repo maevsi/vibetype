@@ -163,6 +163,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/session/edit/language" />
     </url>
     <url>
+        <loc>https://example.com/de/session/edit/privacy</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/session/edit/privacy" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/session/edit/privacy" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/session/edit/privacy" />
+    </url>
+    <url>
         <loc>https://example.com/de/account/password/reset/request</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://example.com/account/password/reset/request" />
         <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/account/password/reset/request" />

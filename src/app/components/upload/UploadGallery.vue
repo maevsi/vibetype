@@ -106,6 +106,7 @@
         :default-size="({ imageSize }: { imageSize: Size }) => imageSize"
         :init-stretcher
         :src="fileSelectedUrl"
+        :stencil-props="{ aspectRatio }"
       />
       <AppAlert v-if="uploadSubmitErrors" class="mb-4" variant="error">
         <AppSpanList :span="uploadSubmitErrors" />
@@ -133,21 +134,24 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 import type { AllUploadsQueryVariables } from '~~/gql/generated/graphql'
 
-const { isReadonly, isSelectable } = defineProps<{
+const {
+  aspectRatio = undefined,
+  isReadonly,
+  isSelectable,
+} = defineProps<{
+  aspectRatio?: number
   isReadonly?: boolean
   isSelectable?: boolean
 }>()
 
 const emit = defineEmits<{
-  selection: [uploadId?: string | null]
+  selection: [uploadId?: string | null, storageKey?: string | null]
 }>()
 
 const { t } = useI18n()
-const route = useRoute()
 const store = useStore()
 const runtimeConfig = useRuntimeConfig()
 const TUSD_FILES_URL = useTusdFilesUrl()
-const localePath = useLocalePath()
 const templateCropper = useTemplateRef('cropper')
 const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 
@@ -164,6 +168,7 @@ const uploadToDelete = ref<{
 }>()
 const selectedItem = ref<{
   rowId?: string | null
+  storageKey?: string | null
 }>()
 
 // api data
@@ -260,14 +265,8 @@ const initStretcher = ({
   stretcher.style.height = `${cropper.parentElement?.clientHeight}px`
   stretcher.style.width = `${cropper.parentElement?.clientWidth}px`
 }
-const selectProfilePicture = async () => {
-  const pathUpload = localePath('upload')
-
-  if (route.path === pathUpload.toString()) {
-    templateInputProfilePicture.value?.click()
-  } else {
-    await navigateTo(pathUpload)
-  }
+const selectProfilePicture = () => {
+  templateInputProfilePicture.value?.click()
 }
 const onDeleteSelect = (
   upload: Pick<(typeof uploads.value)[number], 'rowId'>,
@@ -332,7 +331,7 @@ const toggleSelect = (upload: UnwrapRef<typeof selectedItem>) => {
     emit('selection', undefined)
   } else {
     selectedItem.value = upload
-    emit('selection', selectedItem.value?.rowId)
+    emit('selection', selectedItem.value?.rowId, selectedItem.value?.storageKey)
   }
 }
 const uploadBlob = async () => {
