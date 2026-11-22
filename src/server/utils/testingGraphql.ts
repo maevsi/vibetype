@@ -579,7 +579,13 @@ export const getTestingGraphqlResult = async ({
               accountByAccountId: null,
               language: 'en',
             },
+            createdAt: '2025-01-01T00:00:00.000Z',
             guestByGuestId: {
+              contactByContactId: {
+                accountId: null,
+                id: CONTACT.id,
+                __typename: 'Contact',
+              },
               id: GUEST_ID,
               rowId: TESTING_GUEST_ROW_ID,
               __typename: 'Guest',
@@ -590,6 +596,12 @@ export const getTestingGraphqlResult = async ({
             __typename: 'Attendance',
           },
           eventByAttendanceId: {
+            accountByCreatedBy: {
+              id: ACCOUNT.id,
+              username: ACCOUNT.username,
+              __typename: 'Account',
+            },
+            createdBy: ACCOUNT.rowId,
             eventAppsByEventId: {
               nodes: [],
               __typename: 'EventAppConnection',
@@ -597,6 +609,7 @@ export const getTestingGraphqlResult = async ({
             id: EVENT.id,
             name: EVENT.name,
             rowId: EVENT.rowId,
+            slug: EVENT.slug,
             __typename: 'Event',
           },
         },
