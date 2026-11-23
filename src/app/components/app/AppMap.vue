@@ -16,15 +16,6 @@
         <Teleport v-if="overlayElement" :to="overlayElement">
           <slot />
         </Teleport>
-        <!-- above the map panes and below the controls, so the attribution stays clickable -->
-        <a
-          v-if="isStatic && staticUrl"
-          :aria-label="t('openInMaps')"
-          class="absolute inset-0 z-700 focus-visible:outline-2 focus-visible:-outline-offset-2"
-          :href="staticUrl"
-          rel="noopener noreferrer"
-          target="_blank"
-        />
         <div
           class="pointer-events-none absolute inset-x-4 bottom-4 z-1000 mx-auto w-fit max-w-full rounded-pill bg-black/70 px-4 py-2 text-center text-body-small text-white transition-opacity duration-300"
           :class="hint ? 'opacity-100' : 'opacity-0'"
@@ -68,7 +59,6 @@ export type AppMapEvent = {
 export type AppMapProps = {
   events?: readonly DeepReadonly<AppMapEvent>[]
   geocoder?: boolean
-  isStatic?: boolean
   isZoomControlHidden?: boolean
   positionInitial?: {
     latitude: number
@@ -80,7 +70,6 @@ const {
   class: classProps = undefined,
   events = undefined,
   geocoder = undefined,
-  isStatic = false,
   isZoomControlHidden = false,
   positionInitial = {
     latitude: 51.12421275782688,
@@ -102,13 +91,6 @@ const mapCenter = ref<LatLng>()
 const mapZoom = ref<number>()
 // stays false until the view differs from the initial one, so programmatic initial centring never counts as input
 const isPositionSet = ref(false)
-
-const staticUrl = computed(() => {
-  const location = events?.find((event) => event.addressByAddressId?.location)
-    ?.addressByAddressId?.location
-
-  return location ? getMapsUrl({ location, text: '' }) : undefined
-})
 
 const { t, locale } = useI18n()
 const colorMode = useColorMode()
@@ -133,7 +115,7 @@ const showHint = (message: string) => {
 }
 const applyGestureHandling = () => {
   const mapLocal = map.value
-  if (!mapLocal || isStatic) return
+  if (!mapLocal) return
   if (isTouchDevice.value && !isFullscreen.value) mapLocal.dragging.disable()
   else mapLocal.dragging.enable()
 }
@@ -236,17 +218,7 @@ const initialize = async () => {
           'Zoom out': t('zoomOut'),
         }) as Record<string, string>
       )[text] ?? text,
-    ...(isStatic
-      ? {
-          boxZoom: false,
-          doubleClickZoom: false,
-          dragging: false,
-          keyboard: false,
-          scrollWheelZoom: false,
-          touchZoom: false,
-          zoomControl: false,
-        }
-      : { zoomControl: !isZoomControlHidden }),
+    zoomControl: !isZoomControlHidden,
   }).setView(
     [positionInitial.latitude, positionInitial.longitude],
     positionInitial.zoomLevel,
@@ -261,8 +233,7 @@ const initialize = async () => {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map.value)
   // the native fullscreen API cannot keep the map while it moves to the body, so leaflet only fills the window
-  if (!isStatic)
-    fullscreenControl = new FullscreenControl({ pseudo: true }).addTo(map.value)
+  fullscreenControl = new FullscreenControl({ pseudo: true }).addTo(map.value)
 
   if (geocoder) {
     const { GeoSearchControl, OpenStreetMapProvider } =
@@ -358,13 +329,7 @@ const initialize = async () => {
   container.addEventListener(
     'wheel',
     (wheelEvent) => {
-      if (
-        isStatic ||
-        isFullscreen.value ||
-        wheelEvent.ctrlKey ||
-        wheelEvent.metaKey
-      )
-        return
+      if (isFullscreen.value || wheelEvent.ctrlKey || wheelEvent.metaKey) return
       // stopping only leaflet's zoom, not the default action, keeps the page scrolling
       wheelEvent.stopImmediatePropagation()
       showHint(
@@ -379,7 +344,6 @@ const initialize = async () => {
     'touchmove',
     (touchEvent) => {
       if (
-        !isStatic &&
         !isFullscreen.value &&
         touchEvent.touches.length === 1 &&
         isTouchDevice.value
@@ -507,7 +471,6 @@ de:
   locateUnavailable: Dein Standort ist derzeit nicht verfügbar.
   map: Karte
   notFoundMessage: Nichts gefunden.
-  openInMaps: Ort in der Karten-App öffnen
   searchLabel: Adresse eingeben
   zoomIn: Vergrößern
   zoomOut: Verkleinern
@@ -524,7 +487,6 @@ en:
   locateUnavailable: Your location is currently unavailable.
   map: Map
   notFoundMessage: Nothing found.
-  openInMaps: Open location in maps app
   searchLabel: Enter address
   zoomIn: Zoom in
   zoomOut: Zoom out

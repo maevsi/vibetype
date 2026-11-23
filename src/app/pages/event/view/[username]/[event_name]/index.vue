@@ -226,7 +226,6 @@
                 v-if="positionInitial"
                 class="isolate h-48 rounded-medium"
                 :events
-                is-static
                 :position-initial
               />
             </section>
