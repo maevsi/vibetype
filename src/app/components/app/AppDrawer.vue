@@ -25,9 +25,15 @@
 import type { HTMLAttributes } from 'vue'
 import type { DrawerDirection } from 'vaul-vue'
 
-const { class: classProps = undefined, direction = undefined } = defineProps<{
+const {
+  class: classProps = undefined,
+  direction = undefined,
+  isWithoutHistoryEntry = false,
+} = defineProps<{
   class?: HTMLAttributes['class']
   direction?: DrawerDirection
+  // a drawer opened by a pending navigation must not touch history, as removing its entry on close navigates back and cancels the navigation it confirms
+  isWithoutHistoryEntry?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -57,6 +63,11 @@ const historyEntryRemove = () => {
 
 // lifecycle
 watch(isOpen, (newValue) => {
+  if (isWithoutHistoryEntry) {
+    if (!newValue) emit('close')
+    return
+  }
+
   if (newValue) {
     historyEntryAdd()
   } else {

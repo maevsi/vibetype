@@ -14,27 +14,15 @@
           >
             <div v-if="isOwnProfile" class="absolute top-4 right-4 flex gap-2">
               <AppButton
-                :aria-label="t('edit')"
+                :aria-label="t('settings')"
                 class="size-11 justify-center rounded-full bg-surface hover:bg-line"
                 size="none"
-                :to="
-                  localePath({
-                    name: 'account-edit-username',
-                    params: {
-                      username: route.params.username,
-                    },
-                  })
-                "
+                :to="localePath({ name: 'session-edit' })"
                 variant="ghost"
               >
-                <AppIconEdit class="size-5" />
+                <AppIconSettings class="size-5" />
               </AppButton>
               <AppDropdown>
-                <AppDropdownItem
-                  @select="navigateTo(localePath({ name: 'session-edit' }))"
-                >
-                  {{ t('settings') }}
-                </AppDropdownItem>
                 <AppDropdownItem variant="destructive" @select="signOutToRoot">
                   {{ t('logout') }}
                 </AppDropdownItem>
@@ -464,7 +452,6 @@ de:
   achievementsNone: Noch keine freigeschaltet
   blockAccount: Konto blockieren
   contactBook: Kontaktbuch
-  edit: Profil bearbeiten
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   eventMore: Alle ansehen
   events: Veranstaltungen
@@ -486,7 +473,6 @@ en:
   achievementsNone: None unlocked yet
   blockAccount: Block Account
   contactBook: Contact Book
-  edit: Edit profile
   errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   eventMore: See all
   events: Events

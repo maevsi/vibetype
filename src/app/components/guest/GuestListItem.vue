@@ -168,7 +168,14 @@ const deleteGuestByRowIdMutation = useMutation(
   graphql(`
     mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {
       deleteGuestByRowId(input: $input) {
-        clientMutationId
+        guest {
+          eventByEventId {
+            guestCount
+            id
+          }
+          id
+          rowId
+        }
       }
     }
   `),

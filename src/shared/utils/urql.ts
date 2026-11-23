@@ -262,6 +262,10 @@ export const getUrqlClient = async ({
     },
     updates: {
       Mutation: {
+        // the payload carries no account, so the profiles listing achievements are refetched instead
+        achievementUnlock: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'accountByUsername'),
+
         // create
         createAccountBlock: (_result, _args, cache, _info) =>
           invalidateAccountBlockDependents(cache),

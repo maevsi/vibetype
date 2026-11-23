@@ -1,6 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IHeroiconsHeart v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IHeroiconsBookmark v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 
@@ -10,7 +10,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: Herz
+  ariaLabel: Lesezeichen
 en:
-  ariaLabel: Heart
+  ariaLabel: Bookmark
 </i18n>
