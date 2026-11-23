@@ -411,21 +411,21 @@ de:
   canceled: abgelehnt
   contact: Kontakt
   contactSelect: Kontakt auswählen
-  contactSelectDescription: Durchsuche dein Kontaktbuch und wähle die Personen aus, die du einladen möchtest.
+  contactSelectDescription: Durchsuche Dein Kontaktbuch und wähle die Personen aus, die Du einladen möchtest.
   feedback: Rückmeldungen
   feedbackFilter: Nach Rückmeldung filtern
   feedbackFilterAll: Alle
   guestAdd: Gäste hinzufügen
   guestLimitRaise: Limit erhöhen
   guestLimitReached: Das Gästelimit ist erreicht. Erhöhe es in den Veranstaltungseinstellungen, um mehr Personen einzuladen.
-  guestNoneDescription: Lade Personen aus deinem Kontaktbuch, per Nutzername oder per E-Mail-Adresse ein. Jeder Gast bekommt einen persönlichen Einladungslink.
+  guestNoneDescription: Lade Personen aus Deinem Kontaktbuch, per Nutzername oder per E-Mail-Adresse ein. Alle Gäste bekommen einen persönlichen Einladungslink.
   guestNoneFilteredDescription: Versuche es mit einem anderen Namen oder einer anderen Rückmeldung.
   guestNoneFilteredTitle: Keine passenden Gäste
   guestNoneTitle: Noch keine Gäste
   guestSelectAll: Alle angezeigten Gäste auswählen
   guestShowAll: Alle Gäste anzeigen
   guestsUsed: 'Gästekontingent genutzt: {amountCurrent} / {amountMaximum}'
-  hintInviteSelf: 'Tipp: Lade dich zuerst selbst ein, um zu sehen, was deine Gäste bekommen.'
+  hintInviteSelf: 'Tipp: Lade Dich zuerst selbst ein, um zu sehen, was Deine Gäste bekommen.'
   noFeedback: keine Rückmeldung
 en:
   accepted: accepted

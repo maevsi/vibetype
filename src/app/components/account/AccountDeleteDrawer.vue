@@ -152,14 +152,14 @@ const accountDeleteMutation = useMutation(
 de:
   account: Konto
   accountDeleted: Konto gelöscht
-  accountDeletedMessage: Dein Konto wurde gelöscht. Wir würden uns freuen, dich bei @.upper:{'globalSiteName'} wiederzusehen!
+  accountDeletedMessage: Dein Konto wurde gelöscht. Wir würden uns freuen, Dich bei @.upper:{'globalSiteName'} wiederzusehen!
   confirmDelete: Ja, mein Konto löschen
   confirmPassword: Passwort bestätigen
   deleteAccount: Konto löschen
-  deleteAccountQuestion: Willst du dein Konto wirklich löschen? All deine Veranstaltungen, Kontakte und Dateien auf @.upper:{'globalSiteName'} werden unwiederbringlich verschwinden!
+  deleteAccountQuestion: Konto löschen? Alle Deine Veranstaltungen, Kontakte und Dateien auf @.upper:{'globalSiteName'} sind dann endgültig weg, und wir können sie nicht wiederherstellen.
   error: Fehler
-  postgres23503: Dir gehören noch Daten! Lösche erst all deine Veranstaltungen.
-  postgres28P01: Passwort falsch! Überprüfe, ob du alles richtig geschrieben hast.
+  postgres23503: Deine Veranstaltungen sind noch mit Deinem Konto verbunden. Bitte lösche sie zuerst und versuche es dann erneut.
+  postgres28P01: Passwort falsch! Überprüfe, ob Du alles richtig geschrieben hast.
   restart: Erneut versuchen
   stay: Nein, ich bleibe bei @.upper:{'globalSiteName'}
   toHomepage: Zur Startseite
@@ -170,9 +170,9 @@ en:
   confirmDelete: Yes, delete my account
   confirmPassword: Confirm password
   deleteAccount: Delete account
-  deleteAccountQuestion: Do you really want to delete your account? All your events, contacts and files on @.upper:{'globalSiteName'} will vanish forever!
+  deleteAccountQuestion: Delete your account? All your events, contacts and files on @.upper:{'globalSiteName'} will be gone for good, and we can't bring them back.
   error: Error
-  postgres23503: There's still some data connected to your account! Delete all your events first.
+  postgres23503: Your events are still connected to your account. Please delete them first, then try again.
   postgres28P01: Password incorrect! Check for spelling mistakes.
   restart: Try again
   stay: No, I'm staying with @.upper:{'globalSiteName'}

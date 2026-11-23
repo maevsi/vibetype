@@ -73,10 +73,10 @@ const handleSuccess = (emailAddress: string) => {
 <i18n lang="yaml">
 de:
   backToRequest: Zurück zur Anfrage
-  instructionsInboxDescription: Öffne den Link, um dein Passwort zurückzusetzen.
-  instructionsInboxHeading: Überprüfe dein Postfach auf einen Link zum Zurücksetzen
+  instructionsInboxDescription: Öffne den Link, um Dein Passwort zurückzusetzen.
+  instructionsInboxHeading: Überprüfe Dein Postfach auf einen Link zum Zurücksetzen
   sentResetLinkTo: 'Wir haben gerade einen Link zum Zurücksetzen gesendet an '
-  subtitle: Kein Problem! Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen.
+  subtitle: Kein Problem! Gib Deine E-Mail-Adresse ein und wir senden Dir einen Link zum Zurücksetzen.
   title: Passwort vergessen?
   titleShort: Passwort zurücksetzen
 en:

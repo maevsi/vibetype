@@ -1,7 +1,7 @@
 {
   "globalError": "Fehler",
   "globalErrorMessage": "Es ist ein Fehler aufgetreten.",
-  "globalErrorModerated": "Der Text enthält Inhalte, die nicht erlaubt sind. Bitte formuliere ihn um.",
+  "globalErrorModerated": "Wir möchten, dass sich alle auf @.upper:{'globalSiteName'} willkommen fühlen, deshalb können wir diesen Text so nicht speichern. Bitte formuliere ihn um.",
   "globalErrorNoData": "Antwort ohne Daten",
   "globalErrorClipboard": "Dein Browser unterstützt das moderne Kopieren in die Zwischenablage nicht.",
   "globalErrorDetailsCopy": "Details kopieren",
@@ -27,7 +27,7 @@
   "globalValidationCheck": "Gehe sicher, dass dieser Wert korrekt ist",
   "globalValidationExistence": "Existiert",
   "globalValidationExistenceNone": "Existiert nicht",
-  "globalValidationFailed": "Bitte überprüfe deine Eingaben 🙈",
+  "globalValidationFailed": "Bitte überprüfe Deine Eingaben 🙈",
   "globalValidationFormat": "Falsches Format",
   "globalValidationFormatEnum": "Nicht einer der möglichen Werte",
   "globalValidationFormatUrlHttps": "Muss mit \"https://\" beginnen",
@@ -39,7 +39,7 @@
   "globalValidationRequired": "Pflichtfeld",
   "globalValidationShortness": "Zu kurz",
   "nuxtSiteConfig": {
-    "description": "Finde Veranstaltungen, Gäste und Freunde 💙❤️💚",
+    "description": "Finde Veranstaltungen, Gäste und Freundschaften 💙❤️💚",
     "name": "Vibetype",
     "pwa": {
       "screenshotLabelEvents": "Veranstaltungen",

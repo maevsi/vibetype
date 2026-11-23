@@ -61,7 +61,7 @@ de:
   keepUpload: Nein, behalten
   title: Bild löschen
   uploadDelete: Bild löschen
-  uploadDeleteQuestion: Möchtest du dieses Bild wirklich löschen?
+  uploadDeleteQuestion: Möchtest Du dieses Bild wirklich löschen?
 en:
   keepUpload: No, keep it
   title: Delete image

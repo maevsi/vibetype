@@ -433,7 +433,7 @@ de:
   eventMore: Alle ansehen
   events: Veranstaltungen
   friendAdd: Freundschaftsanfrage senden
-  friends: Freunde
+  friends: Freundschaften
   imprint: Impressum
   logout: Abmelden
   more: Mehr

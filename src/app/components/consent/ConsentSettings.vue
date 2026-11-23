@@ -108,18 +108,18 @@ const decide = (action: () => void) => {
 de:
   allowAll: Alle erlauben
   allowNecessaryOnly: Nur Notwendiges
-  analyticsDescription: "Zeigt uns, wie @.upper:{'globalSiteName'} genutzt wird, damit wir es verbessern können. Die Daten gehen an Google, ohne Werbefunktionen."
+  analyticsDescription: Hilft uns, @.upper:{'globalSiteName'} besser zu machen, indem es zeigt, welche Funktionen genutzt werden. Die Nutzungsdaten gehen an Google, mit ausgeschalteten Werbefunktionen.
   analyticsTitle: Nutzungsanalyse
-  errorAnalysisDescription: Zeichnet Bedienschritte und Bildschirminhalte deiner Sitzung auf und misst die Leistung, um Fehler zu beheben. Die Daten gehen an Sentry.
+  errorAnalysisDescription: Hilft uns, Fehler schneller zu finden und zu beheben, indem Deine Bedienschritte, Bildschirminhalte und Ladezeiten aufgezeichnet werden. Diese Daten gehen an Sentry.
   errorAnalysisTitle: Fehleranalyse
   privacyPolicy: Datenschutzerklärung
   save: Auswahl speichern
 en:
   allowAll: Allow all
   allowNecessaryOnly: Only necessary
-  analyticsDescription: "Shows us how @.upper:{'globalSiteName'} is used so we can improve it. The data goes to Google, without advertising features."
+  analyticsDescription: Helps us make @.upper:{'globalSiteName'} better by showing which features people use. The usage data goes to Google, with advertising features turned off.
   analyticsTitle: Usage analytics
-  errorAnalysisDescription: Records interaction steps and screen contents of your session and measures performance to fix errors. The data goes to Sentry.
+  errorAnalysisDescription: Helps us find and fix errors faster by recording your steps, what's on screen and how fast pages load. This data goes to Sentry.
   errorAnalysisTitle: Error analysis
   privacyPolicy: Privacy policy
   save: Save selection

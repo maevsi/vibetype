@@ -173,13 +173,13 @@ const localePath = useLocalePath()
 <i18n lang="yaml">
 de:
   itemDescription: Nachricht
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über dieses Formular widerrufen.'
+  userConsent: Ich bin einverstanden, dass @.upper:{'globalSiteName'} meine Angaben aus diesem Formular nutzt, um meine Anfrage zu beantworten, wie in der {privacyPolicy} beschrieben. Diese Einwilligung kann ich jederzeit über dieses Formular widerrufen.
   userConsentPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
   itemDescription: Message
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using this form.'
+  userConsent: I agree that @.upper:{'globalSiteName'} uses the details I enter here to answer my request, as described in the {privacyPolicy}. I can withdraw this consent anytime via this form.
   userConsentPrivacyPolicy: privacy policy
   userEmailAddress: Email address
   userName: Name

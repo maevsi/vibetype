@@ -312,9 +312,9 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  about: Über dich
-  aboutPlaceholder: Erzähl ein wenig von dir! Was inspiriert dich, was machst du gern, oder verrate einfach eine lustige Tatsache.
-  accountBlock: Blockierte Benutzer
+  about: Über Dich
+  aboutPlaceholder: Erzähl ein wenig von Dir! Was inspiriert Dich, was machst Du gern, oder verrate einfach eine lustige Tatsache.
+  accountBlock: Blockierte Konten
   aiSetup: KI einrichten
   deleteAccount: Konto löschen
   display: Anzeige
@@ -323,7 +323,7 @@ de:
   errorUpdate: Beim Speichern des Profils ist ein Problem aufgetreten
   imprint: Impressum
   imprintInvalid: Gib einen Link an, der mit https:// beginnt und keine Leerzeichen enthält.
-  interactions: Interaktionen mit dir
+  interactions: Interaktionen mit Dir
   language: Sprache
   profile: Profil
   profilePicture: Profilbild

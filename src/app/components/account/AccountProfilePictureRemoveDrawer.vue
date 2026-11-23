@@ -64,7 +64,7 @@ const { t } = useI18n()
 de:
   keepProfilePicture: Nein, behalten
   profilePictureRemove: Bild entfernen
-  profilePictureRemoveQuestion: Möchtest du dein Profilbild wirklich entfernen?
+  profilePictureRemoveQuestion: Möchtest Du Dein Profilbild wirklich entfernen?
   title: Profilbild entfernen
 en:
   keepProfilePicture: No, keep it

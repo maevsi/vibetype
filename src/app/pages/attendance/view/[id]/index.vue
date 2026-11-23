@@ -272,15 +272,15 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  addFriend: Als Freund hinzufügen
+  addFriend: Freundschaft hinzufügen
   apps: Apps
   attendance: Anwesenheit
   checkOut: Auschecken
   contact: Kontakt
   contactNameUnknown: einen unbenannten Kontakt
   errorAttendanceCheckOut: Auschecken nicht möglich. Bitte erneut versuchen.
-  errorContactNone: Es gibt keine Kontaktinformationen für diesen Gast. Bitte freundlich darum, welche hinzuzufügen!
-  errorContactNoAccount: Der Gast hat sein Konto noch nicht zu seinen Kontaktinformationen hinzugefügt. Bitte freundlich darum, dies zu tun!
+  errorContactNone: Für diesen Gast gibt es noch keine Kontaktinformationen. Bitte die Person gern darum, welche zu ergänzen.
+  errorContactNoAccount: Diese Person hat ihr Konto noch nicht mit ihren Kontaktinformationen verknüpft. Bitte sie gern darum.
   event: Veranstaltung
   guest: Gast
   guestView: Einladung anzeigen
@@ -293,8 +293,8 @@ en:
   contact: Contact
   contactNameUnknown: an unnamed contact
   errorAttendanceCheckOut: Could not check out. Please try again.
-  errorContactNone: There is no contact information for this guest. Kindly ask them to add some!
-  errorContactNoAccount: The guest has not added contact information about their account yet. Kindly ask them to do so!
+  errorContactNone: There's no contact information for this guest yet. Feel free to ask them to add some.
+  errorContactNoAccount: This guest hasn't linked their account to their contact information yet. Feel free to ask them to.
   event: Event
   guest: Guest
   guestView: Show invitation

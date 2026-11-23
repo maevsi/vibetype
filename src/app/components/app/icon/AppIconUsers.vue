@@ -10,7 +10,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: Benutzer
+  ariaLabel: Personen
 en:
   ariaLabel: Users
 </i18n>

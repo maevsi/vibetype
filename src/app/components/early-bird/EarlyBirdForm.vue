@@ -40,10 +40,10 @@ const templateIdForm = useId()
 <i18n lang="yaml">
 de:
   button: Weiter
-  description: Bitte gib uns deinen Namen und deine E-Mail-Adresse, damit wir dich über Updates und deinen Beitrag im Früher Vogel Programm informieren können.
-  title: Wir freuen uns, dich dabei zu haben!
+  description: Wir halten Dich gern auf dem Laufenden. Gib uns Deinen Namen und Deine E-Mail-Adresse, und wir informieren Dich über das Früher-Vogel-Programm und Deinen Beitrag dazu.
+  title: Wir freuen uns, Dich dabei zu haben!
 en:
   button: Next
-  description: Please provide us with your name and email so that we can inform you about updates and your contribution to the Early Bird program.
+  description: We'd love to keep you in the loop. Share your name and email, and we'll update you about the Early Bird program and your part in it.
   title: We are happy to have you on the program!
 </i18n>

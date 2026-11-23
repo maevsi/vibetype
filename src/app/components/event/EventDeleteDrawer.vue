@@ -44,7 +44,7 @@ const mutation = useMutation(
 de:
   itemNameDeletion: Veranstaltung
   itemNameSuccess: Veranstaltung
-  postgres28P01: Passwort falsch! Überprüfe, ob du alles richtig geschrieben hast.
+  postgres28P01: Passwort falsch! Überprüfe, ob Du alles richtig geschrieben hast.
   postgresP0002: Die Veranstaltung wurde nicht gefunden!
 en:
   itemNameDeletion: event

@@ -212,12 +212,12 @@ de:
   buttonBlockConfirmation: Zurück zum Dashboard
   buttonReportCancel: Abbrechen
   buttonReportConfirmationClose: Schließen
-  buttonReportConfirmationBlock: Veranstalter blockieren
+  buttonReportConfirmationBlock: Veranstaltende blockieren
   buttonReportSubmit: Meldung einreichen
-  contentBlockConfirmation: Der Benutzer {'@'}{username} wurde blockiert.
-  contentReportConfirmation: Vielen Dank für die Meldung. Wir werden sie prüfen und dich über unsere Entscheidung benachrichtigen. Du kannst nun den Organisator {'@'}{username} blockieren oder zur Veranstaltungsseite zurückkehren.
-  errorBlock: Der Benutzer konnte nicht blockiert werden
-  titleBlockConfirmation: Benutzer blockiert
+  contentBlockConfirmation: "{'@'}{username} wurde blockiert."
+  contentReportConfirmation: Danke, dass Du hilfst, @.upper:{'globalSiteName'} sicher zu halten. Wir prüfen Deine Meldung und sagen Dir Bescheid, wie wir entscheiden. Du kannst {'@'}{username} jetzt auch blockieren.
+  errorBlock: Das Konto konnte nicht blockiert werden
+  titleBlockConfirmation: Konto blockiert
   titleReport: Veranstaltung melden
   titleReportConfirmation: Meldung erhalten
 en:
@@ -227,7 +227,7 @@ en:
   buttonReportConfirmationBlock: Block organizer
   buttonReportSubmit: Report
   contentBlockConfirmation: The user {'@'}{username} has been blocked.
-  contentReportConfirmation: Thank you for your report. We will review it and notify you about our decision. You can block the organizer {'@'}{username} now or return to the event.
+  contentReportConfirmation: Thank you for helping keep @.upper:{'globalSiteName'} a safe place. We'll review your report and let you know what we decide. You can also block {'@'}{username} now.
   errorBlock: The user could not be blocked
   titleBlockConfirmation: User blocked
   titleReport: Report event

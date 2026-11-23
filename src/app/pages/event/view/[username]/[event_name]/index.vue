@@ -470,7 +470,7 @@ de:
   details: Details
   edit: Bearbeiten
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
-  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
   location: Ort
@@ -481,7 +481,7 @@ de:
   stateEnded: Vorbei
   stateOngoing: Läuft gerade
   stateUpcoming: Bevorstehend
-  title: '{name} auf Vibetype'
+  title: "{name} auf @:{'globalSiteName'}"
 en:
   about: About the event
   attendances: Check in
@@ -500,5 +500,5 @@ en:
   stateEnded: Ended
   stateOngoing: Happening now
   stateUpcoming: Upcoming
-  title: '{name} on Vibetype'
+  title: "{name} on @:{'globalSiteName'}"
 </i18n>

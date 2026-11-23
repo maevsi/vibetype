@@ -71,7 +71,7 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   contactDelete: Kontakt löschen
-  contactDeleteQuestion: Möchtest du den Kontakt {name} wirklich löschen?
+  contactDeleteQuestion: Möchtest Du den Kontakt {name} wirklich löschen?
   contactNameUnknown: einen unbenannten Kontakt
   keepContact: Nein, behalten
   title: Kontakt löschen

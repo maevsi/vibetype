@@ -37,8 +37,8 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   button: Zu meinen Vorschlägen!
-  description: "@.upper:{'globalSiteName'} ist bereit, dich zu den besten Veranstaltungen zu führen."
-  title: Alles klar, du bist startklar!
+  description: "@.upper:{'globalSiteName'} ist bereit, Dich zu den besten Veranstaltungen zu führen."
+  title: Alles klar, Du bist startklar!
 en:
   button: To my suggestions!
   description: "@.upper:{'globalSiteName'} is ready to guide you to the best events."

@@ -223,7 +223,7 @@ useApiErrorModel({
 <i18n lang="yaml">
 de:
   button: Weiter
-  description: Wir möchten wissen, welche Genres dich begeistern! Teile deine Favoriten, von Kunst bis Sport.
+  description: Wir möchten wissen, welche Genres Dich begeistern! Teile Deine Favoriten, von Kunst bis Sport.
   formatArtAndCulture: Kunst & Kultur
   formatBusiness: Wirtschaft
   formatComedy: Komödie
@@ -236,7 +236,7 @@ de:
   formatPolitics: Politik
   formatSocial: Soziales
   formatSportsAndFitness: Sport & Fitness
-  title: Welches Genre spricht dich an?
+  title: Welches Genre spricht Dich an?
 en:
   button: Next
   description: We want to know what genres excite you! Share your favorites, from art to sports.

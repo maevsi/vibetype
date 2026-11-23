@@ -84,7 +84,7 @@ de:
   errorCameraNotSupported: Die Webseite wird nicht über eine sichere Verbindung geladen.
   errorCameraOverconstrained: Frontkamerazugriff ist nicht möglich.
   errorCameraStreamApiNotSupported: Der Browser unterstützt den Zugriff auf Videostreams nicht.
-  hintBrowserSettings: Sieh in deinen Browser-Einstellungen nach.
+  hintBrowserSettings: Sieh in Deinen Browser-Einstellungen nach.
 en:
   errorCameraNotAllowed: Need camera access permissions. {hintBrowserSettings}
   errorCameraNotFound: Could not find a suitable camera.

@@ -162,7 +162,7 @@ const handleSubmit = () => {
 <i18n lang="yaml">
 de:
   emailAddress: E-Mail-Adresse
-  rememberPassword: 'Erinnerst du dich an dein Passwort? '
+  rememberPassword: 'Erinnerst Du Dich an Dein Passwort? '
   send: Link zum Zurücksetzen senden
   signIn: Anmelden
   validationEmailInvalid: Ungültige E-Mail-Adresse

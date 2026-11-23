@@ -506,33 +506,33 @@ de:
   emailRequired: Bitte gib eine E-Mail-Adresse ein
   legalTermsUnavailable: Die rechtlichen Bedingungen konnten nicht geladen werden. Bitte versuche es später erneut.
   passwordUnavailable: Das Passwort ist nicht verfügbar. Bitte versuche es erneut.
-  postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
-  postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
-  postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
-  privacyNoticePrefix: 'Informationen dazu, wie wir deine Daten verarbeiten, findest du in unserer '
-  privacyNoticeSuffix: .
+  postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege Dir einen neuen Namen oder versuche Dich anzumelden.
+  postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um Dich zu registrieren.
+  postgresVTPLL: Das Passwort ist zu kurz! Überlege Dir ein längeres.
+  privacyNoticePrefix: Wir gehen sorgsam mit Deinen Daten um, wie unsere
+  privacyNoticeSuffix: ' erklärt.'
   privacyPolicy: Datenschutzerklärung
   signInLink: Anmelden
-  subtitleAge: Für den richtigen Vibe und deine Sicherheit zeigt dir Vibetype nur Veranstaltungen, die zu deinem Alter passen.
-  subtitleEmail: Wir verwenden sie, um dir einen Bestätigungslink zu senden und dein Konto zu sichern.
+  subtitleAge: Damit es für alle sicher bleibt und Spaß macht, zeigt Dir @.upper:{'globalSiteName'} nur Veranstaltungen, die zu Deinem Alter passen.
+  subtitleEmail: Wir verwenden sie, um Dir einen Bestätigungslink zu senden und Dein Konto zu sichern.
   subtitlePassword: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
-  subtitleUsername: Dieser Name wird anderen Nutzern angezeigt.
+  subtitleUsername: Alle auf @.upper:{'globalSiteName'} sehen diesen Namen, damit Dich andere finden können.
   support: Support kontaktieren
   termsOfUse: Nutzungsbedingungen
   termsRequired: Bitte akzeptiere die Nutzungsbedingungen
   titleAge: Alter bestätigen
-  titleEmail: Registriere dich mit deiner E-Mail
-  titlePassword: Erstelle dein Passwort
+  titleEmail: Registriere Dich mit Deiner E-Mail
+  titlePassword: Erstelle Dein Passwort
   titleShort: Registrieren
-  titleUsername: Wähle deinen Nutzernamen
-  titleVerification: Überprüfe dein Postfach
+  titleUsername: Wähle Deinen Nutzernamen
+  titleVerification: Überprüfe Dein Postfach
   usernameAlreadyTaken: Dieser Nutzername ist bereits vergeben
   usernameInvalidCharacters: Nur Buchstaben, Zahlen und Bindestriche erlaubt
   usernamePlaceholder: Nutzername
   usernameRequired: Bitte gib einen Nutzernamen ein
-  verificationDescription: Wenn du keine E-Mail erhältst, hast du möglicherweise bereits ein Konto bei @.upper:{'globalSiteName'}. Du kannst versuchen, dein Passwort zurückzusetzen, um dich wieder in deinem Konto einzuloggen.
-  verificationOpenLink: Öffne den Link, um zu bestätigen, dass du es wirklich bist.
-  verificationSentTo: 'Wir haben dir gerade einen Bestätigungslink gesendet an '
+  verificationDescription: Wenn Du keine E-Mail erhältst, hast Du möglicherweise bereits ein Konto bei @.upper:{'globalSiteName'}. Du kannst versuchen, Dein Passwort zurückzusetzen, um Dich wieder in Deinem Konto einzuloggen.
+  verificationOpenLink: Öffne den Link, um zu bestätigen, dass Du es wirklich bist.
+  verificationSentTo: 'Wir haben Dir gerade einen Bestätigungslink gesendet an '
 en:
   agreePrefix: 'I accept the '
   alreadyHaveAccount: 'Already have an account?'
@@ -549,14 +549,14 @@ en:
   postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
   postgresVTBDA: You must be at least 18 years old to register.
   postgresVTPLL: Your password is too short! Think of a longer one.
-  privacyNoticePrefix: 'Information on how we process your data can be found in our '
-  privacyNoticeSuffix: .
+  privacyNoticePrefix: We handle your data with care, as our
+  privacyNoticeSuffix: ' explains.'
   privacyPolicy: Privacy Policy
   signInLink: Sign in
-  subtitleAge: To keep things fun and safe, Vibetype curates just the right events for your age and vibe.
+  subtitleAge: To keep things fun and safe for everyone, @.upper:{'globalSiteName'} only shows you events that suit your age.
   subtitleEmail: We'll use it to send your verification link and keep your account secure.
   subtitlePassword: At least 8 characters that aren't easy to guess.
-  subtitleUsername: This name will be visible to other users.
+  subtitleUsername: Everyone on @.upper:{'globalSiteName'} can see this name, so friends can find you.
   support: Contact support
   termsOfUse: Terms of Use
   termsRequired: Please accept the Terms of Use

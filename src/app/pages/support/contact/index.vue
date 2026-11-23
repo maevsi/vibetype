@@ -37,11 +37,11 @@ const { error, step } = useStepper<'success'>()
 de:
   errorButton: Zurück zum Formular
   errorDescription1: Die Kontaktaufnahme scheint nicht geklappt zu haben.
-  errorDescription2: Bitte versuche es noch einmal oder wende dich über einen anderen Weg an den Support, wenn das Problem weiterhin besteht.
+  errorDescription2: Bitte versuche es noch einmal oder wende Dich über einen anderen Weg an den Support, wenn das Problem weiterhin besteht.
   formButton: Senden
   successButton: OK
   successDescription1: Deine Kontaktaufnahme wurde erfolgreich abgesendet!
-  successDescription2: Wir werden uns so schnell wie möglich bei dir melden.
+  successDescription2: Wir werden uns so schnell wie möglich bei Dir melden.
   title: Kontakt
 en:
   errorButton: Back to the form

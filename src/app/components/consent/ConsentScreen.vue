@@ -84,9 +84,9 @@ watch(
 
 <i18n lang="yaml">
 de:
-  description: "@.upper:{'globalSiteName'} verfolgt dich nicht über Apps oder Webseiten hinweg und zeigt keine Werbung. Entscheide, welche optionalen Funktionen du erlaubst. Das kannst du jederzeit in den Datenschutz-Einstellungen ändern."
+  description: "Deine Privatsphäre ist uns wichtig: @.upper:{'globalSiteName'} verfolgt Dich nicht über Apps oder Webseiten hinweg und zeigt keine Werbung. Wähle die optionalen Funktionen, die Du möchtest, und ändere das jederzeit in den Datenschutz-Einstellungen."
   title: Deine Privatsphäre
 en:
-  description: "@.upper:{'globalSiteName'} does not track you across apps or websites and shows no ads. Choose which optional features you allow. You can change this at any time in the privacy settings."
+  description: "Your privacy matters to us: @.upper:{'globalSiteName'} never tracks you across apps or websites and shows no ads. Choose the optional features you'd like and change them anytime in the privacy settings."
   title: Your privacy
 </i18n>
