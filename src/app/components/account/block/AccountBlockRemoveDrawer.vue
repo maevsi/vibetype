@@ -179,21 +179,21 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   error: Fehler
-  errorDataMissingBlock: Der Nutzer konnte nicht entsperrt werden. Interne Daten scheinen zu fehlen.
-  errorDataMissingNavigate: Eine Weiterleitung zum Profil ist nicht möglich. Interne Daten scheinen zu fehlen.
+  errorDataMissingBlock: Wir konnten diese Person nicht entsperren. Bitte lade die Seite neu und versuche es erneut.
+  errorDataMissingNavigate: Wir konnten dieses Profil nicht öffnen. Bitte lade die Seite neu und versuche es erneut.
   keepBlocked: Nein, gesperrt lassen
   ok: OK
   restart: Erneut versuchen
-  title: Benutzer entsperren
+  title: Konto entsperren
   toProfile: Zum Profil
   unblock: Ja, entsperren
-  unblockAccountConfirmation: Der Benutzer {'@'}{username} wurde entsperrt.
-  unblockAccountQuestion: Möchtest du den Nutzer wirklich entsperren? Er wird dir wieder Einladungen senden können.
-  userUnblocked: Benutzer entsperrt
+  unblockAccountConfirmation: "{'@'}{username} wurde entsperrt."
+  unblockAccountQuestion: Diese Person entsperren? Sie kann Dich dann wieder einladen.
+  userUnblocked: Konto entsperrt
 en:
   error: Error
-  errorDataMissingBlock: The user could not be unblocked. Internal data seems to be missing.
-  errorDataMissingNavigate: Navigation to the profile is not possible. Internal data seems to be missing.
+  errorDataMissingBlock: We couldn't unblock this person. Please reload the page and try again.
+  errorDataMissingNavigate: We couldn't open this profile. Please reload the page and try again.
   keepBlocked: No, keep blocked
   ok: OK
   restart: Try again
@@ -201,6 +201,6 @@ en:
   toProfile: To profile
   unblock: Yes, unblock
   unblockAccountConfirmation: The user {'@'}{username} has been unblocked.
-  unblockAccountQuestion: Do you really want to unblock the user? They will be able to send you invitations again.
+  unblockAccountQuestion: Unblock this person? They'll be able to invite you again.
   userUnblocked: User unblocked
 </i18n>

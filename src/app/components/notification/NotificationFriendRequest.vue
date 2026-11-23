@@ -37,7 +37,7 @@ useI18n()
 
 <i18n lang="yaml">
 de:
-  message: '{username} möchte mit dir befreundet sein'
+  message: '{username} möchte mit Dir befreundet sein'
 en:
   message: '{username} wants to be your friend'
 </i18n>

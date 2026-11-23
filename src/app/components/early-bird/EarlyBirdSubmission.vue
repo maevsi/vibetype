@@ -38,11 +38,11 @@ const { t } = useI18n()
 de:
   button: OK
   description1: Vielen Dank für Ihre Teilnahme am Early Bird Programm!
-  description2: Wenn du für eine unserer Initiativen ausgewählt wirst, melden wir uns per E-Mail bei dir. Bleib gespannt – wir freuen uns auf die Zusammenarbeit!
+  description2: Wenn Du für eine unserer Initiativen ausgewählt wirst, melden wir uns per E-Mail bei Dir. Wir freuen uns auf die Zusammenarbeit!
   title: Ihre Anmeldung wurde erfolgreich eingereicht!
 en:
   button: OK
   description1: Thank you for joining the Early Bird program!
-  description2: If you are selected for one of our initiatives, we will contact you by e-mail. Stay tuned - we look forward to working with you!
+  description2: If you're selected for one of our initiatives, we'll email you. We look forward to working with you!
   title: Your application was submitted successfully!
 </i18n>

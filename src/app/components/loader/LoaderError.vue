@@ -34,7 +34,7 @@ const isOnline = useOnline()
 
 <i18n lang="yaml">
 de:
-  offline: Du bist offline. Verbinde dich mit dem Internet und versuche es dann erneut.
+  offline: Du bist offline. Verbinde Dich mit dem Internet und versuche es dann erneut.
   retry: Erneut versuchen
 en:
   offline: You're offline. Reconnect to the internet, then try again.

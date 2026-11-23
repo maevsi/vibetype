@@ -676,12 +676,12 @@ defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 de:
   calendarAdd: Zum Kalender hinzufügen
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
-  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
-  errorGuestMissing: Diese Einladung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
+  errorGuestMissing: Diese Einladung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
   googleCalendarAdd: Zu Google Kalender hinzufügen
   greeting: Hey{usernameString}!
   greetingDescription: Du wurdest zu folgender Veranstaltung eingeladen.
-  hintQrCode: Dieses Bild ist deine Zugangsberechtigung für die Veranstaltung
+  hintQrCode: Dieses Bild ist Deine Zugangsberechtigung für die Veranstaltung
   iCalDownload: Als Kalenderdatei herunterladen
   # iCalHint: Die heruntergeladene Datei kann dann mit deiner Kalender-Anwendung geöffnet werden.
   iCalFetchError: iCal-Daten konnten nicht geladen werden!
@@ -693,7 +693,7 @@ de:
   invitationCanceledAdmin: Einladung im Namen von {name} abgelehnt
   invitationPendingAdmin: '{name} hat noch nicht geantwortet.'
   invitationSelectionClear: Zurück zur Einladungsübersicht
-  invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
+  invitationViewFor: 'Du siehst die Einladung für {name}. Damit es einfach bleibt, ist keine Anmeldung nötig: Alle mit dem Link oder der ID können sie öffnen und beantworten.'
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   qrCode: Check-in-Code
   qrCodeShow: Check-in-Code anzeigen
@@ -723,7 +723,7 @@ en:
   invitationCanceledAdmin: Invitation declined on behalf of {name}
   invitationPendingAdmin: '{name} has not responded yet.'
   invitationSelectionClear: Back to the invitation overview
-  invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
+  invitationViewFor: "You're viewing the invitation for {name}. To keep it simple, no sign-in is needed: anyone with the link or ID can open and answer it."
   ogImageAlt: The event's preview image.
   qrCode: Check in code
   qrCodeShow: Show check in code

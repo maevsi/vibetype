@@ -179,20 +179,20 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   accountsBlocked: Zur Blockliste
-  blockAccount: Benutzer blockieren
-  blockAccountConfirmation: Der Benutzer {'@'}{username} wurde blockiert.
-  blockAccountQuestion: Möchtest du {'@'}{username} wirklich blockieren? Du wirst keine Einladungen mehr von diesem Benutzer erhalten.
+  blockAccount: Konto blockieren
+  blockAccountConfirmation: "{'@'}{username} wurde blockiert."
+  blockAccountQuestion: "{'@'}{username} blockieren? Du bekommst dann keine Einladungen mehr von dieser Person."
   cancel: Abbrechen
   confirmBlock: Ja, blockieren
   error: Fehler
   restart: Erneut versuchen
   toDashboard: Zum Dashboard
-  userBlocked: Benutzer blockiert
+  userBlocked: Konto blockiert
 en:
   accountsBlocked: To blocklist
   blockAccount: Block User
   blockAccountConfirmation: The user {'@'}{username} has been blocked.
-  blockAccountQuestion: Do you really want to block {'@'}{username}? You will no longer get invitations from this user.
+  blockAccountQuestion: Block {'@'}{username}? You won't get any more invitations from this person.
   cancel: Cancel
   confirmBlock: Yes, block user
   error: Error

@@ -232,21 +232,21 @@ const handleSubmit = async () => {
 <i18n lang="yaml">
 de:
   emailAddressOrUsername: E-Mail-Adresse oder Benutzername
-  error: Es gab ein Problem bei der Anmeldung. Versuche es nochmal oder kontaktiere den Support, wir helfen dir gerne weiter.
+  error: Es gab ein Problem bei der Anmeldung. Versuche es nochmal oder kontaktiere den Support, wir helfen Dir gerne weiter.
   forgotPassword: Passwort vergessen?
-  newToVibetype: Neu bei Vibetype?
+  newToVibetype: Neu bei @.upper:{'globalSiteName'}?
   password: Passwort
   passwordInvalid: Ungueltiges Passwort
-  passwordRequired: Bitte gib dein Passwort ein
+  passwordRequired: Bitte gib Dein Passwort ein
   register: Neues Konto erstellen
   signIn: Einloggen
   usernameInvalid: Ungültige E-Mail-Adresse oder Benutzername
-  usernameRequired: Bitte gib deine E-Mail-Adresse oder deinen Benutzernamen ein
+  usernameRequired: Bitte gib Deine E-Mail-Adresse oder Deinen Benutzernamen ein
 en:
   emailAddressOrUsername: Email or username
   error: There was a problem signing in. Please try again or contact support, we are happy to help.
   forgotPassword: Forgot your password?
-  newToVibetype: New to Vibetype?
+  newToVibetype: New to @.upper:{'globalSiteName'}?
   password: Enter password
   passwordInvalid: Invalid password
   passwordRequired: Please enter your password

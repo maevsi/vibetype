@@ -87,7 +87,7 @@ const templateIdTitle = useId()
 
 <i18n lang="yaml">
 de:
-  instructionsSuccessDescription: Du kannst dich jetzt mit deinem neuen Passwort anmelden.
+  instructionsSuccessDescription: Du kannst Dich jetzt mit Deinem neuen Passwort anmelden.
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
   signIn: Einloggen
   subtitle: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.

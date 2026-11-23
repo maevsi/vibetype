@@ -60,7 +60,7 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  errorContactMissing: Dieser Kontakt existiert nicht mehr. Er wurde möglicherweise gelöscht. Alle deine Kontakte findest du in deinem Kontaktbuch.
+  errorContactMissing: Dieser Kontakt existiert nicht mehr. Er wurde möglicherweise gelöscht. Alle Deine Kontakte findest Du in Deinem Kontaktbuch.
   title: Kontakt bearbeiten
 en:
   errorContactMissing: This contact doesn't exist anymore. It may have been deleted. You can find all your contacts in your contact book.

@@ -379,7 +379,7 @@ de:
   going: Dabei
   guestCountLabel: Kein Gast | 1 Gast | {count} Gäste
   heroImage: Titelbild der Veranstaltung
-  hosting: Von dir
+  hosting: Von Dir
   match: Match
   saved: Gemerkt
 en:

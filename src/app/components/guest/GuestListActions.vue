@@ -244,7 +244,7 @@ de:
   disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   failure: 'Bei {count} von {total} Gästen ist das fehlgeschlagen.'
   guestDelete: Gäste löschen
-  guestDeleteQuestion: 'Möchtest du den ausgewählten Gast wirklich löschen? | Möchtest du die {count} ausgewählten Gäste wirklich löschen?'
+  guestDeleteQuestion: 'Möchtest Du den ausgewählten Gast wirklich löschen? | Möchtest Du die {count} ausgewählten Gäste wirklich löschen?'
   guestFeedbackAccept: Als zugesagt markieren
   guestFeedbackCancel: Als abgesagt markieren
   guestFeedbackSuccess: 'Der Rückmeldestatus wurde aktualisiert. | Der Rückmeldestatus von {count} Gästen wurde aktualisiert.'

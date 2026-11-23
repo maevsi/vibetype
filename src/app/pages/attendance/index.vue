@@ -47,9 +47,9 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  attendanceDescription: Hier wirst du bald Teilnahmestatus von Veranstaltungen sehen können.
+  attendanceDescription: Hier wirst Du bald Teilnahmestatus von Veranstaltungen sehen können.
   events: Deine Veranstaltungen
-  next: Bis dahin checkst du Gäste über die Gästeliste deiner Veranstaltung ein.
+  next: Bis dahin checkst Du Gäste über die Gästeliste Deiner Veranstaltung ein.
   title: Teilnahme
 en:
   attendanceDescription: Here you will soon be able to see the attendance status for events.

@@ -216,7 +216,7 @@ useApiErrorModel({
 <i18n lang="yaml">
 de:
   button: Weiter
-  description: 'Ob gemütliches Beisammensein oder lebhaftes Festival: Wir möchten deine Favoriten kennen! Teile einfach ein paar deiner Lieblingsformate.'
+  description: 'Ob gemütliches Beisammensein oder lebhaftes Festival: Wir möchten Deine Favoriten kennen! Teile einfach ein paar Deiner Lieblingsformate.'
   formatConference: Konferenz
   formatDemonstration: Demonstration
   formatExhibition: Ausstellung
@@ -229,7 +229,7 @@ de:
   formatParty: Party
   formatSeminar: Seminar
   formatWorkshop: Workshop
-  title: Wähle deine bevorzugten Veranstaltungsformate!
+  title: Wähle Deine bevorzugten Veranstaltungsformate!
 en:
   button: Next
   description: Whether it's a cozy gathering or a lively festival, we'd love to hear your favorites! Just share some of your top picks.

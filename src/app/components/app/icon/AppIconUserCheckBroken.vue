@@ -13,7 +13,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: Benutzer bestätigt
+  ariaLabel: Person bestätigt
 en:
   ariaLabel: User checked
 </i18n>

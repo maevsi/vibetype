@@ -3,6 +3,7 @@
     <EventSearchBar
       v-model:is-map-visible="isMapVisible"
       v-model:search-query="searchQuery"
+      :placeholder="t('searchPlaceholder')"
     />
     <AppFeature v-if="!searchQueryVariable" feature="category-browse">
       <EventCategoryBrowse />
@@ -325,12 +326,13 @@ const loadMore = () => {
 <i18n lang="yaml">
 de:
   emptyCreate: Veranstaltung planen
-  emptyDescription: 'Sei die erste Person: Plane deine eigene Veranstaltung oder füge eine hinzu, die du auf einem Plakat entdeckt hast.'
+  emptyDescription: 'Sei die erste Person: Plane Deine eigene Veranstaltung oder füge eine hinzu, die Du auf einem Plakat entdeckt hast.'
   emptyHunt: Plakat jagen
   emptyTitle: Noch keine bevorstehenden Veranstaltungen
   searchClear: Suche zurücksetzen
   searchEmptyDescription: Prüfe die Schreibweise oder versuche ein allgemeineres Wort, zum Beispiel eine Stadt oder eine Kategorie.
   searchEmptyTitle: Nichts passt zu „{query}“
+  searchPlaceholder: Alle Veranstaltungen durchsuchen
 en:
   emptyCreate: Plan an event
   emptyDescription: 'Be the first: plan your own event, or add one you spotted on a poster.'
@@ -339,4 +341,5 @@ en:
   searchClear: Clear search
   searchEmptyDescription: Check the spelling or try a broader word, like a city or a category.
   searchEmptyTitle: Nothing matches "{query}"
+  searchPlaceholder: Search all events
 </i18n>

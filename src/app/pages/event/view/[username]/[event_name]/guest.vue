@@ -112,8 +112,8 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
-  errorPermissionDenied: Nur wer diese Veranstaltung organisiert, kann diese Seite öffnen. Wenn es deine Veranstaltung ist, melde dich mit dem Konto an, mit dem du sie erstellt hast.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
+  errorPermissionDenied: Nur wer diese Veranstaltung organisiert, kann diese Seite öffnen. Wenn es Deine Veranstaltung ist, melde Dich mit dem Konto an, mit dem Du sie erstellt hast.
   title: Gästeliste
 en:
   errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.

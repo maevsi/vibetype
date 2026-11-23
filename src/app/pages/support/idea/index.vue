@@ -44,11 +44,11 @@ const { error, step } = useStepper<'success'>()
 de:
   errorButton: Zurück zum Formular
   errorDescription1: Die Feature-Anfrage scheint nicht geklappt zu haben.
-  errorDescription2: Bitte versuche es noch einmal oder wende dich {supportLink}, wenn das Problem weiterhin besteht.
+  errorDescription2: Bitte versuche es noch einmal oder wende Dich {supportLink}, wenn das Problem weiterhin besteht.
   formButton: Senden
   successButton: OK
   successDescription1: Deine Feature-Anfrage wurde erfolgreich abgesendet!
-  successDescription2: Wir werden uns so schnell wie möglich bei dir melden.
+  successDescription2: Wir werden uns so schnell wie möglich bei Dir melden.
   supportLink: an den Support
   title: Feature-Anfrage
 en:

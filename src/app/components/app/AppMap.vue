@@ -502,7 +502,7 @@ de:
   hintTouch: Verschiebe die Karte mit zwei Fingern.
   hintWheel: Zoome die Karte mit {key} + Scrollen.
   locate: Meinen Standort verwenden
-  locateDenied: Der Zugriff auf deinen Standort wurde verweigert. Erlaube ihn in den Einstellungen deines Browsers.
+  locateDenied: Der Zugriff auf Deinen Standort wurde verweigert. Erlaube ihn in den Einstellungen Deines Browsers.
   locateTimeout: Dein Standort konnte nicht rechtzeitig ermittelt werden. Bitte versuche es erneut.
   locateUnavailable: Dein Standort ist derzeit nicht verfügbar.
   map: Karte

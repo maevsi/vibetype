@@ -40,9 +40,9 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   button: Start
-  description1: Lass uns gemeinsam @.upper:{'globalSiteName'} helfen, die perfekten Veranstaltungen für dich zu finden! Teile ein paar Infos über dich und deine Vorlieben, und wir schlagen dir Veranstaltungen vor, die genau deinen Geschmack treffen.
-  description2: Du kannst deine Präferenzen jederzeit anpassen.
-  title: Lass uns deinen Vibe einrichten
+  description1: Lass uns gemeinsam @.upper:{'globalSiteName'} helfen, die perfekten Veranstaltungen für Dich zu finden! Teile ein paar Infos über Dich und Deine Vorlieben, und wir schlagen Dir Veranstaltungen vor, die genau Deinen Geschmack treffen.
+  description2: Du kannst Deine Präferenzen jederzeit anpassen.
+  title: Lass uns Deinen Vibe einrichten
 en:
   button: Start
   description1: Let's help @.upper:{'globalSiteName'} uncover the perfect events for you! Share a few details about yourself and your preferences, and we'll suggest events that suit your tastes.

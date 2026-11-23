@@ -290,12 +290,12 @@ useHeadDefault({ title })
 <i18n lang="yaml">
 de:
   contacts: Kontakte
-  duplicate: Bereits in deinen Kontakten
+  duplicate: Bereits in Deinen Kontakten
   failed: Der Kontakt konnte nicht importiert werden.
   fileChoose: vCard-Datei auswählen
   fileEmpty: Die Datei enthält keine Kontakte.
   fileFailed: Die Datei konnte nicht gelesen werden.
-  fileHint: Exportiere deine Kontakte als vCard-Datei (.vcf) und wähle sie hier aus. Die Datei verlässt dein Gerät nicht.
+  fileHint: Exportiere Deine Kontakte als vCard-Datei (.vcf) und wähle sie hier aus. Die Datei verlässt Dein Gerät nicht.
   fileTooLarge: Die Datei ist größer als 5 MB.
   import: Keinen Kontakt importieren | 1 Kontakt importieren | {count} Kontakte importieren
   importFailed: Ein Kontakt konnte nicht importiert werden. | {count} Kontakte konnten nicht importiert werden.
