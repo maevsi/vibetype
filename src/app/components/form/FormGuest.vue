@@ -128,13 +128,21 @@
       <FormPrivacyNotice />
       <div class="flex flex-col items-center">
         <AppButton
-          :aria-label="isInvitationSent ? t('selectAndSend') : t('select')"
+          :aria-label="isSending ? t('selectAndSend') : t('select')"
           class="w-full"
           :loading="createGuestsMutation.fetching.value"
           type="submit"
         >
-          {{ isInvitationSent ? t('selectAndSend') : t('select') }}
+          {{ isSending ? t('selectAndSend') : t('select') }}
         </AppButton>
+        <p
+          v-if="
+            isInvitationSent && getEventPublicationState(event) !== 'published'
+          "
+          class="mt-2 text-body-small text-fg-2"
+        >
+          {{ t('disabledReasonDraft') }}
+        </p>
       </div>
       <AppAlert v-if="errorMessages?.length" variant="error">
         <AppSpanList :span="errorMessages" />
@@ -166,7 +174,7 @@ const {
   guestContactIdsExisting = undefined,
   isInvitationSent = false,
 } = defineProps<{
-  event: Pick<EventItemFragment, 'rowId'>
+  event: Pick<EventItemFragment, 'publishedAt' | 'rowId'>
   guestContactIdsExisting?: string[]
   isInvitationSent?: boolean
 }>()
@@ -290,6 +298,10 @@ const contacts = computed(
 // Contacts without a name sort to the very end of the contact book, far beyond the loaded page, so the ones this form is about are kept at hand separately.
 const contactsPinned = ref<ContactItemFragment[]>([])
 
+const isSending = computed(
+  () => isInvitationSent && getEventPublicationState(event) === 'published',
+)
+
 // form
 const formSchema = z.object({
   contactIds: z.array(z.string()).min(1),
@@ -321,7 +333,7 @@ const form = useForm({
 
       successIds.push(...value.contactIds)
 
-      if (isInvitationSent) {
+      if (isSending.value) {
         await invite(guestsCreated)
       }
     } catch (error) {
@@ -475,6 +487,7 @@ watch(
 
 <i18n lang="yaml">
 de:
+  disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   contactBookSearch: Kontaktbuch durchsuchen
   contactBookSearchDescription: Gib einen Nutzernamen oder eine E-Mail-Adresse ein, um jemanden hinzuzufügen, der noch nicht in deinem Kontaktbuch steht.
   contactCreate: Zum Kontaktbuch hinzufügen
@@ -488,6 +501,7 @@ de:
   sendSkipped: Einem Kontakt fehlt ein Konto oder eine E-Mail-Adresse, er wurde nur zur Gästeliste hinzugefügt. | Für {count} Kontakte fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt.
   sendSuccess: Eine Einladung wurde versandt. | {count} Einladungen wurden versandt.
 en:
+  disabledReasonDraft: Publish the event to send invitations.
   contactBookSearch: Search your contact book
   contactBookSearchDescription: Enter a username or an email address to add someone who is not in your contact book yet.
   contactCreate: Add to contact book

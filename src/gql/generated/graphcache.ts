@@ -3226,6 +3226,8 @@ export type Event = Node & {
   language?: Maybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: Scalars['String']['output']
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: Maybe<Scalars['Datetime']['output']>
   /** Reads and enables pagination through a set of `Report`. */
   reportsByTargetEventId: ReportConnection
   /** The event's internal id. */
@@ -3880,6 +3882,8 @@ export type EventInput = {
   language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: Scalars['String']['input']
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug: Scalars['String']['input']
   /** The event's start date and time, with time zone. */
@@ -3930,6 +3934,8 @@ export type EventPatch = {
   language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name?: InputMaybe<Scalars['String']['input']>
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug?: InputMaybe<Scalars['String']['input']>
   /** The event's start date and time, with time zone. */
@@ -4088,11 +4094,10 @@ export enum EventUploadOrderBy {
   UploadIdDesc = 'UPLOAD_ID_DESC',
 }
 
-/** Possible visibilities of events and event groups: public, private and unlisted. */
+/** Possible visibilities of events and event groups: public and private. */
 export enum EventVisibility {
   Private = 'private',
   Public = 'public',
-  Unlisted = 'unlisted',
 }
 
 /** A friend relation together with its status. */
@@ -11091,6 +11096,11 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       Scalars['String']['output'] | string
     >
+    publishedAt?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
     reportsByTargetEventId?: GraphCacheResolver<
       WithTypename<Event>,
       EventReportsByTargetEventIdArgs,
@@ -16595,6 +16605,10 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     name?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
+    publishedAt?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
     >

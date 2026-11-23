@@ -62,6 +62,7 @@ const queryEventGuests = useApiQuery({
             }
             id
             name
+            publishedAt
             rowId
             slug
           }

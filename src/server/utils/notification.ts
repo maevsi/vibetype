@@ -106,7 +106,6 @@ const locales = {
       eventIsArchived: 'archiviert',
       eventVisibilityIsPrivate: 'private',
       eventVisibilityIsPublic: 'öffentliche',
-      eventVisibilityIsUnlisted: 'ungelistete',
       subject: (eventName: string) => `Einladung: ${eventName}`,
     },
     en: {
@@ -115,7 +114,6 @@ const locales = {
       eventIsArchived: 'archived',
       eventVisibilityIsPrivate: 'a private',
       eventVisibilityIsPublic: 'a public',
-      eventVisibilityIsUnlisted: 'an unlisted',
       subject: (eventName: string) => `Invitation: ${eventName}`,
     },
   },
@@ -427,11 +425,9 @@ export const sendEventInvitationMail = async ({
     eventVisibility = t.eventVisibilityIsPublic
   } else if (event.visibility === EventVisibility.Private) {
     eventVisibility = t.eventVisibilityIsPrivate
-  } else if (event.visibility === EventVisibility.Unlisted) {
-    eventVisibility = t.eventVisibilityIsUnlisted
   } else {
     throw new Error(
-      `Event is neither archived nor has it a visibility of public, unlisted or private: ${event}`,
+      `Event is neither archived nor has it a visibility of public or private: ${event}`,
     )
   }
 

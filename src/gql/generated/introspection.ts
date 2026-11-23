@@ -7555,6 +7555,14 @@ export default {
             args: [],
           },
           {
+            name: 'publishedAt',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
             name: 'reportsByTargetEventId',
             type: {
               kind: 'NON_NULL',

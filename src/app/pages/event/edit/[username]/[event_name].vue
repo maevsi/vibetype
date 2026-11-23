@@ -88,6 +88,7 @@ const eventQuery = useApiQuery({
             isInPerson
             isRemote
             name
+            publishedAt
             rowId
             slug
             start

@@ -16,7 +16,6 @@ import { type AppLocale, getLocalePrefix } from './i18n'
 
 const visibilityToClass = {
   [EventVisibility.Public]: ICalEventClass.PUBLIC,
-  [EventVisibility.Unlisted]: ICalEventClass.CONFIDENTIAL,
   [EventVisibility.Private]: ICalEventClass.PRIVATE,
 }
 

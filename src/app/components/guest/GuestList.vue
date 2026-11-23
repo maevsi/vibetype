@@ -68,6 +68,7 @@
         </div>
         <GuestListActions
           v-if="guestsSelected.length"
+          :event
           :guests="guestsSelected"
         />
         <AppTable v-if="guestsFiltered.length" class="border border-line">
@@ -206,7 +207,12 @@ import { getGuestItem } from '~~/shared/utils/guest'
 const { event } = defineProps<{
   event: Pick<
     EventItemFragment,
-    'accountByCreatedBy' | 'createdBy' | 'slug' | 'guestCountMaximum' | 'rowId'
+    | 'accountByCreatedBy'
+    | 'createdBy'
+    | 'guestCountMaximum'
+    | 'publishedAt'
+    | 'rowId'
+    | 'slug'
   >
 }>()
 

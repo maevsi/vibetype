@@ -1,6 +1,9 @@
 import { describe, expect, test } from 'vitest'
 
-import { getEventState } from '#src/shared/utils/event'
+import {
+  getEventPublicationState,
+  getEventState,
+} from '#src/shared/utils/event'
 
 describe('getEventState', () => {
   const start = '2026-01-01T18:00:00Z'
@@ -31,5 +34,29 @@ describe('getEventState', () => {
 
   test('without an end, is ended from its start on', () => {
     expect(getEventState({ start }, new Date(start))).toBe('ended')
+  })
+})
+
+describe('getEventPublicationState', () => {
+  const now = new Date('2026-01-01T12:00:00Z')
+
+  test('is a draft without a publication time', () => {
+    expect(getEventPublicationState({ publishedAt: null }, now)).toBe('draft')
+    expect(getEventPublicationState({}, now)).toBe('draft')
+  })
+
+  test('is scheduled for a future publication time', () => {
+    expect(
+      getEventPublicationState({ publishedAt: '2026-01-01T12:00:01Z' }, now),
+    ).toBe('scheduled')
+  })
+
+  test('is published at or after the publication time', () => {
+    expect(
+      getEventPublicationState({ publishedAt: '2026-01-01T12:00:00Z' }, now),
+    ).toBe('published')
+    expect(
+      getEventPublicationState({ publishedAt: '2020-01-01T00:00:00Z' }, now),
+    ).toBe('published')
   })
 })
