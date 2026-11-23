@@ -4,6 +4,12 @@
     <p class="break-all">{{ t('description') }}</p>
     <p class="mt-2 break-all opacity-60">{{ url }}</p>
     <template #footer>
+      <AppButton :aria-label="t('continue')" @click="onSubmit">
+        {{ t('continue') }}
+        <template #prefix>
+          <AppIconCheckCircleSolid />
+        </template>
+      </AppButton>
       <AppButton
         :aria-label="t('cancel')"
         variant="secondary"
@@ -12,12 +18,6 @@
         {{ t('cancel') }}
         <template #prefix>
           <AppIconXMark />
-        </template>
-      </AppButton>
-      <AppButton :aria-label="t('continue')" @click="onSubmit">
-        {{ t('continue') }}
-        <template #prefix>
-          <AppIconCheckCircleSolid />
         </template>
       </AppButton>
     </template>
