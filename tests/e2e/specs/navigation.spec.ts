@@ -141,7 +141,7 @@ authenticatedTest(
     await page.getByLabel('Name', { exact: true }).fill('Unsaved')
     await page.getByLabel('Name', { exact: true }).fill('')
     const description = page.locator(
-      '[contenteditable][aria-label="Invitation text"]',
+      '[contenteditable][aria-label="Description"]',
     )
     await description.fill('Unsaved')
     await description.clear()

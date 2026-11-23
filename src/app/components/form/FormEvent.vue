@@ -875,7 +875,7 @@ const form = useForm({
     start: (event?.start as string) ?? '',
     url: (event?.url as string) ?? '',
     visibility:
-      (event?.visibility as EventVisibility) ?? EventVisibility.Private,
+      (event?.visibility as EventVisibility) ?? EventVisibility.Public,
   },
   validators: {
     onSubmit: formSchema,
@@ -954,7 +954,7 @@ const form = useForm({
             slug: value.slug || '',
             start: value.start || '',
             url: value.url || null,
-            visibility: value.visibility || EventVisibility.Private,
+            visibility: value.visibility || EventVisibility.Public,
           },
         },
       })
@@ -1102,7 +1102,7 @@ if (event?.rowId) {
 de:
   attendanceType: Anwesenheitstyp
   categories: Kategorien
-  description: Einladungstext
+  description: Beschreibung
   end: Ende
   eventCreate: Veranstaltung erstellen
   eventCreateSuccess: Veranstaltung erfolgreich erstellt.
@@ -1132,7 +1132,7 @@ de:
 en:
   attendanceType: Attendance type
   categories: Categories
-  description: Invitation text
+  description: Description
   end: End
   eventCreate: Create event
   eventCreateSuccess: Event created successfully.
