@@ -13,12 +13,16 @@
             class="relative flex flex-col items-center gap-4 rounded-large bg-surface-raised p-6"
           >
             <div v-if="isOwnProfile" class="absolute top-4 right-4 flex gap-2">
+              <AppButton
+                :aria-label="t('settings')"
+                class="size-11 justify-center rounded-full bg-surface hover:bg-line"
+                size="none"
+                :to="localePath({ name: 'session-edit' })"
+                variant="ghost"
+              >
+                <AppIconSettings class="size-5" />
+              </AppButton>
               <AppDropdown>
-                <AppDropdownItem
-                  @select="navigateTo(localePath({ name: 'session-edit' }))"
-                >
-                  {{ t('settings') }}
-                </AppDropdownItem>
                 <AppDropdownItem variant="destructive" @select="signOutToRoot">
                   {{ t('logout') }}
                 </AppDropdownItem>
