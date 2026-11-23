@@ -2,6 +2,7 @@ import type { DefineNuxtConfig } from 'nuxt/config'
 
 import {
   CSRF_COOKIE_NAME,
+  EVENT_INGEST_CONSENT_COOKIE_NAME,
   JWT_COOKIE_NAME,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
@@ -108,6 +109,18 @@ export const cookieControlConfig: Pick<
             en: 'Lockdown Mode Notice',
           },
           targetCookieIds: [LOCKDOWN_MODE_DISMISSED_COOKIE_NAME],
+        },
+        {
+          description: {
+            de: 'Dieser Cookie von uns speichert, ob Du erlaubt hast, Plakate und Links mit OpenAI zu lesen. Er wird nur auf Deinen Wunsch gesetzt.',
+            en: 'This cookie of ours stores whether you allowed posters and links to be read with OpenAI. It is only set at your request.',
+          },
+          id: 'p',
+          name: {
+            de: 'Plakatjagd-Erlaubnis',
+            en: 'Poster Hunting Permission',
+          },
+          targetCookieIds: [EVENT_INGEST_CONSENT_COOKIE_NAME],
         },
         {
           description: {

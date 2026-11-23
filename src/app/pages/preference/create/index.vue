@@ -197,8 +197,8 @@ de:
   skip: Überspringen
   skipCancel: Abbrechen
   skipConfirm: Später einrichten
-  skipDescription1: Ohne deine Angaben zeigen wir dir eine breite Auswahl an Veranstaltungen. Vielleicht findest du trotzdem deinen perfekten Vibe!
-  skipDescription2: Du kannst deine Präferenzen jederzeit später anpassen.
+  skipDescription1: Ohne Deine Angaben zeigen wir Dir eine breite Auswahl an Veranstaltungen. Vielleicht findest Du trotzdem Deinen perfekten Vibe!
+  skipDescription2: Du kannst Deine Präferenzen jederzeit später anpassen.
   skipTitle: KI-Einrichtung auf später verschieben?
   title: KI einrichten
 en:

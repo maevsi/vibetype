@@ -120,8 +120,8 @@ de:
   passwordMismatch: Passwörter stimmen nicht überein
   passwordNew: Neues Passwort eingeben
   passwordTooWeak: Dieses Passwort ist zu leicht zu erraten. Versuche es länger oder weniger vorhersehbar zu machen.
-  postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
-  postgresP0002: Unbekannter Zurücksetzungslink! Hast du dein Passwort vielleicht schon zurückgesetzt?
+  postgres22023: Das Passwort ist zu kurz! Überlege Dir ein längeres.
+  postgresP0002: Unbekannter Zurücksetzungslink! Hast Du Dein Passwort vielleicht schon zurückgesetzt?
   postgres55000: Der Zurücksetzungslink ist abgelaufen!
   save: Neues Passwort speichern
 en:

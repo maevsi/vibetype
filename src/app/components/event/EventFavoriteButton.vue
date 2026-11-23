@@ -135,9 +135,9 @@ const toggleEventFavorite = async () => {
 <i18n lang="yaml">
 de:
   favoriteCreate: Veranstaltung merken
-  favoriteCreateError: Veranstaltung konnte nicht gemerkt werden. Prüfe deine Verbindung und versuche es erneut.
+  favoriteCreateError: Veranstaltung konnte nicht gemerkt werden. Prüfe Deine Verbindung und versuche es erneut.
   favoriteDelete: Nicht mehr merken
-  favoriteDeleteError: Veranstaltung konnte nicht entfernt werden. Prüfe deine Verbindung und versuche es erneut.
+  favoriteDeleteError: Veranstaltung konnte nicht entfernt werden. Prüfe Deine Verbindung und versuche es erneut.
 en:
   favoriteCreate: Save event
   favoriteCreateError: Event could not be saved. Check your connection and try again.

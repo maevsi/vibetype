@@ -72,9 +72,9 @@ const store = useStore()
 de:
   button: Teilnehmen!
   description1: Willkommen beim Früher Vogel Programm! Sei einer der Ersten, die unsere App mitgestalten und von exklusiven Vorteilen profitieren!
-  description2: Das Programm ist deine Chance, die Entwicklung unserer App aktiv zu begleiten. Du testest neue Features, gibst Feedback und wirst Teil unserer Vision für die Zukunft.
-  description3: '- Exklusive Einblicke: Teste Features vor allen anderen.{br}- Direkter Einfluss: Deine Meinung formt die App!{br}- Belohnungen: Erhalte Boni für dein Engagement.'
-  description4: Registriere dich mit einem Klick auf „Teilnehmen!“.
+  description2: Das Programm ist Deine Chance, die Entwicklung unserer App aktiv zu begleiten. Du testest neue Features, gibst Feedback und wirst Teil unserer Vision für die Zukunft.
+  description3: '- Exklusive Einblicke: Teste Features vor allen anderen.{br}- Direkter Einfluss: Deine Meinung formt die App!{br}- Belohnungen: Erhalte Boni für Dein Engagement.'
+  description4: Registriere Dich mit einem Klick auf „Teilnehmen!“.
   title1: Hi, {username}!
   title2: Willkommen im Nest
   title3: Was ist der frühe Vogel?

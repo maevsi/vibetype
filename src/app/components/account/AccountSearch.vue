@@ -79,7 +79,7 @@ useInfiniteScroll({
 
 <i18n lang="yaml">
 de:
-  emptyDescription: Suche nach dem Nutzernamen, um Freunde und Veranstaltende zu finden.
+  emptyDescription: Suche nach dem Nutzernamen, um Bekannte und Veranstaltende zu finden.
   emptyTitle: Personen finden
   noMatchDescription: Prüfe die Schreibweise und lass das {'@'} weg.
   noMatchTitle: Niemand passt zu „{query}“

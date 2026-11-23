@@ -435,11 +435,11 @@ de:
   iconAdd: 'Ein neues Bild hochladen. Genutzter Speicherplatz: {sizeUsed}/{sizeTotal}.'
   iconTrash: löschen
   iconTrashLabel: Dieses hochgeladene Bild löschen.
-  postgres53100: Dein Speicherplatz ist voll. Lösche Bilder, die du nicht mehr brauchst, um Platz zu schaffen.
+  postgres53100: Dein Speicherplatz ist voll. Lösche Bilder, die Du nicht mehr brauchst, um Platz zu schaffen.
   upload: Hochladen
   uploadAlt: Ein hochgeladenes Bild.
   uploadAltFailed: Ein Bild, das nicht vollständig hochgeladen wurde.
-  uploadError: Das Hochladen ist fehlgeschlagen. Prüfe deine Verbindung und versuche es erneut.
+  uploadError: Das Hochladen ist fehlgeschlagen. Prüfe Deine Verbindung und versuche es erneut.
   uploadNew: Lade ein neues Bild hoch
   uploadSize: 'Größe: {size}'
 en:

@@ -505,7 +505,7 @@ const templateIdUpcoming = useId()
 de:
   discover: Veranstaltungen entdecken
   feedbackAction: Feedback geben
-  feedbackDescription: Was gefällt dir, was fehlt dir? Wir lesen jede Nachricht.
+  feedbackDescription: Was gefällt Dir, was fehlt Dir? Wir lesen jede Nachricht.
   feedbackTitle: Hilf uns, @.upper:{'globalSiteName'} besser zu machen
   hunt: Jagd
   notifications: Benachrichtigungen
@@ -517,15 +517,15 @@ de:
   preferenceAction: KI einrichten
   preferenceDescription: Sag uns in einer Minute direkt hier, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen. Nichts zu installieren.
   preferenceTitle: Stell Deinen Vibe ein
-  recommendationEmptyDescription: Wir schlagen dir Veranstaltungen vor, sobald welche zu deinem Vibe passen. Stöbere in der Zwischenzeit durch das Angebot.
-  recommendationEmptyDescriptionPreference: Sag uns, was du magst, und wir schlagen dir passende Veranstaltungen vor.
+  recommendationEmptyDescription: Wir schlagen Dir Veranstaltungen vor, sobald welche zu Deinem Vibe passen. Stöbere in der Zwischenzeit durch das Angebot.
+  recommendationEmptyDescriptionPreference: Sag uns, was Du magst, und wir schlagen Dir passende Veranstaltungen vor.
   recommendationEmptyTitle: Noch keine Empfehlungen
   recommendationTitle: Das solltest Du nicht verpassen
   seeAll: Alle ansehen
   title: Dashboard
-  topPickTitle: Top-Tipp für dich
+  topPickTitle: Top-Tipp für Dich
   upcomingCreate: Veranstaltung planen
-  upcomingEmptyDescription: Plane deine eigene Veranstaltung oder finde eine zum Mitmachen.
+  upcomingEmptyDescription: Plane Deine eigene Veranstaltung oder finde eine zum Mitmachen.
   upcomingEmptyTitle: Noch nichts geplant
   upcomingTitle: Deine nächste Veranstaltung
 en:

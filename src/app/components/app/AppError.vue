@@ -174,18 +174,18 @@ const message = computed(() =>
 de:
   back: Zurück
   dashboard: Zum Dashboard
-  error400Description: "@.upper:{'globalSiteName'} hat andere Daten empfangen als erwartet."
+  error400Description: "@.upper:{'globalSiteName'} konnte diese Anfrage nicht verstehen."
   error403Description: Du bist aktuell nicht berechtigt, auf diese Seite zuzugreifen.
-  error403Hint: Bist du richtig angemeldet? Wenn dich ein Link zu dieser Seite geführt hat, kann er abgelaufen sein. Du kannst in diesem Fall einen neuen Link von der Person erfragen, die dir den Link gesendet hat.
+  error403Hint: Bist Du richtig angemeldet? Wenn Dich ein Link zu dieser Seite geführt hat, kann er abgelaufen sein. Du kannst in diesem Fall einen neuen Link von der Person erfragen, die Dir den Link gesendet hat.
   error403Title: Zugriff verweigert
-  error404Description: "@.upper:{'globalSiteName'} kann nicht finden, wonach du suchst. Vielleicht wurde der Inhalt gelöscht oder dir fehlen Zugriffsberechtigungen."
-  error404Hint: Du kannst überprüfen, ob du richtig angemeldet bist, und versuchen, über die Startseite an dein Ziel zu gelangen.
+  error404Description: "@.upper:{'globalSiteName'} kann nicht finden, wonach Du suchst. Vielleicht wurde es gelöscht, oder Du hast keinen Zugriff darauf."
+  error404Hint: Du kannst überprüfen, ob Du richtig angemeldet bist, und versuchen, über die Startseite an Dein Ziel zu gelangen.
   error404Title: Seite nicht gefunden
   error418Description: Ich werd' keinen Kaffee machen.
-  error429Description: Es scheint so als wärst du schneller unterwegs, als @.upper:{'globalSiteName'} erlaubt.
-  error429Hint: Lehn dich einen Moment zurück und versuch es erneut oder melde @.upper:{'globalSiteName'} den Fehler, wenn du glaubst, dass er unbegründet ist.
+  error429Description: Damit @.upper:{'globalSiteName'} für alle flüssig läuft, begrenzen wir, wie schnell Anfragen kommen dürfen, und diese Grenze hast Du erreicht.
+  error429Hint: Mach eine kurze Pause und versuche es dann erneut. Wenn Du glaubst, dass das nicht hätte passieren sollen, sag uns Bescheid.
   error429Title: Zu viele Anfragen
-  error500Description: Bei @.upper:{'globalSiteName'} hat etwas nicht wie erwartet funktioniert.
+  error500Description: Bei uns ist etwas schiefgelaufen. Das liegt nicht an Dir.
   error500Hint: Bitte melde diesen Fehler.
   error500Title: Interner Serverfehler
   errorCsrfDescription: Diese Seite wurde vor einer Aktualisierung von @.upper:{'globalSiteName'} geladen. Lade sie neu, um fortzufahren.
@@ -202,18 +202,18 @@ de:
 en:
   back: Return back
   dashboard: Go to dashboard
-  error400Description: "@.upper:{'globalSiteName'} received unexpected data."
+  error400Description: "@.upper:{'globalSiteName'} couldn't understand this request."
   error403Description: You're not authorized to access this page.
   error403Hint: Are you signed in correctly? If a link led you to this page, it may have expired. In that case, you can request a new link from the person who provided it to you.
   error403Title: Access denied
-  error404Description: "@.upper:{'globalSiteName'} couldn't find what you're looking for. The content may have been deleted or you might lack the necessary permissions."
+  error404Description: "@.upper:{'globalSiteName'} couldn't find what you're looking for. It may have been deleted, or you don't have access to it."
   error404Hint: Make sure you're logged in and try reaching your destination via the homepage.
   error404Title: Page not found
   error418Description: I won't make coffee.
-  error429Description: It appears you're going faster than @.upper:{'globalSiteName'} allows.
-  error429Hint: Take a short break and try again or report this issue to @.upper:{'globalSiteName'} if you think it shouldn't have occurred.
+  error429Description: To keep @.upper:{'globalSiteName'} running smoothly for everyone, we limit how fast requests can come in, and you've hit that limit.
+  error429Hint: Take a short break, then try again. If you think this shouldn't have happened, let us know.
   error429Title: Too many requests
-  error500Description: Something didn't work as expected on @.upper:{'globalSiteName'}'s side.
+  error500Description: Something went wrong on our side. It's not your fault.
   error500Hint: Please report this issue.
   error500Title: Internal server error
   errorCsrfDescription: This page was loaded before an update of @.upper:{'globalSiteName'}. Reload it to continue.

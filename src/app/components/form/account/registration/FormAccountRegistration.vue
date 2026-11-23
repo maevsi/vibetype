@@ -105,7 +105,7 @@ const handleSubmit = async () => {
 
 <i18n lang="yaml">
 de:
-  accountDeletionNotice: Du wirst deinen Account jederzeit löschen können.
+  accountDeletionNotice: Du wirst Deinen Account jederzeit löschen können.
   password: Passwort
   passwordMinLength: Mindestens 8 Zeichen erforderlich
   passwordMismatch: Die Passwörter stimmen nicht überein

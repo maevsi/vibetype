@@ -59,7 +59,7 @@ const onI18nChange = async (value: AcceptableValue) => {
 
 <i18n lang="yaml">
 de:
-  errorPersist: Die Sprache konnte nicht in deinem Konto gespeichert werden und gilt deshalb nur bis zum nächsten Laden der Seite.
+  errorPersist: Die Sprache konnte nicht in Deinem Konto gespeichert werden und gilt deshalb nur bis zum nächsten Laden der Seite.
   title: Sprache
 en:
   errorPersist: The language could not be saved to your account and therefore only applies until the page is loaded again.

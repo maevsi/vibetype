@@ -42,6 +42,10 @@
           <template #loading>{{ t('reading') }}</template>
         </AppButton>
       </form>
+      <EventIngestConsentDrawer
+        v-model="isConsentDrawerOpen"
+        @allowed="onConsentAllowed"
+      />
     </LayoutPage>
   </div>
 </template>
@@ -61,14 +65,26 @@ await useSignInRequired()
 useHeadDefault({ title: t('title') })
 
 // data
+// the page records the consent itself, as a cookie ref of the drawer's own would not update this one
+const { give: giveConsent, isGiven: isConsentGiven } = useEventIngestConsent()
 const enteredUrl = ref('')
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
+const isConsentDrawerOpen = ref(false)
 const isNoEvent = ref(false)
 const isReading = ref(false)
 
 // methods
+const onConsentAllowed = () => {
+  giveConsent()
+  readLink()
+}
 const readLink = async () => {
   if (!enteredUrl.value) return
+
+  if (!isConsentGiven.value) {
+    isConsentDrawerOpen.value = true
+    return
+  }
 
   isReading.value = true
   isNoEvent.value = false
@@ -109,12 +125,12 @@ const templateIdHint = useId()
 
 <i18n lang="yaml">
 de:
-  description: Aus der Seite erstellen wir einen Entwurf, den Du vor dem Speichern prüfen kannst.
-  errorLimitReached: Du hast heute die maximale Anzahl an Importen erreicht. Versuche es morgen erneut.
+  description: 'Spar Dir das Abtippen: Eine externe KI liest die Seite aus und erstellt einen Entwurf, den Du vor dem Speichern prüfen kannst.'
+  errorLimitReached: Damit die Plakatjagd für alle verfügbar bleibt, gibt es ein Tageslimit, und das hast Du erreicht. Versuche es morgen erneut.
   errorReadFailed: Der Link konnte nicht gelesen werden.
-  errorUnreadable: Der Link ist ungültig, nicht erreichbar, leitet auf eine nicht öffentliche Seite weiter oder führt nicht zu einer Webseite.
+  errorUnreadable: Wir konnten diesen Link nicht öffnen. Prüfe, ob er zu einer öffentlichen Webseite führt.
   heading: Link zur Veranstaltung angeben
-  hint: Seiten, die eine Anmeldung erfordern oder nur mit JavaScript angezeigt werden, etwa Instagram oder Facebook, können nicht gelesen werden.
+  hint: Seiten hinter einer Anmeldung, etwa Instagram oder Facebook, können wir nicht lesen. Versuche es dort mit einem Foto des Plakats.
   link: Link zur Veranstaltung
   linkPlaceholder: Link zur Veranstaltung eingeben
   next: Weiter
@@ -122,12 +138,12 @@ de:
   reading: Veranstaltung wird geladen…
   title: Plakatjagd
 en:
-  description: We create a draft from the page that you can review before saving.
-  errorLimitReached: You have reached today's maximum number of imports. Try again tomorrow.
+  description: 'Skip the typing: an external AI reads the page and creates a draft you can review before saving.'
+  errorLimitReached: To keep poster hunting available for everyone, there's a daily limit, and you've reached it. Try again tomorrow.
   errorReadFailed: The link could not be read.
-  errorUnreadable: The link is invalid, unreachable, redirects to a non-public page or does not lead to a web page.
+  errorUnreadable: We couldn't open this link. Make sure it leads to a public web page.
   heading: Provide link to event
-  hint: Pages that require a login or only render with JavaScript, such as Instagram or Facebook, cannot be read.
+  hint: Pages behind a login, such as Instagram or Facebook, can't be read. Try a photo of the poster instead.
   link: Event link
   linkPlaceholder: Enter event link
   next: Next

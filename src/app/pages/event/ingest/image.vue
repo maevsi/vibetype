@@ -60,6 +60,10 @@
           </AppButton>
         </template>
       </div>
+      <EventIngestConsentDrawer
+        v-model="isConsentDrawerOpen"
+        @allowed="onConsentAllowed"
+      />
     </LayoutPage>
   </div>
 </template>
@@ -79,9 +83,13 @@ await useSignInRequired()
 useHeadDefault({ title: t('title') })
 
 // data
+// the page records the consent itself, as a cookie ref of the drawer's own would not update this one
+const { give: giveConsent, isGiven: isConsentGiven } = useEventIngestConsent()
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
+const isConsentDrawerOpen = ref(false)
 const isNoEvent = ref(false)
 const isReading = ref(false)
+const posterPending = ref<File>()
 const posterPicked = usePosterPicked()
 const previewUrl = ref<string>()
 
@@ -111,7 +119,20 @@ const readPosterAsBase64 = async (file: File) => {
 
   return base64Image
 }
+const onConsentAllowed = () => {
+  const file = posterPending.value
+
+  giveConsent()
+  posterPending.value = undefined
+  if (file) readPoster(file)
+}
 const readPoster = async (file: File) => {
+  if (!isConsentGiven.value) {
+    posterPending.value = file
+    isConsentDrawerOpen.value = true
+    return
+  }
+
   // avoid memory leaks
   if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
 
@@ -181,9 +202,9 @@ onBeforeUnmount(() => {
 <i18n lang="yaml">
 de:
   chooseFromLibrary: Aus der Mediathek wählen
-  description: Fotografiere ein Veranstaltungsplakat oder wähle ein Foto aus. Aus dem Plakat erstellen wir einen Entwurf, den Du vor dem Speichern prüfen kannst.
-  errorLimitReached: Du hast heute die maximale Anzahl an Plakaten gelesen. Versuche es morgen erneut.
-  errorModerated: Das Foto enthält Inhalte, die nicht verarbeitet werden können.
+  description: Fotografiere ein Veranstaltungsplakat oder wähle ein Foto aus und spar Dir das Abtippen. Eine externe KI liest es aus und erstellt einen Entwurf, den Du vor dem Speichern prüfen kannst.
+  errorLimitReached: Damit die Plakatjagd für alle verfügbar bleibt, gibt es ein Tageslimit, und das hast Du erreicht. Versuche es morgen erneut.
+  errorModerated: Wir möchten, dass sich alle auf @.upper:{'globalSiteName'} willkommen fühlen, deshalb können wir dieses Foto nicht verwenden. Bitte versuche es mit einem anderen Plakat.
   errorReadFailed: Das Plakat konnte nicht gelesen werden.
   noEvent: Auf diesem Foto wurde keine Veranstaltung gefunden. Probiere ein anderes Foto.
   or: ODER
@@ -194,9 +215,9 @@ de:
   title: Plakatjagd
 en:
   chooseFromLibrary: Choose from library
-  description: Take a photo of an event poster or choose one. We create a draft from it that you can review before saving.
-  errorLimitReached: You have reached today's maximum number of poster readings. Try again tomorrow.
-  errorModerated: The photo contains content that cannot be processed.
+  description: Take or choose a photo of an event poster and skip the typing. An external AI reads it and creates a draft you can review before saving.
+  errorLimitReached: To keep poster hunting available for everyone, there's a daily limit, and you've reached it. Try again tomorrow.
+  errorModerated: We want everyone to feel welcome on @.upper:{'globalSiteName'}, so we can't use this photo. Please try a different poster.
   errorReadFailed: The poster could not be read.
   noEvent: No event found on this photo. Try another photo.
   or: OR

@@ -493,7 +493,7 @@ watch(
 de:
   disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   contactBookSearch: Kontaktbuch durchsuchen
-  contactBookSearchDescription: Gib einen Nutzernamen oder eine E-Mail-Adresse ein, um jemanden hinzuzufügen, der noch nicht in deinem Kontaktbuch steht.
+  contactBookSearchDescription: Gib einen Nutzernamen oder eine E-Mail-Adresse ein, um eine Person hinzuzufügen, die noch nicht in Deinem Kontaktbuch steht.
   contactCreate: Zum Kontaktbuch hinzufügen
   contactExisting: Ein Kontakt für dieses Konto existiert bereits!
   contactsAdd: Zu meinem Kontaktbuch
@@ -502,7 +502,7 @@ de:
   select: Zur Gästeliste hinzufügen
   selectAndSend: Einladung senden
   sendFailed: Eine Einladung konnte nicht versandt werden, der Gast steht aber auf der Gästeliste. | {count} Einladungen konnten nicht versandt werden, die Gäste stehen aber auf der Gästeliste.
-  sendSkipped: Einem Kontakt fehlt ein Konto oder eine E-Mail-Adresse, er wurde nur zur Gästeliste hinzugefügt. | Für {count} Kontakte fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt.
+  sendSkipped: Ein Kontakt ohne Konto oder E-Mail-Adresse wurde nur zur Gästeliste hinzugefügt. | Für {count} Kontakte fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt.
   sendSuccess: Eine Einladung wurde versandt. | {count} Einladungen wurden versandt.
 en:
   disabledReasonDraft: Publish the event to send invitations.

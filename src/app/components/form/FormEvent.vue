@@ -536,7 +536,7 @@
             </FieldContent>
           </Field>
         </form.Field>
-        <div class="flex flex-col items-center justify-between">
+        <div class="flex flex-col items-center justify-between gap-2">
           <AppButton
             :aria-label="
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
@@ -549,6 +549,9 @@
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             }}
           </AppButton>
+          <p class="text-center text-caption text-fg-2">
+            {{ t('globalModerationNotice') }}
+          </p>
         </div>
         <AppAlert v-if="errorMessages?.length" variant="error">
           <AppSpanList :span="errorMessages" />
@@ -1427,7 +1430,7 @@ de:
   start: Beginn
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
   validationPublishedAtFuture: Wähle einen Zeitpunkt in der Zukunft.
-  validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
+  validationWarningNameChangeSlug: Wenn Du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   visibility: Sichtbarkeit
   visibilityPrivate: privat
   visibilityPrivateDescription: Nur eingeladene Gäste können diese Veranstaltung ansehen und daran teilnehmen.

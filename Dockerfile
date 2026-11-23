@@ -2,11 +2,11 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # the image whose skew protection storage seeds this build
-ARG SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype:latest@sha256:f6df1bd910a37e481a07663e7a8fa009a0f45ad15a1c2a43d31f92b81f63422f
+ARG SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype:latest@sha256:ede236f6496e6b40af9df617c55c40cf2088668a0e18d0c7e02a47f2c0ade367
 
 # <DEPENDENCIES>
 FROM ghcr.io/maevsi/postgraphile:3.5.0@sha256:426d783821b30b506151512b6becedfb44b875ff52f2b37828cddfdb82e04b47
-FROM ghcr.io/maevsi/sqitch:13.10@sha256:8deaf2483acd60355d05a66eb026381f72cb1c5c08659d6cd04e5e4251e52cfe
+FROM ghcr.io/maevsi/sqitch:13.11@sha256:954a63391f8b08d6b055b0fe130b4c8dc258cbee24ab4d744e7cb3ad6a842e06
 # </DEPENDENCIES>
 
 FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source

@@ -547,7 +547,7 @@ de:
   featureFlagDeveloperTools: Eintrag zu dieser Seite in den Einstellungen
   featureFlagEventAttending: Kachel „Dabei“ in den eigenen Veranstaltungen
   featureFlagEventDrafts: Kachel „Entwürfe“ in den eigenen Veranstaltungen
-  featureFlagFriends: Freunde und Statistikkarten im Profil, Freund hinzufügen in Profil und Teilnahme
+  featureFlagFriends: Freundschaften und Statistikkarten im Profil, Freundschaft hinzufügen in Profil und Teilnahme
   featureFlagInvitations: Seite mit den eigenen Einladungen
   featureFlagLocationLive: Knopf zum Orten auf Karten
   featureFlagNotifications: Benachrichtigungsseite und ihr Knopf im Dashboard

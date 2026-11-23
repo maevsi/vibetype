@@ -1,7 +1,7 @@
 {
   "globalError": "Error",
   "globalErrorMessage": "An error occurred.",
-  "globalErrorModerated": "The text contains content that is not allowed. Please rephrase it.",
+  "globalErrorModerated": "We want everyone to feel welcome on @.upper:{'globalSiteName'}, so we can't save this text as it is. Please rephrase it.",
   "globalErrorNoData": "Response without data",
   "globalErrorClipboard": "Your browser does not support modern copying to the clipboard.",
   "globalErrorDetailsCopy": "Copy details",
@@ -9,6 +9,7 @@
   "globalFormErrorAge18": "You must be 18 years old.",
   "globalLeaveConfirm": "Discard your unsaved changes?",
   "globalLoading": "Loading...",
+  "globalModerationNotice": "We want everyone to feel welcome on @.upper:{'globalSiteName'}. That's why an external AI service reviews your text before it's published.",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
   "globalPlaceholderFirstName": "Firstname",
   "globalPlaceholderLastName": "Lastname",
