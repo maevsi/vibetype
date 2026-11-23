@@ -1,3 +1,9 @@
+## [17.47.0](https://github.com/maevsi/vibetype/compare/17.46.0...17.47.0) (2026-11-23)
+
+### Features
+
+* **moderation:** tell before text is checked ([#2845](https://github.com/maevsi/vibetype/issues/2845)) ([e388d45](https://github.com/maevsi/vibetype/commit/e388d451e8642668774c3bbbcfef4ea1f551ebaa))
+
 ## [17.46.0](https://github.com/maevsi/vibetype/compare/17.45.0...17.46.0) (2026-11-23)
 
 ### Features
