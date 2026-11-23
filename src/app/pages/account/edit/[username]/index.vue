@@ -1,7 +1,7 @@
 <template>
   <AppError
     v-if="!account"
-    :error="{ message: t('errorAccountMissing'), status: 404 }"
+    :error="{ data: { vibetype: t('errorAccountMissing') }, status: 404 }"
   />
   <div v-else class="flex flex-1 flex-col">
     <LayoutTopBar>{{ title }}</LayoutTopBar>
@@ -21,7 +21,15 @@
               class="group absolute inset-0 rounded-medium"
               :title="t('replace')"
               type="button"
-              @click="showModalUploadSelection"
+              @click="
+                navigateTo(
+                  localePath({
+                    name: 'account-edit-username-picture',
+                    params: { username: account.username },
+                    query: { redirect: route.fullPath },
+                  }),
+                )
+              "
             >
               <span
                 class="absolute right-2 bottom-2 flex size-10 items-center justify-center rounded-full bg-action-primary text-on-action-primary group-hover:bg-action-primary-hover"
@@ -43,10 +51,6 @@
           <span class="text-body text-fg-2">{{
             t('usernameHandle', { username: account.username })
           }}</span>
-          <ModalUploadSelection
-            v-model="isModalUploadSelectionOpen"
-            @select="onUploadSelect"
-          />
           <AccountProfilePictureRemoveDrawer
             v-if="account?.profilePictureByAccountId?.rowId"
             v-model:open="isProfilePictureRemoveDrawerOpen"
@@ -97,17 +101,23 @@
             <FieldLabel for="imprintUrl">
               <span class="text-headline">{{ t('imprint') }}</span>
             </FieldLabel>
-            <Textarea
+            <Input
               id="imprintUrl"
               v-model="imprintUrl"
-              :maxlength="imprintLengthMaximum"
+              :aria-invalid="isImprintUrlInvalid || undefined"
+              :maxlength="VALIDATION_URL_LENGTH_MAXIMUM"
               name="imprintUrl"
-              :placeholder="t('imprintPlaceholder')"
+              :placeholder="t('globalPlaceholderUrl')"
+              type="url"
+            />
+            <FieldError
+              v-if="isImprintUrlInvalid"
+              :errors="[{ message: t('imprintInvalid') }]"
             />
           </Field>
           <AppButton
             :aria-label="t('save')"
-            :disabled="!isDirty"
+            :disabled="!isDirty || isImprintUrlInvalid"
             :loading="updateAccountByRowIdMutation.fetching.value"
             type="submit"
           >
@@ -269,82 +279,14 @@ const executeUrqlRequest = useExecuteUrqlRequest()
 const account = computed(() => api.value.data.accountByUsername)
 
 // profile picture
-const isModalUploadSelectionOpen = ref<boolean>()
 const isProfilePictureRemoveDrawerOpen = ref(false)
-const showModalUploadSelection = () => {
-  isModalUploadSelectionOpen.value = true
-}
 const openProfilePictureRemoveDrawer = () => {
   isProfilePictureRemoveDrawerOpen.value = true
-}
-
-const createProfilePictureMutation = useMutation(
-  graphql(`
-    mutation CreateProfilePicture($input: CreateProfilePictureInput!) {
-      createProfilePicture(input: $input) {
-        profilePicture {
-          accountByAccountId {
-            id
-            profilePictureByAccountId {
-              id
-              rowId
-            }
-            rowId
-          }
-          id
-          rowId
-          uploadId
-        }
-      }
-    }
-  `),
-)
-const onUploadSelect = async (uploadId?: string | null | undefined) => {
-  if (!account.value?.rowId || !uploadId) return
-
-  await removeProfilePicture()
-
-  await executeUrqlRequest({
-    errorMessageI18n: t('errorProfilePictureCreate'),
-    request: createProfilePictureMutation.executeMutation({
-      input: {
-        profilePicture: {
-          accountId: account.value?.rowId,
-          uploadId,
-        },
-      },
-    }),
-  })
-}
-
-const deleteProfilePictureByRowIdMutation = useMutation(
-  graphql(`
-    mutation DeleteProfilePictureByRowIdMutation(
-      $input: DeleteProfilePictureByRowIdInput!
-    ) {
-      deleteProfilePictureByRowId(input: $input) {
-        clientMutationId
-      }
-    }
-  `),
-)
-const removeProfilePicture = async () => {
-  const profilePicture = account.value?.profilePictureByAccountId
-
-  if (!profilePicture?.rowId) return
-
-  await executeUrqlRequest({
-    errorMessageI18n: t('errorProfilePictureDelete'),
-    request: deleteProfilePictureByRowIdMutation.executeMutation({
-      input: { rowId: profilePicture.rowId },
-    }),
-  })
 }
 
 // display name, description and imprint
 const displayNameLengthMaximum = 100
 const descriptionLengthMaximum = 500
-const imprintLengthMaximum = 500
 
 const updateAccountByRowIdMutation = useMutation(
   graphql(`
@@ -377,10 +319,15 @@ const isDirty = computed(
     description.value.trim() !== (account.value?.description?.trim() ?? '') ||
     imprintUrl.value.trim() !== (account.value?.imprintUrl?.trim() ?? ''),
 )
+const isImprintUrlInvalid = computed(
+  () =>
+    !SCHEMA_URL_HTTPS_OPTIONAL.safeParse(imprintUrl.value.trim()).success ||
+    /\s/.test(imprintUrl.value.trim()),
+)
 useLeaveConfirmation(isDirty)
 
 const save = async () => {
-  if (!account.value || !isDirty.value) return
+  if (!account.value || !isDirty.value || isImprintUrlInvalid.value) return
 
   const result = await executeUrqlRequest({
     errorMessageI18n: t('errorUpdate'),
@@ -390,7 +337,8 @@ const save = async () => {
         accountPatch: {
           description: description.value.trim(),
           displayName: displayName.value.trim() || null,
-          imprintUrl: imprintUrl.value.trim(),
+          // the database rejects an empty string, so clearing the field stores no imprint
+          imprintUrl: imprintUrl.value.trim() || null,
         },
       },
     }),
@@ -421,12 +369,10 @@ de:
   displayNameUseContact: „{name}“ verwenden
   display: Anzeige
   earlyBirdStart: Early Bird beitreten
-  errorAccountMissing: Konto nicht verfügbar
-  errorProfilePictureCreate: Beim Speichern des Profilbildes ist ein Problem aufgetreten
-  errorProfilePictureDelete: Beim Entfernen des Profilbildes ist ein Problem aufgetreten
+  errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorUpdate: Beim Speichern des Profils ist ein Problem aufgetreten
   imprint: Impressum
-  imprintPlaceholder: Link zu deinem Impressum
+  imprintInvalid: Gib einen Link an, der mit https:// beginnt und keine Leerzeichen enthält.
   interactions: Interaktionen mit dir
   language: Sprache
   profile: Profil
@@ -449,12 +395,10 @@ en:
   displayNameUseContact: Use “{name}”
   display: Display
   earlyBirdStart: Join Early Bird
-  errorAccountMissing: Account unavailable
-  errorProfilePictureCreate: There was a problem saving the profile picture
-  errorProfilePictureDelete: There was a problem removing the profile picture
+  errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorUpdate: There was a problem saving the profile
   imprint: Imprint
-  imprintPlaceholder: Link to your imprint
+  imprintInvalid: Enter a link that starts with https:// and contains no spaces.
   interactions: Interactions with you
   language: Language
   profile: Profile

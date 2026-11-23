@@ -421,7 +421,7 @@ de:
   stateInfoUsernameDisabledLink: Einstellungen deines Kontos
   url: Weblink
   username: Nutzername
-  usernameNotFound: Dieser Nutzername wurde nicht gefunden
+  usernameNotFound: Diesen Nutzernamen gibt es nicht. Prüfe die Schreibweise oder füge die Person stattdessen per E-Mail-Adresse hinzu.
 en:
   accountOverride: If given, @.upper:{'globalSiteName'} will prefer to use the following data instead of the data given by the account above.
   emailAddress: Email address
@@ -436,5 +436,5 @@ en:
   stateInfoUsernameDisabledLink: your account's settings
   url: Weblink
   username: Username
-  usernameNotFound: This username was not found
+  usernameNotFound: This username doesn't exist. Check the spelling or add the person by email address instead.
 </i18n>

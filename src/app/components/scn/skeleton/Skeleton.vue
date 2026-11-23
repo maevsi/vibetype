@@ -2,16 +2,16 @@
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/utils/shadcn'
 
-const props = defineProps<{
+interface SkeletonProps {
   class?: HTMLAttributes['class']
-}>()
+}
+
+const props = defineProps<SkeletonProps>()
 </script>
 
 <template>
   <div
-    :class="cn('flex flex-col gap-2 text-center sm:text-left', props.class)"
-    data-slot="dialog-header"
-  >
-    <slot />
-  </div>
+    :class="cn('animate-pulse rounded-small bg-muted', props.class)"
+    data-slot="skeleton"
+  />
 </template>

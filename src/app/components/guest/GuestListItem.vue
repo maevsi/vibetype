@@ -5,19 +5,22 @@
       'animate-pulse': pending.deletions.includes(guest.rowId),
     }"
   >
+    <AppTableCell class="w-0">
+      <Checkbox
+        v-model="isSelected"
+        :aria-label="t('guestSelect', { name: contactName })"
+      />
+    </AppTableCell>
     <AppTableCell class="max-w-0">
       <ContactPreview :contact :feedback="guest.feedback" />
     </AppTableCell>
     <AppTableCell class="max-w-0">
       <div class="flex items-center justify-evenly gap-4 text-fg-1">
         <AppButton
-          :aria-label="
-            contact.accountId || contact.emailAddress
-              ? t('guestSend')
-              : t('disabledReasonEmailAddressNone')
-          "
+          :aria-label="sendLabel"
           class="hidden md:block"
           :disabled="
+            getEventPublicationState(event) !== 'published' ||
             (!contact.accountId && !contact.emailAddress) ||
             pending.sends.includes(guest.rowId)
           "
@@ -40,6 +43,7 @@
           <AppDropdownItem
             class="md:hidden"
             :disabled="
+              getEventPublicationState(event) !== 'published' ||
               (!contact.accountId && !contact.emailAddress) ||
               pending.sends.includes(guest.rowId)
             "
@@ -47,11 +51,7 @@
           >
             <AppIconPaperAirplane />
             <span>
-              {{
-                contact.accountId || contact.emailAddress
-                  ? t('guestSend')
-                  : t('disabledReasonEmailAddressNone')
-              }}
+              {{ sendLabel }}
             </span>
           </AppDropdownItem>
           <AppDropdownItem class="md:hidden" @select="copyLink(guest)">
@@ -136,13 +136,14 @@ import { useMagicKeys } from '@vueuse/core'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import { graphql } from '~~/gql/generated'
 import { getContactItem } from '~~/shared/utils/contact'
+import { getContactName } from '~~/shared/utils/model'
 import type {
   EventItemFragment,
   GuestItemFragment,
 } from '~~/gql/generated/graphql'
 
 const { event, guest } = defineProps<{
-  event: Pick<EventItemFragment, 'accountByCreatedBy' | 'slug'>
+  event: Pick<EventItemFragment, 'accountByCreatedBy' | 'publishedAt' | 'slug'>
   guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'rowId'>
 }>()
 
@@ -150,6 +151,8 @@ const { defaultLocale, locale, t } = useI18n()
 const localePath = useLocalePath()
 const { copy } = useCopy()
 const { shift } = useMagicKeys()
+
+const isSelected = defineModel<boolean>('selected')
 
 // data
 const isDeleteDrawerOpen = ref(false)
@@ -258,11 +261,27 @@ const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 }
 
 // computations
+const sendLabel = computed(() =>
+  getEventPublicationState(event) !== 'published'
+    ? t('disabledReasonDraft')
+    : contact.value?.accountId || contact.value?.emailAddress
+      ? t('guestSend')
+      : t('disabledReasonEmailAddressNone'),
+)
 const contact = computed(() => getContactItem(guest.contactByContactId))
+const contactName = computed(() =>
+  contact.value
+    ? getContactName({
+        account: contact.value.accountByAccountId,
+        contact: contact.value,
+      })
+    : undefined,
+)
 </script>
 
 <i18n lang="yaml">
 de:
+  disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
   disabledReasonEmailAddressNone: Diesem Kontakt fehlt eine E-Mail-Adresse.
   guestDelete: Gast löschen
@@ -270,11 +289,13 @@ de:
   guestFeedbackCancel: Als abgesagt markieren
   guestFeedbackSuccess: Der Rückmeldestatus wurde aktualisiert.
   guestLink: Einladungslink kopieren
+  guestSelect: Gast {name} auswählen
   guestSend: Einladung versenden
   guestView: Einladung anzeigen
   sendSuccess: Die Einladung wurde erfolgreich per E-Mail versandt.
   # postgresP0002: Die Einladung konnte nicht versandt werden! Möglicherweise hast du aktuell keinen Zugriff auf die notwendigen Daten. Versuche die Seite neu zu laden.
 en:
+  disabledReasonDraft: Publish the event to send invitations.
   copySuccess: The guest link has been copied to the clipboard.
   disabledReasonEmailAddressNone: This contact does not have an associated email address.
   guestDelete: Delete guest
@@ -282,6 +303,7 @@ en:
   guestFeedbackCancel: Mark as declined
   guestFeedbackSuccess: The feedback status was updated.
   guestLink: Copy invitation link
+  guestSelect: Select guest {name}
   guestSend: Send invitation
   guestView: View invitation
   sendSuccess: The invitation was successfully sent by email.

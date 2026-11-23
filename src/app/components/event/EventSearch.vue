@@ -1,32 +1,61 @@
 <template>
   <div class="flex flex-1 flex-col gap-4">
-    <div
-      class="sticky top-0 z-10 -mx-4 -mt-4 flex gap-2 bg-glass px-4 py-4 backdrop-blur-xl"
-    >
-      <AppInputSearch v-model="searchQuery" class="h-12 flex-1" />
-      <AppButton
-        :aria-label="t('map')"
-        :aria-pressed="isMapVisible"
-        size="icon"
-        :variant="isMapVisible ? 'primary' : 'secondary'"
-        @click="isMapVisible = !isMapVisible"
-      >
-        <AppIconMapPin />
-      </AppButton>
-    </div>
+    <EventSearchBar
+      v-model:is-map-visible="isMapVisible"
+      v-model:search-query="searchQuery"
+    />
     <AppFeature v-if="!searchQueryVariable" feature="category-browse">
       <EventCategoryBrowse />
     </AppFeature>
-    <AppAlert v-if="errorMessages.length" variant="error">
-      <AppSpanList :span="errorMessages" />
-    </AppAlert>
+    <LoaderError
+      v-if="errorMessages.length"
+      :messages="errorMessages"
+      @retry="retry"
+    />
     <EventList
+      v-if="events?.length || isLoading || !errorMessages.length"
       :events
       :has-next-page="pageInfo?.hasNextPage"
-      :is-loading="api.isFetching"
+      :is-loading="isLoading"
       :is-map-visible="isMapVisible"
       @load-more="loadMore"
-    />
+    >
+      <template #empty>
+        <AppEmptyState
+          v-if="searchQueryVariable"
+          :description="t('searchEmptyDescription')"
+          :title="t('searchEmptyTitle', { query: searchQueryVariable })"
+        >
+          <template #icon><AppIconMagnifyingGlass /></template>
+          <AppButton
+            :aria-label="t('searchClear')"
+            @click="searchQuery = undefined"
+          >
+            {{ t('searchClear') }}
+          </AppButton>
+        </AppEmptyState>
+        <AppEmptyState
+          v-else
+          :description="t('emptyDescription')"
+          :title="t('emptyTitle')"
+        >
+          <template #icon><AppIconCalendar /></template>
+          <AppButton
+            :aria-label="t('emptyCreate')"
+            :to="localePath('event-create')"
+          >
+            {{ t('emptyCreate') }}
+          </AppButton>
+          <AppButton
+            :aria-label="t('emptyHunt')"
+            :to="localePath('event-ingest-image')"
+            variant="secondary"
+          >
+            {{ t('emptyHunt') }}
+          </AppButton>
+        </AppEmptyState>
+      </template>
+    </EventList>
   </div>
 </template>
 
@@ -204,17 +233,8 @@ const queryEventSearch = graphql(`
 `)
 
 const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
-
-// the toggle lives in the URL as `?map`, so a reload or shared link keeps it
-const isMapVisible = computed({
-  get: () => 'map' in route.query,
-  set: (value) => {
-    const { map: _map, ...queryRest } = route.query
-    router.replace({ query: value ? { ...queryRest, map: null } : queryRest })
-  },
-})
+const localePath = useLocalePath()
+const isMapVisible = useEventMapVisible()
 
 const allEventsQueryAfter = ref<string | null>()
 const allEventsQuery = useApiQuery({
@@ -260,6 +280,12 @@ const query = computed(() =>
 // currently active.
 const api = await useApiData([allEventsQuery, searchResultsQuery])
 const errorMessages = computed(() => getCombinedErrorMessages(api.value.errors))
+const isLoading = computed(() => api.value.isFetching)
+const retry = () => {
+  allEventsQuery.executeQuery({ requestPolicy: 'network-only' })
+  if (searchQueryVariable.value)
+    searchResultsQuery.executeQuery({ requestPolicy: 'network-only' })
+}
 const pageInfo = computed(() =>
   searchQueryVariable.value
     ? api.value.data.eventSearch?.pageInfo
@@ -296,7 +322,19 @@ const loadMore = () => {
 
 <i18n lang="yaml">
 de:
-  map: Karte anzeigen
+  emptyCreate: Veranstaltung planen
+  emptyDescription: 'Sei die erste Person: Plane deine eigene Veranstaltung oder füge eine hinzu, die du auf einem Plakat entdeckt hast.'
+  emptyHunt: Plakat jagen
+  emptyTitle: Noch keine bevorstehenden Veranstaltungen
+  searchClear: Suche zurücksetzen
+  searchEmptyDescription: Prüfe die Schreibweise oder versuche ein allgemeineres Wort, zum Beispiel eine Stadt oder eine Kategorie.
+  searchEmptyTitle: Nichts passt zu „{query}“
 en:
-  map: Show map
+  emptyCreate: Plan an event
+  emptyDescription: 'Be the first: plan your own event, or add one you spotted on a poster.'
+  emptyHunt: Hunt a poster
+  emptyTitle: No upcoming events yet
+  searchClear: Clear search
+  searchEmptyDescription: Check the spelling or try a broader word, like a city or a category.
+  searchEmptyTitle: Nothing matches "{query}"
 </i18n>

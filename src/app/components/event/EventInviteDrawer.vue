@@ -22,7 +22,7 @@ import { graphql } from '~~/gql/generated'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { event } = defineProps<{
-  event: Pick<EventItemFragment, 'rowId'>
+  event: Pick<EventItemFragment, 'publishedAt' | 'rowId'>
 }>()
 
 const isOpen = defineModel<boolean>('open', { default: false })

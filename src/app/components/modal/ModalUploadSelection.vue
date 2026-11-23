@@ -1,9 +1,9 @@
 <template>
-  <AppModal
+  <AppDrawer
     v-model="open"
-    :is-submit-disabled="!selectedUploadId"
+    class="sm:max-w-lg"
+    direction="right"
     @close="selectedUploadId = undefined"
-    @submit="onSubmit"
   >
     <LazyUploadGallery
       :aspect-ratio
@@ -11,10 +11,22 @@
       is-selectable
       @selection="onSelection"
     />
-    <template #header>
+    <template #title>
       <slot name="header">{{ t('header') }}</slot>
     </template>
-  </AppModal>
+    <template #footer>
+      <AppButton
+        :aria-label="t('select')"
+        :disabled="!selectedUploadId"
+        @click="onSubmit"
+      >
+        {{ t('select') }}
+        <template #prefix>
+          <AppIconCheckCircleSolid />
+        </template>
+      </AppButton>
+    </template>
+  </AppDrawer>
 </template>
 
 <script setup lang="ts">
@@ -47,6 +59,8 @@ const onSubmit = () => {
 <i18n lang="yaml">
 de:
   header: Wähle ein Profilbild
+  select: Auswählen
 en:
   header: Select a profile picture
+  select: Select
 </i18n>

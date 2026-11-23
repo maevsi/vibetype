@@ -1,11 +1,44 @@
 <template>
-  <AppLoaderPlaceholder v-if="api.isFetching && !attendance" />
+  <LoaderPage v-if="api.isFetching && !attendance" />
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />
   <div v-else class="flex flex-1 flex-col">
     <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-4">
-        <section class="flex flex-col gap-4">
+        <section v-if="isOwn && event" class="flex flex-col gap-4">
+          <span class="text-heading-large">
+            {{ t('event') }}
+          </span>
+          <AppButton
+            v-if="event.accountByCreatedBy"
+            :aria-label="event.name"
+            class="self-start"
+            :to="
+              localePath({
+                name: 'event-view-username-event_name',
+                params: {
+                  event_name: event.slug,
+                  username: event.accountByCreatedBy.username,
+                },
+              })
+            "
+          >
+            {{ event.name }}
+          </AppButton>
+          <span v-else>{{ event.name }}</span>
+          <p>
+            {{
+              attendance.checkedOut && attendance.updatedAt
+                ? t('statusCheckedOut', {
+                    time: dateTimeFormat(attendance.updatedAt),
+                  })
+                : t('statusCheckedIn', {
+                    time: dateTimeFormat(attendance.createdAt),
+                  })
+            }}
+          </p>
+        </section>
+        <section v-else class="flex flex-col gap-4">
           <span class="text-heading-large">
             {{ t('contact') }}
           </span>
@@ -69,18 +102,29 @@
             </ul>
           </section>
         </section>
-        <section v-if="guest?.rowId" class="flex flex-col gap-4">
+        <section v-if="isOwn || isOrganizer" class="flex flex-col gap-4">
           <span class="text-heading-large">
             {{ t('attendance') }}
           </span>
           <div class="flex gap-2">
             <AppButton
-              :aria-label="t('checkOut')"
+              :aria-label="isOwn ? t('leave') : t('checkOut')"
               :disabled="!canCheckOut"
               :loading="checkOutMutation.fetching.value"
               @click="onCheckOut"
             >
-              {{ t('checkOut') }}
+              {{ isOwn ? t('leave') : t('checkOut') }}
+            </AppButton>
+            <AppButton
+              v-if="isOrganizer"
+              :aria-label="t('tagVerify')"
+              :loading="isTagVerifying"
+              @click="onTagVerify"
+            >
+              {{ t('tagVerify') }}
+              <template #prefix>
+                <AppIconUserTag />
+              </template>
             </AppButton>
           </div>
         </section>
@@ -113,9 +157,11 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 const route = useRoute()
-const { t } = useI18n()
+const { locale, t } = useI18n()
 
 const store = useStore()
+// anonymous sessions keep their guest claims only in the token this request returns, as the store drops them
+const guestClaims = ref<string[]>([])
 try {
   const { data: jwtUpdateData, error: jwtUpdateError } =
     await useCsrfRequestFetch('/api/model/jwt', {
@@ -132,6 +178,7 @@ try {
   }
 
   store.jwtSet(jwtUpdateData.value.jwtPayload)
+  guestClaims.value = jwtUpdateData.value.jwtPayload.guests
 } catch (error) {
   console.error('JWT update failed:', error)
 }
@@ -155,17 +202,29 @@ const queryAttendance = useApiQuery({
           nickname
           rowId
         }
+        createdAt
         guestByGuestId {
+          contactByContactId {
+            accountId
+            id
+          }
           id
           rowId
         }
         id
         rowId
+        tagSerialNumber
         updatedAt
       }
       eventByAttendanceId(attendanceId: $id) {
+        accountByCreatedBy {
+          id
+          username
+        }
+        createdBy
         id
         name
+        slug
         eventAppsByEventId {
           nodes {
             id
@@ -198,8 +257,23 @@ const contactName = computed(() =>
 const event = computed(() => api.value.data.eventByAttendanceId)
 const eventApps = computed(() => event.value?.eventAppsByEventId.nodes || [])
 
-// auth state (signed-in accounts are typically organizers)
+// auth state
 const authentication = useAuthentication()
+const isOrganizer = computed(
+  () =>
+    !!store.signedInAccountId &&
+    event.value?.createdBy === store.signedInAccountId,
+)
+const isOwn = computed(() => {
+  if (!guest.value) return false
+
+  const accountId = guest.value.contactByContactId?.accountId
+
+  return (
+    (!!accountId && accountId === store.signedInAccountId) ||
+    guestClaims.value.includes(guest.value.rowId)
+  )
+})
 
 // check-out mutation
 const executeUrqlRequest = useExecuteUrqlRequest()
@@ -216,6 +290,7 @@ const checkOutMutation = useMutation(
           id
           checkedOut
           rowId
+          updatedAt
         }
       }
     }
@@ -223,7 +298,11 @@ const checkOutMutation = useMutation(
 )
 
 const canCheckOut = computed(() =>
-  Boolean(attendance.value && !attendance.value.checkedOut),
+  Boolean(
+    attendance.value &&
+    !attendance.value.checkedOut &&
+    (isOwn.value || isOrganizer.value),
+  ),
 )
 
 const onCheckOut = async () => {
@@ -237,6 +316,54 @@ const onCheckOut = async () => {
       },
     }),
   })
+}
+
+const timeZone = useTimeZone()
+const dateTimeFormat = (dateTime: string) =>
+  Intl.DateTimeFormat(locale.value, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone,
+  }).format(new Date(dateTime))
+
+// tag
+const isTagVerifying = ref(false)
+const onTagVerify = async () => {
+  if (!attendance.value) return
+
+  if (!attendance.value.tagSerialNumber) {
+    toast.info(t('tagVerifyNone'))
+    return
+  }
+
+  if (!('NDEFReader' in window)) {
+    toast.error(t('errorNfcNotSupported'))
+    return
+  }
+
+  const controller = new AbortController()
+  isTagVerifying.value = true
+
+  try {
+    const serialNumber = await nfcTagSerialNumberRead({
+      reader: new NDEFReader(),
+      signal: controller.signal,
+    })
+
+    // a copied link on another tag, or a tag whose serial number cannot be read, both fail here
+    if (serialNumber === attendance.value.tagSerialNumber) {
+      toast.success(t('tagVerifySuccess'))
+    } else {
+      toast.error(t('tagVerifyMismatch'))
+    }
+  } catch (error) {
+    toast.error(t('errorTagVerify'), {
+      description: error instanceof Error ? error.message : undefined,
+    })
+  } finally {
+    controller.abort()
+    isTagVerifying.value = false
+  }
 }
 
 // contact
@@ -260,6 +387,8 @@ const friendAdd = async () => {
 const title = computed(() => {
   if (api.value.isFetching && !attendance.value) return t('globalLoading')
 
+  if (isOwn.value) return t('titleOwn')
+
   if (contactName.value) {
     return t('title', { name: contactName.value })
   }
@@ -280,10 +409,20 @@ de:
   errorAttendanceCheckOut: Auschecken nicht möglich. Bitte erneut versuchen.
   errorContactNone: Es gibt keine Kontaktinformationen für diesen Gast. Bitte freundlich darum, welche hinzuzufügen!
   errorContactNoAccount: Der Gast hat sein Konto noch nicht zu seinen Kontaktinformationen hinzugefügt. Bitte freundlich darum, dies zu tun!
+  errorNfcNotSupported: Es wurde kein kompatibler NFC-Adapter gefunden. Versuche deinen Browser zu aktualisieren oder Google Chrome zu verwenden.
+  errorTagVerify: Der Tag konnte nicht gelesen werden.
   event: Veranstaltung
   guest: Gast
   guestView: Einladung anzeigen
+  leave: Veranstaltung verlassen
+  statusCheckedIn: Eingecheckt am {time}
+  statusCheckedOut: Verlassen am {time}
+  tagVerify: Tag prüfen
+  tagVerifyMismatch: Dieser Tag ist nicht der für diese Anwesenheit beschriebene. Prüfe die Einladung des Gastes stattdessen von Hand.
+  tagVerifyNone: Für diese Anwesenheit ist kein Tag gespeichert.
+  tagVerifySuccess: Dieser Tag ist der für diese Anwesenheit beschriebene.
   title: Anwesenheitsdetails für {name}
+  titleOwn: Deine Anwesenheit
 en:
   addFriend: Add friend
   apps: Apps
@@ -294,8 +433,18 @@ en:
   errorAttendanceCheckOut: Could not check out. Please try again.
   errorContactNone: There is no contact information for this guest. Kindly ask them to add some!
   errorContactNoAccount: The guest has not added contact information about their account yet. Kindly ask them to do so!
+  errorNfcNotSupported: No compatible NFC adapter was found. Try updating your browser or use Google Chrome.
+  errorTagVerify: Could not read the tag.
   event: Event
   guest: Guest
   guestView: Show invitation
+  leave: Leave event
+  statusCheckedIn: Checked in on {time}
+  statusCheckedOut: Left on {time}
+  tagVerify: Verify tag
+  tagVerifyMismatch: This tag is not the one written for this attendance. Check the guest's invitation by hand instead.
+  tagVerifyNone: No tag is stored for this attendance.
+  tagVerifySuccess: This tag is the one written for this attendance.
   title: Attendance Details for {name}
+  titleOwn: Your Attendance
 </i18n>

@@ -3226,6 +3226,8 @@ export type Event = Node & {
   language?: Maybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: Scalars['String']['output']
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: Maybe<Scalars['Datetime']['output']>
   /** Reads and enables pagination through a set of `Report`. */
   reportsByTargetEventId: ReportConnection
   /** The event's internal id. */
@@ -3880,6 +3882,8 @@ export type EventInput = {
   language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: Scalars['String']['input']
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug: Scalars['String']['input']
   /** The event's start date and time, with time zone. */
@@ -3930,6 +3934,8 @@ export type EventPatch = {
   language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name?: InputMaybe<Scalars['String']['input']>
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug?: InputMaybe<Scalars['String']['input']>
   /** The event's start date and time, with time zone. */
@@ -4088,11 +4094,10 @@ export enum EventUploadOrderBy {
   UploadIdDesc = 'UPLOAD_ID_DESC',
 }
 
-/** Possible visibilities of events and event groups: public, private and unlisted. */
+/** Possible visibilities of events and event groups: public and private. */
 export enum EventVisibility {
   Private = 'private',
   Public = 'public',
-  Unlisted = 'unlisted',
 }
 
 /** A friend relation together with its status. */
@@ -6108,6 +6113,8 @@ export type Query = Node & {
   eventFormatMappingByEventIdAndFormatId?: Maybe<EventFormatMapping>
   /** Add a function that returns the maximum guest count of an accessible event. */
   eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
+  /** Lists public in-person events within the given radius in meters around the given coordinates, nearest first. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
+  eventNearby?: Maybe<EventConnection>
   /** Reads a single `EventRecommendation` using its globally unique `ID`. */
   eventRecommendation?: Maybe<EventRecommendation>
   /** Get a single `EventRecommendation`. */
@@ -6777,6 +6784,17 @@ export type QueryEventFormatMappingByEventIdAndFormatIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryEventGuestCountMaximumArgs = {
   eventId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventNearbyArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  includeEnded?: InputMaybe<Scalars['Boolean']['input']>
+  latitude?: InputMaybe<Scalars['Float']['input']>
+  longitude?: InputMaybe<Scalars['Float']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  radius?: InputMaybe<Scalars['Float']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -8644,6 +8662,11 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryEventGuestCountMaximumArgs,
       Scalars['Int']['output'] | string
+    >
+    eventNearby?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventNearbyArgs,
+      WithTypename<EventConnection> | string
     >
     eventRecommendation?: GraphCacheResolver<
       WithTypename<Query>,
@@ -11072,6 +11095,11 @@ export type GraphCacheResolvers = {
       WithTypename<Event>,
       Record<string, never>,
       Scalars['String']['output'] | string
+    >
+    publishedAt?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
     >
     reportsByTargetEventId?: GraphCacheResolver<
       WithTypename<Event>,
@@ -13862,6 +13890,10 @@ export type GraphCacheUpdaters = {
       { eventGuestCountMaximum: Maybe<Scalars['Int']['output']> },
       QueryEventGuestCountMaximumArgs
     >
+    eventNearby?: GraphCacheUpdateResolver<
+      { eventNearby: Maybe<WithTypename<EventConnection>> },
+      QueryEventNearbyArgs
+    >
     eventRecommendation?: GraphCacheUpdateResolver<
       { eventRecommendation: Maybe<WithTypename<EventRecommendation>> },
       QueryEventRecommendationArgs
@@ -16573,6 +16605,10 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     name?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
+    publishedAt?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
     >

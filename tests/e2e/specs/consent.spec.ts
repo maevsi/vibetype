@@ -34,4 +34,13 @@ appTest.describe('consent screen', () => {
       await consentScreen.evaluate((e) => e.scrollHeight > e.clientHeight),
     ).toBe(true)
   })
+  appTest('takes a choice by click', async ({ page }) => {
+    await page.goto('/')
+
+    const consentScreen = page.getByTestId('consent-screen')
+
+    await expect(consentScreen).toBeVisible({ timeout: HYDRATION_TIMEOUT })
+    await consentScreen.getByRole('button', { name: 'Only necessary' }).click()
+    await expect(consentScreen).toBeHidden()
+  })
 })

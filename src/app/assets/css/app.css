@@ -14,6 +14,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  html,
+  body,
+  /* stylelint-disable-next-line selector-id-pattern */
+  #__nuxt {
+    height: 100%;
+  }
+
   * {
     font-variant-numeric: lining-nums proportional-nums;
   }
@@ -52,7 +59,7 @@
   }
 
   h1 {
-    @apply heading text-heading-large my-4;
+    @apply my-4 heading text-heading-large;
   }
 
   h2 {
@@ -77,8 +84,12 @@
   @apply pointer-events-none opacity-40;
 }
 
+@utility feature-preview {
+  @apply relative after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:bg-[repeating-linear-gradient(-45deg,#fb0,#fb0_10px,#0000_10px,#0000_30px)] after:opacity-20 after:content-[''];
+}
+
 @utility focus-ring {
-  @apply outline-link outline-3 outline-offset-2;
+  @apply outline-3 outline-offset-2 outline-link;
 }
 
 @utility heading {
@@ -163,7 +174,7 @@
 
 /* stylelint-disable selector-class-pattern */
 .ProseMirror {
-  @apply prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-xl m-auto;
+  @apply m-auto prose prose-sm sm:prose-base lg:prose-lg xl:prose-xl dark:prose-invert;
   @apply m-0 max-w-full;
 }
 

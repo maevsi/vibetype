@@ -20,8 +20,9 @@
         </p>
         <p class="text-body">
           {{
-            guest.contactByContactId?.accountByAccountId?.username ||
-            t('noAccount')
+            guest.contactByContactId?.accountByAccountId?.username
+              ? `@${guest.contactByContactId.accountByAccountId.username}`
+              : t('noAccount')
           }}
         </p>
       </div>

@@ -3,6 +3,7 @@ export {
   COOKIE_CONTROL_CONSENT_COOKIE_NAME,
   CSRF_COOKIE_NAME,
   CSRF_HEADER_NAME,
+  EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
@@ -25,6 +26,8 @@ export const JWT_ALGORITHM = 'ES256'
 export type LOCALE_CODES = 'de' | 'en'
 export const MAEVSI_EMAIL_RATE_LIMIT_PER_DAY = 150
 export const MAEVSI_EMAIL_RATE_LIMIT_PER_SECOND = 14
+// OpenAI's high detail scales the shorter side to 768 pixels, which a portrait poster within 2048 pixels still reaches
+export const POSTER_SIZE_MAXIMUM = 2048
 export const POSTGRES_INTEGER_MAXIMUM = Math.pow(2, 31) - 1
 export const REGEX_SLUG = /^[-A-Za-z0-9]+$/
 export const REGEX_UPPERCASE_NONE = /^[^A-Z]+$/

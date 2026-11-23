@@ -54,7 +54,7 @@
               {{ t('upcomingTitle') }}
             </h2>
             <AppLink
-              v-if="menuTargets.events"
+              v-if="eventUpcoming && menuTargets.events"
               class="text-body-small text-link hover:text-link-hover"
               :to="menuTargets.events"
             >
@@ -66,12 +66,27 @@
             :event="eventUpcoming"
             variant="highlight"
           />
-          <p
+          <AppEmptyState
             v-else
-            class="rounded-medium bg-surface-raised p-12 text-center text-fg-2"
+            :description="t('upcomingEmptyDescription')"
+            :title="t('upcomingEmptyTitle')"
           >
-            {{ t('upcomingEmpty') }}
-          </p>
+            <template #icon><AppIconCalendar /></template>
+            <AppButton
+              :aria-label="t('upcomingCreate')"
+              :to="localePath('event-create')"
+            >
+              <AppIconAdd />
+              {{ t('upcomingCreate') }}
+            </AppButton>
+            <AppButton
+              :aria-label="t('discover')"
+              :to="localePath('event')"
+              variant="secondary"
+            >
+              {{ t('discover') }}
+            </AppButton>
+          </AppEmptyState>
         </section>
         <section
           v-if="hasNoPreferences"
@@ -128,21 +143,32 @@
               variant="recommendation"
             />
           </div>
-          <div
+          <AppEmptyState
             v-else
-            class="flex flex-col items-center gap-4 rounded-medium bg-surface-raised p-12 text-center text-fg-2"
+            :description="
+              hasNoPreferences
+                ? t('recommendationEmptyDescriptionPreference')
+                : t('recommendationEmptyDescription')
+            "
+            :title="t('recommendationEmptyTitle')"
           >
-            <p>{{ t('recommendationEmpty') }}</p>
+            <template #icon><AppIconMagnifyingGlass /></template>
             <AppButton
               v-if="hasNoPreferences"
               :aria-label="t('preferenceAction')"
               :to="localePath('preference-create')"
-              variant="primary"
             >
               <AppIconNetworkIntelligence />
               {{ t('preferenceAction') }}
             </AppButton>
-          </div>
+            <AppButton
+              v-else
+              :aria-label="t('discover')"
+              :to="localePath('event')"
+            >
+              {{ t('discover') }}
+            </AppButton>
+          </AppEmptyState>
         </section>
         <section
           :aria-labelledby="templateIdPosterHunt"
@@ -453,7 +479,7 @@ const templateIdUpcoming = useId()
 
 <i18n lang="yaml">
 de:
-  discover: Neue Veranstaltungen entdecken
+  discover: Veranstaltungen entdecken
   hunt: Jagd
   notifications: Benachrichtigungen
   posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
@@ -464,13 +490,17 @@ de:
   preferenceAction: KI einrichten
   preferenceDescription: Sag uns, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen.
   preferenceTitle: Stell Deinen Vibe ein
-  recommendationEmpty: Noch nichts entdeckt
+  recommendationEmptyDescription: Wir schlagen dir Veranstaltungen vor, sobald welche zu deinem Vibe passen. Stöbere in der Zwischenzeit durch das Angebot.
+  recommendationEmptyDescriptionPreference: Sag uns, was du magst, und wir schlagen dir passende Veranstaltungen vor.
+  recommendationEmptyTitle: Noch keine Empfehlungen
   recommendationTitle: Das solltest Du nicht verpassen
   seeAll: Alle ansehen
   title: Dashboard
   topPickTitle: Dein Top-Tipp
-  upcomingEmpty: Noch nichts geplant
-  upcomingTitle: Dein nächstes Event
+  upcomingCreate: Veranstaltung planen
+  upcomingEmptyDescription: Plane deine eigene Veranstaltung oder finde eine zum Mitmachen.
+  upcomingEmptyTitle: Noch nichts geplant
+  upcomingTitle: Deine nächste Veranstaltung
 en:
   discover: Discover new events
   hunt: Hunt
@@ -483,11 +513,15 @@ en:
   preferenceAction: Set up AI
   preferenceDescription: Tell us what you like and get events that fit you.
   preferenceTitle: Set up your vibe
-  recommendationEmpty: None discovered yet
+  recommendationEmptyDescription: We'll suggest events as soon as some match your vibe. Meanwhile, explore what's on.
+  recommendationEmptyDescriptionPreference: Tell us what you like and we'll suggest events for you.
+  recommendationEmptyTitle: No recommendations yet
   recommendationTitle: You should not miss
   seeAll: See all
   title: Dashboard
   topPickTitle: Your top pick
-  upcomingEmpty: None planned yet
+  upcomingCreate: Plan an event
+  upcomingEmptyDescription: Plan your own event or find one to join.
+  upcomingEmptyTitle: Nothing planned yet
   upcomingTitle: Your next event
 </i18n>

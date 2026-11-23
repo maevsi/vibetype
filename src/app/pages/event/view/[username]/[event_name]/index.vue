@@ -1,12 +1,12 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <AppError
       v-if="!account"
-      :error="{ message: t('errorAccountMissing'), status: 404 }"
+      :error="{ data: { vibetype: t('errorAccountMissing') }, status: 404 }"
     />
     <AppError
       v-else-if="!event"
-      :error="{ message: t('errorEventMissing'), status: 404 }"
+      :error="{ data: { vibetype: t('errorEventMissing') }, status: 404 }"
     />
     <div v-else class="flex flex-1 flex-col">
       <!-- the event's name below is the page's heading -->
@@ -86,6 +86,16 @@
       </LayoutTopBar>
       <LayoutPage>
         <div class="flex flex-col gap-6">
+          <AppAlert v-if="publicationState === 'draft'">
+            {{ t('draftNotice') }}
+          </AppAlert>
+          <AppAlert v-else-if="publicationState === 'scheduled'">
+            <i18n-t keypath="scheduledNotice" tag="span">
+              <template #date>
+                <AppTime :datetime="event.publishedAt!" />
+              </template>
+            </i18n-t>
+          </AppAlert>
           <div class="relative">
             <EventHeroImage class="h-64 rounded-large" :event />
             <div
@@ -103,6 +113,32 @@
                 :options="{ day: 'numeric' }"
               />
             </div>
+            <span
+              v-if="eventState"
+              :class="
+                cn(
+                  'absolute right-3 bottom-3 flex items-center gap-1.5 rounded-pill px-3 py-1 text-caption text-fg-1',
+                  eventState === 'upcoming'
+                    ? 'bg-info-tint'
+                    : eventState === 'ongoing'
+                      ? 'bg-success-tint'
+                      : 'bg-surface-raised text-fg-2',
+                )
+              "
+            >
+              <span
+                v-if="eventState === 'ongoing'"
+                aria-hidden="true"
+                class="size-2 rounded-full bg-current motion-safe:animate-pulse"
+              />
+              {{
+                eventState === 'upcoming'
+                  ? t('stateUpcoming')
+                  : eventState === 'ongoing'
+                    ? t('stateOngoing')
+                    : t('stateEnded')
+              }}
+            </span>
           </div>
           <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-1">
             <h1 class="m-0 text-title3">
@@ -174,6 +210,7 @@
           <AppFeature
             v-else-if="
               !routeQueryIc &&
+              eventState !== 'ended' &&
               (guestOwn || event.visibility === EventVisibility.Public)
             "
             feature="participation"
@@ -271,6 +308,7 @@
 import { useMutation } from '@urql/vue'
 import { sanitize } from 'isomorphic-dompurify'
 
+import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
 import {
   EventVisibility,
@@ -370,6 +408,7 @@ const eventQuery = useApiQuery({
             isInPerson
             isRemote
             name
+            publishedAt
             rowId
             slug
             start
@@ -406,6 +445,19 @@ const createGuestMutation = useMutation(
   `),
 )
 const api = await useApiData([eventQuery])
+
+const publicationState = computed(() =>
+  event.value ? getEventPublicationState(event.value) : undefined,
+)
+
+// read once on the server, where the data above is awaited before rendering, as `useRobotsRule` is not reactive and a no-op on the client
+useRobotsRule(
+  event.value &&
+    (event.value.visibility !== EventVisibility.Public ||
+      getEventPublicationState(event.value) !== 'published')
+    ? false
+    : undefined,
+)
 
 // participation
 // an organizer sees every guest of the event, anyone else only their own
@@ -474,6 +526,10 @@ const eventDescriptionTemplate = computed(() => {
   return descriptionNoTemplates
 })
 const routeQueryIc = computed(() => route.query.ic)
+const now = useNow()
+const eventState = computed(() =>
+  event.value ? getEventState(event.value, now.value) : undefined,
+)
 
 // page
 const description = computed(() =>
@@ -488,7 +544,11 @@ const description = computed(() =>
 const title = computed(() => {
   if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
-    showAppError({ status: 404, message: 'Event unavailable' })
+    showAppError({
+      data: { vibetype: t('errorEventMissing') },
+      message: 'Event unavailable',
+      status: 404,
+    })
     return
   }
 
@@ -573,9 +633,10 @@ de:
   attendances: Check-in
   delete: Veranstaltung löschen
   details: Details
+  draftNotice: Diese Veranstaltung ist ein Entwurf. Nur du kannst sie sehen.
   edit: Veranstaltung bearbeiten
-  errorAccountMissing: Nutzerkonto nicht verfügbar
-  errorEventMissing: Veranstaltung nicht verfügbar
+  errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
   invite: Einladen
@@ -586,14 +647,19 @@ de:
   participateError: Teilnahme fehlgeschlagen
   participation: Deine Teilnahme
   report: Veranstaltung melden
+  scheduledNotice: Diese Veranstaltung wird am {date} veröffentlicht. Bis dahin kannst nur du sie sehen.
+  stateEnded: Vorbei
+  stateOngoing: Läuft gerade
+  stateUpcoming: Bevorstehend
 en:
   about: About the event
   attendances: Check in
   delete: Delete event
   details: Details
+  draftNotice: This event is a draft. Only you can see it.
   edit: Edit event
-  errorAccountMissing: Account not available
-  errorEventMissing: Event not available
+  errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
+  errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorTemplate: value available in invitation only
   guests: Guests
   invite: Invite
@@ -604,4 +670,8 @@ en:
   participateError: Participation failed
   participation: Your participation
   report: Report event
+  scheduledNotice: This event will be published on {date}. Until then, only you can see it.
+  stateEnded: Ended
+  stateOngoing: Happening now
+  stateUpcoming: Upcoming
 </i18n>

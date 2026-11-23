@@ -102,87 +102,6 @@
             :errors="normalizeFieldErrors(slugField.state.meta.errors)"
           />
         </form.Field>
-        <form.Field v-slot="{ field }" name="visibility">
-          <Field>
-            <FieldLabel>{{ t('visibility') }}</FieldLabel>
-            <FieldContent>
-              <AppRadioGroup
-                :default-value="field.state.value"
-                :items="[
-                  {
-                    label: t('visibilityPublic'),
-                    value: EventVisibility.Public,
-                  },
-                  {
-                    label: t('visibilityPrivate'),
-                    value: EventVisibility.Private,
-                  },
-                  {
-                    label: t('visibilityUnlisted'),
-                    value: EventVisibility.Unlisted,
-                  },
-                ]"
-                @update:model-value="
-                  (value) =>
-                    field.handleChange(String(value ?? '') as EventVisibility)
-                "
-              />
-            </FieldContent>
-            <FieldError
-              v-if="isFieldInvalid(field)"
-              :errors="field.state.meta.errors"
-            />
-          </Field>
-        </form.Field>
-        <form.Field v-slot="{ field }" name="categoryIds">
-          <Field>
-            <FieldLabel>{{ t('categories') }}</FieldLabel>
-            <FieldContent>
-              <FormEventCategorySelect
-                :model-value="field.state.value"
-                @update:model-value="field.handleChange($event)"
-              />
-            </FieldContent>
-          </Field>
-        </form.Field>
-        <form.Field v-slot="{ field }" name="formatIds">
-          <Field>
-            <FieldLabel>{{ t('formats') }}</FieldLabel>
-            <FieldContent>
-              <FormEventFormatSelect
-                :model-value="field.state.value"
-                @update:model-value="field.handleChange($event)"
-              />
-            </FieldContent>
-          </Field>
-        </form.Field>
-        <form.Field
-          v-if="form.getFieldValue('visibility') === EventVisibility.Public"
-          v-slot="{ field }"
-          name="guestCountMaximum"
-        >
-          <Field>
-            <FieldLabel for="input-invitee-count-maximum">{{
-              t('maximumInviteeCount')
-            }}</FieldLabel>
-            <FieldContent>
-              <Input
-                id="input-invitee-count-maximum"
-                :aria-invalid="isFieldInvalid(field)"
-                :model-value="field.state.value"
-                type="number"
-                @blur="field.handleBlur"
-                @input="
-                  field.handleChange(($event.target as HTMLInputElement).value)
-                "
-              />
-            </FieldContent>
-            <FieldError
-              v-if="isFieldInvalid(field)"
-              :errors="field.state.meta.errors"
-            />
-          </Field>
-        </form.Field>
         <form.Field v-slot="{ field }" name="start">
           <Field class="flex flex-col">
             <FieldLabel for="button-start">{{ t('start') }}</FieldLabel>
@@ -302,35 +221,28 @@
             </FieldContent>
           </Field>
         </form.Field>
-        <Field>
-          <FieldLabel>{{ t('attendanceType') }}</FieldLabel>
-          <FieldContent>
-            <form.Field v-slot="{ field }" name="isInPerson">
-              <div class="flex items-center gap-4">
-                <AppCheckbox
-                  id="is-in-person"
-                  :model-value="field.state.value"
-                  @update:model-value="
-                    (checked) => field.handleChange(checked === true)
-                  "
-                />
-                <label for="is-in-person">{{ t('isInPerson') }}</label>
-              </div>
-            </form.Field>
-            <form.Field v-slot="{ field }" name="isRemote">
-              <div class="flex items-center gap-4">
-                <AppCheckbox
-                  id="is-remote"
-                  :model-value="field.state.value"
-                  @update:model-value="
-                    (checked) => field.handleChange(checked === true)
-                  "
-                />
-                <label for="is-remote">{{ t('isRemote') }}</label>
-              </div>
-            </form.Field>
-          </FieldContent>
-        </Field>
+        <form.Field v-slot="{ field: isInPersonField }" name="isInPerson">
+          <form.Field v-slot="{ field: isRemoteField }" name="isRemote">
+            <AppCheckboxGroup
+              :items="[
+                { label: t('isInPerson'), value: 'isInPerson' },
+                { label: t('isRemote'), value: 'isRemote' },
+              ]"
+              :model-value="[
+                ...(isInPersonField.state.value ? ['isInPerson'] : []),
+                ...(isRemoteField.state.value ? ['isRemote'] : []),
+              ]"
+              @update:model-value="
+                (values) => {
+                  isInPersonField.handleChange(values.includes('isInPerson'))
+                  isRemoteField.handleChange(values.includes('isRemote'))
+                }
+              "
+            >
+              <template #legend>{{ t('attendanceType') }}</template>
+            </AppCheckboxGroup>
+          </form.Field>
+        </form.Field>
         <form.Field v-slot="{ field: isInPersonField }" name="isInPerson">
           <template v-if="isInPersonField.state.value">
             <form.Field
@@ -342,19 +254,53 @@
                   t('location')
                 }}</FieldLabel>
                 <FieldContent>
-                  <Input
-                    id="input-location-name"
-                    :aria-invalid="isFieldInvalid(locationNameField)"
-                    :model-value="locationNameField.state.value"
-                    :placeholder="t('locationPlaceholder')"
-                    type="text"
-                    @blur="locationNameField.handleBlur"
-                    @input="
-                      locationNameField.handleChange(
-                        ($event.target as HTMLInputElement).value,
-                      )
-                    "
-                  />
+                  <div class="flex gap-2">
+                    <Input
+                      id="input-location-name"
+                      :aria-invalid="isFieldInvalid(locationNameField)"
+                      class="flex-1"
+                      enterkeyhint="search"
+                      :model-value="locationNameField.state.value"
+                      :placeholder="t('locationPlaceholder')"
+                      type="text"
+                      @blur="locationNameField.handleBlur"
+                      @input="
+                        locationNameField.handleChange(
+                          ($event.target as HTMLInputElement).value,
+                        )
+                      "
+                      @keydown.enter.prevent="
+                        searchLocation(locationNameField.state.value)
+                      "
+                    />
+                    <AppButton
+                      :aria-label="t('locationSearch')"
+                      :disabled="isLocationSearching"
+                      size="icon"
+                      variant="secondary"
+                      @click="searchLocation(locationNameField.state.value)"
+                    >
+                      <AppIconMagnifyingGlass />
+                    </AppButton>
+                  </div>
+                  <ul
+                    v-if="locationResults.length"
+                    :aria-label="t('locationResults')"
+                    class="flex flex-col rounded-medium bg-surface-raised p-1"
+                  >
+                    <li
+                      v-for="locationResult in locationResults"
+                      :key="locationResult.place_id"
+                    >
+                      <button
+                        class="w-full rounded-small px-3 py-2 text-left text-body hover:bg-line focus-visible:focus-ring"
+                        type="button"
+                        @click="selectLocation(locationResult)"
+                      >
+                        {{ locationResult.display_name }}
+                      </button>
+                    </li>
+                  </ul>
                 </FieldContent>
                 <FieldDescription>{{ t('locationHint') }}</FieldDescription>
                 <FieldError
@@ -363,19 +309,16 @@
                 />
               </Field>
             </form.Field>
-            <div class="relative isolate">
-              <AppMap
-                ref="map"
-                class="h-64"
-                geocoder
-                :position-initial="locationPositionInitial"
-                @geocode="onGeocode"
-              />
+            <AppMap
+              ref="map"
+              class="h-64"
+              :position-initial="locationPositionInitial"
+              @geocode="onGeocode"
+            >
               <AppIconMapPinSolid
-                v-if="isMapConsented"
-                class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
+                class="absolute top-1/2 left-1/2 size-8 -translate-x-1/2 -translate-y-full text-error"
               />
-            </div>
+            </AppMap>
           </template>
         </form.Field>
         <form.Field v-slot="{ field }" name="url">
@@ -416,6 +359,181 @@
               v-if="isFieldInvalid(field)"
               :errors="field.state.meta.errors"
             />
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="visibility">
+          <Field>
+            <AppRadioGroup
+              :default-value="field.state.value"
+              :items="[
+                {
+                  description: t('visibilityPublicDescription'),
+                  label: t('visibilityPublic'),
+                  value: EventVisibility.Public,
+                },
+                {
+                  description: t('visibilityPrivateDescription'),
+                  label: t('visibilityPrivate'),
+                  value: EventVisibility.Private,
+                },
+              ]"
+              @update:model-value="
+                (value) =>
+                  field.handleChange(String(value ?? '') as EventVisibility)
+              "
+            >
+              <template #legend>{{ t('visibility') }}</template>
+            </AppRadioGroup>
+            <FieldError
+              v-if="isFieldInvalid(field)"
+              :errors="field.state.meta.errors"
+            />
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="publication">
+          <Field>
+            <AppRadioGroup
+              :default-value="field.state.value"
+              :items="[
+                {
+                  description: t('publicationNowDescription'),
+                  label: isLiveExisting
+                    ? t('publicationPublished')
+                    : t('publicationNow'),
+                  value: 'now',
+                },
+                {
+                  description: t('publicationScheduleDescription'),
+                  label: t('publicationSchedule'),
+                  value: 'schedule',
+                },
+                {
+                  description: t('publicationDraftDescription'),
+                  label: t('publicationDraft'),
+                  value: 'draft',
+                },
+              ]"
+              @update:model-value="
+                (value) =>
+                  field.handleChange(
+                    String(value ?? '') as typeof field.state.value,
+                  )
+              "
+            >
+              <template #legend>{{ t('publication') }}</template>
+            </AppRadioGroup>
+          </Field>
+        </form.Field>
+        <form.Field
+          v-if="form.getFieldValue('publication') === 'schedule'"
+          v-slot="{ field }"
+          name="publishedAt"
+        >
+          <Field class="flex flex-col">
+            <FieldLabel for="button-published-at">{{
+              t('publishedAt')
+            }}</FieldLabel>
+            <FieldContent>
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-published-at"
+                    :aria-invalid="isFieldInvalid(field)"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :model-value="isoToCalendarDate(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </FieldContent>
+            <FieldError
+              v-if="isFieldInvalid(field)"
+              :errors="field.state.meta.errors"
+            />
+          </Field>
+        </form.Field>
+        <form.Field
+          v-if="form.getFieldValue('visibility') === EventVisibility.Public"
+          v-slot="{ field }"
+          name="guestCountMaximum"
+        >
+          <Field>
+            <FieldLabel for="input-invitee-count-maximum">{{
+              t('maximumInviteeCount')
+            }}</FieldLabel>
+            <FieldContent>
+              <Input
+                id="input-invitee-count-maximum"
+                :aria-invalid="isFieldInvalid(field)"
+                :model-value="field.state.value"
+                type="number"
+                @blur="field.handleBlur"
+                @input="
+                  field.handleChange(($event.target as HTMLInputElement).value)
+                "
+              />
+            </FieldContent>
+            <FieldError
+              v-if="isFieldInvalid(field)"
+              :errors="field.state.meta.errors"
+            />
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="categoryIds">
+          <Field>
+            <FieldLabel>{{ t('categories') }}</FieldLabel>
+            <FieldContent>
+              <FormEventCategorySelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="formatIds">
+          <Field>
+            <FieldLabel>{{ t('formats') }}</FieldLabel>
+            <FieldContent>
+              <FormEventFormatSelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
           </Field>
         </form.Field>
         <div class="flex flex-col items-center justify-between">
@@ -467,7 +585,6 @@ import { z } from 'zod'
 import { cn } from '@/utils/shadcn'
 
 import { graphql } from '~~/gql/generated'
-import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
 import { EventVisibility } from '~~/gql/generated/graphcache'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
@@ -482,6 +599,7 @@ const { event = undefined } = defineProps<{
     | 'end'
     | 'isInPerson'
     | 'isRemote'
+    | 'publishedAt'
     | 'url'
     | 'description'
     | 'rowId'
@@ -692,23 +810,55 @@ const validateEventSlugFn = async (value: string) => {
   }
 }
 
+// publication
+const publicationStateInitial = event?.rowId
+  ? getEventPublicationState(event)
+  : undefined
+// an already published event keeps its original publication time
+const isLiveExisting = publicationStateInitial === 'published'
+const getPublishedAt = (value: {
+  publication: 'draft' | 'now' | 'schedule'
+  publishedAt: string
+}) =>
+  value.publication === 'draft'
+    ? null
+    : value.publication === 'schedule'
+      ? value.publishedAt
+      : isLiveExisting
+        ? event?.publishedAt
+        : new Date().toISOString()
+
 // form
-const formSchema = z.object({
-  categoryIds: z.array(z.string()),
-  description: SCHEMA_EVENT_DESCRIPTION_OPTIONAL,
-  end: z.string(),
-  formatIds: z.array(z.string()),
-  guestCountMaximum: z.string(),
-  isInPerson: z.boolean(),
-  isRemote: z.boolean(),
-  locationName: SCHEMA_EVENT_LOCATION_NAME_OPTIONAL,
-  name: SCHEMA_EVENT_NAME_REQUIRED,
-  rowId: z.string(),
-  slug: SCHEMA_EVENT_SLUG_REQUIRED,
-  start: z.string().min(1),
-  url: SCHEMA_URL_HTTPS_OPTIONAL,
-  visibility: z.enum(EventVisibility),
-})
+const formSchema = z
+  .object({
+    categoryIds: z.array(z.string()),
+    description: SCHEMA_EVENT_DESCRIPTION_OPTIONAL,
+    end: z.string(),
+    formatIds: z.array(z.string()),
+    guestCountMaximum: z.string(),
+    isInPerson: z.boolean(),
+    isRemote: z.boolean(),
+    locationName: SCHEMA_EVENT_LOCATION_NAME_OPTIONAL,
+    name: SCHEMA_EVENT_NAME_REQUIRED,
+    publication: z.enum(['draft', 'now', 'schedule']),
+    publishedAt: z.string(),
+    rowId: z.string(),
+    slug: SCHEMA_EVENT_SLUG_REQUIRED,
+    start: z.string().min(1),
+    url: SCHEMA_URL_HTTPS_OPTIONAL,
+    visibility: z.enum(EventVisibility),
+  })
+  .superRefine((value, ctx) => {
+    if (
+      value.publication === 'schedule' &&
+      (!value.publishedAt || new Date(value.publishedAt) <= new Date())
+    )
+      ctx.addIssue({
+        code: 'custom',
+        message: t('validationPublishedAtFuture'),
+        path: ['publishedAt'],
+      })
+  })
 
 const syncEventCategoryMappings = async ({
   eventId,
@@ -818,7 +968,6 @@ const locationPositionInitial = event?.addressByAddressId?.location
       zoomLevel: 15,
     }
   : undefined
-const isMapConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
 const templateMap = useTemplateRef('map')
 // a geocode replaces the stored fields, so they only change with a new search
 const addressFields = ref<AddressFields>({
@@ -829,6 +978,40 @@ const addressFields = ref<AddressFields>({
   postalCode: event?.addressByAddressId?.postalCode,
   region: event?.addressByAddressId?.region,
 })
+type LocationResult = {
+  display_name: string
+  lat: string
+  lon: string
+  place_id: number
+} & Parameters<typeof getAddressFromNominatim>[0]
+const fetchLocations = (q: string) =>
+  $fetch<LocationResult[]>('/api/service/nominatim/search', {
+    query: { 'accept-language': locale.value, q },
+  })
+const locationResults = ref<LocationResult[]>([])
+const isLocationSearching = ref(false)
+// Nominatim's usage policy forbids autocomplete, so the field only searches on the button or enter
+const searchLocation = async (query: string) => {
+  const q = query.trim()
+  // the search endpoint rejects shorter queries
+  if (q.length < 2 || isLocationSearching.value) return
+
+  isLocationSearching.value = true
+
+  try {
+    locationResults.value = await fetchLocations(q)
+    if (!locationResults.value.length) toast.info(t('locationNotFound'))
+  } catch {
+    toast.error(t('locationSearchError'))
+  } finally {
+    isLocationSearching.value = false
+  }
+}
+const selectLocation = (result: LocationResult) => {
+  locationResults.value = []
+  templateMap.value?.map?.setView([Number(result.lat), Number(result.lon)], 15)
+  onGeocode({ ...getAddressFromNominatim(result), label: result.display_name })
+}
 const onGeocode = (result: GeocodeResult) => {
   form.setFieldValue('locationName', result.name ?? result.label)
   // missing fields are null so that they clear what an earlier place left behind
@@ -840,6 +1023,30 @@ const onGeocode = (result: GeocodeResult) => {
     postalCode: result.address.postalCode ?? null,
     region: result.address.region ?? null,
   }
+}
+// an import names the place without its position, so the pin would stay on the default centre
+const locationNameImported = event?.rowId
+  ? undefined
+  : !event?.addressByAddressId?.location &&
+    event?.addressByAddressId?.name?.trim()
+if (locationNameImported) {
+  watch(
+    () => templateMap.value?.map,
+    async (map) => {
+      if (!map) return
+
+      try {
+        const [result] = await fetchLocations(locationNameImported)
+        if (!result) return
+
+        map.setView([Number(result.lat), Number(result.lon)], 15)
+        addressFields.value = getAddressFromNominatim(result).address
+      } catch {
+        // the location field still lets the place be found by hand
+      }
+    },
+    { once: true },
+  )
 }
 const syncAddress = async (
   locationName: string,
@@ -906,6 +1113,13 @@ const form = useForm({
     isRemote: event?.isRemote ?? false,
     locationName: event?.addressByAddressId?.name ?? '',
     name: (event?.name as string) ?? '',
+    publication: (publicationStateInitial === 'draft'
+      ? 'draft'
+      : publicationStateInitial === 'scheduled'
+        ? 'schedule'
+        : 'now') as 'draft' | 'now' | 'schedule',
+    publishedAt:
+      publicationStateInitial === 'scheduled' ? (event?.publishedAt ?? '') : '',
     rowId: '',
     slug: (event?.slug as string) ?? '',
     start: (event?.start as string) ?? '',
@@ -936,6 +1150,7 @@ const form = useForm({
               ? +value.guestCountMaximum
               : null,
             isInPerson: value.isInPerson,
+            publishedAt: getPublishedAt(value),
             isRemote: value.isRemote,
             name: value.name || null,
             slug: value.slug || null,
@@ -991,6 +1206,7 @@ const form = useForm({
               ? +value.guestCountMaximum
               : null,
             isInPerson: value.isInPerson,
+            publishedAt: getPublishedAt(value),
             isRemote: value.isRemote,
             name: value.name || '',
             slug: value.slug || '',
@@ -1147,17 +1363,32 @@ de:
   isRemote: digital
   location: Ort
   locationHint: Suche nach einer Adresse oder verschiebe die Karte, um den Ort zu bestimmen.
+  locationNotFound: Nichts gefunden.
   locationPlaceholder: Adresse oder Ort suchen
+  locationResults: Suchergebnisse
+  locationSearch: Ort suchen
+  locationSearchError: Die Adresssuche ist fehlgeschlagen. Bitte versuche es später erneut.
   maximumInviteeCount: Maximale Gästezahl
   name: Name
   namePlaceholder: Willkommensfeier
+  publication: Veröffentlichung
+  publicationDraft: Als Entwurf speichern
+  publicationDraftDescription: Nur du kannst die Veranstaltung sehen, bis du sie veröffentlichst.
+  publicationNow: Jetzt veröffentlichen
+  publicationNowDescription: Alle, die die Sichtbarkeit zulässt, sehen die Veranstaltung sofort.
+  publicationPublished: Veröffentlicht
+  publicationSchedule: Planen
+  publicationScheduleDescription: Die Veranstaltung erscheint zur gewählten Zeit. Bis dahin kannst nur du sie sehen.
+  publishedAt: Veröffentlichung am
   start: Beginn
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
+  validationPublishedAtFuture: Wähle einen Zeitpunkt in der Zukunft.
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   visibility: Sichtbarkeit
   visibilityPrivate: privat
+  visibilityPrivateDescription: Nur eingeladene Gäste können diese Veranstaltung ansehen und daran teilnehmen.
   visibilityPublic: öffentlich
-  visibilityUnlisted: ungelistet
+  visibilityPublicDescription: Alle können diese Veranstaltung finden, ansehen und daran teilnehmen.
   url: Weblink
 en:
   attendanceType: Attendance type
@@ -1178,16 +1409,31 @@ en:
   isRemote: remote
   location: Location
   locationHint: Search for an address or move the map to set the location.
+  locationNotFound: Nothing found.
   locationPlaceholder: Search for an address or place
+  locationResults: Search results
+  locationSearch: Search location
+  locationSearchError: The address search failed. Please try again later.
   maximumInviteeCount: Maximum guest count
   name: Name
   namePlaceholder: Welcome Party
+  publication: Publication
+  publicationDraft: Save as draft
+  publicationDraftDescription: Only you can see the event until you publish it.
+  publicationNow: Publish now
+  publicationNowDescription: Everyone the visibility allows can see the event right away.
+  publicationPublished: Published
+  publicationSchedule: Schedule
+  publicationScheduleDescription: The event appears at the chosen time. Until then, only you can see it.
+  publishedAt: Publication date
   start: Start
   validationExistenceNone: You have already created an event with id "{slug}"
+  validationPublishedAtFuture: Choose a time in the future.
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
   visibility: Visibility
   visibilityPrivate: private
+  visibilityPrivateDescription: Only invited guests can view and join this event.
   visibilityPublic: public
-  visibilityUnlisted: unlisted
+  visibilityPublicDescription: Anyone can find, view and join this event.
   url: Weblink
 </i18n>

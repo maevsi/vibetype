@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <div
       v-if="event && route.params.username === store.signedInUsername"
       class="flex flex-1 flex-col"
@@ -40,16 +40,6 @@
               </AppAlert>
             </div>
           </div>
-          <AppModal
-            v-model="isModalAttendanceScanQrCodeOpen"
-            :submit-name="t('close')"
-            @submit="modalClose"
-          >
-            <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
-            <template #submit-icon>
-              <AppIconXCircleSolid />
-            </template>
-          </AppModal>
         </div>
       </LayoutPage>
     </div>
@@ -58,8 +48,6 @@
 </template>
 
 <script lang="ts">
-import type { DetectedBarcode } from 'vue-qrcode-reader'
-
 import { graphql } from '~~/gql/generated'
 import { useMutation } from '@urql/vue'
 </script>
@@ -114,11 +102,19 @@ const title = computed(() => {
     store.signedInUsername &&
     route.params.username !== store.signedInUsername
   ) {
-    showAppError({ status: 403, message: 'Permission denied' })
+    showAppError({
+      data: { vibetype: t('errorPermissionDenied') },
+      message: 'Permission denied',
+      status: 403,
+    })
     return
   }
   if (!event.value) {
-    showAppError({ status: 404, message: 'Event unavailable' })
+    showAppError({
+      data: { vibetype: t('errorEventMissing') },
+      message: 'Event unavailable',
+      status: 404,
+    })
     return
   }
 
@@ -127,14 +123,16 @@ const title = computed(() => {
 useHeadDefault({ title })
 
 // qr code
-const isModalAttendanceScanQrCodeOpen = ref<boolean>()
-const qrCodeScan = () => {
-  isModalAttendanceScanQrCodeOpen.value = true
-}
-const modalClose = () => {
-  isModalAttendanceScanQrCodeOpen.value = false
-}
-const guestId = ref<string>()
+const qrCodeScan = () =>
+  navigateTo(
+    localePath({
+      name: 'event-view-username-event_name-attendance-scan',
+      params: route.params,
+    }),
+  )
+const guestId = computed(() =>
+  typeof route.query.guest === 'string' ? route.query.guest : undefined,
+)
 const executeUrqlRequest = useExecuteUrqlRequest()
 const createAttendanceMutation = useMutation(
   graphql(`
@@ -148,12 +146,30 @@ const createAttendanceMutation = useMutation(
     }
   `),
 )
+const tagSerialNumberUpdateMutation = useMutation(
+  graphql(`
+    mutation AttendanceTagSerialNumberUpdate(
+      $id: UUID!
+      $attendancePatch: AttendancePatch!
+    ) {
+      updateAttendanceByRowId(
+        input: { rowId: $id, attendancePatch: $attendancePatch }
+      ) {
+        attendance {
+          id
+          rowId
+          tagSerialNumber
+        }
+      }
+    }
+  `),
+)
 const { siteUrlTyped: siteUrl } = useSiteUrl()
 const localePath = useLocalePath()
 const onClick = async () => {
   if (!guestId.value) return
 
-  await executeUrqlRequest({
+  const result = await executeUrqlRequest({
     errorMessageI18n: t('errorAttendanceCreate'),
     request: createAttendanceMutation.executeMutation({
       input: {
@@ -163,24 +179,29 @@ const onClick = async () => {
       },
     }),
   })
+  const attendanceId = result?.data?.createAttendance?.attendance?.rowId
+  if (!attendanceId) return
 
-  await writeTag({
+  const tag = await writeTag({
     records: [
       {
         recordType: 'url',
         data: `https://${siteUrl.host}${localePath({
           name: 'attendance-view-id',
-          params: { id: guestId.value },
+          params: { id: attendanceId },
         })}`,
       },
     ],
   })
-}
-const onDetect = async (detectedBarcodes: DetectedBarcode[]) => {
-  if (!detectedBarcodes.length || !detectedBarcodes[0]) return
-  guestId.value = detectedBarcodes[0].rawValue
-  toast.success(t('successDetect'))
-  modalClose()
+  if (!tag?.serialNumber) return
+
+  await executeUrqlRequest({
+    errorMessageI18n: t('errorTagSerialNumberSave'),
+    request: tagSerialNumberUpdateMutation.executeMutation({
+      id: attendanceId,
+      attendancePatch: { tagSerialNumber: tag.serialNumber },
+    }),
+  })
 }
 
 // nfc
@@ -222,9 +243,18 @@ onMounted(() => {
   })
 })
 const writeTag = async (data: NDEFMessageSource) => {
+  const controller = new AbortController()
+
   try {
-    await new NDEFReader().write(data)
+    const reader = new NDEFReader()
+    // reading the tag first keeps its serial number, which tells this tag apart from a copy of its link later
+    const serialNumber = await nfcTagSerialNumberRead({
+      reader,
+      signal: controller.signal,
+    })
+    await reader.write(data)
     toast.success(t('successWrite'))
+    return { serialNumber }
   } catch (error) {
     if (error instanceof DOMException) {
       let errorMessage: string = error.message
@@ -254,6 +284,8 @@ const writeTag = async (data: NDEFMessageSource) => {
     } else {
       alert(`Unexpected error: ${error}`)
     }
+  } finally {
+    controller.abort()
   }
 }
 const isNfcError = computed(() => {
@@ -266,39 +298,41 @@ const isNfcError = computed(() => {
 
 <i18n lang="yaml">
 de:
-  close: Schließen
   errorAttendanceCreate: Beim Erstellen der Anwesenheit ist ein Fehler aufgetreten.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorNavigatorPermissionsNotSupported: Navigator-Berechtigungen werden nicht unterstützt! {hintUpdateOrChrome}
   errorNfcAbort: Der NFC-Scan wurde unterbrochen! {hintTryAgain}
   errorNfcNetwork: Die NFC-Übertragung wurde unterbrochen! {hintTryAgain}
   errorNfcNotAllowed: Berechtigung zum NFC-Zugriff fehlt! {hintBrowserSettings}
   errorNfcNotReadable: Zugriff auf den NFC-Adapter nicht möglich. Wird er von einem anderen Programm verwendet?
   errorNfcNotSupported: Es wurde kein kompatibler NFC-Adapter gefunden. {hintUpdateOrChrome}
+  errorPermissionDenied: Nur wer diese Veranstaltung organisiert, kann diese Seite öffnen. Wenn es deine Veranstaltung ist, melde dich mit dem Konto an, mit dem du sie erstellt hast.
+  errorTagSerialNumberSave: Die Seriennummer des Tags konnte nicht gespeichert werden.
   hintBrowserSettings: Sieh in deinen Browser-Einstellungen nach.
   hintUpdateOrChrome: Versuche deinen Browser zu aktualisieren oder Google Chrome zu verwenden.
   hintTryAgain: Versuch es noch einmal.
   nfcWrite: NFC-Tag schreiben
   qrCodeScan: Check-in-Code scannen
   qrHint: Lass dir von Gästen den QR-Code auf ihrer Einladungsseite zeigen
-  successDetect: Tag erkannt
   successWrite: Tag beschrieben
   title: Check-in
 en:
-  close: Close
   errorAttendanceCreate: Failed to create attendance.
+  errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorNavigatorPermissionsNotSupported: Navigator permissions are not supported! {hintUpdateOrChrome}
   errorNfcAbort: The NFC scan was interrupted! {hintTryAgain}
   errorNfcNetwork: The NFC transmission was interrupted! {hintTryAgain}
   errorNfcNotAllowed: Need NFC access permission! {hintBrowserSettings}
   errorNfcNotReadable: Could not access NFC adapter. Is it in use by another program right now?
   errorNfcNotSupported: No compatible NFC adapter was found. {hintUpdateOrChrome}
+  errorPermissionDenied: Only the organizer of this event can open this page. If it's your event, sign in with the account that created it.
+  errorTagSerialNumberSave: Failed to save the tag's serial number.
   hintBrowserSettings: Check your browser settings.
   hintTryAgain: Try again.
   hintUpdateOrChrome: Try updating your browser or use Google Chrome.
   nfcWrite: Write to NFC tag
   qrCodeScan: Scan check in code
   qrHint: Ask guests to show you the QR code on their invitation page
-  successDetect: Tag detected
   successWrite: Tag written
   title: Check in
 </i18n>

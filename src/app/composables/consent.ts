@@ -1,8 +1,4 @@
-import {
-  EXTERNAL_MEDIA_COOKIE_ID,
-  GTAG_COOKIE_ID,
-  SENTRY_COOKIE_ID,
-} from '~~/node/static'
+import { GTAG_COOKIE_ID, SENTRY_COOKIE_ID } from '~~/node/static'
 
 export const useIsCookieConsented = (cookieId: string) => {
   const cookieControl = useCookieControl()
@@ -12,11 +8,7 @@ export const useIsCookieConsented = (cookieId: string) => {
   )
 }
 
-const CONSENT_PURPOSE_IDS = [
-  GTAG_COOKIE_ID,
-  EXTERNAL_MEDIA_COOKIE_ID,
-  SENTRY_COOKIE_ID,
-]
+const CONSENT_PURPOSE_IDS = [GTAG_COOKIE_ID, SENTRY_COOKIE_ID]
 
 /**
  * Stores the privacy choices through the state of `useCookieControl`.

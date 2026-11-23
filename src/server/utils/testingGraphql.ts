@@ -44,6 +44,7 @@ const EVENT = {
   isInPerson: false,
   isRemote: true,
   name: TESTING_EVENT_NAME,
+  publishedAt: '2020-01-01T00:00:00.000Z',
   rowId: TESTING_EVENT_ROW_ID,
   slug: TESTING_EVENT_SLUG,
   start: '2030-06-15T18:00:00+00:00',
@@ -192,6 +193,7 @@ const EVENT_VIEW = {
   isInPerson: EVENT.isInPerson,
   isRemote: EVENT.isRemote,
   name: EVENT.name,
+  publishedAt: EVENT.publishedAt,
   rowId: EVENT.rowId,
   slug: EVENT.slug,
   start: EVENT.start,
@@ -400,6 +402,17 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'AccountProfilePicture':
+      return {
+        data: {
+          accountByUsername: {
+            id: ACCOUNT.id,
+            profilePictureByAccountId: null,
+            rowId: ACCOUNT.rowId,
+            __typename: 'Account',
+          },
+        },
+      }
     case 'AccountRegistration':
       return {
         data: {
@@ -411,6 +424,20 @@ export const getTestingGraphqlResult = async ({
       }
     case 'AccountUploadQuotaBytes':
       return { data: { accountUploadQuotaBytes: 10485760 } }
+    case 'AllContactsEmailAddresses':
+      return {
+        data: {
+          allContacts: {
+            nodes: [],
+            pageInfo: {
+              endCursor: null,
+              hasNextPage: false,
+              __typename: 'PageInfo',
+            },
+            __typename: 'ContactConnection',
+          },
+        },
+      }
     case 'AllContacts':
       return {
         data: {
@@ -554,17 +581,30 @@ export const getTestingGraphqlResult = async ({
               accountByAccountId: null,
               language: 'en',
             },
+            createdAt: '2025-01-01T00:00:00.000Z',
             guestByGuestId: {
+              contactByContactId: {
+                accountId: null,
+                id: CONTACT.id,
+                __typename: 'Contact',
+              },
               id: GUEST_ID,
               rowId: TESTING_GUEST_ROW_ID,
               __typename: 'Guest',
             },
             id: getNodeId('Attendance', TESTING_ATTENDANCE_ROW_ID),
             rowId: TESTING_ATTENDANCE_ROW_ID,
+            tagSerialNumber: null,
             updatedAt: null,
             __typename: 'Attendance',
           },
           eventByAttendanceId: {
+            accountByCreatedBy: {
+              id: ACCOUNT.id,
+              username: ACCOUNT.username,
+              __typename: 'Account',
+            },
+            createdBy: ACCOUNT.rowId,
             eventAppsByEventId: {
               nodes: [],
               __typename: 'EventAppConnection',
@@ -572,7 +612,30 @@ export const getTestingGraphqlResult = async ({
             id: EVENT.id,
             name: EVENT.name,
             rowId: EVENT.rowId,
+            slug: EVENT.slug,
             __typename: 'Event',
+          },
+        },
+      }
+    case 'ContactByRowId':
+      return {
+        data: {
+          contactByRowId: {
+            ...CONTACT,
+            accountByAccountId: null,
+            accountByCreatedBy: {
+              id: ACCOUNT.id,
+              rowId: ACCOUNT.rowId,
+              username: ACCOUNT.username,
+              __typename: 'Account',
+            },
+            accountId: null,
+            createdBy: ACCOUNT.rowId,
+            emailAddress: null,
+            emailAddressHash: null,
+            note: null,
+            phoneNumber: null,
+            url: null,
           },
         },
       }
@@ -711,6 +774,7 @@ export const getTestingGraphqlResult = async ({
                   isInPerson: EVENT.isInPerson,
                   isRemote: EVENT.isRemote,
                   name: EVENT.name,
+                  publishedAt: EVENT.publishedAt,
                   rowId: EVENT.rowId,
                   slug: EVENT.slug,
                   start: EVENT.start,
@@ -758,6 +822,7 @@ export const getTestingGraphqlResult = async ({
                   },
                   id: EVENT.id,
                   name: EVENT.name,
+                  publishedAt: EVENT.publishedAt,
                   rowId: EVENT.rowId,
                   slug: EVENT.slug,
                   __typename: 'Event',

@@ -148,12 +148,16 @@ export type AttendanceInput = {
   contactId?: string | null | undefined
   /** Who this entry is for. */
   guestId: string
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  tagSerialNumber?: string | null | undefined
 }
 
 /** Represents an update to a `Attendance`. Fields that are set will be updated. */
 export type AttendancePatch = {
   /** Shows if the person has left. When this turns on, the time is saved automatically. */
   checkedOut?: boolean | null | undefined
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  tagSerialNumber?: string | null | undefined
 }
 
 /** An input for mutations affecting `Contact` */
@@ -685,6 +689,8 @@ export type EventInput = {
   language?: Language | null | undefined
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: string
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: string | null | undefined
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug: string
   /** The event's start date and time, with time zone. */
@@ -734,6 +740,8 @@ export type EventPatch = {
   language?: Language | null | undefined
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name?: string | null | undefined
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: string | null | undefined
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug?: string | null | undefined
   /** The event's start date and time, with time zone. */
@@ -757,8 +765,8 @@ export type EventUploadInput = {
   uploadId: string
 }
 
-/** Possible visibilities of events and event groups: public, private and unlisted. */
-export type EventVisibility = 'private' | 'public' | 'unlisted'
+/** Possible visibilities of events and event groups: public and private. */
+export type EventVisibility = 'private' | 'public'
 
 /** An input for mutations affecting `Guest` */
 export type GuestInput = {
@@ -1910,6 +1918,34 @@ export type AccountEditQuery = {
   } | null
 }
 
+export type UpdateAccountByRowIdMutationVariables = Exact<{
+  input: UpdateAccountByRowIdInput
+}>
+
+export type UpdateAccountByRowIdMutation = {
+  updateAccountByRowId: {
+    account: {
+      description: string | null
+      displayName: string | null
+      id: string
+      imprintUrl: string | null
+      rowId: string
+    } | null
+  } | null
+}
+
+export type AccountProfilePictureQueryVariables = Exact<{
+  username: string
+}>
+
+export type AccountProfilePictureQuery = {
+  accountByUsername: {
+    id: string
+    rowId: string
+    profilePictureByAccountId: { id: string; rowId: string } | null
+  } | null
+}
+
 export type CreateProfilePictureMutationVariables = Exact<{
   input: CreateProfilePictureInput
 }>
@@ -1925,22 +1961,6 @@ export type CreateProfilePictureMutation = {
         rowId: string
         profilePictureByAccountId: { id: string; rowId: string } | null
       } | null
-    } | null
-  } | null
-}
-
-export type UpdateAccountByRowIdMutationVariables = Exact<{
-  input: UpdateAccountByRowIdInput
-}>
-
-export type UpdateAccountByRowIdMutation = {
-  updateAccountByRowId: {
-    account: {
-      description: string | null
-      displayName: string | null
-      id: string
-      imprintUrl: string | null
-      rowId: string
     } | null
   } | null
 }
@@ -2046,8 +2066,10 @@ export type AttendanceQueryVariables = Exact<{
 export type AttendanceQuery = {
   attendanceByRowId: {
     checkedOut: boolean | null
+    createdAt: string
     id: string
     rowId: string
+    tagSerialNumber: string | null
     updatedAt: string | null
     contactByContactId: {
       firstName: string | null
@@ -2058,12 +2080,19 @@ export type AttendanceQuery = {
       rowId: string
       accountByAccountId: { id: string; rowId: string; username: string } | null
     } | null
-    guestByGuestId: { id: string; rowId: string } | null
+    guestByGuestId: {
+      id: string
+      rowId: string
+      contactByContactId: { accountId: string | null; id: string } | null
+    } | null
   } | null
   eventByAttendanceId: {
+    createdBy: string
     id: string
     name: string
+    slug: string
     rowId: string
+    accountByCreatedBy: { id: string; username: string } | null
     eventAppsByEventId: {
       nodes: Array<{
         id: string
@@ -2088,8 +2117,44 @@ export type AttendanceCheckOutMutationVariables = Exact<{
 
 export type AttendanceCheckOutMutation = {
   updateAttendanceByRowId: {
-    attendance: { id: string; checkedOut: boolean | null; rowId: string } | null
+    attendance: {
+      id: string
+      checkedOut: boolean | null
+      rowId: string
+      updatedAt: string | null
+    } | null
   } | null
+}
+
+export type ContactByRowIdQueryVariables = Exact<{
+  id: string
+}>
+
+export type ContactByRowIdQuery = {
+  contactByRowId: {
+    ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
+  } | null
+}
+
+export type AllContactsEmailAddressesQueryVariables = Exact<{
+  after?: string | null | undefined
+  createdBy?: string | null | undefined
+  first: number
+}>
+
+export type AllContactsEmailAddressesQuery = {
+  allContacts: {
+    nodes: Array<{ emailAddress: string | null; id: string }>
+    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+  } | null
+}
+
+export type CreateContactImportMutationVariables = Exact<{
+  input: CreateContactInput
+}>
+
+export type CreateContactImportMutation = {
+  createContact: { contact: { id: string } | null } | null
 }
 
 export type DashboardEventRecommendationsQueryVariables = Exact<{
@@ -2223,6 +2288,7 @@ export type EventEditQuery = {
         isInPerson: boolean | null
         isRemote: boolean | null
         name: string
+        publishedAt: string | null
         rowId: string
         slug: string
         start: string
@@ -2285,6 +2351,21 @@ export type AttendanceCreateMutation = {
   createAttendance: { attendance: { id: string; rowId: string } | null } | null
 }
 
+export type AttendanceTagSerialNumberUpdateMutationVariables = Exact<{
+  id: string
+  attendancePatch: AttendancePatch
+}>
+
+export type AttendanceTagSerialNumberUpdateMutation = {
+  updateAttendanceByRowId: {
+    attendance: {
+      id: string
+      rowId: string
+      tagSerialNumber: string | null
+    } | null
+  } | null
+}
+
 export type EventGuestsQueryVariables = Exact<{
   slug: string
   username: string
@@ -2300,6 +2381,7 @@ export type EventGuestsQuery = {
         guestCountMaximum: number | null
         id: string
         name: string
+        publishedAt: string | null
         rowId: string
         slug: string
         accountByCreatedBy: {
@@ -2345,6 +2427,7 @@ export type EventQuery = {
         isInPerson: boolean | null
         isRemote: boolean | null
         name: string
+        publishedAt: string | null
         rowId: string
         slug: string
         start: string
@@ -2420,6 +2503,7 @@ export type CreateGuestMutation = {
 export type EventListAccountQueryVariables = Exact<{
   after?: string | null | undefined
   first: number
+  search?: string | null | undefined
   username: string
 }>
 
@@ -2435,6 +2519,11 @@ export type EventListAccountQuery = {
         rowId: string
         slug: string
         start: string
+        addressByAddressId: {
+          id: string
+          rowId: string
+          location: { latitude: number; longitude: number } | null
+        } | null
         eventCategoryMappingsByEventId: {
           nodes: Array<{
             id: string
@@ -2587,6 +2676,7 @@ export type GuestEventQuery = {
       isInPerson: boolean | null
       isRemote: boolean | null
       name: string
+      publishedAt: string | null
       rowId: string
       slug: string
       start: string
@@ -2828,6 +2918,7 @@ export type EventItemFragment = {
   isInPerson: boolean | null
   isRemote: boolean | null
   name: string
+  publishedAt: string | null
   rowId: string
   slug: string
   start: string
@@ -3093,6 +3184,7 @@ export const EventItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'isInPerson' } },
           { kind: 'Field', name: { kind: 'Name', value: 'isRemote' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
           { kind: 'Field', name: { kind: 'Name', value: 'start' } },
@@ -9535,6 +9627,148 @@ export const AccountEditDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountEditQuery, AccountEditQueryVariables>
+export const UpdateAccountByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAccountByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateAccountByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAccountByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'account' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'displayName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'imprintUrl' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAccountByRowIdMutation,
+  UpdateAccountByRowIdMutationVariables
+>
+export const AccountProfilePictureDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountProfilePicture' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByUsername' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profilePictureByAccountId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountProfilePictureQuery,
+  AccountProfilePictureQueryVariables
+>
 export const CreateProfilePictureDocument = {
   kind: 'Document',
   definitions: [
@@ -9639,82 +9873,6 @@ export const CreateProfilePictureDocument = {
 } as unknown as DocumentNode<
   CreateProfilePictureMutation,
   CreateProfilePictureMutationVariables
->
-export const UpdateAccountByRowIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdateAccountByRowId' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'UpdateAccountByRowIdInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'updateAccountByRowId' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'account' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'displayName' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'imprintUrl' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  UpdateAccountByRowIdMutation,
-  UpdateAccountByRowIdMutationVariables
 >
 export const AccountEmailAddressVerificationDocument = {
   kind: 'Document',
@@ -10403,12 +10561,30 @@ export const AttendanceDocument = {
                     ],
                   },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'guestByGuestId' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactByContactId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'accountId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
@@ -10416,6 +10592,10 @@ export const AttendanceDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tagSerialNumber' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
             },
@@ -10436,8 +10616,24 @@ export const AttendanceDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'accountByCreatedBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'eventAppsByEventId' },
@@ -10588,6 +10784,10 @@ export const AttendanceCheckOutDocument = {
                         name: { kind: 'Name', value: 'checkedOut' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
                     ],
                   },
                 },
@@ -10601,6 +10801,296 @@ export const AttendanceCheckOutDocument = {
 } as unknown as DocumentNode<
   AttendanceCheckOutMutation,
   AttendanceCheckOutMutationVariables
+>
+export const ContactByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ContactByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'contactByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'rowId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'ContactItem' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Contact' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByAccountId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByCreatedBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ContactByRowIdQuery, ContactByRowIdQueryVariables>
+export const AllContactsEmailAddressesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllContactsEmailAddresses' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allContacts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: {
+                  kind: 'ListValue',
+                  values: [{ kind: 'EnumValue', value: 'PRIMARY_KEY_ASC' }],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'emailAddress' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllContactsEmailAddressesQuery,
+  AllContactsEmailAddressesQueryVariables
+>
+export const CreateContactImportDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactImport' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContact' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contact' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateContactImportMutation,
+  CreateContactImportMutationVariables
 >
 export const DashboardEventRecommendationsDocument = {
   kind: 'Document',
@@ -11635,6 +12125,10 @@ export const EventEditDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'publishedAt' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'rowId' },
                             },
                             {
@@ -11852,6 +12346,99 @@ export const AttendanceCreateDocument = {
   AttendanceCreateMutation,
   AttendanceCreateMutationVariables
 >
+export const AttendanceTagSerialNumberUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AttendanceTagSerialNumberUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'attendancePatch' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AttendancePatch' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAttendanceByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'rowId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'attendancePatch' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'attendancePatch' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'attendance' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tagSerialNumber' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AttendanceTagSerialNumberUpdateMutation,
+  AttendanceTagSerialNumberUpdateMutationVariables
+>
 export const EventGuestsDocument = {
   kind: 'Document',
   definitions: [
@@ -12067,6 +12654,10 @@ export const EventGuestsDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'publishedAt' },
                             },
                             {
                               kind: 'Field',
@@ -12612,6 +13203,10 @@ export const EventDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'publishedAt' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'rowId' },
                             },
                             {
@@ -12743,6 +13338,14 @@ export const EventListAccountDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
+            name: { kind: 'Name', value: 'search' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
             name: { kind: 'Name', value: 'username' },
           },
           type: {
@@ -12787,6 +13390,23 @@ export const EventListAccountDocument = {
                     },
                     {
                       kind: 'Argument',
+                      name: { kind: 'Name', value: 'condition' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'search' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'search' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      kind: 'Argument',
                       name: { kind: 'Name', value: 'first' },
                       value: {
                         kind: 'Variable',
@@ -12808,6 +13428,49 @@ export const EventListAccountDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'addressByAddressId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'location' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'latitude',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'longitude',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                ],
+                              },
+                            },
                             {
                               kind: 'Field',
                               name: {
@@ -14194,6 +14857,10 @@ export const GuestEventDocument = {
                         name: { kind: 'Name', value: 'isRemote' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publishedAt' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'start' } },

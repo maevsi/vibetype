@@ -9,9 +9,6 @@
       >
         <h2 class="text-title3">
           {{ eventGroup.heading }}
-          <span v-if="eventGroup.suffix" class="text-headline text-fg-2">
-            {{ eventGroup.suffix }}
-          </span>
         </h2>
         <ul class="flex flex-col gap-3">
           <li v-for="event in eventGroup.events" :key="event.rowId">
@@ -48,10 +45,11 @@
   >
     <EventCardSkeleton v-for="index in 3" :key="index" />
   </AppLoaderPlaceholder>
-  <div v-else class="flex flex-col items-center gap-3 py-12 text-center">
-    <AppIconCalendar aria-hidden="true" class="size-12 text-fg-3" />
-    <p class="text-fg-2">{{ t('noEvents') }}</p>
-  </div>
+  <slot v-else name="empty">
+    <AppEmptyState :title="t('noEvents')">
+      <template #icon><AppIconCalendar /></template>
+    </AppEmptyState>
+  </slot>
 </template>
 
 <script setup lang="ts">
@@ -147,37 +145,32 @@ const eventGroups = computed(() => {
         : relativeDay === 'tomorrow'
           ? t('tomorrow')
           : // the day is midnight UTC of the calendar day, see `groupByDay`
-            Intl.DateTimeFormat(locale.value, {
-              timeZone: 'UTC',
-              weekday: 'long',
-            }).format(day),
+            relativeDay === 'week'
+            ? Intl.DateTimeFormat(locale.value, {
+                timeZone: 'UTC',
+                weekday: 'long',
+              }).format(day)
+            : Intl.DateTimeFormat(locale.value, {
+                day: 'numeric',
+                month: 'long',
+                timeZone: 'UTC',
+                year:
+                  String(day.getUTCFullYear()) === yearCurrent
+                    ? undefined
+                    : 'numeric',
+              }).format(day),
     key: items[0]?.rowId,
-    suffix: relativeDay
-      ? undefined
-      : t('daySuffix', {
-          date: Intl.DateTimeFormat(locale.value, {
-            day: 'numeric',
-            month: 'short',
-            timeZone: 'UTC',
-            year:
-              String(day.getUTCFullYear()) === yearCurrent
-                ? undefined
-                : 'numeric',
-          }).format(day),
-        }),
   }))
 })
 </script>
 
 <i18n lang="yaml">
 de:
-  daySuffix: / {date}
-  noEvents: Keine Veranstaltungen verfügbar 😕
+  noEvents: Keine Veranstaltungen gefunden
   today: Heute
   tomorrow: Morgen
 en:
-  daySuffix: / {date}
-  noEvents: No events available 😕
+  noEvents: No events found
   today: Today
   tomorrow: Tomorrow
 </i18n>

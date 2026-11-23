@@ -25,9 +25,10 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
     apk update \
     && apk add \
       git \
+      tini \
     && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
-    && npm i -g corepack && corepack enable
+    && npm i -g pnpm
 
 
 #############
@@ -50,7 +51,8 @@ VOLUME /srv/app/node_modules
 
 USER node
 
-ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
+# tini forwards stop signals, which the pnpm wrapper on PID 1 does not pass on.
+ENTRYPOINT ["/sbin/tini", "--", "/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "--dir", "src", "dev", "--host", "0.0.0.0"]
 EXPOSE 3000
 
@@ -149,9 +151,7 @@ ENV MKCERT_VERSION="1.4.4-1ubuntu3.2"
 
 WORKDIR /srv/app/
 
-# The playwright image no longer ships corepack; `--force` overwrites the
-# yarn shims it does still ship, which collide with corepack's own stubs
-RUN npm i -g corepack --force && corepack enable \
+RUN npm i -g pnpm \
     && apt-get update && apt-get install --no-install-recommends -y \
       mkcert="${MKCERT_VERSION}"
 
@@ -276,10 +276,11 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
 
 USER node
 
-# Install package manager as `node` user.
-RUN corepack prepare
+# Download the pinned pnpm version as `node` user, as the global one only switches to it on first use.
+RUN pnpm --version
 
-ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
+# tini forwards stop signals, which the pnpm wrapper on PID 1 does not pass on.
+ENTRYPOINT ["/sbin/tini", "--", "/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
 HEALTHCHECK --interval=10s CMD wget -O /dev/null http://127.0.0.1:3000/api/service/vibetype/healthcheck || exit 1
 EXPOSE 3000

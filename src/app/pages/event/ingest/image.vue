@@ -86,19 +86,31 @@ const posterPicked = usePosterPicked()
 const previewUrl = ref<string>()
 
 // methods
-const readFileAsBase64 = (file: File) =>
-  new Promise<string>((resolve, reject) => {
-    const reader = new FileReader()
+// shrinks the poster to the size the server reads, as a phone photo can exceed the request size limit
+const readPosterAsBase64 = async (file: File) => {
+  const bitmap = await createImageBitmap(file) // applies the orientation phone cameras store as metadata
+  const scale = Math.min(
+    1,
+    POSTER_SIZE_MAXIMUM / Math.max(bitmap.width, bitmap.height),
+  )
+  const canvas = document.createElement('canvas')
 
-    reader.onload = () => {
-      const base64Image = (reader.result as string).split(',')[1]
+  canvas.width = Math.round(bitmap.width * scale)
+  canvas.height = Math.round(bitmap.height * scale)
 
-      if (base64Image) resolve(base64Image)
-      else reject(new Error('File could not be read as base64'))
-    }
-    reader.onerror = () => reject(reader.error)
-    reader.readAsDataURL(file)
-  })
+  const context = canvas.getContext('2d')
+
+  if (!context) throw new Error('Canvas is not available')
+
+  context.drawImage(bitmap, 0, 0, canvas.width, canvas.height)
+  bitmap.close()
+
+  const base64Image = canvas.toDataURL('image/jpeg', 0.9).split(',')[1]
+
+  if (!base64Image) throw new Error('Poster could not be read as base64')
+
+  return base64Image
+}
 const readPoster = async (file: File) => {
   // avoid memory leaks
   if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
@@ -109,7 +121,7 @@ const readPoster = async (file: File) => {
 
   try {
     const { output } = await $csrfFetch('/api/model/event/ingest/image', {
-      body: { base64Image: await readFileAsBase64(file) },
+      body: { base64Image: await readPosterAsBase64(file) },
       method: 'POST',
     })
 
@@ -142,7 +154,7 @@ const { isCameraAvailable, pickFromCamera, pickFromLibrary } =
   usePosterPicker(readPoster)
 
 // the iOS app hands over posters shared to it from other apps
-onMounted(() => {
+onMounted(async () => {
   window.webkit?.messageHandlers?.['poster-shared-request']?.postMessage(
     'poster-shared-request',
   )
@@ -153,7 +165,13 @@ onMounted(() => {
   if (file) {
     posterPicked.value = undefined
     readPoster(file)
+    return
   }
+
+  // the service worker stored a poster shared to the installed app
+  const posterShared = await takePosterShared()
+
+  if (posterShared) readPoster(posterShared)
 })
 onBeforeUnmount(() => {
   if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)

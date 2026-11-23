@@ -32,6 +32,7 @@ export const getEventImported = async ({
     isInPerson,
     isRemote: false,
     name,
+    publishedAt: null,
     rowId: '',
     slug: slugify(name, { lower: true, strict: true }), // the form derives it only while the name is typed
     start: start ?? '',

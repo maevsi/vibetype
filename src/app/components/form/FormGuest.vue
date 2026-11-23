@@ -79,22 +79,34 @@
             </div>
             <AppIconPlus class="ml-auto shrink-0" />
           </AppButton>
-          <label
-            v-for="contact in contactsFiltered"
-            :key="contact.rowId"
-            class="flex w-full shrink-0 cursor-pointer items-center gap-4 rounded-small border-2 border-line px-4 py-2 has-disabled:cursor-not-allowed has-disabled:opacity-40"
+          <AppCheckboxGroup
+            :aria-label="t('contactsSelect')"
+            class="shrink-0"
+            :model-value="[
+              ...(guestContactIdsExisting ?? []),
+              ...field.state.value,
+            ]"
+            variant="card"
+            @update:model-value="
+              (values) =>
+                field.handleChange(
+                  values
+                    .map(String)
+                    .filter(
+                      (value) => !guestContactIdsExisting?.includes(value),
+                    ),
+                )
+            "
           >
-            <ContactPreview :contact :is-username-linked="false" />
-            <AppCheckbox
-              class="ml-auto shrink-0"
+            <AppCheckboxGroupItem
+              v-for="contact in contactsFiltered"
+              :key="contact.rowId"
               :disabled="guestContactIdsExisting?.includes(contact.rowId)"
-              :model-value="
-                guestContactIdsExisting?.includes(contact.rowId) ||
-                field.state.value.includes(contact.rowId)
-              "
-              @update:model-value="selectToggle(contact.rowId, field)"
-            />
-          </label>
+              :value="contact.rowId"
+            >
+              <ContactPreview :contact :is-username-linked="false" />
+            </AppCheckboxGroupItem>
+          </AppCheckboxGroup>
         </div>
       </form.Field>
       <AppFeature feature="account-management">
@@ -116,13 +128,21 @@
       <FormPrivacyNotice />
       <div class="flex flex-col items-center">
         <AppButton
-          :aria-label="isInvitationSent ? t('selectAndSend') : t('select')"
+          :aria-label="isSending ? t('selectAndSend') : t('select')"
           class="w-full"
           :loading="createGuestsMutation.fetching.value"
           type="submit"
         >
-          {{ isInvitationSent ? t('selectAndSend') : t('select') }}
+          {{ isSending ? t('selectAndSend') : t('select') }}
         </AppButton>
+        <p
+          v-if="
+            isInvitationSent && getEventPublicationState(event) !== 'published'
+          "
+          class="mt-2 text-body-small text-fg-2"
+        >
+          {{ t('disabledReasonDraft') }}
+        </p>
       </div>
       <AppAlert v-if="errorMessages?.length" variant="error">
         <AppSpanList :span="errorMessages" />
@@ -133,7 +153,6 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
-import type { AnyFieldApi } from '@tanstack/vue-form'
 import { useMutation, useQuery } from '@urql/vue'
 import { refDebounced } from '@vueuse/core'
 import { z } from 'zod'
@@ -155,7 +174,7 @@ const {
   guestContactIdsExisting = undefined,
   isInvitationSent = false,
 } = defineProps<{
-  event: Pick<EventItemFragment, 'rowId'>
+  event: Pick<EventItemFragment, 'publishedAt' | 'rowId'>
   guestContactIdsExisting?: string[]
   isInvitationSent?: boolean
 }>()
@@ -279,6 +298,10 @@ const contacts = computed(
 // Contacts without a name sort to the very end of the contact book, far beyond the loaded page, so the ones this form is about are kept at hand separately.
 const contactsPinned = ref<ContactItemFragment[]>([])
 
+const isSending = computed(
+  () => isInvitationSent && getEventPublicationState(event) === 'published',
+)
+
 // form
 const formSchema = z.object({
   contactIds: z.array(z.string()).min(1),
@@ -310,7 +333,7 @@ const form = useForm({
 
       successIds.push(...value.contactIds)
 
-      if (isInvitationSent) {
+      if (isSending.value) {
         await invite(guestsCreated)
       }
     } catch (error) {
@@ -381,16 +404,6 @@ const contactCreate = async () => {
     contactCreated.rowId,
   ])
   contactsPinned.value = [...contactsPinned.value, contactCreated]
-}
-const selectToggle = (contactId: string, field: AnyFieldApi) => {
-  const currentIds = field.state.value as string[]
-  const index = currentIds.indexOf(contactId)
-
-  if (index === -1) {
-    field.handleChange([...currentIds, contactId])
-  } else {
-    field.handleChange(currentIds.filter((_: string, i: number) => i !== index))
-  }
 }
 
 // computations
@@ -474,11 +487,13 @@ watch(
 
 <i18n lang="yaml">
 de:
+  disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   contactBookSearch: Kontaktbuch durchsuchen
   contactBookSearchDescription: Gib einen Nutzernamen oder eine E-Mail-Adresse ein, um jemanden hinzuzufügen, der noch nicht in deinem Kontaktbuch steht.
   contactCreate: Zum Kontaktbuch hinzufügen
   contactExisting: Ein Kontakt für dieses Konto existiert bereits!
   contactsAdd: Zu meinem Kontaktbuch
+  contactsSelect: Kontakte auswählen
   placeholderContact: Max Mustermann
   select: Zur Gästeliste hinzufügen
   selectAndSend: Einladung senden
@@ -486,11 +501,13 @@ de:
   sendSkipped: Einem Kontakt fehlt ein Konto oder eine E-Mail-Adresse, er wurde nur zur Gästeliste hinzugefügt. | Für {count} Kontakte fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt.
   sendSuccess: Eine Einladung wurde versandt. | {count} Einladungen wurden versandt.
 en:
+  disabledReasonDraft: Publish the event to send invitations.
   contactBookSearch: Search your contact book
   contactBookSearchDescription: Enter a username or an email address to add someone who is not in your contact book yet.
   contactCreate: Add to contact book
   contactExisting: A contact for this account already exists!
   contactsAdd: To my contact book
+  contactsSelect: Select contacts
   placeholderContact: John Doe
   select: Add to guest list
   selectAndSend: Send invitation

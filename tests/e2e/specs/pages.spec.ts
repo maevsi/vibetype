@@ -9,6 +9,7 @@ import { HTML_VALIDATE_CONFIG } from '#src/config/htmlValidate'
 import {
   TESTING_ACCOUNT_USERNAME,
   TESTING_ATTENDANCE_ROW_ID,
+  TESTING_CONTACT_ROW_ID,
   TESTING_EVENT_SLUG,
   TESTING_GUEST_ROW_ID,
 } from '#src/shared/utils/testing'
@@ -23,13 +24,16 @@ const EVENT_VIEW_PATH = `/event/view/${TESTING_ACCOUNT_USERNAME}/${TESTING_EVENT
 // the data behind these paths is served by `src/server/utils/testingGraphql.ts`
 const PAGE_PATHS_DYNAMIC: Record<string, string> = {
   '/account/edit/[username]': ACCOUNT_EDIT_PATH,
+  '/account/edit/[username]/picture': `${ACCOUNT_EDIT_PATH}/picture`,
   '/account/view/[username]': ACCOUNT_VIEW_PATH,
   '/account/view/[username]/block': `${ACCOUNT_VIEW_PATH}/block`,
   '/attendance/view/[id]': `/attendance/view/${TESTING_ATTENDANCE_ROW_ID}`,
+  '/contact/edit/[id]': `/contact/edit/${TESTING_CONTACT_ROW_ID}`,
   '/event/edit/[username]/[event_name]': EVENT_EDIT_PATH,
   '/event/view/[username]': `/event/view/${TESTING_ACCOUNT_USERNAME}`,
   '/event/view/[username]/[event_name]': EVENT_VIEW_PATH,
   '/event/view/[username]/[event_name]/attendance': `${EVENT_VIEW_PATH}/attendance`,
+  '/event/view/[username]/[event_name]/attendance/scan': `${EVENT_VIEW_PATH}/attendance/scan`,
   '/event/view/[username]/[event_name]/guest': `${EVENT_VIEW_PATH}/guest`,
   '/guest/view/[id]': `/guest/view/${TESTING_GUEST_ROW_ID}`,
 }
@@ -181,16 +185,17 @@ for (const [name, test] of [
               await expect(defaultPage.page.locator('html')).toHaveClass(
                 /(^|\s)dark(\s|$)/,
               )
-              // axe would otherwise measure contrast on colors that are still fading between the schemes
-              // polled from outside the page, as `waitForFunction` falls back to an `eval` that the content security policy blocks
-              await expect
-                .poll(() =>
-                  defaultPage.page.evaluate(
-                    "document.getAnimations().every((animation) => !(animation instanceof CSSTransition) || animation.playState !== 'running')",
-                  ),
-                )
-                .toBe(true)
             }
+
+            // axe would otherwise measure contrast on colors that are still fading, between the schemes or of a toast coming in
+            // polled from outside the page, as `waitForFunction` falls back to an `eval` that the content security policy blocks
+            await expect
+              .poll(() =>
+                defaultPage.page.evaluate(
+                  "document.getAnimations().every((animation) => !(animation instanceof CSSTransition) || animation.playState !== 'running')",
+                ),
+              )
+              .toBe(true)
 
             const { violations } = await new AxeBuilder({
               page: defaultPage.page,

@@ -63,7 +63,7 @@ You're encouraged to ask questions on [Vibetype's Discord](https://discord.gg/E3
     ```
 1. then install all dependencies using [pnpm](https://pnpm.io/), which should include the **src** directory automatically:
     ```sh
-    corepack enable
+    npm i -g pnpm
     pnpm install
     ```
 1. finally, start the frontend:
@@ -112,7 +112,7 @@ You're encouraged to ask questions on [Vibetype's Discord](https://discord.gg/E3
     ```
 1. then install all dependencies using [pnpm](https://pnpm.io/), including the **src** directory:
     ```sh
-    corepack enable
+    npm i -g pnpm
     pnpm install
     ```
 1. configure Vibetype's [dargstack](https://github.com/dargstack/dargstack) then take note of the following output:

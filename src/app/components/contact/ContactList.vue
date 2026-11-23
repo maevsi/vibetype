@@ -7,12 +7,21 @@
           v-model="searchString"
           class="flex-1"
         />
-        <AppButton :aria-label="t('contactAdd')" @click="add()">
-          {{ t('contactAdd') }}
-          <template #prefix>
-            <AppIconPlus />
-          </template>
-        </AppButton>
+        <template v-if="contacts.length">
+          <AppButton :aria-label="t('contactAdd')" @click="add">
+            {{ t('contactAdd') }}
+            <template #prefix>
+              <AppIconPlus />
+            </template>
+          </AppButton>
+          <AppButton
+            :aria-label="t('contactImport')"
+            :to="localePath('contact-import')"
+            variant="secondary"
+          >
+            {{ t('contactImport') }}
+          </AppButton>
+        </template>
       </div>
       <AppTable v-if="contactsFiltered.length">
         <AppTableHeader>
@@ -41,28 +50,40 @@
             :id="contact.rowId"
             :key="contact.rowId"
             :contact
-            :is-editing="pending.edits.includes(contact.rowId)"
             @delete="onDeleteSelect(contact)"
             @edit="edit(contact)"
           />
         </AppTableBody>
       </AppTable>
-      <p v-else class="text-center">
-        {{ t('noContactsFound') }}
-      </p>
-      <AppModal
-        v-model="isModalContactOpen"
-        is-footer-hidden
-        @close="onModalContactClose"
+      <AppEmptyState
+        v-else-if="contacts.length"
+        :description="t('searchEmptyDescription')"
+        :title="t('searchEmptyTitle', { query: searchString.trim() })"
       >
-        <FormContact
-          :contact="selectedContact"
-          @submit-success="onContactSubmitSuccess"
-        />
-        <template #header>
-          {{ formContactHeading }}
-        </template>
-      </AppModal>
+        <AppButton :aria-label="t('searchClear')" @click="searchString = ''">
+          {{ t('searchClear') }}
+        </AppButton>
+      </AppEmptyState>
+      <AppEmptyState
+        v-else
+        :description="t('emptyDescription')"
+        :title="t('emptyTitle')"
+      >
+        <template #icon><AppIconContacts /></template>
+        <AppButton :aria-label="t('contactAdd')" @click="add">
+          {{ t('contactAdd') }}
+          <template #prefix>
+            <AppIconPlus />
+          </template>
+        </AppButton>
+        <AppButton
+          :aria-label="t('contactImport')"
+          :to="localePath('contact-import')"
+          variant="secondary"
+        >
+          {{ t('contactImport') }}
+        </AppButton>
+      </AppEmptyState>
       <ContactDeleteDrawer
         v-if="contactToDelete"
         v-model:open="isDeleteDrawerOpen"
@@ -81,6 +102,8 @@ import type {
 } from '~~/gql/generated/graphql'
 import { getContactItem, getContactsSorted } from '~~/shared/utils/contact'
 
+const localePath = useLocalePath()
+const route = useRoute()
 const { t } = useI18n()
 const store = useStore()
 
@@ -98,29 +121,8 @@ const contactToDelete =
       | 'rowId'
     >
   >()
-const formContactHeading = ref<string>()
 const isDeleteDrawerOpen = ref(false)
-const isModalContactOpen = ref<boolean>()
-const pending = reactive({
-  edits: ref<string[]>([]),
-})
 const searchString = ref<string>('')
-const selectedContact = ref<
-  Pick<
-    ContactItemFragment,
-    | 'accountByAccountId'
-    // | 'addressByAddressId'
-    | 'emailAddress'
-    | 'firstName'
-    | 'id'
-    | 'lastName'
-    | 'nickname'
-    | 'note'
-    | 'phoneNumber'
-    | 'rowId'
-    | 'url'
-  >
->()
 
 // api data
 const contactsQuery = useApiQuery({
@@ -181,12 +183,10 @@ const contactsFiltered = computed(() => {
 })
 
 // methods
-const add = () => {
-  contactsQuery.pause()
-  formContactHeading.value = t('contactAdd')
-  selectedContact.value = undefined
-  isModalContactOpen.value = true
-}
+const add = () =>
+  navigateTo(
+    localePath({ name: 'contact-create', query: { redirect: route.fullPath } }),
+  )
 const onDeleteSelect = (
   contact: Pick<
     ContactItemFragment,
@@ -201,37 +201,14 @@ const onDeleteSelect = (
   contactToDelete.value = contact
   isDeleteDrawerOpen.value = true
 }
-const edit = (
-  contact: Pick<
-    ContactItemFragment,
-    | 'accountByAccountId'
-    // | 'addressByAddressId'
-    | 'emailAddress'
-    | 'firstName'
-    | 'id'
-    | 'lastName'
-    | 'nickname'
-    | 'note'
-    | 'phoneNumber'
-    | 'rowId'
-    | 'url'
-  >,
-) => {
-  pending.edits.push(contact.rowId)
-  formContactHeading.value = t('contactEdit')
-  selectedContact.value = contact
-  isModalContactOpen.value = true
-}
-const onContactSubmitSuccess = () => {
-  isModalContactOpen.value = false
-  after.value = undefined
-  contactsQuery.resume()
-}
-const onModalContactClose = () => {
-  if (!selectedContact.value) return
-
-  pending.edits.splice(pending.edits.indexOf(selectedContact.value.rowId), 1)
-}
+const edit = (contact: Pick<ContactItemFragment, 'rowId'>) =>
+  navigateTo(
+    localePath({
+      name: 'contact-edit-id',
+      params: { id: contact.rowId },
+      query: { redirect: route.fullPath },
+    }),
+  )
 
 // lifecycle
 watch(
@@ -250,18 +227,26 @@ de:
   # address: Adresse
   contact: Kontakt
   contactAdd: Kontakt hinzufügen
-  contactEdit: Kontakt bearbeiten
+  contactImport: Kontakte importieren
   emailAddress: E-Mail Adresse
-  noContactsFound: Keine Kontakte gefunden 😕
+  emptyDescription: Speichere die Menschen, die du triffst, um sie mit einem Fingertipp zu Veranstaltungen einzuladen.
+  emptyTitle: Dein Kontaktbuch ist leer
   phoneNumber: Telefonnummer
+  searchClear: Suche zurücksetzen
+  searchEmptyDescription: Prüfe die Schreibweise oder suche stattdessen nach der E-Mail-Adresse.
+  searchEmptyTitle: Kein Kontakt passt zu „{query}“
   url: Webseite
 en:
   # address: Address
   contact: Contact
   contactAdd: Add contact
-  contactEdit: Edit contact
+  contactImport: Import contacts
   emailAddress: Email address
-  noContactsFound: No contacts found 😕
+  emptyDescription: Save the people you meet so you can invite them to events with one tap.
+  emptyTitle: Your contact book is empty
   phoneNumber: Phone number
+  searchClear: Clear search
+  searchEmptyDescription: Check the spelling or search by email address instead.
+  searchEmptyTitle: 'No contact matches "{query}"'
   url: Website
 </i18n>

@@ -3,12 +3,9 @@
     <div class="flex flex-col gap-4">
       <div class="flex flex-col items-center gap-1">
         <AppButton
+          v-if="guests.length"
           :aria-label="t('guestAdd')"
-          :disabled="
-            event.guestCountMaximum && api.data.allGuests?.totalCount
-              ? api.data.allGuests.totalCount >= event.guestCountMaximum
-              : false
-          "
+          :disabled="isGuestLimitReached"
           @click="add()"
         >
           {{ t('guestAdd') }}
@@ -24,6 +21,28 @@
             })
           }}
         </p>
+        <div
+          v-if="isGuestLimitReached"
+          class="text-center text-body-small text-fg-2"
+        >
+          {{ t('guestLimitReached') }}
+          <AppButton
+            v-if="event.accountByCreatedBy?.username"
+            :aria-label="t('guestLimitRaise')"
+            :to="
+              localePath({
+                name: 'event-edit-username-event_name',
+                params: {
+                  event_name: event.slug,
+                  username: event.accountByCreatedBy.username,
+                },
+              })
+            "
+            variant="tertiary"
+          >
+            {{ t('guestLimitRaise') }}
+          </AppButton>
+        </div>
       </div>
       <template v-if="event && guests.length">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -47,9 +66,28 @@
             </SelectContent>
           </Select>
         </div>
+        <GuestListActions
+          v-if="guestsSelected.length"
+          :event
+          :guests="guestsSelected"
+        />
         <AppTable v-if="guestsFiltered.length" class="border border-line">
           <AppTableHeader>
             <tr>
+              <AppTableHead class="w-0" scope="col">
+                <Checkbox
+                  :aria-label="t('guestSelectAll')"
+                  class="bg-surface"
+                  :model-value="
+                    guestsSelected.length === guestsFiltered.length
+                      ? true
+                      : guestsSelected.length
+                        ? 'indeterminate'
+                        : false
+                  "
+                  @update:model-value="selectAll($event === true)"
+                />
+              </AppTableHead>
               <AppTableHead scope="col">
                 {{ t('contact') }}
               </AppTableHead>
@@ -64,12 +102,20 @@
               :key="guest.rowId"
               :event
               :guest
+              :selected="guestRowIdsSelected.includes(guest.rowId)"
+              @update:selected="select(guest.rowId, $event)"
             />
           </AppTableBody>
         </AppTable>
-        <p v-else class="text-center">
-          {{ t('guestNoneFiltered') }}
-        </p>
+        <AppEmptyState
+          v-else
+          :description="t('guestNoneFilteredDescription')"
+          :title="t('guestNoneFilteredTitle')"
+        >
+          <AppButton :aria-label="t('guestShowAll')" @click="showAll">
+            {{ t('guestShowAll') }}
+          </AppButton>
+        </AppEmptyState>
         <div
           v-if="api.data.allGuests?.pageInfo.hasNextPage"
           class="flex justify-center"
@@ -83,7 +129,19 @@
         </div>
       </template>
       <div v-else class="flex flex-col items-center gap-2">
-        {{ t('guestNone') }}
+        <AppEmptyState
+          class="w-full"
+          :description="t('guestNoneDescription')"
+          :title="t('guestNoneTitle')"
+        >
+          <template #icon><AppIconUserPlus /></template>
+          <AppButton :aria-label="t('guestAdd')" @click="add()">
+            {{ t('guestAdd') }}
+            <template #prefix>
+              <AppIconPlus />
+            </template>
+          </AppButton>
+        </AppEmptyState>
         <p class="text-body-small text-fg-2">
           {{ t('hintInviteSelf') }}
         </p>
@@ -102,15 +160,15 @@
         </div>
       </div>
       <AppDrawer
-        v-model="isModalGuestOpen"
+        v-model="isDrawerGuestOpen"
         class="sm:max-w-lg"
         direction="right"
-        @close="onModalGuestClose"
+        @close="onDrawerGuestClose"
       >
         <FormGuest
           :event
           :guest-contact-ids-existing="guests.map((i) => i.contactId)"
-          @submit-success="onModalGuestClose"
+          @submit-success="onDrawerGuestClose"
         />
         <template #title>
           {{ t('contactSelect') }}
@@ -149,11 +207,17 @@ import { getGuestItem } from '~~/shared/utils/guest'
 const { event } = defineProps<{
   event: Pick<
     EventItemFragment,
-    'accountByCreatedBy' | 'createdBy' | 'slug' | 'guestCountMaximum' | 'rowId'
+    | 'accountByCreatedBy'
+    | 'createdBy'
+    | 'guestCountMaximum'
+    | 'publishedAt'
+    | 'rowId'
+    | 'slug'
   >
 }>()
 
 const colorMode = useColorMode()
+const localePath = useLocalePath()
 const { t } = useI18n()
 const runtimeConfig = useRuntimeConfig()
 const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
@@ -161,7 +225,8 @@ const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 // data
 const after = ref<string | null>()
 const feedbackFilter = ref<string>('all')
-const isModalGuestOpen = ref<boolean>()
+const guestRowIdsSelected = ref<string[]>([])
+const isDrawerGuestOpen = ref<boolean>()
 const searchString = ref<string>('')
 const options = {
   plugins: {
@@ -207,14 +272,28 @@ const guestsQuery = useApiQuery({
 const api = await useApiData([guestsQuery])
 
 // methods
+const showAll = () => {
+  searchString.value = ''
+  feedbackFilter.value = 'all'
+}
 const add = () => {
   guestsQuery.pause()
-  isModalGuestOpen.value = true
+  isDrawerGuestOpen.value = true
 }
-const onModalGuestClose = () => {
-  isModalGuestOpen.value = false
+const onDrawerGuestClose = () => {
+  isDrawerGuestOpen.value = false
   after.value = undefined
   guestsQuery.resume()
+}
+const select = (guestRowId: string, isSelected?: boolean) => {
+  guestRowIdsSelected.value = isSelected
+    ? [...guestRowIdsSelected.value, guestRowId]
+    : guestRowIdsSelected.value.filter((rowId) => rowId !== guestRowId)
+}
+const selectAll = (isSelected: boolean) => {
+  guestRowIdsSelected.value = isSelected
+    ? guestsFiltered.value.map((guest) => guest.rowId)
+    : []
 }
 const updateChart = () => {
   Chart.defaults.color = colorMode.value === 'dark' ? '#fff' : '#000'
@@ -297,6 +376,17 @@ const guestsFiltered = computed(() => {
       return bySearch.filter((guest) => guest.feedback === feedbackFilter.value)
   }
 })
+// guests hidden by the search or filter stay out, so an action never touches a guest that is not visible
+const isGuestLimitReached = computed(() =>
+  event.guestCountMaximum && api.value.data.allGuests?.totalCount
+    ? api.value.data.allGuests.totalCount >= event.guestCountMaximum
+    : false,
+)
+const guestsSelected = computed(() =>
+  guestsFiltered.value.filter((guest) =>
+    guestRowIdsSelected.value.includes(guest.rowId),
+  ),
+)
 
 // lifecycle
 watch(
@@ -331,11 +421,17 @@ de:
   feedback: Rückmeldungen
   feedbackFilter: Nach Rückmeldung filtern
   feedbackFilterAll: Alle
-  hintInviteSelf: 'Tipp: du kannst dich auch zuerst selbst einladen'
   guestAdd: Gäste hinzufügen
-  guestNone: Es wurde noch kein Gast hinzugefügt 😕
-  guestNoneFiltered: Keine Gäste entsprechen diesem Filter 😕
+  guestLimitRaise: Limit erhöhen
+  guestLimitReached: Das Gästelimit ist erreicht. Erhöhe es in den Veranstaltungseinstellungen, um mehr Personen einzuladen.
+  guestNoneDescription: Lade Personen aus deinem Kontaktbuch, per Nutzername oder per E-Mail-Adresse ein. Jeder Gast bekommt einen persönlichen Einladungslink.
+  guestNoneFilteredDescription: Versuche es mit einem anderen Namen oder einer anderen Rückmeldung.
+  guestNoneFilteredTitle: Keine passenden Gäste
+  guestNoneTitle: Noch keine Gäste
+  guestSelectAll: Alle angezeigten Gäste auswählen
+  guestShowAll: Alle Gäste anzeigen
   guestsUsed: 'Gästekontingent genutzt: {amountCurrent} / {amountMaximum}'
+  hintInviteSelf: 'Tipp: Lade dich zuerst selbst ein, um zu sehen, was deine Gäste bekommen.'
   noFeedback: keine Rückmeldung
 en:
   accepted: accepted
@@ -347,10 +443,16 @@ en:
   feedback: Guest responses
   feedbackFilter: Filter by feedback
   feedbackFilterAll: All
-  hintInviteSelf: 'Hint: you can also invite yourself first'
   guestAdd: Add guests
-  guestNone: No guest has been added yet 😕
-  guestNoneFiltered: No guests match this filter 😕
+  guestLimitRaise: Raise limit
+  guestLimitReached: Guest limit reached. Raise it in the event settings to invite more people.
+  guestNoneDescription: Invite people from your contact book, by username, or by email address. Each guest gets a personal invitation link.
+  guestNoneFilteredDescription: Try another name or response filter.
+  guestNoneFilteredTitle: No guests match
+  guestNoneTitle: No guests yet
+  guestSelectAll: Select all shown guests
+  guestShowAll: Show all guests
   guestsUsed: 'Guest quota used: {amountCurrent} / {amountMaximum}'
+  hintInviteSelf: 'Tip: invite yourself first to see what your guests will get.'
   noFeedback: no response
 </i18n>
