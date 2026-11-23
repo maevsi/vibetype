@@ -26,32 +26,16 @@
               :errors="nameField.state.meta.errors"
             />
             <p
-              v-if="event && event.name !== nameField.state.value"
+              v-if="
+                event &&
+                event.name !== nameField.state.value &&
+                event.slug !== slug
+              "
               class="rounded-small bg-warning-tint px-3 py-2 text-body-small text-fg-1"
             >
               {{ t('validationWarningNameChangeSlug') }}
             </p>
           </Field>
-        </form.Field>
-        <form.Field
-          v-slot="{ field: slugField }"
-          name="slug"
-          :validators="{
-            onChangeAsync: async ({ value: val }) => {
-              if (!val) return undefined
-
-              const slugExists = await validateEventSlugFn(val)
-              return slugExists
-                ? t('validationExistenceNone', { slug: val })
-                : undefined
-            },
-            onChangeAsyncDebounceMs: 300,
-          }"
-        >
-          <FieldError
-            v-if="isFieldInvalid(slugField)"
-            :errors="normalizeFieldErrors(slugField.state.meta.errors)"
-          />
         </form.Field>
         <form.Field v-slot="{ field }" name="description">
           <Field>
@@ -392,6 +376,74 @@
             </FieldContent>
           </Field>
         </form.Field>
+        <form.Field
+          v-slot="{ field: slugField }"
+          name="slug"
+          :validators="{
+            onChangeAsync: async ({ value: val }) => {
+              if (!val) return undefined
+
+              const slugExists = await validateEventSlugFn(val)
+              return slugExists
+                ? t('validationExistenceNone', { slug: val })
+                : undefined
+            },
+            onChangeAsyncDebounceMs: 300,
+          }"
+        >
+          <!-- stays open while the slug is invalid, so that its error is never hidden -->
+          <Collapsible
+            class="flex flex-col gap-4"
+            :open="isAdvancedOpen || isFieldInvalid(slugField)"
+            @update:open="isAdvancedOpen = $event"
+          >
+            <CollapsibleTrigger as-child>
+              <Button
+                class="w-full justify-between"
+                type="button"
+                variant="ghost"
+              >
+                {{ t('advanced') }}
+                <AppIconChevronUp
+                  v-if="isAdvancedOpen || isFieldInvalid(slugField)"
+                  aria-hidden="true"
+                />
+                <AppIconChevronDown v-else aria-hidden="true" />
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <Field>
+                <FieldLabel for="input-slug">{{ t('slug') }}</FieldLabel>
+                <FieldContent>
+                  <Input
+                    id="input-slug"
+                    :aria-invalid="isFieldInvalid(slugField)"
+                    :model-value="slugField.state.value"
+                    type="text"
+                    @blur="slugField.handleBlur"
+                    @input="
+                      onInputSlug(
+                        ($event.target as HTMLInputElement).value,
+                        slugField,
+                      )
+                    "
+                  />
+                  <FieldDescription>{{ t('slugHint') }}</FieldDescription>
+                </FieldContent>
+                <FieldError
+                  v-if="isFieldInvalid(slugField)"
+                  :errors="normalizeFieldErrors(slugField.state.meta.errors)"
+                />
+                <p
+                  v-if="event && event.slug !== slugField.state.value"
+                  class="rounded-small bg-warning-tint px-3 py-2 text-body-small text-fg-1"
+                >
+                  {{ t('validationWarningSlugChange') }}
+                </p>
+              </Field>
+            </CollapsibleContent>
+          </Collapsible>
+        </form.Field>
         <div class="flex flex-col items-center justify-between gap-2">
           <AppButton
             :aria-label="
@@ -478,6 +530,8 @@ const timeZone = useTimeZone()
 
 // data
 const now = useNow()
+const isAdvancedOpen = ref(false)
+const isSlugCustom = ref(false)
 
 // api data
 const createEventMutation = useMutation(
@@ -936,6 +990,20 @@ const form = useForm({
       toast.success(t('eventUpdateSuccess'))
       // the saved values are the new baseline for unsaved changes
       form.reset(value)
+
+      // the edit page loads the event by the slug in its url
+      if (value.slug !== event?.slug && store.signedInUsername) {
+        await navigateTo(
+          localePath({
+            name: 'event-edit-username-event_name',
+            params: {
+              username: store.signedInUsername,
+              event_name: value.slug,
+            },
+          }),
+          { replace: true },
+        )
+      }
     } else {
       // Add
       const addressId = await syncAddress(value.locationName)
@@ -1062,7 +1130,14 @@ const onInputName = (value: string, nameField: AnyFieldApi) => {
   nameField.handleChange(value)
   updateSlug()
 }
+// a slug typed by hand is kept until it is cleared
+const onInputSlug = (value: string, slugField: AnyFieldApi) => {
+  isSlugCustom.value = !!value
+  slugField.handleChange(value)
+}
 const updateSlug = () => {
+  if (isSlugCustom.value) return
+
   form.setFieldValue(
     'slug',
     slugify(form.getFieldValue('name') ?? '', {
@@ -1073,6 +1148,7 @@ const updateSlug = () => {
 }
 
 // computations
+const slug = form.useStore((state) => state.values.slug)
 const nowCalendarDateTime = computed(() =>
   toCalendarDateTime(fromDate(now.value, getLocalTimeZone())),
 )
@@ -1098,6 +1174,7 @@ const submit = async () => {
 
 <i18n lang="yaml">
 de:
+  advanced: Erweitert
   attendanceType: Anwesenheitstyp
   categories: Kategorien
   description: Beschreibung
@@ -1119,15 +1196,19 @@ de:
   maximumInviteeCount: Maximale Gästezahl
   name: Name
   namePlaceholder: Willkommensfeier
+  slug: Kennung im Link
+  slugHint: Erscheint in der Adresse der Veranstaltung und darf nur Buchstaben, Ziffern und Bindestriche enthalten.
   start: Beginn
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
   validationWarningNameChangeSlug: Wenn Du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
+  validationWarningSlugChange: Wenn Du die Kennung änderst, funktionieren bestehende Links zur Veranstaltung nicht mehr
   visibility: Sichtbarkeit
   visibilityPrivate: privat
   visibilityPublic: öffentlich
   visibilityUnlisted: ungelistet
   url: Weblink
 en:
+  advanced: Advanced
   attendanceType: Attendance type
   categories: Categories
   description: Description
@@ -1149,9 +1230,12 @@ en:
   maximumInviteeCount: Maximum guest count
   name: Name
   namePlaceholder: Welcome Party
+  slug: Link identifier
+  slugHint: Appears in the event's address and may only contain letters, digits, and hyphens.
   start: Start
   validationExistenceNone: You have already created an event with id "{slug}"
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
+  validationWarningSlugChange: If you change the identifier, existing links to the event will no longer work
   visibility: Visibility
   visibilityPrivate: private
   visibilityPublic: public
