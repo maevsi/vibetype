@@ -1,3 +1,21 @@
+## [17.45.0](https://github.com/maevsi/vibetype/compare/17.44.1...17.45.0) (2026-11-23)
+
+### Features
+
+* **dashboard:** put discovery before the user's own events ([#2824](https://github.com/maevsi/vibetype/issues/2824)) ([24b2820](https://github.com/maevsi/vibetype/commit/24b2820f2f57b3b18ed190e7bd58b562ce8e1287))
+* **event:** place the title next to the description ([#2822](https://github.com/maevsi/vibetype/issues/2822)) ([5cc6b07](https://github.com/maevsi/vibetype/commit/5cc6b07e72e8f9e2fd1128dbd2566b1c2a9bf534))
+* **form:** confirm discarding changes in a drawer ([#2815](https://github.com/maevsi/vibetype/issues/2815)) ([0f9614d](https://github.com/maevsi/vibetype/commit/0f9614d5f33688e75d6877102b881a8acde29c21))
+
+### Bug Fixes
+
+* **app:** tone down empty state actions ([#2825](https://github.com/maevsi/vibetype/issues/2825)) ([41f9943](https://github.com/maevsi/vibetype/commit/41f994312dd260386d6e263580df293fcd967978))
+* **csrf:** keep tokens valid across deployments ([#2833](https://github.com/maevsi/vibetype/issues/2833)) ([e788e52](https://github.com/maevsi/vibetype/commit/e788e52eedb3402dfae2174c03ed6623c65b70b5))
+* **deps:** update all non-major dependencies ([#2834](https://github.com/maevsi/vibetype/issues/2834)) ([0ac8f93](https://github.com/maevsi/vibetype/commit/0ac8f93f821d5cb25723aa073fd239b458e5f22f))
+* **deps:** update dependency @dargmuesli/nuxt-vio to v23.1.9 ([4f1441d](https://github.com/maevsi/vibetype/commit/4f1441dbd8b120c62782407689faa746b9bb9e43))
+* **event:** show the match as a label instead of a button ([#2818](https://github.com/maevsi/vibetype/issues/2818)) ([ff594db](https://github.com/maevsi/vibetype/commit/ff594db97216256743971cfa3dd40570254a2ac4))
+* **event:** size the description toolbar to its text ([#2821](https://github.com/maevsi/vibetype/issues/2821)) ([4016e5b](https://github.com/maevsi/vibetype/commit/4016e5b294efd39da24d41d315929723a57b45f7))
+* **rate-limit:** fail within the wait budget while redis is unreachable ([#2836](https://github.com/maevsi/vibetype/issues/2836)) ([9c5bc66](https://github.com/maevsi/vibetype/commit/9c5bc662bef626c6686e1085c65b63c3e1bf3574))
+
 ## [17.44.1](https://github.com/maevsi/vibetype/compare/17.44.0...17.44.1) (2026-11-22)
 
 ### Bug Fixes
