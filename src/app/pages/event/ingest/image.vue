@@ -7,7 +7,7 @@
         <img
           v-if="previewUrl"
           :alt="t('preview')"
-          class="rounded-medium"
+          class="max-h-64 self-center rounded-medium object-contain"
           :src="previewUrl"
         />
         <p
