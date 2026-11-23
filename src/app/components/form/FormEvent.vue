@@ -873,7 +873,7 @@ const form = useForm({
     isRemote: event?.isRemote ?? false,
     locationName: event?.addressByAddressId?.name ?? '',
     name: (event?.name as string) ?? '',
-    rowId: '',
+    rowId: (event?.rowId as string) ?? '',
     slug: (event?.slug as string) ?? '',
     start: (event?.start as string) ?? '',
     url: (event?.url as string) ?? '',
@@ -1093,11 +1093,6 @@ const errorMessages = computed(() =>
 const submit = async () => {
   await form.validateAllFields('change')
   await form.handleSubmit()
-}
-
-// initialization — set rowId for edit mode
-if (event?.rowId) {
-  form.setFieldValue('rowId', event.rowId)
 }
 </script>
 
