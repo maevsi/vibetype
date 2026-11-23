@@ -2,7 +2,7 @@ import type { NuxtError } from 'nuxt/app'
 
 export type AppErrorInput = Partial<NuxtError> &
   Required<Pick<NuxtError, 'status'>> & {
-    data?: { vibetype?: string }
+    data?: { statusMessage?: string; vibetype?: string }
   }
 
 export type AppErrorCreateInput = Partial<NuxtError> &
