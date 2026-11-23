@@ -46,49 +46,6 @@
       </AppLoaderPlaceholder>
       <div v-else class="flex flex-col gap-4">
         <section
-          :aria-labelledby="templateIdUpcoming"
-          class="flex flex-col gap-2"
-        >
-          <div class="flex items-center justify-between gap-2">
-            <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
-              {{ t('upcomingTitle') }}
-            </h2>
-            <AppLink
-              v-if="eventUpcoming && menuTargets.events"
-              class="text-body-small text-link hover:text-link-hover"
-              :to="menuTargets.events"
-            >
-              {{ t('seeAll') }}
-            </AppLink>
-          </div>
-          <EventCard
-            v-if="eventUpcoming"
-            :event="eventUpcoming"
-            variant="highlight"
-          />
-          <AppEmptyState
-            v-else
-            :description="t('upcomingEmptyDescription')"
-            :title="t('upcomingEmptyTitle')"
-          >
-            <template #icon><AppIconCalendar /></template>
-            <AppButton
-              :aria-label="t('upcomingCreate')"
-              :to="localePath('event-create')"
-            >
-              <AppIconAdd />
-              {{ t('upcomingCreate') }}
-            </AppButton>
-            <AppButton
-              :aria-label="t('discover')"
-              :to="localePath('event')"
-              variant="secondary"
-            >
-              {{ t('discover') }}
-            </AppButton>
-          </AppEmptyState>
-        </section>
-        <section
           v-if="hasNoPreferences"
           :aria-labelledby="templateIdPreference"
           class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
@@ -165,6 +122,49 @@
               v-else
               :aria-label="t('discover')"
               :to="localePath('event')"
+            >
+              {{ t('discover') }}
+            </AppButton>
+          </AppEmptyState>
+        </section>
+        <section
+          :aria-labelledby="templateIdUpcoming"
+          class="flex flex-col gap-2"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
+              {{ t('upcomingTitle') }}
+            </h2>
+            <AppLink
+              v-if="eventUpcoming && menuTargets.events"
+              class="text-body-small text-link hover:text-link-hover"
+              :to="menuTargets.events"
+            >
+              {{ t('seeAll') }}
+            </AppLink>
+          </div>
+          <EventCard
+            v-if="eventUpcoming"
+            :event="eventUpcoming"
+            variant="highlight"
+          />
+          <AppEmptyState
+            v-else
+            :description="t('upcomingEmptyDescription')"
+            :title="t('upcomingEmptyTitle')"
+          >
+            <template #icon><AppIconCalendar /></template>
+            <AppButton
+              :aria-label="t('upcomingCreate')"
+              :to="localePath('event-create')"
+            >
+              <AppIconAdd />
+              {{ t('upcomingCreate') }}
+            </AppButton>
+            <AppButton
+              :aria-label="t('discover')"
+              :to="localePath('event')"
+              variant="secondary"
             >
               {{ t('discover') }}
             </AppButton>
