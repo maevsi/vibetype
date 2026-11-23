@@ -100,67 +100,7 @@
             {{ t('globalModerationNotice') }}
           </p>
         </form>
-        <section class="flex flex-col gap-4">
-          <AppSeparator />
-          <span class="text-headline">{{ t('profile') }}</span>
-          <div class="flex flex-col">
-            <AppMenuItem
-              :title="t('aiSetup')"
-              :to="
-                localePath({
-                  name: 'preference-create',
-                })
-              "
-            >
-              <AppIconNetworkIntelligence />
-              <!-- <template #suffix>
-              <AppIconRestartAlt />
-            </template> -->
-            </AppMenuItem>
-            <AppMenuItem
-              :title="t('earlyBirdStart')"
-              :to="localePath({ name: 'early-bird-create' })"
-            >
-              <AppIconEarlyBird />
-              <template v-if="false" #suffix>
-                <AppIconClose />
-              </template>
-            </AppMenuItem>
-          </div>
-        </section>
-        <section class="flex flex-col gap-4">
-          <AppSeparator />
-          <span class="text-headline">{{ t('display') }}</span>
-          <div class="flex flex-col">
-            <AppMenuItem
-              :title="t('language')"
-              :to="
-                localePath({
-                  name: 'session-edit-language',
-                })
-              "
-            >
-              <AppIconLanguage />
-            </AppMenuItem>
-          </div>
-        </section>
-        <section class="flex flex-col gap-4">
-          <AppSeparator />
-          <span class="text-headline">
-            {{ t('interactions') }}
-          </span>
-          <AppMenuItem
-            :title="t('accountBlock')"
-            :to="
-              localePath({
-                name: 'account-view-username-block',
-                params: { username: route.params.username },
-              })
-            "
-          >
-            <AppIconNoSymbol />
-          </AppMenuItem>
-        </section>
+        <AppSeparator />
         <AppCardButton
           class="border-action-warning bg-warning-tint text-fg-1"
           :title="t('resetPassword')"
@@ -314,18 +254,11 @@ const localePath = useLocalePath()
 de:
   about: Über Dich
   aboutPlaceholder: Erzähl ein wenig von Dir! Was inspiriert Dich, was machst Du gern, oder verrate einfach eine lustige Tatsache.
-  accountBlock: Blockierte Konten
-  aiSetup: KI einrichten
   deleteAccount: Konto löschen
-  display: Anzeige
-  earlyBirdStart: Early Bird beitreten
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorUpdate: Beim Speichern des Profils ist ein Problem aufgetreten
   imprint: Impressum
   imprintInvalid: Gib einen Link an, der mit https:// beginnt und keine Leerzeichen enthält.
-  interactions: Interaktionen mit Dir
-  language: Sprache
-  profile: Profil
   profilePicture: Profilbild
   remove: Profilbild entfernen
   replace: Profilbild ändern
@@ -337,18 +270,11 @@ de:
 en:
   about: About you
   aboutPlaceholder: Share a bit about yourself! What inspires you, what you love doing, or just a fun fact.
-  accountBlock: Blocked Users
-  aiSetup: Set up AI
   deleteAccount: Delete Account
-  display: Display
-  earlyBirdStart: Join Early Bird
   errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorUpdate: There was a problem saving the profile
   imprint: Imprint
   imprintInvalid: Enter a link that starts with https:// and contains no spaces.
-  interactions: Interactions with you
-  language: Language
-  profile: Profile
   profilePicture: Profile picture
   remove: Remove profile picture
   replace: Change profile picture
