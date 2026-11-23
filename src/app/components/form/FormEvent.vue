@@ -494,7 +494,32 @@ const updateEventMutation = useMutation(
     mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {
       updateEventByRowId(input: $input) {
         event {
+          addressByAddressId {
+            city
+            country
+            id
+            line1
+            line2
+            location {
+              latitude
+              longitude
+            }
+            name
+            postalCode
+            region
+            rowId
+          }
+          description
+          end
+          guestCountMaximum
           id
+          isInPerson
+          isRemote
+          name
+          slug
+          start
+          url
+          visibility
         }
       }
     }
