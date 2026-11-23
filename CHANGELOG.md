@@ -1,3 +1,20 @@
+## [17.46.0](https://github.com/maevsi/vibetype/compare/17.45.0...17.46.0) (2026-11-23)
+
+### Features
+
+* **account:** reach profile editing and preferences from settings ([#2841](https://github.com/maevsi/vibetype/issues/2841)) ([8dcb05c](https://github.com/maevsi/vibetype/commit/8dcb05cdcd6f864f90370490e7da69219750618d))
+* **event:** separate saved and organized tabs from the time filter ([#2842](https://github.com/maevsi/vibetype/issues/2842)) ([5cee8ec](https://github.com/maevsi/vibetype/commit/5cee8ece026c774fd90b13714adb74ee57deefce))
+* **event:** show an edit tile to owners instead of invite ([#2838](https://github.com/maevsi/vibetype/issues/2838)) ([ddac122](https://github.com/maevsi/vibetype/commit/ddac122f479ed9c38a72cbafcc33a7878dce71c8))
+* **ingest:** ask before sending posters to openai ([#2808](https://github.com/maevsi/vibetype/issues/2808)) ([185d651](https://github.com/maevsi/vibetype/commit/185d651c0a90b0f84350477f1bc967e73bff6473))
+
+### Bug Fixes
+
+* **deps:** lock file maintenance ([#2844](https://github.com/maevsi/vibetype/issues/2844)) ([003a062](https://github.com/maevsi/vibetype/commit/003a062cebe6c4ff8e7a60942bc93b70d914f0ef))
+* **event:** label the description and default to public visibility ([#2843](https://github.com/maevsi/vibetype/issues/2843)) ([f3089ff](https://github.com/maevsi/vibetype/commit/f3089ff84aac522ae2a59beb016880cb0ddf5dbc))
+* **ingest:** limit poster preview height ([#2837](https://github.com/maevsi/vibetype/issues/2837)) ([2e31307](https://github.com/maevsi/vibetype/commit/2e313071d29493546732a70f9b8b65f2be87c46e))
+* **map:** show original tile colors and a smaller gesture hint ([#2839](https://github.com/maevsi/vibetype/issues/2839)) ([2c8dad0](https://github.com/maevsi/vibetype/commit/2c8dad0341ba82854a3db772e7d60c1c571e1130))
+* **search:** label the search as covering all events ([#2840](https://github.com/maevsi/vibetype/issues/2840)) ([b4a0891](https://github.com/maevsi/vibetype/commit/b4a089146740dbe67b8cbc9eebc1b609640813c3))
+
 ## [17.45.0](https://github.com/maevsi/vibetype/compare/17.44.1...17.45.0) (2026-11-23)
 
 ### Features
