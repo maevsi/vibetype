@@ -1,3 +1,9 @@
+## [17.50.0](https://github.com/maevsi/vibetype/compare/17.49.1...17.50.0) (2026-11-23)
+
+### Features
+
+* **app:** clarify update alert and warn about unsaved changes ([#2852](https://github.com/maevsi/vibetype/issues/2852)) ([898e404](https://github.com/maevsi/vibetype/commit/898e404467a4910b4b03003d73179bbd9d2b6f52))
+
 ## [17.49.1](https://github.com/maevsi/vibetype/compare/17.49.0...17.49.1) (2026-11-23)
 
 ### Bug Fixes
