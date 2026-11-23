@@ -6,6 +6,9 @@
       role="status"
     >
       {{ t('updateAvailable') }}
+      <template v-if="hasUnsavedChanges">
+        {{ t('updateUnsavedChanges') }}
+      </template>
       <AppButton
         :aria-label="t('updateReload')"
         size="small"
@@ -20,6 +23,7 @@
 <script setup lang="ts">
 const { $pwa } = useNuxtApp()
 const { t } = useI18n()
+const hasUnsavedChanges = useHasUnsavedChanges()
 
 // the browser looks for a new service worker on page loads only, so without this a reload for the new release would be followed by a second prompt for its service worker
 useSkewProtection().onAppOutdated(async () => {
@@ -29,9 +33,11 @@ useSkewProtection().onAppOutdated(async () => {
 
 <i18n lang="yaml">
 de:
-  updateAvailable: Eine neue Version von @.upper:{'globalSiteName'} ist verfügbar.
-  updateReload: Neu laden
+  updateAvailable: Lade neu, um die neuesten Verbesserungen von @.upper:{'globalSiteName'} zu erhalten.
+  updateReload: Seite neu laden
+  updateUnsavedChanges: Nicht Gespeichertes geht dabei verloren.
 en:
-  updateAvailable: A new version of @.upper:{'globalSiteName'} is available.
-  updateReload: Reload
+  updateAvailable: Refresh to get the latest improvements to @.upper:{'globalSiteName'}.
+  updateReload: Refresh page
+  updateUnsavedChanges: Anything you haven't saved will be lost.
 </i18n>
