@@ -20,7 +20,7 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  title: Entdecken
+  title: Alle Veranstaltungen
 en:
-  title: Discover
+  title: All events
 </i18n>
