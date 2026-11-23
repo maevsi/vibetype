@@ -927,8 +927,8 @@
             OpenAI doesn't use data sent through the API to train its models.
             OpenAI keeps it for up to 30 days to detect abuse and deletes it afterwards.
 
-            We send nothing to OpenAI before you allow it the first time you use poster hunting.
-            The legal basis for this processing is therefore your consent under Art. 6 para. 1 lit. a GDPR.
+            For poster hunting, we send nothing to OpenAI before you allow it the first time you use it.
+            The legal basis for poster hunting is therefore your consent under Art. 6 para. 1 lit. a GDPR.
             You can withdraw it at any time in the privacy settings.
 
             In the case of data transfer to the USA, the standard contractual clauses (SCCs) of the EU Commission apply.
