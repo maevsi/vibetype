@@ -140,6 +140,13 @@ authenticatedTest(
     await defaultPage.goto('/event/create')
     await page.getByLabel('Name', { exact: true }).fill('Unsaved')
     await page.getByLabel('Name', { exact: true }).fill('')
+    const description = page.locator(
+      '[contenteditable][aria-label="Invitation text"]',
+    )
+    await description.fill('Unsaved')
+    await description.clear()
+    // the editor reports its value debounced
+    await page.waitForTimeout(1500)
 
     await page.getByRole('button', BACK).click()
     await expect(page).not.toHaveURL(/\/event\/create$/)
