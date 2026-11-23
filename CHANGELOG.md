@@ -1,3 +1,9 @@
+## [17.49.0](https://github.com/maevsi/vibetype/compare/17.48.0...17.49.0) (2026-11-23)
+
+### Features
+
+* **session:** move account settings to settings page ([#2850](https://github.com/maevsi/vibetype/issues/2850)) ([b882e88](https://github.com/maevsi/vibetype/commit/b882e888199002f2bec45b3ad1bafe7456ceb9cc))
+
 ## [17.48.0](https://github.com/maevsi/vibetype/compare/17.47.1...17.48.0) (2026-11-23)
 
 ### Features
