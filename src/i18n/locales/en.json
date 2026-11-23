@@ -9,7 +9,7 @@
   "globalFormErrorAge18": "You must be 18 years old.",
   "globalLeaveConfirm": "Discard your unsaved changes?",
   "globalLoading": "Loading...",
-  "globalModerationNotice": "Before publishing, the text is sent to an external AI-assisted moderation service.",
+  "globalModerationNotice": "Before publishing, the text is sent to an external AI-assisted moderation service, so that no offensive content gets published.",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
   "globalPlaceholderFirstName": "Firstname",
   "globalPlaceholderLastName": "Lastname",
