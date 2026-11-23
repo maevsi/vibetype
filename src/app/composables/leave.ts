@@ -9,6 +9,13 @@ const settleLeaveConfirmation = (isConfirmed: boolean) => {
   isLeaveConfirmationOpen.value = false
 }
 
+// filled on the client only, as module state on the server would be shared between requests
+const dirtyStates = shallowReactive(new Set<MaybeRefOrGetter<boolean>>())
+
+/** Whether any mounted page or component holds unsaved changes registered through `useLeaveConfirmation`. */
+export const useHasUnsavedChanges = () =>
+  computed(() => [...dirtyStates].some((isDirty) => toValue(isDirty)))
+
 /** State of the drawer that `useLeaveConfirmation` opens, to be rendered once by `FormLeaveDrawer`. */
 export const useLeaveConfirmationDrawer = () => ({
   isOpen: isLeaveConfirmationOpen,
@@ -29,6 +36,9 @@ export const useLeaveConfirmation = (isDirty: MaybeRefOrGetter<boolean>) => {
   })
 
   if (import.meta.client) {
+    dirtyStates.add(isDirty)
+    onScopeDispose(() => dirtyStates.delete(isDirty))
+
     // browsers show their own text here and ignore any custom one
     useEventListener(window, 'beforeunload', (event) => {
       if (toValue(isDirty)) event.preventDefault()
