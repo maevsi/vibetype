@@ -1152,6 +1152,7 @@ export type DeleteEventFavoriteByRowIdMutation = {
   deleteEventFavoriteByRowId: { clientMutationId: string | null } | null
 }
 
+export type EventListMineEventsQueryVariables = Exact<{
   after?: string | null | undefined
   condition: EventCondition
   first: number
