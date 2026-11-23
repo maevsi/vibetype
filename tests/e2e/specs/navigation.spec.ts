@@ -102,10 +102,8 @@ appTest.describe('settings', () => {
       ).toHaveCount(0)
       await defaultPage.goto(`/account/view/${TESTING_ACCOUNT_USERNAME}`)
 
-      await defaultPage.page.getByRole('button', { name: 'More' }).click()
-
       await expect(
-        defaultPage.page.getByRole('menuitem', { name: 'Settings' }),
+        defaultPage.page.getByRole('link', { name: 'Settings' }),
       ).toHaveCount(1)
     },
   )

@@ -3,7 +3,32 @@
     <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-4">
+        <section v-if="store.signedInUsername" class="flex flex-col gap-4">
+          <span class="text-headline">{{ t('account') }}</span>
+          <div class="flex flex-col">
+            <AppMenuItem
+              :title="t('editProfile')"
+              :to="
+                localePath({
+                  name: 'account-edit-username',
+                  params: { username: store.signedInUsername },
+                })
+              "
+              tone="info"
+            >
+              <AppIconEdit />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('recommendationPreferences')"
+              :to="localePath({ name: 'preference-create' })"
+              tone="success"
+            >
+              <AppIconNetworkIntelligence />
+            </AppMenuItem>
+          </div>
+        </section>
         <section class="flex flex-col gap-4">
+          <AppSeparator v-if="store.signedInUsername" />
           <span class="text-headline">{{ t('display') }}</span>
           <div class="flex flex-col">
             <AppMenuItem
@@ -154,11 +179,13 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  account: Konto
   bugReport: Fehler
   colorScheme: Farbschema
   contact: Kontakt
   developerInformation: Entwicklerinformationen
   display: Anzeige
+  editProfile: Profil bearbeiten
   featureSuggestion: Idee
   language: Sprache
   legal: Rechtliches
@@ -166,15 +193,18 @@ de:
   preferences: Einstellungen
   privacy: Datenschutzerklärung
   privacySettings: Datenschutz-Einstellungen
+  recommendationPreferences: Empfehlungseinstellungen
   report: Meldung von Inhalten
   support: Hilfe
   terms: Nutzungsbedingungen
 en:
+  account: Account
   bugReport: Issue
   colorScheme: Color scheme
   contact: Contact
   developerInformation: Developer information
   display: Display
+  editProfile: Edit profile
   featureSuggestion: Idea
   language: Language
   legal: Legal
@@ -182,6 +212,7 @@ en:
   preferences: Settings
   privacy: Privacy Policy
   privacySettings: Privacy settings
+  recommendationPreferences: Recommendation preferences
   report: Content Report
   support: Support
   terms: Terms of Use
