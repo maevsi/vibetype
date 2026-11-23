@@ -113,6 +113,8 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     // the retained assets are baked into every image, so keep the retention low to bound the image size
     retentionDays: 7,
     maxNumberOfVersions: 3,
+    // the default polls hourly, which leaves open pages on the previous release for up to an hour after a deployment
+    updateStrategy: 'sse',
   },
   sitemap: {
     credits: false,

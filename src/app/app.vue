@@ -37,6 +37,7 @@
       >
         {{ t('offline') }}
       </AppAlert>
+      <AppUpdateAlert />
       <AppDrawer
         v-if="!runtimeConfig.public.vio.isTesting"
         v-model="isLockdownModeLikely"
