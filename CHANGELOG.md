@@ -1,3 +1,13 @@
+## [18.0.0-beta.16](https://github.com/maevsi/vibetype/compare/18.0.0-beta.15...18.0.0-beta.16) (2026-11-23)
+
+### ⚠ BREAKING CHANGES
+
+* **event:** add scheduled publication and drop the unlisted visibility (#2832)
+
+### Features
+
+* **event:** add scheduled publication and drop the unlisted visibility ([#2832](https://github.com/maevsi/vibetype/issues/2832)) ([e9b624c](https://github.com/maevsi/vibetype/commit/e9b624c83c13443ee2c173bf8ae110f2794bc31c))
+
 ## [18.0.0-beta.15](https://github.com/maevsi/vibetype/compare/18.0.0-beta.14...18.0.0-beta.15) (2026-11-22)
 
 ### Features
