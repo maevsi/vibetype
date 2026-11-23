@@ -202,7 +202,7 @@ import type {
   GuestItemFragment,
 } from '~~/gql/generated/graphql'
 import { getContactItem, getContactSortKey } from '~~/shared/utils/contact'
-import { getGuestItem } from '~~/shared/utils/guest'
+import { getGuestFeedback, getGuestItem } from '~~/shared/utils/guest'
 
 const { event } = defineProps<{
   event: Pick<
@@ -313,7 +313,7 @@ const dataComputed = computed(() => {
 
   if (guests.value) {
     for (const guest of guests.value) {
-      switch (guest.feedback) {
+      switch (getGuestFeedback(guest)) {
         case InvitationFeedback.Accepted:
           datasetData.accepted += 1
           break
@@ -371,9 +371,11 @@ const guestsFiltered = computed(() => {
     case 'all':
       return bySearch
     case 'none':
-      return bySearch.filter((guest) => guest.feedback === null)
+      return bySearch.filter((guest) => getGuestFeedback(guest) === null)
     default:
-      return bySearch.filter((guest) => guest.feedback === feedbackFilter.value)
+      return bySearch.filter(
+        (guest) => getGuestFeedback(guest) === feedbackFilter.value,
+      )
   }
 })
 // guests hidden by the search or filter stay out, so an action never touches a guest that is not visible

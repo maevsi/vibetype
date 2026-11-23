@@ -12,7 +12,11 @@
       />
     </AppTableCell>
     <AppTableCell class="max-w-0">
-      <ContactPreview :contact :feedback="guest.feedback" />
+      <ContactPreview
+        :contact
+        :feedback="getGuestFeedback(guest)"
+        :is-feedback-override="guest.feedbackOverride !== null"
+      />
     </AppTableCell>
     <AppTableCell class="max-w-0">
       <div class="flex items-center justify-evenly gap-4 text-fg-1">
@@ -80,8 +84,8 @@
           </AppDropdownItem>
           <AppDropdownItem
             v-if="
-              guest.feedback === null ||
-              guest.feedback === InvitationFeedback.Canceled
+              getGuestFeedback(guest) === null ||
+              getGuestFeedback(guest) === InvitationFeedback.Canceled
             "
             :disabled="pending.feedbacks.includes(guest.rowId)"
             @select="setFeedback(guest.rowId, InvitationFeedback.Accepted)"
@@ -93,8 +97,8 @@
           </AppDropdownItem>
           <AppDropdownItem
             v-if="
-              guest.feedback === null ||
-              guest.feedback === InvitationFeedback.Accepted
+              getGuestFeedback(guest) === null ||
+              getGuestFeedback(guest) === InvitationFeedback.Accepted
             "
             :disabled="pending.feedbacks.includes(guest.rowId)"
             @select="setFeedback(guest.rowId, InvitationFeedback.Canceled)"
@@ -102,6 +106,16 @@
             <AppIconXCircleSolid />
             <span>
               {{ t('guestFeedbackCancel') }}
+            </span>
+          </AppDropdownItem>
+          <AppDropdownItem
+            v-if="guest.feedbackOverride !== null"
+            :disabled="pending.feedbacks.includes(guest.rowId)"
+            @select="setFeedback(guest.rowId, null)"
+          >
+            <AppIconArrowRotateLeft />
+            <span>
+              {{ t('guestFeedbackReset') }}
             </span>
           </AppDropdownItem>
           <AppDropdownItem
@@ -136,6 +150,7 @@ import { useMagicKeys } from '@vueuse/core'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import { graphql } from '~~/gql/generated'
 import { getContactItem } from '~~/shared/utils/contact'
+import { getGuestFeedback } from '~~/shared/utils/guest'
 import { getContactName } from '~~/shared/utils/model'
 import type {
   EventItemFragment,
@@ -144,7 +159,10 @@ import type {
 
 const { event, guest } = defineProps<{
   event: Pick<EventItemFragment, 'accountByCreatedBy' | 'publishedAt' | 'slug'>
-  guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'rowId'>
+  guest: Pick<
+    GuestItemFragment,
+    'contactByContactId' | 'feedback' | 'feedbackOverride' | 'rowId'
+  >
 }>()
 
 const { defaultLocale, locale, t } = useI18n()
@@ -194,7 +212,7 @@ const updateGuestByRowIdMutation = useMutation(
     mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {
       updateGuestByRowId(input: $input) {
         guest {
-          feedback
+          feedbackOverride
           id
           rowId
         }
@@ -237,11 +255,14 @@ const onDeleteSelect = (id: string) => {
 
   isDeleteDrawerOpen.value = true
 }
-const setFeedback = async (id: string, feedback: InvitationFeedback) => {
+const setFeedback = async (
+  id: string,
+  feedbackOverride: InvitationFeedback | null,
+) => {
   pending.feedbacks.push(id)
 
   const result = await updateGuestByRowIdMutation.executeMutation({
-    input: { guestPatch: { feedback }, rowId: id },
+    input: { guestPatch: { feedbackOverride }, rowId: id },
   })
 
   pending.feedbacks.splice(pending.feedbacks.indexOf(id), 1)
@@ -294,6 +315,7 @@ de:
   guestDelete: Gast löschen
   guestFeedbackAccept: Als zugesagt markieren
   guestFeedbackCancel: Als abgesagt markieren
+  guestFeedbackReset: Rückmeldung des Gasts verwenden
   guestFeedbackSuccess: Der Rückmeldestatus wurde aktualisiert.
   guestLink: Einladungslink kopieren
   guestSelect: Gast {name} auswählen
@@ -308,6 +330,7 @@ en:
   guestDelete: Delete guest
   guestFeedbackAccept: Mark as accepted
   guestFeedbackCancel: Mark as declined
+  guestFeedbackReset: Use the guest's feedback
   guestFeedbackSuccess: The feedback status was updated.
   guestLink: Copy invitation link
   guestSelect: Select guest {name}

@@ -52,7 +52,9 @@
         <p class="text-body-small text-fg-2">
           {{ t('feedback') }}
         </p>
-        <p class="text-body">{{ guest.feedback || t('noFeedback') }}</p>
+        <p class="text-body">
+          {{ guest.feedbackOverride || guest.feedback || t('noFeedback') }}
+        </p>
       </div>
     </div>
   </div>
@@ -83,6 +85,7 @@ const { guest } = defineProps<{
       updatedAt?: string | null
     } | null
     feedback?: InvitationFeedback | null
+    feedbackOverride?: InvitationFeedback | null
     id: string
     rowId: string
   } | null

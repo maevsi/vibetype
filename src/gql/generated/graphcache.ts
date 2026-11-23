@@ -1164,6 +1164,8 @@ export type Attendance = Node & {
   id: Scalars['ID']['output']
   /** A unique reference for this entry. */
   rowId: Scalars['UUID']['output']
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  tagSerialNumber?: Maybe<Scalars['String']['output']>
   /** When this entry was last changed. If someone checks out, this shows the checkout time. */
   updatedAt?: Maybe<Scalars['Datetime']['output']>
   /** Who last changed this entry. This may be empty if done without signing in. */
@@ -1213,6 +1215,8 @@ export type AttendanceInput = {
   contactId?: InputMaybe<Scalars['UUID']['input']>
   /** Who this entry is for. */
   guestId: Scalars['UUID']['input']
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  tagSerialNumber?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Methods to use when ordering `Attendance`. */
@@ -1234,6 +1238,8 @@ export enum AttendanceOrderBy {
 export type AttendancePatch = {
   /** Shows if the person has left. When this turns on, the time is saved automatically. */
   checkedOut?: InputMaybe<Scalars['Boolean']['input']>
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  tagSerialNumber?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Stores contact information related to accounts, including personal details, communication preferences, and metadata. */
@@ -1715,6 +1721,38 @@ export type CreateEventInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `Event` to be created by this mutation. */
   event: EventInput
+}
+
+/** All input for the create `EventInvitationLink` mutation. */
+export type CreateEventInvitationLinkInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `EventInvitationLink` to be created by this mutation. */
+  eventInvitationLink: EventInvitationLinkInput
+}
+
+/** The output of our create `EventInvitationLink` mutation. */
+export type CreateEventInvitationLinkPayload = {
+  __typename?: 'CreateEventInvitationLinkPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `EventInvitationLink` that was created by this mutation. */
+  eventInvitationLink?: Maybe<EventInvitationLink>
+  /** An edge for our `EventInvitationLink`. May be used by Relay 1. */
+  eventInvitationLinkEdge?: Maybe<EventInvitationLinkEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `EventInvitationLink` mutation. */
+export type CreateEventInvitationLinkPayloadEventInvitationLinkEdgeArgs = {
+  orderBy?: Array<EventInvitationLinkOrderBy>
 }
 
 /** The output of our create `Event` mutation. */
@@ -2561,6 +2599,61 @@ export type DeleteEventInput = {
   id: Scalars['ID']['input']
 }
 
+/** All input for the `deleteEventInvitationLinkByEventId` mutation. */
+export type DeleteEventInvitationLinkByEventIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** Reference to the event the link invites to. */
+  eventId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteEventInvitationLinkByRowId` mutation. */
+export type DeleteEventInvitationLinkByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The link's secret code and primary key. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteEventInvitationLink` mutation. */
+export type DeleteEventInvitationLinkInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `EventInvitationLink` to be deleted. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our delete `EventInvitationLink` mutation. */
+export type DeleteEventInvitationLinkPayload = {
+  __typename?: 'DeleteEventInvitationLinkPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedEventInvitationLinkId?: Maybe<Scalars['ID']['output']>
+  /** The `EventInvitationLink` that was deleted by this mutation. */
+  eventInvitationLink?: Maybe<EventInvitationLink>
+  /** An edge for our `EventInvitationLink`. May be used by Relay 1. */
+  eventInvitationLinkEdge?: Maybe<EventInvitationLinkEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `EventInvitationLink` mutation. */
+export type DeleteEventInvitationLinkPayloadEventInvitationLinkEdgeArgs = {
+  orderBy?: Array<EventInvitationLinkOrderBy>
+}
+
 /** The output of our delete `Event` mutation. */
 export type DeleteEventPayload = {
   __typename?: 'DeleteEventPayload'
@@ -3205,6 +3298,8 @@ export type Event = Node & {
   eventFavoritesByEventId: EventFavoriteConnection
   /** Reads and enables pagination through a set of `EventFormatMapping`. */
   eventFormatMappingsByEventId: EventFormatMappingConnection
+  /** Reads a single `EventInvitationLink` that is related to this `Event`. */
+  eventInvitationLinkByEventId?: Maybe<EventInvitationLink>
   /** Reads and enables pagination through a set of `EventRecommendation`. */
   eventRecommendationsByEventId: EventRecommendationConnection
   /** Reads and enables pagination through a set of `EventUpload`. */
@@ -3226,7 +3321,7 @@ export type Event = Node & {
   language?: Maybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: Scalars['String']['output']
-  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
   publishedAt?: Maybe<Scalars['Datetime']['output']>
   /** Reads and enables pagination through a set of `Report`. */
   reportsByTargetEventId: ReportConnection
@@ -3882,7 +3977,7 @@ export type EventInput = {
   language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: Scalars['String']['input']
-  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
   publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug: Scalars['String']['input']
@@ -3892,6 +3987,96 @@ export type EventInput = {
   url?: InputMaybe<Scalars['String']['input']>
   /** The event's visibility. */
   visibility: EventVisibility
+}
+
+/** A general invitation link that lets anyone holding it join an event as a guest. Deleting it pauses the link, and creating a new one resets it. */
+export type EventInvitationLink = Node & {
+  __typename?: 'EventInvitationLink'
+  /** Timestamp when the link was created. Defaults to the current timestamp. */
+  createdAt: Scalars['Datetime']['output']
+  /** Reads a single `Event` that is related to this `EventInvitationLink`. */
+  eventByEventId?: Maybe<Event>
+  /** Reference to the event the link invites to. */
+  eventId: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output']
+  /** The link's secret code and primary key. */
+  rowId: Scalars['UUID']['output']
+}
+
+/**
+ * A condition to be used against `EventInvitationLink` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type EventInvitationLinkCondition = {
+  /** Checks for equality with the object’s `eventId` field. */
+  eventId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** A connection to a list of `EventInvitationLink` values. */
+export type EventInvitationLinkConnection = {
+  __typename?: 'EventInvitationLinkConnection'
+  /** A list of edges which contains the `EventInvitationLink` and cursor to aid in pagination. */
+  edges: Array<EventInvitationLinkEdge>
+  /** A list of `EventInvitationLink` objects. */
+  nodes: Array<EventInvitationLink>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `EventInvitationLink` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `EventInvitationLink` edge in the connection. */
+export type EventInvitationLinkEdge = {
+  __typename?: 'EventInvitationLinkEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `EventInvitationLink` at the end of the edge. */
+  node: EventInvitationLink
+}
+
+/** An input for mutations affecting `EventInvitationLink` */
+export type EventInvitationLinkInput = {
+  /** Reference to the event the link invites to. */
+  eventId: Scalars['UUID']['input']
+}
+
+/** Methods to use when ordering `EventInvitationLink`. */
+export enum EventInvitationLinkOrderBy {
+  EventIdAsc = 'EVENT_ID_ASC',
+  EventIdDesc = 'EVENT_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+}
+
+/** All input for the `eventInvitationLinkRedeem` mutation. */
+export type EventInvitationLinkRedeemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  emailAddress?: InputMaybe<Scalars['String']['input']>
+  firstName?: InputMaybe<Scalars['String']['input']>
+  invitationLinkId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** The output of our `eventInvitationLinkRedeem` mutation. */
+export type EventInvitationLinkRedeemPayload = {
+  __typename?: 'EventInvitationLinkRedeemPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+  result?: Maybe<Scalars['UUID']['output']>
 }
 
 /** Methods to use when ordering `Event`. */
@@ -3934,7 +4119,7 @@ export type EventPatch = {
   language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name?: InputMaybe<Scalars['String']['input']>
-  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
   publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug?: InputMaybe<Scalars['String']['input']>
@@ -4254,10 +4439,10 @@ export type Guest = Node & {
   eventByEventId?: Maybe<Event>
   /** The internal id of the guest's event. */
   eventId: Scalars['UUID']['output']
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: Maybe<InvitationFeedback>
-  /** The guest's paper feedback status. */
-  feedbackPaper?: Maybe<InvitationFeedbackPaper>
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: Maybe<InvitationFeedback>
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output']
   /** The guest's internal id. */
@@ -4330,10 +4515,10 @@ export type GuestInput = {
   contactId: Scalars['UUID']['input']
   /** The internal id of the guest's event. */
   eventId: Scalars['UUID']['input']
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: InputMaybe<InvitationFeedback>
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InputMaybe<InvitationFeedbackPaper>
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: InputMaybe<InvitationFeedback>
 }
 
 /** Methods to use when ordering `Guest`. */
@@ -4353,23 +4538,16 @@ export enum GuestOrderBy {
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: InputMaybe<InvitationFeedback>
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InputMaybe<InvitationFeedbackPaper>
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: InputMaybe<InvitationFeedback>
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
 export enum InvitationFeedback {
   Accepted = 'accepted',
   Canceled = 'canceled',
-}
-
-/** Possible choices on how to receive a paper invitation: none, paper, digital. */
-export enum InvitationFeedbackPaper {
-  Digital = 'digital',
-  None = 'none',
-  Paper = 'paper',
 }
 
 /** All input for the `invite` mutation. */
@@ -4700,6 +4878,8 @@ export type Mutation = {
   createEventFavorite?: Maybe<CreateEventFavoritePayload>
   /** Creates a single `EventFormatMapping`. */
   createEventFormatMapping?: Maybe<CreateEventFormatMappingPayload>
+  /** Creates a single `EventInvitationLink`. */
+  createEventInvitationLink?: Maybe<CreateEventInvitationLinkPayload>
   /** Creates a single `EventUpload`. */
   createEventUpload?: Maybe<CreateEventUploadPayload>
   /** Creates a single `Friendship`. */
@@ -4770,6 +4950,12 @@ export type Mutation = {
   deleteEventFormatMapping?: Maybe<DeleteEventFormatMappingPayload>
   /** Deletes a single `EventFormatMapping` using a unique key. */
   deleteEventFormatMappingByEventIdAndFormatId?: Maybe<DeleteEventFormatMappingPayload>
+  /** Deletes a single `EventInvitationLink` using its globally unique id. */
+  deleteEventInvitationLink?: Maybe<DeleteEventInvitationLinkPayload>
+  /** Deletes a single `EventInvitationLink` using a unique key. */
+  deleteEventInvitationLinkByEventId?: Maybe<DeleteEventInvitationLinkPayload>
+  /** Deletes a single `EventInvitationLink` using a unique key. */
+  deleteEventInvitationLinkByRowId?: Maybe<DeleteEventInvitationLinkPayload>
   /** Deletes a single `EventUpload` using its globally unique id. */
   deleteEventUpload?: Maybe<DeleteEventUploadPayload>
   /** Deletes a single `EventUpload` using a unique key. */
@@ -4826,7 +5012,17 @@ export type Mutation = {
   deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
   /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
   eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
+  /**
+   * Joins the event of a general invitation link as a guest who accepted, and returns the guest's id. An account joins with its own contact and gets its existing guest back if it already joined. Without an account, the email address and first name become a new contact of the organizer.
+   *
+   * Error codes:
+   * - **VTILN** when the invitation link does not exist or its event is a draft or not yet published.
+   * - **VTEEN** when the event has ended.
+   * - **VTIDM** when an email address or first name is missing without an account.
+   * - **VTGCM** when the event's maximum guest count is reached.
+   */
+  eventInvitationLinkRedeem?: Maybe<EventInvitationLinkRedeemPayload>
+  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible.\n- **VTEUP** when the event is a draft or not yet published. */
   invite?: Maybe<InvitePayload>
   /** Creates a JWT token that will securely identify an account and give it certain permissions. */
   jwtCreate?: Maybe<JwtCreatePayload>
@@ -4992,6 +5188,11 @@ export type MutationCreateEventFavoriteArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateEventFormatMappingArgs = {
   input: CreateEventFormatMappingInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateEventInvitationLinkArgs = {
+  input: CreateEventInvitationLinkInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5171,6 +5372,21 @@ export type MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventInvitationLinkArgs = {
+  input: DeleteEventInvitationLinkInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventInvitationLinkByEventIdArgs = {
+  input: DeleteEventInvitationLinkByEventIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventInvitationLinkByRowIdArgs = {
+  input: DeleteEventInvitationLinkByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteEventUploadArgs = {
   input: DeleteEventUploadInput
 }
@@ -5310,6 +5526,11 @@ export type MutationDeleteUploadByStorageKeyArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationEventDeleteArgs = {
   input: EventDeleteInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationEventInvitationLinkRedeemArgs = {
+  input: EventInvitationLinkRedeemInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6017,6 +6238,8 @@ export type Query = Node & {
   allEventFormatMappings?: Maybe<EventFormatMappingConnection>
   /** Reads and enables pagination through a set of `EventFormat`. */
   allEventFormats?: Maybe<EventFormatConnection>
+  /** Reads and enables pagination through a set of `EventInvitationLink`. */
+  allEventInvitationLinks?: Maybe<EventInvitationLinkConnection>
   /** Reads and enables pagination through a set of `EventRecommendation`. */
   allEventRecommendations?: Maybe<EventRecommendationConnection>
   /** Reads and enables pagination through a set of `EventUpload`. */
@@ -6079,10 +6302,12 @@ export type Query = Node & {
   eventAppByEventIdAndAppId?: Maybe<EventApp>
   /** Get a single `EventApp`. */
   eventAppByRowId?: Maybe<EventApp>
-  /** Returns the event associated with the given attendance ID. */
+  /** Returns the event associated with the given attendance ID, unless it is a draft or scheduled and not organized by the invoker. */
   eventByAttendanceId?: Maybe<Event>
   /** Get a single `Event`. */
   eventByCreatedByAndSlug?: Maybe<Event>
+  /** Returns the event a general invitation link invites to, also when it is private, unless the link was deleted, the event is a draft or scheduled and not organized by the invoker, or its organizer is involved in a block with the invoker. */
+  eventByInvitationLink?: Maybe<Event>
   /** Get a single `Event`. */
   eventByRowId?: Maybe<Event>
   /** Reads a single `EventCategory` using its globally unique `ID`. */
@@ -6113,7 +6338,13 @@ export type Query = Node & {
   eventFormatMappingByEventIdAndFormatId?: Maybe<EventFormatMapping>
   /** Add a function that returns the maximum guest count of an accessible event. */
   eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
-  /** Lists public in-person events within the given radius in meters around the given coordinates, nearest first. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
+  /** Reads a single `EventInvitationLink` using its globally unique `ID`. */
+  eventInvitationLink?: Maybe<EventInvitationLink>
+  /** Get a single `EventInvitationLink`. */
+  eventInvitationLinkByEventId?: Maybe<EventInvitationLink>
+  /** Get a single `EventInvitationLink`. */
+  eventInvitationLinkByRowId?: Maybe<EventInvitationLink>
+  /** Lists public, published (not draft or scheduled), non-archived in-person events within the given radius in meters around the given coordinates, nearest first. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
   eventNearby?: Maybe<EventConnection>
   /** Reads a single `EventRecommendation` using its globally unique `ID`. */
   eventRecommendation?: Maybe<EventRecommendation>
@@ -6461,6 +6692,17 @@ export type QueryAllEventFormatsArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
+export type QueryAllEventInvitationLinksArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<EventInvitationLinkCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<EventInvitationLinkOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
 export type QueryAllEventRecommendationsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -6709,6 +6951,11 @@ export type QueryEventByCreatedByAndSlugArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
+export type QueryEventByInvitationLinkArgs = {
+  invitationLinkId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
 export type QueryEventByRowIdArgs = {
   rowId: Scalars['UUID']['input']
 }
@@ -6784,6 +7031,21 @@ export type QueryEventFormatMappingByEventIdAndFormatIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryEventGuestCountMaximumArgs = {
   eventId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventInvitationLinkArgs = {
+  id: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventInvitationLinkByEventIdArgs = {
+  eventId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventInvitationLinkByRowIdArgs = {
+  rowId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -8003,6 +8265,9 @@ export type GraphCacheKeysConfig = {
   CreateEventFormatMappingPayload?: (
     data: WithTypename<CreateEventFormatMappingPayload>,
   ) => null | string
+  CreateEventInvitationLinkPayload?: (
+    data: WithTypename<CreateEventInvitationLinkPayload>,
+  ) => null | string
   CreateEventPayload?: (data: WithTypename<CreateEventPayload>) => null | string
   CreateEventUploadPayload?: (
     data: WithTypename<CreateEventUploadPayload>,
@@ -8061,6 +8326,9 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   DeleteEventFormatMappingPayload?: (
     data: WithTypename<DeleteEventFormatMappingPayload>,
+  ) => null | string
+  DeleteEventInvitationLinkPayload?: (
+    data: WithTypename<DeleteEventInvitationLinkPayload>,
   ) => null | string
   DeleteEventPayload?: (data: WithTypename<DeleteEventPayload>) => null | string
   DeleteEventUploadPayload?: (
@@ -8128,6 +8396,18 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   EventFormatMappingEdge?: (
     data: WithTypename<EventFormatMappingEdge>,
+  ) => null | string
+  EventInvitationLink?: (
+    data: WithTypename<EventInvitationLink>,
+  ) => null | string
+  EventInvitationLinkConnection?: (
+    data: WithTypename<EventInvitationLinkConnection>,
+  ) => null | string
+  EventInvitationLinkEdge?: (
+    data: WithTypename<EventInvitationLinkEdge>,
+  ) => null | string
+  EventInvitationLinkRedeemPayload?: (
+    data: WithTypename<EventInvitationLinkRedeemPayload>,
   ) => null | string
   EventRecommendation?: (
     data: WithTypename<EventRecommendation>,
@@ -8423,6 +8703,11 @@ export type GraphCacheResolvers = {
       QueryAllEventFormatsArgs,
       WithTypename<EventFormatConnection> | string
     >
+    allEventInvitationLinks?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAllEventInvitationLinksArgs,
+      WithTypename<EventInvitationLinkConnection> | string
+    >
     allEventRecommendations?: GraphCacheResolver<
       WithTypename<Query>,
       QueryAllEventRecommendationsArgs,
@@ -8588,6 +8873,11 @@ export type GraphCacheResolvers = {
       QueryEventByCreatedByAndSlugArgs,
       WithTypename<Event> | string
     >
+    eventByInvitationLink?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventByInvitationLinkArgs,
+      WithTypename<Event> | string
+    >
     eventByRowId?: GraphCacheResolver<
       WithTypename<Query>,
       QueryEventByRowIdArgs,
@@ -8662,6 +8952,21 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryEventGuestCountMaximumArgs,
       Scalars['Int']['output'] | string
+    >
+    eventInvitationLink?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventInvitationLinkArgs,
+      WithTypename<EventInvitationLink> | string
+    >
+    eventInvitationLinkByEventId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventInvitationLinkByEventIdArgs,
+      WithTypename<EventInvitationLink> | string
+    >
+    eventInvitationLinkByRowId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventInvitationLinkByRowIdArgs,
+      WithTypename<EventInvitationLink> | string
     >
     eventNearby?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8802,6 +9107,7 @@ export type GraphCacheResolvers = {
       | WithTypename<EventFavorite>
       | WithTypename<EventFormat>
       | WithTypename<EventFormatMapping>
+      | WithTypename<EventInvitationLink>
       | WithTypename<EventRecommendation>
       | WithTypename<EventUpload>
       | WithTypename<Friendship>
@@ -9753,6 +10059,11 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       Scalars['UUID']['output'] | string
     >
+    tagSerialNumber?: GraphCacheResolver<
+      WithTypename<Attendance>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
     updatedAt?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
@@ -10133,6 +10444,28 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<CreateEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateEventInvitationLinkPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateEventInvitationLinkPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    eventInvitationLink?: GraphCacheResolver<
+      WithTypename<CreateEventInvitationLinkPayload>,
+      Record<string, never>,
+      WithTypename<EventInvitationLink> | string
+    >
+    eventInvitationLinkEdge?: GraphCacheResolver<
+      WithTypename<CreateEventInvitationLinkPayload>,
+      CreateEventInvitationLinkPayloadEventInvitationLinkEdgeArgs,
+      WithTypename<EventInvitationLinkEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateEventInvitationLinkPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -10634,6 +10967,33 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  DeleteEventInvitationLinkPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    deletedEventInvitationLinkId?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    eventInvitationLink?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
+      Record<string, never>,
+      WithTypename<EventInvitationLink> | string
+    >
+    eventInvitationLinkEdge?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
+      DeleteEventInvitationLinkPayloadEventInvitationLinkEdgeArgs,
+      WithTypename<EventInvitationLinkEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   DeleteEventPayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteEventPayload>,
@@ -11040,6 +11400,11 @@ export type GraphCacheResolvers = {
       WithTypename<Event>,
       EventEventFormatMappingsByEventIdArgs,
       WithTypename<EventFormatMappingConnection> | string
+    >
+    eventInvitationLinkByEventId?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      WithTypename<EventInvitationLink> | string
     >
     eventRecommendationsByEventId?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11584,6 +11949,84 @@ export type GraphCacheResolvers = {
       WithTypename<EventFormatMapping> | string
     >
   }
+  EventInvitationLink?: {
+    createdAt?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
+    eventByEventId?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      WithTypename<Event> | string
+    >
+    eventId?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    rowId?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+  }
+  EventInvitationLinkConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventInvitationLinkEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventInvitationLink> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkConnection>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+  }
+  EventInvitationLinkEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkEdge>,
+      Record<string, never>,
+      Scalars['Cursor']['output'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkEdge>,
+      Record<string, never>,
+      WithTypename<EventInvitationLink> | string
+    >
+  }
+  EventInvitationLinkRedeemPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkRedeemPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkRedeemPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+    result?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkRedeemPayload>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+  }
   EventRecommendation?: {
     accountByAccountId?: GraphCacheResolver<
       WithTypename<EventRecommendation>,
@@ -11890,10 +12333,10 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       InvitationFeedback | string
     >
-    feedbackPaper?: GraphCacheResolver<
+    feedbackOverride?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      InvitationFeedbackPaper | string
+      InvitationFeedback | string
     >
     id?: GraphCacheResolver<
       WithTypename<Guest>,
@@ -13106,6 +13549,10 @@ export type GraphCacheOptimisticUpdaters = {
     MutationCreateEventFormatMappingArgs,
     Maybe<WithTypename<CreateEventFormatMappingPayload>>
   >
+  createEventInvitationLink?: GraphCacheOptimisticMutationResolver<
+    MutationCreateEventInvitationLinkArgs,
+    Maybe<WithTypename<CreateEventInvitationLinkPayload>>
+  >
   createEventUpload?: GraphCacheOptimisticMutationResolver<
     MutationCreateEventUploadArgs,
     Maybe<WithTypename<CreateEventUploadPayload>>
@@ -13246,6 +13693,18 @@ export type GraphCacheOptimisticUpdaters = {
     MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs,
     Maybe<WithTypename<DeleteEventFormatMappingPayload>>
   >
+  deleteEventInvitationLink?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventInvitationLinkArgs,
+    Maybe<WithTypename<DeleteEventInvitationLinkPayload>>
+  >
+  deleteEventInvitationLinkByEventId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventInvitationLinkByEventIdArgs,
+    Maybe<WithTypename<DeleteEventInvitationLinkPayload>>
+  >
+  deleteEventInvitationLinkByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventInvitationLinkByRowIdArgs,
+    Maybe<WithTypename<DeleteEventInvitationLinkPayload>>
+  >
   deleteEventUpload?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventUploadArgs,
     Maybe<WithTypename<DeleteEventUploadPayload>>
@@ -13357,6 +13816,10 @@ export type GraphCacheOptimisticUpdaters = {
   eventDelete?: GraphCacheOptimisticMutationResolver<
     MutationEventDeleteArgs,
     Maybe<WithTypename<EventDeletePayload>>
+  >
+  eventInvitationLinkRedeem?: GraphCacheOptimisticMutationResolver<
+    MutationEventInvitationLinkRedeemArgs,
+    Maybe<WithTypename<EventInvitationLinkRedeemPayload>>
   >
   invite?: GraphCacheOptimisticMutationResolver<
     MutationInviteArgs,
@@ -13664,6 +14127,14 @@ export type GraphCacheUpdaters = {
       { allEventFormats: Maybe<WithTypename<EventFormatConnection>> },
       QueryAllEventFormatsArgs
     >
+    allEventInvitationLinks?: GraphCacheUpdateResolver<
+      {
+        allEventInvitationLinks: Maybe<
+          WithTypename<EventInvitationLinkConnection>
+        >
+      },
+      QueryAllEventInvitationLinksArgs
+    >
     allEventRecommendations?: GraphCacheUpdateResolver<
       {
         allEventRecommendations: Maybe<
@@ -13820,6 +14291,10 @@ export type GraphCacheUpdaters = {
       { eventByCreatedByAndSlug: Maybe<WithTypename<Event>> },
       QueryEventByCreatedByAndSlugArgs
     >
+    eventByInvitationLink?: GraphCacheUpdateResolver<
+      { eventByInvitationLink: Maybe<WithTypename<Event>> },
+      QueryEventByInvitationLinkArgs
+    >
     eventByRowId?: GraphCacheUpdateResolver<
       { eventByRowId: Maybe<WithTypename<Event>> },
       QueryEventByRowIdArgs
@@ -13889,6 +14364,20 @@ export type GraphCacheUpdaters = {
     eventGuestCountMaximum?: GraphCacheUpdateResolver<
       { eventGuestCountMaximum: Maybe<Scalars['Int']['output']> },
       QueryEventGuestCountMaximumArgs
+    >
+    eventInvitationLink?: GraphCacheUpdateResolver<
+      { eventInvitationLink: Maybe<WithTypename<EventInvitationLink>> },
+      QueryEventInvitationLinkArgs
+    >
+    eventInvitationLinkByEventId?: GraphCacheUpdateResolver<
+      {
+        eventInvitationLinkByEventId: Maybe<WithTypename<EventInvitationLink>>
+      },
+      QueryEventInvitationLinkByEventIdArgs
+    >
+    eventInvitationLinkByRowId?: GraphCacheUpdateResolver<
+      { eventInvitationLinkByRowId: Maybe<WithTypename<EventInvitationLink>> },
+      QueryEventInvitationLinkByRowIdArgs
     >
     eventNearby?: GraphCacheUpdateResolver<
       { eventNearby: Maybe<WithTypename<EventConnection>> },
@@ -14009,6 +14498,7 @@ export type GraphCacheUpdaters = {
           | WithTypename<EventFavorite>
           | WithTypename<EventFormat>
           | WithTypename<EventFormatMapping>
+          | WithTypename<EventInvitationLink>
           | WithTypename<EventRecommendation>
           | WithTypename<EventUpload>
           | WithTypename<Friendship>
@@ -14247,6 +14737,14 @@ export type GraphCacheUpdaters = {
       },
       MutationCreateEventFormatMappingArgs
     >
+    createEventInvitationLink?: GraphCacheUpdateResolver<
+      {
+        createEventInvitationLink: Maybe<
+          WithTypename<CreateEventInvitationLinkPayload>
+        >
+      },
+      MutationCreateEventInvitationLinkArgs
+    >
     createEventUpload?: GraphCacheUpdateResolver<
       { createEventUpload: Maybe<WithTypename<CreateEventUploadPayload>> },
       MutationCreateEventUploadArgs
@@ -14459,6 +14957,30 @@ export type GraphCacheUpdaters = {
       },
       MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs
     >
+    deleteEventInvitationLink?: GraphCacheUpdateResolver<
+      {
+        deleteEventInvitationLink: Maybe<
+          WithTypename<DeleteEventInvitationLinkPayload>
+        >
+      },
+      MutationDeleteEventInvitationLinkArgs
+    >
+    deleteEventInvitationLinkByEventId?: GraphCacheUpdateResolver<
+      {
+        deleteEventInvitationLinkByEventId: Maybe<
+          WithTypename<DeleteEventInvitationLinkPayload>
+        >
+      },
+      MutationDeleteEventInvitationLinkByEventIdArgs
+    >
+    deleteEventInvitationLinkByRowId?: GraphCacheUpdateResolver<
+      {
+        deleteEventInvitationLinkByRowId: Maybe<
+          WithTypename<DeleteEventInvitationLinkPayload>
+        >
+      },
+      MutationDeleteEventInvitationLinkByRowIdArgs
+    >
     deleteEventUpload?: GraphCacheUpdateResolver<
       { deleteEventUpload: Maybe<WithTypename<DeleteEventUploadPayload>> },
       MutationDeleteEventUploadArgs
@@ -14642,6 +15164,14 @@ export type GraphCacheUpdaters = {
     eventDelete?: GraphCacheUpdateResolver<
       { eventDelete: Maybe<WithTypename<EventDeletePayload>> },
       MutationEventDeleteArgs
+    >
+    eventInvitationLinkRedeem?: GraphCacheUpdateResolver<
+      {
+        eventInvitationLinkRedeem: Maybe<
+          WithTypename<EventInvitationLinkRedeemPayload>
+        >
+      },
+      MutationEventInvitationLinkRedeemArgs
     >
     invite?: GraphCacheUpdateResolver<
       { invite: Maybe<WithTypename<InvitePayload>> },
@@ -15514,6 +16044,10 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Attendance>>,
       Record<string, never>
     >
+    tagSerialNumber?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Attendance>>,
+      Record<string, never>
+    >
     updatedAt?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Attendance>>,
       Record<string, never>
@@ -15824,6 +16358,24 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateEventInvitationLinkPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    eventInvitationLink?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    eventInvitationLinkEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventInvitationLinkPayload>>,
+      CreateEventInvitationLinkPayloadEventInvitationLinkEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventInvitationLinkPayload>>,
       Record<string, never>
     >
   }
@@ -16233,6 +16785,28 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  DeleteEventInvitationLinkPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    deletedEventInvitationLinkId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    eventInvitationLink?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    eventInvitationLinkEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
+      DeleteEventInvitationLinkPayloadEventInvitationLinkEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+  }
   DeleteEventPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteEventPayload>>,
@@ -16563,6 +17137,10 @@ export type GraphCacheUpdaters = {
     eventFormatMappingsByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       EventEventFormatMappingsByEventIdArgs
+    >
+    eventInvitationLinkByEventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
     >
     eventRecommendationsByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
@@ -17007,6 +17585,70 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  EventInvitationLink?: {
+    createdAt?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+    eventByEventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+    eventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+    rowId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+  }
+  EventInvitationLinkConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkConnection>>,
+      Record<string, never>
+    >
+  }
+  EventInvitationLinkEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkEdge>>,
+      Record<string, never>
+    >
+  }
+  EventInvitationLinkRedeemPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkRedeemPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkRedeemPayload>>,
+      Record<string, never>
+    >
+    result?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkRedeemPayload>>,
+      Record<string, never>
+    >
+  }
   EventRecommendation?: {
     accountByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventRecommendation>>,
@@ -17256,7 +17898,7 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >
-    feedbackPaper?: GraphCacheUpdateResolver<
+    feedbackOverride?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >
