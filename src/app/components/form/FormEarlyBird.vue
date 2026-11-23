@@ -149,13 +149,13 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Teilnahme am Früher Vogel Programm und zur Kontaktaufnahme dazu verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  userConsent: Ich bin einverstanden, dass @.upper:{'globalSiteName'} meine Angaben aus diesem Formular nutzt, damit ich am Früher-Vogel-Programm teilnehmen und dazu kontaktiert werden kann, wie in der {privacyPolicy} beschrieben. Diese Einwilligung kann ich jederzeit über das {contactForm} widerrufen.
   userConsentContactForm: Kontaktformular
   userConsentPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for participation in the Early Bird program and for contacting me about it. I can withdraw my consent at any time using the {contactForm}.'
+  userConsent: I agree that @.upper:{'globalSiteName'} uses the details I enter here so I can take part in the Early Bird program and be contacted about it, as described in the {privacyPolicy}. I can withdraw this consent anytime via the {contactForm}.
   userConsentContactForm: contact form
   userConsentPrivacyPolicy: privacy policy
   userEmailAddress: Email address

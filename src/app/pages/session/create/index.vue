@@ -136,13 +136,13 @@ const onSignIn = async (username: string) => {
 
 <i18n lang="yaml">
 de:
-  accountRequired: Melde dich an, um fortzufahren.
+  accountRequired: Melde Dich an, um fortzufahren.
   accountVerified: E-Mail-Adresse verifiziert.
   backToLogin: Zurück zur Anmeldung
   contactSupport: Support kontaktieren
   errorTitle: Anmeldefehler
-  goodToSeeYou: Schön, dich zu sehen!
-  subtitle: Melde dich einfach mit deinen Zugangsdaten an.
+  goodToSeeYou: Schön, Dich zu sehen!
+  subtitle: Melde Dich einfach mit Deinen Zugangsdaten an.
   title: Einloggen
   welcomeBack: Willkommen zurück!
 en:

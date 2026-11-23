@@ -269,20 +269,20 @@ const isNfcError = computed(() => {
 <i18n lang="yaml">
 de:
   errorAttendanceCreate: Beim Erstellen der Anwesenheit ist ein Fehler aufgetreten.
-  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorNavigatorPermissionsNotSupported: Navigator-Berechtigungen werden nicht unterstützt! {hintUpdateOrChrome}
   errorNfcAbort: Der NFC-Scan wurde unterbrochen! {hintTryAgain}
   errorNfcNetwork: Die NFC-Übertragung wurde unterbrochen! {hintTryAgain}
   errorNfcNotAllowed: Berechtigung zum NFC-Zugriff fehlt! {hintBrowserSettings}
   errorNfcNotReadable: Zugriff auf den NFC-Adapter nicht möglich. Wird er von einem anderen Programm verwendet?
   errorNfcNotSupported: Es wurde kein kompatibler NFC-Adapter gefunden. {hintUpdateOrChrome}
-  errorPermissionDenied: Nur wer diese Veranstaltung organisiert, kann diese Seite öffnen. Wenn es deine Veranstaltung ist, melde dich mit dem Konto an, mit dem du sie erstellt hast.
-  hintBrowserSettings: Sieh in deinen Browser-Einstellungen nach.
-  hintUpdateOrChrome: Versuche deinen Browser zu aktualisieren oder Google Chrome zu verwenden.
+  errorPermissionDenied: Nur wer diese Veranstaltung organisiert, kann diese Seite öffnen. Wenn es Deine Veranstaltung ist, melde Dich mit dem Konto an, mit dem Du sie erstellt hast.
+  hintBrowserSettings: Sieh in Deinen Browser-Einstellungen nach.
+  hintUpdateOrChrome: Versuche Deinen Browser zu aktualisieren oder Google Chrome zu verwenden.
   hintTryAgain: Versuch es noch einmal.
   nfcWrite: NFC-Tag schreiben
   qrCodeScan: Check-in-Code scannen
-  qrHint: Lass dir von Gästen den QR-Code auf ihrer Einladungsseite zeigen
+  qrHint: Lass Dir von Gästen den QR-Code auf ihrer Einladungsseite zeigen
   successWrite: Tag beschrieben
   title: Check-in
 en:

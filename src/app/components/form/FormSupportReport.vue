@@ -226,8 +226,8 @@ const localePath = useLocalePath()
 de:
   itemDescription: Begründung, warum der Inhalt rechtswidrig ist
   itemUrl: Genauer Ort des Inhalts (URL)
-  userConsentAccuracy: Ich bin in gutem Glauben überzeugt, dass die in dieser Meldung enthaltenen Angaben und Behauptungen richtig und vollständig sind.
-  userConsentProcessing: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  userConsentAccuracy: Ich bin in gutem Glauben überzeugt, dass die Angaben und Behauptungen in dieser Meldung richtig und vollständig sind.
+  userConsentProcessing: Ich bin einverstanden, dass @.upper:{'globalSiteName'} meine Angaben aus diesem Formular nutzt, um meine Anfrage zu beantworten, wie in der {privacyPolicy} beschrieben. Diese Einwilligung kann ich jederzeit über das {contactForm} widerrufen.
   userConsentProcessingContactForm: Kontaktformular
   userConsentProcessingPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
@@ -235,8 +235,8 @@ de:
 en:
   itemDescription: Explanation of why the content is illegal
   itemUrl: Exact location of the content (URL)
-  userConsentAccuracy: I have a bona fide belief that the information and allegations contained in this report are accurate and complete.
-  userConsentProcessing: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
+  userConsentAccuracy: I believe in good faith that the information and claims in this report are accurate and complete.
+  userConsentProcessing: I agree that @.upper:{'globalSiteName'} uses the details I enter here to answer my request, as described in the {privacyPolicy}. I can withdraw this consent anytime via the {contactForm}.
   userConsentProcessingContactForm: contact form
   userConsentProcessingPrivacyPolicy: privacy policy
   userEmailAddress: Email address

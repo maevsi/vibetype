@@ -79,7 +79,7 @@ const { t } = useI18n()
 de:
   contactNameUnknown: einen unbenannten Kontakt
   guestDelete: Gast löschen
-  guestDeleteQuestion: Möchtest du den Gast {name} wirklich löschen?
+  guestDeleteQuestion: Möchtest Du den Gast {name} wirklich löschen?
   keepGuest: Nein, behalten
   title: Gast löschen
 en:

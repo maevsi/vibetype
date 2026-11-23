@@ -1123,7 +1123,7 @@ de:
   namePlaceholder: Willkommensfeier
   start: Beginn
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
-  validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
+  validationWarningNameChangeSlug: Wenn Du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   visibility: Sichtbarkeit
   visibilityPrivate: privat
   visibilityPublic: öffentlich

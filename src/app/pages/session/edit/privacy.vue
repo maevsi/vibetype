@@ -55,12 +55,12 @@ const templateIdSwitch = useId()
 
 <i18n lang="yaml">
 de:
-  eventIngestDescription: Plakatjagd sendet Fotos von Plakaten und den Text verlinkter Seiten an OpenAI, damit ein KI-Modell die Veranstaltung ausliest.
+  eventIngestDescription: 'Spart Dir das Abtippen: Die Plakatjagd sendet Fotos von Plakaten und den Text verlinkter Seiten an OpenAI, deren KI die Veranstaltung für Dich ausfüllt.'
   eventIngestTitle: Plakate mit KI lesen
   saved: Gespeichert
   title: Datenschutz-Einstellungen
 en:
-  eventIngestDescription: Poster hunting sends poster photos and the text of linked pages to OpenAI, so that an AI model reads out the event.
+  eventIngestDescription: 'Saves you the typing: poster hunting sends poster photos and the text of linked pages to OpenAI, whose AI fills in the event for you.'
   eventIngestTitle: Read posters with AI
   saved: Saved
   title: Privacy settings

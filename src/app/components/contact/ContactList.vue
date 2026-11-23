@@ -229,7 +229,7 @@ de:
   contactAdd: Kontakt hinzufügen
   contactImport: Kontakte importieren
   emailAddress: E-Mail Adresse
-  emptyDescription: Speichere die Menschen, die du triffst, um sie mit einem Fingertipp zu Veranstaltungen einzuladen.
+  emptyDescription: Speichere die Menschen, die Du triffst, um sie mit einem Fingertipp zu Veranstaltungen einzuladen.
   emptyTitle: Dein Kontaktbuch ist leer
   phoneNumber: Telefonnummer
   searchClear: Suche zurücksetzen

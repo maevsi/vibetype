@@ -130,9 +130,9 @@ const openUnblockDrawer = (account: AccountBlockAccountsRecord) => {
 <i18n lang="yaml">
 de:
   errorNotFound: Niemand gefunden
-  noBlockedAccounts: Keine blockierten Benutzer
-  title: Blockierte Benutzer
-  unblock: Benutzer entsperren
+  noBlockedAccounts: Keine blockierten Konten
+  title: Blockierte Konten
+  unblock: Konto entsperren
 en:
   errorNotFound: No one found
   noBlockedAccounts: No blocked users

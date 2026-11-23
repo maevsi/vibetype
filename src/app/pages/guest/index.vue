@@ -48,8 +48,8 @@ useHeadDefault({ title })
 <i18n lang="yaml">
 de:
   events: Deine Veranstaltungen
-  next: Bis dahin kommen Einladungen per E-Mail, und Veranstaltungen, zu denen du gehst, findest du bei deinen Veranstaltungen.
-  soon: Hier wirst du bald sehen können, zu welchen Veranstaltungen du eingeladen bist.
+  next: Bis dahin kommen Einladungen per E-Mail, und Veranstaltungen, zu denen Du gehst, findest Du bei Deinen Veranstaltungen.
+  soon: Hier wirst Du bald sehen können, zu welchen Veranstaltungen Du eingeladen bist.
   title: Einladungen
 en:
   events: Your events

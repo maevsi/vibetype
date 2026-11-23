@@ -15,9 +15,9 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  notice: Wie wir deine Daten verarbeiten, erfährst du in der {privacyPolicy}.
+  notice: Wir gehen sorgsam mit Deinen Daten um. Wie genau, erklärt die {privacyPolicy}.
   privacyPolicy: Datenschutzerklärung
 en:
-  notice: You can find out how we process your data in the {privacyPolicy}.
+  notice: We handle your data with care. The {privacyPolicy} explains how.
   privacyPolicy: privacy policy
 </i18n>

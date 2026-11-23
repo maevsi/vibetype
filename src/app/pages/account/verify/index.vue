@@ -96,7 +96,7 @@ if (!codeIsUnknown) {
 <i18n lang="yaml">
 de:
   postgres55000: Der Verifizierungscode ist abgelaufen!
-  postgresP0002: Dieser Verifizierungslink ist ungültig. Falls du deine E-Mail-Adresse bereits verifiziert hast, ist alles in Ordnung. Melde dich einfach an. Andernfalls fordere einen neuen Verifizierungslink an.
+  postgresP0002: Dieser Verifizierungslink ist ungültig. Falls Du Deine E-Mail-Adresse bereits verifiziert hast, ist alles in Ordnung. Melde Dich einfach an. Andernfalls fordere einen neuen Verifizierungslink an.
   title: Verifizierung
 en:
   postgres55000: The verification code has expired!

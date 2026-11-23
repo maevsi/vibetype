@@ -530,19 +530,19 @@ const loadMore = () => {
 de:
   attending: Dabei
   drafts: Entwürfe
-  emptyAllDescription: Merke dir Veranstaltungen beim Entdecken oder plane selbst eine.
+  emptyAllDescription: Merke Dir Veranstaltungen beim Entdecken oder plane selbst eine.
   emptyAllTitle: Noch keine Veranstaltungen
-  emptyAttendingPastDescription: Veranstaltungen, bei denen du dabei warst, erscheinen hier, sobald sie vorbei sind.
-  emptyAttendingPastTitle: Keine vergangenen Veranstaltungen, bei denen du warst
-  emptyAttendingUpcomingDescription: Veranstaltungen, für die du eine Einladung annimmst oder denen du beitrittst, erscheinen hier.
+  emptyAttendingPastDescription: Veranstaltungen, bei denen Du dabei warst, erscheinen hier, sobald sie vorbei sind.
+  emptyAttendingPastTitle: Keine vergangenen Veranstaltungen, bei denen Du warst
+  emptyAttendingUpcomingDescription: Veranstaltungen, für die Du eine Einladung annimmst oder denen Du beitrittst, erscheinen hier.
   emptyAttendingUpcomingTitle: Du bist noch bei nichts dabei
   emptyCreate: Veranstaltung planen
   emptyDiscover: Veranstaltungen entdecken
-  emptyDraftsDescription: Veranstaltungen, die du beginnst, aber noch nicht veröffentlichst, werden hier aufbewahrt.
+  emptyDraftsDescription: Veranstaltungen, die Du beginnst, aber noch nicht veröffentlichst, werden hier aufbewahrt.
   emptyDraftsTitle: Keine Entwürfe
-  emptyHostingPastDescription: Veranstaltungen, die du organisiert hast, erscheinen hier, sobald sie vorbei sind.
-  emptyHostingPastTitle: Keine vergangenen Veranstaltungen von dir
-  emptyHostingUpcomingDescription: Plane eine Veranstaltung und lade deine Leute ein. Sie erscheint dann hier.
+  emptyHostingPastDescription: Veranstaltungen, die Du organisiert hast, erscheinen hier, sobald sie vorbei sind.
+  emptyHostingPastTitle: Keine vergangenen Veranstaltungen von Dir
+  emptyHostingUpcomingDescription: Plane eine Veranstaltung und lade Deine Leute ein. Sie erscheint dann hier.
   emptyHostingUpcomingTitle: Du veranstaltest noch nichts
   emptyInvitations: Einladungen
   emptySavedPastDescription: Gemerkte Veranstaltungen wandern hierher, sobald sie vorbei sind.
@@ -551,7 +551,7 @@ de:
   emptySavedUpcomingTitle: Noch nichts gemerkt
   emptyShowUpcoming: Bevorstehende anzeigen
   filterLabel: Filter
-  hosting: Von dir
+  hosting: Von Dir
   past: Vergangen
   saved: Gemerkt
   timeLabel: Zeitraum

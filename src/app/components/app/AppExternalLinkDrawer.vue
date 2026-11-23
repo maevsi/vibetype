@@ -46,11 +46,11 @@ const onSubmit = () => {
 de:
   cancel: Abbrechen
   continue: Fortfahren
-  description: Du verlässt vibetype und wirst zu folgender Adresse weitergeleitet.
-  header: Du verlässt vibetype
+  description: Prüfe zu Deiner Sicherheit, wohin dieser Link führt, bevor Du weitergehst.
+  header: Du verlässt @.upper:{'globalSiteName'}
 en:
   cancel: Cancel
   continue: Continue
-  description: You are leaving vibetype and will be redirected to the following address.
-  header: You are leaving vibetype
+  description: For your safety, check where this link leads before you continue.
+  header: You're leaving @.upper:{'globalSiteName'}
 </i18n>

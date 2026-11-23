@@ -278,7 +278,7 @@ de:
   terms: Nutzungsbedingungen
   unlockConfirm: Zum meinem Profil
   unlockDeny: Nicht jetzt
-  unlockText: Sieh dir deine neue Errungenschaft auf deinem Profil an.
+  unlockText: Sieh Dir Deine neue Errungenschaft auf Deinem Profil an.
   unlockTitle: Auszeichnung freigeschaltet
   welcome: Willkommen bei
   welcomeWithSiteName: Willkommen bei @.upper:{'globalSiteName'}

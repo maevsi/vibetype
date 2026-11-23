@@ -408,22 +408,22 @@ const errorMessages = computed(() =>
 
 <i18n lang="yaml">
 de:
-  accountOverride: Falls angegeben, nutzt @.upper:{'globalSiteName'} die folgenden Daten anstelle der Daten des oben genannten Kontos.
+  accountOverride: Angaben, die Du hier einträgst, haben Vorrang vor denen aus dem Konto oben.
   emailAddress: E-Mail-Adresse
   firstName: Vorname
   lastName: Nachname
   nickname: Spitzname
   note: Notiz
   phoneNumber: Telefonnummer
-  postgres23505: Ein Kontakt mit dieser Nutzernamen existiert bereits!
+  postgres23505: Ein Kontakt mit diesem Nutzernamen existiert bereits!
   save: Speichern
-  stateInfoUsernameDisabled: Du kannst deinen Nutzernamen in den {accountSettings} ändern.
-  stateInfoUsernameDisabledLink: Einstellungen deines Kontos
+  stateInfoUsernameDisabled: Du kannst Deinen Nutzernamen in den {accountSettings} ändern.
+  stateInfoUsernameDisabledLink: Einstellungen Deines Kontos
   url: Weblink
   username: Nutzername
   usernameNotFound: Diesen Nutzernamen gibt es nicht. Prüfe die Schreibweise oder füge die Person stattdessen per E-Mail-Adresse hinzu.
 en:
-  accountOverride: If given, @.upper:{'globalSiteName'} will prefer to use the following data instead of the data given by the account above.
+  accountOverride: Details you enter here take priority over the ones from the account above.
   emailAddress: Email address
   firstName: First name
   lastName: Last name

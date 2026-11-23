@@ -114,7 +114,7 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
+  errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
   title: Veranstaltung bearbeiten
 en:
   errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
