@@ -119,11 +119,28 @@ authenticatedTest(
     await defaultPage.goto('/event/create')
     await page.getByLabel('Name', { exact: true }).fill('Unsaved')
 
-    page.once('dialog', (dialog) => dialog.dismiss())
+    const drawer = page.getByRole('dialog', { name: 'Discard changes' })
+
     await page.getByRole('button', BACK).click()
+    await drawer.getByRole('button', { name: 'Go back' }).click()
+    await expect(drawer).toBeHidden()
     await expect(page).toHaveURL(/\/event\/create$/)
 
-    page.once('dialog', (dialog) => dialog.accept())
+    await page.getByRole('button', BACK).click()
+    await drawer.getByRole('button', { exact: true, name: 'Discard' }).click()
+    await expect(page).not.toHaveURL(/\/event\/create$/)
+  },
+)
+
+authenticatedTest(
+  'leaves without asking once changes are undone',
+  async ({ defaultPage }) => {
+    const { page } = defaultPage
+
+    await defaultPage.goto('/event/create')
+    await page.getByLabel('Name', { exact: true }).fill('Unsaved')
+    await page.getByLabel('Name', { exact: true }).fill('')
+
     await page.getByRole('button', BACK).click()
     await expect(page).not.toHaveURL(/\/event\/create$/)
   },
