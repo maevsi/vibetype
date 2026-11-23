@@ -10,6 +10,20 @@ import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 const PAGE_PATH = `/event/edit/${TESTING_ACCOUNT_USERNAME}/${TESTING_EVENT_SLUG}`
 
 authenticatedTest.describe('event edit', () => {
+  authenticatedTest(
+    'leaves without asking when unchanged',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+
+      await defaultPage.goto(PAGE_PATH)
+      // the editor reports its value debounced
+      await page.waitForTimeout(1500)
+
+      await page.getByRole('button', { exact: true, name: 'Back' }).click()
+      await expect(page).not.toHaveURL(new RegExp(`${PAGE_PATH}$`))
+    },
+  )
+
   authenticatedTest('saves a changed name', async ({ defaultPage }) => {
     const { page } = defaultPage
 
