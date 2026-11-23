@@ -8,6 +8,14 @@
           class="flex-1"
         />
         <template v-if="contacts.length">
+          <AppButton
+            v-if="contactGroups.length"
+            :aria-label="t('groupsManage')"
+            variant="secondary"
+            @click="isGroupsDrawerOpen = true"
+          >
+            {{ t('groupsManage') }}
+          </AppButton>
           <AppButton :aria-label="t('contactAdd')" @click="add">
             {{ t('contactAdd') }}
             <template #prefix>
@@ -23,6 +31,12 @@
           </AppButton>
         </template>
       </div>
+      <ContactGroupFilter
+        v-if="contacts.length"
+        v-model:excluded="groupIdsExcluded"
+        v-model:included="groupIdsIncluded"
+        :groups="contactGroups"
+      />
       <AppTable v-if="contactsFiltered.length">
         <AppTableHeader>
           <tr>
@@ -41,7 +55,9 @@
             <AppTableHead class="hidden xl:table-cell" scope="col">
               {{ t('url') }}
             </AppTableHead>
-            <AppTableHead scope="col" />
+            <AppTableHead scope="col">
+              <span class="sr-only">{{ t('actions') }}</span>
+            </AppTableHead>
           </tr>
         </AppTableHeader>
         <AppTableBody>
@@ -58,9 +74,13 @@
       <AppEmptyState
         v-else-if="contacts.length"
         :description="t('searchEmptyDescription')"
-        :title="t('searchEmptyTitle', { query: searchString.trim() })"
+        :title="
+          searchString.trim()
+            ? t('searchEmptyTitle', { query: searchString.trim() })
+            : t('filterEmptyTitle')
+        "
       >
-        <AppButton :aria-label="t('searchClear')" @click="searchString = ''">
+        <AppButton :aria-label="t('searchClear')" @click="searchClear">
           {{ t('searchClear') }}
         </AppButton>
       </AppEmptyState>
@@ -84,6 +104,10 @@
           {{ t('contactImport') }}
         </AppButton>
       </AppEmptyState>
+      <ContactGroupDrawer
+        v-model:open="isGroupsDrawerOpen"
+        :groups="contactGroups"
+      />
       <ContactDeleteDrawer
         v-if="contactToDelete"
         v-model:open="isDeleteDrawerOpen"
@@ -101,6 +125,7 @@ import type {
   ContactItemFragment,
 } from '~~/gql/generated/graphql'
 import { getContactItem, getContactsSorted } from '~~/shared/utils/contact'
+import { getContactsByGroupFilter } from '~~/shared/utils/contactGroup'
 
 const localePath = useLocalePath()
 const route = useRoute()
@@ -121,10 +146,14 @@ const contactToDelete =
       | 'rowId'
     >
   >()
+const groupIdsExcluded = ref<string[]>([])
+const groupIdsIncluded = ref<string[]>([])
 const isDeleteDrawerOpen = ref(false)
+const isGroupsDrawerOpen = ref(false)
 const searchString = ref<string>('')
 
 // api data
+const { contactGroups, query: contactGroupsQuery } = useContactGroupsQuery()
 const contactsQuery = useApiQuery({
   query: graphql(`
     query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
@@ -136,6 +165,11 @@ const contactsQuery = useApiQuery({
       ) {
         nodes {
           ...ContactItem
+          contactGroupMembersByContactId {
+            nodes {
+              contactGroupId
+            }
+          }
         }
         pageInfo {
           hasNextPage
@@ -151,7 +185,7 @@ const contactsQuery = useApiQuery({
     first: ITEMS_PER_PAGE_LARGE,
   })),
 })
-const api = await useApiData([contactsQuery])
+const api = await useApiData([contactGroupsQuery, contactsQuery])
 const contacts = computed(() =>
   getContactsSorted(
     api.value.data.allContacts?.nodes
@@ -159,12 +193,35 @@ const contacts = computed(() =>
       .filter(isNeitherNullNorUndefined) || [],
   ),
 )
+const groupIdsByContactId = computed(() => {
+  const groupIds = new Map<string, string[]>()
+
+  for (const node of api.value.data.allContacts?.nodes ?? []) {
+    const contact = getContactItem(node)
+
+    if (contact)
+      groupIds.set(
+        contact.rowId,
+        node.contactGroupMembersByContactId.nodes.map(
+          ({ contactGroupId }) => contactGroupId,
+        ),
+      )
+  }
+
+  return groupIds
+})
 const contactsFiltered = computed(() => {
+  const contactsInGroups = getContactsByGroupFilter({
+    contacts: contacts.value,
+    groupIdsByContactId: groupIdsByContactId.value,
+    groupIdsExcluded: groupIdsExcluded.value,
+    groupIdsIncluded: groupIdsIncluded.value,
+  })
   const normalizedSearch = searchString.value.toLowerCase().trim()
-  if (!normalizedSearch) return contacts.value
+  if (!normalizedSearch) return contactsInGroups
 
   const searchStringParts = normalizedSearch.split(/\s+/).filter(Boolean)
-  return contacts.value.filter((contact) => {
+  return contactsInGroups.filter((contact) => {
     const contactProperties = [
       ...(contact.accountByAccountId?.username
         ? [contact.accountByAccountId.username.toLowerCase()]
@@ -210,6 +267,12 @@ const edit = (contact: Pick<ContactItemFragment, 'rowId'>) =>
     }),
   )
 
+const searchClear = () => {
+  groupIdsExcluded.value = []
+  groupIdsIncluded.value = []
+  searchString.value = ''
+}
+
 // lifecycle
 watch(
   () => api.value.data.allContacts?.pageInfo,
@@ -225,27 +288,33 @@ watch(
 <i18n lang="yaml">
 de:
   # address: Adresse
+  actions: Aktionen
   contact: Kontakt
   contactAdd: Kontakt hinzufügen
   contactImport: Kontakte importieren
   emailAddress: E-Mail Adresse
   emptyDescription: Speichere die Menschen, die Du triffst, um sie mit einem Fingertipp zu Veranstaltungen einzuladen.
   emptyTitle: Dein Kontaktbuch ist leer
+  filterEmptyTitle: Kein Kontakt passt zu den gewählten Gruppen
+  groupsManage: Gruppen verwalten
   phoneNumber: Telefonnummer
-  searchClear: Suche zurücksetzen
+  searchClear: Suche und Filter zurücksetzen
   searchEmptyDescription: Prüfe die Schreibweise oder suche stattdessen nach der E-Mail-Adresse.
   searchEmptyTitle: Kein Kontakt passt zu „{query}“
   url: Webseite
 en:
   # address: Address
+  actions: Actions
   contact: Contact
   contactAdd: Add contact
   contactImport: Import contacts
   emailAddress: Email address
   emptyDescription: Save the people you meet so you can invite them to events with one tap.
   emptyTitle: Your contact book is empty
+  filterEmptyTitle: No contact matches the chosen groups
+  groupsManage: Manage groups
   phoneNumber: Phone number
-  searchClear: Clear search
+  searchClear: Clear search and filters
   searchEmptyDescription: Check the spelling or search by email address instead.
   searchEmptyTitle: 'No contact matches "{query}"'
   url: Website

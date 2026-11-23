@@ -1,4 +1,19 @@
+import { graphql, useFragment } from '~~/gql/generated'
+import type { FragmentType } from '~~/gql/generated'
+
 const GROUP_NAME_LENGTH_MAXIMUM = 100 // the `contact_group` table's limit for names
+
+export const ContactGroupItem = graphql(`
+  fragment ContactGroupItem on ContactGroup {
+    id
+    name
+    rowId
+  }
+`)
+
+export const getContactGroupItem = (
+  fragment?: FragmentType<typeof ContactGroupItem> | null,
+) => useFragment(ContactGroupItem, fragment)
 
 /**
  * With any group included, a contact has to be in at least one of them.

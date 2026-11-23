@@ -64,6 +64,24 @@ const setState = (groupId: string, state: AppFilterChipState | undefined) => {
   else if (state === 'included')
     groupIdsIncluded.value = [...groupIdsIncluded.value, groupId]
 }
+
+// lifecycle
+// A deleted group loses its chip, so a filter by it could no longer be lifted and would hide every contact.
+watch(
+  () => groups,
+  () => {
+    const groupIds = new Set(groups.map((group) => group.rowId))
+
+    if (groupIdsExcluded.value.some((id) => !groupIds.has(id)))
+      groupIdsExcluded.value = groupIdsExcluded.value.filter((id) =>
+        groupIds.has(id),
+      )
+    if (groupIdsIncluded.value.some((id) => !groupIds.has(id)))
+      groupIdsIncluded.value = groupIdsIncluded.value.filter((id) =>
+        groupIds.has(id),
+      )
+  },
+)
 </script>
 
 <i18n lang="yaml">

@@ -12,7 +12,11 @@
         {{ title }}
       </LayoutTopBar>
       <LayoutPage>
-        <FormContact :contact @submit-success="navigateTo(redirectPath)" />
+        <FormContact
+          :contact
+          :contact-group-ids
+          @submit-success="navigateTo(redirectPath)"
+        />
       </LayoutPage>
     </div>
   </Loader>
@@ -42,6 +46,11 @@ const contactQuery = useApiQuery({
     query ContactByRowId($id: UUID!) {
       contactByRowId(rowId: $id) {
         ...ContactItem
+        contactGroupMembersByContactId {
+          nodes {
+            contactGroupId
+          }
+        }
       }
     }
   `),
@@ -53,6 +62,12 @@ const api = await useApiData([contactQuery])
 
 // computations
 const contact = computed(() => getContactItem(api.value.data.contactByRowId))
+const contactGroupIds = computed(
+  () =>
+    api.value.data.contactByRowId?.contactGroupMembersByContactId.nodes.map(
+      ({ contactGroupId }) => contactGroupId,
+    ) ?? [],
+)
 
 // initialization
 useHeadDefault({ title })

@@ -160,6 +160,28 @@ export type AttendancePatch = {
   tagSerialNumber?: string | null | undefined
 }
 
+/** An input for mutations affecting `ContactGroup` */
+export type ContactGroupInput = {
+  /** Reference to the account that created this group. Enforces cascading deletion. */
+  createdBy: string
+  /** Name of the group. Must be between 1 and 100 characters and unique per account, ignoring case. */
+  name: string
+}
+
+/** An input for mutations affecting `ContactGroupMember` */
+export type ContactGroupMemberInput = {
+  /** A contact group id. */
+  contactGroupId: string
+  /** A contact id. */
+  contactId: string
+}
+
+/** Represents an update to a `ContactGroup`. Fields that are set will be updated. */
+export type ContactGroupPatch = {
+  /** Name of the group. Must be between 1 and 100 characters and unique per account, ignoring case. */
+  name?: string | null | undefined
+}
+
 /** An input for mutations affecting `Contact` */
 export type ContactInput = {
   /** Optional reference to an associated account. */
@@ -249,6 +271,49 @@ export type CreateAttendanceInput = {
   clientMutationId?: string | null | undefined
 }
 
+/** All input for the create `ContactGroup` mutation. */
+export type CreateContactGroupInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The `ContactGroup` to be created by this mutation. */
+  contactGroup: ContactGroupInput
+}
+
+/** All input for the create `ContactGroupMember` mutation. */
+export type CreateContactGroupMemberInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The `ContactGroupMember` to be created by this mutation. */
+  contactGroupMember: ContactGroupMemberInput
+}
+
+/** All input for the `createContactGroupMembers` mutation. */
+export type CreateContactGroupMembersInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  contactGroupIds: Array<string | null | undefined>
+  contactIds: Array<string | null | undefined>
+}
+
+/** All input for the `createContactGroups` mutation. */
+export type CreateContactGroupsInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  names: Array<string | null | undefined>
+}
+
 /** All input for the create `Contact` mutation. */
 export type CreateContactInput = {
   /**
@@ -258,6 +323,16 @@ export type CreateContactInput = {
   clientMutationId?: string | null | undefined
   /** The `Contact` to be created by this mutation. */
   contact: ContactInput
+}
+
+/** All input for the `createContacts` mutation. */
+export type CreateContactsInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  contacts: Array<ContactInput | null | undefined>
 }
 
 /** All input for the create `Device` mutation. */
@@ -447,6 +522,30 @@ export type DeleteContactByRowIdInput = {
   clientMutationId?: string | null | undefined
   /** Primary key, uniquely identifies each contact. */
   rowId: string
+}
+
+/** All input for the `deleteContactGroupByRowId` mutation. */
+export type DeleteContactGroupByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** Primary key, uniquely identifies each contact group. */
+  rowId: string
+}
+
+/** All input for the `deleteContactGroupMemberByContactGroupIdAndContactId` mutation. */
+export type DeleteContactGroupMemberByContactGroupIdAndContactIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** A contact group id. */
+  contactGroupId: string
+  /** A contact id. */
+  contactId: string
 }
 
 /** All input for the `deleteDeviceByCreatedByAndFcmToken` mutation. */
@@ -689,7 +788,7 @@ export type EventInput = {
   language?: Language | null | undefined
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: string
-  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
   publishedAt?: string | null | undefined
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug: string
@@ -740,7 +839,7 @@ export type EventPatch = {
   language?: Language | null | undefined
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name?: string | null | undefined
-  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
   publishedAt?: string | null | undefined
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug?: string | null | undefined
@@ -950,6 +1049,19 @@ export type UpdateContactByRowIdInput = {
   rowId: string
 }
 
+/** All input for the `updateContactGroupByRowId` mutation. */
+export type UpdateContactGroupByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** An object where the defined keys will be set on the `ContactGroup` being updated. */
+  contactGroupPatch: ContactGroupPatch
+  /** Primary key, uniquely identifies each contact group. */
+  rowId: string
+}
+
 /** All input for the `updateEventByRowId` mutation. */
 export type UpdateEventByRowIdInput = {
   /**
@@ -1094,6 +1206,26 @@ export type DeleteContactByRowIdMutation = {
   deleteContactByRowId: { clientMutationId: string | null } | null
 }
 
+export type DeleteContactGroupByRowIdMutationVariables = Exact<{
+  input: DeleteContactGroupByRowIdInput
+}>
+
+export type DeleteContactGroupByRowIdMutation = {
+  deleteContactGroupByRowId: { clientMutationId: string | null } | null
+}
+
+export type UpdateContactGroupByRowIdMutationVariables = Exact<{
+  input: UpdateContactGroupByRowIdInput
+}>
+
+export type UpdateContactGroupByRowIdMutation = {
+  updateContactGroupByRowId: {
+    contactGroup: {
+      ' $fragmentRefs'?: { ContactGroupItemFragment: ContactGroupItemFragment }
+    } | null
+  } | null
+}
+
 export type AllContactsQueryVariables = Exact<{
   after?: string | null | undefined
   createdBy?: string | null | undefined
@@ -1103,9 +1235,13 @@ export type AllContactsQueryVariables = Exact<{
 export type AllContactsQuery = {
   allContacts: {
     totalCount: number
-    nodes: Array<{
-      ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
-    }>
+    nodes: Array<
+      {
+        contactGroupMembersByContactId: {
+          nodes: Array<{ contactGroupId: string }>
+        }
+      } & { ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment } }
+    >
     pageInfo: { hasNextPage: boolean; endCursor: string | null }
   } | null
 }
@@ -1409,12 +1545,45 @@ export type CreateReportMutation = {
   createReport: { clientMutationId: string | null } | null
 }
 
+export type CreateContactGroupMemberMutationVariables = Exact<{
+  input: CreateContactGroupMemberInput
+}>
+
+export type CreateContactGroupMemberMutation = {
+  createContactGroupMember: {
+    contactGroupMember: { contactGroupId: string; contactId: string } | null
+  } | null
+}
+
+export type CreateContactGroupMutationVariables = Exact<{
+  input: CreateContactGroupInput
+}>
+
+export type CreateContactGroupMutation = {
+  createContactGroup: {
+    contactGroup: {
+      ' $fragmentRefs'?: { ContactGroupItemFragment: ContactGroupItemFragment }
+    } | null
+  } | null
+}
+
 export type CreateContactMutationVariables = Exact<{
   input: CreateContactInput
 }>
 
 export type CreateContactMutation = {
-  createContact: { contact: { id: string } | null } | null
+  createContact: { contact: { id: string; rowId: string } | null } | null
+}
+
+export type DeleteContactGroupMemberByContactGroupIdAndContactIdMutationVariables =
+  Exact<{
+    input: DeleteContactGroupMemberByContactGroupIdAndContactIdInput
+  }>
+
+export type DeleteContactGroupMemberByContactGroupIdAndContactIdMutation = {
+  deleteContactGroupMemberByContactGroupIdAndContactId: {
+    clientMutationId: string | null
+  } | null
 }
 
 export type UpdateContactByRowIdMutationVariables = Exact<{
@@ -1888,6 +2057,21 @@ export type DeleteFailedUploadMutation = {
   deleteUploadByRowId: { clientMutationId: string | null } | null
 }
 
+export type AllContactGroupsQueryVariables = Exact<{
+  after?: string | null | undefined
+  createdBy?: string | null | undefined
+  first: number
+}>
+
+export type AllContactGroupsQuery = {
+  allContactGroups: {
+    nodes: Array<{
+      ' $fragmentRefs'?: { ContactGroupItemFragment: ContactGroupItemFragment }
+    }>
+    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+  } | null
+}
+
 export type OwnContactQueryVariables = Exact<{
   accountId: string
 }>
@@ -2163,9 +2347,13 @@ export type ContactByRowIdQueryVariables = Exact<{
 }>
 
 export type ContactByRowIdQuery = {
-  contactByRowId: {
-    ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
-  } | null
+  contactByRowId:
+    | ({
+        contactGroupMembersByContactId: {
+          nodes: Array<{ contactGroupId: string }>
+        }
+      } & { ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment } })
+    | null
 }
 
 export type AllContactsEmailAddressesQueryVariables = Exact<{
@@ -2181,12 +2369,44 @@ export type AllContactsEmailAddressesQuery = {
   } | null
 }
 
-export type CreateContactImportMutationVariables = Exact<{
-  input: CreateContactInput
+export type CreateContactGroupMembersImportMutationVariables = Exact<{
+  input: CreateContactGroupMembersInput
 }>
 
-export type CreateContactImportMutation = {
-  createContact: { contact: { id: string } | null } | null
+export type CreateContactGroupMembersImportMutation = {
+  createContactGroupMembers: {
+    result: Array<{
+      contactGroupId: string
+      contactId: string
+      id: string
+    }> | null
+  } | null
+}
+
+export type CreateContactGroupsImportMutationVariables = Exact<{
+  input: CreateContactGroupsInput
+}>
+
+export type CreateContactGroupsImportMutation = {
+  createContactGroups: {
+    result: Array<{
+      ' $fragmentRefs'?: { ContactGroupItemFragment: ContactGroupItemFragment }
+    }> | null
+  } | null
+}
+
+export type CreateContactsImportMutationVariables = Exact<{
+  input: CreateContactsInput
+}>
+
+export type CreateContactsImportMutation = {
+  createContacts: {
+    result: Array<{
+      emailAddress: string | null
+      id: string
+      rowId: string
+    }> | null
+  } | null
 }
 
 export type DashboardEventRecommendationsQueryVariables = Exact<{
@@ -2956,6 +3176,12 @@ export type ContactItemFragment = {
   accountByCreatedBy: { id: string; rowId: string; username: string } | null
 } & { ' $fragmentName'?: 'ContactItemFragment' }
 
+export type ContactGroupItemFragment = {
+  id: string
+  name: string
+  rowId: string
+} & { ' $fragmentName'?: 'ContactGroupItemFragment' }
+
 export type EventItemFragment = {
   createdBy: string
   description: string | null
@@ -3070,6 +3296,27 @@ export type AllPreferenceEventLocationsQuery = {
   } | null
 }
 
+export const ContactGroupItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ContactGroupItemFragment, unknown>
 export const EventItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -4052,6 +4299,145 @@ export const DeleteContactByRowIdDocument = {
   DeleteContactByRowIdMutation,
   DeleteContactByRowIdMutationVariables
 >
+export const DeleteContactGroupByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteContactGroupByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteContactGroupByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteContactGroupByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteContactGroupByRowIdMutation,
+  DeleteContactGroupByRowIdMutationVariables
+>
+export const UpdateContactGroupByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateContactGroupByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateContactGroupByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateContactGroupByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contactGroup' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactGroupItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateContactGroupByRowIdMutation,
+  UpdateContactGroupByRowIdMutationVariables
+>
 export const AllContactsDocument = {
   kind: 'Document',
   definitions: [
@@ -4149,6 +4535,34 @@ export const AllContactsDocument = {
                       {
                         kind: 'FragmentSpread',
                         name: { kind: 'Name', value: 'ContactItem' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'contactGroupMembersByContactId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'contactGroupId',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
@@ -6356,6 +6770,158 @@ export const CreateReportDocument = {
   CreateReportMutation,
   CreateReportMutationVariables
 >
+export const CreateContactGroupMemberDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactGroupMember' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactGroupMemberInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContactGroupMember' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contactGroupMember' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactGroupId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactId' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateContactGroupMemberMutation,
+  CreateContactGroupMemberMutationVariables
+>
+export const CreateContactGroupDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactGroup' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactGroupInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContactGroup' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contactGroup' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactGroupItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateContactGroupMutation,
+  CreateContactGroupMutationVariables
+>
 export const CreateContactDocument = {
   kind: 'Document',
   definitions: [
@@ -6405,6 +6971,7 @@ export const CreateContactDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
                   },
                 },
@@ -6418,6 +6985,73 @@ export const CreateContactDocument = {
 } as unknown as DocumentNode<
   CreateContactMutation,
   CreateContactMutationVariables
+>
+export const DeleteContactGroupMemberByContactGroupIdAndContactIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeleteContactGroupMemberByContactGroupIdAndContactId',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value:
+                  'DeleteContactGroupMemberByContactGroupIdAndContactIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deleteContactGroupMemberByContactGroupIdAndContactId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteContactGroupMemberByContactGroupIdAndContactIdMutation,
+  DeleteContactGroupMemberByContactGroupIdAndContactIdMutationVariables
 >
 export const UpdateContactByRowIdDocument = {
   kind: 'Document',
@@ -9392,6 +10026,151 @@ export const DeleteFailedUploadDocument = {
   DeleteFailedUploadMutation,
   DeleteFailedUploadMutationVariables
 >
+export const AllContactGroupsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllContactGroups' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allContactGroups' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: {
+                  kind: 'ListValue',
+                  values: [{ kind: 'EnumValue', value: 'PRIMARY_KEY_ASC' }],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactGroupItem' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllContactGroupsQuery,
+  AllContactGroupsQueryVariables
+>
 export const OwnContactDocument = {
   kind: 'Document',
   definitions: [
@@ -10942,6 +11721,31 @@ export const ContactByRowIdDocument = {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'ContactItem' },
                 },
+                {
+                  kind: 'Field',
+                  name: {
+                    kind: 'Name',
+                    value: 'contactGroupMembersByContactId',
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactGroupId' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -11129,13 +11933,13 @@ export const AllContactsEmailAddressesDocument = {
   AllContactsEmailAddressesQuery,
   AllContactsEmailAddressesQueryVariables
 >
-export const CreateContactImportDocument = {
+export const CreateContactGroupMembersImportDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateContactImport' },
+      name: { kind: 'Name', value: 'CreateContactGroupMembersImport' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11147,7 +11951,7 @@ export const CreateContactImportDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateContactInput' },
+              name: { kind: 'Name', value: 'CreateContactGroupMembersInput' },
             },
           },
         },
@@ -11157,7 +11961,7 @@ export const CreateContactImportDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'createContact' },
+            name: { kind: 'Name', value: 'createContactGroupMembers' },
             arguments: [
               {
                 kind: 'Argument',
@@ -11173,10 +11977,18 @@ export const CreateContactImportDocument = {
               selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'contact' },
+                  name: { kind: 'Name', value: 'result' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactGroupId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactId' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
@@ -11189,8 +12001,158 @@ export const CreateContactImportDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  CreateContactImportMutation,
-  CreateContactImportMutationVariables
+  CreateContactGroupMembersImportMutation,
+  CreateContactGroupMembersImportMutationVariables
+>
+export const CreateContactGroupsImportDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactGroupsImport' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactGroupsInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContactGroups' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactGroupItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateContactGroupsImportMutation,
+  CreateContactGroupsImportMutationVariables
+>
+export const CreateContactsImportDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactsImport' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactsInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContacts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'emailAddress' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateContactsImportMutation,
+  CreateContactsImportMutationVariables
 >
 export const DashboardEventRecommendationsDocument = {
   kind: 'Document',
