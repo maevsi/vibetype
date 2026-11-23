@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test'
+import { expect, type Locator, type Page } from '@playwright/test'
 import { withoutTrailingSlash } from 'ufo'
 
 import { TESTING_COOKIE_NAME } from '#src/node/static'
@@ -461,15 +461,23 @@ export const testVisualRegression = (
   plain?: boolean,
   {
     fullPage,
+    mask,
     test = appTest,
-  }: { fullPage?: boolean; test?: typeof appTest } = {},
+  }: {
+    fullPage?: boolean
+    mask?: (page: Page) => Locator[]
+    test?: typeof appTest
+  } = {},
 ) =>
   test.describe('visual regression', () => {
     test('looks as before', async ({ defaultPage, page }) => {
       await (plain ? page : defaultPage).goto(url)
 
-      await expect(plain ? page : defaultPage.page).toHaveScreenshot({
+      const pageShown = plain ? page : defaultPage.page
+
+      await expect(pageShown).toHaveScreenshot({
         fullPage,
+        mask: mask?.(pageShown),
         timeout: TIMEOUT,
       })
     })
