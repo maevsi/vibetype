@@ -1,65 +1,51 @@
 <template>
   <div class="flex flex-col gap-4">
-    <nav :aria-label="t('timeLabel')">
-      <ul class="grid grid-cols-2 gap-1 rounded-medium bg-surface-raised p-1">
-        <li v-for="option in timeOptions" :key="option.value">
-          <AppButton
-            :aria-current="time === option.value ? 'page' : undefined"
-            :aria-label="option.label"
-            :class="
-              cn(
-                'w-full justify-center px-4 py-2 text-body',
-                time === option.value &&
-                  'bg-action-primary text-on-action-primary',
-              )
-            "
-            size="none"
-            :to="{ query: getQuery({ time: option.value }) }"
-            variant="ghost"
-          >
-            {{ option.label }}
-          </AppButton>
-        </li>
-      </ul>
-    </nav>
-    <nav :aria-label="t('filterLabel')">
-      <ul
+    <div
+      :aria-label="t('filterLabel')"
+      class="flex gap-1 overflow-x-auto border-b border-line"
+      role="tablist"
+    >
+      <AppButton
+        v-for="option in filterOptions"
+        :key="option.value"
+        :aria-label="option.label"
+        :aria-selected="filter === option.value"
         :class="
           cn(
-            'grid gap-3',
-            filterOptions.length > 3
-              ? 'grid-cols-4'
-              : filterOptions.length === 3
-                ? 'grid-cols-3'
-                : 'grid-cols-2',
+            '-mb-px gap-2 rounded-none border-b-2 px-4 py-2 text-body whitespace-nowrap',
+            filter === option.value
+              ? 'border-action-primary text-fg-1'
+              : 'border-transparent text-fg-2',
+            'isFlagged' in option && 'feature-preview',
           )
         "
+        role="tab"
+        size="none"
+        :to="{ query: getQuery({ filter: option.value }) }"
+        variant="ghost"
       >
-        <li v-for="option in filterOptions" :key="option.value">
-          <AppButton
-            :aria-current="filter === option.value ? 'page' : undefined"
-            :aria-label="option.label"
-            :class="
-              cn(
-                'w-full flex-col justify-center gap-1 px-2 py-3 text-body-small',
-                filter === option.value && 'ring-2 ring-action-primary',
-                'isFlagged' in option && 'feature-preview',
-              )
-            "
-            size="none"
-            :to="{ query: getQuery({ filter: option.value }) }"
-            variant="secondary"
-          >
-            <component
-              :is="option.icon"
-              aria-hidden="true"
-              :class="cn('size-5', option.color)"
-            />
-            {{ option.label }}
-          </AppButton>
-        </li>
-      </ul>
-    </nav>
+        <component
+          :is="option.icon"
+          aria-hidden="true"
+          :class="cn('size-5', option.color)"
+        />
+        {{ option.label }}
+      </AppButton>
+    </div>
+    <Select v-model="timeModel">
+      <SelectTrigger :aria-label="t('timeLabel')" class="w-fit" size="sm">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem
+          v-for="option in timeOptions"
+          :key="option.value"
+          :value="option.value"
+        >
+          {{ option.label }}
+        </SelectItem>
+      </SelectContent>
+    </Select>
     <EventList
       :badge="badge"
       :events
@@ -307,8 +293,8 @@ const filterOptions = computed(() => [
     : []),
 ])
 const timeOptions = [
-  { label: t('past'), value: 'past' },
   { label: t('upcoming'), value: 'upcoming' },
+  { label: t('past'), value: 'past' },
 ] as const
 const route = useRoute()
 const store = useStore()
@@ -329,6 +315,13 @@ const badge = computed(() =>
     : undefined,
 )
 const time = computed(() => (route.query.time === 'past' ? 'past' : 'upcoming'))
+const router = useRouter()
+const timeModel = computed({
+  get: () => time.value,
+  set: (value) => {
+    router.push({ query: getQuery({ time: String(value) }) })
+  },
+})
 const getQuery = (override: { filter?: string; time?: string }) => {
   const next = { filter: filter.value, time: time.value, ...override }
 
@@ -350,6 +343,17 @@ const emptyState = computed(() => {
     to: { query: getQuery({ time: 'upcoming' }) },
   }
   const isPast = time.value === 'past'
+
+  if (
+    (filter.value === 'hosting' || filter.value === 'saved') &&
+    hasNoSavedOrHosted.value
+  )
+    return {
+      actions: [discover, create],
+      description: t('emptyAllDescription'),
+      icon: resolveComponent('AppIconCalendar'),
+      title: t('emptyAllTitle'),
+    }
 
   switch (filter.value) {
     case 'attending':
@@ -447,6 +451,28 @@ const savedApi = useApiQuery({
     first: ITEMS_PER_PAGE_LARGE,
   })),
 })
+// whether the account has any saved or hosted events at all, ignoring tab, time and search
+const savedAnyApi = useApiQuery({
+  query: querySaved,
+  variables: computed(() => ({
+    createdBy: store.signedInAccountId ?? '',
+    first: 1,
+  })),
+})
+const hostedAnyApi = useApiQuery({
+  query: queryEvents,
+  variables: computed(() => ({
+    condition: { createdBy: store.signedInAccountId ?? '' },
+    first: 1,
+  })),
+})
+const hasNoSavedOrHosted = computed(
+  () =>
+    !!savedAnyApi.data.value &&
+    !!hostedAnyApi.data.value &&
+    !savedAnyApi.data.value.allEventFavorites?.nodes.length &&
+    !hostedAnyApi.data.value.allEvents?.nodes.length,
+)
 const api = await useApiData([eventsApi, savedApi])
 
 // computations
@@ -504,6 +530,8 @@ const loadMore = () => {
 de:
   attending: Dabei
   drafts: Entwürfe
+  emptyAllDescription: Merke dir Veranstaltungen beim Entdecken oder plane selbst eine.
+  emptyAllTitle: Noch keine Veranstaltungen
   emptyAttendingPastDescription: Veranstaltungen, bei denen du dabei warst, erscheinen hier, sobald sie vorbei sind.
   emptyAttendingPastTitle: Keine vergangenen Veranstaltungen, bei denen du warst
   emptyAttendingUpcomingDescription: Veranstaltungen, für die du eine Einladung annimmst oder denen du beitrittst, erscheinen hier.
@@ -531,6 +559,8 @@ de:
 en:
   attending: Going
   drafts: Drafts
+  emptyAllDescription: Save events while discovering, or plan one yourself.
+  emptyAllTitle: No events yet
   emptyAttendingPastDescription: Events you attended appear here once they're over.
   emptyAttendingPastTitle: No past events you went to
   emptyAttendingUpcomingDescription: Events you accept an invitation to or join show up here.
