@@ -821,6 +821,7 @@ export const getTestingGraphqlResult = async ({
                     __typename: 'GuestConnection',
                   },
                   id: EVENT.id,
+                  isPublished: EVENT.isPublished,
                   name: EVENT.name,
                   rowId: EVENT.rowId,
                   slug: EVENT.slug,
