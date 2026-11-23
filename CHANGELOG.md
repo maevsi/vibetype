@@ -1,3 +1,16 @@
+## [18.0.0-beta.18](https://github.com/maevsi/vibetype/compare/18.0.0-beta.17...18.0.0-beta.18) (2026-11-23)
+
+### Features
+
+* **i18n:** lead notices with their value and give reasons ([#2847](https://github.com/maevsi/vibetype/issues/2847)) ([9ed0b85](https://github.com/maevsi/vibetype/commit/9ed0b85106f7721da3a7e009493118340d47380a))
+* **ingest:** ask before sending posters to openai ([#2808](https://github.com/maevsi/vibetype/issues/2808)) ([185d651](https://github.com/maevsi/vibetype/commit/185d651c0a90b0f84350477f1bc967e73bff6473))
+* **moderation:** tell before text is checked ([#2845](https://github.com/maevsi/vibetype/issues/2845)) ([e388d45](https://github.com/maevsi/vibetype/commit/e388d451e8642668774c3bbbcfef4ea1f551ebaa))
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([07826d0](https://github.com/maevsi/vibetype/commit/07826d0e07e6a284753ea073667726ce7e5b2d3e))
+* **search:** label the search as covering all events ([#2840](https://github.com/maevsi/vibetype/issues/2840)) ([b4a0891](https://github.com/maevsi/vibetype/commit/b4a089146740dbe67b8cbc9eebc1b609640813c3))
+
 ## [18.0.0-beta.17](https://github.com/maevsi/vibetype/compare/18.0.0-beta.16...18.0.0-beta.17) (2026-11-23)
 
 ### Features
