@@ -9,7 +9,7 @@
   "globalFormErrorAge18": "Du musst 18 Jahre alt sein.",
   "globalLeaveConfirm": "Ungespeicherte Änderungen verwerfen?",
   "globalLoading": "Lade...",
-  "globalModerationNotice": "Vor dem Veröffentlichen wird der Text an einen externen, KI-gestützten Moderationsdienst übermittelt, damit keine anstößigen Inhalte veröffentlicht werden.",
+  "globalModerationNotice": "Auf @.upper:{'globalSiteName'} sollen sich alle willkommen fühlen. Deshalb prüft ein externer KI-Dienst Deinen Text, bevor er veröffentlicht wird.",
   "globalPlaceholderAddress": "Veranstaltungsstraße 1,\n12345 Gaststadt",
   "globalPlaceholderFirstName": "Vorname",
   "globalPlaceholderLastName": "Nachname",
