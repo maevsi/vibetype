@@ -215,6 +215,28 @@
             </AppButton>
           </div>
         </section>
+        <section
+          :aria-labelledby="templateIdFeedback"
+          class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
+        >
+          <div class="flex flex-col gap-1 px-2 pt-2">
+            <h2 :id="templateIdFeedback" class="text-headline">
+              {{ t('feedbackTitle') }}
+            </h2>
+            <p class="text-body-small text-fg-2">
+              {{ t('feedbackDescription') }}
+            </p>
+          </div>
+          <AppButton
+            :aria-label="t('feedbackAction')"
+            class="w-full"
+            :to="localePath('support-contact')"
+            variant="secondary"
+          >
+            <AppIconPaperAirplane />
+            {{ t('feedbackAction') }}
+          </AppButton>
+        </section>
         <AppButton
           v-if="!eventUpcoming"
           :aria-label="t('discover')"
@@ -455,6 +477,7 @@ const { isCameraAvailable, pickFromCamera, pickFromLibrary } = usePosterPicker(
 // template
 const localePath = useLocalePath()
 const menuTargets = useMenuTargets()
+const templateIdFeedback = useId()
 const templateIdPosterHunt = useId()
 const templateIdPreference = useId()
 const templateIdRecommendation = useId()
@@ -465,6 +488,9 @@ const templateIdUpcoming = useId()
 <i18n lang="yaml">
 de:
   discover: Veranstaltungen entdecken
+  feedbackAction: Feedback geben
+  feedbackDescription: Was gefällt dir, was fehlt dir? Wir lesen jede Nachricht.
+  feedbackTitle: Hilf uns, @.upper:{'globalSiteName'} besser zu machen
   hunt: Jagd
   notifications: Benachrichtigungen
   posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
@@ -488,6 +514,9 @@ de:
   upcomingTitle: Deine nächste Veranstaltung
 en:
   discover: Discover new events
+  feedbackAction: Give feedback
+  feedbackDescription: What do you like, what's missing? We read every message.
+  feedbackTitle: Help us improve @.upper:{'globalSiteName'}
   hunt: Hunt
   notifications: Notifications
   posterHuntDescription: Saw an interesting event outside of @.upper:{'globalSiteName'}?
