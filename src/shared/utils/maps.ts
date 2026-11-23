@@ -1,13 +1,7 @@
-/** Builds the cross-platform Google Maps link that opens a place in the maps app of the device. */
+/** Builds the geo: link that opens a place in the user's default maps app. */
 export const getMapsUrl = ({
   location,
-  text,
 }: {
   location?: { latitude: number; longitude: number } | null
-  text: string
 }) =>
-  `https://www.google.com/maps/search/?api=1&query=${
-    location
-      ? `${location.latitude},${location.longitude}`
-      : encodeURIComponent(text)
-  }`
+  location ? `geo:${location.latitude},${location.longitude}?z=16` : undefined
