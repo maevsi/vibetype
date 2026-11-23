@@ -4,13 +4,7 @@
     <div v-else class="flex flex-1 flex-col">
       <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
       <LayoutPage>
-        <div class="flex flex-col gap-4">
-          <FormEvent :event />
-          <section>
-            <h2>{{ t('titleDelete') }}</h2>
-            <EventDeleteDrawer :event-id="event.rowId" />
-          </section>
-        </div>
+        <FormEvent :event />
       </LayoutPage>
     </div>
   </Loader>
@@ -135,9 +129,7 @@ useHeadDefault({ title })
 de:
   errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
   title: Veranstaltung bearbeiten
-  titleDelete: Veranstaltung löschen
 en:
   errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   title: Edit event
-  titleDelete: Delete event
 </i18n>

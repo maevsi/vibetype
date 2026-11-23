@@ -139,6 +139,16 @@ const createAttendanceMutation = useMutation(
     mutation AttendanceCreate($input: CreateAttendanceInput!) {
       createAttendance(input: $input) {
         attendance {
+          guestByGuestId {
+            attendanceByGuestId {
+              checkedOut
+              id
+              rowId
+              updatedAt
+            }
+            id
+            rowId
+          }
           id
           rowId
         }

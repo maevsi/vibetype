@@ -267,6 +267,10 @@ const createGuestsMutation = useMutation(
       createGuests(input: $createGuestsInput) {
         result {
           contactId
+          eventByEventId {
+            guestCount
+            id
+          }
           id
           rowId
         }

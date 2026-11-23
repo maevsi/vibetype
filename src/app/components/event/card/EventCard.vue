@@ -106,9 +106,9 @@
       />
       <div
         v-if="variant === 'recommendation'"
-        class="absolute top-2 left-2 z-20 flex h-10 items-center gap-2 rounded-pill bg-action-primary px-4 text-body text-on-action-primary"
+        class="absolute top-2 left-2 z-20 flex items-center gap-1 rounded-small bg-info-tint px-2 py-0.5 text-caption text-fg-1"
       >
-        <AppIconNetworkIntelligence class="size-5" />
+        <AppIconNetworkIntelligence aria-hidden="true" class="size-3" />
         {{ t('match') }}
       </div>
       <div
@@ -147,7 +147,7 @@
           aria-hidden="true"
           class="size-3"
         />
-        <AppIconHeart
+        <AppIconBookmark
           v-else-if="badgeKind === 'saved'"
           aria-hidden="true"
           class="size-3"
@@ -191,9 +191,14 @@
         <AppTime :datetime="event.start" />
       </span>
       <div
-        v-if="distanceText || event.guestCount"
+        v-if="
+          event.addressByAddressId?.city || distanceText || event.guestCount
+        "
         class="flex items-center gap-3 text-body-small text-fg-3"
       >
+        <span v-if="event.addressByAddressId?.city" class="min-w-0 truncate">
+          {{ event.addressByAddressId.city }}
+        </span>
         <span
           v-if="distanceText"
           :aria-label="t('distanceAway', { distance: distanceText })"
@@ -231,6 +236,7 @@ export type EventCardProps = {
       rowId?: string
       username: string
     } | null
+    addressByAddressId?: { city?: string | null } | null
     eventFavoritesByEventId?: {
       nodes: {
         createdBy: string

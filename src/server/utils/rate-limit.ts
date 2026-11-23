@@ -6,6 +6,28 @@ local n = redis.call('incr', KEYS[1])
 redis.call('expire', KEYS[1], ARGV[2])
 return n`
 
+// keys whose limiter fails open right now, so that an outage logs one warning per key instead of one per request
+const unavailableKeys = new Set<string>()
+
+// ioredis queues commands while disconnected and rejects them only after all its retries, which takes seconds
+const withTimeout = async <T>(promise: Promise<T>, timeoutMs: number) => {
+  let timeout: ReturnType<typeof setTimeout> | undefined
+
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<never>((_, reject) => {
+        timeout = setTimeout(
+          () => reject(new Error(`No answer within ${timeoutMs}ms`)),
+          timeoutMs,
+        )
+      }),
+    ])
+  } finally {
+    clearTimeout(timeout)
+  }
+}
+
 export const acquireRateLimitSlot = async ({
   isFailOpen = true,
   key,
@@ -30,13 +52,17 @@ export const acquireRateLimitSlot = async ({
 
       // Atomically increment only when under the limit to avoid inflating the
       // counter on failed acquisitions, which would reduce throughput further.
-      const count = await redis.eval(
-        RATE_LIMIT_SCRIPT,
-        1,
-        windowKey,
-        String(limit),
-        String(windowSeconds + 1),
+      const count = await withTimeout(
+        redis.eval(
+          RATE_LIMIT_SCRIPT,
+          1,
+          windowKey,
+          String(limit),
+          String(windowSeconds + 1),
+        ),
+        maxWaitMs - (Date.now() - startTime),
       )
+      unavailableKeys.delete(key)
 
       if (Number(count) > 0) return
 
@@ -45,9 +71,10 @@ export const acquireRateLimitSlot = async ({
     } catch (error) {
       if (!isFailOpen) throw error
 
-      console.warn(
+      console[unavailableKeys.has(key) ? 'debug' : 'warn'](
         `Rate limiting unavailable for "${key}", proceeding: ${error}`,
       )
+      unavailableKeys.add(key)
       return
     }
   }
