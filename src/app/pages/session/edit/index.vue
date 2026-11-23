@@ -25,6 +25,36 @@
             >
               <AppIconNetworkIntelligence />
             </AppMenuItem>
+            <AppMenuItem
+              :title="t('earlyBirdStart')"
+              :to="localePath({ name: 'early-bird-create' })"
+              tone="warning"
+            >
+              <AppIconEarlyBird />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('language')"
+              :to="
+                localePath({
+                  name: 'session-edit-language',
+                })
+              "
+              tone="warning"
+            >
+              <AppIconLanguage />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('accountBlock')"
+              :to="
+                localePath({
+                  name: 'account-view-username-block',
+                  params: { username: store.signedInUsername },
+                })
+              "
+              tone="danger"
+            >
+              <AppIconNoSymbol />
+            </AppMenuItem>
           </div>
         </section>
         <section class="flex flex-col gap-4">
@@ -180,11 +210,13 @@ useHeadDefault({ title })
 <i18n lang="yaml">
 de:
   account: Konto
+  accountBlock: Blockierte Konten
   bugReport: Fehler
   colorScheme: Farbschema
   contact: Kontakt
   developerInformation: Entwicklerinformationen
   display: Anzeige
+  earlyBirdStart: Early Bird beitreten
   editProfile: Profil bearbeiten
   featureSuggestion: Idee
   language: Sprache
@@ -199,11 +231,13 @@ de:
   terms: Nutzungsbedingungen
 en:
   account: Account
+  accountBlock: Blocked Users
   bugReport: Issue
   colorScheme: Color scheme
   contact: Contact
   developerInformation: Developer information
   display: Display
+  earlyBirdStart: Join Early Bird
   editProfile: Edit profile
   featureSuggestion: Idea
   language: Language
