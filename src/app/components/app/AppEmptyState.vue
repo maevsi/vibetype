@@ -26,7 +26,7 @@
     </div>
     <div
       v-if="$slots.default"
-      class="flex w-full flex-col items-center justify-center gap-2 sm:flex-row [&_[data-variant=secondary]]:bg-surface"
+      class="flex w-full flex-col items-center justify-center gap-2 sm:flex-row [&_[data-variant=primary]]:bg-surface [&_[data-variant=primary]]:text-fg-1 [&_[data-variant=primary]]:hover:bg-line [&_[data-variant=secondary]]:bg-surface"
     >
       <slot />
     </div>

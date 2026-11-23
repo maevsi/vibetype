@@ -102,6 +102,24 @@
             :errors="normalizeFieldErrors(slugField.state.meta.errors)"
           />
         </form.Field>
+        <form.Field v-slot="{ field }" name="description">
+          <Field>
+            <FieldLabel>{{ t('description') }}</FieldLabel>
+            <FieldContent>
+              <client-only>
+                <AppTipTap
+                  :aria-label="t('description')"
+                  :value="field.state.value"
+                  @input="field.handleChange($event)"
+                />
+              </client-only>
+            </FieldContent>
+            <FieldError
+              v-if="isFieldInvalid(field)"
+              :errors="field.state.meta.errors"
+            />
+          </Field>
+        </form.Field>
         <form.Field v-slot="{ field }" name="start">
           <Field class="flex flex-col">
             <FieldLabel for="button-start">{{ t('start') }}</FieldLabel>
@@ -336,24 +354,6 @@
                   field.handleChange(($event.target as HTMLInputElement).value)
                 "
               />
-            </FieldContent>
-            <FieldError
-              v-if="isFieldInvalid(field)"
-              :errors="field.state.meta.errors"
-            />
-          </Field>
-        </form.Field>
-        <form.Field v-slot="{ field }" name="description">
-          <Field>
-            <FieldLabel>{{ t('description') }}</FieldLabel>
-            <FieldContent>
-              <client-only>
-                <AppTipTap
-                  :aria-label="t('description')"
-                  :value="field.state.value"
-                  @input="field.handleChange($event)"
-                />
-              </client-only>
             </FieldContent>
             <FieldError
               v-if="isFieldInvalid(field)"
@@ -657,7 +657,32 @@ const updateEventMutation = useMutation(
     mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {
       updateEventByRowId(input: $input) {
         event {
+          addressByAddressId {
+            city
+            country
+            id
+            line1
+            line2
+            location {
+              latitude
+              longitude
+            }
+            name
+            postalCode
+            region
+            rowId
+          }
+          description
+          end
+          guestCountMaximum
           id
+          isInPerson
+          isRemote
+          name
+          slug
+          start
+          url
+          visibility
         }
       }
     }
@@ -1125,7 +1150,7 @@ const form = useForm({
     start: (event?.start as string) ?? '',
     url: (event?.url as string) ?? '',
     visibility:
-      (event?.visibility as EventVisibility) ?? EventVisibility.Private,
+      (event?.visibility as EventVisibility) ?? EventVisibility.Public,
   },
   validators: {
     onSubmit: formSchema,
@@ -1212,7 +1237,7 @@ const form = useForm({
             slug: value.slug || '',
             start: value.start || '',
             url: value.url || null,
-            visibility: value.visibility || EventVisibility.Private,
+            visibility: value.visibility || EventVisibility.Public,
           },
         },
       })
@@ -1262,7 +1287,22 @@ const form = useForm({
   },
 })
 
-useLeaveConfirmation(form.useStore((state) => state.isDirty))
+// the form's own `isDirty` stays set once a field was edited, even when the edit was undone, and selected ids may come back in another order
+const isChanged = form.useStore((state) => {
+  const valuesInitial = new Map(
+    Object.entries(form.options.defaultValues ?? {}),
+  )
+
+  return Object.entries(state.values).some(([key, value]) => {
+    const valueInitial = valuesInitial.get(key)
+
+    return Array.isArray(value) && Array.isArray(valueInitial)
+      ? value.length !== valueInitial.length ||
+          value.some((item) => !valueInitial.includes(item))
+      : value !== valueInitial
+  })
+})
+useLeaveConfirmation(isChanged)
 
 // methods
 const dateTimeFormatter = (x?: string) =>
@@ -1327,7 +1367,11 @@ const isWarningStartPastShown = computed(() => {
   return !!start && new Date(start) < now.value
 })
 const errorMessages = computed(() =>
-  api.value.errors ? getCombinedErrorMessages(api.value.errors) : undefined,
+  api.value.errors
+    ? getCombinedErrorMessages(api.value.errors, {
+        [`postgres${MODERATION_ERROR_CODE}`]: t('globalErrorModerated'),
+      })
+    : undefined,
 )
 
 // `handleSubmit` silently drops a first attempt while a field is still
@@ -1347,7 +1391,7 @@ if (event?.rowId) {
 de:
   attendanceType: Anwesenheitstyp
   categories: Kategorien
-  description: Einladungstext
+  description: Beschreibung
   end: Ende
   eventCreate: Veranstaltung erstellen
   eventCreateSuccess: Veranstaltung erfolgreich erstellt.
@@ -1393,7 +1437,7 @@ de:
 en:
   attendanceType: Attendance type
   categories: Categories
-  description: Invitation text
+  description: Description
   end: End
   eventCreate: Create event
   eventCreateSuccess: Event created successfully.

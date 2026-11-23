@@ -41,7 +41,9 @@ export const useAlertErrorDetails = () => {
       return [
         error.message,
         ...error.graphQLErrors.flatMap((graphqlError) => [
-          ...(graphqlError.errcode ? [`code: ${graphqlError.errcode}`] : []),
+          ...(getGraphQLErrorCode(graphqlError)
+            ? [`code: ${getGraphQLErrorCode(graphqlError)}`]
+            : []),
           ...(graphqlError.extensions?.code
             ? [`extensions code: ${String(graphqlError.extensions.code)}`]
             : []),
