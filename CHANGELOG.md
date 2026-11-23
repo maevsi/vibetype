@@ -1,3 +1,9 @@
+## [17.48.0](https://github.com/maevsi/vibetype/compare/17.47.1...17.48.0) (2026-11-23)
+
+### Features
+
+* **i18n:** lead notices with their value and give reasons ([#2847](https://github.com/maevsi/vibetype/issues/2847)) ([9ed0b85](https://github.com/maevsi/vibetype/commit/9ed0b85106f7721da3a7e009493118340d47380a))
+
 ## [17.47.1](https://github.com/maevsi/vibetype/compare/17.47.0...17.47.1) (2026-11-23)
 
 ### Bug Fixes
