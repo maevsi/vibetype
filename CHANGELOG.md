@@ -1,3 +1,9 @@
+## [17.49.1](https://github.com/maevsi/vibetype/compare/17.49.0...17.49.1) (2026-11-23)
+
+### Bug Fixes
+
+* **event:** let match badge pass clicks to card link ([#2851](https://github.com/maevsi/vibetype/issues/2851)) ([abed98a](https://github.com/maevsi/vibetype/commit/abed98ae3ac6897a992bef59b0e8ebd1fc12fcda))
+
 ## [17.49.0](https://github.com/maevsi/vibetype/compare/17.48.0...17.49.0) (2026-11-23)
 
 ### Features
