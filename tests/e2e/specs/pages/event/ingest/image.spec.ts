@@ -1,5 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 
+import { EVENT_INGEST_CONSENT_COOKIE_NAME } from '#src/node/static'
 import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 
 const PAGE_PATH = '/event/ingest/image'
@@ -24,7 +25,48 @@ const pickPoster = async (page: Page, buffer = IMAGE_PNG) => {
   })
 }
 
+authenticatedTest.describe('poster consent', () => {
+  authenticatedTest(
+    'asks before the first poster is sent',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+      let requestCount = 0
+
+      await page.route(ROUTE, (route) => {
+        requestCount++
+
+        return route.fulfill({
+          json: { output: { description: '', is_event: false } },
+        })
+      })
+      await defaultPage.goto(PAGE_PATH)
+      await pickPoster(page)
+
+      await expect(
+        page.getByRole('heading', { name: 'Read posters with AI?' }),
+      ).toBeVisible()
+      expect(requestCount).toBe(0)
+
+      await page.getByRole('button', { name: 'Allow' }).click()
+
+      await expect(page.getByText('No event found on this photo')).toBeVisible()
+      expect(requestCount).toBe(1)
+    },
+  )
+})
+
 authenticatedTest.describe('poster reading', () => {
+  authenticatedTest.beforeEach(async ({ context }) => {
+    await context.addCookies([
+      {
+        domain: 'app.localhost',
+        name: EVENT_INGEST_CONSENT_COOKIE_NAME,
+        path: '/',
+        value: 'true',
+      },
+    ])
+  })
+
   authenticatedTest(
     'prefills the event form from a poster',
     async ({ defaultPage }) => {
