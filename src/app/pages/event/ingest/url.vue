@@ -42,6 +42,10 @@
           <template #loading>{{ t('reading') }}</template>
         </AppButton>
       </form>
+      <EventIngestConsentDrawer
+        v-model="isConsentDrawerOpen"
+        @allowed="onConsentAllowed"
+      />
     </LayoutPage>
   </div>
 </template>
@@ -61,14 +65,26 @@ await useSignInRequired()
 useHeadDefault({ title: t('title') })
 
 // data
+// the page records the consent itself, as a cookie ref of the drawer's own would not update this one
+const { give: giveConsent, isGiven: isConsentGiven } = useEventIngestConsent()
 const enteredUrl = ref('')
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
+const isConsentDrawerOpen = ref(false)
 const isNoEvent = ref(false)
 const isReading = ref(false)
 
 // methods
+const onConsentAllowed = () => {
+  giveConsent()
+  readLink()
+}
 const readLink = async () => {
   if (!enteredUrl.value) return
+
+  if (!isConsentGiven.value) {
+    isConsentDrawerOpen.value = true
+    return
+  }
 
   isReading.value = true
   isNoEvent.value = false

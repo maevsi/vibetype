@@ -36,7 +36,7 @@ export const getEventImported = async ({
     slug: slugify(name, { lower: true, strict: true }), // the form derives it only while the name is typed
     start: start ?? '',
     url: url ?? null,
-    visibility: EventVisibility.Private,
+    visibility: EventVisibility.Public,
   }
 }
 
