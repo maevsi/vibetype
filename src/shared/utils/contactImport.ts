@@ -1,3 +1,4 @@
+import { getContactGroupNamesNormalized } from './contactGroup'
 import type { CountryCode } from 'libphonenumber-js/min'
 
 const NAME_LENGTH_MAXIMUM = 100 // the `contact` table's limit for first and last names
@@ -9,6 +10,7 @@ export type ContactImportPhoneNumberParser = (
 export interface ContactImportRow {
   emailAddress?: string
   firstName?: string
+  groupNames: string[]
   isPhoneNumberDropped: boolean
   lastName?: string
   phoneNumber?: string
@@ -21,6 +23,7 @@ export type ContactImportRowStatus =
 export interface ContactPicked {
   emailAddresses: string[]
   firstName?: string
+  groupNames: string[]
   lastName?: string
   phoneNumbers: string[]
 }
@@ -96,6 +99,7 @@ export const getContactImportRows = ({
     return {
       emailAddress,
       firstName: getNameNormalized(contact.firstName),
+      groupNames: getContactGroupNamesNormalized(contact.groupNames),
       isPhoneNumberDropped: Boolean(phoneNumberPicked) && !phoneNumber,
       lastName: getNameNormalized(contact.lastName),
       phoneNumber,
