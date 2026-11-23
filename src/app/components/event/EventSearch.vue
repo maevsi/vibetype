@@ -75,6 +75,7 @@ const queryEventList = graphql(`
           username
         }
         addressByAddressId {
+          city
           id
           location {
             latitude
@@ -145,6 +146,7 @@ const queryEventSearch = graphql(`
           username
         }
         addressByAddressId {
+          city
           id
           location {
             latitude

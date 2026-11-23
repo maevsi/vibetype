@@ -1115,6 +1115,7 @@ export type EventListMineQuery = {
       start: string
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       addressByAddressId: {
+        city: string | null
         id: string
         rowId: string
         location: { latitude: number; longitude: number } | null
@@ -1174,6 +1175,7 @@ export type EventListMineSavedQuery = {
           username: string
         } | null
         addressByAddressId: {
+          city: string | null
           id: string
           rowId: string
           location: { latitude: number; longitude: number } | null
@@ -1228,6 +1230,7 @@ export type EventListQuery = {
       start: string
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       addressByAddressId: {
+        city: string | null
         id: string
         rowId: string
         location: { latitude: number; longitude: number } | null
@@ -1283,6 +1286,7 @@ export type EventSearchQuery = {
       start: string
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       addressByAddressId: {
+        city: string | null
         id: string
         rowId: string
         location: { latitude: number; longitude: number } | null
@@ -1359,7 +1363,33 @@ export type UpdateEventByRowIdMutationVariables = Exact<{
 }>
 
 export type UpdateEventByRowIdMutation = {
-  updateEventByRowId: { event: { id: string } | null } | null
+  updateEventByRowId: {
+    event: {
+      description: string | null
+      end: string | null
+      guestCountMaximum: number | null
+      id: string
+      isInPerson: boolean | null
+      isRemote: boolean | null
+      name: string
+      slug: string
+      start: string
+      url: string | null
+      visibility: EventVisibility
+      addressByAddressId: {
+        city: string | null
+        country: string | null
+        id: string
+        line1: string | null
+        line2: string | null
+        name: string
+        postalCode: string | null
+        region: string | null
+        rowId: string
+        location: { latitude: number; longitude: number } | null
+      } | null
+    } | null
+  } | null
 }
 
 export type CreateAddressMutationVariables = Exact<{
@@ -1474,7 +1504,12 @@ export type CreateGuestsMutationVariables = Exact<{
 
 export type CreateGuestsMutation = {
   createGuests: {
-    result: Array<{ contactId: string; id: string; rowId: string }> | null
+    result: Array<{
+      contactId: string
+      id: string
+      rowId: string
+      eventByEventId: { guestCount: number; id: string } | null
+    }> | null
   } | null
 }
 
@@ -1533,7 +1568,13 @@ export type DeleteGuestByRowIdMutationVariables = Exact<{
 }>
 
 export type DeleteGuestByRowIdMutation = {
-  deleteGuestByRowId: { clientMutationId: string | null } | null
+  deleteGuestByRowId: {
+    guest: {
+      id: string
+      rowId: string
+      eventByEventId: { guestCount: number; id: string } | null
+    } | null
+  } | null
 }
 
 export type AllGuestsQueryVariables = Exact<{
@@ -1976,7 +2017,12 @@ export type AttendanceCheckOutMutationVariables = Exact<{
 
 export type AttendanceCheckOutMutation = {
   updateAttendanceByRowId: {
-    attendance: { id: string; checkedOut: boolean | null; rowId: string } | null
+    attendance: {
+      id: string
+      checkedOut: boolean | null
+      rowId: string
+      updatedAt: string | null
+    } | null
   } | null
 }
 
@@ -2024,6 +2070,7 @@ export type DashboardEventRecommendationsQuery = {
     start: string
     accountByCreatedBy: { id: string; rowId: string; username: string } | null
     addressByAddressId: {
+      city: string | null
       id: string
       rowId: string
       location: { latitude: number; longitude: number } | null
@@ -2166,7 +2213,22 @@ export type AttendanceCreateMutationVariables = Exact<{
 }>
 
 export type AttendanceCreateMutation = {
-  createAttendance: { attendance: { id: string; rowId: string } | null } | null
+  createAttendance: {
+    attendance: {
+      id: string
+      rowId: string
+      guestByGuestId: {
+        id: string
+        rowId: string
+        attendanceByGuestId: {
+          checkedOut: boolean | null
+          id: string
+          rowId: string
+          updatedAt: string | null
+        } | null
+      } | null
+    } | null
+  } | null
 }
 
 export type EventGuestsQueryVariables = Exact<{
@@ -4283,6 +4345,10 @@ export const EventListMineDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -4686,6 +4752,10 @@ export const EventListMineSavedDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'city' },
+                                  },
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
@@ -5112,6 +5182,10 @@ export const EventListDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -5505,6 +5579,10 @@ export const EventSearchDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
@@ -6143,7 +6221,94 @@ export const UpdateEventByRowIdDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'addressByAddressId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'line1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'line2' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'latitude' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'longitude' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'postalCode' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'region' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCountMaximum' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isRemote' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'visibility' },
+                      },
                     ],
                   },
                 },
@@ -6870,6 +7035,23 @@ export const CreateGuestsDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'contactId' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
@@ -7225,7 +7407,31 @@ export const DeleteGuestByRowIdDocument = {
               selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
+                  name: { kind: 'Name', value: 'guest' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
                 },
               ],
             },
@@ -9917,6 +10123,10 @@ export const AttendanceCheckOutDocument = {
                         name: { kind: 'Name', value: 'checkedOut' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
                     ],
                   },
                 },
@@ -10278,6 +10488,7 @@ export const DashboardEventRecommendationsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
@@ -11255,6 +11466,51 @@ export const AttendanceCreateDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestByGuestId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'attendanceByGuestId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'checkedOut' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
