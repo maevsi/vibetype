@@ -96,6 +96,9 @@
           >
             <span class="text-headline">{{ t('save') }}</span>
           </AppButton>
+          <p class="text-center text-caption text-fg-2">
+            {{ t('globalModerationNotice') }}
+          </p>
         </form>
         <section class="flex flex-col gap-4">
           <AppSeparator />
