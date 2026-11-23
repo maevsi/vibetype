@@ -76,7 +76,7 @@ appTest.describe('authentication', () => {
 
     await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
     await expect(
-      defaultPage.page.getByRole('link', { name: 'Events' }),
+      defaultPage.page.getByRole('link', { exact: true, name: 'Events' }),
     ).toBeVisible()
     await expect(
       defaultPage.page.getByRole('button', { name: 'Back', exact: true }),
