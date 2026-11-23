@@ -8,7 +8,11 @@
     <div class="flex flex-wrap gap-2">
       <AppButton
         :aria-label="t('guestSend')"
-        :disabled="!event.isPublished || !guestsSendable.length || isPending"
+        :disabled="
+          getEventPublicationState(event) !== 'published' ||
+          !guestsSendable.length ||
+          isPending
+        "
         :loading="pending === 'send'"
         size="small"
         variant="secondary"
@@ -58,7 +62,10 @@
         </template>
       </AppButton>
     </div>
-    <span v-if="!event.isPublished" class="text-body-small text-fg-2">
+    <span
+      v-if="getEventPublicationState(event) !== 'published'"
+      class="text-body-small text-fg-2"
+    >
       {{ t('disabledReasonDraft') }}
     </span>
   </div>
@@ -88,7 +95,7 @@ import type {
 import { getContactItem } from '~~/shared/utils/contact'
 
 const { event, guests } = defineProps<{
-  event: Pick<EventItemFragment, 'isPublished'>
+  event: Pick<EventItemFragment, 'publishedAt'>
   guests: Pick<GuestItemFragment, 'contactByContactId' | 'rowId'>[]
 }>()
 

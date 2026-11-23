@@ -210,7 +210,7 @@ const { event } = defineProps<{
     | 'accountByCreatedBy'
     | 'createdBy'
     | 'guestCountMaximum'
-    | 'isPublished'
+    | 'publishedAt'
     | 'rowId'
     | 'slug'
   >

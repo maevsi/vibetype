@@ -7528,17 +7528,6 @@ export default {
             args: [],
           },
           {
-            name: 'isPublished',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'SCALAR',
-                name: 'Any',
-              },
-            },
-            args: [],
-          },
-          {
             name: 'isRemote',
             type: {
               kind: 'SCALAR',
@@ -7562,6 +7551,14 @@ export default {
                 kind: 'SCALAR',
                 name: 'Any',
               },
+            },
+            args: [],
+          },
+          {
+            name: 'publishedAt',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
             },
             args: [],
           },

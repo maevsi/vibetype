@@ -1,5 +1,16 @@
 import { graphql } from '~~/gql/generated'
 
+// like the server's publication rule: a missing `publishedAt` is a draft, a future one is scheduled
+export const getEventPublicationState = (
+  event: { publishedAt?: string | null },
+  now: Date = new Date(),
+): 'draft' | 'published' | 'scheduled' =>
+  !event.publishedAt
+    ? 'draft'
+    : new Date(event.publishedAt) > now
+      ? 'scheduled'
+      : 'published'
+
 // like the server's `has_ended`, an event without an end ends at its start, following RFC 5545
 export const getEventState = (
   event: { end?: string | null; start: string },
@@ -60,9 +71,9 @@ export const EventItem = graphql(`
     id
     isArchived
     isInPerson
-    isPublished
     isRemote
     name
+    publishedAt
     rowId
     slug
     start

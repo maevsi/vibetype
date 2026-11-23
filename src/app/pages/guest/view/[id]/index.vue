@@ -423,9 +423,9 @@ const eventQuery = useApiQuery({
           id
           isArchived
           isInPerson
-          isPublished
           isRemote
           name
+          publishedAt
           rowId
           slug
           start

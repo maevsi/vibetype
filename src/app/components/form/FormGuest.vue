@@ -136,7 +136,9 @@
           {{ isSending ? t('selectAndSend') : t('select') }}
         </AppButton>
         <p
-          v-if="isInvitationSent && !event.isPublished"
+          v-if="
+            isInvitationSent && getEventPublicationState(event) !== 'published'
+          "
           class="mt-2 text-body-small text-fg-2"
         >
           {{ t('disabledReasonDraft') }}
@@ -172,7 +174,7 @@ const {
   guestContactIdsExisting = undefined,
   isInvitationSent = false,
 } = defineProps<{
-  event: Pick<EventItemFragment, 'isPublished' | 'rowId'>
+  event: Pick<EventItemFragment, 'publishedAt' | 'rowId'>
   guestContactIdsExisting?: string[]
   isInvitationSent?: boolean
 }>()
@@ -296,7 +298,9 @@ const contacts = computed(
 // Contacts without a name sort to the very end of the contact book, far beyond the loaded page, so the ones this form is about are kept at hand separately.
 const contactsPinned = ref<ContactItemFragment[]>([])
 
-const isSending = computed(() => isInvitationSent && event.isPublished)
+const isSending = computed(
+  () => isInvitationSent && getEventPublicationState(event) === 'published',
+)
 
 // form
 const formSchema = z.object({

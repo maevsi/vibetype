@@ -86,8 +86,15 @@
       </LayoutTopBar>
       <LayoutPage>
         <div class="flex flex-col gap-6">
-          <AppAlert v-if="!event.isPublished">
+          <AppAlert v-if="publicationState === 'draft'">
             {{ t('draftNotice') }}
+          </AppAlert>
+          <AppAlert v-else-if="publicationState === 'scheduled'">
+            <i18n-t keypath="scheduledNotice" tag="span">
+              <template #date>
+                <AppTime :datetime="event.publishedAt!" />
+              </template>
+            </i18n-t>
           </AppAlert>
           <div class="relative">
             <EventHeroImage class="h-64 rounded-large" :event />
@@ -399,9 +406,9 @@ const eventQuery = useApiQuery({
             id
             isArchived
             isInPerson
-            isPublished
             isRemote
             name
+            publishedAt
             rowId
             slug
             start
@@ -439,11 +446,15 @@ const createGuestMutation = useMutation(
 )
 const api = await useApiData([eventQuery])
 
+const publicationState = computed(() =>
+  event.value ? getEventPublicationState(event.value) : undefined,
+)
+
 // read once on the server, where the data above is awaited before rendering, as `useRobotsRule` is not reactive and a no-op on the client
 useRobotsRule(
   event.value &&
     (event.value.visibility !== EventVisibility.Public ||
-      !event.value.isPublished)
+      getEventPublicationState(event.value) !== 'published')
     ? false
     : undefined,
 )
@@ -636,6 +647,7 @@ de:
   participateError: Teilnahme fehlgeschlagen
   participation: Deine Teilnahme
   report: Veranstaltung melden
+  scheduledNotice: Diese Veranstaltung wird am {date} veröffentlicht. Bis dahin kannst nur du sie sehen.
   stateEnded: Vorbei
   stateOngoing: Läuft gerade
   stateUpcoming: Bevorstehend
@@ -658,6 +670,7 @@ en:
   participateError: Participation failed
   participation: Your participation
   report: Report event
+  scheduledNotice: This event will be published on {date}. Until then, only you can see it.
   stateEnded: Ended
   stateOngoing: Happening now
   stateUpcoming: Upcoming

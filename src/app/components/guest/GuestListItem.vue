@@ -20,7 +20,7 @@
           :aria-label="sendLabel"
           class="hidden md:block"
           :disabled="
-            !event.isPublished ||
+            getEventPublicationState(event) !== 'published' ||
             (!contact.accountId && !contact.emailAddress) ||
             pending.sends.includes(guest.rowId)
           "
@@ -43,7 +43,7 @@
           <AppDropdownItem
             class="md:hidden"
             :disabled="
-              !event.isPublished ||
+              getEventPublicationState(event) !== 'published' ||
               (!contact.accountId && !contact.emailAddress) ||
               pending.sends.includes(guest.rowId)
             "
@@ -143,7 +143,7 @@ import type {
 } from '~~/gql/generated/graphql'
 
 const { event, guest } = defineProps<{
-  event: Pick<EventItemFragment, 'accountByCreatedBy' | 'isPublished' | 'slug'>
+  event: Pick<EventItemFragment, 'accountByCreatedBy' | 'publishedAt' | 'slug'>
   guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'rowId'>
 }>()
 
@@ -262,7 +262,7 @@ const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 
 // computations
 const sendLabel = computed(() =>
-  !event.isPublished
+  getEventPublicationState(event) !== 'published'
     ? t('disabledReasonDraft')
     : contact.value?.accountId || contact.value?.emailAddress
       ? t('guestSend')

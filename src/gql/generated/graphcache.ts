@@ -3221,13 +3221,13 @@ export type Event = Node & {
   isArchived: Scalars['Boolean']['output']
   /** Indicates whether the event takes place in person. */
   isInPerson?: Maybe<Scalars['Boolean']['output']>
-  /** Indicates whether the event is published. Unpublished events are drafts only their organizer can see. */
-  isPublished: Scalars['Boolean']['output']
   /** Indicates whether the event takes place remotely. */
   isRemote?: Maybe<Scalars['Boolean']['output']>
   language?: Maybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: Scalars['String']['output']
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: Maybe<Scalars['Datetime']['output']>
   /** Reads and enables pagination through a set of `Report`. */
   reportsByTargetEventId: ReportConnection
   /** The event's internal id. */
@@ -3877,13 +3877,13 @@ export type EventInput = {
   isArchived?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place in person. */
   isInPerson?: InputMaybe<Scalars['Boolean']['input']>
-  /** Indicates whether the event is published. Unpublished events are drafts only their organizer can see. */
-  isPublished?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place remotely. */
   isRemote?: InputMaybe<Scalars['Boolean']['input']>
   language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: Scalars['String']['input']
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug: Scalars['String']['input']
   /** The event's start date and time, with time zone. */
@@ -3929,13 +3929,13 @@ export type EventPatch = {
   isArchived?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place in person. */
   isInPerson?: InputMaybe<Scalars['Boolean']['input']>
-  /** Indicates whether the event is published. Unpublished events are drafts only their organizer can see. */
-  isPublished?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place remotely. */
   isRemote?: InputMaybe<Scalars['Boolean']['input']>
   language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name?: InputMaybe<Scalars['String']['input']>
+  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug?: InputMaybe<Scalars['String']['input']>
   /** The event's start date and time, with time zone. */
@@ -11081,11 +11081,6 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       Scalars['Boolean']['output'] | string
     >
-    isPublished?: GraphCacheResolver<
-      WithTypename<Event>,
-      Record<string, never>,
-      Scalars['Boolean']['output'] | string
-    >
     isRemote?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
@@ -11100,6 +11095,11 @@ export type GraphCacheResolvers = {
       WithTypename<Event>,
       Record<string, never>,
       Scalars['String']['output'] | string
+    >
+    publishedAt?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
     >
     reportsByTargetEventId?: GraphCacheResolver<
       WithTypename<Event>,
@@ -16596,10 +16596,6 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Event>>,
       Record<string, never>
     >
-    isPublished?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<Event>>,
-      Record<string, never>
-    >
     isRemote?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
@@ -16609,6 +16605,10 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     name?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
+    publishedAt?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
     >
