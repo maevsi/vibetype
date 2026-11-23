@@ -6,12 +6,6 @@
         line
       }}</span>
     </AppLink>
-    <span v-else class="flex flex-col">
-      <span>{{ address.name }}</span>
-      <span v-for="line in lines" :key="line" class="text-fg-2">{{
-        line
-      }}</span>
-    </span>
     <template #icon>
       <AppIconMap :title="t('location')" />
     </template>
@@ -39,7 +33,12 @@ const { t } = useI18n()
 const lines = computed(() =>
   getAddressLines(address).filter((line) => line !== address?.name),
 )
-const mapsUrl = computed(() => getMapsUrl({ location: address?.location }))
+const mapsUrl = computed(() =>
+  getMapsUrl({
+    location: address?.location,
+    text: [address?.name, getAddressText(address)].filter(Boolean).join(', '),
+  }),
+)
 </script>
 
 <i18n lang="yaml">
