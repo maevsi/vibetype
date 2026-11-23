@@ -5,13 +5,13 @@
   >
     <div
       :aria-label="t('formatting')"
-      class="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-line px-3 py-2"
+      class="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-line px-2 py-1"
       role="group"
     >
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('undo')"
-          class="rounded-small p-1"
+          class="rounded-small p-1 [&_svg]:size-4"
           size="none"
           :title="t('undo')"
           variant="ghost"
@@ -21,7 +21,7 @@
         </AppButton>
         <AppButton
           :aria-label="t('redo')"
-          class="rounded-small p-1"
+          class="rounded-small p-1 [&_svg]:size-4"
           size="none"
           :title="t('redo')"
           variant="ghost"
@@ -30,7 +30,7 @@
           <AppIconArrowRotateRight />
         </AppButton>
       </div>
-      <div aria-hidden="true" class="h-5 w-px bg-line" />
+      <div aria-hidden="true" class="h-4 w-px bg-line" />
       <div class="flex gap-1">
         <!-- <AppButton
           size="none" variant="ghost"
@@ -43,7 +43,7 @@
         <AppButton
           :aria-label="t('heading1')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.heading1 ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -59,7 +59,7 @@
         <AppButton
           :aria-label="t('heading2')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.heading2 ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -75,7 +75,7 @@
         <AppButton
           :aria-label="t('heading3')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.heading3 ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -89,12 +89,12 @@
           </span>
         </AppButton>
       </div>
-      <div aria-hidden="true" class="h-5 w-px bg-line" />
+      <div aria-hidden="true" class="h-4 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('bold')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.bold ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -107,7 +107,7 @@
         <AppButton
           :aria-label="t('italic')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.italic ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -120,7 +120,7 @@
         <AppButton
           :aria-label="t('strike')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.strike ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -131,12 +131,12 @@
           <AppIconStrikethrough />
         </AppButton>
       </div>
-      <div aria-hidden="true" class="h-5 w-px bg-line" />
+      <div aria-hidden="true" class="h-4 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('formatAlignLeft')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.textAlignLeft ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -149,7 +149,7 @@
         <AppButton
           :aria-label="t('formatAlignCenter')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.textAlignCenter ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -162,7 +162,7 @@
         <AppButton
           :aria-label="t('formatAlignRight')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.textAlignRight ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -175,7 +175,7 @@
         <AppButton
           :aria-label="t('formatAlignJustify')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.textAlignJustify ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -186,12 +186,12 @@
           <AppIconAlignJustify />
         </AppButton>
       </div>
-      <div aria-hidden="true" class="h-5 w-px bg-line" />
+      <div aria-hidden="true" class="h-4 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('listUl')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.bulletList ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -204,7 +204,7 @@
         <AppButton
           :aria-label="t('listOl')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.orderedList ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -215,12 +215,12 @@
           <AppIconListOl />
         </AppButton>
       </div>
-      <div aria-hidden="true" class="h-5 w-px bg-line" />
+      <div aria-hidden="true" class="h-4 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('link')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.link ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -232,7 +232,7 @@
         </AppButton>
         <AppButton
           :aria-label="t('linkRemove')"
-          class="rounded-small p-1"
+          class="rounded-small p-1 [&_svg]:size-4"
           :disabled="!isActive.link"
           size="none"
           :title="t('linkRemove')"
@@ -244,7 +244,7 @@
         <AppButton
           :aria-label="t('blockquote')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.blockquote ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -257,7 +257,7 @@
         <AppButton
           :aria-label="t('code')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.code ? ['bg-surface'] : []),
           ]"
           size="none"
@@ -268,12 +268,12 @@
           <AppIconCode />
         </AppButton>
       </div>
-      <div aria-hidden="true" class="h-5 w-px bg-line" />
+      <div aria-hidden="true" class="h-4 w-px bg-line" />
       <div class="flex gap-1">
         <AppButton
           :aria-label="t('horizontalRule')"
           :class="[
-            'rounded-small p-1',
+            'rounded-small p-1 [&_svg]:size-4',
             ...(isActive.horizontalRule ? ['bg-surface'] : []),
           ]"
           size="none"
