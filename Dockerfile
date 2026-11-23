@@ -1,12 +1,12 @@
-# syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1@sha256:572cebbc2b15e6f84c077742952674889cb63cd5e9b80abdffcbe587b6f19183
 # check=skip=SecretsUsedInArgOrEnv
 
 # the image whose skew protection storage seeds this build
-ARG SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype:latest
+ARG SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype:latest@sha256:f6df1bd910a37e481a07663e7a8fa009a0f45ad15a1c2a43d31f92b81f63422f
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/postgraphile:3.1.0
-FROM ghcr.io/maevsi/sqitch:13.4
+FROM ghcr.io/maevsi/postgraphile:3.5.0@sha256:426d783821b30b506151512b6becedfb44b875ff52f2b37828cddfdb82e04b47
+FROM ghcr.io/maevsi/sqitch:13.10@sha256:8deaf2483acd60355d05a66eb026381f72cb1c5c08659d6cd04e5e4251e52cfe
 # </DEPENDENCIES>
 
 FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source
@@ -14,7 +14,7 @@ FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source
 #############
 # Create base image.
 
-FROM node:26.13.1-alpine AS base-image
+FROM node:26.13.1-alpine@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5 AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true

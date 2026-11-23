@@ -46,49 +46,6 @@
       </AppLoaderPlaceholder>
       <div v-else class="flex flex-col gap-4">
         <section
-          :aria-labelledby="templateIdUpcoming"
-          class="flex flex-col gap-2"
-        >
-          <div class="flex items-center justify-between gap-2">
-            <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
-              {{ t('upcomingTitle') }}
-            </h2>
-            <AppLink
-              v-if="eventUpcoming && menuTargets.events"
-              class="text-body-small text-link hover:text-link-hover"
-              :to="menuTargets.events"
-            >
-              {{ t('seeAll') }}
-            </AppLink>
-          </div>
-          <EventCard
-            v-if="eventUpcoming"
-            :event="eventUpcoming"
-            variant="highlight"
-          />
-          <AppEmptyState
-            v-else
-            :description="t('upcomingEmptyDescription')"
-            :title="t('upcomingEmptyTitle')"
-          >
-            <template #icon><AppIconCalendar /></template>
-            <AppButton
-              :aria-label="t('upcomingCreate')"
-              :to="localePath('event-create')"
-            >
-              <AppIconAdd />
-              {{ t('upcomingCreate') }}
-            </AppButton>
-            <AppButton
-              :aria-label="t('discover')"
-              :to="localePath('event')"
-              variant="secondary"
-            >
-              {{ t('discover') }}
-            </AppButton>
-          </AppEmptyState>
-        </section>
-        <section
           v-if="hasNoPreferences"
           :aria-labelledby="templateIdPreference"
           class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
@@ -171,6 +128,49 @@
           </AppEmptyState>
         </section>
         <section
+          :aria-labelledby="templateIdUpcoming"
+          class="flex flex-col gap-2"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
+              {{ t('upcomingTitle') }}
+            </h2>
+            <AppLink
+              v-if="eventUpcoming && menuTargets.events"
+              class="text-body-small text-link hover:text-link-hover"
+              :to="menuTargets.events"
+            >
+              {{ t('seeAll') }}
+            </AppLink>
+          </div>
+          <EventCard
+            v-if="eventUpcoming"
+            :event="eventUpcoming"
+            variant="highlight"
+          />
+          <AppEmptyState
+            v-else
+            :description="t('upcomingEmptyDescription')"
+            :title="t('upcomingEmptyTitle')"
+          >
+            <template #icon><AppIconCalendar /></template>
+            <AppButton
+              :aria-label="t('upcomingCreate')"
+              :to="localePath('event-create')"
+            >
+              <AppIconAdd />
+              {{ t('upcomingCreate') }}
+            </AppButton>
+            <AppButton
+              :aria-label="t('discover')"
+              :to="localePath('event')"
+              variant="secondary"
+            >
+              {{ t('discover') }}
+            </AppButton>
+          </AppEmptyState>
+        </section>
+        <section
           :aria-labelledby="templateIdPosterHunt"
           class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
         >
@@ -215,6 +215,28 @@
             </AppButton>
           </div>
         </section>
+        <section
+          :aria-labelledby="templateIdFeedback"
+          class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
+        >
+          <div class="flex flex-col gap-1 px-2 pt-2">
+            <h2 :id="templateIdFeedback" class="text-headline">
+              {{ t('feedbackTitle') }}
+            </h2>
+            <p class="text-body-small text-fg-2">
+              {{ t('feedbackDescription') }}
+            </p>
+          </div>
+          <AppButton
+            :aria-label="t('feedbackAction')"
+            class="w-full"
+            :to="localePath('support-contact')"
+            variant="secondary"
+          >
+            <AppIconPaperAirplane />
+            {{ t('feedbackAction') }}
+          </AppButton>
+        </section>
         <AppButton
           v-if="!eventUpcoming"
           :aria-label="t('discover')"
@@ -242,6 +264,7 @@ const eventQuery = graphql(`
         username
       }
       addressByAddressId {
+        city
         id
         location {
           latitude
@@ -454,6 +477,7 @@ const { isCameraAvailable, pickFromCamera, pickFromLibrary } = usePosterPicker(
 // template
 const localePath = useLocalePath()
 const menuTargets = useMenuTargets()
+const templateIdFeedback = useId()
 const templateIdPosterHunt = useId()
 const templateIdPreference = useId()
 const templateIdRecommendation = useId()
@@ -464,6 +488,9 @@ const templateIdUpcoming = useId()
 <i18n lang="yaml">
 de:
   discover: Veranstaltungen entdecken
+  feedbackAction: Feedback geben
+  feedbackDescription: Was gefällt dir, was fehlt dir? Wir lesen jede Nachricht.
+  feedbackTitle: Hilf uns, @.upper:{'globalSiteName'} besser zu machen
   hunt: Jagd
   notifications: Benachrichtigungen
   posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
@@ -472,7 +499,7 @@ de:
   posterHuntPhoto: Foto aufnehmen
   posterHuntTitle: Plakatjagd
   preferenceAction: KI einrichten
-  preferenceDescription: Sag uns, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen.
+  preferenceDescription: Sag uns in einer Minute direkt hier, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen. Nichts zu installieren.
   preferenceTitle: Stell Deinen Vibe ein
   recommendationEmptyDescription: Wir schlagen dir Veranstaltungen vor, sobald welche zu deinem Vibe passen. Stöbere in der Zwischenzeit durch das Angebot.
   recommendationEmptyDescriptionPreference: Sag uns, was du magst, und wir schlagen dir passende Veranstaltungen vor.
@@ -480,13 +507,16 @@ de:
   recommendationTitle: Das solltest Du nicht verpassen
   seeAll: Alle ansehen
   title: Dashboard
-  topPickTitle: Dein Top-Tipp
+  topPickTitle: Top-Tipp für dich
   upcomingCreate: Veranstaltung planen
   upcomingEmptyDescription: Plane deine eigene Veranstaltung oder finde eine zum Mitmachen.
   upcomingEmptyTitle: Noch nichts geplant
   upcomingTitle: Deine nächste Veranstaltung
 en:
   discover: Discover new events
+  feedbackAction: Give feedback
+  feedbackDescription: What do you like, what's missing? We read every message.
+  feedbackTitle: Help us improve @.upper:{'globalSiteName'}
   hunt: Hunt
   notifications: Notifications
   posterHuntDescription: Saw an interesting event outside of @.upper:{'globalSiteName'}?
@@ -495,7 +525,7 @@ en:
   posterHuntPhoto: Take photo
   posterHuntTitle: Poster hunting
   preferenceAction: Set up AI
-  preferenceDescription: Tell us what you like and get events that fit you.
+  preferenceDescription: Tell us what you like right here in a minute and get events that fit you. Nothing to install.
   preferenceTitle: Set up your vibe
   recommendationEmptyDescription: We'll suggest events as soon as some match your vibe. Meanwhile, explore what's on.
   recommendationEmptyDescriptionPreference: Tell us what you like and we'll suggest events for you.
@@ -503,7 +533,7 @@ en:
   recommendationTitle: You should not miss
   seeAll: See all
   title: Dashboard
-  topPickTitle: Your top pick
+  topPickTitle: Top pick for you
   upcomingCreate: Plan an event
   upcomingEmptyDescription: Plan your own event or find one to join.
   upcomingEmptyTitle: Nothing planned yet

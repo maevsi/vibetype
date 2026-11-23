@@ -949,6 +949,9 @@
 
             Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
+            Wenn Du eine Veranstaltung oder Dein Profil speicherst, übermittelt unser Server außerdem Name, Beschreibung und Anzeigenamen an OpenAI, das sie auf unzulässige Inhalte prüft, damit solche Inhalte nicht veröffentlicht werden.
+            Rechtsgrundlage für diese Prüfung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse daran haben, unzulässige Inhalte von unserer Plattform fernzuhalten.
+
             Nähere Informationen: https://openai.com/de-DE/policies/privacy-policy/.
 
         <!-- 1. **\[…\]** -->

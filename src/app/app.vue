@@ -37,6 +37,7 @@
       >
         {{ t('offline') }}
       </AppAlert>
+      <AppUpdateAlert />
       <AppDrawer
         v-if="!runtimeConfig.public.vio.isTesting"
         v-model="isLockdownModeLikely"
@@ -62,6 +63,7 @@
       <NuxtPage />
     </NuxtLayout>
     <AppSonner />
+    <FormLeaveDrawer />
     <ClientOnly>
       <!-- hidden, as it only persists the choices made in `ConsentScreen` and the privacy settings to its cookies and removes the cookies of withdrawn purposes -->
       <CookieControl class="hidden" :locale />

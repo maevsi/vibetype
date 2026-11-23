@@ -14,7 +14,15 @@
       </LayoutPageResult>
       <template #bottom>
         <AppButton
-          v-if="error.status === 404"
+          v-if="isCsrfTokenInvalid"
+          :aria-label="t('reload')"
+          class="w-full max-w-md"
+          @click="reloadNuxtApp()"
+        >
+          {{ t('reload') }}
+        </AppButton>
+        <AppButton
+          v-else-if="error.status === 404"
           :aria-label="t('dashboard')"
           class="w-full max-w-md"
           :to="localePath('dashboard')"
@@ -112,7 +120,17 @@ const store = useStore()
 const authentication = useAuthentication()
 const isSignedIn = computed(() => authentication.value.isSignedIn)
 const isDev = import.meta.dev
+// nuxt-csurf's rejection, whose status text reaches the browser only in the body, as HTTP/2 drops reason phrases
+const isCsrfTokenInvalid = computed(
+  () =>
+    error.status === 403 &&
+    [error.statusText, error.data?.statusMessage].includes(
+      'CSRF Token Mismatch',
+    ),
+)
 const title = computed(() => {
+  if (isCsrfTokenInvalid.value) return t('errorCsrfTitle')
+
   switch (error.status) {
     case 403:
       return t('error403Title')
@@ -127,6 +145,8 @@ const title = computed(() => {
   }
 })
 const explanation = computed(() => {
+  if (isCsrfTokenInvalid.value) return t('errorCsrfDescription')
+
   const explanations: Partial<Record<number, string>> = {
     400: t('error400Description'),
     403: `${t('error403Description')} ${t('error403Hint')}`,
@@ -168,11 +188,14 @@ de:
   error500Description: Bei @.upper:{'globalSiteName'} hat etwas nicht wie erwartet funktioniert.
   error500Hint: Bitte melde diesen Fehler.
   error500Title: Interner Serverfehler
+  errorCsrfDescription: Diese Seite wurde vor einer Aktualisierung von @.upper:{'globalSiteName'} geladen. Lade sie neu, um fortzufahren.
+  errorCsrfTitle: Seite veraltet
   errorDescription: Etwas hat nicht wie erwartet funktioniert.
   errorHint: Bitte versuche es noch einmal und melde @.upper:{'globalSiteName'} diesen Fehler, wenn er weiterhin auftritt.
   errorTitle: Fehler
   events: Veranstaltungen entdecken
   message: '{explanation} (Fehlercode: {status})'
+  reload: Neu laden
   retry: Erneut versuchen
   signIn: Anmelden
   support: Support kontaktieren
@@ -193,11 +216,14 @@ en:
   error500Description: Something didn't work as expected on @.upper:{'globalSiteName'}'s side.
   error500Hint: Please report this issue.
   error500Title: Internal server error
+  errorCsrfDescription: This page was loaded before an update of @.upper:{'globalSiteName'}. Reload it to continue.
+  errorCsrfTitle: Page outdated
   errorDescription: Something didn't work as expected.
   errorHint: Please try again and report this issue to @.upper:{'globalSiteName'} if it keeps happening.
   errorTitle: Error
   events: Discover events
   message: '{explanation} (Error code: {status})'
+  reload: Reload
   retry: Try again
   signIn: Sign in
   support: Contact support

@@ -29,6 +29,7 @@ export const JWT_ALGORITHM = 'ES256'
 export type LOCALE_CODES = 'de' | 'en'
 export const MAEVSI_EMAIL_RATE_LIMIT_PER_DAY = 150
 export const MAEVSI_EMAIL_RATE_LIMIT_PER_SECOND = 14
+export const MODERATION_ERROR_CODE = 'VTMOD'
 // OpenAI's high detail scales the shorter side to 768 pixels, which a portrait poster within 2048 pixels still reaches
 export const POSTER_SIZE_MAXIMUM = 2048
 export const POSTGRES_INTEGER_MAXIMUM = Math.pow(2, 31) - 1

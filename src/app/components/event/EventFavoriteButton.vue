@@ -7,11 +7,11 @@
     variant="ghost"
     @click="toggleEventFavorite"
   >
-    <AppIconFavoriteFilled
+    <AppIconBookmarkFilled
       v-if="isFavorite"
       :class="cn('text-accent-pink', iconClass)"
     />
-    <AppIconFavorite
+    <AppIconBookmark
       v-else
       :class="cn('text-fg-1' /*'text-fg-2'*/, iconClass)"
     />
@@ -134,13 +134,13 @@ const toggleEventFavorite = async () => {
 
 <i18n lang="yaml">
 de:
-  favoriteCreate: Als Favorit markieren
-  favoriteCreateError: Favorit konnte nicht hinzugefügt werden. Prüfe deine Verbindung und versuche es erneut.
-  favoriteDelete: Nicht mehr als Favorit markieren
-  favoriteDeleteError: Favorit konnte nicht entfernt werden. Prüfe deine Verbindung und versuche es erneut.
+  favoriteCreate: Veranstaltung merken
+  favoriteCreateError: Veranstaltung konnte nicht gemerkt werden. Prüfe deine Verbindung und versuche es erneut.
+  favoriteDelete: Nicht mehr merken
+  favoriteDeleteError: Veranstaltung konnte nicht entfernt werden. Prüfe deine Verbindung und versuche es erneut.
 en:
-  favoriteCreate: Mark as favorite
-  favoriteCreateError: Favorite could not be added. Check your connection and try again.
-  favoriteDelete: Unmark as favorite
-  favoriteDeleteError: Favorite could not be removed. Check your connection and try again.
+  favoriteCreate: Save event
+  favoriteCreateError: Event could not be saved. Check your connection and try again.
+  favoriteDelete: Unsave event
+  favoriteDeleteError: Event could not be removed from your saved events. Check your connection and try again.
 </i18n>

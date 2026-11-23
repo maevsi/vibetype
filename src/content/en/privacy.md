@@ -933,6 +933,9 @@
 
             In the case of data transfer to the USA, the standard contractual clauses (SCCs) of the EU Commission apply.
 
+            When you save an event or your profile, our server also sends its name, description, and display name to OpenAI, which checks them for prohibited content so that such content is not published.
+            The legal basis for this check is Art. 6 para. 1 lit. f GDPR, as we have a legitimate interest in keeping prohibited content off our platform.
+
             More information: https://openai.com/de-DE/policies/privacy-policy/.
 
         <!-- 1. **\[...\]** -->
