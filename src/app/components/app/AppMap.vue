@@ -40,6 +40,7 @@ import type { Control, FullscreenControl, Map, LatLng } from 'leaflet'
 import type { DeepReadonly, HtmlHTMLAttributes, WatchStopHandle } from 'vue'
 
 import type { GeocodeResult } from '#shared/utils/address'
+import { getMapsUrl } from '#shared/utils/maps'
 
 import { cn } from '@/utils/shadcn'
 
@@ -47,6 +48,8 @@ import markerIcon from '~/assets/icons/map-pin.svg?raw'
 
 const locateIcon =
   '<svg aria-hidden="true" class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="8"/></svg>'
+const externalMapsIcon =
+  '<svg aria-hidden="true" class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>'
 
 export type AppMapEvent = {
   addressByAddressId?: {
@@ -83,6 +86,17 @@ const emit = defineEmits<{
 }>()
 const isGeocodeListened = !!getCurrentInstance()?.vnode.props?.onGeocode
 const classComputed = computed(() => cn('h-96 w-full text-fg-1', classProps))
+
+// the handoff to an external maps app only makes sense for a single location
+const mapsUrl = computed(() => {
+  const locations = events
+    ?.map((event) => event.addressByAddressId?.location)
+    .filter((location) => !!location)
+
+  return locations?.length === 1
+    ? getMapsUrl({ location: locations[0] })
+    : undefined
+})
 
 const templateIdMap = useId()
 const map = ref<Map>()
@@ -132,6 +146,7 @@ watch(isFullscreen, async (isFullscreenValue) => {
 })
 let locateControl: Control | undefined
 let locateButton: HTMLAnchorElement | undefined
+let externalMapsButton: HTMLAnchorElement | undefined
 // leaflet translates its texts only when it renders them, so a locale change needs the controls re-added
 watch(locale, () => {
   const mapLocal = map.value
@@ -142,6 +157,10 @@ watch(locale, () => {
   if (locateButton) {
     locateButton.title = t('locate')
     locateButton.setAttribute('aria-label', t('locate'))
+  }
+  if (externalMapsButton) {
+    externalMapsButton.title = t('openInMaps')
+    externalMapsButton.setAttribute('aria-label', t('openInMaps'))
   }
 })
 const locate = () => {
@@ -235,6 +254,28 @@ const initialize = async () => {
   }).addTo(map.value)
   // the native fullscreen API cannot keep the map while it moves to the body, so leaflet only fills the window
   fullscreenControl = new FullscreenControl({ pseudo: true }).addTo(map.value)
+
+  const mapsUrlValue = mapsUrl.value
+  if (mapsUrlValue) {
+    // the single location's handoff to the user's maps app
+    const externalMapsControl = new Control({ position: 'bottomleft' })
+    externalMapsControl.onAdd = () => {
+      const container = DomUtil.create('div', 'leaflet-bar')
+      const button = DomUtil.create(
+        'a',
+        'flex! items-center justify-center',
+        container,
+      )
+      button.href = mapsUrlValue
+      button.title = t('openInMaps')
+      button.setAttribute('aria-label', t('openInMaps'))
+      button.innerHTML = externalMapsIcon
+      DomEvent.disableClickPropagation(container)
+      externalMapsButton = button
+      return container
+    }
+    externalMapsControl.addTo(map.value)
+  }
 
   if (geocoder) {
     const { GeoSearchControl, OpenStreetMapProvider } =
@@ -474,6 +515,7 @@ de:
   locateUnavailable: Dein Standort ist derzeit nicht verfügbar.
   map: Karte
   notFoundMessage: Nichts gefunden.
+  openInMaps: Ort in der Karten-App öffnen
   searchLabel: Adresse eingeben
   zoomIn: Vergrößern
   zoomOut: Verkleinern
@@ -490,6 +532,7 @@ en:
   locateUnavailable: Your location is currently unavailable.
   map: Map
   notFoundMessage: Nothing found.
+  openInMaps: Open location in maps app
   searchLabel: Enter address
   zoomIn: Zoom in
   zoomOut: Zoom out
