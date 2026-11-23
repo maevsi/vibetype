@@ -392,7 +392,7 @@
             </FieldContent>
           </Field>
         </form.Field>
-        <div class="flex flex-col items-center justify-between">
+        <div class="flex flex-col items-center justify-between gap-2">
           <AppButton
             :aria-label="
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
@@ -405,6 +405,9 @@
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             }}
           </AppButton>
+          <p class="text-center text-caption text-fg-2">
+            {{ t('globalModerationNotice') }}
+          </p>
         </div>
         <AppAlert v-if="errorMessages?.length" variant="error">
           <AppSpanList :span="errorMessages" />
