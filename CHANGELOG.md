@@ -1,3 +1,9 @@
+## [17.52.0](https://github.com/maevsi/vibetype/compare/17.51.0...17.52.0) (2026-11-24)
+
+### Features
+
+* **nuxt:** adopt nuxt 4.7 ([#2861](https://github.com/maevsi/vibetype/issues/2861)) ([d268d84](https://github.com/maevsi/vibetype/commit/d268d84e7ddd688b52d01e508155b950206a3dd5))
+
 ## [17.51.0](https://github.com/maevsi/vibetype/compare/17.50.0...17.51.0) (2026-11-24)
 
 ### Features
