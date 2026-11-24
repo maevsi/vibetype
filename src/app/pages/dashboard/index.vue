@@ -45,6 +45,55 @@
         />
       </AppLoaderPlaceholder>
       <div v-else class="flex flex-col gap-4">
+        <DefineUpcoming>
+          <section
+            :aria-labelledby="templateIdUpcoming"
+            class="flex flex-col gap-2"
+          >
+            <div class="flex items-center justify-between gap-2">
+              <h2
+                :id="templateIdUpcoming"
+                class="py-1 text-title3 text-balance"
+              >
+                {{ t('upcomingTitle') }}
+              </h2>
+              <AppLink
+                v-if="eventUpcoming && menuTargets.events"
+                class="text-body-small text-link hover:text-link-hover"
+                :to="menuTargets.events"
+              >
+                {{ t('seeAll') }}
+              </AppLink>
+            </div>
+            <EventCard
+              v-if="eventUpcoming"
+              :event="eventUpcoming"
+              variant="highlight"
+            />
+            <AppEmptyState
+              v-else
+              :description="t('upcomingEmptyDescription')"
+              :title="t('upcomingEmptyTitle')"
+            >
+              <template #icon><AppIconCalendar /></template>
+              <AppButton
+                :aria-label="t('upcomingCreate')"
+                :to="localePath('event-create')"
+              >
+                <AppIconAdd />
+                {{ t('upcomingCreate') }}
+              </AppButton>
+              <AppButton
+                :aria-label="t('discover')"
+                :to="localePath('event')"
+                variant="secondary"
+              >
+                {{ t('discover') }}
+              </AppButton>
+            </AppEmptyState>
+          </section>
+        </DefineUpcoming>
+        <ReuseUpcoming v-if="eventUpcoming" />
         <section
           v-if="hasNoPreferences"
           :aria-labelledby="templateIdPreference"
@@ -77,98 +126,6 @@
             {{ t('topPickTitle') }}
           </h2>
           <EventCard :event="eventTopPick" variant="recommendation" />
-        </section>
-        <section
-          v-if="!eventTopPick || eventRecommendationsOther.length"
-          :aria-labelledby="templateIdRecommendation"
-          class="flex flex-col gap-2"
-        >
-          <h2
-            :id="templateIdRecommendation"
-            class="py-1 text-title3 text-balance"
-          >
-            {{ t('recommendationTitle') }}
-          </h2>
-          <div
-            v-if="eventRecommendationsOther.length"
-            class="flex flex-col gap-4"
-          >
-            <EventCard
-              v-for="event in eventRecommendationsOther"
-              :key="event.rowId"
-              :event
-              variant="recommendation"
-            />
-          </div>
-          <AppEmptyState
-            v-else
-            :description="
-              hasNoPreferences
-                ? t('recommendationEmptyDescriptionPreference')
-                : t('recommendationEmptyDescription')
-            "
-            :title="t('recommendationEmptyTitle')"
-          >
-            <template #icon><AppIconMagnifyingGlass /></template>
-            <AppButton
-              v-if="hasNoPreferences"
-              :aria-label="t('preferenceAction')"
-              :to="localePath('preference-create')"
-            >
-              <AppIconNetworkIntelligence />
-              {{ t('preferenceAction') }}
-            </AppButton>
-            <AppButton
-              v-else
-              :aria-label="t('discover')"
-              :to="localePath('event')"
-            >
-              {{ t('discover') }}
-            </AppButton>
-          </AppEmptyState>
-        </section>
-        <section
-          :aria-labelledby="templateIdUpcoming"
-          class="flex flex-col gap-2"
-        >
-          <div class="flex items-center justify-between gap-2">
-            <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
-              {{ t('upcomingTitle') }}
-            </h2>
-            <AppLink
-              v-if="eventUpcoming && menuTargets.events"
-              class="text-body-small text-link hover:text-link-hover"
-              :to="menuTargets.events"
-            >
-              {{ t('seeAll') }}
-            </AppLink>
-          </div>
-          <EventCard
-            v-if="eventUpcoming"
-            :event="eventUpcoming"
-            variant="highlight"
-          />
-          <AppEmptyState
-            v-else
-            :description="t('upcomingEmptyDescription')"
-            :title="t('upcomingEmptyTitle')"
-          >
-            <template #icon><AppIconCalendar /></template>
-            <AppButton
-              :aria-label="t('upcomingCreate')"
-              :to="localePath('event-create')"
-            >
-              <AppIconAdd />
-              {{ t('upcomingCreate') }}
-            </AppButton>
-            <AppButton
-              :aria-label="t('discover')"
-              :to="localePath('event')"
-              variant="secondary"
-            >
-              {{ t('discover') }}
-            </AppButton>
-          </AppEmptyState>
         </section>
         <section
           :aria-labelledby="templateIdPosterHunt"
@@ -237,20 +194,63 @@
             {{ t('feedbackAction') }}
           </AppButton>
         </section>
-        <AppButton
-          v-if="!eventUpcoming"
-          :aria-label="t('discover')"
-          class="w-full"
-          :to="localePath('event')"
+        <section
+          v-if="!eventTopPick || eventRecommendationsOther.length"
+          :aria-labelledby="templateIdRecommendation"
+          class="flex flex-col gap-2"
         >
-          {{ t('discover') }}
-        </AppButton>
+          <h2
+            :id="templateIdRecommendation"
+            class="py-1 text-title3 text-balance"
+          >
+            {{ t('recommendationTitle') }}
+          </h2>
+          <div
+            v-if="eventRecommendationsOther.length"
+            class="flex flex-col gap-4"
+          >
+            <EventCard
+              v-for="event in eventRecommendationsOther"
+              :key="event.rowId"
+              :event
+              variant="recommendation"
+            />
+          </div>
+          <AppEmptyState
+            v-else
+            :description="
+              hasNoPreferences
+                ? t('recommendationEmptyDescriptionPreference')
+                : t('recommendationEmptyDescription')
+            "
+            :title="t('recommendationEmptyTitle')"
+          >
+            <template #icon><AppIconMagnifyingGlass /></template>
+            <AppButton
+              v-if="hasNoPreferences"
+              :aria-label="t('preferenceAction')"
+              :to="localePath('preference-create')"
+            >
+              <AppIconNetworkIntelligence />
+              {{ t('preferenceAction') }}
+            </AppButton>
+            <AppButton
+              v-else
+              :aria-label="t('discover')"
+              :to="localePath('event')"
+            >
+              {{ t('discover') }}
+            </AppButton>
+          </AppEmptyState>
+        </section>
+        <ReuseUpcoming v-if="!eventUpcoming" />
       </div>
     </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
+import { createReusableTemplate } from '@vueuse/core'
 import { graphql } from '~~/gql/generated'
 
 // async data
@@ -491,6 +491,7 @@ const { isCameraAvailable, pickFromCamera, pickFromLibrary } = usePosterPicker(
 )
 
 // template
+const [DefineUpcoming, ReuseUpcoming] = createReusableTemplate()
 const localePath = useLocalePath()
 const menuTargets = useMenuTargets()
 const templateIdFeedback = useId()

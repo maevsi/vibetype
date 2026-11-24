@@ -31,12 +31,15 @@ const getRegisteredComponentNames = () =>
       .map(([, name]) => name),
   )
 
-const getImportedNames = (content: string) =>
+const getDeclaredNames = (content: string) =>
   new Set(
     [
       ...content.matchAll(/import\s+(?:type\s+)?(\w+)\s*(?:,|from)/g),
       ...content.matchAll(/import\s*(?:\w+\s*,\s*)?\{([^}]*)\}\s*from/g),
       ...content.matchAll(/components:\s*\{([^}]*)\}/g),
+      // script-local components, e.g. from `createReusableTemplate`
+      ...content.matchAll(/const\s+\[([^\]]*)\]\s*=/g),
+      ...content.matchAll(/const\s+([A-Z]\w*)\s*=/g),
     ].flatMap(([, names = '']) =>
       names
         .split(',')
@@ -82,11 +85,11 @@ describe('component tags', () => {
     ]),
   )('%s resolves every component tag', (_, path) => {
     const content = readFileSync(path, 'utf8')
-    const importedNames = getImportedNames(content)
+    const declaredNames = getDeclaredNames(content)
     const unresolvedNames = getTemplateTagNames(content).filter(
       (name) =>
         !registeredNames.has(name) &&
-        !importedNames.has(name) &&
+        !declaredNames.has(name) &&
         !GLOBAL_COMPONENT_NAMES.has(name) &&
         !isIconTag(name),
     )
