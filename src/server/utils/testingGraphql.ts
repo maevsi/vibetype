@@ -437,6 +437,7 @@ export const getTestingGraphqlResult = async ({
         },
       }
     case 'AllContacts':
+    case 'AllContactsContactList':
       return {
         data: {
           allContacts: {
@@ -617,6 +618,11 @@ export const getTestingGraphqlResult = async ({
             createdBy: ACCOUNT.rowId,
             emailAddress: null,
             emailAddressHash: null,
+            guestsByContactId: {
+              nodes: [],
+              totalCount: 0,
+              __typename: 'GuestConnection',
+            },
             note: null,
             phoneNumber: null,
             url: null,
