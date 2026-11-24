@@ -1,3 +1,11 @@
+## [17.53.0](https://github.com/maevsi/vibetype/compare/17.52.0...17.53.0) (2026-11-24)
+
+### Features
+
+* **contact:** pick linked account from search ([#2859](https://github.com/maevsi/vibetype/issues/2859)) ([b183959](https://github.com/maevsi/vibetype/commit/b18395924d858e99a4da96c1e4e39c0c7e3bb366))
+* **map:** fall back to an OpenStreetMap search when no coordinates exist ([#2867](https://github.com/maevsi/vibetype/issues/2867)) ([7f6642f](https://github.com/maevsi/vibetype/commit/7f6642ffe6e1048a2e7945a0607d11d658cdb3ee))
+* **map:** make the previews interactive ([#2865](https://github.com/maevsi/vibetype/issues/2865)) ([4b8f436](https://github.com/maevsi/vibetype/commit/4b8f4367f0cd12fa80efb3ef6e66af89c0610f5d))
+
 ## [17.52.0](https://github.com/maevsi/vibetype/compare/17.51.0...17.52.0) (2026-11-24)
 
 ### Features
