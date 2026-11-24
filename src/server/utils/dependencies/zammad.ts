@@ -1,3 +1,5 @@
+import { $fetch } from 'ofetch'
+
 const getZammadConfig = () => {
   const runtimeConfigZammad = useRuntimeConfig().vibetype.zammad
 

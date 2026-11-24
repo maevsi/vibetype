@@ -498,6 +498,9 @@ importers:
       nuxtseo-devtools-host:
         specifier: 1.0.3
         version: 1.0.3(05c322f309ae6a46fcd87e5d21bb63a5)
+      ofetch:
+        specifier: 1.5.1
+        version: 1.5.1
       openai:
         specifier: 7.62.0
         version: 7.62.0(@aws-sdk/credential-provider-node@3.972.98)(@smithy/signature-v4@5.7.5)(google-auth-library@11.3.4(supports-color@10.2.2))(undici@8.13.1)(ws@8.23.0)(zod@4.6.7)

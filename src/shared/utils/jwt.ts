@@ -1,3 +1,4 @@
+import { $fetch } from 'ofetch'
 import type { useRuntimeConfig } from 'nuxt/app'
 
 import { JWT_COOKIE_NAME } from '~~/node/static'
