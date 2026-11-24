@@ -1,3 +1,4 @@
+import { $fetch } from 'ofetch'
 import { z } from 'zod'
 import { SITE_URL } from '~~/node/static'
 
@@ -39,7 +40,7 @@ const fetchTile = defineCachedFunction(
     }
 
     // no client headers or cookies are forwarded, so OpenStreetMap only sees this server
-    const response = await $fetch.raw<Blob>(
+    const response = await $fetch.raw(
       `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`,
       {
         headers: {

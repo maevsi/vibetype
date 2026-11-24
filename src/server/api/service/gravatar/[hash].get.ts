@@ -1,3 +1,4 @@
+import { $fetch } from 'ofetch'
 import { z } from 'zod'
 import { SITE_URL } from '~~/node/static'
 
@@ -34,7 +35,7 @@ const fetchAvatar = defineCachedFunction(
     }
 
     // no client headers or cookies are forwarded, so Gravatar only sees this server
-    const response = await $fetch.raw<Blob>(
+    const response = await $fetch.raw(
       `https://www.gravatar.com/avatar/${hash}`,
       {
         headers: {
