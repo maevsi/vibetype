@@ -9,14 +9,10 @@
         />
         <template v-if="contacts.length">
           <AppButton
-            v-if="contactGroups.length"
-            :aria-label="t('groupsManage')"
-            variant="secondary"
-            @click="isGroupsDrawerOpen = true"
+            :aria-label="t('contactAdd')"
+            class="shrink-0 whitespace-nowrap"
+            @click="add"
           >
-            {{ t('groupsManage') }}
-          </AppButton>
-          <AppButton :aria-label="t('contactAdd')" @click="add">
             {{ t('contactAdd') }}
             <template #prefix>
               <AppIconPlus />
@@ -24,6 +20,7 @@
           </AppButton>
           <AppButton
             :aria-label="t('contactImport')"
+            class="shrink-0 whitespace-nowrap"
             :to="localePath('contact-import')"
             variant="secondary"
           >
@@ -31,12 +28,25 @@
           </AppButton>
         </template>
       </div>
-      <ContactGroupFilter
-        v-if="contacts.length"
-        v-model:excluded="groupIdsExcluded"
-        v-model:included="groupIdsIncluded"
-        :groups="contactGroups"
-      />
+      <div
+        v-if="contacts.length && contactGroups.length"
+        class="flex flex-wrap items-center gap-2"
+      >
+        <ContactGroupFilter
+          v-model:excluded="groupIdsExcluded"
+          v-model:included="groupIdsIncluded"
+          :groups="contactGroups"
+        />
+        <AppButton
+          :aria-label="t('groupsManage')"
+          class="h-10 px-2 font-medium"
+          size="none"
+          variant="tertiary"
+          @click="isGroupsDrawerOpen = true"
+        >
+          {{ t('groupsManage') }}
+        </AppButton>
+      </div>
       <AppTable v-if="contactsFiltered.length">
         <AppTableHeader>
           <tr>

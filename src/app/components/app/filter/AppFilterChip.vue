@@ -14,10 +14,16 @@
     type="button"
     @click="cycle"
   >
-    <span aria-hidden="true" class="flex size-4 items-center justify-center">
-      <AppIconPlus v-if="state === 'included'" class="size-4" />
-      <AppIconMinus v-else-if="state === 'excluded'" class="size-4" />
-    </span>
+    <AppIconPlus
+      v-if="state === 'included'"
+      aria-hidden="true"
+      class="size-4 shrink-0"
+    />
+    <AppIconMinus
+      v-else-if="state === 'excluded'"
+      aria-hidden="true"
+      class="size-4 shrink-0"
+    />
     <span>{{ label }}</span>
   </button>
 </template>
