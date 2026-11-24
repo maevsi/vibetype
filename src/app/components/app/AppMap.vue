@@ -55,6 +55,7 @@ export type AppMapEvent = {
       longitude: number
     } | null
   } | null
+  name: string
 }
 export type AppMapProps = {
   events?: readonly DeepReadonly<AppMapEvent>[]
@@ -391,9 +392,11 @@ const initialize = async () => {
         const location = event.addressByAddressId?.location
         if (!location) continue
         positions.push([location.latitude, location.longitude])
-        new Marker([location.latitude, location.longitude], { icon }).addTo(
-          markerLayer,
-        )
+        // leaflet makes the marker a keyboard button, so it needs the name of the event it marks
+        new Marker([location.latitude, location.longitude], {
+          icon,
+          title: event.name,
+        }).addTo(markerLayer)
       }
       if (!positions.length) return
       isFitting = true
