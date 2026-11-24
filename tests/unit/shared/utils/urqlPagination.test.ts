@@ -38,7 +38,7 @@ const pages: Record<string, ReturnType<typeof getPage>> = {
   '': getPage('1', 'a', 'city'),
   a: getPage('2', 'b', 'city'),
 }
-const fetch = async (_url: RequestInfo | URL, init?: RequestInit) =>
+const fetch = async (_url: unknown, init?: RequestInit) =>
   Response.json({
     data: pages[JSON.parse(String(init?.body)).variables?.after ?? ''],
   })
