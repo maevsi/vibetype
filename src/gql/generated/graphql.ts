@@ -2473,6 +2473,7 @@ export type EventQuery = {
         createdBy: string
         description: string | null
         end: string | null
+        feedbackDeadline: string | null
         id: string
         isArchived: boolean
         isInPerson: boolean | null
@@ -13040,6 +13041,10 @@ export const EventDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'end' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'feedbackDeadline' },
                             },
                             {
                               kind: 'Field',
