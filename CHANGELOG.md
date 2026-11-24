@@ -1,3 +1,9 @@
+## [17.55.1](https://github.com/maevsi/vibetype/compare/17.55.0...17.55.1) (2026-11-24)
+
+### Bug Fixes
+
+* **event:** leave the page of a deleted event ([#2874](https://github.com/maevsi/vibetype/issues/2874)) ([7547fad](https://github.com/maevsi/vibetype/commit/7547fad173babe61b40716323e7cf600e485aa3a))
+
 ## [17.55.0](https://github.com/maevsi/vibetype/compare/17.54.0...17.55.0) (2026-11-24)
 
 ### Features
