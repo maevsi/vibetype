@@ -120,7 +120,7 @@
           >
             <AppButton
               :aria-label="t('edit')"
-              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small sm:flex-row sm:gap-2"
               size="none"
               :to="
                 localePath({
@@ -140,7 +140,7 @@
             </AppButton>
             <AppButton
               :aria-label="t('guests')"
-              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small sm:flex-row sm:gap-2"
               size="none"
               :to="
                 localePath({
@@ -160,7 +160,7 @@
             </AppButton>
             <AppButton
               :aria-label="t('attendances')"
-              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small sm:flex-row sm:gap-2"
               size="none"
               :to="
                 localePath({
