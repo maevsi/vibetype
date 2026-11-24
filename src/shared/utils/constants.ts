@@ -47,6 +47,8 @@ export const STATE_LOADING_IDS_NAME = 'loadingIds'
 export const EVENT_INGEST_CONSENT_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
 export const FEATURE_FLAGS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
 export const LOCKDOWN_MODE_DISMISSED_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
+// before the mocked events of `testingGraphql.ts`, which start in mid 2030
+export const TESTING_NOW = '2030-01-01T09:00:00.000Z'
 export const THEME_COLOR_DARK = '#121312'
 export const TITLE_TEMPLATE = ({
   siteName,
