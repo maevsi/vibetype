@@ -1,3 +1,4 @@
+import { $fetch } from 'ofetch'
 import { getCookie, getRequestIP, type RequestEvent } from 'nuxt/server'
 
 export const getTimeZone = async ({
