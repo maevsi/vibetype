@@ -19,6 +19,7 @@
         v-if="feedback"
         class="absolute right-0 bottom-0 rounded-full bg-surface"
         :feedback
+        :is-override="isFeedbackOverride"
       />
     </div>
     <div class="flex flex-col items-start justify-center overflow-hidden">
@@ -60,6 +61,7 @@ import type {
 const {
   contact,
   feedback = undefined,
+  isFeedbackOverride = false,
   isUsernameLinked = true,
 } = defineProps<{
   contact: MakeOptional<
@@ -76,6 +78,7 @@ const {
     'accountId' | 'accountByCreatedBy' | 'emailAddress' | 'emailAddressHash'
   >
   feedback?: GuestItemFragment['feedback']
+  isFeedbackOverride?: boolean
   isUsernameLinked?: boolean
 }>()
 

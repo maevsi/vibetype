@@ -4865,10 +4865,10 @@ export type Guest = Node & {
   eventByEventId?: Maybe<Event>
   /** The internal id of the guest's event. */
   eventId: Scalars['UUID']['output']
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: Maybe<InvitationFeedback>
-  /** The guest's paper feedback status. */
-  feedbackPaper?: Maybe<InvitationFeedbackPaper>
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: Maybe<InvitationFeedback>
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output']
   /** The guest's internal id. */
@@ -4941,10 +4941,10 @@ export type GuestInput = {
   contactId: Scalars['UUID']['input']
   /** The internal id of the guest's event. */
   eventId: Scalars['UUID']['input']
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: InputMaybe<InvitationFeedback>
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InputMaybe<InvitationFeedbackPaper>
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: InputMaybe<InvitationFeedback>
 }
 
 /** Methods to use when ordering `Guest`. */
@@ -4964,23 +4964,16 @@ export enum GuestOrderBy {
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: InputMaybe<InvitationFeedback>
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InputMaybe<InvitationFeedbackPaper>
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: InputMaybe<InvitationFeedback>
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
 export enum InvitationFeedback {
   Accepted = 'accepted',
   Canceled = 'canceled',
-}
-
-/** Possible choices on how to receive a paper invitation: none, paper, digital. */
-export enum InvitationFeedbackPaper {
-  Digital = 'digital',
-  None = 'none',
-  Paper = 'paper',
 }
 
 /** All input for the `invite` mutation. */
@@ -13304,10 +13297,10 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       InvitationFeedback | string
     >
-    feedbackPaper?: GraphCacheResolver<
+    feedbackOverride?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      InvitationFeedbackPaper | string
+      InvitationFeedback | string
     >
     id?: GraphCacheResolver<
       WithTypename<Guest>,
@@ -19275,7 +19268,7 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >
-    feedbackPaper?: GraphCacheUpdateResolver<
+    feedbackOverride?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >

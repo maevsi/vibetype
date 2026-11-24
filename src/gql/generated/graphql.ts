@@ -873,25 +873,22 @@ export type GuestInput = {
   contactId: string
   /** The internal id of the guest's event. */
   eventId: string
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: InvitationFeedback | null | undefined
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InvitationFeedbackPaper | null | undefined
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: InvitationFeedback | null | undefined
 }
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: InvitationFeedback | null | undefined
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InvitationFeedbackPaper | null | undefined
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: InvitationFeedback | null | undefined
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
 export type InvitationFeedback = 'accepted' | 'canceled'
-
-/** Possible choices on how to receive a paper invitation: none, paper, digital. */
-export type InvitationFeedbackPaper = 'digital' | 'none' | 'paper'
 
 /** All input for the `invite` mutation. */
 export type InviteInput = {
@@ -1178,6 +1175,7 @@ export type AttendanceGuestQueryVariables = Exact<{
 export type AttendanceGuestQuery = {
   guestByRowId: {
     feedback: InvitationFeedback | null
+    feedbackOverride: InvitationFeedback | null
     id: string
     rowId: string
     contactByContactId: {
@@ -1877,7 +1875,7 @@ export type UpdateGuestByRowIdFeedbackMutationVariables = Exact<{
 export type UpdateGuestByRowIdFeedbackMutation = {
   updateGuestByRowId: {
     guest: {
-      feedback: InvitationFeedback | null
+      feedbackOverride: InvitationFeedback | null
       id: string
       rowId: string
     } | null
@@ -3230,6 +3228,7 @@ export type EventItemFragment = {
 export type GuestItemFragment = {
   contactId: string
   feedback: InvitationFeedback | null
+  feedbackOverride: InvitationFeedback | null
   id: string
   rowId: string
   contactByContactId: {
@@ -3572,6 +3571,7 @@ export const GuestItemFragmentDoc = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'contactId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackOverride' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
         ],
@@ -4229,6 +4229,10 @@ export const AttendanceGuestDocument = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feedbackOverride' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
               ],
@@ -8850,6 +8854,7 @@ export const AllGuestsDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'contactId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackOverride' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
         ],
@@ -8961,7 +8966,7 @@ export const UpdateGuestByRowIdFeedbackDocument = {
                     selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'feedback' },
+                        name: { kind: 'Name', value: 'feedbackOverride' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },

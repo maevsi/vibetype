@@ -600,6 +600,7 @@ export const getTestingGraphqlResult = async ({
                 },
                 contactId: CONTACT.rowId,
                 feedback: 'accepted',
+                feedbackOverride: null,
                 id: GUEST_ID,
                 rowId: TESTING_GUEST_ROW_ID,
                 __typename: 'Guest',

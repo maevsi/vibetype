@@ -11093,7 +11093,7 @@ export default {
             args: [],
           },
           {
-            name: 'feedbackPaper',
+            name: 'feedbackOverride',
             type: {
               kind: 'SCALAR',
               name: 'Any',
