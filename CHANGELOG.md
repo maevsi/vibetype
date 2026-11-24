@@ -1,3 +1,13 @@
+## [18.0.0-beta.19](https://github.com/maevsi/vibetype/compare/18.0.0-beta.18...18.0.0-beta.19) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+* **contact:** add groups (#2856)
+
+### Features
+
+* **contact:** add groups ([#2856](https://github.com/maevsi/vibetype/issues/2856)) ([9e2567f](https://github.com/maevsi/vibetype/commit/9e2567fd32d9c5e99241aec57fa26269a5d39421))
+
 ## [18.0.0-beta.18](https://github.com/maevsi/vibetype/compare/18.0.0-beta.17...18.0.0-beta.18) (2026-11-23)
 
 ### Features

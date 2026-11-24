@@ -28,6 +28,11 @@
           {{ t('contactBookSearchDescription') }}
         </FieldDescription>
       </Field>
+      <ContactGroupFilter
+        v-model:excluded="groupIdsExcluded"
+        v-model:included="groupIdsIncluded"
+        :groups="contactGroups"
+      />
       <form.Field v-slot="{ field }" name="contactIds">
         <FieldError
           v-if="isFieldInvalid(field)"
@@ -168,6 +173,7 @@ import {
   getContactItem,
   getContactsSorted,
 } from '~~/shared/utils/contact'
+import { getContactsByGroupFilter } from '~~/shared/utils/contactGroup'
 
 const {
   event,
@@ -189,6 +195,8 @@ const { locale, t } = useI18n()
 
 // data
 const after = ref<string | null>()
+const groupIdsExcluded = ref<string[]>([])
+const groupIdsIncluded = ref<string[]>([])
 const searchString = ref('')
 const searchStringDebounced = refDebounced(searchString, 300)
 const searchStringTrimmed = computed(() => searchStringDebounced.value.trim())
@@ -204,6 +212,7 @@ const usernameSearched = computed(() =>
 )
 
 // api data
+const { contactGroups, query: allContactGroupsQuery } = useContactGroupsQuery()
 const allContactsQuery = useApiQuery({
   query: graphql(`
     query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
@@ -215,6 +224,11 @@ const allContactsQuery = useApiQuery({
       ) {
         nodes {
           ...ContactItem
+          contactGroupMembersByContactId {
+            nodes {
+              contactGroupId
+            }
+          }
         }
         pageInfo {
           hasNextPage
@@ -288,6 +302,7 @@ const inviteMutation = useMutation(
   `),
 )
 const apiData = await useApiData([
+  allContactGroupsQuery,
   allContactsQuery,
   createContactMutation,
   createGuestsMutation,
@@ -299,6 +314,23 @@ const contacts = computed(
       .map((x) => getContactItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )
+const groupIdsByContactId = computed(() => {
+  const groupIds = new Map<string, string[]>()
+
+  for (const node of apiData.value.data.allContacts?.nodes ?? []) {
+    const contact = getContactItem(node)
+
+    if (contact)
+      groupIds.set(
+        contact.rowId,
+        node.contactGroupMembersByContactId.nodes.map(
+          ({ contactGroupId }) => contactGroupId,
+        ),
+      )
+  }
+
+  return groupIds
+})
 // Contacts without a name sort to the very end of the contact book, far beyond the loaded page, so the ones this form is about are kept at hand separately.
 const contactsPinned = ref<ContactItemFragment[]>([])
 
@@ -429,12 +461,19 @@ const contactsShown = computed(() => {
   ])
 })
 const contactsFiltered = computed(() => {
+  const contactsInGroups = getContactsByGroupFilter({
+    contacts: contactsShown.value,
+    groupIdsByContactId: groupIdsByContactId.value,
+    groupIdsExcluded: groupIdsExcluded.value,
+    groupIdsIncluded: groupIdsIncluded.value,
+  })
+
   if (!searchString.value || searchString.value === '') {
-    return contactsShown.value
+    return contactsInGroups
   }
 
   const searchStringParts = searchString.value.split(' ')
-  const allContactsFiltered = contactsShown.value.filter((contact) => {
+  const allContactsFiltered = contactsInGroups.filter((contact) => {
     const contactProperties = [
       ...(contact.accountByAccountId?.username
         ? [contact.accountByAccountId.username.toLowerCase()]

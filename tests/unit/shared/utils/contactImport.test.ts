@@ -17,6 +17,7 @@ describe('getContactImportRows', () => {
           {
             emailAddresses: [' ada@example.com ', 'other@example.com'],
             firstName: ' Ada ',
+            groupNames: [' Work ', 'work', ''],
             lastName: 'Lovelace',
             phoneNumbers: ['+49 30 123456', '+1 555 0100'],
           },
@@ -28,6 +29,7 @@ describe('getContactImportRows', () => {
       {
         emailAddress: 'ada@example.com',
         firstName: 'Ada',
+        groupNames: ['Work'],
         isPhoneNumberDropped: false,
         lastName: 'Lovelace',
         phoneNumber: '+4930123456',
@@ -40,8 +42,8 @@ describe('getContactImportRows', () => {
     expect(
       getContactImportRows({
         contacts: [
-          { emailAddresses: [], phoneNumbers: ['+4930123456'] },
-          { emailAddresses: ['  '], phoneNumbers: [] },
+          { emailAddresses: [], groupNames: [], phoneNumbers: ['+4930123456'] },
+          { emailAddresses: ['  '], groupNames: [], phoneNumbers: [] },
         ],
         existingEmailAddresses: [],
         parsePhoneNumber,
@@ -53,9 +55,21 @@ describe('getContactImportRows', () => {
     expect(
       getContactImportRows({
         contacts: [
-          { emailAddresses: ['GRACE@example.com'], phoneNumbers: [] },
-          { emailAddresses: ['new@example.com'], phoneNumbers: [] },
-          { emailAddresses: [' New@Example.com'], phoneNumbers: [] },
+          {
+            emailAddresses: ['GRACE@example.com'],
+            groupNames: [],
+            phoneNumbers: [],
+          },
+          {
+            emailAddresses: ['new@example.com'],
+            groupNames: [],
+            phoneNumbers: [],
+          },
+          {
+            emailAddresses: [' New@Example.com'],
+            groupNames: [],
+            phoneNumbers: [],
+          },
         ],
         existingEmailAddresses: ['grace@example.com '],
         parsePhoneNumber,
@@ -69,6 +83,7 @@ describe('getContactImportRows', () => {
         {
           emailAddresses: ['a@example.com'],
           firstName: 'a'.repeat(120),
+          groupNames: [],
           lastName: '   ',
           phoneNumbers: [],
         },
@@ -84,7 +99,13 @@ describe('getContactImportRows', () => {
   test('drops an unparsable phone number but keeps the contact importable', () => {
     expect(
       getContactImportRows({
-        contacts: [{ emailAddresses: ['a@example.com'], phoneNumbers: ['12'] }],
+        contacts: [
+          {
+            emailAddresses: ['a@example.com'],
+            groupNames: [],
+            phoneNumbers: ['12'],
+          },
+        ],
         existingEmailAddresses: [],
         parsePhoneNumber,
       }),
