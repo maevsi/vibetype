@@ -112,10 +112,10 @@ export default defineNuxtConfig({
       headers: { 'Content-Type': 'application/json' },
     },
     '/__nuxt_content/content/query': {
-      csurf: false,
+      csurf: { enabled: false }, // Nitro v3 reads `csurf: false` as unsetting the rule, which would enable the check again
     },
     '/api/model/event/ical': {
-      csurf: false,
+      csurf: { enabled: false },
     },
     '/api/model/event/ingest/image': {
       security: {
@@ -125,10 +125,10 @@ export default defineNuxtConfig({
       },
     },
     '/api/internal/service/tusd': {
-      csurf: false, // tusd's http hooks carry no csrf token
+      csurf: { enabled: false }, // tusd's http hooks carry no csrf token
     },
     '/api/service/firebase/notification': {
-      csurf: false, // called by services, authenticated by secret
+      csurf: { enabled: false }, // called by services, authenticated by secret
     },
     '/contact/**': {
       robots: false, // pages for signed-in users only have nothing for search engines to index
