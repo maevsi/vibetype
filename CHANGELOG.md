@@ -1,3 +1,9 @@
+## [17.54.0](https://github.com/maevsi/vibetype/compare/17.53.1...17.54.0) (2026-11-24)
+
+### Features
+
+* **ui:** refine dashboard order, event actions and text fields ([#2872](https://github.com/maevsi/vibetype/issues/2872)) ([8391585](https://github.com/maevsi/vibetype/commit/839158506cf3eaf7350f80141799158ba75d3e54))
+
 ## [17.53.1](https://github.com/maevsi/vibetype/compare/17.53.0...17.53.1) (2026-11-24)
 
 ### Bug Fixes
