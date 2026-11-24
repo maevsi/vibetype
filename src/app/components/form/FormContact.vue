@@ -5,36 +5,28 @@
     @submit.prevent="form.handleSubmit"
   >
     <div class="flex flex-col gap-4">
-      <form.Field
-        v-slot="{ field }"
-        name="accountUsername"
-        :validators="{
-          onBlurAsync: async ({ value: val }) => {
-            if (!val) return undefined
-
-            const exists = await validateUsername()(val)
-            return exists ? undefined : t('usernameNotFound')
-          },
-          onBlurAsyncDebounceMs: 300,
-        }"
-      >
+      <form.Field v-slot="{ field }" name="accountUsername">
         <Field>
           <FieldLabel for="input-username">{{ t('username') }}</FieldLabel>
           <FieldContent>
-            <Input
+            <AccountPicker
               id="input-username"
               :aria-invalid="isFieldInvalid(field)"
               :disabled="
                 contact?.accountByAccountId?.rowId === store.signedInAccountId
               "
               :model-value="field.state.value"
-              type="text"
               @blur="field.handleBlur"
-              @input="
-                field.handleChange(($event.target as HTMLInputElement).value)
-              "
+              @update:model-value="field.handleChange"
             />
           </FieldContent>
+          <FieldDescription
+            v-if="
+              contact?.accountByAccountId?.rowId !== store.signedInAccountId
+            "
+          >
+            {{ t('usernameDescription') }}
+          </FieldDescription>
           <FieldError
             v-if="isFieldInvalid(field)"
             :errors="normalizeFieldErrors(field.state.meta.errors)"
@@ -586,7 +578,7 @@ de:
   stateInfoUsernameDisabledLink: Einstellungen Deines Kontos
   url: Weblink
   username: Nutzername
-  usernameNotFound: Diesen Nutzernamen gibt es nicht. Prüfe die Schreibweise oder füge die Person stattdessen per E-Mail-Adresse hinzu.
+  usernameDescription: Verknüpft den Kontakt mit dem Konto der Person. Sie bekommt Deine Einladungen in der App und per E-Mail und kann sehen, was Du hier speicherst. Dass Du sie hinzugefügt hast, wird ihr nicht mitgeteilt.
 en:
   accountOverride: Details you enter here take priority over the ones from the account above.
   emailAddress: Email address
@@ -605,5 +597,5 @@ en:
   stateInfoUsernameDisabledLink: your account's settings
   url: Weblink
   username: Username
-  usernameNotFound: This username doesn't exist. Check the spelling or add the person by email address instead.
+  usernameDescription: Links this contact to their account. They get your invitations in the app and by email and can see what you save here. They aren't told that you added them.
 </i18n>

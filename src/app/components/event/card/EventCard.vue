@@ -106,7 +106,7 @@
       />
       <div
         v-if="variant === 'recommendation'"
-        class="absolute top-2 left-2 z-20 flex items-center gap-1 rounded-small bg-info-tint px-2 py-0.5 text-caption text-fg-1"
+        class="absolute top-2 left-2 flex items-center gap-1 rounded-small bg-info-tint px-2 py-0.5 text-caption text-fg-1"
       >
         <AppIconNetworkIntelligence aria-hidden="true" class="size-3" />
         {{ t('match') }}

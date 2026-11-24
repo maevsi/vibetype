@@ -1107,6 +1107,17 @@ export type AccountDeleteMutation = {
   accountDelete: { clientMutationId: string | null } | null
 }
 
+export type AccountPickerSearchQueryVariables = Exact<{
+  first?: number | null | undefined
+  query?: string | null | undefined
+}>
+
+export type AccountPickerSearchQuery = {
+  accountSearch: {
+    nodes: Array<{ id: string; rowId: string; username: string }>
+  } | null
+}
+
 export type AccountByRowIdQueryVariables = Exact<{
   id: string
 }>
@@ -3766,6 +3777,84 @@ export const AccountDeleteDocument = {
 } as unknown as DocumentNode<
   AccountDeleteMutation,
   AccountDeleteMutationVariables
+>
+export const AccountPickerSearchDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountPickerSearch' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'query' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountSearch' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'query' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'query' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountPickerSearchQuery,
+  AccountPickerSearchQueryVariables
 >
 export const AccountByRowIdDocument = {
   kind: 'Document',

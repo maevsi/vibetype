@@ -34,6 +34,7 @@ import {
   allPreferenceEventLocationsQuery,
   getPreferenceEventLocationItem,
 } from '~~/shared/utils/preference/eventLocation'
+import { getFetchRetryingRateLimit } from '~~/shared/utils/networking'
 import {
   getRefetchBeforeHydrationExchange,
   getSsrHydrationExchanges,
@@ -545,6 +546,7 @@ export const getUrqlClient = async ({
 
     const clientOpts: ClientOptions = {
       ...clientOptions,
+      fetch: getFetchRetryingRateLimit(clientOptions?.fetch ?? fetch),
       exchanges: [
         ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
         requestPolicyExchange({}),

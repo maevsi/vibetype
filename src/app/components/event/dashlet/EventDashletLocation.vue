@@ -1,6 +1,6 @@
 <template>
   <EventDashlet v-if="event.isInPerson && address?.name">
-    <AppLink class="flex flex-col" is-external :to="mapsUrl">
+    <AppLink v-if="mapsUrl" class="flex flex-col" is-external :to="mapsUrl">
       <span>{{ address.name }}</span>
       <span v-for="line in lines" :key="line" class="text-fg-2">{{
         line

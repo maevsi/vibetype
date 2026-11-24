@@ -3,6 +3,7 @@ import { createResolver } from 'nuxt/kit'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
+import { z } from 'zod'
 
 import { modulesConfig } from './config/modules'
 import { environmentsConfig } from './config/environments'
@@ -39,6 +40,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {
+    defaults: {
+      navigateTo: {
+        noopener: true,
+      },
+    },
     early404: true,
     extractSerializablePageMeta: true,
     inlineErrorRendering: true,
@@ -47,9 +53,11 @@ export default defineNuxtConfig({
     prefetchPreloadTags: true,
     prerenderErrorPages: true,
     routeTypedFetch: true,
+    staticRoutes: true,
     strictRouteTypes: true,
     typedPages: true,
     typescriptPlugin: true,
+    viteEnvironmentApi: true,
     watcher: 'builder',
   },
   modules: [
@@ -104,10 +112,10 @@ export default defineNuxtConfig({
       headers: { 'Content-Type': 'application/json' },
     },
     '/__nuxt_content/content/query': {
-      csurf: false,
+      csurf: { enabled: false }, // Nitro v3 reads `csurf: false` as unsetting the rule, which would enable the check again
     },
     '/api/model/event/ical': {
-      csurf: false,
+      csurf: { enabled: false },
     },
     '/api/model/event/ingest/image': {
       security: {
@@ -117,10 +125,10 @@ export default defineNuxtConfig({
       },
     },
     '/api/internal/service/tusd': {
-      csurf: false, // tusd's http hooks carry no csrf token
+      csurf: { enabled: false }, // tusd's http hooks carry no csrf token
     },
     '/api/service/firebase/notification': {
-      csurf: false, // called by services, authenticated by secret
+      csurf: { enabled: false }, // called by services, authenticated by secret
     },
     '/contact/**': {
       robots: false, // pages for signed-in users only have nothing for search engines to index
@@ -161,7 +169,7 @@ export default defineNuxtConfig({
           },
         },
         upload: {
-          sizeMax: 10485760, // bytes, set from tusd's `TUSD_MAX_SIZE` in the stack so the client rejects what tusd would
+          sizeMax: z.number().int().positive().default(10485760), // bytes, set from tusd's `TUSD_MAX_SIZE` in the stack so the client rejects what tusd would
         },
       },
       gtag: {
@@ -258,6 +266,7 @@ export default defineNuxtConfig({
         allowImportingTsExtensions: true,
       },
     },
+    typeCheck: 'dev', // shows type errors in the development error badge, while ci type checks through `lint:ts`
   },
   vite: {
     optimizeDeps: {

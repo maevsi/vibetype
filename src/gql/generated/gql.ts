@@ -15,6 +15,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  */
 type Documents = {
   '\n    mutation AccountDelete($input: AccountDeleteInput!) {\n      accountDelete(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountDeleteDocument
+  '\n    query AccountPickerSearch($first: Int, $query: String) {\n      accountSearch(first: $first, query: $query) {\n        nodes {\n          id\n          rowId\n          username\n        }\n      }\n    }\n  ': typeof types.AccountPickerSearchDocument
   '\n    query AccountByRowId($id: UUID!) {\n      accountByRowId(rowId: $id) {\n        id\n        profilePictureByAccountId {\n          id\n          rowId\n          uploadByUploadId {\n            id\n            rowId\n            storageKey\n          }\n        }\n        rowId\n        username\n      }\n    }\n  ': typeof types.AccountByRowIdDocument
   '\n    mutation DeleteProfilePictureByRowIdMutation(\n      $input: DeleteProfilePictureByRowIdInput!\n    ) {\n      deleteProfilePictureByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteProfilePictureByRowIdMutationDocument
   '\n  query AccountSearch($after: Cursor, $first: Int, $query: String) {\n    accountSearch(after: $after, first: $first, query: $query) {\n      nodes {\n        displayName\n        id\n        rowId\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AccountSearchDocument
@@ -137,6 +138,8 @@ type Documents = {
 const documents: Documents = {
   '\n    mutation AccountDelete($input: AccountDeleteInput!) {\n      accountDelete(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.AccountDeleteDocument,
+  '\n    query AccountPickerSearch($first: Int, $query: String) {\n      accountSearch(first: $first, query: $query) {\n        nodes {\n          id\n          rowId\n          username\n        }\n      }\n    }\n  ':
+    types.AccountPickerSearchDocument,
   '\n    query AccountByRowId($id: UUID!) {\n      accountByRowId(rowId: $id) {\n        id\n        profilePictureByAccountId {\n          id\n          rowId\n          uploadByUploadId {\n            id\n            rowId\n            storageKey\n          }\n        }\n        rowId\n        username\n      }\n    }\n  ':
     types.AccountByRowIdDocument,
   '\n    mutation DeleteProfilePictureByRowIdMutation(\n      $input: DeleteProfilePictureByRowIdInput!\n    ) {\n      deleteProfilePictureByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
@@ -395,6 +398,12 @@ export function graphql(source: string): unknown
 export function graphql(
   source: '\n    mutation AccountDelete($input: AccountDeleteInput!) {\n      accountDelete(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation AccountDelete($input: AccountDeleteInput!) {\n      accountDelete(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query AccountPickerSearch($first: Int, $query: String) {\n      accountSearch(first: $first, query: $query) {\n        nodes {\n          id\n          rowId\n          username\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query AccountPickerSearch($first: Int, $query: String) {\n      accountSearch(first: $first, query: $query) {\n        nodes {\n          id\n          rowId\n          username\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
