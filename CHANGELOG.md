@@ -1,3 +1,9 @@
+## [17.57.0](https://github.com/maevsi/vibetype/compare/17.56.0...17.57.0) (2026-11-24)
+
+### Features
+
+* **contact:** require a username, email address, or phone number ([#2877](https://github.com/maevsi/vibetype/issues/2877)) ([cc40521](https://github.com/maevsi/vibetype/commit/cc40521b7ffd8a12070166a9b099486437badb11))
+
 ## [17.56.0](https://github.com/maevsi/vibetype/compare/17.55.1...17.56.0) (2026-11-24)
 
 ### Features
