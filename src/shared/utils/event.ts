@@ -67,6 +67,7 @@ export const EventItem = graphql(`
         }
       }
     }
+    feedbackDeadline
     guestCountMaximum
     id
     isArchived

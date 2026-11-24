@@ -678,6 +678,8 @@ export type EventInput = {
   description?: string | null | undefined
   /** The event's end date and time, with time zone. */
   end?: string | null | undefined
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  feedbackDeadline?: string | null | undefined
   /** The event's maximum guest count. Must be greater than 0. */
   guestCountMaximum?: number | null | undefined
   /** Indicates whether the event is archived. */
@@ -689,7 +691,7 @@ export type EventInput = {
   language?: Language | null | undefined
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name: string
-  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
   publishedAt?: string | null | undefined
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug: string
@@ -729,6 +731,8 @@ export type EventPatch = {
   description?: string | null | undefined
   /** The event's end date and time, with time zone. */
   end?: string | null | undefined
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  feedbackDeadline?: string | null | undefined
   /** The event's maximum guest count. Must be greater than 0. */
   guestCountMaximum?: number | null | undefined
   /** Indicates whether the event is archived. */
@@ -740,7 +744,7 @@ export type EventPatch = {
   language?: Language | null | undefined
   /** The event's name. Must be non-empty and not exceed 100 characters. */
   name?: string | null | undefined
-  /** The event's publication time. Unset means a draft, a future time schedules the event. A past time is raised to now unless unchanged. */
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
   publishedAt?: string | null | undefined
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
   slug?: string | null | undefined
@@ -774,25 +778,22 @@ export type GuestInput = {
   contactId: string
   /** The internal id of the guest's event. */
   eventId: string
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: InvitationFeedback | null | undefined
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InvitationFeedbackPaper | null | undefined
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: InvitationFeedback | null | undefined
 }
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The guest's general feedback status. */
+  /** The guest's own feedback status. Only the guest can set it. */
   feedback?: InvitationFeedback | null | undefined
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InvitationFeedbackPaper | null | undefined
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  feedbackOverride?: InvitationFeedback | null | undefined
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
 export type InvitationFeedback = 'accepted' | 'canceled'
-
-/** Possible choices on how to receive a paper invitation: none, paper, digital. */
-export type InvitationFeedbackPaper = 'digital' | 'none' | 'paper'
 
 /** All input for the `invite` mutation. */
 export type InviteInput = {
@@ -1446,6 +1447,7 @@ export type UpdateEventByRowIdMutation = {
     event: {
       description: string | null
       end: string | null
+      feedbackDeadline: string | null
       guestCountMaximum: number | null
       id: string
       isInPerson: boolean | null
@@ -2315,6 +2317,7 @@ export type EventEditQuery = {
         createdBy: string
         description: string | null
         end: string | null
+        feedbackDeadline: string | null
         id: string
         guestCountMaximum: number | null
         isArchived: boolean
@@ -2719,6 +2722,7 @@ export type GuestEventQuery = {
       createdBy: string
       description: string | null
       end: string | null
+      feedbackDeadline: string | null
       id: string
       isArchived: boolean
       isInPerson: boolean | null
@@ -2960,6 +2964,7 @@ export type EventItemFragment = {
   createdBy: string
   description: string | null
   end: string | null
+  feedbackDeadline: string | null
   guestCountMaximum: number | null
   id: string
   isArchived: boolean
@@ -3226,6 +3231,7 @@ export const EventItemFragmentDoc = {
               ],
             },
           },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackDeadline' } },
           { kind: 'Field', name: { kind: 'Name', value: 'guestCountMaximum' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'isArchived' } },
@@ -6710,6 +6716,10 @@ export const UpdateEventByRowIdDocument = {
                         name: { kind: 'Name', value: 'description' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedbackDeadline' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'guestCountMaximum' },
@@ -12199,6 +12209,10 @@ export const EventEditDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'feedbackDeadline' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -14988,6 +15002,10 @@ export const GuestEventDocument = {
                             },
                           ],
                         },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedbackDeadline' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {

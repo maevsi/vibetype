@@ -184,6 +184,7 @@ const EVENT_VIEW = {
     __typename: 'EventFormatMappingConnection',
   },
   eventUploadsByEventId: EVENT_UPLOADS,
+  feedbackDeadline: null,
   guestsByEventId: {
     nodes: [],
     __typename: 'GuestConnection',
@@ -768,6 +769,7 @@ export const getTestingGraphqlResult = async ({
                     __typename: 'EventFormatMappingConnection',
                   },
                   eventUploadsByEventId: EVENT_UPLOADS,
+                  feedbackDeadline: null,
                   guestCountMaximum: EVENT.guestCountMaximum,
                   id: EVENT.id,
                   isArchived: EVENT.isArchived,
@@ -797,6 +799,7 @@ export const getTestingGraphqlResult = async ({
                 {
                   accountByCreatedBy: ACCOUNT,
                   createdBy: EVENT.createdBy,
+                  feedbackDeadline: null,
                   guestCountMaximum: EVENT.guestCountMaximum,
                   guestsByEventId: {
                     nodes: [

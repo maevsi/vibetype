@@ -28,6 +28,7 @@ export const getEventImported = async ({
     addressByAddressId: { name: locationName },
     description: description ? getHtmlFromText(description) : null,
     end: end ?? null,
+    feedbackDeadline: null,
     guestCountMaximum: null,
     isInPerson,
     isRemote: false,

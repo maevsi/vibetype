@@ -239,6 +239,64 @@
             </FieldContent>
           </Field>
         </form.Field>
+        <form.Field v-slot="{ field }" name="feedbackDeadline">
+          <Field class="flex flex-col">
+            <FieldLabel for="button-feedbackDeadline">{{
+              t('feedbackDeadline')
+            }}</FieldLabel>
+            <FieldContent>
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-feedbackDeadline"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :min-value="
+                        isoToCalendarDate(form.getFieldValue('start'))
+                      "
+                      :model-value="isoToCalendarDate(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </FieldContent>
+            <FieldDescription>{{ t('feedbackDeadlineHint') }}</FieldDescription>
+          </Field>
+        </form.Field>
         <form.Field v-slot="{ field: isInPersonField }" name="isInPerson">
           <form.Field v-slot="{ field: isRemoteField }" name="isRemote">
             <AppCheckboxGroup
@@ -600,6 +658,7 @@ const { event = undefined } = defineProps<{
     | 'guestCountMaximum'
     | 'start'
     | 'end'
+    | 'feedbackDeadline'
     | 'isInPerson'
     | 'isRemote'
     | 'publishedAt'
@@ -677,6 +736,7 @@ const updateEventMutation = useMutation(
           }
           description
           end
+          feedbackDeadline
           guestCountMaximum
           id
           isInPerson
@@ -862,6 +922,7 @@ const formSchema = z
     categoryIds: z.array(z.string()),
     description: SCHEMA_EVENT_DESCRIPTION_OPTIONAL,
     end: z.string(),
+    feedbackDeadline: z.string(),
     formatIds: z.array(z.string()),
     guestCountMaximum: z.string(),
     isInPerson: z.boolean(),
@@ -1130,6 +1191,7 @@ const form = useForm({
         .map((node) => node.categoryId) ?? [],
     description: (event?.description as string) ?? '',
     end: (event?.end as string) ?? '',
+    feedbackDeadline: (event?.feedbackDeadline as string) ?? '',
     formatIds:
       event?.eventFormatMappingsByEventId?.nodes
         .filter(isNeitherNullNorUndefined)
@@ -1174,6 +1236,7 @@ const form = useForm({
             createdBy: store.signedInAccountId,
             description: value.description || null,
             end: value.end || null,
+            feedbackDeadline: value.feedbackDeadline || null,
             guestCountMaximum: value.guestCountMaximum
               ? +value.guestCountMaximum
               : null,
@@ -1230,6 +1293,7 @@ const form = useForm({
             createdBy: store.signedInAccountId || '',
             description: value.description || null,
             end: value.end || null,
+            feedbackDeadline: value.feedbackDeadline || null,
             guestCountMaximum: value.guestCountMaximum
               ? +value.guestCountMaximum
               : null,
@@ -1400,6 +1464,8 @@ de:
   eventCreateSuccess: Veranstaltung erfolgreich erstellt.
   eventUpdate: Änderungen speichern
   eventUpdateSuccess: Aktualisiert
+  feedbackDeadline: Rückmeldefrist
+  feedbackDeadlineHint: Danach können Gäste ihre Rückmeldung nicht mehr ändern.
   formats: Formate
   headerImage: Titelbild
   headerImageNone: Kein Titelbild ausgewählt
@@ -1446,6 +1512,8 @@ en:
   eventCreateSuccess: Event created successfully.
   eventUpdate: Save changes
   eventUpdateSuccess: Updated
+  feedbackDeadline: RSVP deadline
+  feedbackDeadlineHint: Guests can no longer change their response after this point.
   formats: Formats
   headerImage: Cover image
   headerImageNone: No cover image selected

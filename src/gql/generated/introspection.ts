@@ -3732,6 +3732,14 @@ export default {
             args: [],
           },
           {
+            name: 'tagSerialNumber',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
             name: 'updatedAt',
             type: {
               kind: 'SCALAR',
@@ -4754,6 +4762,65 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'EventFormatMappingEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'CreateEventInvitationLinkPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'eventInvitationLink',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLink',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventInvitationLinkEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLinkEdge',
               ofType: null,
             },
             args: [
@@ -6072,6 +6139,73 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'DeleteEventInvitationLinkPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'deletedEventInvitationLinkId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'eventInvitationLink',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLink',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventInvitationLinkEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLinkEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'DeleteEventPayload',
         fields: [
           {
@@ -7275,6 +7409,15 @@ export default {
             ],
           },
           {
+            name: 'eventInvitationLinkByEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLink',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
             name: 'eventRecommendationsByEventId',
             type: {
               kind: 'NON_NULL',
@@ -7409,6 +7552,14 @@ export default {
                 },
               },
             ],
+          },
+          {
+            name: 'feedbackDeadline',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
           },
           {
             name: 'guestCount',
@@ -9080,6 +9231,196 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'EventInvitationLink',
+        fields: [
+          {
+            name: 'createdAt',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'eventByEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'Event',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'id',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'rowId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [
+          {
+            kind: 'INTERFACE',
+            name: 'Node',
+          },
+        ],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'EventInvitationLinkConnection',
+        fields: [
+          {
+            name: 'edges',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    name: 'EventInvitationLinkEdge',
+                    kind: 'OBJECT',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'nodes',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    name: 'EventInvitationLink',
+                    kind: 'OBJECT',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'pageInfo',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                name: 'PageInfo',
+                kind: 'OBJECT',
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'totalCount',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'EventInvitationLinkEdge',
+        fields: [
+          {
+            name: 'cursor',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'node',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                name: 'EventInvitationLink',
+                kind: 'OBJECT',
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'EventInvitationLinkRedeemPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'result',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'EventRecommendation',
         fields: [
           {
@@ -9862,7 +10203,7 @@ export default {
             args: [],
           },
           {
-            name: 'feedbackPaper',
+            name: 'feedbackOverride',
             type: {
               kind: 'SCALAR',
               name: 'Any',
@@ -11024,6 +11365,26 @@ export default {
             ],
           },
           {
+            name: 'createEventInvitationLink',
+            type: {
+              kind: 'OBJECT',
+              name: 'CreateEventInvitationLinkPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'createEventUpload',
             type: {
               kind: 'OBJECT',
@@ -11724,6 +12085,66 @@ export default {
             ],
           },
           {
+            name: 'deleteEventInvitationLink',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteEventInvitationLinkPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteEventInvitationLinkByEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteEventInvitationLinkPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteEventInvitationLinkByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteEventInvitationLinkPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'deleteEventUpload',
             type: {
               kind: 'OBJECT',
@@ -12268,6 +12689,26 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'EventDeletePayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'eventInvitationLinkRedeem',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLinkRedeemPayload',
               ofType: null,
             },
             args: [
@@ -13127,6 +13568,10 @@ export default {
           {
             kind: 'OBJECT',
             name: 'EventFormatMapping',
+          },
+          {
+            kind: 'OBJECT',
+            name: 'EventInvitationLink',
           },
           {
             kind: 'OBJECT',
@@ -15499,6 +15944,71 @@ export default {
             ],
           },
           {
+            name: 'allEventInvitationLinks',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLinkConnection',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'after',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'before',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'condition',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'last',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'LIST',
+                  ofType: {
+                    kind: 'NON_NULL',
+                    ofType: {
+                      kind: 'SCALAR',
+                      name: 'Any',
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'allEventRecommendations',
             type: {
               kind: 'OBJECT',
@@ -16820,6 +17330,26 @@ export default {
             ],
           },
           {
+            name: 'eventByInvitationLink',
+            type: {
+              kind: 'OBJECT',
+              name: 'Event',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'invitationLinkId',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'eventByRowId',
             type: {
               kind: 'OBJECT',
@@ -17138,6 +17668,66 @@ export default {
             args: [
               {
                 name: 'eventId',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'eventInvitationLink',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLink',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'id',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'eventInvitationLinkByEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLink',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'eventId',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'eventInvitationLinkByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventInvitationLink',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'rowId',
                 type: {
                   kind: 'NON_NULL',
                   ofType: {

@@ -76,6 +76,7 @@ const eventQuery = useApiQuery({
                 }
               }
             }
+            feedbackDeadline
             id
             guestCountMaximum
             isArchived
