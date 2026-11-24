@@ -1,3 +1,9 @@
+## [17.56.0](https://github.com/maevsi/vibetype/compare/17.55.1...17.56.0) (2026-11-24)
+
+### Features
+
+* **guest:** share invitations to phone-only contacts ([#2876](https://github.com/maevsi/vibetype/issues/2876)) ([8fffef6](https://github.com/maevsi/vibetype/commit/8fffef675ecbb94075c48ce9f6f881353105d66d))
+
 ## [17.55.1](https://github.com/maevsi/vibetype/compare/17.55.0...17.55.1) (2026-11-24)
 
 ### Bug Fixes
