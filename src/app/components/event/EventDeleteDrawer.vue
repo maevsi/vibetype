@@ -10,7 +10,7 @@
     :item-name-success="t('itemNameSuccess')"
     :mutation
     :variables="{ id: eventId }"
-    @success="navigateTo(localePath('dashboard'))"
+    @success="onSuccess"
   />
 </template>
 
@@ -28,6 +28,13 @@ const isOpen = defineModel<boolean>('open', { default: false })
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const menuTargets = useMenuTargets()
+
+// the own events list is the deleted event's parent page; replacing the event's history entry keeps back navigations from returning to it
+const onSuccess = () =>
+  navigateTo(menuTargets.value.events ?? localePath('dashboard'), {
+    replace: true,
+  })
 
 const mutation = useMutation(
   graphql(`

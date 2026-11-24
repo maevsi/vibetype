@@ -54,15 +54,21 @@ const historyEntryAdd = () => {
   history.pushState({ ...history.state, drawer: id }, '')
   window.addEventListener('popstate', onPopState)
 }
+// resolves once the entry is gone, as the back navigation removing it would cancel a navigation that `close` listeners start before
 const historyEntryRemove = () => {
   window.removeEventListener('popstate', onPopState)
 
   // only while the entry is still current, as a navigation away from the page must not be undone
-  if (history.state?.drawer === id) history.back()
+  if (history.state?.drawer !== id) return Promise.resolve()
+
+  return new Promise<void>((resolve) => {
+    window.addEventListener('popstate', () => resolve(), { once: true })
+    history.back()
+  })
 }
 
 // lifecycle
-watch(isOpen, (newValue) => {
+watch(isOpen, async (newValue) => {
   if (isWithoutHistoryEntry) {
     if (!newValue) emit('close')
     return
@@ -71,7 +77,7 @@ watch(isOpen, (newValue) => {
   if (newValue) {
     historyEntryAdd()
   } else {
-    historyEntryRemove()
+    await historyEntryRemove()
     emit('close')
   }
 })

@@ -719,6 +719,15 @@ export const getTestingGraphqlResult = async ({
               : null,
         },
       }
+    case 'EventDelete':
+      return {
+        data: {
+          eventDelete: {
+            clientMutationId: null,
+            __typename: 'EventDeletePayload',
+          },
+        },
+      }
     case 'EventEdit':
       return {
         data: {

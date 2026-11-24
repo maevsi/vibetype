@@ -9,7 +9,7 @@
     >
       {{ t('deletion', { item: itemNameDeletion }) }}
     </AppButton>
-    <AppDrawer v-model:open="isOpen">
+    <AppDrawer v-model:open="isOpen" @close="onClose">
       <FormDelete
         :errors-pg-ids
         :item-name-deletion
@@ -49,8 +49,16 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const isOpen = defineModel<boolean>('open', { default: false })
 
+// `success` waits for the drawer to close, so that a navigation its listeners start is not cancelled by the drawer leaving history
+let isSucceeded = false
 const onSuccess = () => {
+  isSucceeded = true
   isOpen.value = false
+}
+const onClose = () => {
+  if (!isSucceeded) return
+
+  isSucceeded = false
   emit('success')
 }
 </script>
