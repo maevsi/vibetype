@@ -881,6 +881,8 @@ export type GuestInput = {
   feedback?: InvitationFeedback | null | undefined
   /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
   feedbackOverride?: InvitationFeedback | null | undefined
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  feedbackReason?: string | null | undefined
 }
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
@@ -889,6 +891,8 @@ export type GuestPatch = {
   feedback?: InvitationFeedback | null | undefined
   /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
   feedbackOverride?: InvitationFeedback | null | undefined
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  feedbackReason?: string | null | undefined
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
@@ -2916,6 +2920,7 @@ export type UpdateGuestByRowIdMutation = {
   updateGuestByRowId: {
     guest: {
       feedback: InvitationFeedback | null
+      feedbackReason: string | null
       id: string
       rowId: string
     } | null
@@ -2929,6 +2934,7 @@ export type GuestEventQueryVariables = Exact<{
 export type GuestEventQuery = {
   guestByRowId: {
     feedback: InvitationFeedback | null
+    feedbackReason: string | null
     id: string
     rowId: string
     contactByContactId: {
@@ -3238,6 +3244,7 @@ export type GuestItemFragment = {
   contactId: string
   feedback: InvitationFeedback | null
   feedbackOverride: InvitationFeedback | null
+  feedbackReason: string | null
   id: string
   rowId: string
   contactByContactId: {
@@ -3582,6 +3589,7 @@ export const GuestItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'contactId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
           { kind: 'Field', name: { kind: 'Name', value: 'feedbackOverride' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackReason' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
         ],
@@ -8869,6 +8877,7 @@ export const AllGuestsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'contactId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
           { kind: 'Field', name: { kind: 'Name', value: 'feedbackOverride' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackReason' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
         ],
@@ -15545,6 +15554,10 @@ export const UpdateGuestByRowIdDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feedback' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedbackReason' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
@@ -16012,6 +16025,10 @@ export const GuestEventDocument = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feedbackReason' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
               ],

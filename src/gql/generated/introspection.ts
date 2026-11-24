@@ -11109,6 +11109,14 @@ export default {
             args: [],
           },
           {
+            name: 'feedbackReason',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
             name: 'id',
             type: {
               kind: 'NON_NULL',
