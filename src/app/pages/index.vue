@@ -1,5 +1,5 @@
 <template>
-  <div v-if="status === 'success'" class="flex flex-1 flex-col">
+  <div v-if="achievement" class="flex flex-1 flex-col">
     <LayoutTopBar>{{ t('unlockTitle') }}</LayoutTopBar>
     <LayoutPage>
       <LayoutPageResult type="success">
@@ -178,14 +178,12 @@ const achievementUnlockMutation = useMutation(
     }
   `),
 )
-const { /* data, */ error, status } = useAsyncData(
+// there's no way to be certain that a user tried to unlock an achievement here, so neither a missing sign-in nor a failed unlock is an error, which Nuxt would report to the server runtime
+const { data: achievement, error } = useAsyncData(
   computed(() => `achievement:${stringifyQuery(route.query)}`),
   async () => {
-    if (!Object.keys(route.query).length)
-      throw new Error('Short circuit for no query parameters')
-
-    if (!authentication.value.isSignedIn)
-      throw new Error('Short circuit for unauthorized access') // there's no way to be certain that a user tried to unlock an achievement here, so no prompt to login is thrown
+    if (!Object.keys(route.query).length || !authentication.value.isSignedIn)
+      return null
 
     const result = await achievementUnlockMutation.executeMutation({
       input: {
@@ -197,20 +195,18 @@ const { /* data, */ error, status } = useAsyncData(
     const data = getResultData(result)
 
     if (!data?.achievementUnlock?.result) {
-      throw result.error ?? new Error(t('globalErrorNoData'))
+      console.debug(result.error?.message ?? t('globalErrorNoData'))
+      return null
     }
 
     return data.achievementUnlock.result
   },
 )
-if (error.value) {
-  console.debug(error.value.message) // there's no way to be certain that a user tried to unlock an achievement here, so no error is thrown
-
-  if (store.signedInAccountId) {
-    await navigateTo(localePath('dashboard'), {
-      replace: true,
-    })
-  }
+// `null` is the handler's result, while `undefined` means it has not resolved yet, as the server runs it after this setup
+if ((achievement.value === null || error.value) && store.signedInAccountId) {
+  await navigateTo(localePath('dashboard'), {
+    replace: true,
+  })
 }
 
 // confetti
@@ -220,7 +216,7 @@ const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
 onMounted(async () => {
   loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1)
 
-  if (status.value === 'success') {
+  if (achievement.value) {
     if (!templateCanvas.value) {
       showAppError({ message: 'Could not get canvas', status: 500 })
       return
