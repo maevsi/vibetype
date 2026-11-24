@@ -1,3 +1,4 @@
+import { $fetch } from 'ofetch'
 import { SITE_URL } from '~~/node/static'
 
 import packageJson from '../../package.json'

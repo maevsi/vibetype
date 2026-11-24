@@ -1,3 +1,5 @@
+import { $fetch } from 'ofetch'
+
 export default defineEventHandler(async () => {
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
   const jwt = getJwtFromCookie()

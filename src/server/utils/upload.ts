@@ -1,3 +1,4 @@
+import { $fetch } from 'ofetch'
 import type Redis from 'ioredis'
 
 type Upload = {

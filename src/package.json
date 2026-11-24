@@ -107,6 +107,7 @@
     "nuxt-schema-org": "7.0.1",
     "nuxt-security": "2.7.0",
     "nuxtseo-devtools-host": "1.0.3",
+    "ofetch": "1.5.1",
     "openai": "7.62.0",
     "pinia": "4.1.0",
     "postcss-html": "2.0.1",
