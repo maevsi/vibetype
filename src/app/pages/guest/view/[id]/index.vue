@@ -194,54 +194,71 @@
                   }}</span>
                 </div>
               </div>
-              <div v-else class="flex items-center justify-center gap-4">
-                <AppButton
-                  v-if="
-                    guest.feedback === null ||
-                    guest.feedback === InvitationFeedback.Canceled
-                  "
-                  :aria-label="t('invitationAccept')"
-                  :loading="isUpdatingAccept"
-                  @click="accept"
+              <div v-else class="flex flex-col items-center gap-2">
+                <p v-if="isFeedbackClosed" class="text-body-small">
+                  {{ t('feedbackClosed') }}
+                </p>
+                <i18n-t
+                  v-else-if="event.feedbackDeadline"
+                  class="text-body-small"
+                  keypath="feedbackDeadline"
+                  tag="p"
                 >
-                  <span>{{ t('invitationAccept') }}</span>
-                  <template #prefix>
-                    <AppIconCheckCircleSolid class="shrink-0" />
+                  <template #date>
+                    <AppTime :datetime="event.feedbackDeadline" />
                   </template>
-                </AppButton>
-                <div
-                  v-if="guest.feedback === InvitationFeedback.Accepted"
-                  class="flex items-center font-semibold text-link"
-                >
-                  <AppIconCheckCircleSolid
-                    class="mr-2 shrink-0"
-                    :title="t('invitationAccepted')"
-                  />
-                  <span>{{ t('invitationAccepted') }}</span>
-                </div>
-                <AppButton
-                  v-if="
-                    guest.feedback === null ||
-                    guest.feedback === InvitationFeedback.Accepted
-                  "
-                  :aria-label="t('invitationCancel')"
-                  :loading="isUpdatingCancel"
-                  @click="cancel"
-                >
-                  <span>{{ t('invitationCancel') }}</span>
-                  <template #prefix>
-                    <AppIconXCircleSolid class="shrink-0" />
-                  </template>
-                </AppButton>
-                <div
-                  v-if="guest.feedback === InvitationFeedback.Canceled"
-                  class="flex items-center font-semibold text-error"
-                >
-                  <AppIconXCircleSolid
-                    class="mr-2 shrink-0"
-                    :title="t('invitationCanceled')"
-                  />
-                  <span>{{ t('invitationCanceled') }}</span>
+                </i18n-t>
+                <div class="flex items-center justify-center gap-4">
+                  <AppButton
+                    v-if="
+                      guest.feedback === null ||
+                      guest.feedback === InvitationFeedback.Canceled
+                    "
+                    :aria-label="t('invitationAccept')"
+                    :disabled="isFeedbackClosed"
+                    :loading="isUpdatingAccept"
+                    @click="accept"
+                  >
+                    <span>{{ t('invitationAccept') }}</span>
+                    <template #prefix>
+                      <AppIconCheckCircleSolid class="shrink-0" />
+                    </template>
+                  </AppButton>
+                  <div
+                    v-if="guest.feedback === InvitationFeedback.Accepted"
+                    class="flex items-center font-semibold text-link"
+                  >
+                    <AppIconCheckCircleSolid
+                      class="mr-2 shrink-0"
+                      :title="t('invitationAccepted')"
+                    />
+                    <span>{{ t('invitationAccepted') }}</span>
+                  </div>
+                  <AppButton
+                    v-if="
+                      guest.feedback === null ||
+                      guest.feedback === InvitationFeedback.Accepted
+                    "
+                    :aria-label="t('invitationCancel')"
+                    :disabled="isFeedbackClosed"
+                    :loading="isUpdatingCancel"
+                    @click="cancel"
+                  >
+                    <span>{{ t('invitationCancel') }}</span>
+                    <template #prefix>
+                      <AppIconXCircleSolid class="shrink-0" />
+                    </template>
+                  </AppButton>
+                  <div
+                    v-if="guest.feedback === InvitationFeedback.Canceled"
+                    class="flex items-center font-semibold text-error"
+                  >
+                    <AppIconXCircleSolid
+                      class="mr-2 shrink-0"
+                      :title="t('invitationCanceled')"
+                    />
+                    <span>{{ t('invitationCanceled') }}</span>
+                  </div>
                 </div>
               </div>
               <form
@@ -448,6 +465,7 @@ const eventQuery = useApiQuery({
               }
             }
           }
+          feedbackDeadline
           id
           isArchived
           isInPerson
@@ -493,6 +511,12 @@ const events = computed(() => (event.value ? [event.value] : []))
 const address = computed(() => event.value?.addressByAddressId)
 const account = computed(() => event.value?.accountByCreatedBy)
 const api = await useApiData([eventQuery])
+const now = Date.now()
+const isFeedbackClosed = computed(
+  () =>
+    !!event.value?.feedbackDeadline &&
+    new Date(event.value.feedbackDeadline).getTime() < now,
+)
 
 // methods
 const isUpdatingAccept = ref<boolean>()
@@ -652,10 +676,19 @@ const ticketDownload = () => {
 const qrCodeShow = () => {
   isDrawerGuestQrCodeOpen.value = true
 }
+const alertErrorDetails = useAlertErrorDetails()
 const update = async (id: string, guestPatch: GuestPatch) => {
   const result = await updateGuestByRowIdMutation.executeMutation({
     input: { rowId: id, guestPatch },
   })
+
+  if (result.error) {
+    alertErrorDetails({
+      errors: [result.error],
+      postgresErrorMap: { postgresVTFDP: t('feedbackClosed') },
+    })
+    return
+  }
 
   if (!getResultData(result)) return
 
@@ -733,6 +766,8 @@ de:
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorGuestMissing: Diese Einladung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
+  feedbackClosed: Die Rückmeldefrist ist abgelaufen.
+  feedbackDeadline: Rückmeldung bis {date}
   feedbackReasonLabel: Notiz für {name} hinzufügen (optional)
   feedbackReasonSave: Notiz speichern
   googleCalendarAdd: Zu Google Kalender hinzufügen
@@ -765,6 +800,8 @@ en:
   errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorGuestMissing: This invitation isn't available. If someone sent you a link, ask them for a new one.
+  feedbackClosed: The RSVP deadline has passed.
+  feedbackDeadline: Respond by {date}
   feedbackReasonLabel: Add a note for {name} (optional)
   feedbackReasonSave: Save note
   googleCalendarAdd: Add to Google Calendar

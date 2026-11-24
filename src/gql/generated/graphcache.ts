@@ -3730,6 +3730,8 @@ export type Event = Node & {
   eventRecommendationsByEventId: EventRecommendationConnection
   /** Reads and enables pagination through a set of `EventUpload`. */
   eventUploadsByEventId: EventUploadConnection
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  feedbackDeadline?: Maybe<Scalars['Datetime']['output']>
   /** The number of guests of the event, maintained by triggers on the guest table. */
   guestCount: Scalars['Int']['output']
   /** The event's maximum guest count. Must be greater than 0. */
@@ -4392,6 +4394,8 @@ export type EventInput = {
   description?: InputMaybe<Scalars['String']['input']>
   /** The event's end date and time, with time zone. */
   end?: InputMaybe<Scalars['Datetime']['input']>
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  feedbackDeadline?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's maximum guest count. Must be greater than 0. */
   guestCountMaximum?: InputMaybe<Scalars['Int']['input']>
   /** Indicates whether the event is archived. */
@@ -4534,6 +4538,8 @@ export type EventPatch = {
   description?: InputMaybe<Scalars['String']['input']>
   /** The event's end date and time, with time zone. */
   end?: InputMaybe<Scalars['Datetime']['input']>
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  feedbackDeadline?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's maximum guest count. Must be greater than 0. */
   guestCountMaximum?: InputMaybe<Scalars['Int']['input']>
   /** Indicates whether the event is archived. */
@@ -5468,6 +5474,7 @@ export type Mutation = {
    * Error codes:
    * - **VTILN** when the invitation link does not exist or its event is a draft or not yet published.
    * - **VTEEN** when the event has ended.
+   * - **VTFDP** when the event's feedback deadline has passed.
    * - **VTIDM** when an email address or first name is missing without an account.
    * - **VTGCM** when the event's maximum guest count is reached.
    */
@@ -12386,6 +12393,11 @@ export type GraphCacheResolvers = {
       EventEventUploadsByEventIdArgs,
       WithTypename<EventUploadConnection> | string
     >
+    feedbackDeadline?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
     guestCount?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
@@ -18530,6 +18542,10 @@ export type GraphCacheUpdaters = {
     eventUploadsByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       EventEventUploadsByEventIdArgs
+    >
+    feedbackDeadline?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
     >
     guestCount?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
