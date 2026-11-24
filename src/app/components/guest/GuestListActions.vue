@@ -150,7 +150,7 @@ const updateGuestByRowIdMutation = useMutation(
 const guestsSendable = computed(() =>
   guests.filter((guest) => {
     const contact = getContactItem(guest.contactByContactId)
-    return contact?.accountId || contact?.emailAddress
+    return contact?.accountId || contact?.emailAddresses?.length
   }),
 )
 const isPending = computed(() => pending.value !== undefined)

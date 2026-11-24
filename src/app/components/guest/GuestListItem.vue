@@ -324,7 +324,7 @@ const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 // computations
 const contact = computed(() => getContactItem(guest.contactByContactId))
 const isEmailable = computed(
-  () => !!(contact.value?.accountId || contact.value?.emailAddress),
+  () => !!(contact.value?.accountId || contact.value?.emailAddresses?.length),
 )
 const isSendable = computed(
   () => isEmailable.value || !!contact.value?.phoneNumber,

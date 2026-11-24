@@ -15,7 +15,11 @@ describe('getContactImportRows', () => {
       getContactImportRows({
         contacts: [
           {
-            emailAddresses: [' ada@example.com ', 'other@example.com'],
+            emailAddresses: [
+              ' ada@example.com ',
+              'other@example.com',
+              'ADA@example.com',
+            ],
             firstName: ' Ada ',
             groupNames: [' Work ', 'work', ''],
             lastName: 'Lovelace',
@@ -27,7 +31,7 @@ describe('getContactImportRows', () => {
       }),
     ).toEqual([
       {
-        emailAddress: 'ada@example.com',
+        emailAddresses: ['ada@example.com', 'other@example.com'],
         firstName: 'Ada',
         groupNames: ['Work'],
         isPhoneNumberDropped: false,
@@ -75,6 +79,41 @@ describe('getContactImportRows', () => {
         parsePhoneNumber,
       }).map(({ status }) => status),
     ).toEqual(['duplicate', 'importable', 'duplicate'])
+  })
+
+  test('marks a contact as a duplicate when any of its email addresses exists', () => {
+    expect(
+      getContactImportRows({
+        contacts: [
+          {
+            emailAddresses: ['new@example.com', 'grace@example.com'],
+            groupNames: [],
+            phoneNumbers: [],
+          },
+        ],
+        existingEmailAddresses: ['grace@example.com'],
+        parsePhoneNumber,
+      }).map(({ status }) => status),
+    ).toEqual(['duplicate'])
+  })
+
+  test('keeps at most 10 email addresses', () => {
+    expect(
+      getContactImportRows({
+        contacts: [
+          {
+            emailAddresses: Array.from(
+              { length: 11 },
+              (_, index) => `ada${index}@example.com`,
+            ),
+            groupNames: [],
+            phoneNumbers: [],
+          },
+        ],
+        existingEmailAddresses: [],
+        parsePhoneNumber,
+      })[0]?.emailAddresses,
+    ).toHaveLength(10)
   })
 
   test('truncates names and turns empty ones into undefined', () => {

@@ -127,22 +127,61 @@
           />
         </Field>
       </form.Field>
-      <form.Field v-slot="{ field }" name="emailAddress">
+      <form.Field v-slot="{ field }" mode="array" name="emailAddresses">
         <Field>
-          <FieldLabel for="input-email-address">{{
-            t('emailAddress')
+          <FieldLabel for="input-email-address-0">{{
+            t('emailAddresses')
           }}</FieldLabel>
           <FieldContent>
-            <Input
-              id="input-email-address"
-              :aria-invalid="isFieldInvalid(field)"
-              :model-value="field.state.value"
-              type="email"
-              @blur="field.handleBlur"
-              @input="
-                field.handleChange(($event.target as HTMLInputElement).value)
-              "
-            />
+            <form.Field
+              v-for="(_, index) in field.state.value"
+              :key="index"
+              v-slot="{ field: subField }"
+              :name="`emailAddresses[${index}]`"
+            >
+              <div class="flex items-center gap-2">
+                <Input
+                  :id="`input-email-address-${index}`"
+                  :aria-invalid="isFieldInvalid(subField)"
+                  :aria-label="t('emailAddress', { position: index + 1 })"
+                  :model-value="subField.state.value"
+                  type="email"
+                  @blur="subField.handleBlur"
+                  @input="
+                    subField.handleChange(
+                      ($event.target as HTMLInputElement).value,
+                    )
+                  "
+                />
+                <AppButton
+                  v-if="field.state.value.length > 1"
+                  :aria-label="t('emailAddressRemove', { position: index + 1 })"
+                  size="none"
+                  variant="ghost"
+                  @click="field.removeValue(index)"
+                >
+                  <AppIconTrash />
+                </AppButton>
+              </div>
+              <FieldError
+                v-if="isFieldInvalid(subField)"
+                :errors="subField.state.meta.errors"
+              />
+            </form.Field>
+            <AppButton
+              v-if="field.state.value.length < EMAIL_ADDRESSES_MAXIMUM"
+              :aria-label="t('emailAddressAdd')"
+              class="self-start"
+              size="none"
+              variant="tertiary"
+              @click="field.pushValue('')"
+            >
+              <AppIconPlus />
+              {{ t('emailAddressAdd') }}
+            </AppButton>
+            <FieldDescription v-if="field.state.value.length > 1">
+              {{ t('emailAddressesDescription') }}
+            </FieldDescription>
           </FieldContent>
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -294,7 +333,7 @@ const { contact = undefined, contactGroupIds = [] } = defineProps<{
     ContactItemFragment,
     | 'accountByAccountId'
     // | 'addressByAddressId'
-    | 'emailAddress'
+    | 'emailAddresses'
     | 'firstName'
     // | 'id'
     | 'lastName'
@@ -388,10 +427,18 @@ const api = await useApiData([
 ])
 
 // form
+const EMAIL_ADDRESSES_MAXIMUM = 10 // the `contact` table's limit
+const getEmailAddressesInput = (emailAddresses: string[]) => {
+  const emailAddressesFilled = emailAddresses.filter(Boolean)
+
+  return emailAddressesFilled.length ? emailAddressesFilled : null
+}
 const formSchema = z
   .object({
     accountUsername: SCHEMA_USERNAME_OPTIONAL,
-    emailAddress: SCHEMA_EMAIL_ADDRESS_OPTIONAL,
+    emailAddresses: z
+      .array(SCHEMA_EMAIL_ADDRESS_OPTIONAL)
+      .max(EMAIL_ADDRESSES_MAXIMUM),
     firstName: SCHEMA_NAME_FIRST_OPTIONAL,
     groupIds: z.array(z.string()),
     lastName: SCHEMA_NAME_LAST_OPTIONAL,
@@ -403,9 +450,14 @@ const formSchema = z
   })
   // mirrors the database's contact_identity_check
   .superRefine((data, context) => {
-    if (data.accountUsername || data.emailAddress || data.phoneNumber) return
+    if (
+      data.accountUsername ||
+      data.emailAddresses.some(Boolean) ||
+      data.phoneNumber
+    )
+      return
 
-    for (const path of ['accountUsername', 'emailAddress', 'phoneNumber']) {
+    for (const path of ['accountUsername', 'emailAddresses', 'phoneNumber']) {
       context.addIssue({
         code: 'custom',
         message: t('contactWayRequired'),
@@ -417,7 +469,9 @@ const formSchema = z
 const form = useForm({
   defaultValues: {
     accountUsername: contact?.accountByAccountId?.username ?? '',
-    emailAddress: contact?.emailAddress ?? '',
+    emailAddresses: contact?.emailAddresses?.length
+      ? [...contact.emailAddresses]
+      : [''],
     firstName: contact?.firstName ?? '',
     groupIds: [...contactGroupIds],
     lastName: contact?.lastName ?? '',
@@ -446,7 +500,7 @@ const form = useForm({
           contactPatch: {
             accountId: account?.rowId || null,
             createdBy: store.signedInAccountId,
-            emailAddress: value.emailAddress || null,
+            emailAddresses: getEmailAddressesInput(value.emailAddresses),
             firstName: value.firstName || null,
             lastName: value.lastName || null,
             nickname: value.nickname || null,
@@ -477,7 +531,7 @@ const form = useForm({
           contact: {
             accountId: account?.rowId || null,
             createdBy: store.signedInAccountId,
-            emailAddress: value.emailAddress || null,
+            emailAddresses: getEmailAddressesInput(value.emailAddresses),
             firstName: value.firstName || null,
             lastName: value.lastName || null,
             nickname: value.nickname || null,
@@ -576,7 +630,11 @@ const errorMessages = computed(() =>
 de:
   accountOverride: Angaben, die Du hier einträgst, haben Vorrang vor denen aus dem Konto oben.
   contactWayRequired: Gib einen Nutzernamen, eine E-Mail-Adresse oder eine Telefonnummer an.
-  emailAddress: E-Mail-Adresse
+  emailAddress: E-Mail-Adresse {position}
+  emailAddressAdd: E-Mail-Adresse hinzufügen
+  emailAddressRemove: E-Mail-Adresse {position} entfernen
+  emailAddresses: E-Mail-Adressen
+  emailAddressesDescription: Einladungen gehen an die erste E-Mail-Adresse.
   firstName: Vorname
   groupAdd: Gruppe hinzufügen
   groupNamePlaceholder: Neue Gruppe
@@ -596,7 +654,11 @@ de:
 en:
   accountOverride: Details you enter here take priority over the ones from the account above.
   contactWayRequired: Enter a username, an email address, or a phone number.
-  emailAddress: Email address
+  emailAddress: Email address {position}
+  emailAddressAdd: Add email address
+  emailAddressRemove: Remove email address {position}
+  emailAddresses: Email addresses
+  emailAddressesDescription: Invitations go to the first email address.
   firstName: First name
   groupAdd: Add group
   groupNamePlaceholder: New group

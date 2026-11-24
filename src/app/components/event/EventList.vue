@@ -77,7 +77,7 @@ const {
   isGroupedByDay?: boolean
   isLoading?: boolean
   isMapVisible?: boolean
-  events?: EventListEvent[]
+  events?: readonly EventListEvent[]
   hasNextPage?: boolean
 }>()
 
