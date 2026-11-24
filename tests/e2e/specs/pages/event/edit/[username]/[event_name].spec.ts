@@ -10,6 +10,20 @@ import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 const PAGE_PATH = `/event/edit/${TESTING_ACCOUNT_USERNAME}/${TESTING_EVENT_SLUG}`
 
 authenticatedTest.describe('event edit', () => {
+  authenticatedTest(
+    'leaves without asking when unchanged',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+
+      await defaultPage.goto(PAGE_PATH)
+      // the editor reports its value debounced
+      await page.waitForTimeout(1500)
+
+      await page.getByRole('button', { exact: true, name: 'Back' }).click()
+      await expect(page).not.toHaveURL(new RegExp(`${PAGE_PATH}$`))
+    },
+  )
+
   authenticatedTest('saves a changed name', async ({ defaultPage }) => {
     const { page } = defaultPage
 
@@ -37,4 +51,41 @@ authenticatedTest.describe('event edit', () => {
     })
     await expect(page.getByText('Updated', { exact: true })).toBeVisible()
   })
+
+  authenticatedTest(
+    'saves a changed slug and keeps it on rename',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+
+      await defaultPage.goto(PAGE_PATH)
+      await page.getByRole('button', { name: 'Advanced' }).click()
+
+      const slugCheck = page.waitForResponse((response) =>
+        response.url().includes('EventByCreatedByAndSlug'),
+      )
+      await page.getByLabel('Link identifier').fill('custom-slug')
+      await slugCheck
+      await page.getByLabel('Name', { exact: true }).fill('Renamed Meetup')
+      await expect(page.getByLabel('Link identifier')).toHaveValue(
+        'custom-slug',
+      )
+
+      const [request] = await Promise.all([
+        page.waitForRequest(
+          (request) =>
+            request.method() === 'POST' &&
+            request.postDataJSON()?.operationName === 'updateEventByRowId',
+        ),
+        page.getByRole('button', { name: 'Save changes' }).click(),
+      ])
+
+      expect(request.postDataJSON().variables.input).toMatchObject({
+        eventPatch: { name: 'Renamed Meetup', slug: 'custom-slug' },
+        rowId: TESTING_EVENT_ROW_ID,
+      })
+      await expect(page).toHaveURL(
+        new RegExp(`/event/edit/${TESTING_ACCOUNT_USERNAME}/custom-slug$`),
+      )
+    },
+  )
 })

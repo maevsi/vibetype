@@ -20,6 +20,134 @@
 * **event:** add feedback deadline ([#2860](https://github.com/maevsi/vibetype/issues/2860)) ([ccc97e3](https://github.com/maevsi/vibetype/commit/ccc97e3f36dfe260deda784ea324f0fbe9811790))
 * **guest:** let organizers override feedback ([#2857](https://github.com/maevsi/vibetype/issues/2857)) ([26b893f](https://github.com/maevsi/vibetype/commit/26b893f467e052782d2571dd435253a40cb99303))
 
+## [17.52.0](https://github.com/maevsi/vibetype/compare/17.51.0...17.52.0) (2026-11-24)
+
+### Features
+
+* **nuxt:** adopt nuxt 4.7 ([#2861](https://github.com/maevsi/vibetype/issues/2861)) ([d268d84](https://github.com/maevsi/vibetype/commit/d268d84e7ddd688b52d01e508155b950206a3dd5))
+
+## [17.51.0](https://github.com/maevsi/vibetype/compare/17.50.0...17.51.0) (2026-11-24)
+
+### Features
+
+* **event:** allow to edit slug ([#2855](https://github.com/maevsi/vibetype/issues/2855)) ([67093e9](https://github.com/maevsi/vibetype/commit/67093e9f39c0faff5ad59d48e62746bdbc6a5f61))
+* **event:** order the view's actions as edit, guests, check in ([#2854](https://github.com/maevsi/vibetype/issues/2854)) ([ad2dd59](https://github.com/maevsi/vibetype/commit/ad2dd59314e0818725d4d831410fb50a7ab270ca))
+
+### Bug Fixes
+
+* **form:** skip discard prompt on unchanged event edit ([#2853](https://github.com/maevsi/vibetype/issues/2853)) ([e9e2659](https://github.com/maevsi/vibetype/commit/e9e26598418243108dbde97bc59e2d0a499c5625))
+* **urql:** retry rate limited requests ([#2858](https://github.com/maevsi/vibetype/issues/2858)) ([0099df8](https://github.com/maevsi/vibetype/commit/0099df810c2c5bcd6ea06bd36ae04e9b93df966a))
+
+## [17.50.0](https://github.com/maevsi/vibetype/compare/17.49.1...17.50.0) (2026-11-23)
+
+### Features
+
+* **app:** clarify update alert and warn about unsaved changes ([#2852](https://github.com/maevsi/vibetype/issues/2852)) ([898e404](https://github.com/maevsi/vibetype/commit/898e404467a4910b4b03003d73179bbd9d2b6f52))
+
+## [17.49.1](https://github.com/maevsi/vibetype/compare/17.49.0...17.49.1) (2026-11-23)
+
+### Bug Fixes
+
+* **event:** let match badge pass clicks to card link ([#2851](https://github.com/maevsi/vibetype/issues/2851)) ([abed98a](https://github.com/maevsi/vibetype/commit/abed98ae3ac6897a992bef59b0e8ebd1fc12fcda))
+
+## [17.49.0](https://github.com/maevsi/vibetype/compare/17.48.0...17.49.0) (2026-11-23)
+
+### Features
+
+* **session:** move account settings to settings page ([#2850](https://github.com/maevsi/vibetype/issues/2850)) ([b882e88](https://github.com/maevsi/vibetype/commit/b882e888199002f2bec45b3ad1bafe7456ceb9cc))
+
+## [17.48.0](https://github.com/maevsi/vibetype/compare/17.47.1...17.48.0) (2026-11-23)
+
+### Features
+
+* **i18n:** lead notices with their value and give reasons ([#2847](https://github.com/maevsi/vibetype/issues/2847)) ([9ed0b85](https://github.com/maevsi/vibetype/commit/9ed0b85106f7721da3a7e009493118340d47380a))
+
+## [17.47.1](https://github.com/maevsi/vibetype/compare/17.47.0...17.47.1) (2026-11-23)
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([07826d0](https://github.com/maevsi/vibetype/commit/07826d0e07e6a284753ea073667726ce7e5b2d3e))
+
+## [17.47.0](https://github.com/maevsi/vibetype/compare/17.46.0...17.47.0) (2026-11-23)
+
+### Features
+
+* **moderation:** tell before text is checked ([#2845](https://github.com/maevsi/vibetype/issues/2845)) ([e388d45](https://github.com/maevsi/vibetype/commit/e388d451e8642668774c3bbbcfef4ea1f551ebaa))
+
+## [17.46.0](https://github.com/maevsi/vibetype/compare/17.45.0...17.46.0) (2026-11-23)
+
+### Features
+
+* **account:** reach profile editing and preferences from settings ([#2841](https://github.com/maevsi/vibetype/issues/2841)) ([8dcb05c](https://github.com/maevsi/vibetype/commit/8dcb05cdcd6f864f90370490e7da69219750618d))
+* **event:** separate saved and organized tabs from the time filter ([#2842](https://github.com/maevsi/vibetype/issues/2842)) ([5cee8ec](https://github.com/maevsi/vibetype/commit/5cee8ece026c774fd90b13714adb74ee57deefce))
+* **event:** show an edit tile to owners instead of invite ([#2838](https://github.com/maevsi/vibetype/issues/2838)) ([ddac122](https://github.com/maevsi/vibetype/commit/ddac122f479ed9c38a72cbafcc33a7878dce71c8))
+* **ingest:** ask before sending posters to openai ([#2808](https://github.com/maevsi/vibetype/issues/2808)) ([185d651](https://github.com/maevsi/vibetype/commit/185d651c0a90b0f84350477f1bc967e73bff6473))
+
+### Bug Fixes
+
+* **deps:** lock file maintenance ([#2844](https://github.com/maevsi/vibetype/issues/2844)) ([003a062](https://github.com/maevsi/vibetype/commit/003a062cebe6c4ff8e7a60942bc93b70d914f0ef))
+* **event:** label the description and default to public visibility ([#2843](https://github.com/maevsi/vibetype/issues/2843)) ([f3089ff](https://github.com/maevsi/vibetype/commit/f3089ff84aac522ae2a59beb016880cb0ddf5dbc))
+* **ingest:** limit poster preview height ([#2837](https://github.com/maevsi/vibetype/issues/2837)) ([2e31307](https://github.com/maevsi/vibetype/commit/2e313071d29493546732a70f9b8b65f2be87c46e))
+* **map:** show original tile colors and a smaller gesture hint ([#2839](https://github.com/maevsi/vibetype/issues/2839)) ([2c8dad0](https://github.com/maevsi/vibetype/commit/2c8dad0341ba82854a3db772e7d60c1c571e1130))
+* **search:** label the search as covering all events ([#2840](https://github.com/maevsi/vibetype/issues/2840)) ([b4a0891](https://github.com/maevsi/vibetype/commit/b4a089146740dbe67b8cbc9eebc1b609640813c3))
+
+## [17.45.0](https://github.com/maevsi/vibetype/compare/17.44.1...17.45.0) (2026-11-23)
+
+### Features
+
+* **dashboard:** put discovery before the user's own events ([#2824](https://github.com/maevsi/vibetype/issues/2824)) ([24b2820](https://github.com/maevsi/vibetype/commit/24b2820f2f57b3b18ed190e7bd58b562ce8e1287))
+* **event:** place the title next to the description ([#2822](https://github.com/maevsi/vibetype/issues/2822)) ([5cc6b07](https://github.com/maevsi/vibetype/commit/5cc6b07e72e8f9e2fd1128dbd2566b1c2a9bf534))
+* **form:** confirm discarding changes in a drawer ([#2815](https://github.com/maevsi/vibetype/issues/2815)) ([0f9614d](https://github.com/maevsi/vibetype/commit/0f9614d5f33688e75d6877102b881a8acde29c21))
+
+### Bug Fixes
+
+* **app:** tone down empty state actions ([#2825](https://github.com/maevsi/vibetype/issues/2825)) ([41f9943](https://github.com/maevsi/vibetype/commit/41f994312dd260386d6e263580df293fcd967978))
+* **csrf:** keep tokens valid across deployments ([#2833](https://github.com/maevsi/vibetype/issues/2833)) ([e788e52](https://github.com/maevsi/vibetype/commit/e788e52eedb3402dfae2174c03ed6623c65b70b5))
+* **deps:** update all non-major dependencies ([#2834](https://github.com/maevsi/vibetype/issues/2834)) ([0ac8f93](https://github.com/maevsi/vibetype/commit/0ac8f93f821d5cb25723aa073fd239b458e5f22f))
+* **deps:** update dependency @dargmuesli/nuxt-vio to v23.1.9 ([4f1441d](https://github.com/maevsi/vibetype/commit/4f1441dbd8b120c62782407689faa746b9bb9e43))
+* **event:** show the match as a label instead of a button ([#2818](https://github.com/maevsi/vibetype/issues/2818)) ([ff594db](https://github.com/maevsi/vibetype/commit/ff594db97216256743971cfa3dd40570254a2ac4))
+* **event:** size the description toolbar to its text ([#2821](https://github.com/maevsi/vibetype/issues/2821)) ([4016e5b](https://github.com/maevsi/vibetype/commit/4016e5b294efd39da24d41d315929723a57b45f7))
+* **rate-limit:** fail within the wait budget while redis is unreachable ([#2836](https://github.com/maevsi/vibetype/issues/2836)) ([9c5bc66](https://github.com/maevsi/vibetype/commit/9c5bc662bef626c6686e1085c65b63c3e1bf3574))
+
+## [17.44.1](https://github.com/maevsi/vibetype/compare/17.44.0...17.44.1) (2026-11-22)
+
+### Bug Fixes
+
+* **achievement:** show a newly unlocked achievement on the profile right away ([#2831](https://github.com/maevsi/vibetype/issues/2831)) ([6d59463](https://github.com/maevsi/vibetype/commit/6d59463ea96a65e7ce9925367adc244288e22f5b))
+* **attendance:** show check-in and check-out right away ([#2830](https://github.com/maevsi/vibetype/issues/2830)) ([2e1cdb6](https://github.com/maevsi/vibetype/commit/2e1cdb65eba2b544d4cdceb7a5dddc318dce38e0))
+
+## [17.44.0](https://github.com/maevsi/vibetype/compare/17.43.0...17.44.0) (2026-11-22)
+
+### Features
+
+* **event:** present favorites as saved events with a bookmark ([#2820](https://github.com/maevsi/vibetype/issues/2820)) ([cd3b910](https://github.com/maevsi/vibetype/commit/cd3b910c9598bae2cbd60684256e40a356ff4d0a))
+* **event:** remove deletion from the edit page ([#2817](https://github.com/maevsi/vibetype/issues/2817)) ([7606970](https://github.com/maevsi/vibetype/commit/7606970e3d736b449cc0df95a21f3a4f1270b843))
+* **event:** show the city on event cards ([#2819](https://github.com/maevsi/vibetype/issues/2819)) ([b29bca0](https://github.com/maevsi/vibetype/commit/b29bca06998368c697f8afbf9f800b86f7407c62))
+* **event:** title event pages as the event on vibetype ([#2813](https://github.com/maevsi/vibetype/issues/2813)) ([82f311b](https://github.com/maevsi/vibetype/commit/82f311b215ce539783ba33c3fa1d033c939b697c))
+* **preference:** hide the event size step for now ([#2823](https://github.com/maevsi/vibetype/issues/2823)) ([4cfd388](https://github.com/maevsi/vibetype/commit/4cfd388552ddfcdb6af86bdd1f3384941ba189fc))
+
+### Bug Fixes
+
+* **dashboard:** address the top pick to the user ([#2812](https://github.com/maevsi/vibetype/issues/2812)) ([9b5fa89](https://github.com/maevsi/vibetype/commit/9b5fa894199dc86221b4e831e812e8a3d641f2a9))
+* **event:** show the updated guest count right after adding or removing guests ([#2829](https://github.com/maevsi/vibetype/issues/2829)) ([3e21647](https://github.com/maevsi/vibetype/commit/3e21647d6edd8fc2ca611c720202f4c6f4e3b688))
+* **event:** show the updated location right after saving ([#2828](https://github.com/maevsi/vibetype/issues/2828)) ([dd0a817](https://github.com/maevsi/vibetype/commit/dd0a817632aa1d28238370364b9c1297f9a11140))
+* **event:** show the updated visibility right after saving ([#2827](https://github.com/maevsi/vibetype/issues/2827)) ([b55765e](https://github.com/maevsi/vibetype/commit/b55765ec1bb918cb25b5d8dce4483f6c83ce5890))
+* **link:** align the external link prompt's actions with other prompts ([#2816](https://github.com/maevsi/vibetype/issues/2816)) ([1fec114](https://github.com/maevsi/vibetype/commit/1fec1140dc6afe96f40b26a386964f27989fa564))
+* **preference:** clarify setup prompt and exit action ([#2814](https://github.com/maevsi/vibetype/issues/2814)) ([7b0bb62](https://github.com/maevsi/vibetype/commit/7b0bb62723681b2e927ca7ea83b97efdf719f31e))
+
+## [17.43.0](https://github.com/maevsi/vibetype/compare/17.42.0...17.43.0) (2026-11-22)
+
+### Features
+
+* **moderation:** explain rejected text ([#2809](https://github.com/maevsi/vibetype/issues/2809)) ([4d30992](https://github.com/maevsi/vibetype/commit/4d309921ba18a71e6916121f2bcb5680290345f8))
+
+## [17.42.0](https://github.com/maevsi/vibetype/compare/17.41.0...17.42.0) (2026-11-22)
+
+### Features
+
+* **event:** receive shared posters ([#2807](https://github.com/maevsi/vibetype/issues/2807)) ([714ef9e](https://github.com/maevsi/vibetype/commit/714ef9e4fdc2b97a56bb51233556ccfe7e41c3f9))
+* **form:** unify checkbox and radio groups ([#2806](https://github.com/maevsi/vibetype/issues/2806)) ([96f596f](https://github.com/maevsi/vibetype/commit/96f596fcfd3c8ce19f7780e7c5b400b519af54d0))
+
 ## [18.0.0-beta.19](https://github.com/maevsi/vibetype/compare/18.0.0-beta.18...18.0.0-beta.19) (2026-11-24)
 
 ### ⚠ BREAKING CHANGES

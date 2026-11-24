@@ -133,6 +133,26 @@
             class="grid grid-cols-3 gap-2 lg:gap-2"
           >
             <AppButton
+              :aria-label="t('edit')"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              size="none"
+              :to="
+                localePath({
+                  name: 'event-edit-username-event_name',
+                  params: {
+                    event_name: route.params.event_name,
+                    username: route.params.username,
+                  },
+                })
+              "
+              variant="secondary"
+            >
+              {{ t('edit') }}
+              <template #prefix>
+                <AppIconPencil />
+              </template>
+            </AppButton>
+            <AppButton
               :aria-label="t('guests')"
               class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
               size="none"
@@ -170,26 +190,6 @@
               {{ t('attendances') }}
               <template #prefix>
                 <AppIconUserCheckBroken />
-              </template>
-            </AppButton>
-            <AppButton
-              :aria-label="t('edit')"
-              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
-              size="none"
-              :to="
-                localePath({
-                  name: 'event-edit-username-event_name',
-                  params: {
-                    event_name: route.params.event_name,
-                    username: route.params.username,
-                  },
-                })
-              "
-              variant="secondary"
-            >
-              {{ t('edit') }}
-              <template #prefix>
-                <AppIconPencil />
               </template>
             </AppButton>
           </AppButtonGroup>
@@ -285,7 +285,6 @@
                 v-if="positionInitial"
                 class="isolate h-48 rounded-medium"
                 :events
-                is-static
                 :position-initial
               />
             </section>
