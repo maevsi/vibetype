@@ -22,6 +22,9 @@
       {{ contact.url || '–' }}
     </AppTableCell>
     <AppTableCell>
+      {{ t('guestCount', { count: guestCount }) }}
+    </AppTableCell>
+    <AppTableCell>
       <div class="flex items-center justify-evenly gap-2">
         <AppButton
           :aria-label="
@@ -57,7 +60,7 @@
 <script setup lang="ts">
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
-const { contact, isDeleting } = defineProps<{
+const { contact, guestCount, isDeleting } = defineProps<{
   contact: Pick<
     ContactItemFragment,
     | 'accountId'
@@ -73,6 +76,7 @@ const { contact, isDeleting } = defineProps<{
     | 'rowId'
     | 'url'
   >
+  guestCount: number
   isDeleting?: boolean
 }>()
 
@@ -90,8 +94,10 @@ de:
   contactEdit: Kontakt bearbeiten
   contactDelete: Kontakt löschen
   disabledReasonCreatorNot: "Dieser Kontakt wird von {'@'}{creatorUsername} verwaltet."
+  guestCount: keiner Veranstaltung | {count} Veranstaltung | {count} Veranstaltungen
 en:
   contactEdit: Edit contact
   contactDelete: Delete contact
   disabledReasonCreatorNot: This contact is managed by {'@'}{creatorUsername}.
+  guestCount: no events | {count} event | {count} events
 </i18n>

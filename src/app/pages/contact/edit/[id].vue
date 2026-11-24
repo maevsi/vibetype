@@ -13,6 +13,12 @@
       </LayoutTopBar>
       <LayoutPage>
         <FormContact :contact @submit-success="navigateTo(redirectPath)" />
+        <ContactGuestEventList
+          :events="guestEvents"
+          :total-count="
+            api.data.contactByRowId?.guestsByContactId.totalCount ?? 0
+          "
+        />
       </LayoutPage>
     </div>
   </Loader>
@@ -39,13 +45,31 @@ const title = t('title')
 // api data
 const contactQuery = useApiQuery({
   query: graphql(`
-    query ContactByRowId($id: UUID!) {
+    query ContactByRowId($first: Int!, $id: UUID!) {
       contactByRowId(rowId: $id) {
         ...ContactItem
+        guestsByContactId(first: $first) {
+          nodes {
+            eventByEventId {
+              accountByCreatedBy {
+                id
+                username
+              }
+              id
+              name
+              slug
+              start
+            }
+            id
+          }
+          totalCount
+        }
       }
     }
   `),
   variables: {
+    // Lists the first page only, the heading still counts all of them.
+    first: ITEMS_PER_PAGE_LARGE,
     id: route.params.id,
   },
 })
@@ -53,6 +77,12 @@ const api = await useApiData([contactQuery])
 
 // computations
 const contact = computed(() => getContactItem(api.value.data.contactByRowId))
+const guestEvents = computed(() =>
+  (api.value.data.contactByRowId?.guestsByContactId.nodes || [])
+    .map((guest) => guest.eventByEventId)
+    .filter(isNeitherNullNorUndefined)
+    .sort((a, b) => b.start.localeCompare(a.start)),
+)
 
 // initialization
 useHeadDefault({ title })

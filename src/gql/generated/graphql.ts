@@ -1039,18 +1039,20 @@ export type DeleteContactByRowIdMutation = {
   deleteContactByRowId: { clientMutationId: string | null } | null
 }
 
-export type AllContactsQueryVariables = Exact<{
+export type AllContactsContactListQueryVariables = Exact<{
   after?: string | null | undefined
   createdBy?: string | null | undefined
   first: number
 }>
 
-export type AllContactsQuery = {
+export type AllContactsContactListQuery = {
   allContacts: {
     totalCount: number
-    nodes: Array<{
-      ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
-    }>
+    nodes: Array<
+      { guestsByContactId: { totalCount: number } } & {
+        ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
+      }
+    >
     pageInfo: { hasNextPage: boolean; endCursor: string | null }
   } | null
 }
@@ -1485,6 +1487,22 @@ export type AllEventFormatsFormEventQueryVariables = Exact<{
 export type AllEventFormatsFormEventQuery = {
   allEventFormats: {
     nodes: Array<{ id: string; name: string; rowId: string }>
+  } | null
+}
+
+export type AllContactsQueryVariables = Exact<{
+  after?: string | null | undefined
+  createdBy?: string | null | undefined
+  first: number
+}>
+
+export type AllContactsQuery = {
+  allContacts: {
+    totalCount: number
+    nodes: Array<{
+      ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
+    }>
+    pageInfo: { hasNextPage: boolean; endCursor: string | null }
   } | null
 }
 
@@ -2029,13 +2047,28 @@ export type AttendanceCheckOutMutation = {
 }
 
 export type ContactByRowIdQueryVariables = Exact<{
+  first: number
   id: string
 }>
 
 export type ContactByRowIdQuery = {
-  contactByRowId: {
-    ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
-  } | null
+  contactByRowId:
+    | ({
+        guestsByContactId: {
+          totalCount: number
+          nodes: Array<{
+            id: string
+            eventByEventId: {
+              id: string
+              name: string
+              slug: string
+              start: string
+              accountByCreatedBy: { id: string; username: string } | null
+            } | null
+          }>
+        }
+      } & { ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment } })
+    | null
 }
 
 export type AllContactsEmailAddressesQueryVariables = Exact<{
@@ -3759,13 +3792,13 @@ export const DeleteContactByRowIdDocument = {
   DeleteContactByRowIdMutation,
   DeleteContactByRowIdMutationVariables
 >
-export const AllContactsDocument = {
+export const AllContactsContactListDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'AllContacts' },
+      name: { kind: 'Name', value: 'AllContactsContactList' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -3857,6 +3890,19 @@ export const AllContactsDocument = {
                         kind: 'FragmentSpread',
                         name: { kind: 'Name', value: 'ContactItem' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestsByContactId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'totalCount' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -3934,7 +3980,10 @@ export const AllContactsDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<AllContactsQuery, AllContactsQueryVariables>
+} as unknown as DocumentNode<
+  AllContactsContactListQuery,
+  AllContactsContactListQueryVariables
+>
 export const AllLegalTermsDocument = {
   kind: 'Document',
   definitions: [
@@ -6856,6 +6905,182 @@ export const AllEventFormatsFormEventDocument = {
   AllEventFormatsFormEventQuery,
   AllEventFormatsFormEventQueryVariables
 >
+export const AllContactsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllContacts' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allContacts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: {
+                  kind: 'ListValue',
+                  values: [{ kind: 'EnumValue', value: 'PRIMARY_KEY_ASC' }],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactItem' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Contact' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByAccountId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByCreatedBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AllContactsQuery, AllContactsQueryVariables>
 export const CreateGuestContactDocument = {
   kind: 'Document',
   definitions: [
@@ -10139,6 +10364,17 @@ export const ContactByRowIdDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: {
             kind: 'NonNullType',
@@ -10168,6 +10404,90 @@ export const ContactByRowIdDocument = {
                 {
                   kind: 'FragmentSpread',
                   name: { kind: 'Name', value: 'ContactItem' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'guestsByContactId' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'first' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'first' },
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'eventByEventId' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'accountByCreatedBy',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'username',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'slug' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'start' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totalCount' },
+                      },
+                    ],
+                  },
                 },
               ],
             },

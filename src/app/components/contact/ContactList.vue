@@ -41,6 +41,9 @@
             <AppTableHead class="hidden xl:table-cell" scope="col">
               {{ t('url') }}
             </AppTableHead>
+            <AppTableHead scope="col">
+              {{ t('guestCount') }}
+            </AppTableHead>
             <AppTableHead scope="col" />
           </tr>
         </AppTableHeader>
@@ -50,6 +53,7 @@
             :id="contact.rowId"
             :key="contact.rowId"
             :contact
+            :guest-count="contact.guestCount"
             @delete="onDeleteSelect(contact)"
             @edit="edit(contact)"
           />
@@ -97,7 +101,7 @@
 <script setup lang="ts">
 import { graphql } from '~~/gql/generated'
 import type {
-  AllContactsQueryVariables,
+  AllContactsContactListQueryVariables,
   ContactItemFragment,
 } from '~~/gql/generated/graphql'
 import { getContactItem, getContactsSorted } from '~~/shared/utils/contact'
@@ -127,7 +131,11 @@ const searchString = ref<string>('')
 // api data
 const contactsQuery = useApiQuery({
   query: graphql(`
-    query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
+    query AllContactsContactList(
+      $after: Cursor
+      $createdBy: UUID
+      $first: Int!
+    ) {
       allContacts(
         after: $after
         condition: { createdBy: $createdBy }
@@ -136,6 +144,9 @@ const contactsQuery = useApiQuery({
       ) {
         nodes {
           ...ContactItem
+          guestsByContactId {
+            totalCount
+          }
         }
         pageInfo {
           hasNextPage
@@ -145,7 +156,7 @@ const contactsQuery = useApiQuery({
       }
     }
   `),
-  variables: computed<AllContactsQueryVariables>(() => ({
+  variables: computed<AllContactsContactListQueryVariables>(() => ({
     after: after.value,
     createdBy: store.signedInAccountId,
     first: ITEMS_PER_PAGE_LARGE,
@@ -155,7 +166,15 @@ const api = await useApiData([contactsQuery])
 const contacts = computed(() =>
   getContactsSorted(
     api.value.data.allContacts?.nodes
-      .map((x) => getContactItem(x))
+      .map((node) => {
+        const contact = getContactItem(node)
+        return (
+          contact && {
+            ...contact,
+            guestCount: node.guestsByContactId.totalCount,
+          }
+        )
+      })
       .filter(isNeitherNullNorUndefined) || [],
   ),
 )
@@ -231,6 +250,7 @@ de:
   emailAddress: E-Mail Adresse
   emptyDescription: Speichere die Menschen, die Du triffst, um sie mit einem Fingertipp zu Veranstaltungen einzuladen.
   emptyTitle: Dein Kontaktbuch ist leer
+  guestCount: Eingeladen zu
   phoneNumber: Telefonnummer
   searchClear: Suche zurücksetzen
   searchEmptyDescription: Prüfe die Schreibweise oder suche stattdessen nach der E-Mail-Adresse.
@@ -244,6 +264,7 @@ en:
   emailAddress: Email address
   emptyDescription: Save the people you meet so you can invite them to events with one tap.
   emptyTitle: Your contact book is empty
+  guestCount: Invited to
   phoneNumber: Phone number
   searchClear: Clear search
   searchEmptyDescription: Check the spelling or search by email address instead.
