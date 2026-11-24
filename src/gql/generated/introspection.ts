@@ -8452,6 +8452,14 @@ export default {
             ],
           },
           {
+            name: 'feedbackDeadline',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
             name: 'guestCount',
             type: {
               kind: 'NON_NULL',

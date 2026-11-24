@@ -777,6 +777,8 @@ export type EventInput = {
   description?: string | null | undefined
   /** The event's end date and time, with time zone. */
   end?: string | null | undefined
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  feedbackDeadline?: string | null | undefined
   /** The event's maximum guest count. Must be greater than 0. */
   guestCountMaximum?: number | null | undefined
   /** Indicates whether the event is archived. */
@@ -828,6 +830,8 @@ export type EventPatch = {
   description?: string | null | undefined
   /** The event's end date and time, with time zone. */
   end?: string | null | undefined
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  feedbackDeadline?: string | null | undefined
   /** The event's maximum guest count. Must be greater than 0. */
   guestCountMaximum?: number | null | undefined
   /** Indicates whether the event is archived. */
@@ -1613,6 +1617,7 @@ export type UpdateEventByRowIdMutation = {
     event: {
       description: string | null
       end: string | null
+      feedbackDeadline: string | null
       guestCountMaximum: number | null
       id: string
       isInPerson: boolean | null
@@ -2533,6 +2538,7 @@ export type EventEditQuery = {
         createdBy: string
         description: string | null
         end: string | null
+        feedbackDeadline: string | null
         id: string
         guestCountMaximum: number | null
         isArchived: boolean
@@ -2688,6 +2694,7 @@ export type EventQuery = {
         createdBy: string
         description: string | null
         end: string | null
+        feedbackDeadline: string | null
         id: string
         isArchived: boolean
         isInPerson: boolean | null
@@ -2937,6 +2944,7 @@ export type GuestEventQuery = {
       createdBy: string
       description: string | null
       end: string | null
+      feedbackDeadline: string | null
       id: string
       isArchived: boolean
       isInPerson: boolean | null
@@ -3184,6 +3192,7 @@ export type EventItemFragment = {
   createdBy: string
   description: string | null
   end: string | null
+  feedbackDeadline: string | null
   guestCountMaximum: number | null
   id: string
   isArchived: boolean
@@ -3472,6 +3481,7 @@ export const EventItemFragmentDoc = {
               ],
             },
           },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackDeadline' } },
           { kind: 'Field', name: { kind: 'Name', value: 'guestCountMaximum' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'isArchived' } },
@@ -7348,6 +7358,10 @@ export const UpdateEventByRowIdDocument = {
                         name: { kind: 'Name', value: 'description' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedbackDeadline' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'guestCountMaximum' },
@@ -13166,6 +13180,10 @@ export const EventEditDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'feedbackDeadline' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -13993,6 +14011,10 @@ export const EventDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'end' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'feedbackDeadline' },
                             },
                             {
                               kind: 'Field',
@@ -15955,6 +15977,10 @@ export const GuestEventDocument = {
                             },
                           ],
                         },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedbackDeadline' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {

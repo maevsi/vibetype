@@ -220,6 +220,18 @@
                 </template>
               </AppButton>
               <AppButton
+                v-else-if="isFeedbackClosed"
+                :aria-label="t('feedbackClosed')"
+                class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                disabled
+                size="none"
+              >
+                {{ t('participateClosed') }}
+                <template #prefix>
+                  <AppIconTicket />
+                </template>
+              </AppButton>
+              <AppButton
                 v-else
                 :aria-label="t('participate')"
                 class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
@@ -343,6 +355,7 @@ const eventQuery = useApiQuery({
             createdBy
             description
             end
+            feedbackDeadline
             eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
               nodes {
                 categoryId
@@ -415,6 +428,10 @@ const eventQuery = useApiQuery({
 const account = computed(() => eventQuery.data.value?.accountByUsername)
 const events = computed(() => account.value?.eventsByCreatedBy.nodes)
 const event = computed(() => (events.value ? events.value[0] : undefined))
+const getIsFeedbackClosed = (time: number) =>
+  !!event.value?.feedbackDeadline &&
+  new Date(event.value.feedbackDeadline).getTime() <= time
+const isFeedbackClosed = computed(() => getIsFeedbackClosed(Date.now()))
 const address = computed(() => event.value?.addressByAddressId)
 const createGuestMutation = useMutation(
   graphql(`
@@ -454,6 +471,12 @@ const guestOwn = computed(() =>
 const isParticipatePending = ref<boolean>()
 const participate = async () => {
   if (!event.value || !store.signedInAccountId) return
+
+  // The deadline can pass while the page is open, and the database would then reject the participation with a generic error.
+  if (getIsFeedbackClosed(Date.now())) {
+    alertError({ messageI18n: t('feedbackClosed') })
+    return
+  }
 
   isParticipatePending.value = true
 
@@ -628,11 +651,13 @@ de:
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorTemplate: Wert nur in der Einladung verfügbar
+  feedbackClosed: Die Rückmeldefrist ist abgelaufen.
   guests: Gäste
   location: Ort
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   participants: Teilnehmende
   participate: Teilnehmen
+  participateClosed: Anmeldung geschlossen
   participateError: Teilnahme fehlgeschlagen
   participation: Deine Teilnahme
   report: Veranstaltung melden
@@ -651,11 +676,13 @@ en:
   errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorTemplate: value available in invitation only
+  feedbackClosed: The RSVP deadline has passed.
   guests: Guests
   location: Location
   ogImageAlt: The event's preview image.
   participants: Participants
   participate: Participate
+  participateClosed: RSVP closed
   participateError: Participation failed
   participation: Your participation
   report: Report event
