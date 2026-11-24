@@ -5,14 +5,7 @@ import { testVisualRegression } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = '/event/create'
 
-// the form starts at the current time, which would change the screenshot every minute
-testVisualRegression(PAGE_PATH, false, {
-  mask: (page) => [
-    page.getByRole('button', { exact: true, name: 'Start' }),
-    page.getByRole('button', { exact: true, name: 'End' }),
-  ],
-  test: authenticatedTest,
-})
+testVisualRegression(PAGE_PATH, false, { test: authenticatedTest })
 
 authenticatedTest.describe('file handling', () => {
   authenticatedTest(
