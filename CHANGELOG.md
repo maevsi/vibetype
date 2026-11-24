@@ -1,3 +1,13 @@
+## [18.0.0-beta.21](https://github.com/maevsi/vibetype/compare/18.0.0-beta.20...18.0.0-beta.21) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+* **guest:** add reason to feedback (#2868)
+
+### Features
+
+* **guest:** add reason to feedback ([#2868](https://github.com/maevsi/vibetype/issues/2868)) ([7bba892](https://github.com/maevsi/vibetype/commit/7bba8927f4e4d7a822a03e930419f03c502b41dd))
+
 ## [18.0.0-beta.20](https://github.com/maevsi/vibetype/compare/18.0.0-beta.19...18.0.0-beta.20) (2026-11-24)
 
 ### ⚠ BREAKING CHANGES
