@@ -6,6 +6,15 @@
         line
       }}</span>
     </AppLink>
+    <AppButton
+      :aria-label="t('copy')"
+      class="ml-auto shrink-0"
+      size="icon"
+      variant="secondary"
+      @click="copyAddress"
+    >
+      <AppIconClipboard />
+    </AppButton>
     <template #icon>
       <AppIconMap :title="t('location')" />
     </template>
@@ -33,17 +42,26 @@ const { t } = useI18n()
 const lines = computed(() =>
   getAddressLines(address).filter((line) => line !== address?.name),
 )
-const mapsUrl = computed(() =>
-  getMapsUrl({
-    location: address?.location,
-    text: [address?.name, getAddressText(address)].filter(Boolean).join(', '),
-  }),
+const text = computed(() =>
+  [address?.name, getAddressText(address)].filter(Boolean).join(', '),
 )
+const mapsUrl = computed(() =>
+  getMapsUrl({ location: address?.location, text: text.value }),
+)
+
+const { copy } = useCopy()
+const copyAddress = async () => {
+  if (await copy(text.value)) toast.success(t('copySuccess'))
+}
 </script>
 
 <i18n lang="yaml">
 de:
+  copy: Adresse kopieren
+  copySuccess: Die Adresse wurde in die Zwischenablage kopiert.
   location: Ort
 en:
+  copy: Copy address
+  copySuccess: The address has been copied to the clipboard.
   location: location
 </i18n>
