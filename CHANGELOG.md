@@ -1,3 +1,9 @@
+## [17.55.0](https://github.com/maevsi/vibetype/compare/17.54.0...17.55.0) (2026-11-24)
+
+### Features
+
+* **event:** copy the address ([#2875](https://github.com/maevsi/vibetype/issues/2875)) ([1874d3e](https://github.com/maevsi/vibetype/commit/1874d3eb172c5aa956c8847f04ca80e8e7683339))
+
 ## [17.54.0](https://github.com/maevsi/vibetype/compare/17.53.1...17.54.0) (2026-11-24)
 
 ### Features
