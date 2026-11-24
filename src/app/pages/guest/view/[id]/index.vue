@@ -152,7 +152,6 @@
                   v-if="positionInitial"
                   class="h-42 rounded-large"
                   :events
-                  is-static
                   :position-initial
                 />
               </AppCard>
