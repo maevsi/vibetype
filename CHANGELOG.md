@@ -1,3 +1,15 @@
+## [17.51.0](https://github.com/maevsi/vibetype/compare/17.50.0...17.51.0) (2026-11-24)
+
+### Features
+
+* **event:** allow to edit slug ([#2855](https://github.com/maevsi/vibetype/issues/2855)) ([67093e9](https://github.com/maevsi/vibetype/commit/67093e9f39c0faff5ad59d48e62746bdbc6a5f61))
+* **event:** order the view's actions as edit, guests, check in ([#2854](https://github.com/maevsi/vibetype/issues/2854)) ([ad2dd59](https://github.com/maevsi/vibetype/commit/ad2dd59314e0818725d4d831410fb50a7ab270ca))
+
+### Bug Fixes
+
+* **form:** skip discard prompt on unchanged event edit ([#2853](https://github.com/maevsi/vibetype/issues/2853)) ([e9e2659](https://github.com/maevsi/vibetype/commit/e9e26598418243108dbde97bc59e2d0a499c5625))
+* **urql:** retry rate limited requests ([#2858](https://github.com/maevsi/vibetype/issues/2858)) ([0099df8](https://github.com/maevsi/vibetype/commit/0099df810c2c5bcd6ea06bd36ae04e9b93df966a))
+
 ## [17.50.0](https://github.com/maevsi/vibetype/compare/17.49.1...17.50.0) (2026-11-23)
 
 ### Features
