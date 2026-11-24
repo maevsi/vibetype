@@ -1,3 +1,9 @@
+## [17.58.0](https://github.com/maevsi/vibetype/compare/17.57.0...17.58.0) (2026-11-24)
+
+### Features
+
+* **contact:** show events a contact is invited to ([#2878](https://github.com/maevsi/vibetype/issues/2878)) ([604ee62](https://github.com/maevsi/vibetype/commit/604ee6237367b595ca1ddf4d23effcff9a608386))
+
 ## [17.57.0](https://github.com/maevsi/vibetype/compare/17.56.0...17.57.0) (2026-11-24)
 
 ### Features
