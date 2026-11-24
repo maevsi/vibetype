@@ -1,3 +1,22 @@
+## [18.0.0-beta.22](https://github.com/maevsi/vibetype/compare/18.0.0-beta.21...18.0.0-beta.22) (2026-11-24)
+
+### Features
+
+* **app:** clarify update alert and warn about unsaved changes ([#2852](https://github.com/maevsi/vibetype/issues/2852)) ([898e404](https://github.com/maevsi/vibetype/commit/898e404467a4910b4b03003d73179bbd9d2b6f52))
+* **contact:** pick linked account from search ([#2859](https://github.com/maevsi/vibetype/issues/2859)) ([b183959](https://github.com/maevsi/vibetype/commit/b18395924d858e99a4da96c1e4e39c0c7e3bb366))
+* **event:** allow to edit slug ([#2855](https://github.com/maevsi/vibetype/issues/2855)) ([67093e9](https://github.com/maevsi/vibetype/commit/67093e9f39c0faff5ad59d48e62746bdbc6a5f61))
+* **event:** order the view's actions as edit, guests, check in ([#2854](https://github.com/maevsi/vibetype/issues/2854)) ([ad2dd59](https://github.com/maevsi/vibetype/commit/ad2dd59314e0818725d4d831410fb50a7ab270ca))
+* **map:** fall back to an OpenStreetMap search when no coordinates exist ([#2867](https://github.com/maevsi/vibetype/issues/2867)) ([7f6642f](https://github.com/maevsi/vibetype/commit/7f6642ffe6e1048a2e7945a0607d11d658cdb3ee))
+* **map:** make the previews interactive ([#2865](https://github.com/maevsi/vibetype/issues/2865)) ([4b8f436](https://github.com/maevsi/vibetype/commit/4b8f4367f0cd12fa80efb3ef6e66af89c0610f5d))
+* **nuxt:** adopt nuxt 4.7 ([#2861](https://github.com/maevsi/vibetype/issues/2861)) ([d268d84](https://github.com/maevsi/vibetype/commit/d268d84e7ddd688b52d01e508155b950206a3dd5))
+* **session:** move account settings to settings page ([#2850](https://github.com/maevsi/vibetype/issues/2850)) ([b882e88](https://github.com/maevsi/vibetype/commit/b882e888199002f2bec45b3ad1bafe7456ceb9cc))
+
+### Bug Fixes
+
+* **event:** let match badge pass clicks to card link ([#2851](https://github.com/maevsi/vibetype/issues/2851)) ([abed98a](https://github.com/maevsi/vibetype/commit/abed98ae3ac6897a992bef59b0e8ebd1fc12fcda))
+* **form:** skip discard prompt on unchanged event edit ([#2853](https://github.com/maevsi/vibetype/issues/2853)) ([e9e2659](https://github.com/maevsi/vibetype/commit/e9e26598418243108dbde97bc59e2d0a499c5625))
+* **urql:** retry rate limited requests ([#2858](https://github.com/maevsi/vibetype/issues/2858)) ([0099df8](https://github.com/maevsi/vibetype/commit/0099df810c2c5bcd6ea06bd36ae04e9b93df966a))
+
 ## [18.0.0-beta.21](https://github.com/maevsi/vibetype/compare/18.0.0-beta.20...18.0.0-beta.21) (2026-11-24)
 
 ### ⚠ BREAKING CHANGES
