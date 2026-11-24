@@ -209,6 +209,54 @@ const CONTACT = {
   rowId: TESTING_CONTACT_ROW_ID,
   __typename: 'Contact',
 }
+const CONTACT_GROUP_COLLEAGUES = {
+  id: getNodeId('ContactGroup', '44444444-4444-4444-8444-444444444444'),
+  name: 'Colleagues',
+  rowId: '44444444-4444-4444-8444-444444444444',
+  __typename: 'ContactGroup',
+}
+const CONTACT_GROUP_UNIVERSITY = {
+  id: getNodeId('ContactGroup', '55555555-5555-4555-8555-555555555555'),
+  name: 'University',
+  rowId: '55555555-5555-4555-8555-555555555555',
+  __typename: 'ContactGroup',
+}
+const getContactWithGroups = ({
+  emailAddress,
+  firstName,
+  groupIds,
+  lastName,
+  rowId,
+}: {
+  emailAddress: string
+  firstName: string
+  groupIds: string[]
+  lastName: string
+  rowId: string
+}) => ({
+  accountByAccountId: null,
+  accountByCreatedBy: ACCOUNT,
+  accountId: null,
+  contactGroupMembersByContactId: {
+    nodes: groupIds.map((contactGroupId) => ({
+      contactGroupId,
+      __typename: 'ContactGroupMember',
+    })),
+    __typename: 'ContactGroupMemberConnection',
+  },
+  createdBy: ACCOUNT.rowId,
+  emailAddress,
+  emailAddressHash: null,
+  firstName,
+  id: getNodeId('Contact', rowId),
+  lastName,
+  nickname: null,
+  note: null,
+  phoneNumber: null,
+  rowId,
+  url: null,
+  __typename: 'Contact',
+})
 const GUEST_ID = getNodeId('Guest', TESTING_GUEST_ROW_ID)
 const OWN_CONTACT_ID = getNodeId('Contact', TESTING_OWN_CONTACT_ROW_ID)
 
@@ -438,17 +486,56 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
-    case 'AllContacts':
+    case 'AllContactGroups':
       return {
         data: {
-          allContacts: {
-            nodes: [],
+          allContactGroups: {
+            nodes: [CONTACT_GROUP_COLLEAGUES, CONTACT_GROUP_UNIVERSITY],
             pageInfo: {
               endCursor: null,
               hasNextPage: false,
               __typename: 'PageInfo',
             },
-            totalCount: 0,
+            __typename: 'ContactGroupConnection',
+          },
+        },
+      }
+    case 'AllContacts':
+      return {
+        data: {
+          allContacts: {
+            nodes: [
+              getContactWithGroups({
+                emailAddress: 'ada.lovelace@example.com',
+                firstName: 'Ada',
+                groupIds: [CONTACT_GROUP_COLLEAGUES.rowId],
+                lastName: 'Lovelace',
+                rowId: '66666666-6666-4666-8666-666666666666',
+              }),
+              getContactWithGroups({
+                emailAddress: 'grace.hopper@example.com',
+                firstName: 'Grace',
+                groupIds: [
+                  CONTACT_GROUP_COLLEAGUES.rowId,
+                  CONTACT_GROUP_UNIVERSITY.rowId,
+                ],
+                lastName: 'Hopper',
+                rowId: '77777777-7777-4777-8777-777777777777',
+              }),
+              getContactWithGroups({
+                emailAddress: 'linus.pauling@example.com',
+                firstName: 'Linus',
+                groupIds: [CONTACT_GROUP_UNIVERSITY.rowId],
+                lastName: 'Pauling',
+                rowId: '88888888-8888-4888-8888-888888888888',
+              }),
+            ],
+            pageInfo: {
+              endCursor: null,
+              hasNextPage: false,
+              __typename: 'PageInfo',
+            },
+            totalCount: 3,
             __typename: 'ContactConnection',
           },
         },
@@ -630,6 +717,15 @@ export const getTestingGraphqlResult = async ({
               __typename: 'Account',
             },
             accountId: null,
+            contactGroupMembersByContactId: {
+              nodes: [
+                {
+                  contactGroupId: CONTACT_GROUP_COLLEAGUES.rowId,
+                  __typename: 'ContactGroupMember',
+                },
+              ],
+              __typename: 'ContactGroupMemberConnection',
+            },
             createdBy: ACCOUNT.rowId,
             emailAddress: null,
             emailAddressHash: null,

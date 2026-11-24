@@ -1,3 +1,4 @@
+import { getContactGroupNamesNormalized } from './contactGroup'
 import { getContactNamesFromFullName } from './contactImport'
 import type { ContactPicked } from './contactImport'
 import { isNeitherNullNorUndefined } from './types'
@@ -24,15 +25,23 @@ const getUnescaped = (value: string) =>
     character === 'n' || character === 'N' ? '\n' : character,
   )
 
-/** Splits at semicolons that are not escaped with a backslash. */
-const getComponents = (value: string) =>
+/** Splits at separators that are not escaped with a backslash. */
+const getSplit = (value: string, separator: ',' | ';') =>
   value
-    .replaceAll(/\\[\s\S]|;/g, (match) => (match === ';' ? '\u0000' : match))
+    .replaceAll(/\\[\s\S]|[,;]/g, (match) =>
+      match === separator ? '\u0000' : match,
+    )
     .split('\u0000')
+
+const getComponents = (value: string) => getSplit(value, ';')
 
 const getContactFromCard = (card: string): ContactPicked | undefined => {
   const lines = card.split('\n')
-  const contact: ContactPicked = { emailAddresses: [], phoneNumbers: [] }
+  const contact: ContactPicked = {
+    emailAddresses: [],
+    groupNames: [],
+    phoneNumbers: [],
+  }
   const names: { family?: string; full?: string; given?: string } = {}
 
   for (const [lineIndex, lineFirst] of lines.entries()) {
@@ -50,7 +59,7 @@ const getContactFromCard = (card: string): ContactPicked | undefined => {
       .slice(nameWithGroup.lastIndexOf('.') + 1)
       .toUpperCase()
 
-    if (!['EMAIL', 'FN', 'N', 'TEL'].includes(name)) continue
+    if (!['CATEGORIES', 'EMAIL', 'FN', 'N', 'TEL'].includes(name)) continue
 
     const parametersUpper = parameters.map((parameter) =>
       parameter.toUpperCase(),
@@ -88,6 +97,11 @@ const getContactFromCard = (card: string): ContactPicked | undefined => {
       continue
     }
 
+    if (name === 'CATEGORIES') {
+      contact.groupNames.push(...getSplit(valueRaw, ',').map(getValue))
+      continue
+    }
+
     const value = getValue(valueRaw)
 
     if (!value) continue
@@ -111,12 +125,13 @@ const getContactFromCard = (card: string): ContactPicked | undefined => {
 
   return {
     ...contact,
+    groupNames: getContactGroupNamesNormalized(contact.groupNames),
     ...(firstName ? { firstName } : {}),
     ...(lastName ? { lastName } : {}),
   }
 }
 
-/** Reads the names, email addresses and phone numbers of vCard 2.1, 3.0 and 4.0 files. */
+/** Reads the names, email addresses, phone numbers and categories of vCard 2.1, 3.0 and 4.0 files. */
 export const getContactsFromVcard = (text: string): ContactPicked[] =>
   Array.from(
     text

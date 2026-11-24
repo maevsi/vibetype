@@ -20,6 +20,7 @@ describe('getContactsFromVcard', () => {
       {
         emailAddresses: ['jürgen@example.com'],
         firstName: 'Jürgen',
+        groupNames: [],
         lastName: 'Müller',
         phoneNumbers: ['030 123456'],
       },
@@ -48,12 +49,14 @@ describe('getContactsFromVcard', () => {
       {
         emailAddresses: ['ada@example.com', 'work@example.com'],
         firstName: 'Ada;B',
+        groupNames: [],
         lastName: 'Lovelace, Countess',
         phoneNumbers: ['+49 30 123456'],
       },
       {
         emailAddresses: ['grace@example.com'],
         firstName: 'Grace Brewster',
+        groupNames: [],
         lastName: 'Hopper',
         phoneNumbers: [],
       },
@@ -74,8 +77,55 @@ describe('getContactsFromVcard', () => {
       {
         emailAddresses: ['cher@example.com'],
         firstName: 'Cher',
+        groupNames: [],
         phoneNumbers: ['+1-202-555-0100'],
       },
+    ])
+  })
+
+  test('reads categories as group names', () => {
+    const vcard = [
+      'BEGIN:VCARD',
+      'VERSION:3.0',
+      'FN:Cher',
+      'EMAIL:cher@example.com',
+      'CATEGORIES:Work, University,,work',
+      'END:VCARD',
+    ].join('\n')
+
+    expect(getContactsFromVcard(vcard)).toMatchObject([
+      { groupNames: ['Work', 'University'] },
+    ])
+  })
+
+  test('keeps an escaped comma inside a group name', () => {
+    const vcard = [
+      'BEGIN:VCARD',
+      'VERSION:3.0',
+      'FN:Cher',
+      'EMAIL:cher@example.com',
+      'item1.CATEGORIES:Friends\\, family,Club',
+      'END:VCARD',
+    ].join('\n')
+
+    expect(getContactsFromVcard(vcard)).toMatchObject([
+      { groupNames: ['Friends, family', 'Club'] },
+    ])
+  })
+
+  test('reads quoted-printable categories', () => {
+    const vcard = [
+      'BEGIN:VCARD',
+      'VERSION:2.1',
+      'FN:Cher',
+      'EMAIL:cher@example.com',
+      'CATEGORIES;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:Universit=C3=A4t,Fam=',
+      'ilie',
+      'END:VCARD',
+    ].join('\n')
+
+    expect(getContactsFromVcard(vcard)).toMatchObject([
+      { groupNames: ['Universität', 'Familie'] },
     ])
   })
 

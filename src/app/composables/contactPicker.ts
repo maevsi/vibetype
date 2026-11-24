@@ -8,6 +8,7 @@ const getContactFromInfo = ({
   tel,
 }: ContactInfo): ContactPicked => ({
   emailAddresses: email ?? [],
+  groupNames: [],
   ...getContactNamesFromFullName(name?.[0]),
   phoneNumbers: tel ?? [],
 })
@@ -43,6 +44,7 @@ const pickFromApp = () =>
             ({ emailAddresses, familyName, givenName, phoneNumbers }) => ({
               emailAddresses,
               firstName: givenName || undefined,
+              groupNames: [],
               lastName: familyName || undefined,
               phoneNumbers,
             }),

@@ -149,6 +149,12 @@ const invalidateAccountBlockDependents = (cache: Cache) =>
     'eventSearch',
   ].forEach((name) => invalidateCache(cache, name))
 
+// A membership is only reachable through its contact, so the lists and details of contacts are refetched when memberships change
+const invalidateContactGroupMemberDependents = (cache: Cache) =>
+  ['allContacts', 'contactByRowId'].forEach((name) =>
+    invalidateCache(cache, name),
+  )
+
 const cacheListAppend = <
   Fragment,
   FragmentRaw,
@@ -245,6 +251,7 @@ export const getUrqlClient = async ({
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
       Contact: (data) => keyByRowId(data),
+      ContactGroup: (data) => keyByRowId(data),
       EventFavorite: (data) => keyByRowId(data),
       GeographyPoint: () => null,
       Guest: (data) => keyByRowId(data),
@@ -254,6 +261,7 @@ export const getUrqlClient = async ({
     resolvers: {
       Query: {
         allAccounts: relayPagination(),
+        allContactGroups: relayPagination(),
         allContacts: relayPagination(),
         allEvents: relayPagination(),
         allGuests: relayPagination(),
@@ -270,6 +278,16 @@ export const getUrqlClient = async ({
         createAccountBlock: (_result, _args, cache, _info) =>
           invalidateAccountBlockDependents(cache),
         createContact: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allContacts'),
+        createContactGroup: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allContactGroups'),
+        createContactGroupMember: (_result, _args, cache, _info) =>
+          invalidateContactGroupMemberDependents(cache),
+        createContactGroupMembers: (_result, _args, cache, _info) =>
+          invalidateContactGroupMemberDependents(cache),
+        createContactGroups: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allContactGroups'),
+        createContacts: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allContacts'),
         createEvent: (_result, _args, cache, _info) => {
           invalidateCache(cache, 'allEvents')
@@ -360,6 +378,16 @@ export const getUrqlClient = async ({
         ) => invalidateAccountBlockDependents(cache),
         deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
+        deleteContactGroupByRowId: (_result, args, cache, _info) => {
+          invalidateCache(cache, 'ContactGroup', args)
+          invalidateContactGroupMemberDependents(cache)
+        },
+        deleteContactGroupMemberByContactGroupIdAndContactId: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateContactGroupMemberDependents(cache),
         eventDelete: (_result, _args, cache, _info) => {
           invalidateCache(cache, 'allEvents')
           invalidateCache(cache, 'eventSearch')

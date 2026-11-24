@@ -231,6 +231,42 @@
           />
         </Field>
       </form.Field>
+      <form.Field v-slot="{ field }" name="groupIds">
+        <Field>
+          <FieldLabel for="input-group-name">{{ t('groups') }}</FieldLabel>
+          <FieldContent>
+            <AppCheckboxGroup
+              v-if="contactGroups.length"
+              :aria-label="t('groups')"
+              :items="groupItems"
+              :model-value="field.state.value"
+              @update:model-value="
+                (values) => field.handleChange(values.map(String))
+              "
+            />
+            <div class="flex items-center gap-2">
+              <AppInput
+                id="input-group-name"
+                v-model="groupNameNew"
+                :placeholder="t('groupNamePlaceholder')"
+                type="text"
+                @keydown.enter.prevent="groupAdd"
+              />
+              <AppButton
+                :aria-label="t('groupAdd')"
+                :disabled="!groupNameNewNormalized"
+                :loading="createContactGroupMutation.fetching.value"
+                size="none"
+                variant="ghost"
+                @click="groupAdd"
+              >
+                <AppIconPlus />
+              </AppButton>
+            </div>
+          </FieldContent>
+          <FieldDescription>{{ t('groupsDescription') }}</FieldDescription>
+        </Field>
+      </form.Field>
       <FormPrivacyNotice />
       <div class="flex flex-col items-center">
         <AppButton
@@ -256,8 +292,12 @@ import { z } from 'zod'
 
 import { graphql } from '~~/gql/generated'
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
+import {
+  getContactGroupItem,
+  getContactGroupNamesNormalized,
+} from '~~/shared/utils/contactGroup'
 
-const { contact = undefined } = defineProps<{
+const { contact = undefined, contactGroupIds = [] } = defineProps<{
   contact?: Pick<
     ContactItemFragment,
     | 'accountByAccountId'
@@ -272,6 +312,7 @@ const { contact = undefined } = defineProps<{
     | 'rowId'
     | 'url'
   >
+  contactGroupIds?: string[]
 }>()
 
 const emit = defineEmits<{
@@ -283,14 +324,53 @@ const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
 
+// data
+const groupNameNew = ref('')
+
 // api data
+const { contactGroups, query: contactGroupsQuery } = useContactGroupsQuery()
+const createContactGroupMemberMutation = useMutation(
+  graphql(`
+    mutation CreateContactGroupMember($input: CreateContactGroupMemberInput!) {
+      createContactGroupMember(input: $input) {
+        contactGroupMember {
+          contactGroupId
+          contactId
+        }
+      }
+    }
+  `),
+)
+const createContactGroupMutation = useMutation(
+  graphql(`
+    mutation CreateContactGroup($input: CreateContactGroupInput!) {
+      createContactGroup(input: $input) {
+        contactGroup {
+          ...ContactGroupItem
+        }
+      }
+    }
+  `),
+)
 const createContactMutation = useMutation(
   graphql(`
     mutation CreateContact($input: CreateContactInput!) {
       createContact(input: $input) {
         contact {
           id
+          rowId
         }
+      }
+    }
+  `),
+)
+const deleteContactGroupMemberMutation = useMutation(
+  graphql(`
+    mutation DeleteContactGroupMemberByContactGroupIdAndContactId(
+      $input: DeleteContactGroupMemberByContactGroupIdAndContactIdInput!
+    ) {
+      deleteContactGroupMemberByContactGroupIdAndContactId(input: $input) {
+        clientMutationId
       }
     }
   `),
@@ -307,7 +387,11 @@ const updateContactByRowIdMutation = useMutation(
   `),
 )
 const api = await useApiData([
+  contactGroupsQuery,
+  createContactGroupMemberMutation,
+  createContactGroupMutation,
   createContactMutation,
+  deleteContactGroupMemberMutation,
   updateContactByRowIdMutation,
 ])
 
@@ -316,6 +400,7 @@ const formSchema = z.object({
   accountUsername: SCHEMA_USERNAME_OPTIONAL,
   emailAddress: SCHEMA_EMAIL_ADDRESS_OPTIONAL,
   firstName: SCHEMA_NAME_FIRST_OPTIONAL,
+  groupIds: z.array(z.string()),
   lastName: SCHEMA_NAME_LAST_OPTIONAL,
   nickname: SCHEMA_NAME_NICK_OPTIONAL,
   note: SCHEMA_NOTE_OPTIONAL,
@@ -329,6 +414,7 @@ const form = useForm({
     accountUsername: contact?.accountByAccountId?.username ?? '',
     emailAddress: contact?.emailAddress ?? '',
     firstName: contact?.firstName ?? '',
+    groupIds: [...contactGroupIds],
     lastName: contact?.lastName ?? '',
     nickname: contact?.nickname ?? '',
     note: contact?.note ?? '',
@@ -368,6 +454,14 @@ const form = useForm({
 
       if (!getResultData(result)) return
 
+      if (
+        !(await groupsSave({
+          contactId: value.rowId,
+          groupIds: value.groupIds,
+        }))
+      )
+        return
+
       emit('submitSuccess')
     } else {
       // Add
@@ -389,14 +483,81 @@ const form = useForm({
         },
       })
 
-      if (!getResultData(result)) return
+      const contactId = getResultData(result)?.createContact?.contact?.rowId
+
+      if (!contactId) return
+
+      if (!(await groupsSave({ contactId, groupIds: value.groupIds }))) return
 
       emit('submitSuccess')
     }
   },
 })
 
+// methods
+const groupAdd = async () => {
+  const name = groupNameNewNormalized.value
+
+  if (!name || !store.signedInAccountId) return
+
+  const groupExisting = contactGroups.value.find(
+    (group) => group.name.toLowerCase() === name.toLowerCase(),
+  )
+  const groupId =
+    groupExisting?.rowId ??
+    getContactGroupItem(
+      getResultData(
+        await createContactGroupMutation.executeMutation({
+          input: {
+            contactGroup: { createdBy: store.signedInAccountId, name },
+          },
+        }),
+      )?.createContactGroup?.contactGroup,
+    )?.rowId
+
+  if (!groupId) return
+
+  groupNameNew.value = ''
+
+  if (!form.getFieldValue('groupIds').includes(groupId))
+    form.setFieldValue('groupIds', [...form.getFieldValue('groupIds'), groupId])
+}
+const groupsSave = async ({
+  contactId,
+  groupIds,
+}: {
+  contactId: string
+  groupIds: string[]
+}) => {
+  const results = await Promise.all([
+    ...groupIds
+      .filter((groupId) => !contactGroupIds.includes(groupId))
+      .map((contactGroupId) =>
+        createContactGroupMemberMutation.executeMutation({
+          input: { contactGroupMember: { contactGroupId, contactId } },
+        }),
+      ),
+    ...contactGroupIds
+      .filter((groupId) => !groupIds.includes(groupId))
+      .map((contactGroupId) =>
+        deleteContactGroupMemberMutation.executeMutation({
+          input: { contactGroupId, contactId },
+        }),
+      ),
+  ])
+
+  return results.every((result) => !result.error)
+}
+
 // computations
+const groupItems = computed(() =>
+  [...contactGroups.value]
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map(({ name, rowId }) => ({ label: name, value: rowId })),
+)
+const groupNameNewNormalized = computed(
+  () => getContactGroupNamesNormalized([groupNameNew.value])[0],
+)
 const errorMessages = computed(() =>
   api.value.errors
     ? getCombinedErrorMessages(api.value.errors, {
@@ -411,6 +572,10 @@ de:
   accountOverride: Angaben, die Du hier einträgst, haben Vorrang vor denen aus dem Konto oben.
   emailAddress: E-Mail-Adresse
   firstName: Vorname
+  groupAdd: Gruppe hinzufügen
+  groupNamePlaceholder: Neue Gruppe
+  groups: Gruppen
+  groupsDescription: Gruppen sind nur für Dich sichtbar. Mit ihnen findest Du Kontakte beim Einladen schneller.
   lastName: Nachname
   nickname: Spitzname
   note: Notiz
@@ -426,6 +591,10 @@ en:
   accountOverride: Details you enter here take priority over the ones from the account above.
   emailAddress: Email address
   firstName: First name
+  groupAdd: Add group
+  groupNamePlaceholder: New group
+  groups: Groups
+  groupsDescription: Groups are only visible to you. They help you find contacts faster when inviting.
   lastName: Last name
   nickname: Nickname
   note: Note
