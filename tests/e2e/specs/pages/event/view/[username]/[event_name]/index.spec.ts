@@ -27,7 +27,8 @@ appTest.describe('address', () => {
     await page.getByRole('button', { name: 'Copy address' }).click()
 
     await expect(page.getByText('The address has been copied')).toBeVisible()
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    // a string expression, as the tests are type checked without the DOM library
+    expect(await page.evaluate('navigator.clipboard.readText()')).toBe(
       'Vibetype, Virchowstraße 4, 34121 Kassel, Germany',
     )
   })
