@@ -1,3 +1,9 @@
+## [17.53.1](https://github.com/maevsi/vibetype/compare/17.53.0...17.53.1) (2026-11-24)
+
+### Bug Fixes
+
+* **cache:** drop stale pages when a list's first page arrives ([#2870](https://github.com/maevsi/vibetype/issues/2870)) ([85c1060](https://github.com/maevsi/vibetype/commit/85c10605d5abebc490a9d5d25584054c12f06be0))
+
 ## [17.53.0](https://github.com/maevsi/vibetype/compare/17.52.0...17.53.0) (2026-11-24)
 
 ### Features
