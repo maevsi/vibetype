@@ -244,6 +244,31 @@
                   <span>{{ t('invitationCanceled') }}</span>
                 </div>
               </div>
+              <form
+                v-if="!isOrganizerPreview && guest.feedback !== null"
+                class="flex w-full max-w-md flex-col gap-2"
+                @submit.prevent="feedbackReasonSave"
+              >
+                <Field>
+                  <FieldLabel for="feedback-reason">
+                    {{ t('feedbackReasonLabel', { name: organizerName }) }}
+                  </FieldLabel>
+                  <Textarea
+                    id="feedback-reason"
+                    v-model="feedbackReason"
+                    :maxlength="FEEDBACK_REASON_LENGTH_MAXIMUM"
+                    name="feedbackReason"
+                    rows="3"
+                  />
+                </Field>
+                <AppButton
+                  :aria-label="t('feedbackReasonSave')"
+                  :loading="isUpdatingFeedbackReason"
+                  type="submit"
+                >
+                  {{ t('feedbackReasonSave') }}
+                </AppButton>
+              </form>
             </div>
             <AppCard v-if="eventDescriptionHtml">
               <LayoutProse class="w-full">
@@ -310,6 +335,8 @@ import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
+const FEEDBACK_REASON_LENGTH_MAXIMUM = 1000
+
 const { isIos } = usePlatform()
 const { locale, t } = useI18n()
 const route = useRoute()
@@ -320,6 +347,7 @@ const updateGuestByRowIdMutation = useMutation(
       updateGuestByRowId(input: $input) {
         guest {
           feedback
+          feedbackReason
           id
           rowId
         }
@@ -433,6 +461,7 @@ const eventQuery = useApiQuery({
           visibility
         }
         feedback
+        feedbackReason
         id
         rowId
       }
@@ -491,6 +520,29 @@ const cancel = async () => {
     })
   } finally {
     isUpdatingCancel.value = false
+  }
+}
+const feedbackReason = ref('')
+watch(
+  () => guest.value?.feedbackReason,
+  (value) => {
+    feedbackReason.value = value ?? ''
+  },
+  { immediate: true },
+)
+const isUpdatingFeedbackReason = ref<boolean>()
+const feedbackReasonSave = async () => {
+  if (!guest.value) return
+
+  isUpdatingFeedbackReason.value = true
+
+  try {
+    // the api rejects an empty string, so clearing sends null
+    await update(guest.value.rowId, {
+      feedbackReason: feedbackReason.value.trim() || null,
+    })
+  } finally {
+    isUpdatingFeedbackReason.value = false
   }
 }
 const { $csrfFetch } = useNuxtApp()
@@ -623,6 +675,9 @@ const contactName = computed(() =>
     ? getContactName({ account: contactAccount.value, contact: contact.value })
     : undefined,
 )
+const organizerName = computed(
+  () => account.value?.displayName || account.value?.username,
+)
 const isOrganizerPreview = computed(
   () =>
     account.value?.rowId === store.signedInAccountId &&
@@ -678,6 +733,8 @@ de:
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorGuestMissing: Diese Einladung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
+  feedbackReasonLabel: Notiz für {name} hinzufügen (optional)
+  feedbackReasonSave: Notiz speichern
   googleCalendarAdd: Zu Google Kalender hinzufügen
   greeting: Hey{usernameString}!
   greetingDescription: Du wurdest zu folgender Veranstaltung eingeladen.
@@ -708,6 +765,8 @@ en:
   errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorGuestMissing: This invitation isn't available. If someone sent you a link, ask them for a new one.
+  feedbackReasonLabel: Add a note for {name} (optional)
+  feedbackReasonSave: Save note
   googleCalendarAdd: Add to Google Calendar
   greeting: Hey{usernameString}!
   greetingDescription: "You've been invited to the following event."

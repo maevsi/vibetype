@@ -13,6 +13,7 @@ export const GuestItem = graphql(`
     contactId
     feedback
     feedbackOverride
+    feedbackReason
     id
     rowId
   }

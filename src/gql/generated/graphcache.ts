@@ -4869,6 +4869,8 @@ export type Guest = Node & {
   feedback?: Maybe<InvitationFeedback>
   /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
   feedbackOverride?: Maybe<InvitationFeedback>
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  feedbackReason?: Maybe<Scalars['String']['output']>
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output']
   /** The guest's internal id. */
@@ -4945,6 +4947,8 @@ export type GuestInput = {
   feedback?: InputMaybe<InvitationFeedback>
   /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
   feedbackOverride?: InputMaybe<InvitationFeedback>
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  feedbackReason?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Methods to use when ordering `Guest`. */
@@ -4968,6 +4972,8 @@ export type GuestPatch = {
   feedback?: InputMaybe<InvitationFeedback>
   /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
   feedbackOverride?: InputMaybe<InvitationFeedback>
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  feedbackReason?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
@@ -13302,6 +13308,11 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       InvitationFeedback | string
     >
+    feedbackReason?: GraphCacheResolver<
+      WithTypename<Guest>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
     id?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
@@ -19269,6 +19280,10 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     feedbackOverride?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Guest>>,
+      Record<string, never>
+    >
+    feedbackReason?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >

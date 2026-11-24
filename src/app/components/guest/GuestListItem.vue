@@ -17,6 +17,13 @@
         :feedback="getGuestFeedback(guest)"
         :is-feedback-override="guest.feedbackOverride !== null"
       />
+      <p
+        v-if="guest.feedbackReason"
+        class="truncate text-body-small text-fg-2"
+        :title="guest.feedbackReason"
+      >
+        {{ guest.feedbackReason }}
+      </p>
     </AppTableCell>
     <AppTableCell class="max-w-0">
       <div class="flex items-center justify-evenly gap-4 text-fg-1">
@@ -161,7 +168,11 @@ const { event, guest } = defineProps<{
   event: Pick<EventItemFragment, 'accountByCreatedBy' | 'publishedAt' | 'slug'>
   guest: Pick<
     GuestItemFragment,
-    'contactByContactId' | 'feedback' | 'feedbackOverride' | 'rowId'
+    | 'contactByContactId'
+    | 'feedback'
+    | 'feedbackOverride'
+    | 'feedbackReason'
+    | 'rowId'
   >
 }>()
 

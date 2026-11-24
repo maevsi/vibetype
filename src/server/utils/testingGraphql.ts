@@ -601,6 +601,7 @@ export const getTestingGraphqlResult = async ({
                 contactId: CONTACT.rowId,
                 feedback: 'accepted',
                 feedbackOverride: null,
+                feedbackReason: null,
                 id: GUEST_ID,
                 rowId: TESTING_GUEST_ROW_ID,
                 __typename: 'Guest',
@@ -964,6 +965,7 @@ export const getTestingGraphqlResult = async ({
             },
             eventByEventId: EVENT_VIEW,
             feedback: null,
+            feedbackReason: null,
             id: GUEST_ID,
             rowId: TESTING_GUEST_ROW_ID,
             __typename: 'Guest',
@@ -1084,7 +1086,10 @@ export const getTestingGraphqlResult = async ({
       const { input } = z
         .object({
           input: z.object({
-            guestPatch: z.object({ feedback: z.string().nullable() }),
+            guestPatch: z.object({
+              feedback: z.string().nullable().optional(),
+              feedbackReason: z.string().nullable().optional(),
+            }),
           }),
         })
         .parse(variables)
@@ -1093,7 +1098,8 @@ export const getTestingGraphqlResult = async ({
         data: {
           updateGuestByRowId: {
             guest: {
-              feedback: input.guestPatch.feedback,
+              feedback: input.guestPatch.feedback ?? null,
+              feedbackReason: input.guestPatch.feedbackReason ?? null,
               id: GUEST_ID,
               rowId: TESTING_GUEST_ROW_ID,
               __typename: 'Guest',
