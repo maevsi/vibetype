@@ -1,3 +1,15 @@
+## [18.0.0-beta.20](https://github.com/maevsi/vibetype/compare/18.0.0-beta.19...18.0.0-beta.20) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+* **event:** add feedback deadline (#2860)
+* **guest:** let organizers override feedback (#2857)
+
+### Features
+
+* **event:** add feedback deadline ([#2860](https://github.com/maevsi/vibetype/issues/2860)) ([ccc97e3](https://github.com/maevsi/vibetype/commit/ccc97e3f36dfe260deda784ea324f0fbe9811790))
+* **guest:** let organizers override feedback ([#2857](https://github.com/maevsi/vibetype/issues/2857)) ([26b893f](https://github.com/maevsi/vibetype/commit/26b893f467e052782d2571dd435253a40cb99303))
+
 ## [18.0.0-beta.19](https://github.com/maevsi/vibetype/compare/18.0.0-beta.18...18.0.0-beta.19) (2026-11-24)
 
 ### ⚠ BREAKING CHANGES
