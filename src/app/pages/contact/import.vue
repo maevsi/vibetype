@@ -23,6 +23,40 @@
             <span class="text-body-small">{{ t('fileHint') }}</span>
           </AppInputFile>
           <template v-if="rows.length">
+            <div
+              class="sticky top-16 z-10 -mx-4 flex items-center gap-4 bg-glass px-4 py-2 backdrop-blur-xl"
+            >
+              <AppSelectionItem class="min-w-0 flex-1 items-center">
+                <template #control="ariaAttributes">
+                  <Checkbox
+                    v-bind="ariaAttributes"
+                    :disabled="!indexesSelectable.length"
+                    :model-value="
+                      indexesSelectable.length &&
+                      selectedIndexes.length === indexesSelectable.length
+                        ? true
+                        : selectedIndexes.length
+                          ? 'indeterminate'
+                          : false
+                    "
+                    @update:model-value="selectAll($event === true)"
+                  />
+                </template>
+                <span class="text-body-small text-fg-2">
+                  {{ t('selectAll', { count: indexesSelectable.length }) }}
+                </span>
+              </AppSelectionItem>
+              <AppButton
+                :aria-label="t('import', selectedIndexes.length)"
+                class="shrink-0"
+                :disabled="!selectedIndexes.length"
+                :loading="isImporting"
+                size="small"
+                @click="importSelected()"
+              >
+                {{ t('import', selectedIndexes.length) }}
+              </AppButton>
+            </div>
             <AppCheckboxGroup
               v-model="selectedIndexes"
               :aria-label="t('contacts')"
@@ -51,15 +85,6 @@
                 </template>
               </AppCheckboxGroupItem>
             </AppCheckboxGroup>
-            <AppButton
-              :aria-label="t('import', selectedIndexes.length)"
-              class="self-start"
-              :disabled="!selectedIndexes.length"
-              :loading="isImporting"
-              @click="importSelected()"
-            >
-              {{ t('import', selectedIndexes.length) }}
-            </AppButton>
           </template>
         </div>
       </Loader>
@@ -199,6 +224,9 @@ const existingContacts = computed(
       emailAddresses: node.emailAddresses?.filter(isNeitherNullNorUndefined),
     })) ?? [],
 )
+const indexesSelectable = computed(() =>
+  rows.value.flatMap((row, index) => (isRowSelectable(row) ? [index] : [])),
+)
 
 // methods
 const getRowHint = (row: ContactImportRow, index: number) =>
@@ -221,6 +249,9 @@ const getRowPatchFields = (row: ContactImportRow) =>
     ...(row.contactPatch?.lastName ? [t('fieldLastName')] : []),
     ...(row.contactPatch?.phoneNumber ? [t('fieldPhoneNumber')] : []),
   ].join(', ')
+const selectAll = (isSelected: boolean) => {
+  selectedIndexes.value = isSelected ? indexesSelectable.value : []
+}
 const isRowSelectable = (row: ContactImportRow) =>
   row.status === 'importable' || row.status === 'mergeable'
 const getRowLabel = (row: ContactImportRow) =>
@@ -456,9 +487,7 @@ const showContacts = async (
     existingContacts: existingContacts.value,
     parsePhoneNumber,
   })
-  selectedIndexes.value = isPreselected
-    ? rows.value.flatMap((row, index) => (isRowSelectable(row) ? [index] : []))
-    : []
+  selectedIndexes.value = isPreselected ? indexesSelectable.value : []
 }
 
 // lifecycle
@@ -502,6 +531,7 @@ de:
   pick: Kontakte auswählen
   pickAgain: Andere Kontakte auswählen
   pickFailed: Die Kontakte konnten nicht gelesen werden.
+  selectAll: Alle importierbaren auswählen ({count})
   title: Kontakte importieren
   unnamed: Ohne Namen
 en:
@@ -530,6 +560,7 @@ en:
   pick: Pick contacts
   pickAgain: Pick other contacts
   pickFailed: The contacts could not be read.
+  selectAll: Select all importable ({count})
   title: Import contacts
   unnamed: Unnamed
 </i18n>

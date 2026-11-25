@@ -16,11 +16,10 @@
             />
             <Input
               id="input-contact-id"
+              v-model="searchString"
               class="pl-9"
-              :model-value="searchString"
               :placeholder="t('placeholderContact')"
               type="text"
-              @input="searchString = ($event.target as HTMLInputElement).value"
             />
           </div>
         </FieldContent>
@@ -133,12 +132,12 @@
       <FormPrivacyNotice />
       <div class="flex flex-col items-center">
         <AppButton
-          :aria-label="isSending ? t('selectAndSend') : t('select')"
+          :aria-label="submitLabel"
           class="w-full"
           :loading="createGuestsMutation.fetching.value"
           type="submit"
         >
-          {{ isSending ? t('selectAndSend') : t('select') }}
+          {{ submitLabel }}
         </AppButton>
         <p
           v-if="
@@ -472,35 +471,31 @@ const contactsFiltered = computed(() => {
     groupIdsIncluded: groupIdsIncluded.value,
   })
 
-  if (!searchString.value || searchString.value === '') {
-    return contactsInGroups
-  }
+  const searchStringParts = searchString.value
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+  if (!searchStringParts.length) return contactsInGroups
 
-  const searchStringParts = searchString.value.split(' ')
-  const allContactsFiltered = contactsInGroups.filter((contact) => {
+  // every word has to match, so that adding a last name narrows the results instead of widening them
+  return contactsInGroups.filter((contact) => {
     const contactProperties = [
-      ...(contact.accountByAccountId?.username
-        ? [contact.accountByAccountId.username.toLowerCase()]
-        : []),
-      ...(contact.emailAddresses ?? []).map((emailAddress) =>
-        emailAddress.toLowerCase(),
-      ),
-      ...(contact.firstName ? [contact.firstName.toLowerCase()] : []),
-      ...(contact.lastName ? [contact.lastName.toLowerCase()] : []),
+      contact.accountByAccountId?.username,
+      ...(contact.emailAddresses ?? []),
+      contact.firstName,
+      contact.lastName,
+      contact.nickname,
+      contact.phoneNumber,
     ]
+      .filter(isNeitherNullNorUndefined)
+      .map((contactProperty) => contactProperty.toLowerCase())
 
-    for (const contactProperty of contactProperties) {
-      for (const searchStringPart of searchStringParts) {
-        if (contactProperty.includes(searchStringPart.toLowerCase())) {
-          return true
-        }
-      }
-    }
-
-    return false
+    return searchStringParts.every((searchStringPart) =>
+      contactProperties.some((contactProperty) =>
+        contactProperty.includes(searchStringPart),
+      ),
+    )
   })
-
-  return allContactsFiltered
 })
 
 const contactCreationCandidate = computed(() =>
@@ -513,6 +508,14 @@ const contactCreationCandidate = computed(() =>
         username: usernameSearched.value,
       })
     : undefined,
+)
+const contactIdsSelectedCount = form.useStore(
+  (state) => state.values.contactIds.length,
+)
+const submitLabel = computed(() =>
+  isSending.value
+    ? t('selectAndSend', contactIdsSelectedCount.value)
+    : t('select', contactIdsSelectedCount.value),
 )
 const errorMessages = computed(() =>
   apiData.value.errors
@@ -544,8 +547,8 @@ de:
   contactsAdd: Zu meinem Kontaktbuch
   contactsSelect: Kontakte auswählen
   placeholderContact: Max Mustermann
-  select: Zur Gästeliste hinzufügen
-  selectAndSend: Einladung senden
+  select: Zur Gästeliste hinzufügen | Eine Person zur Gästeliste hinzufügen | {count} Personen zur Gästeliste hinzufügen
+  selectAndSend: Einladung senden | Eine Einladung senden | {count} Einladungen senden
   sendFailed: Eine Einladung konnte nicht versandt werden, der Gast steht aber auf der Gästeliste. | {count} Einladungen konnten nicht versandt werden, die Gäste stehen aber auf der Gästeliste.
   sendSkipped: Ein Kontakt ohne Konto oder E-Mail-Adresse wurde nur zur Gästeliste hinzugefügt. | Für {count} Kontakte fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt.
   sendSuccess: Eine Einladung wurde versandt. | {count} Einladungen wurden versandt.
@@ -558,8 +561,8 @@ en:
   contactsAdd: To my contact book
   contactsSelect: Select contacts
   placeholderContact: John Doe
-  select: Add to guest list
-  selectAndSend: Send invitation
+  select: Add to guest list | Add one person to the guest list | Add {count} people to the guest list
+  selectAndSend: Send invitation | Send one invitation | Send {count} invitations
   sendFailed: One invitation could not be sent, but the guest is on the guest list. | {count} invitations could not be sent, but the guests are on the guest list.
   sendSkipped: One contact has no account or email address and was only added to the guest list. | {count} contacts have no account or email address and were only added to the guest list.
   sendSuccess: One invitation was sent. | {count} invitations were sent.
