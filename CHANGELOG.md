@@ -1,3 +1,9 @@
+## [18.0.0-beta.26](https://github.com/maevsi/vibetype/compare/18.0.0-beta.25...18.0.0-beta.26) (2026-11-25)
+
+### Features
+
+* **contact:** import through the device picker where available ([#2885](https://github.com/maevsi/vibetype/issues/2885)) ([ac58fd3](https://github.com/maevsi/vibetype/commit/ac58fd34320005c6a6392a46dff48944d8c98eba))
+
 ## [18.0.0-beta.25](https://github.com/maevsi/vibetype/compare/18.0.0-beta.24...18.0.0-beta.25) (2026-11-25)
 
 ### Features
