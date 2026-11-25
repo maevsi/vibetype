@@ -1,3 +1,10 @@
+## [17.61.1](https://github.com/maevsi/vibetype/compare/17.61.0...17.61.1) (2026-11-25)
+
+### Bug Fixes
+
+* **button:** show loading state on pending actions ([#2892](https://github.com/maevsi/vibetype/issues/2892)) ([0d4e743](https://github.com/maevsi/vibetype/commit/0d4e7439a4a7bc07ad90d5b43e5063bdd441a5e7))
+* **support:** return to the form from the result steps ([#2893](https://github.com/maevsi/vibetype/issues/2893)) ([279d2f8](https://github.com/maevsi/vibetype/commit/279d2f89524ec288a56f5db9e6e246b6188bcd6d))
+
 ## [17.61.0](https://github.com/maevsi/vibetype/compare/17.60.0...17.61.0) (2026-11-25)
 
 ### Features
