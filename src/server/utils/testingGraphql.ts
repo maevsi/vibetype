@@ -436,8 +436,60 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
-    case 'AllContacts':
     case 'AllContactsContactList':
+      return {
+        data: {
+          allContacts: {
+            nodes: [
+              {
+                firstName: 'Ana',
+                lastName: 'Álvarez',
+                emailAddress: 'ana@example.com',
+                guestCount: 3,
+                rowId: '55555555-5555-5555-5555-555555555555',
+              },
+              {
+                ...CONTACT,
+                emailAddress: null,
+                guestCount: 1,
+                phoneNumber: '+4915112345678',
+              },
+              {
+                firstName: 'Max',
+                lastName: 'Mustermann',
+                emailAddress: 'max@example.com',
+                guestCount: 0,
+                rowId: '66666666-6666-6666-6666-666666666666',
+              },
+            ].map(({ guestCount, ...contact }) => ({
+              accountByAccountId: null,
+              accountByCreatedBy: ACCOUNT,
+              accountId: null,
+              createdBy: ACCOUNT.rowId,
+              emailAddressHash: null,
+              guestsByContactId: {
+                totalCount: guestCount,
+                __typename: 'GuestConnection',
+              },
+              id: getNodeId('Contact', contact.rowId),
+              nickname: null,
+              note: null,
+              phoneNumber: null,
+              url: null,
+              __typename: 'Contact',
+              ...contact,
+            })),
+            pageInfo: {
+              endCursor: null,
+              hasNextPage: false,
+              __typename: 'PageInfo',
+            },
+            totalCount: 3,
+            __typename: 'ContactConnection',
+          },
+        },
+      }
+    case 'AllContacts':
       return {
         data: {
           allContacts: {

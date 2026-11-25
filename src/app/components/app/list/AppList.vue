@@ -1,10 +1,10 @@
 <template>
-  <th
-    :class="cn('px-3 py-6 text-left text-caption uppercase', classProps)"
-    data-slot="table-head"
+  <ul
+    :class="cn('flex flex-col divide-y divide-line', classProps)"
+    data-slot="list"
   >
     <slot />
-  </th>
+  </ul>
 </template>
 
 <script setup lang="ts">
