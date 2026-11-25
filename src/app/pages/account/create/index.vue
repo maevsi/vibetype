@@ -95,7 +95,7 @@
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
               class="font-semibold text-link underline"
-              to="session-create"
+              :to="{ name: 'session-create', query: { to: route.query.to } }"
               >{{ t('signInLink') }}</NuxtLinkLocale
             >
           </p>
@@ -284,6 +284,7 @@ import {
 } from '~/composables/useValidation'
 
 const { locale, t } = useI18n()
+const route = useRoute()
 
 // api data
 const accountRegistrationMutation = useMutation(accountRegistrationDocument)
@@ -426,6 +427,9 @@ const submit = async () => {
     captchaIsUsed.value = true
     return
   }
+
+  if (typeof route.query.to === 'string')
+    localStorage.setItem(SIGN_IN_TARGET_STORAGE_KEY, route.query.to)
 
   step.value = 'success'
 }

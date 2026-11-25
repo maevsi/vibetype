@@ -1,6 +1,6 @@
 <template>
   <AppButton
-    v-if="store.signedInAccountId"
+    v-if="store.signedInAccountId || isSignInRequired"
     :aria-label="isFavorite ? t('favoriteDelete') : t('favoriteCreate')"
     :disabled="isFavoritePending"
     size="none"
@@ -25,7 +25,11 @@ import type { DeepReadonly, HtmlHTMLAttributes } from 'vue'
 import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
 
-const { event, iconClass = undefined } = defineProps<{
+const {
+  event,
+  iconClass = undefined,
+  isSignInRequired = false,
+} = defineProps<{
   event: DeepReadonly<{
     eventFavoritesByEventId?: {
       nodes: {
@@ -36,8 +40,12 @@ const { event, iconClass = undefined } = defineProps<{
     rowId: string
   }>
   iconClass?: HtmlHTMLAttributes['class']
+  /** The viewer acts as someone without an account, who has no saved events, so a click leads to the sign-in. */
+  isSignInRequired?: boolean
 }>()
 
+const localePath = useLocalePath()
+const route = useRoute()
 const store = useStore()
 const { t } = useI18n()
 const executeUrqlRequest = useExecuteUrqlRequest()
@@ -89,12 +97,19 @@ const currentFavorite = computed(() =>
 const isFavorite = computed(
   () =>
     !!(
+      !isSignInRequired &&
       store.signedInAccountId &&
       currentFavorite.value?.createdBy &&
       currentFavorite.value.createdBy === store.signedInAccountId
     ),
 )
 const toggleEventFavorite = async () => {
+  if (isSignInRequired)
+    return navigateTo({
+      path: localePath('session-create'),
+      query: { to: route.fullPath },
+    })
+
   if (isFavorite.value) {
     const favorite = currentFavorite.value
     if (!favorite) return

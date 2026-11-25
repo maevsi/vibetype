@@ -77,8 +77,11 @@ const { error, restart, step, title } = useStepperPage<'default'>({
 useHeadDefault({ title })
 
 // computations
+const toStored = ref<string>()
 const to = computed(() =>
-  route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
+  route.query.to && !Array.isArray(route.query.to)
+    ? route.query.to
+    : toStored.value,
 )
 const verified = computed(() => route.query.verified === null)
 const nuxtApp = useNuxtApp()
@@ -128,10 +131,18 @@ const onSignIn = async (username: string) => {
     store,
   })
 
-  await navigateTo(getSignInTarget({ language, username }), {
+  const target = getSignInTarget({ language, username })
+  localStorage.removeItem(SIGN_IN_TARGET_STORAGE_KEY)
+
+  await navigateTo(target, {
     replace: true,
   })
 }
+
+// lifecycle
+onMounted(() => {
+  toStored.value = localStorage.getItem(SIGN_IN_TARGET_STORAGE_KEY) ?? undefined
+})
 </script>
 
 <i18n lang="yaml">
