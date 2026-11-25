@@ -215,6 +215,7 @@
             :aria-label="t('confirmAge')"
             class="w-full"
             :form="templateIdAgeForm"
+            :loading="api.isFetching"
             type="submit"
           >
             {{ t('confirmAge') }}

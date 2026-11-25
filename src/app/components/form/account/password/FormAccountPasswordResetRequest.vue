@@ -22,7 +22,12 @@
       </p>
     </form.Field>
     <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
-    <AppButton :aria-label="t('send')" class="mt-4 w-full" type="submit">
+    <AppButton
+      :aria-label="t('send')"
+      class="mt-4 w-full"
+      :loading="api.isFetching"
+      type="submit"
+    >
       {{ t('send') }}
     </AppButton>
     <p class="mt-6 text-center text-body text-fg-2">

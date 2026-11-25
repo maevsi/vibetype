@@ -2,7 +2,7 @@
   <AppButton
     v-if="store.signedInAccountId || isSignInRequired"
     :aria-label="isFavorite ? t('favoriteDelete') : t('favoriteCreate')"
-    :disabled="isFavoritePending"
+    :loading="isFavoritePending"
     size="none"
     variant="ghost"
     @click="toggleEventFavorite"
@@ -15,6 +15,7 @@
       v-else
       :class="cn('text-fg-1' /*'text-fg-2'*/, iconClass)"
     />
+    <template #loading />
   </AppButton>
 </template>
 

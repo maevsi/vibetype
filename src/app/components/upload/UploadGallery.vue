@@ -85,6 +85,7 @@
       >
         <AppButton
           :aria-label="t('globalShowMore')"
+          :loading="allUploadsQuery.fetching.value"
           @click="after = api.data.allUploads.pageInfo.endCursor"
         >
           {{ t('globalShowMore') }}

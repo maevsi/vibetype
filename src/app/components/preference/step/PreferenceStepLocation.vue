@@ -29,6 +29,7 @@
       <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
+        :loading="isSaving"
         @click="save"
       >
         {{ t('button') }}
@@ -187,6 +188,7 @@ const formattedRadius = computed(() => {
 })
 
 const store = useStore()
+const isSaving = ref(false)
 const save = async () => {
   if (!store.signedInAccountId) return
 
@@ -202,42 +204,48 @@ const save = async () => {
     return
   }
 
-  for (const preferenceEventLocation of preferenceEventLocations.value) {
-    const result =
-      await deletePreferenceEventLocationByRowIdMutation.executeMutation({
-        input: {
-          rowId: preferenceEventLocation.rowId,
+  isSaving.value = true
+
+  try {
+    for (const preferenceEventLocation of preferenceEventLocations.value) {
+      const result =
+        await deletePreferenceEventLocationByRowIdMutation.executeMutation({
+          input: {
+            rowId: preferenceEventLocation.rowId,
+          },
+        })
+
+      if (!getResultData(result)) return
+    }
+
+    const result = await createPreferenceEventLocationMutation.executeMutation({
+      input: {
+        preferenceEventLocation: {
+          createdBy: store.signedInAccountId,
+          location: {
+            type: 'Point',
+            coordinates: [map.mapCenter.lng, map.mapCenter.lat],
+          },
+          radius: mapCutoutRadiusInMeters.value,
         },
-      })
+      },
+    })
 
     if (!getResultData(result)) return
-  }
 
-  const result = await createPreferenceEventLocationMutation.executeMutation({
-    input: {
-      preferenceEventLocation: {
-        createdBy: store.signedInAccountId,
-        location: {
-          type: 'Point',
-          coordinates: [map.mapCenter.lng, map.mapCenter.lat],
-        },
-        radius: mapCutoutRadiusInMeters.value,
-      },
-    },
-  })
-
-  if (!getResultData(result)) return
-
-  positionInitial.value = {
-    latitude: map.mapCenter.lat,
-    longitude: map.mapCenter.lng,
-    zoomLevel: getZoomLevelForRadius({
+    positionInitial.value = {
       latitude: map.mapCenter.lat,
-      radiusInMeters: mapCutoutRadiusInMeters.value,
-    }),
-  }
+      longitude: map.mapCenter.lng,
+      zoomLevel: getZoomLevelForRadius({
+        latitude: map.mapCenter.lat,
+        radiusInMeters: mapCutoutRadiusInMeters.value,
+      }),
+    }
 
-  emit('next')
+    emit('next')
+  } finally {
+    isSaving.value = false
+  }
 }
 
 const modelError = defineModel<Error>('error')

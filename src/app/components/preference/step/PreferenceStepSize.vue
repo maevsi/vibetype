@@ -50,6 +50,7 @@
         :aria-label="t('button')"
         class="w-full max-w-md"
         :form="templateIdForm"
+        :loading="isSubmitting"
         type="submit"
       >
         {{ t('button') }}
@@ -204,6 +205,7 @@ const form = useForm({
     emit('next')
   },
 })
+const isSubmitting = form.useStore((state) => state.isSubmitting)
 
 const apiError = computed(() =>
   api.value.errors.length

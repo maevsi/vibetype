@@ -15,12 +15,14 @@
       <AppButton
         :aria-label="sendLabel"
         class="hidden md:block"
-        :disabled="!isSendable || pending.sends.includes(guest.rowId)"
+        :disabled="!isSendable"
+        :loading="pending.sends.includes(guest.rowId)"
         size="none"
         variant="ghost"
         @click="send(guest)"
       >
         <AppIconPaperAirplane />
+        <template #loading />
       </AppButton>
       <AppButton
         :aria-label="t('guestLink')"

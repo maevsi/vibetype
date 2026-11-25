@@ -44,6 +44,7 @@
             :aria-label="formButton"
             class="w-full max-w-md"
             :form="templateIdForm"
+            :loading="isSubmitting"
             type="submit"
           >
             {{ formButton }}
@@ -80,6 +81,7 @@ defineProps<{
   errorButton: string
   errorDescription: string
   formButton: string
+  isSubmitting?: boolean
   successButton: string
   successDescription: string
   successTitle: string

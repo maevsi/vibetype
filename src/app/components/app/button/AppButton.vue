@@ -27,7 +27,9 @@
   >
     <template v-if="loading">
       <AppSpinner aria-hidden="true" />
-      <slot name="loading">{{ t('globalLoading') }}</slot>
+      <!-- an empty slot still counts, so icon-only buttons can pass one to show the spinner alone -->
+      <slot v-if="$slots.loading" name="loading" />
+      <template v-else>{{ t('globalLoading') }}</template>
     </template>
     <template v-else>
       <slot name="prefix" />

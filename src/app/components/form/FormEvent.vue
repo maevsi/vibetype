@@ -228,12 +228,13 @@
                     />
                     <AppButton
                       :aria-label="t('locationSearch')"
-                      :disabled="isLocationSearching"
+                      :loading="isLocationSearching"
                       size="icon"
                       variant="secondary"
                       @click="searchLocation(locationNameField.state.value)"
                     >
                       <AppIconMagnifyingGlass />
+                      <template #loading />
                     </AppButton>
                   </div>
                   <ul
