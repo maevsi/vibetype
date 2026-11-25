@@ -7,8 +7,12 @@
           v-model="searchString"
           class="flex-1"
         />
-        <template v-if="contacts.length">
-          <AppButton :aria-label="t('contactAdd')" @click="add">
+        <div v-if="contacts.length" class="flex gap-4">
+          <AppButton
+            :aria-label="t('contactAdd')"
+            class="flex-1 whitespace-nowrap sm:flex-none"
+            @click="add"
+          >
             {{ t('contactAdd') }}
             <template #prefix>
               <AppIconPlus />
@@ -16,49 +20,45 @@
           </AppButton>
           <AppButton
             :aria-label="t('contactImport')"
+            class="flex-1 whitespace-nowrap sm:flex-none"
             :to="localePath('contact-import')"
             variant="secondary"
           >
             {{ t('contactImport') }}
           </AppButton>
-        </template>
+        </div>
       </div>
-      <AppTable v-if="contactsFiltered.length">
-        <AppTableHeader>
-          <tr>
-            <AppTableHead scope="col">
-              {{ t('contact') }}
-            </AppTableHead>
-            <AppTableHead class="hidden xl:table-cell" scope="col">
-              {{ t('emailAddress') }}
-            </AppTableHead>
-            <!-- <AppTableHead class="hidden xl:table-cell" scope="col">
-              {{ t('address') }}
-            </AppTableHead> -->
-            <AppTableHead class="hidden xl:table-cell" scope="col">
-              {{ t('phoneNumber') }}
-            </AppTableHead>
-            <AppTableHead class="hidden xl:table-cell" scope="col">
-              {{ t('url') }}
-            </AppTableHead>
-            <AppTableHead scope="col">
-              {{ t('guestCount') }}
-            </AppTableHead>
-            <AppTableHead scope="col" />
-          </tr>
-        </AppTableHeader>
-        <AppTableBody>
-          <ContactListItem
-            v-for="contact in contactsFiltered"
-            :id="contact.rowId"
-            :key="contact.rowId"
-            :contact
-            :guest-count="contact.guestCount"
-            @delete="onDeleteSelect(contact)"
-            @edit="edit(contact)"
-          />
-        </AppTableBody>
-      </AppTable>
+      <template v-if="contactsFiltered.length">
+        <p class="text-body-small text-fg-2">
+          {{
+            searchString.trim()
+              ? t('contactCountFiltered', {
+                  count: contactsFiltered.length,
+                  total: contacts.length,
+                })
+              : t('contactCount', contacts.length)
+          }}
+        </p>
+        <section
+          v-for="section in contactSections"
+          :key="section.title"
+          class="flex flex-col"
+        >
+          <h2 v-if="section.title" class="text-caption text-fg-2 uppercase">
+            {{ section.title }}
+          </h2>
+          <AppList>
+            <ContactListItem
+              v-for="contact in section.contacts"
+              :id="contact.rowId"
+              :key="contact.rowId"
+              :contact
+              :guest-count="contact.guestCount"
+              @delete="onDeleteSelect(contact)"
+            />
+          </AppList>
+        </section>
+      </template>
       <AppEmptyState
         v-else-if="contacts.length"
         :description="t('searchEmptyDescription')"
@@ -104,7 +104,11 @@ import type {
   AllContactsContactListQueryVariables,
   ContactItemFragment,
 } from '~~/gql/generated/graphql'
-import { getContactItem, getContactsSorted } from '~~/shared/utils/contact'
+import {
+  getContactItem,
+  getContactSortKey,
+  getContactsSorted,
+} from '~~/shared/utils/contact'
 
 const localePath = useLocalePath()
 const route = useRoute()
@@ -179,26 +183,52 @@ const contacts = computed(() =>
   ),
 )
 const contactsFiltered = computed(() => {
-  const normalizedSearch = searchString.value.toLowerCase().trim()
-  if (!normalizedSearch) return contacts.value
+  const searchStringParts = searchString.value
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+  if (!searchStringParts.length) return contacts.value
 
-  const searchStringParts = normalizedSearch.split(/\s+/).filter(Boolean)
+  // every word has to match, so that adding a last name narrows the results instead of widening them
   return contacts.value.filter((contact) => {
     const contactProperties = [
-      ...(contact.accountByAccountId?.username
-        ? [contact.accountByAccountId.username.toLowerCase()]
-        : []),
-      ...(contact.firstName ? [contact.firstName.toLowerCase()] : []),
-      ...(contact.lastName ? [contact.lastName.toLowerCase()] : []),
-      ...(contact.emailAddress ? [contact.emailAddress.toLowerCase()] : []),
+      contact.accountByAccountId?.username,
+      contact.emailAddress,
+      contact.firstName,
+      contact.lastName,
+      contact.nickname,
+      contact.phoneNumber,
     ]
+      .filter(isNeitherNullNorUndefined)
+      .map((contactProperty) => contactProperty.toLowerCase())
 
-    return searchStringParts.some((searchStringPart) =>
+    return searchStringParts.every((searchStringPart) =>
       contactProperties.some((contactProperty) =>
         contactProperty.includes(searchStringPart),
       ),
     )
   })
+})
+// search results stay one flat list, as a few matches need no index
+const contactSections = computed(() => {
+  if (searchString.value.trim())
+    return [{ contacts: contactsFiltered.value, title: '' }]
+
+  const sections: { contacts: typeof contacts.value; title: string }[] = []
+
+  for (const contact of contacts.value) {
+    const initial = getContactSortKey(contact)
+      .normalize('NFD')
+      .charAt(0)
+      .toUpperCase()
+    const title = /\p{L}/u.test(initial) ? initial : '#'
+    const section = sections.at(-1)
+
+    if (section?.title === title) section.contacts.push(contact)
+    else sections.push({ contacts: [contact], title })
+  }
+
+  return sections
 })
 
 // methods
@@ -220,14 +250,6 @@ const onDeleteSelect = (
   contactToDelete.value = contact
   isDeleteDrawerOpen.value = true
 }
-const edit = (contact: Pick<ContactItemFragment, 'rowId'>) =>
-  navigateTo(
-    localePath({
-      name: 'contact-edit-id',
-      params: { id: contact.rowId },
-      query: { redirect: route.fullPath },
-    }),
-  )
 
 // lifecycle
 watch(
@@ -243,31 +265,23 @@ watch(
 
 <i18n lang="yaml">
 de:
-  # address: Adresse
-  contact: Kontakt
   contactAdd: Kontakt hinzufügen
+  contactCount: '{count} Kontakt | {count} Kontakte'
+  contactCountFiltered: '{count} von {total}'
   contactImport: Kontakte importieren
-  emailAddress: E-Mail Adresse
   emptyDescription: Speichere die Menschen, die Du triffst, um sie mit einem Fingertipp zu Veranstaltungen einzuladen.
   emptyTitle: Dein Kontaktbuch ist leer
-  guestCount: Eingeladen zu
-  phoneNumber: Telefonnummer
   searchClear: Suche zurücksetzen
   searchEmptyDescription: Prüfe die Schreibweise oder suche stattdessen nach der E-Mail-Adresse.
   searchEmptyTitle: Kein Kontakt passt zu „{query}“
-  url: Webseite
 en:
-  # address: Address
-  contact: Contact
   contactAdd: Add contact
+  contactCount: '{count} contact | {count} contacts'
+  contactCountFiltered: '{count} of {total}'
   contactImport: Import contacts
-  emailAddress: Email address
   emptyDescription: Save the people you meet so you can invite them to events with one tap.
   emptyTitle: Your contact book is empty
-  guestCount: Invited to
-  phoneNumber: Phone number
   searchClear: Clear search
   searchEmptyDescription: Check the spelling or search by email address instead.
   searchEmptyTitle: 'No contact matches "{query}"'
-  url: Website
 </i18n>

@@ -1,118 +1,114 @@
 <template>
-  <tr
+  <AppListItem
     v-if="contact"
     :class="{
       'animate-pulse': pending.deletions.includes(guest.rowId),
     }"
   >
-    <AppTableCell class="w-0">
-      <Checkbox
-        v-model="isSelected"
-        :aria-label="t('guestSelect', { name: contactName })"
-      />
-    </AppTableCell>
-    <AppTableCell class="max-w-0">
-      <ContactPreview :contact :feedback="guest.feedback" />
-    </AppTableCell>
-    <AppTableCell class="max-w-0">
-      <div class="flex items-center justify-evenly gap-4 text-fg-1">
-        <AppButton
-          :aria-label="sendLabel"
-          class="hidden md:block"
+    <Checkbox
+      v-model="isSelected"
+      :aria-label="t('guestSelect', { name: contactName })"
+      class="ml-2"
+    />
+    <ContactPreview :contact :feedback="guest.feedback" />
+    <div class="flex shrink-0 items-center gap-4 text-fg-1">
+      <AppButton
+        :aria-label="sendLabel"
+        class="hidden md:block"
+        :disabled="!isSendable || pending.sends.includes(guest.rowId)"
+        size="none"
+        variant="ghost"
+        @click="send(guest)"
+      >
+        <AppIconPaperAirplane />
+      </AppButton>
+      <AppButton
+        :aria-label="t('guestLink')"
+        class="hidden md:block"
+        size="none"
+        variant="ghost"
+        @click="copyLink(guest)"
+      >
+        <AppIconLink />
+      </AppButton>
+      <AppDropdown>
+        <AppDropdownItem
+          class="md:hidden"
           :disabled="!isSendable || pending.sends.includes(guest.rowId)"
-          size="none"
-          variant="ghost"
-          @click="send(guest)"
+          @select="send(guest)"
         >
           <AppIconPaperAirplane />
-        </AppButton>
-        <AppButton
-          :aria-label="t('guestLink')"
-          class="hidden md:block"
-          size="none"
-          variant="ghost"
-          @click="copyLink(guest)"
-        >
+          <span>
+            {{ sendLabel }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem class="md:hidden" @select="copyLink(guest)">
           <AppIconLink />
-        </AppButton>
-        <AppDropdown>
-          <AppDropdownItem
-            class="md:hidden"
-            :disabled="!isSendable || pending.sends.includes(guest.rowId)"
-            @select="send(guest)"
-          >
-            <AppIconPaperAirplane />
-            <span>
-              {{ sendLabel }}
-            </span>
-          </AppDropdownItem>
-          <AppDropdownItem class="md:hidden" @select="copyLink(guest)">
-            <AppIconLink />
-            <span>
-              {{ t('guestLink') }}
-            </span>
-          </AppDropdownItem>
-          <AppDropdownItem
-            v-if="event.accountByCreatedBy?.username"
-            @select="
-              navigateTo(
-                localePath({
-                  name: 'guest-view-id',
-                  params: {
-                    id: guest.rowId,
-                  },
-                }),
-              )
-            "
-          >
-            <AppIconEye />
-            <span>
-              {{ t('guestView') }}
-            </span>
-          </AppDropdownItem>
-          <AppDropdownItem
-            v-if="
-              guest.feedback === null ||
-              guest.feedback === InvitationFeedback.Canceled
-            "
-            :disabled="pending.feedbacks.includes(guest.rowId)"
-            @select="setFeedback(guest.rowId, InvitationFeedback.Accepted)"
-          >
-            <AppIconCheckCircleSolid />
-            <span>
-              {{ t('guestFeedbackAccept') }}
-            </span>
-          </AppDropdownItem>
-          <AppDropdownItem
-            v-if="
-              guest.feedback === null ||
-              guest.feedback === InvitationFeedback.Accepted
-            "
-            :disabled="pending.feedbacks.includes(guest.rowId)"
-            @select="setFeedback(guest.rowId, InvitationFeedback.Canceled)"
-          >
-            <AppIconXCircleSolid />
-            <span>
-              {{ t('guestFeedbackCancel') }}
-            </span>
-          </AppDropdownItem>
-          <AppDropdownItem
-            :disabled="pending.deletions.includes(guest.rowId)"
-            variant="destructive"
-            @select="onDeleteSelect(guest.rowId)"
-          >
-            <AppIconTrash />
-            <span>
-              {{ t('guestDelete') }}
-            </span>
-          </AppDropdownItem>
-          <template #trigger>
-            <AppIconEllipsisVertical />
-          </template>
-        </AppDropdown>
-      </div>
-    </AppTableCell>
-  </tr>
+          <span>
+            {{ t('guestLink') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
+          v-if="event.accountByCreatedBy?.username"
+          @select="
+            navigateTo(
+              localePath({
+                name: 'guest-view-id',
+                params: {
+                  id: guest.rowId,
+                },
+              }),
+            )
+          "
+        >
+          <AppIconEye />
+          <span>
+            {{ t('guestView') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
+          v-if="
+            guest.feedback === null ||
+            guest.feedback === InvitationFeedback.Canceled
+          "
+          :disabled="pending.feedbacks.includes(guest.rowId)"
+          @select="setFeedback(guest.rowId, InvitationFeedback.Accepted)"
+        >
+          <AppIconCheckCircleSolid />
+          <span>
+            {{ t('guestFeedbackAccept') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
+          v-if="
+            guest.feedback === null ||
+            guest.feedback === InvitationFeedback.Accepted
+          "
+          :disabled="pending.feedbacks.includes(guest.rowId)"
+          @select="setFeedback(guest.rowId, InvitationFeedback.Canceled)"
+        >
+          <AppIconXCircleSolid />
+          <span>
+            {{ t('guestFeedbackCancel') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
+          :disabled="pending.deletions.includes(guest.rowId)"
+          variant="destructive"
+          @select="onDeleteSelect(guest.rowId)"
+        >
+          <AppIconTrash />
+          <span>
+            {{ t('guestDelete') }}
+          </span>
+        </AppDropdownItem>
+        <template #trigger>
+          <AppIconEllipsisVertical />
+          <span class="sr-only">{{ t('actions', { name: contactName }) }}</span>
+        </template>
+      </AppDropdown>
+    </div>
+  </AppListItem>
   <GuestDeleteDrawer
     v-if="contact"
     v-model:open="isDeleteDrawerOpen"
@@ -308,6 +304,7 @@ const contactName = computed(() =>
 
 <i18n lang="yaml">
 de:
+  actions: Aktionen für {name}
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
   disabledReasonContactWayNone: Diesem Kontakt fehlen E-Mail-Adresse und Telefonnummer.
   guestDelete: Gast löschen
@@ -323,6 +320,7 @@ de:
   shareText: 'Du bist eingeladen! Hier ist Deine Einladung:'
   # postgresP0002: Die Einladung konnte nicht versandt werden! Möglicherweise hast du aktuell keinen Zugriff auf die notwendigen Daten. Versuche die Seite neu zu laden.
 en:
+  actions: Actions for {name}
   copySuccess: The guest link has been copied to the clipboard.
   disabledReasonContactWayNone: This contact has neither an email address nor a phone number.
   guestDelete: Delete guest

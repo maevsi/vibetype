@@ -1,7 +1,10 @@
 <template>
-  <tbody :class="cn('divide-y divide-line', classProps)" data-slot="table-body">
+  <li
+    :class="cn('flex min-h-16 items-center gap-4 py-1', classProps)"
+    data-slot="list-item"
+  >
     <slot />
-  </tbody>
+  </li>
 </template>
 
 <script setup lang="ts">
