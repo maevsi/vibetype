@@ -1,3 +1,9 @@
+## [17.61.2](https://github.com/maevsi/vibetype/compare/17.61.1...17.61.2) (2026-11-25)
+
+### Bug Fixes
+
+* **button:** show loading state while a click handler's promise runs ([#2895](https://github.com/maevsi/vibetype/issues/2895)) ([50135bf](https://github.com/maevsi/vibetype/commit/50135bfd5f810e04d1c2ae62af98a9395e28ad4f))
+
 ## [17.61.1](https://github.com/maevsi/vibetype/compare/17.61.0...17.61.1) (2026-11-25)
 
 ### Bug Fixes
