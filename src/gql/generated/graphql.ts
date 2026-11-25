@@ -211,6 +211,18 @@ export type ContactInput = {
   readonly url?: string | null | undefined
 }
 
+/** All input for the `contactMerge` mutation. */
+export type ContactMergeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  readonly contact: ContactInput
+  readonly contactId: string
+  readonly contactIdMerged: string
+}
+
 /** Represents an update to a `Contact`. Fields that are set will be updated. */
 export type ContactPatch = {
   /** Optional reference to an associated account. */
@@ -1275,6 +1287,9 @@ export type AllContactsContactListQuery = {
     readonly totalCount: number
     readonly nodes: ReadonlyArray<
       {
+        readonly addressId: string | null
+        readonly language: Language | null
+        readonly timeZone: string | null
         readonly contactGroupMembersByContactId: {
           readonly nodes: ReadonlyArray<{ readonly contactGroupId: string }>
         }
@@ -1285,6 +1300,16 @@ export type AllContactsContactListQuery = {
       readonly hasNextPage: boolean
       readonly endCursor: string | null
     }
+  } | null
+}
+
+export type ContactMergeMutationVariables = Exact<{
+  input: ContactMergeInput
+}>
+
+export type ContactMergeMutation = {
+  readonly contactMerge: {
+    readonly result: { readonly id: string; readonly rowId: string } | null
   } | null
 }
 
@@ -2637,12 +2662,33 @@ export type AllContactsEmailAddressesQuery = {
   readonly allContacts: {
     readonly nodes: ReadonlyArray<{
       readonly emailAddresses: ReadonlyArray<string> | null
+      readonly firstName: string | null
       readonly id: string
+      readonly lastName: string | null
+      readonly phoneNumber: string | null
+      readonly rowId: string
     }>
     readonly pageInfo: {
       readonly hasNextPage: boolean
       readonly endCursor: string | null
     }
+  } | null
+}
+
+export type UpdateContactByRowIdImportMutationVariables = Exact<{
+  input: UpdateContactByRowIdInput
+}>
+
+export type UpdateContactByRowIdImportMutation = {
+  readonly updateContactByRowId: {
+    readonly contact: {
+      readonly emailAddresses: ReadonlyArray<string> | null
+      readonly firstName: string | null
+      readonly id: string
+      readonly lastName: string | null
+      readonly phoneNumber: string | null
+      readonly rowId: string
+    } | null
   } | null
 }
 
@@ -5066,6 +5112,18 @@ export const AllContactsContactListDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'addressId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'language' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'timeZone' },
+                      },
+                      {
+                        kind: 'Field',
                         name: {
                           kind: 'Name',
                           value: 'contactGroupMembersByContactId',
@@ -5185,6 +5243,70 @@ export const AllContactsContactListDocument = {
 } as unknown as DocumentNode<
   AllContactsContactListQuery,
   AllContactsContactListQueryVariables
+>
+export const ContactMergeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'ContactMerge' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ContactMergeInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'contactMerge' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ContactMergeMutation,
+  ContactMergeMutationVariables
 >
 export const AllLegalTermsDocument = {
   kind: 'Document',
@@ -12750,7 +12872,20 @@ export const AllContactsEmailAddressesDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'emailAddresses' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'phoneNumber' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
                   },
                 },
@@ -12781,6 +12916,86 @@ export const AllContactsEmailAddressesDocument = {
 } as unknown as DocumentNode<
   AllContactsEmailAddressesQuery,
   AllContactsEmailAddressesQueryVariables
+>
+export const UpdateContactByRowIdImportDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateContactByRowIdImport' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateContactByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateContactByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contact' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'emailAddresses' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'phoneNumber' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateContactByRowIdImportMutation,
+  UpdateContactByRowIdImportMutationVariables
 >
 export const CreateContactGroupMembersImportDocument = {
   kind: 'Document',

@@ -254,6 +254,7 @@ const getContactWithGroups = ({
   accountByAccountId: null,
   accountByCreatedBy: ACCOUNT,
   accountId: null,
+  addressId: null,
   contactGroupMembersByContactId: {
     nodes: groupIds.map((contactGroupId) => ({
       contactGroupId,
@@ -267,11 +268,13 @@ const getContactWithGroups = ({
   firstName,
   guestsByContactId: { totalCount: 0, __typename: 'GuestConnection' },
   id: getNodeId('Contact', rowId),
+  language: null,
   lastName,
   nickname: null,
   note: null,
   phoneNumber: null,
   rowId,
+  timeZone: null,
   url: null,
   __typename: 'Contact',
 })

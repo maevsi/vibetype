@@ -8,7 +8,24 @@ export type ContactImportPhoneNumberParser = (
   phoneNumber: string,
 ) => string | undefined
 
+export interface ContactImportExisting {
+  emailAddresses?: readonly string[] | null
+  firstName?: string | null
+  lastName?: string | null
+  phoneNumber?: string | null
+  rowId: string
+}
+
+export interface ContactImportPatch {
+  emailAddresses?: string[]
+  firstName?: string
+  lastName?: string
+  phoneNumber?: string
+}
+
 export interface ContactImportRow {
+  contactPatch?: ContactImportPatch
+  contactRowId?: string
   emailAddresses: string[]
   firstName?: string
   groupNames: string[]
@@ -19,7 +36,7 @@ export interface ContactImportRow {
 }
 
 export type ContactImportRowStatus =
-  'duplicate' | 'importable' | 'missingEmailAddress'
+  'duplicate' | 'importable' | 'mergeable' | 'missingEmailAddress'
 
 export interface ContactPicked {
   emailAddresses: string[]
@@ -84,44 +101,108 @@ export const getContactImportPhoneNumberParser = async (
   }
 }
 
-export const getContactImportRows = ({
-  contacts,
-  existingEmailAddresses,
-  parsePhoneNumber,
+/** Only what the existing contact lacks, so that an import never overwrites what is already there. */
+const getContactPatch = ({
+  emailAddresses,
+  existing,
+  firstName,
+  lastName,
+  phoneNumber,
 }: {
-  contacts: ContactPicked[]
-  existingEmailAddresses: string[]
-  parsePhoneNumber: ContactImportPhoneNumberParser
-}): ContactImportRow[] => {
-  const knownEmailAddresses = new Set(
+  emailAddresses: string[]
+  existing: ContactImportExisting
+  firstName?: string
+  lastName?: string
+  phoneNumber?: string
+}): ContactImportPatch => {
+  const existingEmailAddresses = existing.emailAddresses ?? []
+  const existingKeys = new Set(
     existingEmailAddresses.map((emailAddress) =>
       emailAddress.trim().toLowerCase(),
     ),
   )
+  const emailAddressesMerged = getEmailAddressesNormalized([
+    ...existingEmailAddresses,
+    ...emailAddresses,
+  ])
+  const hasNewEmailAddress = emailAddressesMerged.some(
+    (emailAddress) => !existingKeys.has(emailAddress.toLowerCase()),
+  )
+
+  return {
+    ...(hasNewEmailAddress ? { emailAddresses: emailAddressesMerged } : {}),
+    ...(firstName && !existing.firstName?.trim() ? { firstName } : {}),
+    ...(lastName && !existing.lastName?.trim() ? { lastName } : {}),
+    ...(phoneNumber && !existing.phoneNumber?.trim() ? { phoneNumber } : {}),
+  }
+}
+
+export const getContactImportRows = ({
+  contacts,
+  existingContacts,
+  parsePhoneNumber,
+}: {
+  contacts: ContactPicked[]
+  existingContacts: ContactImportExisting[]
+  parsePhoneNumber: ContactImportPhoneNumberParser
+}): ContactImportRow[] => {
+  const existingByEmailAddress = new Map<string, ContactImportExisting>()
+
+  for (const existing of existingContacts)
+    for (const emailAddress of existing.emailAddresses ?? []) {
+      const key = emailAddress.trim().toLowerCase()
+
+      if (!existingByEmailAddress.has(key))
+        existingByEmailAddress.set(key, existing)
+    }
+
+  const knownEmailAddresses = new Set<string>()
 
   return contacts.map((contact) => {
     const emailAddresses = getEmailAddressesNormalized(contact.emailAddresses)
     const emailAddressKeys = emailAddresses.map((emailAddress) =>
       emailAddress.toLowerCase(),
     )
+    const firstName = getNameNormalized(contact.firstName)
+    const lastName = getNameNormalized(contact.lastName)
     const phoneNumberPicked = getFirstTrimmed(contact.phoneNumbers)
     const phoneNumber = phoneNumberPicked
       ? parsePhoneNumber(phoneNumberPicked)
       : undefined
+    const existingKey = emailAddressKeys.find((key) =>
+      existingByEmailAddress.has(key),
+    )
+    const existing = existingKey
+      ? existingByEmailAddress.get(existingKey)
+      : undefined
+    const contactPatch = existing
+      ? getContactPatch({
+          emailAddresses,
+          existing,
+          firstName,
+          lastName,
+          phoneNumber,
+        })
+      : undefined
     const status: ContactImportRowStatus = !emailAddressKeys.length
       ? 'missingEmailAddress'
-      : emailAddressKeys.some((key) => knownEmailAddresses.has(key))
-        ? 'duplicate'
-        : 'importable'
+      : contactPatch
+        ? Object.keys(contactPatch).length
+          ? 'mergeable'
+          : 'duplicate'
+        : emailAddressKeys.some((key) => knownEmailAddresses.has(key))
+          ? 'duplicate'
+          : 'importable'
 
     for (const key of emailAddressKeys) knownEmailAddresses.add(key)
 
     return {
+      ...(existing ? { contactPatch, contactRowId: existing.rowId } : {}),
       emailAddresses,
-      firstName: getNameNormalized(contact.firstName),
+      firstName,
       groupNames: getContactGroupNamesNormalized(contact.groupNames),
       isPhoneNumberDropped: Boolean(phoneNumberPicked) && !phoneNumber,
-      lastName: getNameNormalized(contact.lastName),
+      lastName,
       phoneNumber,
       status,
     }

@@ -4801,6 +4801,65 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'ContactMergePayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'contactEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'ContactEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'result',
+            type: {
+              kind: 'OBJECT',
+              name: 'Contact',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'CreateAccountBlockPayload',
         fields: [
           {
@@ -12061,6 +12120,26 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'AchievementUnlockPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'contactMerge',
+            type: {
+              kind: 'OBJECT',
+              name: 'ContactMergePayload',
               ofType: null,
             },
             args: [

@@ -1563,6 +1563,38 @@ export type ContactInput = {
   readonly url?: InputMaybe<Scalars['String']['input']>
 }
 
+/** All input for the `contactMerge` mutation. */
+export type ContactMergeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly contact: ContactInput
+  readonly contactId: Scalars['UUID']['input']
+  readonly contactIdMerged: Scalars['UUID']['input']
+}
+
+/** The output of our `contactMerge` mutation. */
+export type ContactMergePayload = {
+  readonly __typename?: 'ContactMergePayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** An edge for our `Contact`. May be used by Relay 1. */
+  readonly contactEdge?: Maybe<ContactEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<Contact>
+}
+
+/** The output of our `contactMerge` mutation. */
+export type ContactMergePayloadContactEdgeArgs = {
+  orderBy?: ReadonlyArray<ContactOrderBy>
+}
+
 /** Methods to use when ordering `Contact`. */
 export enum ContactOrderBy {
   AccountIdAsc = 'ACCOUNT_ID_ASC',
@@ -5282,6 +5314,17 @@ export type Mutation = {
   readonly accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
   /** Inserts an achievement unlock for the user that gave an existing achievement code.\n\nError codes:\n- **P0002** when the achievement or the account is unknown. */
   readonly achievementUnlock?: Maybe<AchievementUnlockPayload>
+  /**
+   * Merges a contact into another one of yours and returns the kept contact. The kept contact takes over the given contact's account, address, email addresses, names, language, note, phone number, time zone and URL, so the caller picks each value. The merged contact's guests, attendances and group memberships move to the kept contact, so existing invitations stay valid, and the merged contact is deleted.
+   *
+   * Error codes:
+   * - **VTCMN** when either contact is not one of yours or both are the same.
+   * - **VTCMS** when either contact is your own account's contact.
+   * - **VTCMA** when the contacts refer to two different accounts.
+   * - **VTCMV** when the account or address is not taken from either contact.
+   * - **VTCMG** when both contacts are guests of the same event.
+   */
+  readonly contactMerge?: Maybe<ContactMergePayload>
   /** Creates a single `AccountBlock`. */
   readonly createAccountBlock?: Maybe<CreateAccountBlockPayload>
   /** Creates a single `AccountSocialNetwork`. */
@@ -5585,6 +5628,11 @@ export type MutationAccountRegistrationRefreshArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationAchievementUnlockArgs = {
   input: AchievementUnlockInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationContactMergeArgs = {
+  input: ContactMergeInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -8858,6 +8906,9 @@ export type GraphCacheKeysConfig = {
   ContactGroupMemberEdge?: (
     data: WithTypename<ContactGroupMemberEdge>,
   ) => null | string
+  ContactMergePayload?: (
+    data: WithTypename<ContactMergePayload>,
+  ) => null | string
   CreateAccountBlockPayload?: (
     data: WithTypename<CreateAccountBlockPayload>,
   ) => null | string
@@ -11066,6 +11117,28 @@ export type GraphCacheResolvers = {
       WithTypename<ContactGroupMemberEdge>,
       Record<string, never>,
       WithTypename<ContactGroupMember> | string
+    >
+  }
+  ContactMergePayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<ContactMergePayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    contactEdge?: GraphCacheResolver<
+      WithTypename<ContactMergePayload>,
+      ContactMergePayloadContactEdgeArgs,
+      WithTypename<ContactEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<ContactMergePayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+    result?: GraphCacheResolver<
+      WithTypename<ContactMergePayload>,
+      Record<string, never>,
+      WithTypename<Contact> | string
     >
   }
   CreateAccountBlockPayload?: {
@@ -14508,6 +14581,10 @@ export type GraphCacheOptimisticUpdaters = {
     MutationAchievementUnlockArgs,
     Maybe<WithTypename<AchievementUnlockPayload>>
   >
+  contactMerge?: GraphCacheOptimisticMutationResolver<
+    MutationContactMergeArgs,
+    Maybe<WithTypename<ContactMergePayload>>
+  >
   createAccountBlock?: GraphCacheOptimisticMutationResolver<
     MutationCreateAccountBlockArgs,
     Maybe<WithTypename<CreateAccountBlockPayload>>
@@ -15761,6 +15838,10 @@ export type GraphCacheUpdaters = {
     achievementUnlock?: GraphCacheUpdateResolver<
       { achievementUnlock: Maybe<WithTypename<AchievementUnlockPayload>> },
       MutationAchievementUnlockArgs
+    >
+    contactMerge?: GraphCacheUpdateResolver<
+      { contactMerge: Maybe<WithTypename<ContactMergePayload>> },
+      MutationContactMergeArgs
     >
     createAccountBlock?: GraphCacheUpdateResolver<
       { createAccountBlock: Maybe<WithTypename<CreateAccountBlockPayload>> },
@@ -17457,6 +17538,24 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<ContactGroupMemberEdge>>,
+      Record<string, never>
+    >
+  }
+  ContactMergePayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactMergePayload>>,
+      Record<string, never>
+    >
+    contactEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactMergePayload>>,
+      ContactMergePayloadContactEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactMergePayload>>,
+      Record<string, never>
+    >
+    result?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactMergePayload>>,
       Record<string, never>
     >
   }
