@@ -1,3 +1,9 @@
+## [17.59.0](https://github.com/maevsi/vibetype/compare/17.58.0...17.59.0) (2026-11-25)
+
+### Features
+
+* **contact:** list contacts and guests as rows ([#2881](https://github.com/maevsi/vibetype/issues/2881)) ([32a7b75](https://github.com/maevsi/vibetype/commit/32a7b753722c3fac28bdd0af0de48d07400c927b))
+
 ## [17.58.0](https://github.com/maevsi/vibetype/compare/17.57.0...17.58.0) (2026-11-24)
 
 ### Features
