@@ -15,28 +15,8 @@
     <div v-else class="flex flex-1 flex-col">
       <!-- the event's name below is the page's heading -->
       <LayoutTopBar />
-      <AppAlert
-        v-if="isOrganizerPreview"
-        class="flex flex-col gap-2 rounded-none"
-      >
+      <AppAlert v-if="isOrganizerPreview" class="rounded-none">
         {{ t('invitationViewFor', { name: contactName }) }}
-        <AppButton
-          :aria-label="t('invitationSelectionClear')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-guest',
-              params: {
-                event_name: event.slug,
-                username: account.username,
-              },
-            })
-          "
-        >
-          {{ t('invitationSelectionClear') }}
-          <template #prefix>
-            <AppIconArrowLeft />
-          </template>
-        </AppButton>
       </AppAlert>
       <LayoutPage>
         <div class="flex flex-col gap-4">
@@ -315,7 +295,6 @@ import { graphql } from '~~/gql/generated'
 const { isIos } = usePlatform()
 const { locale, t } = useI18n()
 const route = useRoute()
-const localePath = useLocalePath()
 const updateGuestByRowIdMutation = useMutation(
   graphql(`
     mutation UpdateGuestByRowId($input: UpdateGuestByRowIdInput!) {
@@ -680,7 +659,6 @@ de:
   invitationCanceled: Einladung abgelehnt
   invitationCanceledAdmin: Einladung im Namen von {name} abgelehnt
   invitationPendingAdmin: '{name} hat noch nicht geantwortet.'
-  invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: 'Du siehst die Einladung für {name}. Damit es einfach bleibt, ist keine Anmeldung nötig: Alle mit dem Link oder der ID können sie öffnen und beantworten.'
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   qrCode: Check-in-Code
@@ -710,7 +688,6 @@ en:
   invitationCanceled: Invitation declined
   invitationCanceledAdmin: Invitation declined on behalf of {name}
   invitationPendingAdmin: '{name} has not responded yet.'
-  invitationSelectionClear: Back to the invitation overview
   invitationViewFor: "You're viewing the invitation for {name}. To keep it simple, no sign-in is needed: anyone with the link or ID can open and answer it."
   ogImageAlt: The event's preview image.
   qrCode: Check in code
