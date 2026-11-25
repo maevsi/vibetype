@@ -14,6 +14,7 @@
             {{ rows.length ? t('pickAgain') : t('pick') }}
           </AppButton>
           <AppInputFile
+            v-else
             accept=".vcf,text/vcard,text/x-vcard"
             :loading="isReadingFile"
             @select="onFileChange"
