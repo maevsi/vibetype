@@ -1,3 +1,23 @@
+## [18.0.0-beta.23](https://github.com/maevsi/vibetype/compare/18.0.0-beta.22...18.0.0-beta.23) (2026-11-25)
+
+### ⚠ BREAKING CHANGES
+
+* **contact:** store several email addresses (#2880)
+
+### Features
+
+* **contact:** require a username, email address, or phone number ([#2877](https://github.com/maevsi/vibetype/issues/2877)) ([cc40521](https://github.com/maevsi/vibetype/commit/cc40521b7ffd8a12070166a9b099486437badb11))
+* **contact:** show events a contact is invited to ([#2878](https://github.com/maevsi/vibetype/issues/2878)) ([604ee62](https://github.com/maevsi/vibetype/commit/604ee6237367b595ca1ddf4d23effcff9a608386))
+* **contact:** store several email addresses ([#2880](https://github.com/maevsi/vibetype/issues/2880)) ([0f3df2a](https://github.com/maevsi/vibetype/commit/0f3df2a798629209cdf42f964095c654e72bd688))
+* **event:** copy the address ([#2875](https://github.com/maevsi/vibetype/issues/2875)) ([1874d3e](https://github.com/maevsi/vibetype/commit/1874d3eb172c5aa956c8847f04ca80e8e7683339))
+* **guest:** share invitations to phone-only contacts ([#2876](https://github.com/maevsi/vibetype/issues/2876)) ([8fffef6](https://github.com/maevsi/vibetype/commit/8fffef675ecbb94075c48ce9f6f881353105d66d))
+* **ui:** refine dashboard order, event actions and text fields ([#2872](https://github.com/maevsi/vibetype/issues/2872)) ([8391585](https://github.com/maevsi/vibetype/commit/839158506cf3eaf7350f80141799158ba75d3e54))
+
+### Bug Fixes
+
+* **cache:** drop stale pages when a list's first page arrives ([#2870](https://github.com/maevsi/vibetype/issues/2870)) ([85c1060](https://github.com/maevsi/vibetype/commit/85c10605d5abebc490a9d5d25584054c12f06be0))
+* **event:** leave the page of a deleted event ([#2874](https://github.com/maevsi/vibetype/issues/2874)) ([7547fad](https://github.com/maevsi/vibetype/commit/7547fad173babe61b40716323e7cf600e485aa3a))
+
 ## [18.0.0-beta.22](https://github.com/maevsi/vibetype/compare/18.0.0-beta.21...18.0.0-beta.22) (2026-11-24)
 
 ### Features
