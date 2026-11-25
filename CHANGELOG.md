@@ -1,3 +1,13 @@
+## [18.0.0-beta.27](https://github.com/maevsi/vibetype/compare/18.0.0-beta.26...18.0.0-beta.27) (2026-11-25)
+
+### ⚠ BREAKING CHANGES
+
+* **guest:** request additional guests (#2889)
+
+### Features
+
+* **guest:** request additional guests ([#2889](https://github.com/maevsi/vibetype/issues/2889)) ([b6c7936](https://github.com/maevsi/vibetype/commit/b6c793626e6d5e04254dc864eccbd795da38cf6e))
+
 ## [18.0.0-beta.26](https://github.com/maevsi/vibetype/compare/18.0.0-beta.25...18.0.0-beta.26) (2026-11-25)
 
 ### Features
