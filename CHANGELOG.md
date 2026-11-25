@@ -1,3 +1,16 @@
+## [17.61.0](https://github.com/maevsi/vibetype/compare/17.60.0...17.61.0) (2026-11-25)
+
+### Features
+
+* **guest:** add guests from an icon button beside the search ([#2891](https://github.com/maevsi/vibetype/issues/2891)) ([fad77c2](https://github.com/maevsi/vibetype/commit/fad77c20d82c35763d3d2a7dc10b25b3b4d8f20c))
+* **guest:** remove the link back to the invitation overview ([#2886](https://github.com/maevsi/vibetype/issues/2886)) ([bee9707](https://github.com/maevsi/vibetype/commit/bee970773e2a309e13da2ce2afb1890a6c9cf2e8))
+* **map:** show event in marker popup ([#2887](https://github.com/maevsi/vibetype/issues/2887)) ([61f33f0](https://github.com/maevsi/vibetype/commit/61f33f09b9db55638b624bb82a026cea55b2d045))
+
+### Bug Fixes
+
+* **guest:** ask anonymous guests to sign in before saving the event ([#2890](https://github.com/maevsi/vibetype/issues/2890)) ([f13ae0e](https://github.com/maevsi/vibetype/commit/f13ae0e36145295ca31f849868785a7596c770eb))
+* **guest:** load all pages before filtering ([#2888](https://github.com/maevsi/vibetype/issues/2888)) ([9c0cd43](https://github.com/maevsi/vibetype/commit/9c0cd43ac4123839f131a380b1f7600eed655b95))
+
 ## [17.60.0](https://github.com/maevsi/vibetype/compare/17.59.0...17.60.0) (2026-11-25)
 
 ### Features
