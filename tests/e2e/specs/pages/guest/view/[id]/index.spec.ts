@@ -2,6 +2,7 @@ import { expect } from '@playwright/test'
 
 import { TESTING_GUEST_ROW_ID } from '#src/shared/utils/testing'
 import { appTest } from '#tests/e2e/fixtures/appTest'
+import { PAGE_READY } from '#tests/e2e/utils/constants'
 import { testOgImage } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = `/guest/view/${TESTING_GUEST_ROW_ID}`
@@ -24,6 +25,7 @@ appTest.describe('invitation response', () => {
       const { page } = defaultPage
 
       await defaultPage.goto(PAGE_PATH)
+      await PAGE_READY({ page })
 
       const [request] = await Promise.all([
         page.waitForRequest(
@@ -44,3 +46,16 @@ appTest.describe('invitation response', () => {
     })
   }
 })
+
+appTest(
+  'saving the event asks anonymous guests to sign in',
+  async ({ defaultPage }) => {
+    const { page } = defaultPage
+
+    await defaultPage.goto(PAGE_PATH)
+    await PAGE_READY({ page })
+    await page.getByRole('button', { name: 'Save event' }).click()
+
+    await expect(page).toHaveURL(`/session/create?to=${PAGE_PATH}`)
+  },
+)

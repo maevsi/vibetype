@@ -97,6 +97,10 @@
                     <EventFavoriteButton
                       class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       :event
+                      :is-sign-in-required="
+                        !store.signedInAccountId ||
+                        contactAccount?.rowId !== store.signedInAccountId
+                      "
                     />
                     <template
                       v-if="

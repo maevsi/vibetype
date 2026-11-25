@@ -74,7 +74,7 @@
       {{ t('newToVibetype') }}
       <NuxtLinkLocale
         class="font-semibold text-link underline"
-        to="account-create"
+        :to="{ name: 'account-create', query: { to: route.query.to } }"
       >
         {{ t('register') }}
       </NuxtLinkLocale>
@@ -91,6 +91,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const route = useRoute()
 
 // data
 const modelError = defineModel<Error>('error')
