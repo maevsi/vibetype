@@ -26,7 +26,7 @@ describe('getContactImportRows', () => {
             phoneNumbers: ['+49 30 123456', '+1 555 0100'],
           },
         ],
-        existingEmailAddresses: [],
+        existingContacts: [],
         parsePhoneNumber,
       }),
     ).toEqual([
@@ -49,7 +49,7 @@ describe('getContactImportRows', () => {
           { emailAddresses: [], groupNames: [], phoneNumbers: ['+4930123456'] },
           { emailAddresses: ['  '], groupNames: [], phoneNumbers: [] },
         ],
-        existingEmailAddresses: [],
+        existingContacts: [],
         parsePhoneNumber,
       }).map(({ status }) => status),
     ).toEqual(['missingEmailAddress', 'missingEmailAddress'])
@@ -75,13 +75,15 @@ describe('getContactImportRows', () => {
             phoneNumbers: [],
           },
         ],
-        existingEmailAddresses: ['grace@example.com '],
+        existingContacts: [
+          { emailAddresses: ['grace@example.com '], rowId: 'grace' },
+        ],
         parsePhoneNumber,
       }).map(({ status }) => status),
     ).toEqual(['duplicate', 'importable', 'duplicate'])
   })
 
-  test('marks a contact as a duplicate when any of its email addresses exists', () => {
+  test('marks a contact as mergeable when any of its email addresses exists', () => {
     expect(
       getContactImportRows({
         contacts: [
@@ -91,10 +93,129 @@ describe('getContactImportRows', () => {
             phoneNumbers: [],
           },
         ],
-        existingEmailAddresses: ['grace@example.com'],
+        existingContacts: [
+          { emailAddresses: ['grace@example.com'], rowId: 'grace' },
+        ],
         parsePhoneNumber,
       }).map(({ status }) => status),
-    ).toEqual(['duplicate'])
+    ).toEqual(['mergeable'])
+  })
+
+  test('marks a row that adds to an existing contact as mergeable', () => {
+    expect(
+      getContactImportRows({
+        contacts: [
+          {
+            emailAddresses: ['GRACE@example.com', 'hopper@example.com'],
+            firstName: 'Grace',
+            groupNames: ['Work'],
+            lastName: 'Hopper',
+            phoneNumbers: ['+49 30 123456'],
+          },
+        ],
+        existingContacts: [
+          {
+            emailAddresses: ['grace@example.com'],
+            firstName: 'Gracie',
+            lastName: null,
+            phoneNumber: '',
+            rowId: 'grace',
+          },
+        ],
+        parsePhoneNumber,
+      }),
+    ).toMatchObject([
+      {
+        contactPatch: {
+          emailAddresses: ['grace@example.com', 'hopper@example.com'],
+          lastName: 'Hopper',
+          phoneNumber: '+4930123456',
+        },
+        contactRowId: 'grace',
+        status: 'mergeable',
+      },
+    ])
+  })
+
+  test('keeps a row as duplicate when the existing contact lacks nothing', () => {
+    const [row] = getContactImportRows({
+      contacts: [
+        {
+          emailAddresses: ['grace@example.com'],
+          firstName: 'Grace',
+          groupNames: [],
+          phoneNumbers: [],
+        },
+      ],
+      existingContacts: [
+        {
+          emailAddresses: ['grace@example.com'],
+          firstName: 'Gracie',
+          rowId: 'grace',
+        },
+      ],
+      parsePhoneNumber,
+    })
+
+    expect(row?.status).toBe('duplicate')
+    expect(row?.contactPatch).toEqual({})
+  })
+
+  test('caps the merged email addresses at 10', () => {
+    const [row] = getContactImportRows({
+      contacts: [
+        {
+          emailAddresses: [
+            'grace@example.com',
+            'a@example.com',
+            'b@example.com',
+          ],
+          groupNames: [],
+          phoneNumbers: [],
+        },
+      ],
+      existingContacts: [
+        {
+          emailAddresses: Array.from(
+            { length: 9 },
+            (_, index) => `grace${index}@example.com`,
+          ).concat('grace@example.com'),
+          rowId: 'grace',
+        },
+      ],
+      parsePhoneNumber,
+    })
+
+    expect(row?.status).toBe('duplicate')
+  })
+
+  test('adds only as many email addresses as fit below 10', () => {
+    const [row] = getContactImportRows({
+      contacts: [
+        {
+          emailAddresses: [
+            'grace@example.com',
+            'a@example.com',
+            'b@example.com',
+          ],
+          groupNames: [],
+          phoneNumbers: [],
+        },
+      ],
+      existingContacts: [
+        {
+          emailAddresses: Array.from(
+            { length: 8 },
+            (_, index) => `grace${index}@example.com`,
+          ).concat('grace@example.com'),
+          rowId: 'grace',
+        },
+      ],
+      parsePhoneNumber,
+    })
+
+    expect(row?.status).toBe('mergeable')
+    expect(row?.contactPatch?.emailAddresses).toHaveLength(10)
   })
 
   test('keeps at most 10 email addresses', () => {
@@ -110,7 +231,7 @@ describe('getContactImportRows', () => {
             phoneNumbers: [],
           },
         ],
-        existingEmailAddresses: [],
+        existingContacts: [],
         parsePhoneNumber,
       })[0]?.emailAddresses,
     ).toHaveLength(10)
@@ -127,7 +248,7 @@ describe('getContactImportRows', () => {
           phoneNumbers: [],
         },
       ],
-      existingEmailAddresses: [],
+      existingContacts: [],
       parsePhoneNumber,
     })
 
@@ -145,7 +266,7 @@ describe('getContactImportRows', () => {
             phoneNumbers: ['12'],
           },
         ],
-        existingEmailAddresses: [],
+        existingContacts: [],
         parsePhoneNumber,
       }),
     ).toMatchObject([

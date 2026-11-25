@@ -82,6 +82,7 @@
             :guest-count="contact.guestCount"
             @delete="onDeleteSelect(contact)"
             @edit="edit(contact)"
+            @merge="onMergeSelect(contact)"
           />
         </AppTableBody>
       </AppTable>
@@ -128,6 +129,12 @@
         :contact="contactToDelete"
         :contact-row-id="contactToDelete.rowId"
       />
+      <ContactMergeDrawer
+        v-if="contactToMerge"
+        v-model:open="isMergeDrawerOpen"
+        :contact="contactToMerge"
+        :contacts
+      />
     </div>
   </Loader>
 </template>
@@ -164,6 +171,7 @@ const groupIdsExcluded = ref<string[]>([])
 const groupIdsIncluded = ref<string[]>([])
 const isDeleteDrawerOpen = ref(false)
 const isGroupsDrawerOpen = ref(false)
+const isMergeDrawerOpen = ref(false)
 const searchString = ref<string>('')
 
 // api data
@@ -183,6 +191,9 @@ const contactsQuery = useApiQuery({
       ) {
         nodes {
           ...ContactItem
+          addressId
+          language
+          timeZone
           contactGroupMembersByContactId {
             nodes {
               contactGroupId
@@ -215,13 +226,17 @@ const contacts = computed(() =>
         return (
           contact && {
             ...contact,
+            addressId: node.addressId,
             guestCount: node.guestsByContactId.totalCount,
+            language: node.language,
+            timeZone: node.timeZone,
           }
         )
       })
       .filter(isNeitherNullNorUndefined) || [],
   ),
 )
+const contactToMerge = ref<(typeof contacts.value)[number]>()
 const groupIdsByContactId = computed(() => {
   const groupIds = new Map<string, string[]>()
 
@@ -288,6 +303,10 @@ const onDeleteSelect = (
 ) => {
   contactToDelete.value = contact
   isDeleteDrawerOpen.value = true
+}
+const onMergeSelect = (contact: (typeof contacts.value)[number]) => {
+  contactToMerge.value = contact
+  isMergeDrawerOpen.value = true
 }
 const edit = (contact: Pick<ContactItemFragment, 'rowId'>) =>
   navigateTo(

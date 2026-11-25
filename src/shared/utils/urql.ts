@@ -388,6 +388,14 @@ export const getUrqlClient = async ({
           cache,
           _info,
         ) => invalidateAccountBlockDependents(cache),
+        contactMerge: (_result, args, cache, _info) => {
+          invalidateCache(cache, 'Contact', {
+            input: { rowId: args.input.contactIdMerged },
+          })
+          invalidateCache(cache, 'allContacts')
+          invalidateCache(cache, 'allGuests')
+          invalidateContactGroupMemberDependents(cache)
+        },
         deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
         deleteContactGroupByRowId: (_result, args, cache, _info) => {

@@ -42,6 +42,18 @@
           <AppIconPencil />
         </AppButton>
         <AppButton
+          :aria-label="t('contactMerge')"
+          :disabled="
+            contact.createdBy !== store.signedInAccountId ||
+            contact.accountId === store.signedInAccountId
+          "
+          size="none"
+          variant="ghost"
+          @click="emit('merge')"
+        >
+          <AppIconArrowsPointingIn />
+        </AppButton>
+        <AppButton
           :aria-label="t('contactDelete')"
           :disabled="
             isDeleting || contact.accountId === store.signedInAccountId
@@ -83,6 +95,7 @@ const { contact, guestCount, isDeleting } = defineProps<{
 const emit = defineEmits<{
   edit: []
   delete: []
+  merge: []
 }>()
 
 const store = useStore()
@@ -93,11 +106,13 @@ const { t } = useI18n()
 de:
   contactEdit: Kontakt bearbeiten
   contactDelete: Kontakt löschen
+  contactMerge: Kontakt zusammenführen
   disabledReasonCreatorNot: "Dieser Kontakt wird von {'@'}{creatorUsername} verwaltet."
   guestCount: keiner Veranstaltung | {count} Veranstaltung | {count} Veranstaltungen
 en:
   contactEdit: Edit contact
   contactDelete: Delete contact
+  contactMerge: Merge contact
   disabledReasonCreatorNot: This contact is managed by {'@'}{creatorUsername}.
   guestCount: no events | {count} event | {count} events
 </i18n>
