@@ -1,3 +1,9 @@
+## [17.60.0](https://github.com/maevsi/vibetype/compare/17.59.0...17.60.0) (2026-11-25)
+
+### Features
+
+* **account:** list blocked accounts as rows ([#2883](https://github.com/maevsi/vibetype/issues/2883)) ([742be07](https://github.com/maevsi/vibetype/commit/742be0745a9cc750f95ceff764a4994b993306e6))
+
 ## [17.59.0](https://github.com/maevsi/vibetype/compare/17.58.0...17.59.0) (2026-11-25)
 
 ### Features
