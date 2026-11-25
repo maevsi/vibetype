@@ -257,7 +257,9 @@ const contactsFiltered = computed(() => {
         : []),
       ...(contact.firstName ? [contact.firstName.toLowerCase()] : []),
       ...(contact.lastName ? [contact.lastName.toLowerCase()] : []),
-      ...(contact.emailAddress ? [contact.emailAddress.toLowerCase()] : []),
+      ...(contact.emailAddresses ?? []).map((emailAddress) =>
+        emailAddress.toLowerCase(),
+      ),
     ]
 
     return searchStringParts.some((searchStringPart) =>

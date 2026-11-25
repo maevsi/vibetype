@@ -20,7 +20,7 @@ export const ContactItem = graphql(`
       username
     }
     createdBy
-    emailAddress
+    emailAddresses
     emailAddressHash
     firstName
     id
@@ -39,13 +39,17 @@ export const getContactItem = (
 
 type ContactNamed = Pick<
   ContactItemFragment,
-  'accountByAccountId' | 'emailAddress' | 'firstName' | 'lastName' | 'nickname'
+  | 'accountByAccountId'
+  | 'emailAddresses'
+  | 'firstName'
+  | 'lastName'
+  | 'nickname'
 >
 
-// The email address never reaches the screen, it only keeps contacts that have nothing but an email address in a stable place instead of bunching them all at the front.
+// The primary email address never reaches the screen, it only keeps contacts that have nothing but an email address in a stable place instead of bunching them all at the front.
 export const getContactSortKey = (contact: ContactNamed) =>
   getContactName({ account: contact.accountByAccountId, contact }) ||
-  contact.emailAddress ||
+  contact.emailAddresses?.[0] ||
   ''
 
 // The server orders contacts by their primary key, the only ordering whose cursors survive contacts without a name, so the order people see is established here.
@@ -72,14 +76,16 @@ export const getContactCreationCandidate = ({
   username,
 }: {
   accountId?: string
-  contacts: Pick<ContactItemFragment, 'accountByAccountId' | 'emailAddress'>[]
+  contacts: Pick<ContactItemFragment, 'accountByAccountId' | 'emailAddresses'>[]
   emailAddress?: string
   username?: string
 }): ContactCreationCandidate | undefined => {
   if (emailAddress) {
-    return contacts.some(
-      (contact) =>
-        contact.emailAddress?.toLowerCase() === emailAddress.toLowerCase(),
+    return contacts.some((contact) =>
+      contact.emailAddresses?.some(
+        (contactEmailAddress) =>
+          contactEmailAddress.toLowerCase() === emailAddress.toLowerCase(),
+      ),
     )
       ? undefined
       : { emailAddress }

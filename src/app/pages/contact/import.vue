@@ -37,7 +37,7 @@
                 <template #description>
                   <span class="truncate">
                     {{
-                      [row.emailAddress, row.phoneNumber]
+                      [...row.emailAddresses, row.phoneNumber]
                         .filter(Boolean)
                         .join(' · ')
                     }}
@@ -114,7 +114,7 @@ const contactsQuery = useApiQuery({
         orderBy: [PRIMARY_KEY_ASC]
       ) {
         nodes {
-          emailAddress
+          emailAddresses
           id
         }
         pageInfo {
@@ -161,7 +161,7 @@ const createContactsMutation = useMutation(
     mutation CreateContactsImport($input: CreateContactsInput!) {
       createContacts(input: $input) {
         result {
-          emailAddress
+          emailAddresses
           id
           rowId
         }
@@ -175,7 +175,7 @@ const api = await useApiData([contactsQuery])
 const existingEmailAddresses = computed(
   () =>
     api.value.data.allContacts?.nodes
-      .map((node) => node?.emailAddress)
+      .flatMap((node) => node?.emailAddresses ?? [])
       .filter(isNeitherNullNorUndefined) ?? [],
 )
 
@@ -193,7 +193,7 @@ const getRowHint = (row: ContactImportRow, index: number) =>
           : undefined)
 const getRowLabel = (row: ContactImportRow) =>
   [row.firstName, row.lastName].filter(Boolean).join(' ') ||
-  row.emailAddress ||
+  row.emailAddresses[0] ||
   t('unnamed')
 // A chunk's contacts are created first, so a failure of the group calls afterwards must not mark them failed, as a retry would create them twice.
 const importChunk = async (indexes: number[], createdBy: string) => {
@@ -206,7 +206,7 @@ const importChunk = async (indexes: number[], createdBy: string) => {
     input: {
       contacts: chunkRows.map(({ row }) => ({
         createdBy,
-        emailAddress: row.emailAddress,
+        emailAddresses: row.emailAddresses,
         firstName: row.firstName,
         lastName: row.lastName,
         phoneNumber: row.phoneNumber,
@@ -244,12 +244,13 @@ const importChunk = async (indexes: number[], createdBy: string) => {
     return { failed: [], groupsFailed }
   }
 
+  // each imported contact's addresses are distinct from all others, so its primary address identifies it
   const contactIdsByEmailAddress = new Map(
-    contactsCreated.flatMap((contact) =>
-      contact.emailAddress
-        ? [[contact.emailAddress.toLowerCase(), contact.rowId]]
-        : [],
-    ),
+    contactsCreated.flatMap((contact) => {
+      const emailAddress = contact.emailAddresses?.[0]
+
+      return emailAddress ? [[emailAddress.toLowerCase(), contact.rowId]] : []
+    }),
   )
   const groupIdsByName = new Map(
     groupsCreated.flatMap((group) => {
@@ -263,7 +264,7 @@ const importChunk = async (indexes: number[], createdBy: string) => {
 
   for (const { row } of rowsGrouped) {
     const contactId = contactIdsByEmailAddress.get(
-      row.emailAddress?.toLowerCase() ?? '',
+      row.emailAddresses[0]?.toLowerCase() ?? '',
     )
 
     for (const name of getContactGroupNamesNormalized(row.groupNames)) {

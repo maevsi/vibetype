@@ -11,7 +11,7 @@
       <ContactAvatar
         v-else
         class="size-12 rounded-full"
-        :email-address="contact.emailAddress"
+        :email-address="contact.emailAddresses?.[0]"
         :email-address-hash="contact.emailAddressHash"
         size="48"
       />
@@ -70,12 +70,12 @@ const {
       | 'accountId'
       | 'accountByAccountId'
       | 'accountByCreatedBy'
-      | 'emailAddress'
+      | 'emailAddresses'
       | 'emailAddressHash'
       | 'firstName'
       | 'lastName'
     >,
-    'accountId' | 'accountByCreatedBy' | 'emailAddress' | 'emailAddressHash'
+    'accountId' | 'accountByCreatedBy' | 'emailAddresses' | 'emailAddressHash'
   >
   feedback?: GuestItemFragment['feedback']
   isFeedbackOverride?: boolean

@@ -390,11 +390,13 @@ const form = useForm({
 })
 
 // methods
-const invite = async (guests: { contactId: string; rowId: string }[]) => {
+const invite = async (
+  guests: readonly { contactId: string; rowId: string }[],
+) => {
   // Contacts without an account or an email address cannot receive an invitation, they stay on the guest list.
   const contactIdsReachable = new Set(
     contactsShown.value
-      .filter((contact) => contact.accountId || contact.emailAddress)
+      .filter((contact) => contact.accountId || contact.emailAddresses?.length)
       .map((contact) => contact.rowId),
   )
   const guestsReachable = guests.filter((guest) =>
@@ -425,7 +427,9 @@ const contactCreate = async () => {
       contact: {
         accountId: candidate.accountId || null,
         createdBy: store.signedInAccountId,
-        emailAddress: candidate.emailAddress || null,
+        emailAddresses: candidate.emailAddress
+          ? [candidate.emailAddress]
+          : null,
       },
     },
   })
@@ -478,7 +482,9 @@ const contactsFiltered = computed(() => {
       ...(contact.accountByAccountId?.username
         ? [contact.accountByAccountId.username.toLowerCase()]
         : []),
-      ...(contact.emailAddress ? [contact.emailAddress.toLowerCase()] : []),
+      ...(contact.emailAddresses ?? []).map((emailAddress) =>
+        emailAddress.toLowerCase(),
+      ),
       ...(contact.firstName ? [contact.firstName.toLowerCase()] : []),
       ...(contact.lastName ? [contact.lastName.toLowerCase()] : []),
     ]

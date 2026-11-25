@@ -1,6 +1,7 @@
 import { getContactGroupNamesNormalized } from './contactGroup'
 import type { CountryCode } from 'libphonenumber-js/min'
 
+const EMAIL_ADDRESSES_MAXIMUM = 10 // the `contact` table's limit
 const NAME_LENGTH_MAXIMUM = 100 // the `contact` table's limit for first and last names
 
 export type ContactImportPhoneNumberParser = (
@@ -8,7 +9,7 @@ export type ContactImportPhoneNumberParser = (
 ) => string | undefined
 
 export interface ContactImportRow {
-  emailAddress?: string
+  emailAddresses: string[]
   firstName?: string
   groupNames: string[]
   isPhoneNumberDropped: boolean
@@ -30,6 +31,23 @@ export interface ContactPicked {
 
 const getFirstTrimmed = (values: string[]) =>
   values.map((value) => value.trim()).find(Boolean)
+
+/** Trims, drops empty and case-insensitively repeated values and keeps the first ones up to the `contact` table's limit. */
+const getEmailAddressesNormalized = (emailAddresses: string[]) => {
+  const keys = new Set<string>()
+
+  return emailAddresses
+    .map((emailAddress) => emailAddress.trim())
+    .filter((emailAddress) => {
+      const key = emailAddress.toLowerCase()
+
+      if (!key || keys.has(key)) return false
+
+      keys.add(key)
+      return true
+    })
+    .slice(0, EMAIL_ADDRESSES_MAXIMUM)
+}
 
 const getNameNormalized = (name?: string) =>
   name?.trim().slice(0, NAME_LENGTH_MAXIMUM).trim() || undefined
@@ -82,22 +100,24 @@ export const getContactImportRows = ({
   )
 
   return contacts.map((contact) => {
-    const emailAddress = getFirstTrimmed(contact.emailAddresses)
+    const emailAddresses = getEmailAddressesNormalized(contact.emailAddresses)
+    const emailAddressKeys = emailAddresses.map((emailAddress) =>
+      emailAddress.toLowerCase(),
+    )
     const phoneNumberPicked = getFirstTrimmed(contact.phoneNumbers)
     const phoneNumber = phoneNumberPicked
       ? parsePhoneNumber(phoneNumberPicked)
       : undefined
-    const emailAddressKey = emailAddress?.toLowerCase()
-    const status: ContactImportRowStatus = !emailAddressKey
+    const status: ContactImportRowStatus = !emailAddressKeys.length
       ? 'missingEmailAddress'
-      : knownEmailAddresses.has(emailAddressKey)
+      : emailAddressKeys.some((key) => knownEmailAddresses.has(key))
         ? 'duplicate'
         : 'importable'
 
-    if (emailAddressKey) knownEmailAddresses.add(emailAddressKey)
+    for (const key of emailAddressKeys) knownEmailAddresses.add(key)
 
     return {
-      emailAddress,
+      emailAddresses,
       firstName: getNameNormalized(contact.firstName),
       groupNames: getContactGroupNamesNormalized(contact.groupNames),
       isPhoneNumberDropped: Boolean(phoneNumberPicked) && !phoneNumber,

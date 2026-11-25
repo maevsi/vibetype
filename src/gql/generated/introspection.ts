@@ -4130,7 +4130,7 @@ export default {
             args: [],
           },
           {
-            name: 'emailAddress',
+            name: 'emailAddressHash',
             type: {
               kind: 'SCALAR',
               name: 'Any',
@@ -4138,10 +4138,16 @@ export default {
             args: [],
           },
           {
-            name: 'emailAddressHash',
+            name: 'emailAddresses',
             type: {
-              kind: 'SCALAR',
-              name: 'Any',
+              kind: 'LIST',
+              ofType: {
+                kind: 'NON_NULL',
+                ofType: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
             },
             args: [],
           },

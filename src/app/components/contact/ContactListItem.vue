@@ -10,7 +10,7 @@
       <ContactPreview :contact />
     </AppTableCell>
     <AppTableCell class="hidden xl:table-cell">
-      {{ contact.emailAddress || '–' }}
+      {{ contact.emailAddresses?.join(', ') || '–' }}
     </AppTableCell>
     <!-- <AppTableCell class="hidden xl:table-cell">
       {{ (contact.address || '').replace(/\n/g, ', ') || '–' }}
@@ -68,7 +68,7 @@ const { contact, guestCount, isDeleting } = defineProps<{
     | 'accountByCreatedBy'
     // | 'addressByAddressId'
     | 'createdBy'
-    | 'emailAddress'
+    | 'emailAddresses'
     | 'emailAddressHash'
     | 'firstName'
     | 'lastName'
