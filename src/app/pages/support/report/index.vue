@@ -5,6 +5,7 @@
     :error-button="t('errorButton')"
     :error-description="t('errorDescription1')"
     :form-button="t('formButton')"
+    :is-submitting
     :success-button="t('successButton')"
     :success-description="t('successDescription2')"
     :success-title="t('successDescription1')"
@@ -23,6 +24,7 @@
       <FormSupportReport
         :id="formId"
         v-model:error="error"
+        v-model:is-submitting="isSubmitting"
         @success="step = 'success'"
       />
     </template>
@@ -38,6 +40,7 @@ useHeadDefault({ title })
 // template
 const localePath = useLocalePath()
 const { error, step } = useStepper<'success'>()
+const isSubmitting = ref(false)
 </script>
 
 <i18n lang="yaml">

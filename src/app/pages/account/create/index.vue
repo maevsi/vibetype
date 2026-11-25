@@ -182,6 +182,7 @@
             :disabled="
               !usernameField.value.value || !!usernameField.error.value
             "
+            :loading="usernameField.isLoading.value"
             type="submit"
           >
             {{ t('continue') }}
@@ -215,6 +216,7 @@
             :aria-label="t('confirmAge')"
             class="w-full"
             :form="templateIdAgeForm"
+            :loading="api.isFetching"
             type="submit"
           >
             {{ t('confirmAge') }}

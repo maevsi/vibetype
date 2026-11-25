@@ -169,6 +169,7 @@ const emit = defineEmits<{
 
 // form
 const modelError = defineModel<Error>('error')
+const isSubmitting = defineModel<boolean>('isSubmitting')
 const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
@@ -196,6 +197,8 @@ const form = useForm({
     onSubmit: formSchema,
   },
   onSubmit: async ({ value }) => {
+    isSubmitting.value = true
+
     try {
       await $csrfFetch('/api/service/zammad/report', {
         body: {
@@ -212,6 +215,7 @@ const form = useForm({
     } catch (error) {
       modelError.value = error as Error
     } finally {
+      isSubmitting.value = false
       captchaIsUsed.value = true
     }
   },
