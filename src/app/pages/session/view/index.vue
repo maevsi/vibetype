@@ -360,9 +360,8 @@
                 <AppButton
                   :aria-label="t('endNow')"
                   :disabled="!store.jwtPayload"
-                  :loading="isJwtDeleting"
                   variant="secondary"
-                  @click="endSession"
+                  @click="jwtDelete"
                 >
                   {{ t('endNow') }}
                   <template #prefix>
@@ -402,16 +401,6 @@ const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
 const jwtDelete = useJwtDelete()
-const isJwtDeleting = ref(false)
-const endSession = async () => {
-  isJwtDeleting.value = true
-
-  try {
-    await jwtDelete()
-  } finally {
-    isJwtDeleting.value = false
-  }
-}
 const { isAndroid, isApp, isIos, platform } = usePlatform()
 const alertError = useAlertError()
 

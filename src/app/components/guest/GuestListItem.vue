@@ -19,7 +19,7 @@
         :loading="pending.sends.includes(guest.rowId)"
         size="none"
         variant="ghost"
-        @click="send(guest)"
+        @click="void send(guest)"
       >
         <AppIconPaperAirplane />
         <template #loading />
@@ -255,6 +255,7 @@ const share = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
     await copyLink(guest)
   }
 }
+// clicks discard the promise, which may wait on the share sheet, so `pending.sends` drives the loading state
 const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   // without an email address to send to, the organizer passes the link on
   // from their own device, e.g. by text message
