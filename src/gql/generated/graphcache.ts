@@ -3750,7 +3750,7 @@ export type Event = Node & {
   readonly eventUploadsByEventId: EventUploadConnection
   /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
   readonly feedbackDeadline?: Maybe<Scalars['Datetime']['output']>
-  /** The number of guests of the event, maintained by triggers on the guest table. */
+  /** The number of seats taken at the event, each guest taking one plus their approved companions, maintained by triggers on the guest table. */
   readonly guestCount: Scalars['Int']['output']
   /** The event's maximum guest count. Must be greater than 0. */
   readonly guestCountMaximum?: Maybe<Scalars['Int']['output']>
@@ -4879,6 +4879,10 @@ export type Guest = Node & {
   readonly accountByUpdatedBy?: Maybe<Account>
   /** Reads a single `Attendance` that is related to this `Guest`. */
   readonly attendanceByGuestId?: Maybe<Attendance>
+  /** The number of additional guests the organizer approved for the guest, each of whom takes a seat of the event. The organizer can raise it up to the request, the guest can only lower it. Setting it fails with error code **VTGCM** when the event's maximum guest count would be exceeded. Resets to 0 when the guest's effective feedback is `canceled`. */
+  readonly companionCount: Scalars['Int']['output']
+  /** The number of additional guests the guest asks the organizer to approve in total. `NULL` when there is no pending request, which also holds for a request that does not exceed the approved companion count. The organizer clears it by approving or rejecting. Resets to `NULL` when the guest's effective feedback is `canceled`. */
+  readonly companionCountRequested?: Maybe<Scalars['Int']['output']>
   /** Reads a single `Contact` that is related to this `Guest`. */
   readonly contactByContactId?: Maybe<Contact>
   /** The internal id of the guest's contact. */
@@ -4992,6 +4996,10 @@ export enum GuestOrderBy {
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
+  /** The number of additional guests the organizer approved for the guest, each of whom takes a seat of the event. The organizer can raise it up to the request, the guest can only lower it. Setting it fails with error code **VTGCM** when the event's maximum guest count would be exceeded. Resets to 0 when the guest's effective feedback is `canceled`. */
+  readonly companionCount?: InputMaybe<Scalars['Int']['input']>
+  /** The number of additional guests the guest asks the organizer to approve in total. `NULL` when there is no pending request, which also holds for a request that does not exceed the approved companion count. The organizer clears it by approving or rejecting. Resets to `NULL` when the guest's effective feedback is `canceled`. */
+  readonly companionCountRequested?: InputMaybe<Scalars['Int']['input']>
   /** The guest's own feedback status. Only the guest can set it. */
   readonly feedback?: InputMaybe<InvitationFeedback>
   /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
@@ -6940,7 +6948,7 @@ export type Query = Node & {
   >
   /** Returns contact ids that are accessible through guests. */
   readonly guestContactIds?: Maybe<GuestContactIdsConnection>
-  /** Returns the guest count for an event. */
+  /** Returns the number of seats taken for an event: each guest plus their approved companions. */
   readonly guestCount?: Maybe<Scalars['Int']['output']>
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
   readonly id: Scalars['ID']['output']
@@ -13348,6 +13356,16 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       WithTypename<Attendance> | string
     >
+    companionCount?: GraphCacheResolver<
+      WithTypename<Guest>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+    companionCountRequested?: GraphCacheResolver<
+      WithTypename<Guest>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
     contactByContactId?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
@@ -19357,6 +19375,14 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     attendanceByGuestId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Guest>>,
+      Record<string, never>
+    >
+    companionCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Guest>>,
+      Record<string, never>
+    >
+    companionCountRequested?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >

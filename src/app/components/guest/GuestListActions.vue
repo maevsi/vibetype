@@ -137,6 +137,12 @@ const updateGuestByRowIdMutation = useMutation(
     mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {
       updateGuestByRowId(input: $input) {
         guest {
+          companionCount
+          companionCountRequested
+          eventByEventId {
+            guestCount
+            id
+          }
           feedbackOverride
           id
           rowId

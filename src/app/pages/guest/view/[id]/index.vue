@@ -286,6 +286,78 @@
                 </AppButton>
               </form>
             </div>
+            <AppCard
+              v-if="isCompanionSectionShown"
+              class="flex flex-col items-stretch gap-4"
+            >
+              <h2 class="m-0 text-heading-medium">
+                {{ t('companionTitle') }}
+              </h2>
+              <p class="text-fg-2">{{ t('companionDescription') }}</p>
+              <p v-if="guest.companionCount" class="font-semibold">
+                {{ t('companionCount', { count: guest.companionCount }) }}
+              </p>
+              <p v-if="guest.companionCountRequested !== null">
+                {{
+                  t('companionCountRequested', {
+                    count: guest.companionCountRequested,
+                  })
+                }}
+              </p>
+              <div class="flex flex-wrap items-center gap-2">
+                <AppButton
+                  v-if="guest.companionCountRequested !== null"
+                  :aria-label="t('companionRequestWithdraw')"
+                  :disabled="isFeedbackClosed"
+                  :loading="isUpdatingCompanionRequestWithdraw"
+                  variant="secondary"
+                  @click="companionRequestWithdraw"
+                >
+                  {{ t('companionRequestWithdraw') }}
+                </AppButton>
+                <AppButton
+                  v-if="guest.companionCount"
+                  :aria-label="t('companionCountLower')"
+                  :disabled="isFeedbackClosed"
+                  :loading="isUpdatingCompanionCountLower"
+                  variant="secondary"
+                  @click="companionCountLower"
+                >
+                  {{ t('companionCountLower') }}
+                </AppButton>
+              </div>
+              <form
+                class="flex flex-col gap-2"
+                @submit.prevent="companionRequest"
+              >
+                <Field>
+                  <FieldLabel for="companion-count-requested">
+                    {{ t('companionRequestLabel') }}
+                  </FieldLabel>
+                  <FieldContent>
+                    <Input
+                      id="companion-count-requested"
+                      v-model="companionCountRequested"
+                      :disabled="isFeedbackClosed"
+                      min="1"
+                      name="companionCountRequested"
+                      required
+                      type="number"
+                    />
+                  </FieldContent>
+                </Field>
+                <AppButton
+                  :aria-label="t('companionRequestSubmit')"
+                  :disabled="
+                    isFeedbackClosed || !isCompanionCountRequestedValid
+                  "
+                  :loading="isUpdatingCompanionRequest"
+                  type="submit"
+                >
+                  {{ t('companionRequestSubmit') }}
+                </AppButton>
+              </form>
+            </AppCard>
             <AppCard v-if="eventDescriptionHtml">
               <LayoutProse class="w-full">
                 <AppHtml :html="eventDescriptionHtml" />
@@ -350,6 +422,7 @@ import QrcodeVue from 'qrcode.vue'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
+import { getGuestFeedback } from '~~/shared/utils/guest'
 
 const FEEDBACK_REASON_LENGTH_MAXIMUM = 1000
 
@@ -362,6 +435,12 @@ const updateGuestByRowIdMutation = useMutation(
     mutation UpdateGuestByRowId($input: UpdateGuestByRowIdInput!) {
       updateGuestByRowId(input: $input) {
         guest {
+          companionCount
+          companionCountRequested
+          eventByEventId {
+            guestCount
+            id
+          }
           feedback
           feedbackReason
           id
@@ -387,6 +466,8 @@ const eventQuery = useApiQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
       guestByRowId(rowId: $id) {
+        companionCount
+        companionCountRequested
         contactByContactId {
           accountByAccountId {
             id
@@ -478,6 +559,7 @@ const eventQuery = useApiQuery({
           visibility
         }
         feedback
+        feedbackOverride
         feedbackReason
         id
         rowId
@@ -543,6 +625,48 @@ const cancel = async () => {
     })
   } finally {
     isUpdatingCancel.value = false
+  }
+}
+const companionCountRequested = ref('1')
+const isUpdatingCompanionRequest = ref<boolean>()
+const companionRequest = async () => {
+  if (!guest.value || !isCompanionCountRequestedValid.value) return
+
+  isUpdatingCompanionRequest.value = true
+
+  try {
+    await update(guest.value.rowId, {
+      companionCountRequested: Number(companionCountRequested.value),
+    })
+  } finally {
+    isUpdatingCompanionRequest.value = false
+  }
+}
+const isUpdatingCompanionRequestWithdraw = ref<boolean>()
+// the api stores a request that does not exceed the approved count as none
+const companionRequestWithdraw = async () => {
+  if (!guest.value) return
+
+  isUpdatingCompanionRequestWithdraw.value = true
+
+  try {
+    await update(guest.value.rowId, { companionCountRequested: 0 })
+  } finally {
+    isUpdatingCompanionRequestWithdraw.value = false
+  }
+}
+const isUpdatingCompanionCountLower = ref<boolean>()
+const companionCountLower = async () => {
+  if (!guest.value) return
+
+  isUpdatingCompanionCountLower.value = true
+
+  try {
+    await update(guest.value.rowId, {
+      companionCount: guest.value.companionCount - 1,
+    })
+  } finally {
+    isUpdatingCompanionCountLower.value = false
   }
 }
 const feedbackReason = ref('')
@@ -684,7 +808,10 @@ const update = async (id: string, guestPatch: GuestPatch) => {
   if (result.error) {
     alertErrorDetails({
       errors: [result.error],
-      postgresErrorMap: { postgresVTFDP: t('feedbackClosed') },
+      postgresErrorMap: {
+        postgresVTFDP: t('feedbackClosed'),
+        postgresVTGCM: t('companionErrorSeats'),
+      },
     })
     return
   }
@@ -700,6 +827,17 @@ const eventDescriptionHtml = computed(() => {
 
   return sanitize(event.value.description, { ADD_ATTR: ['target'] })
 })
+const isCompanionCountRequestedValid = computed(() => {
+  const count = Number(companionCountRequested.value)
+
+  return Number.isInteger(count) && count >= 1
+})
+const isCompanionSectionShown = computed(
+  () =>
+    !isOrganizerPreview.value &&
+    !!guest.value &&
+    getGuestFeedback(guest.value) === InvitationFeedback.Accepted,
+)
 const contact = computed(() => guest.value?.contactByContactId)
 const contactAccount = computed(() => contact.value?.accountByAccountId)
 const contactName = computed(() =>
@@ -762,6 +900,15 @@ defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 <i18n lang="yaml">
 de:
   calendarAdd: Zum Kalender hinzufügen
+  companionCount: '+{count} bestätigt'
+  companionCountLower: Einen Gast weniger mitbringen
+  companionCountRequested: '+{count} angefragt, wartet auf die Antwort der Veranstalter'
+  companionDescription: Frage an, ob Du weitere Gäste mitbringen darfst. Die Veranstalter müssen die Anfrage bestätigen.
+  companionErrorSeats: Es sind nicht genug Plätze frei, um weitere Gäste zuzusagen.
+  companionRequestLabel: Anzahl weiterer Gäste
+  companionRequestSubmit: Anfragen
+  companionRequestWithdraw: Anfrage zurückziehen
+  companionTitle: Weitere Gäste mitbringen
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorGuestMissing: Diese Einladung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
@@ -796,6 +943,15 @@ de:
   ticketShareError: Das Ticket konnte nicht geteilt werden.
 en:
   calendarAdd: Add to calendar
+  companionCount: '+{count} approved'
+  companionCountLower: Bring one guest fewer
+  companionCountRequested: '+{count} requested, waiting for the organizer'
+  companionDescription: Ask whether you may bring additional guests. The organizer has to approve the request.
+  companionErrorSeats: Not enough seats are left to approve additional guests.
+  companionRequestLabel: Number of additional guests
+  companionRequestSubmit: Request
+  companionRequestWithdraw: Withdraw request
+  companionTitle: Bring additional guests
   errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorGuestMissing: This invitation isn't available. If someone sent you a link, ask them for a new one.

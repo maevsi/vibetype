@@ -11107,6 +11107,25 @@ export default {
             args: [],
           },
           {
+            name: 'companionCount',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'companionCountRequested',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
             name: 'contactByContactId',
             type: {
               kind: 'OBJECT',

@@ -16,10 +16,13 @@
         <p class="text-center text-fg-2">
           {{
             t('guestsUsed', {
-              amountCurrent: api.data.allGuests?.totalCount,
+              amountCurrent: event.guestCount,
               amountMaximum: event.guestCountMaximum || '∞',
             })
           }}
+        </p>
+        <p v-if="guestsRequestingCount" class="text-center text-fg-2">
+          {{ t('companionRequestsPending', guestsRequestingCount) }}
         </p>
         <div
           v-if="isGuestLimitReached"
@@ -195,6 +198,7 @@ import {
 import { Doughnut } from 'vue-chartjs'
 
 import { graphql } from '~~/gql/generated'
+import type { Event } from '~~/gql/generated/graphcache'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type {
   AllGuestsQueryVariables,
@@ -213,7 +217,8 @@ const { event } = defineProps<{
     | 'publishedAt'
     | 'rowId'
     | 'slug'
-  >
+  > &
+    Pick<Event, 'guestCount'>
 }>()
 
 const colorMode = useColorMode()
@@ -380,9 +385,12 @@ const guestsFiltered = computed(() => {
 })
 // guests hidden by the search or filter stay out, so an action never touches a guest that is not visible
 const isGuestLimitReached = computed(() =>
-  event.guestCountMaximum && api.value.data.allGuests?.totalCount
-    ? api.value.data.allGuests.totalCount >= event.guestCountMaximum
-    : false,
+  event.guestCountMaximum ? event.guestCount >= event.guestCountMaximum : false,
+)
+const guestsRequestingCount = computed(
+  () =>
+    guests.value.filter((guest) => guest.companionCountRequested !== null)
+      .length,
 )
 const guestsSelected = computed(() =>
   guestsFiltered.value.filter((guest) =>
@@ -417,6 +425,7 @@ de:
   accepted: akzeptiert
   actions: Aktionen
   canceled: abgelehnt
+  companionRequestsPending: 'Eine Anfrage für weitere Gäste wartet auf Deine Antwort. | {count} Anfragen für weitere Gäste warten auf Deine Antwort.'
   contact: Kontakt
   contactSelect: Kontakt auswählen
   contactSelectDescription: Durchsuche Dein Kontaktbuch und wähle die Personen aus, die Du einladen möchtest.
@@ -425,20 +434,21 @@ de:
   feedbackFilterAll: Alle
   guestAdd: Gäste hinzufügen
   guestLimitRaise: Limit erhöhen
-  guestLimitReached: Das Gästelimit ist erreicht. Erhöhe es in den Veranstaltungseinstellungen, um mehr Personen einzuladen.
+  guestLimitReached: Alle Plätze sind belegt. Erhöhe das Limit in den Veranstaltungseinstellungen, um mehr Personen einzuladen.
   guestNoneDescription: Lade Personen aus Deinem Kontaktbuch, per Nutzername oder per E-Mail-Adresse ein. Alle Gäste bekommen einen persönlichen Einladungslink.
   guestNoneFilteredDescription: Versuche es mit einem anderen Namen oder einer anderen Rückmeldung.
   guestNoneFilteredTitle: Keine passenden Gäste
   guestNoneTitle: Noch keine Gäste
   guestSelectAll: Alle angezeigten Gäste auswählen
   guestShowAll: Alle Gäste anzeigen
-  guestsUsed: 'Gästekontingent genutzt: {amountCurrent} / {amountMaximum}'
+  guestsUsed: 'Belegte Plätze: {amountCurrent} / {amountMaximum}'
   hintInviteSelf: 'Tipp: Lade Dich zuerst selbst ein, um zu sehen, was Deine Gäste bekommen.'
   noFeedback: keine Rückmeldung
 en:
   accepted: accepted
   actions: Actions
   canceled: declined
+  companionRequestsPending: 'One request for additional guests is waiting for your answer. | {count} requests for additional guests are waiting for your answer.'
   contact: Contact
   contactSelect: Select Contact
   contactSelectDescription: Search your contact book and select the people you want to invite.
@@ -447,14 +457,14 @@ en:
   feedbackFilterAll: All
   guestAdd: Add guests
   guestLimitRaise: Raise limit
-  guestLimitReached: Guest limit reached. Raise it in the event settings to invite more people.
+  guestLimitReached: All seats are taken. Raise the limit in the event settings to invite more people.
   guestNoneDescription: Invite people from your contact book, by username, or by email address. Each guest gets a personal invitation link.
   guestNoneFilteredDescription: Try another name or response filter.
   guestNoneFilteredTitle: No guests match
   guestNoneTitle: No guests yet
   guestSelectAll: Select all shown guests
   guestShowAll: Show all guests
-  guestsUsed: 'Guest quota used: {amountCurrent} / {amountMaximum}'
+  guestsUsed: 'Seats taken: {amountCurrent} / {amountMaximum}'
   hintInviteSelf: 'Tip: invite yourself first to see what your guests will get.'
   noFeedback: no response
 </i18n>
