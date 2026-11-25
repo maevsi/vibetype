@@ -305,8 +305,11 @@ export const getUrqlClient = async ({
           invalidateCache(cache, 'allEvents')
           invalidateCache(cache, 'eventSearch')
         },
-        createGuests: (_result, _args, cache, _info) =>
-          invalidateCache(cache, 'allGuests'),
+        createGuests: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allGuests')
+          // the seat count of the event is part of the organizer's guest page
+          invalidateCache(cache, 'accountByUsername')
+        },
         createEventFavorite: (result, _args, cache, _info) => {
           const newNode = result.createEventFavorite?.eventFavorite
           if (!newNode?.eventByEventId?.id) return

@@ -620,6 +620,8 @@ export const getTestingGraphqlResult = async ({
                   phoneNumber: null,
                   url: null,
                 },
+                companionCount: 0,
+                companionCountRequested: null,
                 contactId: CONTACT.rowId,
                 feedback: 'accepted',
                 feedbackOverride: null,
@@ -933,6 +935,7 @@ export const getTestingGraphqlResult = async ({
                   accountByCreatedBy: ACCOUNT,
                   createdBy: EVENT.createdBy,
                   feedbackDeadline: null,
+                  guestCount: 1,
                   guestCountMaximum: EVENT.guestCountMaximum,
                   guestsByEventId: {
                     nodes: [
@@ -1001,8 +1004,11 @@ export const getTestingGraphqlResult = async ({
               accountByAccountId: null,
               createdBy: ACCOUNT.rowId,
             },
+            companionCount: 0,
+            companionCountRequested: null,
             eventByEventId: EVENT_VIEW,
             feedback: null,
+            feedbackOverride: null,
             feedbackReason: null,
             id: GUEST_ID,
             rowId: TESTING_GUEST_ROW_ID,

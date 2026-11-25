@@ -24,6 +24,24 @@
       >
         {{ guest.feedbackReason }}
       </p>
+      <div
+        v-if="guest.companionCount || guest.companionCountRequested !== null"
+        class="flex flex-wrap items-center gap-2 text-body-small"
+      >
+        <span v-if="guest.companionCount" class="text-fg-2">
+          {{ t('companionCount', { count: guest.companionCount }) }}
+        </span>
+        <span
+          v-if="guest.companionCountRequested !== null"
+          class="rounded-full bg-surface-raised px-2 text-fg-1 ring-1 ring-line"
+        >
+          {{
+            t('companionCountRequested', {
+              count: guest.companionCountRequested,
+            })
+          }}
+        </span>
+      </div>
     </AppTableCell>
     <AppTableCell class="max-w-0">
       <div class="flex items-center justify-evenly gap-4 text-fg-1">
@@ -125,6 +143,44 @@
               {{ t('guestFeedbackReset') }}
             </span>
           </AppDropdownItem>
+          <template v-if="guest.companionCountRequested !== null">
+            <AppDropdownItem
+              :disabled="pending.companions.includes(guest.rowId)"
+              @select="
+                setCompanionCount(guest.rowId, {
+                  companionCount: guest.companionCountRequested,
+                })
+              "
+            >
+              <AppIconCheckCircleSolid />
+              <span>
+                {{ t('companionApprove') }}
+              </span>
+            </AppDropdownItem>
+            <AppDropdownItem
+              v-if="guest.companionCountRequested - guest.companionCount > 1"
+              :disabled="pending.companions.includes(guest.rowId)"
+              @select="isCompanionDrawerOpen = true"
+            >
+              <AppIconCheckCircleSolid />
+              <span>
+                {{ t('companionApproveFewer') }}
+              </span>
+            </AppDropdownItem>
+            <AppDropdownItem
+              :disabled="pending.companions.includes(guest.rowId)"
+              @select="
+                setCompanionCount(guest.rowId, {
+                  companionCountRequested: null,
+                })
+              "
+            >
+              <AppIconXCircleSolid />
+              <span>
+                {{ t('companionReject') }}
+              </span>
+            </AppDropdownItem>
+          </template>
           <AppDropdownItem
             :disabled="pending.deletions.includes(guest.rowId)"
             variant="destructive"
@@ -142,6 +198,14 @@
       </div>
     </AppTableCell>
   </tr>
+  <GuestCompanionDrawer
+    v-if="guest.companionCountRequested !== null"
+    v-model:open="isCompanionDrawerOpen"
+    :is-pending="pending.companions.includes(guest.rowId)"
+    :maximum="guest.companionCountRequested - 1"
+    :minimum="guest.companionCount + 1"
+    @confirm="onCompanionConfirm"
+  />
   <GuestDeleteDrawer
     v-if="contact"
     v-model:open="isDeleteDrawerOpen"
@@ -162,12 +226,15 @@ import { getContactName } from '~~/shared/utils/model'
 import type {
   EventItemFragment,
   GuestItemFragment,
+  GuestPatch,
 } from '~~/gql/generated/graphql'
 
 const { event, guest } = defineProps<{
   event: Pick<EventItemFragment, 'accountByCreatedBy' | 'publishedAt' | 'slug'>
   guest: Pick<
     GuestItemFragment,
+    | 'companionCount'
+    | 'companionCountRequested'
     | 'contactByContactId'
     | 'feedback'
     | 'feedbackOverride'
@@ -176,6 +243,7 @@ const { event, guest } = defineProps<{
   >
 }>()
 
+const alertErrorDetails = useAlertErrorDetails()
 const { defaultLocale, locale, t } = useI18n()
 const localePath = useLocalePath()
 const { copy } = useCopy()
@@ -184,8 +252,10 @@ const { shift } = useMagicKeys()
 const isSelected = defineModel<boolean>('selected')
 
 // data
+const isCompanionDrawerOpen = ref(false)
 const isDeleteDrawerOpen = ref(false)
 const pending = reactive({
+  companions: ref<string[]>([]),
   deletions: ref<string[]>([]),
   edits: ref<string[]>([]),
   feedbacks: ref<string[]>([]),
@@ -223,7 +293,32 @@ const updateGuestByRowIdMutation = useMutation(
     mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {
       updateGuestByRowId(input: $input) {
         guest {
+          companionCount
+          companionCountRequested
+          eventByEventId {
+            guestCount
+            id
+          }
           feedbackOverride
+          id
+          rowId
+        }
+      }
+    }
+  `),
+)
+
+const updateGuestCompanionByRowIdMutation = useMutation(
+  graphql(`
+    mutation UpdateGuestByRowIdCompanion($input: UpdateGuestByRowIdInput!) {
+      updateGuestByRowId(input: $input) {
+        guest {
+          companionCount
+          companionCountRequested
+          eventByEventId {
+            guestCount
+            id
+          }
           id
           rowId
         }
@@ -262,6 +357,35 @@ const onDeleteSelect = (id: string) => {
   }
 
   isDeleteDrawerOpen.value = true
+}
+const setCompanionCount = async (
+  id: string,
+  guestPatch: Pick<GuestPatch, 'companionCount' | 'companionCountRequested'>,
+) => {
+  pending.companions.push(id)
+
+  const result = await updateGuestCompanionByRowIdMutation.executeMutation({
+    input: { guestPatch, rowId: id },
+  })
+
+  pending.companions.splice(pending.companions.indexOf(id), 1)
+
+  if (result.error) {
+    alertErrorDetails({
+      errors: [result.error],
+      postgresErrorMap: { postgresVTGCM: t('companionErrorSeats') },
+    })
+    return false
+  }
+
+  if (!getResultData(result)) return false
+
+  toast.success(t('companionSuccess'))
+  return true
+}
+const onCompanionConfirm = async (companionCount: number) => {
+  if (await setCompanionCount(guest.rowId, { companionCount }))
+    isCompanionDrawerOpen.value = false
 }
 const setFeedback = async (
   id: string,
@@ -350,6 +474,13 @@ const contactName = computed(() =>
 
 <i18n lang="yaml">
 de:
+  companionApprove: Weitere Gäste zusagen
+  companionApproveFewer: Weniger weitere Gäste zusagen
+  companionCount: '+{count}'
+  companionCountRequested: '+{count} angefragt'
+  companionErrorSeats: Es sind nicht genug Plätze frei. Erhöhe das Limit in den Veranstaltungseinstellungen oder sage weniger Gäste zu.
+  companionReject: Weitere Gäste ablehnen
+  companionSuccess: Die Anfrage für weitere Gäste wurde bearbeitet.
   disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
   disabledReasonContactWayNone: Diesem Kontakt fehlen E-Mail-Adresse und Telefonnummer.
@@ -367,6 +498,13 @@ de:
   shareText: 'Du bist eingeladen! Hier ist Deine Einladung:'
   # postgresP0002: Die Einladung konnte nicht versandt werden! Möglicherweise hast du aktuell keinen Zugriff auf die notwendigen Daten. Versuche die Seite neu zu laden.
 en:
+  companionApprove: Approve additional guests
+  companionApproveFewer: Approve fewer additional guests
+  companionCount: '+{count}'
+  companionCountRequested: '+{count} requested'
+  companionErrorSeats: Not enough seats are left. Raise the limit in the event settings or approve fewer guests.
+  companionReject: Reject additional guests
+  companionSuccess: The request for additional guests was processed.
   disabledReasonDraft: Publish the event to send invitations.
   copySuccess: The guest link has been copied to the clipboard.
   disabledReasonContactWayNone: This contact has neither an email address nor a phone number.

@@ -7,6 +7,8 @@ import type { GuestItemFragment } from '~~/gql/generated/graphql'
 // server-side for ical generation.
 export const GuestItem = graphql(`
   fragment GuestItem on Guest {
+    companionCount
+    companionCountRequested
     contactByContactId {
       ...ContactItem
     }

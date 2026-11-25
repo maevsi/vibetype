@@ -901,6 +901,10 @@ export type GuestInput = {
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
+  /** The number of additional guests the organizer approved for the guest, each of whom takes a seat of the event. The organizer can raise it up to the request, the guest can only lower it. Setting it fails with error code **VTGCM** when the event's maximum guest count would be exceeded. Resets to 0 when the guest's effective feedback is `canceled`. */
+  readonly companionCount?: number | null | undefined
+  /** The number of additional guests the guest asks the organizer to approve in total. `NULL` when there is no pending request, which also holds for a request that does not exceed the approved companion count. The organizer clears it by approving or rejecting. Resets to `NULL` when the guest's effective feedback is `canceled`. */
+  readonly companionCountRequested?: number | null | undefined
   /** The guest's own feedback status. Only the guest can set it. */
   readonly feedback?: InvitationFeedback | null | undefined
   /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
@@ -2096,9 +2100,34 @@ export type UpdateGuestByRowIdFeedbackMutationVariables = Exact<{
 export type UpdateGuestByRowIdFeedbackMutation = {
   readonly updateGuestByRowId: {
     readonly guest: {
+      readonly companionCount: number
+      readonly companionCountRequested: number | null
       readonly feedbackOverride: InvitationFeedback | null
       readonly id: string
       readonly rowId: string
+      readonly eventByEventId: {
+        readonly guestCount: number
+        readonly id: string
+      } | null
+    } | null
+  } | null
+}
+
+export type UpdateGuestByRowIdCompanionMutationVariables = Exact<{
+  input: UpdateGuestByRowIdInput
+}>
+
+export type UpdateGuestByRowIdCompanionMutation = {
+  readonly updateGuestByRowId: {
+    readonly guest: {
+      readonly companionCount: number
+      readonly companionCountRequested: number | null
+      readonly id: string
+      readonly rowId: string
+      readonly eventByEventId: {
+        readonly guestCount: number
+        readonly id: string
+      } | null
     } | null
   } | null
 }
@@ -3011,6 +3040,7 @@ export type EventGuestsQuery = {
     readonly eventsByCreatedBy: {
       readonly nodes: ReadonlyArray<{
         readonly createdBy: string
+        readonly guestCount: number
         readonly guestCountMaximum: number | null
         readonly id: string
         readonly name: string
@@ -3333,10 +3363,16 @@ export type UpdateGuestByRowIdMutationVariables = Exact<{
 export type UpdateGuestByRowIdMutation = {
   readonly updateGuestByRowId: {
     readonly guest: {
+      readonly companionCount: number
+      readonly companionCountRequested: number | null
       readonly feedback: InvitationFeedback | null
       readonly feedbackReason: string | null
       readonly id: string
       readonly rowId: string
+      readonly eventByEventId: {
+        readonly guestCount: number
+        readonly id: string
+      } | null
     } | null
   } | null
 }
@@ -3347,7 +3383,10 @@ export type GuestEventQueryVariables = Exact<{
 
 export type GuestEventQuery = {
   readonly guestByRowId: {
+    readonly companionCount: number
+    readonly companionCountRequested: number | null
     readonly feedback: InvitationFeedback | null
+    readonly feedbackOverride: InvitationFeedback | null
     readonly feedbackReason: string | null
     readonly id: string
     readonly rowId: string
@@ -3715,6 +3754,8 @@ export type EventItemFragment = {
 } & { ' $fragmentName'?: 'EventItemFragment' }
 
 export type GuestItemFragment = {
+  readonly companionCount: number
+  readonly companionCountRequested: number | null
   readonly contactId: string
   readonly feedback: InvitationFeedback | null
   readonly feedbackOverride: InvitationFeedback | null
@@ -4047,6 +4088,11 @@ export const GuestItemFragmentDoc = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'companionCount' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'companionCountRequested' },
+          },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'contactByContactId' },
@@ -9709,6 +9755,11 @@ export const AllGuestsDocument = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'companionCount' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'companionCountRequested' },
+          },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'contactByContactId' },
@@ -9837,6 +9888,34 @@ export const UpdateGuestByRowIdFeedbackDocument = {
                     selections: [
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'companionCount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'companionCountRequested',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'feedbackOverride' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
@@ -9854,6 +9933,98 @@ export const UpdateGuestByRowIdFeedbackDocument = {
 } as unknown as DocumentNode<
   UpdateGuestByRowIdFeedbackMutation,
   UpdateGuestByRowIdFeedbackMutationVariables
+>
+export const UpdateGuestByRowIdCompanionDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateGuestByRowIdCompanion' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateGuestByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateGuestByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'guest' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'companionCount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'companionCountRequested',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateGuestByRowIdCompanionMutation,
+  UpdateGuestByRowIdCompanionMutationVariables
 >
 export const AllEventCategoriesDocument = {
   kind: 'Document',
@@ -14729,6 +14900,10 @@ export const EventGuestsDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
                               name: {
                                 kind: 'Name',
                                 value: 'guestCountMaximum',
@@ -16588,6 +16763,34 @@ export const UpdateGuestByRowIdDocument = {
                     selections: [
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'companionCount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'companionCountRequested',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'feedback' },
                       },
                       {
@@ -16646,6 +16849,14 @@ export const GuestEventDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'companionCount' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'companionCountRequested' },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'contactByContactId' },
@@ -17061,6 +17272,10 @@ export const GuestEventDocument = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feedbackOverride' },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'feedbackReason' },
