@@ -2,17 +2,6 @@
   <Loader :api>
     <div class="flex flex-col gap-4">
       <div class="flex flex-col items-center gap-1">
-        <AppButton
-          v-if="guests.length"
-          :aria-label="t('guestAdd')"
-          :disabled="isGuestLimitReached"
-          @click="add()"
-        >
-          {{ t('guestAdd') }}
-          <template #prefix>
-            <AppIconPlus />
-          </template>
-        </AppButton>
         <p class="text-center text-fg-2">
           {{
             t('guestsUsed', {
@@ -45,7 +34,20 @@
         </div>
       </div>
       <template v-if="event && guests.length">
-        <AppInputSearch v-model="searchString" />
+        <div class="flex items-center gap-2">
+          <div class="min-w-0 flex-1">
+            <AppInputSearch v-model="searchString" class="h-12" />
+          </div>
+          <AppButton
+            :aria-label="t('guestAdd')"
+            class="shrink-0"
+            :disabled="isGuestLimitReached"
+            size="icon"
+            @click="add()"
+          >
+            <AppIconPlus />
+          </AppButton>
+        </div>
         <div
           :aria-label="t('feedbackFilter')"
           class="flex flex-wrap gap-2"
