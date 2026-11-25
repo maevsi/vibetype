@@ -182,7 +182,6 @@
             :disabled="
               !usernameField.value.value || !!usernameField.error.value
             "
-            :loading="usernameField.isLoading.value"
             type="submit"
           >
             {{ t('continue') }}
