@@ -1,3 +1,13 @@
+## [18.0.0-beta.24](https://github.com/maevsi/vibetype/compare/18.0.0-beta.23...18.0.0-beta.24) (2026-11-25)
+
+### ⚠ BREAKING CHANGES
+
+* **contact:** allow merge (#2882)
+
+### Features
+
+* **contact:** allow merge ([#2882](https://github.com/maevsi/vibetype/issues/2882)) ([2766bd3](https://github.com/maevsi/vibetype/commit/2766bd3e3f8bb844234edae730bfff5093280cfd))
+
 ## [18.0.0-beta.23](https://github.com/maevsi/vibetype/compare/18.0.0-beta.22...18.0.0-beta.23) (2026-11-25)
 
 ### ⚠ BREAKING CHANGES
