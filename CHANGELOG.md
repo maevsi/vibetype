@@ -1,3 +1,9 @@
+## [18.0.0-beta.25](https://github.com/maevsi/vibetype/compare/18.0.0-beta.24...18.0.0-beta.25) (2026-11-25)
+
+### Features
+
+* **contact:** ease selecting many contacts ([#2884](https://github.com/maevsi/vibetype/issues/2884)) ([276c8e5](https://github.com/maevsi/vibetype/commit/276c8e5d3c857347863ddec883804ae44bde1285))
+
 ## [18.0.0-beta.24](https://github.com/maevsi/vibetype/compare/18.0.0-beta.23...18.0.0-beta.24) (2026-11-25)
 
 ### ⚠ BREAKING CHANGES
