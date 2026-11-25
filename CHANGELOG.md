@@ -1,3 +1,9 @@
+## [17.61.3](https://github.com/maevsi/vibetype/compare/17.61.2...17.61.3) (2026-11-25)
+
+### Bug Fixes
+
+* **consent:** group the ai toggle under its own heading above the buttons ([#2897](https://github.com/maevsi/vibetype/issues/2897)) ([64b3c1a](https://github.com/maevsi/vibetype/commit/64b3c1a1f46551b062d949289396d00e0234c32d))
+
 ## [17.61.2](https://github.com/maevsi/vibetype/compare/17.61.1...17.61.2) (2026-11-25)
 
 ### Bug Fixes
