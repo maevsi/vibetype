@@ -388,18 +388,31 @@ const api = await useApiData([
 ])
 
 // form
-const formSchema = z.object({
-  accountUsername: SCHEMA_USERNAME_OPTIONAL,
-  emailAddress: SCHEMA_EMAIL_ADDRESS_OPTIONAL,
-  firstName: SCHEMA_NAME_FIRST_OPTIONAL,
-  groupIds: z.array(z.string()),
-  lastName: SCHEMA_NAME_LAST_OPTIONAL,
-  nickname: SCHEMA_NAME_NICK_OPTIONAL,
-  note: SCHEMA_NOTE_OPTIONAL,
-  phoneNumber: SCHEMA_PHONE_NUMBER_OPTIONAL,
-  rowId: z.string().or(z.literal('')),
-  url: SCHEMA_URL_HTTPS_OPTIONAL,
-})
+const formSchema = z
+  .object({
+    accountUsername: SCHEMA_USERNAME_OPTIONAL,
+    emailAddress: SCHEMA_EMAIL_ADDRESS_OPTIONAL,
+    firstName: SCHEMA_NAME_FIRST_OPTIONAL,
+    groupIds: z.array(z.string()),
+    lastName: SCHEMA_NAME_LAST_OPTIONAL,
+    nickname: SCHEMA_NAME_NICK_OPTIONAL,
+    note: SCHEMA_NOTE_OPTIONAL,
+    phoneNumber: SCHEMA_PHONE_NUMBER_OPTIONAL,
+    rowId: z.string().or(z.literal('')),
+    url: SCHEMA_URL_HTTPS_OPTIONAL,
+  })
+  // mirrors the database's contact_identity_check
+  .superRefine((data, context) => {
+    if (data.accountUsername || data.emailAddress || data.phoneNumber) return
+
+    for (const path of ['accountUsername', 'emailAddress', 'phoneNumber']) {
+      context.addIssue({
+        code: 'custom',
+        message: t('contactWayRequired'),
+        path: [path],
+      })
+    }
+  })
 
 const form = useForm({
   defaultValues: {
@@ -562,6 +575,7 @@ const errorMessages = computed(() =>
 <i18n lang="yaml">
 de:
   accountOverride: Angaben, die Du hier einträgst, haben Vorrang vor denen aus dem Konto oben.
+  contactWayRequired: Gib einen Nutzernamen, eine E-Mail-Adresse oder eine Telefonnummer an.
   emailAddress: E-Mail-Adresse
   firstName: Vorname
   groupAdd: Gruppe hinzufügen
@@ -581,6 +595,7 @@ de:
   usernameDescription: Verknüpft den Kontakt mit dem Konto der Person. Sie bekommt Deine Einladungen in der App und per E-Mail und kann sehen, was Du hier speicherst. Dass Du sie hinzugefügt hast, wird ihr nicht mitgeteilt.
 en:
   accountOverride: Details you enter here take priority over the ones from the account above.
+  contactWayRequired: Enter a username, an email address, or a phone number.
   emailAddress: Email address
   firstName: First name
   groupAdd: Add group

@@ -265,6 +265,7 @@ const getContactWithGroups = ({
   emailAddress,
   emailAddressHash: null,
   firstName,
+  guestsByContactId: { totalCount: 0, __typename: 'GuestConnection' },
   id: getNodeId('Contact', rowId),
   lastName,
   nickname: null,
@@ -518,6 +519,7 @@ export const getTestingGraphqlResult = async ({
         },
       }
     case 'AllContacts':
+    case 'AllContactsContactList':
       return {
         data: {
           allContacts: {
@@ -748,6 +750,11 @@ export const getTestingGraphqlResult = async ({
             createdBy: ACCOUNT.rowId,
             emailAddress: null,
             emailAddressHash: null,
+            guestsByContactId: {
+              nodes: [],
+              totalCount: 0,
+              __typename: 'GuestConnection',
+            },
             note: null,
             phoneNumber: null,
             url: null,
@@ -848,6 +855,15 @@ export const getTestingGraphqlResult = async ({
             slug === TESTING_EVENT_SLUG
               ? { id: EVENT.id, __typename: 'Event' }
               : null,
+        },
+      }
+    case 'EventDelete':
+      return {
+        data: {
+          eventDelete: {
+            clientMutationId: null,
+            __typename: 'EventDeletePayload',
+          },
         },
       }
     case 'EventEdit':

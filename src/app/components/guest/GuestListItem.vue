@@ -32,7 +32,7 @@
           class="hidden md:block"
           :disabled="
             getEventPublicationState(event) !== 'published' ||
-            (!contact.accountId && !contact.emailAddress) ||
+            !isSendable ||
             pending.sends.includes(guest.rowId)
           "
           size="none"
@@ -55,7 +55,7 @@
             class="md:hidden"
             :disabled="
               getEventPublicationState(event) !== 'published' ||
-              (!contact.accountId && !contact.emailAddress) ||
+              !isSendable ||
               pending.sends.includes(guest.rowId)
             "
             @select="send(guest)"
@@ -233,25 +233,22 @@ const updateGuestByRowIdMutation = useMutation(
 )
 
 // methods
+const getLink = (guest: Pick<GuestItemFragment, 'rowId'>) =>
+  // the guest's language is unknown here, so the mark lets the server pick it
+  `${window.location.origin}${localePath(
+    {
+      name: 'guest-view-id',
+      params: {
+        id: guest.rowId,
+      },
+      query: { language: 'auto' },
+    },
+    defaultLocale,
+  )}`
 const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   if (!import.meta.client) return
 
-  if (
-    await copy(
-      // the guest's language is unknown here, so the mark lets the server pick it
-      `${window.location.origin}${localePath(
-        {
-          name: 'guest-view-id',
-          params: {
-            id: guest.rowId,
-          },
-          query: { language: 'auto' },
-        },
-        defaultLocale,
-      )}`,
-    )
-  )
-    toast.success(t('copySuccess'))
+  if (await copy(getLink(guest))) toast.success(t('copySuccess'))
 }
 const delete_ = async (id: string) => {
   pending.deletions.push(id)
@@ -282,7 +279,32 @@ const setFeedback = async (
 
   toast.success(t('guestFeedbackSuccess'))
 }
+// called without awaiting anything first, as iOS drops the user activation
+// that navigator.share requires once an await runs
+const share = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
+  if (!import.meta.client) return
+
+  if (!navigator.share) {
+    await copyLink(guest)
+    return
+  }
+
+  try {
+    await navigator.share({ text: t('shareText'), url: getLink(guest) })
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') return
+
+    await copyLink(guest)
+  }
+}
 const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
+  // without an email address to send to, the organizer passes the link on
+  // from their own device, e.g. by text message
+  if (!isEmailable.value) {
+    await share(guest)
+    return
+  }
+
   pending.sends.push(guest.rowId)
 
   const result = await inviteMutation.executeMutation({
@@ -300,14 +322,22 @@ const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 }
 
 // computations
+const contact = computed(() => getContactItem(guest.contactByContactId))
+const isEmailable = computed(
+  () => !!(contact.value?.accountId || contact.value?.emailAddress),
+)
+const isSendable = computed(
+  () => isEmailable.value || !!contact.value?.phoneNumber,
+)
 const sendLabel = computed(() =>
   getEventPublicationState(event) !== 'published'
     ? t('disabledReasonDraft')
-    : contact.value?.accountId || contact.value?.emailAddress
+    : isEmailable.value
       ? t('guestSend')
-      : t('disabledReasonEmailAddressNone'),
+      : isSendable.value
+        ? t('guestShare')
+        : t('disabledReasonContactWayNone'),
 )
-const contact = computed(() => getContactItem(guest.contactByContactId))
 const contactName = computed(() =>
   contact.value
     ? getContactName({
@@ -322,7 +352,7 @@ const contactName = computed(() =>
 de:
   disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
-  disabledReasonEmailAddressNone: Diesem Kontakt fehlt eine E-Mail-Adresse.
+  disabledReasonContactWayNone: Diesem Kontakt fehlen E-Mail-Adresse und Telefonnummer.
   guestDelete: Gast löschen
   guestFeedbackAccept: Als zugesagt markieren
   guestFeedbackCancel: Als abgesagt markieren
@@ -331,13 +361,15 @@ de:
   guestLink: Einladungslink kopieren
   guestSelect: Gast {name} auswählen
   guestSend: Einladung versenden
+  guestShare: Einladung teilen
   guestView: Einladung anzeigen
   sendSuccess: Die Einladung wurde erfolgreich per E-Mail versandt.
+  shareText: 'Du bist eingeladen! Hier ist Deine Einladung:'
   # postgresP0002: Die Einladung konnte nicht versandt werden! Möglicherweise hast du aktuell keinen Zugriff auf die notwendigen Daten. Versuche die Seite neu zu laden.
 en:
   disabledReasonDraft: Publish the event to send invitations.
   copySuccess: The guest link has been copied to the clipboard.
-  disabledReasonEmailAddressNone: This contact does not have an associated email address.
+  disabledReasonContactWayNone: This contact has neither an email address nor a phone number.
   guestDelete: Delete guest
   guestFeedbackAccept: Mark as accepted
   guestFeedbackCancel: Mark as declined
@@ -346,7 +378,9 @@ en:
   guestLink: Copy invitation link
   guestSelect: Select guest {name}
   guestSend: Send invitation
+  guestShare: Share invitation
   guestView: View invitation
   sendSuccess: The invitation was successfully sent by email.
+  shareText: "You're invited! Here is your invitation:"
   # postgresP0002: The guest could not be sent! You may not have access to the necessary data right now. Try reloading the page.
 </i18n>

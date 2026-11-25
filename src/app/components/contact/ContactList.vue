@@ -66,6 +66,9 @@
               {{ t('url') }}
             </AppTableHead>
             <AppTableHead scope="col">
+              {{ t('guestCount') }}
+            </AppTableHead>
+            <AppTableHead scope="col">
               <span class="sr-only">{{ t('actions') }}</span>
             </AppTableHead>
           </tr>
@@ -76,6 +79,7 @@
             :id="contact.rowId"
             :key="contact.rowId"
             :contact
+            :guest-count="contact.guestCount"
             @delete="onDeleteSelect(contact)"
             @edit="edit(contact)"
           />
@@ -131,7 +135,7 @@
 <script setup lang="ts">
 import { graphql } from '~~/gql/generated'
 import type {
-  AllContactsQueryVariables,
+  AllContactsContactListQueryVariables,
   ContactItemFragment,
 } from '~~/gql/generated/graphql'
 import { getContactItem, getContactsSorted } from '~~/shared/utils/contact'
@@ -166,7 +170,11 @@ const searchString = ref<string>('')
 const { contactGroups, query: contactGroupsQuery } = useContactGroupsQuery()
 const contactsQuery = useApiQuery({
   query: graphql(`
-    query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
+    query AllContactsContactList(
+      $after: Cursor
+      $createdBy: UUID
+      $first: Int!
+    ) {
       allContacts(
         after: $after
         condition: { createdBy: $createdBy }
@@ -180,6 +188,9 @@ const contactsQuery = useApiQuery({
               contactGroupId
             }
           }
+          guestsByContactId {
+            totalCount
+          }
         }
         pageInfo {
           hasNextPage
@@ -189,7 +200,7 @@ const contactsQuery = useApiQuery({
       }
     }
   `),
-  variables: computed<AllContactsQueryVariables>(() => ({
+  variables: computed<AllContactsContactListQueryVariables>(() => ({
     after: after.value,
     createdBy: store.signedInAccountId,
     first: ITEMS_PER_PAGE_LARGE,
@@ -199,7 +210,15 @@ const api = await useApiData([contactGroupsQuery, contactsQuery])
 const contacts = computed(() =>
   getContactsSorted(
     api.value.data.allContacts?.nodes
-      .map((x) => getContactItem(x))
+      .map((node) => {
+        const contact = getContactItem(node)
+        return (
+          contact && {
+            ...contact,
+            guestCount: node.guestsByContactId.totalCount,
+          }
+        )
+      })
       .filter(isNeitherNullNorUndefined) || [],
   ),
 )
@@ -307,6 +326,7 @@ de:
   emptyTitle: Dein Kontaktbuch ist leer
   filterEmptyTitle: Kein Kontakt passt zu den gewählten Gruppen
   groupsManage: Gruppen verwalten
+  guestCount: Eingeladen zu
   phoneNumber: Telefonnummer
   searchClear: Suche und Filter zurücksetzen
   searchEmptyDescription: Prüfe die Schreibweise oder suche stattdessen nach der E-Mail-Adresse.
@@ -323,6 +343,7 @@ en:
   emptyTitle: Your contact book is empty
   filterEmptyTitle: No contact matches the chosen groups
   groupsManage: Manage groups
+  guestCount: Invited to
   phoneNumber: Phone number
   searchClear: Clear search and filters
   searchEmptyDescription: Check the spelling or search by email address instead.

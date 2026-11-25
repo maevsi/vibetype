@@ -35,6 +35,7 @@ import {
   getPreferenceEventLocationItem,
 } from '~~/shared/utils/preference/eventLocation'
 import { getFetchRetryingRateLimit } from '~~/shared/utils/networking'
+import { removeRelayPaginationPagesStale } from '~~/shared/utils/urqlPagination'
 import {
   getRefetchBeforeHydrationExchange,
   getSsrHydrationExchanges,
@@ -110,6 +111,15 @@ type RelayConnection<T> = {
 type QueryData<T> = {
   [listKey: string]: RelayConnection<T>
 }
+
+const QUERY_FIELDS_PAGINATED = [
+  'allAccounts',
+  'allContactGroups',
+  'allContacts',
+  'allEvents',
+  'allGuests',
+  'allUploads',
+] as const
 
 // Postgraphile's `...ByRowId` delete mutations only ever supply `rowId`,
 // never the Relay `id` graphcache keys by default, so any type reachable
@@ -260,16 +270,17 @@ export const getUrqlClient = async ({
     },
     schema,
     resolvers: {
-      Query: {
-        allAccounts: relayPagination(),
-        allContactGroups: relayPagination(),
-        allContacts: relayPagination(),
-        allEvents: relayPagination(),
-        allGuests: relayPagination(),
-        allUploads: relayPagination(),
-      },
+      Query: Object.fromEntries(
+        QUERY_FIELDS_PAGINATED.map((name) => [name, relayPagination()]),
+      ),
     },
     updates: {
+      Query: Object.fromEntries(
+        QUERY_FIELDS_PAGINATED.map((name) => [
+          name,
+          removeRelayPaginationPagesStale,
+        ]),
+      ),
       Mutation: {
         // the payload carries no account, so the profiles listing achievements are refetched instead
         achievementUnlock: (_result, _args, cache, _info) =>
