@@ -107,17 +107,6 @@
             {{ t('guestShowAll') }}
           </AppButton>
         </AppEmptyState>
-        <div
-          v-if="api.data.allGuests?.pageInfo.hasNextPage"
-          class="flex justify-center"
-        >
-          <AppButton
-            :aria-label="t('globalShowMore')"
-            @click="after = api.data.allGuests?.pageInfo.endCursor"
-          >
-            {{ t('globalShowMore') }}
-          </AppButton>
-        </div>
       </template>
       <div v-else class="flex flex-col items-center gap-2">
         <AppEmptyState
@@ -306,6 +295,17 @@ const guestsSelected = computed(() =>
   guestsFiltered.value.filter((guest) =>
     guestRowIdsSelected.value.includes(guest.rowId),
   ),
+)
+
+// lifecycle
+watch(
+  () => api.value.data.allGuests?.pageInfo,
+  (pageInfo) => {
+    // Sorting, searching, filtering and counting happen in the client, which needs every page to be complete.
+    if (import.meta.client && pageInfo?.hasNextPage)
+      after.value = pageInfo.endCursor
+  },
+  { immediate: true },
 )
 </script>
 
