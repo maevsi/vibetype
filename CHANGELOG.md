@@ -1,3 +1,9 @@
+## [17.61.5](https://github.com/maevsi/vibetype/compare/17.61.4...17.61.5) (2026-11-26)
+
+### Bug Fixes
+
+* **location:** point to the app settings after a denial on android ([#2898](https://github.com/maevsi/vibetype/issues/2898)) ([645d3f2](https://github.com/maevsi/vibetype/commit/645d3f27d87a7984cb0195cc594ae8ea43ec2fc7))
+
 ## [17.61.4](https://github.com/maevsi/vibetype/compare/17.61.3...17.61.4) (2026-11-26)
 
 ### Bug Fixes
