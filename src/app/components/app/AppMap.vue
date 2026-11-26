@@ -99,6 +99,7 @@ const { t, locale } = useI18n()
 const colorMode = useColorMode()
 const isMounted = useMounted()
 const { isFeatureEnabled } = useFeatureFlags()
+const { isAndroid } = usePlatform()
 const localePath = useLocalePath()
 const router = useRouter()
 
@@ -187,7 +188,9 @@ const locate = () => {
     ({ code, PERMISSION_DENIED, POSITION_UNAVAILABLE }) =>
       toast.error(
         code === PERMISSION_DENIED
-          ? t('locateDenied')
+          ? isAndroid
+            ? t('locateDeniedAndroid')
+            : t('locateDenied')
           : code === POSITION_UNAVAILABLE
             ? t('locateUnavailable')
             : t('locateTimeout'),
@@ -500,6 +503,7 @@ de:
   hintWheel: Zoome die Karte mit {key} + Scrollen.
   locate: Meinen Standort verwenden
   locateDenied: Der Zugriff auf Deinen Standort wurde verweigert. Erlaube ihn in den Einstellungen Deines Browsers.
+  locateDeniedAndroid: Der Zugriff auf Deinen Standort wurde verweigert. Erlaube ihn in den Android-Einstellungen unter Apps, Vibetype, Berechtigungen.
   locateTimeout: Dein Standort konnte nicht rechtzeitig ermittelt werden. Bitte versuche es erneut.
   locateUnavailable: Dein Standort ist derzeit nicht verfügbar.
   map: Karte
@@ -516,6 +520,7 @@ en:
   hintWheel: Hold {key} and scroll to zoom the map.
   locate: Use my current location
   locateDenied: Access to your location was denied. Allow it in your browser settings.
+  locateDeniedAndroid: Access to your location was denied. Allow it in the Android settings under Apps, Vibetype, Permissions.
   locateTimeout: Your location could not be determined in time. Please try again.
   locateUnavailable: Your location is currently unavailable.
   map: Map
