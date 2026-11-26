@@ -1,3 +1,9 @@
+## [17.61.4](https://github.com/maevsi/vibetype/compare/17.61.3...17.61.4) (2026-11-26)
+
+### Bug Fixes
+
+* **privacy:** describe analytics without advertising use ([#2749](https://github.com/maevsi/vibetype/issues/2749)) ([7ac9d0b](https://github.com/maevsi/vibetype/commit/7ac9d0b7ee76f24e726cfc5b8573598770506c78))
+
 ## [17.61.3](https://github.com/maevsi/vibetype/compare/17.61.2...17.61.3) (2026-11-25)
 
 ### Bug Fixes
