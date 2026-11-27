@@ -143,6 +143,9 @@ const existingEmailAddresses = computed(
       .filter(isNeitherNullNorUndefined) ?? [],
 )
 
+// initialization
+useLeaveConfirmation(computed(() => selectedIndexes.value.length > 0))
+
 // methods
 const getRowHint = (row: ContactImportRow, index: number) =>
   failures.value[index] ??

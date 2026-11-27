@@ -345,6 +345,8 @@ const form = useForm({
   },
 })
 
+useFormLeaveConfirmation(form)
+
 // methods
 const invite = async (guests: { contactId: string; rowId: string }[]) => {
   // Contacts without an account or an email address cannot receive an invitation, they stay on the guest list.

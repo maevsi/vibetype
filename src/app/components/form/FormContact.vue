@@ -373,6 +373,8 @@ const form = useForm({
 
       if (!getResultData(result)) return
 
+      form.reset(value)
+
       emit('submitSuccess')
     } else {
       // Add
@@ -396,10 +398,14 @@ const form = useForm({
 
       if (!getResultData(result)) return
 
+      form.reset(value)
+
       emit('submitSuccess')
     }
   },
 })
+
+useFormLeaveConfirmation(form)
 
 // computations
 const errorMessages = computed(() =>

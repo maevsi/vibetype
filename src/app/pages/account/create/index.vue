@@ -460,6 +460,16 @@ const { error, previous, restart, step } = useStepperPage<
     },
   },
 })
+useLeaveConfirmation(
+  () =>
+    step.value !== 'success' &&
+    !!(
+      emailField.value.value ||
+      passwordData.value ||
+      usernameField.value.value ||
+      birthDate.value
+    ),
+)
 useApiErrorModel({
   errorModel: error,
   errors: () => api.value.errors,

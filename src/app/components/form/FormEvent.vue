@@ -1070,22 +1070,7 @@ const form = useForm({
   },
 })
 
-// the form's own `isDirty` stays set once a field was edited, even when the edit was undone, and selected ids may come back in another order
-const isChanged = form.useStore((state) => {
-  const valuesInitial = new Map(
-    Object.entries(form.options.defaultValues ?? {}),
-  )
-
-  return Object.entries(state.values).some(([key, value]) => {
-    const valueInitial = valuesInitial.get(key)
-
-    return Array.isArray(value) && Array.isArray(valueInitial)
-      ? value.length !== valueInitial.length ||
-          value.some((item) => !valueInitial.includes(item))
-      : value !== valueInitial
-  })
-})
-useLeaveConfirmation(isChanged)
+useFormLeaveConfirmation(form)
 
 // methods
 const dateTimeFormatter = (x?: string) =>
