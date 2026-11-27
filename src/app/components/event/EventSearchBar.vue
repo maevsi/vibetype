@@ -9,6 +9,7 @@
       </slot>
     </div>
     <AppButton
+      v-if="hasMap"
       :aria-label="t('map')"
       :aria-pressed="isMapVisible"
       class="shrink-0"
@@ -22,7 +23,8 @@
 </template>
 
 <script setup lang="ts">
-const { placeholder = undefined } = defineProps<{
+const { hasMap = true, placeholder = undefined } = defineProps<{
+  hasMap?: boolean
   placeholder?: string
 }>()
 

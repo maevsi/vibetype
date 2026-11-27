@@ -1,22 +1,13 @@
-<template>
-  <div class="flex flex-1 flex-col">
-    <LayoutTopBar>{{ title }}</LayoutTopBar>
-    <LayoutPage>
-      <AccountSearch />
-    </LayoutPage>
-  </div>
-</template>
-
 <script setup lang="ts">
-// page
-const { t } = useI18n()
-const title = t('title')
-useHeadDefault({ title })
+// keeps old links to the account list working, with their query and locale prefix
+definePageMeta({
+  middleware: (to) =>
+    navigateTo(
+      {
+        path: to.path.replace(/account\/?$/, 'discover'),
+        query: { ...to.query, type: 'people' },
+      },
+      { redirectCode: 301 },
+    ),
+})
 </script>
-
-<i18n lang="yaml">
-de:
-  title: Personen
-en:
-  title: People
-</i18n>

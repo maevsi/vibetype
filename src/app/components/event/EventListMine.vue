@@ -337,7 +337,7 @@ const getQuery = (override: { filter?: string; time?: string }) => {
 const localePath = useLocalePath()
 const emptyState = computed(() => {
   const create = { label: t('emptyCreate'), to: localePath('event-create') }
-  const discover = { label: t('emptyDiscover'), to: localePath('event') }
+  const discover = { label: t('emptyDiscover'), to: localePath('discover') }
   const showUpcoming = {
     label: t('emptyShowUpcoming'),
     to: { query: getQuery({ time: 'upcoming' }) },

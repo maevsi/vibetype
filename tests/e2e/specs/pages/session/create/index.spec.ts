@@ -29,7 +29,7 @@ appTest.describe('signed out in the iOS app', () => {
   appTest(
     'still opens other pages on the home page',
     async ({ defaultPage, page }) => {
-      await defaultPage.goto('/event')
+      await defaultPage.goto('/discover')
 
       expect(page.url()).toBe(`${SITE_URL}/`)
     },

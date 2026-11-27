@@ -93,7 +93,7 @@
               </AppButton>
               <AppButton
                 :aria-label="t('discover')"
-                :to="localePath('event')"
+                :to="localePath('discover')"
                 variant="secondary"
               >
                 {{ t('discover') }}
@@ -245,7 +245,7 @@
             <AppButton
               v-else
               :aria-label="t('discover')"
-              :to="localePath('event')"
+              :to="localePath('discover')"
             >
               {{ t('discover') }}
             </AppButton>

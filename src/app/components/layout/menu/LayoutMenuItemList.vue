@@ -59,7 +59,7 @@ de:
   create: Veranstaltung erstellen
   createShort: Erstellen
   dashboard: Dashboard
-  discover: Alle Veranstaltungen
+  discover: Entdecken
   events: Veranstaltungen
   home: Start
   settings: Einstellungen
@@ -69,7 +69,7 @@ en:
   create: Create event
   createShort: Create
   dashboard: Dashboard
-  discover: All events
+  discover: Discover
   events: Events
   home: Home
   settings: Settings

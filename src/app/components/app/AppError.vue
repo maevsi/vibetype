@@ -59,7 +59,7 @@
           v-if="error.status === 404"
           :aria-label="t('events')"
           class="w-full max-w-md data-[variant=secondary]:bg-surface"
-          :to="localePath('event')"
+          :to="localePath('discover')"
           variant="secondary"
         >
           {{ t('events') }}
