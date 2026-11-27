@@ -202,7 +202,7 @@
           class="flex min-w-0 items-center gap-1"
           role="img"
         >
-          <AppIconMapPin aria-hidden="true" class="size-4 shrink-0" />
+          <AppIconMap aria-hidden="true" class="size-4 shrink-0" />
           <span class="truncate">{{ distanceText }}</span>
         </span>
         <span
