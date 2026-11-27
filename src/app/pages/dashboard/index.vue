@@ -20,6 +20,14 @@
           <AppIconCamera class="size-4" />
           {{ t('hunt') }}
         </AppButton>
+        <AppButton
+          :aria-label="t('feedbackAction')"
+          size="icon"
+          :to="localePath('support-contact')"
+          variant="secondary"
+        >
+          <AppIconChatBubbleBottomCenterText />
+        </AppButton>
         <AppFeature feature="notifications">
           <AppButton
             :aria-label="t('notifications')"
