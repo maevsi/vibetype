@@ -24,6 +24,7 @@ const locales = {
   },
 }
 const t = locales[locale]
+const separator = '·'
 </script>
 
 <template>
@@ -34,23 +35,35 @@ const t = locales[locale]
           <ELink
             class="link"
             :href="`mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${emailAddress}`"
-            style="color: #117a23; text-decoration: underline"
+            style="
+              color: #117a23;
+              text-decoration: underline;
+              white-space: nowrap;
+            "
           >
             {{ t.unsubscribe }}
           </ELink>
-          <br />
+          {{ separator }}
           <ELink
             class="link"
             :href="legalUrl('imprint')"
-            style="color: #117a23; text-decoration: underline"
+            style="
+              color: #117a23;
+              text-decoration: underline;
+              white-space: nowrap;
+            "
           >
             {{ t.imprint }}
           </ELink>
-          <br />
+          {{ separator }}
           <ELink
             class="link"
             :href="legalUrl('privacy')"
-            style="color: #117a23; text-decoration: underline"
+            style="
+              color: #117a23;
+              text-decoration: underline;
+              white-space: nowrap;
+            "
           >
             {{ t.privacy }}
           </ELink>

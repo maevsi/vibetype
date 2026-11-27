@@ -43,12 +43,11 @@ const t = locales[locale]
           />
         </ELink>
       </EColumn>
-      <EColumn width="88%">
-        <AppText style="line-height: 9px">
+      <EColumn style="vertical-align: middle" width="88%">
+        <AppText style="line-height: 20px; margin: 0">
           {{ authorName }}
-        </AppText>
-        <AppText style="font-style: italic; line-height: 9px">
-          {{ t.author(t.siteName) }}
+          <br />
+          <span style="font-style: italic">{{ t.author(t.siteName) }}</span>
         </AppText>
       </EColumn>
     </ERow>

@@ -183,11 +183,10 @@ const t = locales[locale]
             />
           </ELink>
         </EColumn>
-        <EColumn width="88%">
-          <AppText style="font-style: italic; line-height: 9px">
-            {{ t.createdBy }}
-          </AppText>
-          <AppText style="line-height: 9px">
+        <EColumn style="vertical-align: middle" width="88%">
+          <AppText style="line-height: 20px; margin: 0">
+            <span style="font-style: italic">{{ t.createdBy }}</span>
+            <br />
             {{ eventAuthorUsername }}
           </AppText>
         </EColumn>
