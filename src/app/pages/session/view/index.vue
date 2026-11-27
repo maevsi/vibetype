@@ -391,6 +391,7 @@ const featureFlagDescriptions = computed<Record<FeatureFlag, string>>(() => ({
   'event-attending': t('featureFlagEventAttending'),
   'event-drafts': t('featureFlagEventDrafts'),
   friends: t('featureFlagFriends'),
+  'guest-selection': t('featureFlagGuestSelection'),
   invitations: t('featureFlagInvitations'),
   'location-live': t('featureFlagLocationLive'),
   notifications: t('featureFlagNotifications'),
@@ -548,6 +549,7 @@ de:
   featureFlagEventAttending: Kachel „Dabei“ in den eigenen Veranstaltungen
   featureFlagEventDrafts: Kachel „Entwürfe“ in den eigenen Veranstaltungen
   featureFlagFriends: Freundschaften und Statistikkarten im Profil, Freundschaft hinzufügen in Profil und Teilnahme
+  featureFlagGuestSelection: Mehrfachauswahl und Sammelaktionen in der Gästeliste
   featureFlagInvitations: Seite mit den eigenen Einladungen
   featureFlagLocationLive: Knopf zum Orten auf Karten
   featureFlagNotifications: Benachrichtigungsseite und ihr Knopf im Dashboard
@@ -602,6 +604,7 @@ en:
   featureFlagEventAttending: Going tile in your events
   featureFlagEventDrafts: Drafts tile in your events
   featureFlagFriends: Friends and stat cards on profiles, adding friends on profiles and attendances
+  featureFlagGuestSelection: Multi-select and bulk actions in the guest list
   featureFlagInvitations: Page listing your invitations
   featureFlagLocationLive: Locate button on maps
   featureFlagNotifications: Notifications page and its button on the dashboard

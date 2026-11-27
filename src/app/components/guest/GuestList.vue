@@ -2,11 +2,11 @@
   <Loader :api>
     <div class="flex flex-col gap-4">
       <div class="flex flex-col items-center gap-1">
-        <p class="text-center text-fg-2">
+        <p v-if="event.guestCountMaximum" class="text-center text-fg-2">
           {{
             t('guestsUsed', {
               amountCurrent: api.data.allGuests?.totalCount,
-              amountMaximum: event.guestCountMaximum || '∞',
+              amountMaximum: event.guestCountMaximum,
             })
           }}
         </p>
@@ -72,11 +72,11 @@
           </AppButton>
         </div>
         <GuestListActions
-          v-if="guestsSelected.length"
+          v-if="isSelectionEnabled && guestsSelected.length"
           :guests="guestsSelected"
         />
         <template v-if="guestsFiltered.length">
-          <AppSelectionItem class="items-center px-2">
+          <AppSelectionItem v-if="isSelectionEnabled" class="items-center px-2">
             <template #control="ariaAttributes">
               <Checkbox
                 v-bind="ariaAttributes"
@@ -174,6 +174,7 @@ const { event } = defineProps<{
 }>()
 
 const localePath = useLocalePath()
+const isSelectionEnabled = useFeatureFlags().isFeatureEnabled('guest-selection')
 const { t } = useI18n()
 
 // data
