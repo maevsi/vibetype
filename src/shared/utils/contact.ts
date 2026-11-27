@@ -56,6 +56,32 @@ export const getContactsSorted = <Contact extends ContactNamed>(
     getContactSortKey(a).localeCompare(getContactSortKey(b)),
   )
 
+export const normalizeSearchText = (text: string) =>
+  text.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim()
+
+// Covers every property a row shows plus the nickname, which the sort key prefers but the row hides.
+export const getContactSearchText = (
+  contact: ContactNamed & Partial<Pick<ContactItemFragment, 'phoneNumber'>>,
+) =>
+  [
+    contact.nickname,
+    contact.firstName,
+    contact.lastName,
+    contact.accountByAccountId?.username,
+    contact.emailAddress,
+    contact.phoneNumber,
+  ]
+    .map((property) => normalizeSearchText(property ?? ''))
+    .filter(Boolean)
+    .join(' ')
+
+// Every word has to match, so that adding a last name narrows the results instead of widening them.
+export const isSearchTextMatch = (searchText: string, query: string) =>
+  normalizeSearchText(query)
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((part) => searchText.includes(part))
+
 export type ContactCreationCandidate = {
   accountId?: string
   emailAddress?: string

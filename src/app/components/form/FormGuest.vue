@@ -158,7 +158,9 @@ import type {
 import {
   getContactCreationCandidate,
   getContactItem,
+  getContactSearchText,
   getContactsSorted,
+  isSearchTextMatch,
 } from '~~/shared/utils/contact'
 
 const {
@@ -418,35 +420,22 @@ const contactsShown = computed(() => {
     ),
   ])
 })
-const contactsFiltered = computed(() => {
-  if (!searchString.value || searchString.value === '') {
-    return contactsShown.value
-  }
-
-  const searchStringParts = searchString.value.split(' ')
-  const allContactsFiltered = contactsShown.value.filter((contact) => {
-    const contactProperties = [
-      ...(contact.accountByAccountId?.username
-        ? [contact.accountByAccountId.username.toLowerCase()]
-        : []),
-      ...(contact.emailAddress ? [contact.emailAddress.toLowerCase()] : []),
-      ...(contact.firstName ? [contact.firstName.toLowerCase()] : []),
-      ...(contact.lastName ? [contact.lastName.toLowerCase()] : []),
-    ]
-
-    for (const contactProperty of contactProperties) {
-      for (const searchStringPart of searchStringParts) {
-        if (contactProperty.includes(searchStringPart.toLowerCase())) {
-          return true
-        }
-      }
-    }
-
-    return false
-  })
-
-  return allContactsFiltered
-})
+// the search text is built once per data change instead of once per keystroke
+const contactsIndexed = computed(() =>
+  contactsShown.value.map((contact) => ({
+    contact,
+    searchText: getContactSearchText(contact),
+  })),
+)
+const contactsFiltered = computed(() =>
+  searchStringTrimmed.value
+    ? contactsIndexed.value
+        .filter(({ searchText }) =>
+          isSearchTextMatch(searchText, searchStringTrimmed.value),
+        )
+        .map(({ contact }) => contact)
+    : contactsShown.value,
+)
 
 const contactCreationCandidate = computed(() =>
   // Offering to create a contact before the whole book is known would suggest a duplicate of a contact that is still being loaded.
