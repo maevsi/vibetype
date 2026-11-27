@@ -1,3 +1,9 @@
+## [17.65.0](https://github.com/maevsi/vibetype/compare/17.64.0...17.65.0) (2026-11-27)
+
+### Features
+
+* **email:** add company details to footer ([#2914](https://github.com/maevsi/vibetype/issues/2914)) ([45d3850](https://github.com/maevsi/vibetype/commit/45d3850725044e751363a3c4dd7276ec52e19dfe))
+
 ## [17.64.0](https://github.com/maevsi/vibetype/compare/17.63.0...17.64.0) (2026-11-27)
 
 ### Features
