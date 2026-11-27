@@ -9,7 +9,7 @@
     >
       {{ t('deletion', { item: itemNameDeletion }) }}
     </AppButton>
-    <AppDrawer v-model:open="isOpen" @close="onClose">
+    <AppDrawer v-model="isOpen" @close="onClose">
       <FormDelete
         :errors-pg-ids
         :item-name-deletion

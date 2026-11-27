@@ -1,5 +1,5 @@
 <template>
-  <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
+  <AppDrawer v-model="isOpen" @animation-end="onAnimationEnd">
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <EventReportForm
         :id="templateIdForm"

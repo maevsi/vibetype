@@ -101,9 +101,13 @@ const form = useForm({
       return
     }
 
+    form.reset(value)
+
     emit('submitSuccess')
   },
 })
+
+useFormLeaveConfirmation(form)
 </script>
 
 <i18n lang="yaml">

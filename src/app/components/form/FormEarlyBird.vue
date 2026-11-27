@@ -136,6 +136,7 @@ const form = useForm({
         },
         method: 'POST',
       })
+      form.reset(value)
       emit('success')
     } catch (error) {
       modelError.value = error as Error
@@ -145,6 +146,8 @@ const form = useForm({
     }
   },
 })
+
+useFormLeaveConfirmation(form)
 
 // template
 const { t } = useI18n()

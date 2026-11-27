@@ -131,6 +131,27 @@ authenticatedTest(
 )
 
 authenticatedTest(
+  'asks before discarding unsaved contact changes',
+  async ({ defaultPage }) => {
+    const { page } = defaultPage
+
+    await defaultPage.goto('/contact/create')
+    await page.getByLabel('First name', { exact: true }).fill('Unsaved')
+
+    const drawer = page.getByRole('dialog', { name: 'Discard changes' })
+
+    await page.getByRole('link', BACK).click()
+    await drawer.getByRole('button', { name: 'Go back' }).click()
+    await expect(drawer).toBeHidden()
+    await expect(page).toHaveURL(/\/contact\/create$/)
+
+    await page.getByRole('link', BACK).click()
+    await drawer.getByRole('button', { exact: true, name: 'Discard' }).click()
+    await expect(page).not.toHaveURL(/\/contact\/create$/)
+  },
+)
+
+authenticatedTest(
   'leaves without asking once changes are undone',
   async ({ defaultPage }) => {
     const { page } = defaultPage
