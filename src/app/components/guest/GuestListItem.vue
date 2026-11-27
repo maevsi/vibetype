@@ -7,6 +7,7 @@
     }"
   >
     <Checkbox
+      v-if="isSelectionEnabled"
       v-model="isSelected"
       :aria-label="t('guestSelect', { name: contactName })"
       class="ml-2"
@@ -25,15 +26,6 @@
         <AppIconPaperAirplane />
         <template #loading />
       </AppButton>
-      <AppButton
-        :aria-label="t('guestLink')"
-        class="hidden md:block"
-        size="none"
-        variant="ghost"
-        @click="copyLink(guest)"
-      >
-        <AppIconLink />
-      </AppButton>
       <AppDropdown>
         <AppDropdownItem
           class="md:hidden"
@@ -45,7 +37,7 @@
             {{ sendLabel }}
           </span>
         </AppDropdownItem>
-        <AppDropdownItem class="md:hidden" @select="copyLink(guest)">
+        <AppDropdownItem @select="copyLink(guest)">
           <AppIconLink />
           <span>
             {{ t('guestLink') }}
@@ -154,6 +146,7 @@ const router = useRouter()
 const store = useStore()
 const { copy } = useCopy()
 const { shift } = useMagicKeys()
+const isSelectionEnabled = useFeatureFlags().isFeatureEnabled('guest-selection')
 
 const isSelected = defineModel<boolean>('selected')
 
