@@ -1,3 +1,15 @@
+## [17.63.0](https://github.com/maevsi/vibetype/compare/17.62.0...17.63.0) (2026-11-27)
+
+### Features
+
+* **dashboard:** add a feedback button to the top bar ([#2910](https://github.com/maevsi/vibetype/issues/2910)) ([b70ff20](https://github.com/maevsi/vibetype/commit/b70ff20bd657d3db3bf530acfce5dfe3bafbfa14))
+* **guest:** tidy up the guest list ([#2908](https://github.com/maevsi/vibetype/issues/2908)) ([72d65f4](https://github.com/maevsi/vibetype/commit/72d65f456d2c614e51bc57c8ec7bf9b8a5149ca6))
+* **list:** show sorted lists once complete and return to the edited contact ([#2907](https://github.com/maevsi/vibetype/issues/2907)) ([e02ff01](https://github.com/maevsi/vibetype/commit/e02ff0199cb52acab14da8cbacdd07e0e7fcc861))
+
+### Bug Fixes
+
+* **icon:** show the map icon for maps and locations ([#2909](https://github.com/maevsi/vibetype/issues/2909)) ([d8a83da](https://github.com/maevsi/vibetype/commit/d8a83da6db08d6fbf6d62e14a116bf284face4d1))
+
 ## [17.62.0](https://github.com/maevsi/vibetype/compare/17.61.6...17.62.0) (2026-11-27)
 
 ### Features
