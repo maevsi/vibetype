@@ -8,7 +8,7 @@
     }}
     <template #icon>
       <span class="flex gap-2">
-        <AppIconMapPin v-if="event.isInPerson" :title="t('inPerson')" />
+        <AppIconMap v-if="event.isInPerson" :title="t('inPerson')" />
         <AppIconWifi v-if="event.isRemote" :title="t('remote')" />
       </span>
     </template>

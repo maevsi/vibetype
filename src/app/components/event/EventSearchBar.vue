@@ -16,7 +16,7 @@
       :variant="isMapVisible ? 'primary' : 'secondary'"
       @click="isMapVisible = !isMapVisible"
     >
-      <AppIconMapPin />
+      <AppIconMap />
     </AppButton>
   </div>
 </template>
