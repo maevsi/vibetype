@@ -13,11 +13,25 @@ const legalUrl = (name: string) =>
 // data
 const locales = {
   de: {
+    company: [
+      'maevsi UG (haftungsbeschränkt)',
+      'Virchowstraße 4, 34121 Kassel',
+      'Sitz: Kassel',
+      'Amtsgericht Kassel, HRB 20135',
+      'Geschäftsführer: Jonas Thelemann, Tony Krieger',
+    ],
     imprint: 'Impressum',
     privacy: 'Datenschutz',
     unsubscribe: 'E-Mails abbestellen',
   },
   en: {
+    company: [
+      'maevsi UG (haftungsbeschränkt)',
+      'Virchowstraße 4, 34121 Kassel, Germany',
+      'Registered office: Kassel',
+      'Local court Kassel, HRB 20135',
+      'Managing directors: Jonas Thelemann, Tony Krieger',
+    ],
     imprint: 'Imprint',
     privacy: 'Privacy',
     unsubscribe: 'Unsubscribe from emails',
@@ -67,6 +81,17 @@ const separator = '·'
           >
             {{ t.privacy }}
           </ELink>
+        </AppText>
+        <AppText
+          class="text-secondary"
+          style="
+            color: #5f6461;
+            font-size: 11px;
+            line-height: 18px;
+            text-align: center;
+          "
+        >
+          {{ t.company.join(` ${separator} `) }}
         </AppText>
       </EColumn>
     </ERow>
