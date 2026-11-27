@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { LOGO_CID, LOGO_DARK_CID } from '#shared/utils/assets'
+import {
+  EMAIL_IMAGE_PATH_LOGO,
+  EMAIL_IMAGE_PATH_LOGO_DARK,
+} from '#shared/utils/assets'
 
 const { locale } = defineProps<{
   locale: AppLocale
 }>()
 
 const { siteUrl } = useSiteUrl()
+const logoSrc = new URL(EMAIL_IMAGE_PATH_LOGO, siteUrl).href
+const logoDarkSrc = new URL(EMAIL_IMAGE_PATH_LOGO_DARK, siteUrl).href
 
 // data
 const locales = {
@@ -30,7 +35,7 @@ const t = locales[locale]
             :alt="t.logo(t.siteName)"
             class="logo-light"
             height="75"
-            :src="`cid:${LOGO_CID}`"
+            :src="logoSrc"
             style="margin: auto"
             width="300"
           />
@@ -38,7 +43,7 @@ const t = locales[locale]
             :alt="t.logo(t.siteName)"
             class="logo-dark"
             height="75"
-            :src="`cid:${LOGO_DARK_CID}`"
+            :src="logoDarkSrc"
             style="display: none; margin: auto; mso-hide: all"
             width="300"
           />
