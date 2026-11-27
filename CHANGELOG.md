@@ -1,3 +1,9 @@
+## [17.61.6](https://github.com/maevsi/vibetype/compare/17.61.5...17.61.6) (2026-11-27)
+
+### Bug Fixes
+
+* **email:** use the primary action color for buttons ([#2899](https://github.com/maevsi/vibetype/issues/2899)) ([9cf7ce9](https://github.com/maevsi/vibetype/commit/9cf7ce9c1cf86084b5cb377ae58c641c99f8ad3b))
+
 ## [17.61.5](https://github.com/maevsi/vibetype/compare/17.61.4...17.61.5) (2026-11-26)
 
 ### Bug Fixes
