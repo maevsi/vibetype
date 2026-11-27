@@ -33,7 +33,12 @@
           </AppButton>
         </div>
       </div>
-      <template v-if="event && guests.length">
+      <AppLoaderProgress
+        v-if="!isComplete"
+        :count="guests.length"
+        :total="api.data.allGuests?.totalCount ?? 0"
+      />
+      <template v-else-if="event && guests.length">
         <div class="flex items-center gap-2">
           <div class="min-w-0 flex-1">
             <AppInputSearch v-model="searchString" class="h-12" />
@@ -300,15 +305,9 @@ const guestsSelected = computed(() =>
 )
 
 // lifecycle
-watch(
-  () => api.value.data.allGuests?.pageInfo,
-  (pageInfo) => {
-    // Sorting, searching, filtering and counting happen in the client, which needs every page to be complete.
-    if (import.meta.client && pageInfo?.hasNextPage)
-      after.value = pageInfo.endCursor
-  },
-  { immediate: true },
-)
+// Sorting, searching, filtering and counting happen in the client, which needs every page to be complete.
+const isComplete = usePagesAll(after, () => api.value.data.allGuests?.pageInfo)
+useRowHighlight('guest', isComplete)
 </script>
 
 <i18n lang="yaml">

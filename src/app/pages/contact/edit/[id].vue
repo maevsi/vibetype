@@ -12,7 +12,10 @@
         {{ title }}
       </LayoutTopBar>
       <LayoutPage>
-        <FormContact :contact @submit-success="navigateTo(redirectPath)" />
+        <FormContact
+          :contact
+          @submit-success="store.navigateBack(redirectPath)"
+        />
         <ContactGuestEventList
           :events="guestEvents"
           :total-count="
@@ -30,6 +33,7 @@ import { getContactItem } from '~~/shared/utils/contact'
 
 const localePath = useLocalePath()
 const route = useRoute()
+const store = useStore()
 const { t } = useI18n()
 
 // validation

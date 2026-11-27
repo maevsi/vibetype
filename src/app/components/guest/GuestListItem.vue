@@ -1,6 +1,7 @@
 <template>
   <AppListItem
     v-if="contact"
+    :id="`guest-${guest.rowId}`"
     :class="{
       'animate-pulse': pending.deletions.includes(guest.rowId),
     }"
@@ -149,6 +150,7 @@ const { event, guest } = defineProps<{
 const { defaultLocale, locale, t } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
+const router = useRouter()
 const store = useStore()
 const { copy } = useCopy()
 const { shift } = useMagicKeys()
@@ -227,10 +229,12 @@ const delete_ = async (id: string) => {
   await deleteGuestByRowIdMutation.executeMutation({ input: { rowId: id } })
   pending.deletions.splice(pending.deletions.indexOf(id), 1)
 }
-const editContact = () => {
+// the hash lets the list scroll back to this guest after the edit
+const editContact = async () => {
   if (!contact.value) return
 
-  navigateTo(
+  await router.replace({ ...route, hash: `#guest-${guest.rowId}` })
+  await navigateTo(
     localePath({
       name: 'contact-edit-id',
       params: { id: contact.value.rowId },

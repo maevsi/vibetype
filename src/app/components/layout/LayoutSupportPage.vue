@@ -66,7 +66,7 @@
           <AppButton
             :aria-label="successButton"
             class="w-full max-w-md"
-            @click="store.navigateBack"
+            @click="store.navigateBack()"
           >
             {{ successButton }}
           </AppButton>

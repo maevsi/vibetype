@@ -3,11 +3,11 @@
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
         <AppInputSearch
-          v-if="contacts.length"
+          v-if="isComplete && contacts.length"
           v-model="searchString"
           class="flex-1"
         />
-        <div v-if="contacts.length" class="flex gap-4">
+        <div v-if="isComplete && contacts.length" class="flex gap-4">
           <AppButton
             :aria-label="t('contactAdd')"
             class="flex-1 whitespace-nowrap sm:flex-none"
@@ -28,7 +28,12 @@
           </AppButton>
         </div>
       </div>
-      <template v-if="contactsFiltered.length">
+      <AppLoaderProgress
+        v-if="!isComplete"
+        :count="contacts.length"
+        :total="api.data.allContacts?.totalCount ?? 0"
+      />
+      <template v-else-if="contactsFiltered.length">
         <p class="text-body-small text-fg-2">
           {{
             searchString.trim()
@@ -50,7 +55,6 @@
           <AppList>
             <ContactListItem
               v-for="contact in section.contacts"
-              :id="contact.rowId"
               :key="contact.rowId"
               :contact
               :guest-count="contact.guestCount"
@@ -252,15 +256,12 @@ const onDeleteSelect = (
 }
 
 // lifecycle
-watch(
+// Sorting and searching happen in the client, which needs every page to be complete.
+const isComplete = usePagesAll(
+  after,
   () => api.value.data.allContacts?.pageInfo,
-  (pageInfo) => {
-    // Sorting and searching happen in the client, which needs every page to be complete.
-    if (import.meta.client && pageInfo?.hasNextPage)
-      after.value = pageInfo.endCursor
-  },
-  { immediate: true },
 )
+useRowHighlight('contact', isComplete)
 </script>
 
 <i18n lang="yaml">
