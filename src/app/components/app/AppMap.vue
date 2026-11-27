@@ -149,6 +149,12 @@ watch(locale, () => {
     locateButton.setAttribute('aria-label', t('locate'))
   }
 })
+// since Android 14 the app cannot ask for the location while the browser is in front, so a tap opens the app's `LocationPermissionActivity`, and app versions without it land on the store page to update
+const openLocationPermission = () => {
+  const fallbackUrl =
+    'https://play.google.com/store/apps/details?id=si.maev.twa'
+  window.location.href = `intent://location-permission#Intent;scheme=vibetype;package=si.maev.twa;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`
+}
 const locate = () => {
   const mapLocal = map.value
   if (!mapLocal) return
@@ -185,16 +191,22 @@ const locate = () => {
         toast.error(t('geocodeError'))
       }
     },
-    ({ code, PERMISSION_DENIED, POSITION_UNAVAILABLE }) =>
+    ({ code, PERMISSION_DENIED, POSITION_UNAVAILABLE }) => {
+      if (code === PERMISSION_DENIED && isAndroid) {
+        toast.error(t('locateDeniedAndroid'), {
+          action: { label: t('locateAllow'), onClick: openLocationPermission },
+        })
+        return
+      }
+
       toast.error(
         code === PERMISSION_DENIED
-          ? isAndroid
-            ? t('locateDeniedAndroid')
-            : t('locateDenied')
+          ? t('locateDenied')
           : code === POSITION_UNAVAILABLE
             ? t('locateUnavailable')
             : t('locateTimeout'),
-      ),
+      )
+    },
     { timeout: 10000 },
   )
 }
@@ -503,7 +515,8 @@ de:
   hintWheel: Zoome die Karte mit {key} + Scrollen.
   locate: Meinen Standort verwenden
   locateDenied: Der Zugriff auf Deinen Standort wurde verweigert. Erlaube ihn in den Einstellungen Deines Browsers.
-  locateDeniedAndroid: Der Zugriff auf Deinen Standort wurde verweigert. Erlaube ihn in den Android-Einstellungen unter Apps, Vibetype, Berechtigungen.
+  locateAllow: Erlauben
+  locateDeniedAndroid: Die App darf Deinen Standort noch nicht verwenden. Erlaube es und versuche es dann erneut.
   locateTimeout: Dein Standort konnte nicht rechtzeitig ermittelt werden. Bitte versuche es erneut.
   locateUnavailable: Dein Standort ist derzeit nicht verfügbar.
   map: Karte
@@ -520,7 +533,8 @@ en:
   hintWheel: Hold {key} and scroll to zoom the map.
   locate: Use my current location
   locateDenied: Access to your location was denied. Allow it in your browser settings.
-  locateDeniedAndroid: Access to your location was denied. Allow it in the Android settings under Apps, Vibetype, Permissions.
+  locateAllow: Allow
+  locateDeniedAndroid: The app may not use your location yet. Allow it, then try again.
   locateTimeout: Your location could not be determined in time. Please try again.
   locateUnavailable: Your location is currently unavailable.
   map: Map
