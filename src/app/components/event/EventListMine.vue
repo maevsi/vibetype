@@ -251,23 +251,17 @@ const querySaved = graphql(`
 
 // data
 const { isFeatureEnabled } = useFeatureFlags()
-const isAttendingEnabled = isFeatureEnabled('event-attending')
 const isDraftsEnabled = isFeatureEnabled('event-drafts')
 // `AppFeature` would show an unflagged tile with a striped overlay in
 // development, which a tile in a grid cannot carry, so the flags decide here
 // and a flagged tile carries the stripes itself
 const filterOptions = computed(() => [
-  ...(isAttendingEnabled.value
-    ? [
-        {
-          color: 'text-green-600',
-          icon: resolveComponent('AppIconCheckCircle'),
-          isFlagged: true,
-          label: t('attending'),
-          value: 'attending',
-        } as const,
-      ]
-    : []),
+  {
+    color: 'text-green-600',
+    icon: resolveComponent('AppIconCheckCircle'),
+    label: t('attending'),
+    value: 'attending',
+  } as const,
   {
     color: 'text-accent-pink',
     icon: resolveComponent('AppIconBookmark'),

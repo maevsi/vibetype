@@ -388,7 +388,6 @@ const featureFlagDescriptions = computed<Record<FeatureFlag, string>>(() => ({
   'account-management': t('featureFlagAccountManagement'),
   'category-browse': t('featureFlagCategoryBrowse'),
   'developer-tools': t('featureFlagDeveloperTools'),
-  'event-attending': t('featureFlagEventAttending'),
   'event-drafts': t('featureFlagEventDrafts'),
   friends: t('featureFlagFriends'),
   'guest-selection': t('featureFlagGuestSelection'),
@@ -546,7 +545,6 @@ de:
   featureFlagAccountManagement: Kontaktbuch und Uploads im eigenen Profil, Kontakte hinzufügen beim Einladen
   featureFlagCategoryBrowse: Kategorien in der Veranstaltungssuche
   featureFlagDeveloperTools: Eintrag zu dieser Seite in den Einstellungen
-  featureFlagEventAttending: Kachel „Dabei“ in den eigenen Veranstaltungen
   featureFlagEventDrafts: Kachel „Entwürfe“ in den eigenen Veranstaltungen
   featureFlagFriends: Freundschaften und Statistikkarten im Profil, Freundschaft hinzufügen in Profil und Teilnahme
   featureFlagGuestSelection: Mehrfachauswahl und Sammelaktionen in der Gästeliste
@@ -601,7 +599,6 @@ en:
   featureFlagAccountManagement: Contact book and uploads on your profile, adding contacts when inviting
   featureFlagCategoryBrowse: Categories in the event search
   featureFlagDeveloperTools: Entry to this page in the settings
-  featureFlagEventAttending: Going tile in your events
   featureFlagEventDrafts: Drafts tile in your events
   featureFlagFriends: Friends and stat cards on profiles, adding friends on profiles and attendances
   featureFlagGuestSelection: Multi-select and bulk actions in the guest list
