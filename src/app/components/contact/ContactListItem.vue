@@ -1,8 +1,12 @@
 <template>
-  <AppListItem :class="{ 'animate-pulse': isDeleting }">
-    <NuxtLink
+  <AppListItem
+    :id="`contact-${contact.rowId}`"
+    :class="{ 'animate-pulse': isDeleting }"
+  >
+    <a
       class="flex min-w-0 flex-1 items-center gap-4 rounded-medium p-2 hover:bg-surface-raised/50"
-      :to="editPath"
+      :href="editPath"
+      @click="onLinkClick"
     >
       <ContactPreview :contact :is-username-linked="false">
         <template v-if="contactWay" #description>{{ contactWay }}</template>
@@ -11,9 +15,9 @@
         {{ t('guestCount', { count: guestCount }) }}
       </span>
       <AppIconChevronRight class="size-5 shrink-0 text-fg-2" />
-    </NuxtLink>
+    </a>
     <AppDropdown>
-      <AppDropdownItem @select="navigateTo(editPath)">
+      <AppDropdownItem @select="edit">
         <AppIconPencil />
         <span>{{ t('contactEdit') }}</span>
       </AppDropdownItem>
@@ -61,6 +65,7 @@ const emit = defineEmits<{
 
 const localePath = useLocalePath()
 const route = useRoute()
+const router = useRouter()
 const store = useStore()
 const { t } = useI18n()
 
@@ -81,6 +86,20 @@ const editPath = computed(() =>
     query: { redirect: route.fullPath },
   }),
 )
+
+// methods
+// the hash lets the list scroll back to this contact after the edit
+const onLinkClick = (event: MouseEvent) => {
+  // modified and middle clicks keep their native behavior, e.g. opening a new tab
+  if (event.button || event.ctrlKey || event.metaKey || event.shiftKey) return
+
+  event.preventDefault()
+  edit()
+}
+const edit = async () => {
+  await router.replace({ ...route, hash: `#contact-${contact.rowId}` })
+  await navigateTo(editPath.value)
+}
 </script>
 
 <i18n lang="yaml">

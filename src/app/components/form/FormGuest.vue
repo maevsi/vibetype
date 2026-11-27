@@ -37,12 +37,11 @@
           v-if="contacts"
           class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto"
         >
-          <div
-            v-if="allContactsQuery.fetching.value"
-            class="flex justify-center"
-          >
-            <AppSpinner class="size-8" />
-          </div>
+          <AppLoaderProgress
+            v-if="!isComplete"
+            :count="contacts.length"
+            :total="apiData.data.allContacts?.totalCount ?? 0"
+          />
           <AppButton
             v-if="contactCreationCandidate"
             :aria-label="t('contactCreate')"
@@ -80,6 +79,7 @@
             <AppIconPlus class="ml-auto shrink-0" />
           </AppButton>
           <AppCheckboxGroup
+            v-if="isComplete"
             :aria-label="t('contactsSelect')"
             class="shrink-0"
             :model-value="[
@@ -468,14 +468,10 @@ const errorMessages = computed(() =>
 )
 
 // lifecycle
-watch(
+// Sorting and searching happen in the client, which needs every page to be complete.
+const isComplete = usePagesAll(
+  after,
   () => apiData.value.data.allContacts?.pageInfo,
-  (pageInfo) => {
-    // Sorting and searching happen in the client, which needs every page to be complete.
-    if (import.meta.client && pageInfo?.hasNextPage)
-      after.value = pageInfo.endCursor
-  },
-  { immediate: true },
 )
 </script>
 

@@ -2,9 +2,8 @@
   <AppButton
     :aria-label="ariaLabel || t('back')"
     size="none"
-    :to
     variant="ghost"
-    @click="to || store.navigateBack()"
+    @click="store.navigateBack(to)"
   >
     <slot>
       <AppIconBack />

@@ -4,8 +4,9 @@
     <LayoutPage>
       <Loader :api>
         <div class="flex flex-col gap-4">
+          <AppLoaderPlaceholder v-if="!isComplete" />
           <AppButton
-            v-if="isSupported"
+            v-else-if="isSupported"
             :aria-label="rows.length ? t('pickAgain') : t('pick')"
             class="self-start"
             :loading="isPicking"
@@ -14,6 +15,7 @@
             {{ rows.length ? t('pickAgain') : t('pick') }}
           </AppButton>
           <AppInputFile
+            v-if="isComplete"
             accept=".vcf,text/vcard,text/x-vcard"
             :loading="isReadingFile"
             @select="onFileChange"
@@ -22,7 +24,7 @@
             <span>{{ t('fileChoose') }}</span>
             <span class="text-body-small">{{ t('fileHint') }}</span>
           </AppInputFile>
-          <template v-if="rows.length">
+          <template v-if="isComplete && rows.length">
             <AppCheckboxGroup
               v-model="selectedIndexes"
               :aria-label="t('contacts')"
@@ -277,13 +279,9 @@ const showContacts = async (
 }
 
 // lifecycle
-watch(
+const isComplete = usePagesAll(
+  after,
   () => api.value.data.allContacts?.pageInfo,
-  (pageInfo) => {
-    if (import.meta.client && pageInfo?.hasNextPage)
-      after.value = pageInfo.endCursor
-  },
-  { immediate: true },
 )
 
 // initialization
