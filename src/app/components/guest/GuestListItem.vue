@@ -69,6 +69,15 @@
           </span>
         </AppDropdownItem>
         <AppDropdownItem
+          v-if="contact.createdBy === store.signedInAccountId"
+          @select="editContact"
+        >
+          <AppIconPencil />
+          <span>
+            {{ t('contactEdit') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
           v-if="
             guest.feedback === null ||
             guest.feedback === InvitationFeedback.Canceled
@@ -139,6 +148,8 @@ const { event, guest } = defineProps<{
 
 const { defaultLocale, locale, t } = useI18n()
 const localePath = useLocalePath()
+const route = useRoute()
+const store = useStore()
 const { copy } = useCopy()
 const { shift } = useMagicKeys()
 
@@ -215,6 +226,17 @@ const delete_ = async (id: string) => {
   pending.deletions.push(id)
   await deleteGuestByRowIdMutation.executeMutation({ input: { rowId: id } })
   pending.deletions.splice(pending.deletions.indexOf(id), 1)
+}
+const editContact = () => {
+  if (!contact.value) return
+
+  navigateTo(
+    localePath({
+      name: 'contact-edit-id',
+      params: { id: contact.value.rowId },
+      query: { redirect: route.fullPath },
+    }),
+  )
 }
 const onDeleteSelect = (id: string) => {
   if (shift?.value) {
@@ -308,6 +330,7 @@ const contactName = computed(() =>
 <i18n lang="yaml">
 de:
   actions: Aktionen für {name}
+  contactEdit: Kontakt bearbeiten
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
   disabledReasonContactWayNone: Diesem Kontakt fehlen E-Mail-Adresse und Telefonnummer.
   guestDelete: Gast löschen
@@ -324,6 +347,7 @@ de:
   # postgresP0002: Die Einladung konnte nicht versandt werden! Möglicherweise hast du aktuell keinen Zugriff auf die notwendigen Daten. Versuche die Seite neu zu laden.
 en:
   actions: Actions for {name}
+  contactEdit: Edit contact
   copySuccess: The guest link has been copied to the clipboard.
   disabledReasonContactWayNone: This contact has neither an email address nor a phone number.
   guestDelete: Delete guest
