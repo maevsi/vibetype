@@ -1,3 +1,14 @@
+## [17.64.0](https://github.com/maevsi/vibetype/compare/17.63.0...17.64.0) (2026-11-27)
+
+### Features
+
+* **discover:** combine event and people search ([#2913](https://github.com/maevsi/vibetype/issues/2913)) ([450881c](https://github.com/maevsi/vibetype/commit/450881c4663c3387a62e3021900111d28ac5d9f4))
+* **list:** search all contact names quickly ([#2911](https://github.com/maevsi/vibetype/issues/2911)) ([cda20ac](https://github.com/maevsi/vibetype/commit/cda20acb5e72a6c1dc4636b77df89310cc9c9c9b))
+
+### Bug Fixes
+
+* **email:** put footer links in a row and fix author spacing ([#2912](https://github.com/maevsi/vibetype/issues/2912)) ([35ff6ad](https://github.com/maevsi/vibetype/commit/35ff6ada298458892207d039db01527046fedb69))
+
 ## [17.63.0](https://github.com/maevsi/vibetype/compare/17.62.0...17.63.0) (2026-11-27)
 
 ### Features
