@@ -1,3 +1,15 @@
+## [17.62.0](https://github.com/maevsi/vibetype/compare/17.61.6...17.62.0) (2026-11-27)
+
+### Features
+
+* **form:** ask before discarding unsaved changes everywhere ([#2902](https://github.com/maevsi/vibetype/issues/2902)) ([a98c8fe](https://github.com/maevsi/vibetype/commit/a98c8fe56a62637652cd19dc5ee738b28fc22dde))
+* **guest:** add contact editing to the guest menu ([#2900](https://github.com/maevsi/vibetype/issues/2900)) ([712c9fd](https://github.com/maevsi/vibetype/commit/712c9fddf077c3be3b9b8c89dc3bfe16d6c22358))
+* **location:** offer to allow location in the android app ([#2901](https://github.com/maevsi/vibetype/issues/2901)) ([f6b6c97](https://github.com/maevsi/vibetype/commit/f6b6c97fe2ec96997926547a4b728a8c78d29693))
+
+### Bug Fixes
+
+* **email:** load images from hosted urls ([#2904](https://github.com/maevsi/vibetype/issues/2904)) ([10e3e22](https://github.com/maevsi/vibetype/commit/10e3e22495634e4ec78f59509696deb0d12b72e0))
+
 ## [17.61.6](https://github.com/maevsi/vibetype/compare/17.61.5...17.61.6) (2026-11-27)
 
 ### Bug Fixes
