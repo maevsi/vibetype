@@ -1,10 +1,5 @@
 <template>
   <div class="flex flex-1 flex-col gap-4">
-    <EventSearchBar
-      v-model:is-map-visible="isMapVisible"
-      v-model:search-query="searchQuery"
-      :placeholder="t('searchPlaceholder')"
-    />
     <AppFeature v-if="!searchQueryVariable" feature="category-browse">
       <EventCategoryBrowse />
     </AppFeature>
@@ -209,6 +204,8 @@ const queryEventSearch = graphql(`
   }
 `)
 
+const searchQuery = defineModel<string>('searchQuery')
+
 const { t } = useI18n()
 const localePath = useLocalePath()
 const isMapVisible = useEventMapVisible()
@@ -229,7 +226,6 @@ const allEventsQuery = useApiQuery({
   })),
 })
 
-const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
 // `eventSearch` already matches by prefix (so partial words work while
 // typing) and falls back to typo-tolerant matching on the name, so the raw
@@ -398,7 +394,6 @@ de:
   searchClear: Suche zurücksetzen
   searchEmptyDescription: Prüfe die Schreibweise oder versuche ein allgemeineres Wort, zum Beispiel eine Stadt oder eine Kategorie.
   searchEmptyTitle: Nichts passt zu „{query}“
-  searchPlaceholder: Alle Veranstaltungen durchsuchen
 en:
   emptyCreate: Plan an event
   emptyDescription: 'Be the first: plan your own event, or add one you spotted on a poster.'
@@ -407,5 +402,4 @@ en:
   searchClear: Clear search
   searchEmptyDescription: Check the spelling or try a broader word, like a city or a category.
   searchEmptyTitle: Nothing matches "{query}"
-  searchPlaceholder: Search all events
 </i18n>

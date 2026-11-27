@@ -9,7 +9,7 @@ appTest.describe('protocol handling', () => {
   appTest('opens the linked path', async ({ page }) => {
     await page.goto(getOpenPath('web+vibetype://event'))
 
-    await expect(page).toHaveURL(`${SITE_URL}/event`)
+    await expect(page).toHaveURL(`${SITE_URL}/discover`)
   })
 
   for (const url of [
@@ -22,7 +22,7 @@ appTest.describe('protocol handling', () => {
       async ({ page }) => {
         await page.goto(getOpenPath(url))
 
-        await expect(page).toHaveURL(`${SITE_URL}/event`)
+        await expect(page).toHaveURL(`${SITE_URL}/discover`)
       },
     )
 })

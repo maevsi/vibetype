@@ -13,6 +13,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/account" />
     </url>
     <url>
+        <loc>https://example.com/discover</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/discover" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/discover" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/discover" />
+    </url>
+    <url>
         <loc>https://example.com/event</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://example.com/event" />
         <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/event" />

@@ -55,7 +55,7 @@ appTest.describe('back button', () => {
     async ({ defaultPage }) => {
       const { page } = defaultPage
 
-      await defaultPage.goto('/event')
+      await defaultPage.goto('/discover')
       await page.getByRole('link', { name: 'Settings' }).click()
       await expect(page).toHaveURL(/\/session\/edit$/)
       await page.getByRole('link', { name: 'Color scheme' }).click()
@@ -69,7 +69,7 @@ appTest.describe('back button', () => {
       await expect(page).toHaveURL(/\/session\/edit$/)
 
       await page.goBack()
-      await expect(page).toHaveURL(/\/event$/)
+      await expect(page).toHaveURL(/\/discover$/)
     },
   )
 
@@ -85,7 +85,7 @@ appTest.describe('back button', () => {
 
 appTest.describe('settings', () => {
   appTest('is linked once when signed out', async ({ defaultPage }) => {
-    await defaultPage.goto('/event')
+    await defaultPage.goto('/discover')
 
     await expect(
       defaultPage.page.getByRole('link', { name: 'Settings' }),
@@ -95,7 +95,7 @@ appTest.describe('settings', () => {
   authenticatedTest(
     'is linked from the profile only when signed in',
     async ({ defaultPage }) => {
-      await defaultPage.goto('/event')
+      await defaultPage.goto('/discover')
 
       await expect(
         defaultPage.page.getByRole('link', { name: 'Settings' }),
