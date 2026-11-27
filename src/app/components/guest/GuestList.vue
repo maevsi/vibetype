@@ -96,7 +96,7 @@
           </AppSelectionItem>
           <AppList>
             <GuestListItem
-              v-for="guest in guestsFiltered"
+              v-for="guest in guestsRendered"
               :key="guest.rowId"
               :event
               :guest
@@ -104,6 +104,11 @@
               @update:selected="select(guest.rowId, $event)"
             />
           </AppList>
+          <div
+            v-if="guestsRendered.length < guestsFiltered.length"
+            :key="limit"
+            ref="sentinel"
+          />
         </template>
         <AppEmptyState
           v-else
@@ -156,6 +161,8 @@
 </template>
 
 <script setup lang="ts">
+import { refDebounced } from '@vueuse/core'
+
 import { graphql } from '~~/gql/generated'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type {
@@ -163,7 +170,12 @@ import type {
   EventItemFragment,
   GuestItemFragment,
 } from '~~/gql/generated/graphql'
-import { getContactItem, getContactSortKey } from '~~/shared/utils/contact'
+import {
+  getContactItem,
+  getContactSearchText,
+  getContactSortKey,
+  isSearchTextMatch,
+} from '~~/shared/utils/contact'
 import { getGuestItem } from '~~/shared/utils/guest'
 
 const { event } = defineProps<{
@@ -183,6 +195,7 @@ const feedbackFilter = ref<string>('all')
 const guestRowIdsSelected = ref<string[]>([])
 const isDrawerGuestOpen = ref<boolean>()
 const searchString = ref<string>('')
+const searchStringDebounced = refDebounced(searchString, 200)
 
 // api data
 const guestsQuery = useApiQuery({
@@ -259,22 +272,23 @@ const guests = computed(
         getGuestContactSortKey(a).localeCompare(getGuestContactSortKey(b)),
       ) || [],
 )
+// the search text is built once per data change instead of once per keystroke
+const guestsIndexed = computed(() =>
+  guests.value.map((guest) => {
+    const contact = getContactItem(guest.contactByContactId)
+    return { guest, searchText: contact ? getContactSearchText(contact) : '' }
+  }),
+)
 // the counts follow the search, so each one tells how many guests its filter would show
-const guestsSearched = computed(() => {
-  const searchStringParts = searchString.value
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
-
-  return searchStringParts.length
-    ? guests.value.filter((guest) => {
-        const sortKey = getGuestContactSortKey(guest).toLowerCase()
-        return searchStringParts.every((searchStringPart) =>
-          sortKey.includes(searchStringPart),
+const guestsSearched = computed(() =>
+  searchStringDebounced.value.trim()
+    ? guestsIndexed.value
+        .filter(({ searchText }) =>
+          isSearchTextMatch(searchText, searchStringDebounced.value),
         )
-      })
-    : guests.value
-})
+        .map(({ guest }) => guest)
+    : guests.value,
+)
 const feedbackFilters = computed(() =>
   [
     { label: t('feedbackFilterAll'), value: 'all' },
@@ -293,6 +307,13 @@ const guestsFiltered = computed(() =>
     isFeedbackFilterMatch(guest, feedbackFilter.value),
   ),
 )
+const { limit, sentinel } = useRenderLimit([
+  searchStringDebounced,
+  feedbackFilter,
+])
+const guestsRendered = computed(() =>
+  guestsFiltered.value.slice(0, limit.value),
+)
 const isGuestLimitReached = computed(() =>
   event.guestCountMaximum && api.value.data.allGuests?.totalCount
     ? api.value.data.allGuests.totalCount >= event.guestCountMaximum
@@ -308,7 +329,10 @@ const guestsSelected = computed(() =>
 // lifecycle
 // Sorting, searching, filtering and counting happen in the client, which needs every page to be complete.
 const isComplete = usePagesAll(after, () => api.value.data.allGuests?.pageInfo)
-useRowHighlight('guest', isComplete)
+useRowHighlight('guest', isComplete, (rowId) => {
+  const index = guestsFiltered.value.findIndex((guest) => guest.rowId === rowId)
+  if (index >= limit.value) limit.value = index + 1
+})
 </script>
 
 <i18n lang="yaml">

@@ -36,7 +36,7 @@
       <template v-else-if="contactsFiltered.length">
         <p class="text-body-small text-fg-2">
           {{
-            searchString.trim()
+            searchStringDebounced.trim()
               ? t('contactCountFiltered', {
                   count: contactsFiltered.length,
                   total: contacts.length,
@@ -62,11 +62,16 @@
             />
           </AppList>
         </section>
+        <div
+          v-if="contactsRendered.length < contactsFiltered.length"
+          :key="limit"
+          ref="sentinel"
+        />
       </template>
       <AppEmptyState
         v-else-if="contacts.length"
         :description="t('searchEmptyDescription')"
-        :title="t('searchEmptyTitle', { query: searchString.trim() })"
+        :title="t('searchEmptyTitle', { query: searchStringDebounced.trim() })"
       >
         <AppButton :aria-label="t('searchClear')" @click="searchString = ''">
           {{ t('searchClear') }}
@@ -103,6 +108,8 @@
 </template>
 
 <script setup lang="ts">
+import { refDebounced } from '@vueuse/core'
+
 import { graphql } from '~~/gql/generated'
 import type {
   AllContactsContactListQueryVariables,
@@ -110,8 +117,10 @@ import type {
 } from '~~/gql/generated/graphql'
 import {
   getContactItem,
+  getContactSearchText,
   getContactSortKey,
   getContactsSorted,
+  isSearchTextMatch,
 } from '~~/shared/utils/contact'
 
 const localePath = useLocalePath()
@@ -135,6 +144,7 @@ const contactToDelete =
   >()
 const isDeleteDrawerOpen = ref(false)
 const searchString = ref<string>('')
+const searchStringDebounced = refDebounced(searchString, 200)
 
 // api data
 const contactsQuery = useApiQuery({
@@ -186,41 +196,34 @@ const contacts = computed(() =>
       .filter(isNeitherNullNorUndefined) || [],
   ),
 )
-const contactsFiltered = computed(() => {
-  const searchStringParts = searchString.value
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
-  if (!searchStringParts.length) return contacts.value
-
-  // every word has to match, so that adding a last name narrows the results instead of widening them
-  return contacts.value.filter((contact) => {
-    const contactProperties = [
-      contact.accountByAccountId?.username,
-      contact.emailAddress,
-      contact.firstName,
-      contact.lastName,
-      contact.nickname,
-      contact.phoneNumber,
-    ]
-      .filter(isNeitherNullNorUndefined)
-      .map((contactProperty) => contactProperty.toLowerCase())
-
-    return searchStringParts.every((searchStringPart) =>
-      contactProperties.some((contactProperty) =>
-        contactProperty.includes(searchStringPart),
-      ),
-    )
-  })
-})
+// the search text is built once per data change instead of once per keystroke
+const contactsIndexed = computed(() =>
+  contacts.value.map((contact) => ({
+    contact,
+    searchText: getContactSearchText(contact),
+  })),
+)
+const contactsFiltered = computed(() =>
+  searchStringDebounced.value.trim()
+    ? contactsIndexed.value
+        .filter(({ searchText }) =>
+          isSearchTextMatch(searchText, searchStringDebounced.value),
+        )
+        .map(({ contact }) => contact)
+    : contacts.value,
+)
+const { limit, sentinel } = useRenderLimit([searchStringDebounced])
+const contactsRendered = computed(() =>
+  contactsFiltered.value.slice(0, limit.value),
+)
 // search results stay one flat list, as a few matches need no index
 const contactSections = computed(() => {
-  if (searchString.value.trim())
-    return [{ contacts: contactsFiltered.value, title: '' }]
+  if (searchStringDebounced.value.trim())
+    return [{ contacts: contactsRendered.value, title: '' }]
 
   const sections: { contacts: typeof contacts.value; title: string }[] = []
 
-  for (const contact of contacts.value) {
+  for (const contact of contactsRendered.value) {
     const initial = getContactSortKey(contact)
       .normalize('NFD')
       .charAt(0)
@@ -261,7 +264,12 @@ const isComplete = usePagesAll(
   after,
   () => api.value.data.allContacts?.pageInfo,
 )
-useRowHighlight('contact', isComplete)
+useRowHighlight('contact', isComplete, (rowId) => {
+  const index = contactsFiltered.value.findIndex(
+    (contact) => contact.rowId === rowId,
+  )
+  if (index >= limit.value) limit.value = index + 1
+})
 </script>
 
 <i18n lang="yaml">
