@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PROFILE_PICTURE_JONAS_CID } from '#shared/utils/assets'
+import { EMAIL_IMAGE_PATH_PROFILE_PICTURE_JONAS } from '#shared/utils/assets'
 import AppText from './base/AppText.vue'
 
 const { locale } = defineProps<{
@@ -7,6 +7,11 @@ const { locale } = defineProps<{
 }>()
 
 // data
+const { siteUrl } = useSiteUrl()
+const profilePictureSrc = new URL(
+  EMAIL_IMAGE_PATH_PROFILE_PICTURE_JONAS,
+  siteUrl,
+).href
 const authorName = 'Jonas Thelemann'
 const authorWebsite = 'https://jonas-thelemann.de/'
 const locales = {
@@ -33,7 +38,7 @@ const t = locales[locale]
             :alt="t.profilePicture"
             class="profile-picture"
             height="50"
-            :src="`cid:${PROFILE_PICTURE_JONAS_CID}`"
+            :src="profilePictureSrc"
             width="50"
           />
         </ELink>
