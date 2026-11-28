@@ -502,7 +502,7 @@ de:
   feedbackTitle: Hilf uns, @.upper:{'globalSiteName'} besser zu machen
   hunt: Jagd
   notifications: Benachrichtigungen
-  posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
+  posterHuntDescription: Du hast eine Veranstaltung außerhalb von @.upper:{'globalSiteName'} entdeckt? Schick sie uns und sammle Punkte.
   posterHuntImage: Bild hochladen
   posterHuntLink: Link angeben
   posterHuntPhoto: Foto aufnehmen
@@ -528,7 +528,7 @@ en:
   feedbackTitle: Help us improve @.upper:{'globalSiteName'}
   hunt: Hunt
   notifications: Notifications
-  posterHuntDescription: Saw an interesting event outside of @.upper:{'globalSiteName'}?
+  posterHuntDescription: Spotted an event outside of @.upper:{'globalSiteName'}? Send it to us and earn points.
   posterHuntImage: Upload image
   posterHuntLink: Provide link
   posterHuntPhoto: Take photo

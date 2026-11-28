@@ -42,3 +42,9 @@ export const useEventIngestPageLoadQuota = createDailyQuota({
   limit: 50,
   statusText: 'The daily limit of loaded links has been reached.',
 })
+
+/** Bounds how many events one account sends to the team per day, as each one opens a support ticket. */
+export const useEventSubmissionQuota = createDailyQuota({
+  limit: 10,
+  statusText: 'The daily limit of event submissions has been reached.',
+})

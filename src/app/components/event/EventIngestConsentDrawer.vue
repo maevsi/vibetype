@@ -43,14 +43,14 @@ const allow = () => {
 de:
   allow: Erlauben
   cancel: Abbrechen
-  description: Damit Du nicht alles abtippen musst, senden wir das Foto des Plakats oder den Text der verlinkten Seite an OpenAI in den USA. Deren KI liest die Angaben aus und füllt die Veranstaltung für Dich aus.
+  description: Damit Du nicht alles abtippen musst, senden wir das Foto des Plakats oder den Text der verlinkten Seite an OpenAI in den USA. Deren KI liest die Angaben der Veranstaltung für Dich aus.
   details: 'Dein Konto bleibt privat: OpenAI erfährt nichts darüber und nutzt das Gesendete nicht zum Training. Du kannst diese Erlaubnis jederzeit in den Datenschutz-Einstellungen widerrufen.'
   privacyPolicy: Datenschutzerklärung
   title: Plakate mit KI lesen?
 en:
   allow: Allow
   cancel: Cancel
-  description: So you don't have to type everything yourself, we send the poster photo or the linked page's text to OpenAI in the USA. Their AI reads out the details and fills in the event for you.
+  description: So you don't have to type everything yourself, we send the poster photo or the linked page's text to OpenAI in the USA. Their AI reads out the event's details for you.
   details: "Your account stays private: OpenAI learns nothing about it and doesn't use what you send for training. You can withdraw this permission anytime in the privacy settings."
   privacyPolicy: Privacy policy
   title: Read posters with AI?
