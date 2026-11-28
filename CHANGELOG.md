@@ -1,3 +1,11 @@
+## [17.65.1](https://github.com/maevsi/vibetype/compare/17.65.0...17.65.1) (2026-11-28)
+
+### Bug Fixes
+
+* **event:** query only upcoming events on discover ([#2919](https://github.com/maevsi/vibetype/issues/2919)) ([0ec1554](https://github.com/maevsi/vibetype/commit/0ec1554cadfeb335978acaf5bb048c0e3153171b))
+* **form:** ignore captcha token for leave confirmation ([#2918](https://github.com/maevsi/vibetype/issues/2918)) ([96096c6](https://github.com/maevsi/vibetype/commit/96096c674182e7c8e4c5ff74e863860f12b87313))
+* **style:** show focus ring on checkboxes and radio buttons ([#2916](https://github.com/maevsi/vibetype/issues/2916)) ([e8e80e8](https://github.com/maevsi/vibetype/commit/e8e80e8ec0c1181242f0422464b75c891d642696))
+
 ## [17.65.0](https://github.com/maevsi/vibetype/compare/17.64.0...17.65.0) (2026-11-27)
 
 ### Features
