@@ -2,47 +2,53 @@
   <Loader :api is-page>
     <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
-      <div class="flex flex-col gap-3">
-        <AppInputSearch v-model="searchQuery" />
-        <ul
-          v-if="blockedAccountsFiltered?.length"
-          class="flex flex-col divide-y divide-line"
-        >
-          <li
-            v-for="blockedAccount in blockedAccountsFiltered"
-            :key="blockedAccount.id"
-            class="flex items-center justify-between px-2 py-4"
-          >
-            <div class="flex items-center gap-2.5">
+      <div class="flex flex-col gap-4">
+        <template v-if="blockedAccounts?.length">
+          <AppInputSearch v-model="searchQuery" />
+          <AppList v-if="blockedAccountsFiltered?.length">
+            <AppListItem
+              v-for="blockedAccount in blockedAccountsFiltered"
+              :key="blockedAccount.id"
+              class="px-2"
+            >
               <AccountProfilePicture
                 :account-id="blockedAccount.id"
-                class="size-12 rounded-full"
+                class="size-12 shrink-0 rounded-full"
                 height="48"
                 width="48"
               />
-              <span class="text-headline">
+              <span class="min-w-0 flex-1 truncate font-medium">
                 {{ `@${blockedAccount.username}` }}
               </span>
-            </div>
-            <AppButton
-              :aria-label="t('unblock')"
-              size="small"
-              variant="secondary"
-              @click="openUnblockDrawer(blockedAccount)"
-            >
-              {{ t('unblock') }}
+              <AppButton
+                :aria-label="
+                  t('unblockAccount', { username: blockedAccount.username })
+                "
+                class="shrink-0"
+                size="small"
+                variant="secondary"
+                @click="openUnblockDrawer(blockedAccount)"
+              >
+                {{ t('unblock') }}
+              </AppButton>
+            </AppListItem>
+          </AppList>
+          <AppEmptyState
+            v-else
+            :title="t('searchEmptyTitle', { query: searchQueryTrimmed })"
+          >
+            <AppButton :aria-label="t('searchClear')" @click="searchQuery = ''">
+              {{ t('searchClear') }}
             </AppButton>
-          </li>
-        </ul>
-        <span
-          v-else-if="searchQuery && !blockedAccountsFiltered?.length"
-          class="text-body"
+          </AppEmptyState>
+        </template>
+        <AppEmptyState
+          v-else
+          :description="t('emptyDescription')"
+          :title="t('emptyTitle')"
         >
-          {{ t('errorNotFound') }}
-        </span>
-        <span v-else class="text-body">
-          {{ t('noBlockedAccounts') }}
-        </span>
+          <template #icon><AppIconNoSymbol /></template>
+        </AppEmptyState>
       </div>
     </LayoutPage>
     <AccountBlockRemoveDrawer
@@ -129,13 +135,19 @@ const openUnblockDrawer = (account: AccountBlockAccountsRecord) => {
 
 <i18n lang="yaml">
 de:
-  errorNotFound: Niemand gefunden
-  noBlockedAccounts: Keine blockierten Konten
+  emptyDescription: Konten, die Du blockierst, erscheinen hier, damit Du sie wieder entsperren kannst.
+  emptyTitle: Du hast niemanden blockiert
+  searchClear: Suche zurücksetzen
+  searchEmptyTitle: Kein blockiertes Konto passt zu „{query}“
   title: Blockierte Konten
-  unblock: Konto entsperren
+  unblock: Entsperren
+  unblockAccount: "Entsperren: {'@'}{username}"
 en:
-  errorNotFound: No one found
-  noBlockedAccounts: No blocked users
-  title: Blocked Users
+  emptyDescription: Accounts you block show up here, so you can unblock them again.
+  emptyTitle: You haven't blocked anyone
+  searchClear: Clear search
+  searchEmptyTitle: 'No blocked account matches "{query}"'
+  title: Blocked accounts
   unblock: Unblock
+  unblockAccount: "Unblock {'@'}{username}"
 </i18n>

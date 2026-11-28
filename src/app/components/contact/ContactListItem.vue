@@ -1,76 +1,58 @@
 <template>
-  <tr
-    v-if="contact"
-    :key="contact.rowId"
-    :class="{
-      'animate-pulse': isDeleting,
-    }"
+  <AppListItem
+    :id="`contact-${contact.rowId}`"
+    :class="{ 'animate-pulse': isDeleting }"
   >
-    <AppTableCell>
-      <ContactPreview :contact />
-    </AppTableCell>
-    <AppTableCell class="hidden xl:table-cell">
-      {{ contact.emailAddresses?.join(', ') || '–' }}
-    </AppTableCell>
-    <!-- <AppTableCell class="hidden xl:table-cell">
-      {{ (contact.address || '').replace(/\n/g, ', ') || '–' }}
-    </AppTableCell> -->
-    <AppTableCell class="hidden xl:table-cell">
-      {{ getPhoneNumberFormatted(contact.phoneNumber) || '–' }}
-    </AppTableCell>
-    <AppTableCell class="hidden xl:table-cell">
-      {{ contact.url || '–' }}
-    </AppTableCell>
-    <AppTableCell>
-      {{ t('guestCount', { count: guestCount }) }}
-    </AppTableCell>
-    <AppTableCell>
-      <div class="flex items-center justify-evenly gap-2">
-        <AppButton
-          :aria-label="
-            contact.createdBy !== store.signedInAccountId
-              ? t('disabledReasonCreatorNot', {
-                  creatorUsername: contact.accountByCreatedBy?.username,
-                })
-              : t('contactEdit')
-          "
-          :disabled="contact.createdBy !== store.signedInAccountId"
-          size="none"
-          variant="ghost"
-          @click="emit('edit')"
-        >
-          <AppIconPencil />
-        </AppButton>
-        <AppButton
-          :aria-label="t('contactMerge')"
-          :disabled="
-            contact.createdBy !== store.signedInAccountId ||
-            contact.accountId === store.signedInAccountId
-          "
-          size="none"
-          variant="ghost"
-          @click="emit('merge')"
-        >
-          <AppIconArrowsPointingIn />
-        </AppButton>
-        <AppButton
-          :aria-label="t('contactDelete')"
-          :disabled="
-            isDeleting || contact.accountId === store.signedInAccountId
-          "
-          size="none"
-          variant="ghost"
-          @click="emit('delete')"
-        >
-          <AppIconTrash />
-        </AppButton>
-      </div>
-    </AppTableCell>
-  </tr>
+    <a
+      class="flex min-w-0 flex-1 items-center gap-4 rounded-medium p-2 hover:bg-surface-raised/50"
+      :href="editPath"
+      @click="onLinkClick"
+    >
+      <ContactPreview :contact :is-username-linked="false">
+        <template v-if="contactWay" #description>{{ contactWay }}</template>
+      </ContactPreview>
+      <span v-if="guestCount" class="shrink-0 text-body-small text-fg-2">
+        {{ t('guestCount', { count: guestCount }) }}
+      </span>
+      <AppIconChevronRight class="size-5 shrink-0 text-fg-2" />
+    </a>
+    <AppDropdown>
+      <AppDropdownItem
+        :disabled="contact.createdBy !== store.signedInAccountId"
+        @select="edit"
+      >
+        <AppIconPencil />
+        <span>{{ t('contactEdit') }}</span>
+      </AppDropdownItem>
+      <AppDropdownItem
+        :disabled="
+          contact.createdBy !== store.signedInAccountId ||
+          contact.accountId === store.signedInAccountId
+        "
+        @select="emit('merge')"
+      >
+        <AppIconArrowsPointingIn />
+        <span>{{ t('contactMerge') }}</span>
+      </AppDropdownItem>
+      <AppDropdownItem
+        :disabled="isDeleting || contact.accountId === store.signedInAccountId"
+        variant="destructive"
+        @select="emit('delete')"
+      >
+        <AppIconTrash />
+        <span>{{ t('contactDelete') }}</span>
+      </AppDropdownItem>
+      <template #trigger>
+        <AppIconEllipsisVertical />
+        <span class="sr-only">{{ t('actions', { name: contactName }) }}</span>
+      </template>
+    </AppDropdown>
+  </AppListItem>
 </template>
 
 <script setup lang="ts">
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
+import { getContactName } from '~~/shared/utils/model'
 
 const { contact, guestCount, isDeleting } = defineProps<{
   contact: Pick<
@@ -78,41 +60,75 @@ const { contact, guestCount, isDeleting } = defineProps<{
     | 'accountId'
     | 'accountByAccountId'
     | 'accountByCreatedBy'
-    // | 'addressByAddressId'
     | 'createdBy'
     | 'emailAddresses'
     | 'emailAddressHash'
     | 'firstName'
     | 'lastName'
+    | 'nickname'
     | 'phoneNumber'
     | 'rowId'
-    | 'url'
   >
   guestCount: number
   isDeleting?: boolean
 }>()
 
 const emit = defineEmits<{
-  edit: []
   delete: []
   merge: []
 }>()
 
+const localePath = useLocalePath()
+const route = useRoute()
+const router = useRouter()
 const store = useStore()
 const { t } = useI18n()
+
+// computations
+const contactName = computed(() =>
+  getContactName({ account: contact.accountByAccountId, contact }),
+)
+// the username already shows below the name, so the other ways to reach someone only fill in for contacts without one
+const contactWay = computed(() =>
+  contact.accountByAccountId?.username
+    ? undefined
+    : contact.emailAddresses?.[0] ||
+      getPhoneNumberFormatted(contact.phoneNumber),
+)
+const editPath = computed(() =>
+  localePath({
+    name: 'contact-edit-id',
+    params: { id: contact.rowId },
+    query: { redirect: route.fullPath },
+  }),
+)
+
+// methods
+// the hash lets the list scroll back to this contact after the edit
+const onLinkClick = (event: MouseEvent) => {
+  // modified and middle clicks keep their native behavior, e.g. opening a new tab
+  if (event.button || event.ctrlKey || event.metaKey || event.shiftKey) return
+
+  event.preventDefault()
+  edit()
+}
+const edit = async () => {
+  await router.replace({ ...route, hash: `#contact-${contact.rowId}` })
+  await navigateTo(editPath.value)
+}
 </script>
 
 <i18n lang="yaml">
 de:
-  contactEdit: Kontakt bearbeiten
+  actions: Aktionen für {name}
   contactDelete: Kontakt löschen
+  contactEdit: Kontakt bearbeiten
   contactMerge: Kontakt zusammenführen
-  disabledReasonCreatorNot: "Dieser Kontakt wird von {'@'}{creatorUsername} verwaltet."
-  guestCount: keiner Veranstaltung | {count} Veranstaltung | {count} Veranstaltungen
+  guestCount: '{count} Veranstaltung | {count} Veranstaltungen'
 en:
-  contactEdit: Edit contact
+  actions: Actions for {name}
   contactDelete: Delete contact
+  contactEdit: Edit contact
   contactMerge: Merge contact
-  disabledReasonCreatorNot: This contact is managed by {'@'}{creatorUsername}.
-  guestCount: no events | {count} event | {count} events
+  guestCount: '{count} event | {count} events'
 </i18n>

@@ -2,7 +2,7 @@
   <component
     :is="to ? AppLink : 'button'"
     v-bind="to ? linkAttributes : buttonAttributes"
-    :aria-busy="loading || undefined"
+    :aria-busy="isLoading || undefined"
     :aria-label
     :class="
       cn(
@@ -25,9 +25,11 @@
     :data-variant="variant"
     :title="ariaLabel"
   >
-    <template v-if="loading">
+    <template v-if="isLoading">
       <AppSpinner aria-hidden="true" />
-      <slot name="loading">{{ t('globalLoading') }}</slot>
+      <!-- an empty slot still counts, so icon-only buttons can pass one to show the spinner alone -->
+      <slot v-if="$slots.loading" name="loading" />
+      <template v-else>{{ t('globalLoading') }}</template>
     </template>
     <template v-else>
       <slot name="prefix" />
@@ -63,6 +65,7 @@ const {
   disabled,
   isExternal,
   loading,
+  onClick = undefined,
   size = 'large',
   to = undefined,
   type = 'button',
@@ -73,6 +76,8 @@ const {
   disabled?: boolean
   isExternal?: boolean
   loading?: boolean
+  // a returned promise shows the loading state until it settles
+  onClick?: (event: MouseEvent) => unknown
   size?: AppButtonSize
   // an optional prop typed with all routes exceeds the union size Vue's prop types can represent (https://github.com/vuejs/core/issues/10514), so links take untyped route locations until that is fixed
   to?: string | RouteLocationAsPathGeneric | RouteLocationAsRelativeGeneric
@@ -89,7 +94,27 @@ defineSlots<{
 
 const { t } = useI18n()
 
-const isDisabled = computed(() => disabled || loading)
+const isPending = ref(false)
+let isRunning = false
+const handleClick = async (event: MouseEvent) => {
+  // repeated clicks are dropped while a promise runs, also before its spinner shows
+  if (isRunning) return
+
+  const result = onClick?.(event)
+
+  if (!(result instanceof Promise)) return
+
+  isRunning = true
+
+  try {
+    await awaitWithPendingState(result, (value) => (isPending.value = value))
+  } finally {
+    isRunning = false
+  }
+}
+
+const isLoading = computed(() => loading || isPending.value)
+const isDisabled = computed(() => disabled || isLoading.value)
 
 // a link cannot be disabled natively, so it is taken out of the tab order and `AppLink` blocks its clicks
 const linkAttributes = computed(() => ({
@@ -97,11 +122,13 @@ const linkAttributes = computed(() => ({
   isColored: false,
   isDisabled: isDisabled.value,
   isExternal,
+  onClick: handleClick,
   tabindex: isDisabled.value ? -1 : undefined,
   to,
 }))
 const buttonAttributes = computed(() => ({
   disabled: isDisabled.value,
+  onClick: handleClick,
   type,
 }))
 </script>

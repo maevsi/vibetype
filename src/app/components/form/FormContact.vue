@@ -240,6 +240,47 @@
           />
         </Field>
       </form.Field>
+      <form.Field v-slot="{ field }" name="language">
+        <Field>
+          <FieldLabel for="input-language">{{ t('language') }}</FieldLabel>
+          <FieldContent>
+            <Select
+              :model-value="field.state.value || LANGUAGE_NONE"
+              @update:model-value="
+                field.handleChange(
+                  $event === LANGUAGE_NONE ? '' : ($event as Language),
+                )
+              "
+            >
+              <SelectTrigger
+                id="input-language"
+                :aria-invalid="isFieldInvalid(field)"
+                class="w-full"
+                @blur="field.handleBlur"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem :value="LANGUAGE_NONE">
+                  {{ t('languageNone') }}
+                </SelectItem>
+                <SelectItem
+                  v-for="language in languages"
+                  :key="language.value"
+                  :value="language.value"
+                >
+                  {{ language.label }}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </FieldContent>
+          <FieldDescription>{{ t('languageDescription') }}</FieldDescription>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="normalizeFieldErrors(field.state.meta.errors)"
+          />
+        </Field>
+      </form.Field>
       <form.Field v-slot="{ field }" name="note">
         <Field>
           <FieldLabel for="input-note">{{ t('note') }}</FieldLabel>
@@ -322,7 +363,7 @@ import { useMutation } from '@urql/vue'
 import { z } from 'zod'
 
 import { graphql } from '~~/gql/generated'
-import type { ContactItemFragment } from '~~/gql/generated/graphql'
+import type { ContactItemFragment, Language } from '~~/gql/generated/graphql'
 import {
   getContactGroupItem,
   getContactGroupNamesNormalized,
@@ -336,6 +377,7 @@ const { contact = undefined, contactGroupIds = [] } = defineProps<{
     | 'emailAddresses'
     | 'firstName'
     // | 'id'
+    | 'language'
     | 'lastName'
     | 'nickname'
     | 'note'
@@ -353,7 +395,15 @@ const emit = defineEmits<{
 const { $urql } = useNuxtApp()
 const store = useStore()
 const localePath = useLocalePath()
-const { t } = useI18n()
+const { t, locales } = useI18n()
+
+// data
+const LANGUAGE_NONE = 'none' // a select item cannot have an empty value
+const languages = locales.value
+  .map((locale) =>
+    locale.name ? { label: locale.name, value: locale.code } : undefined,
+  )
+  .filter(isNeitherNullNorUndefined)
 
 // data
 const groupNameNew = ref('')
@@ -441,6 +491,7 @@ const formSchema = z
       .max(EMAIL_ADDRESSES_MAXIMUM),
     firstName: SCHEMA_NAME_FIRST_OPTIONAL,
     groupIds: z.array(z.string()),
+    language: z.enum(['', 'de', 'en']),
     lastName: SCHEMA_NAME_LAST_OPTIONAL,
     nickname: SCHEMA_NAME_NICK_OPTIONAL,
     note: SCHEMA_NOTE_OPTIONAL,
@@ -474,6 +525,7 @@ const form = useForm({
       : [''],
     firstName: contact?.firstName ?? '',
     groupIds: [...contactGroupIds],
+    language: (contact?.language ?? '') as '' | Language,
     lastName: contact?.lastName ?? '',
     nickname: contact?.nickname ?? '',
     note: contact?.note ?? '',
@@ -502,6 +554,7 @@ const form = useForm({
             createdBy: store.signedInAccountId,
             emailAddresses: getEmailAddressesInput(value.emailAddresses),
             firstName: value.firstName || null,
+            language: value.language || null,
             lastName: value.lastName || null,
             nickname: value.nickname || null,
             note: value.note || null,
@@ -521,6 +574,8 @@ const form = useForm({
       )
         return
 
+      form.reset(value)
+
       emit('submitSuccess')
     } else {
       // Add
@@ -533,6 +588,7 @@ const form = useForm({
             createdBy: store.signedInAccountId,
             emailAddresses: getEmailAddressesInput(value.emailAddresses),
             firstName: value.firstName || null,
+            language: value.language || null,
             lastName: value.lastName || null,
             nickname: value.nickname || null,
             note: value.note || null,
@@ -547,6 +603,8 @@ const form = useForm({
       if (!contactId) return
 
       if (!(await groupsSave({ contactId, groupIds: value.groupIds }))) return
+
+      form.reset(value)
 
       emit('submitSuccess')
     }
@@ -608,6 +666,8 @@ const groupsSave = async ({
   return results.every((result) => !result.error)
 }
 
+useFormLeaveConfirmation(form)
+
 // computations
 const groupItems = computed(() =>
   [...contactGroups.value]
@@ -640,6 +700,9 @@ de:
   groupNamePlaceholder: Neue Gruppe
   groups: Gruppen
   groupsDescription: Gruppen sind nur für Dich sichtbar. Mit ihnen findest Du Kontakte beim Einladen schneller.
+  language: Sprache
+  languageDescription: In dieser Sprache gehen die Einladungs-E-Mails an diesen Kontakt raus. Ohne Auswahl sind sie in Deiner Sprache.
+  languageNone: Nicht festgelegt
   lastName: Nachname
   nickname: Spitzname
   note: Notiz
@@ -664,6 +727,9 @@ en:
   groupNamePlaceholder: New group
   groups: Groups
   groupsDescription: Groups are only visible to you. They help you find contacts faster when inviting.
+  language: Language
+  languageDescription: Invitation emails to this contact are sent in this language. If not set, they are sent in yours.
+  languageNone: Not set
   lastName: Last name
   nickname: Nickname
   note: Note

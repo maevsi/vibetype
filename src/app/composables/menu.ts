@@ -12,7 +12,7 @@ export const useMenuTargets = () => {
       account: username
         ? localePath({ name: 'account-view-username', params: { username } })
         : undefined,
-      discover: localePath('event'),
+      discover: localePath('discover'),
       events: username
         ? localePath({ name: 'event-view-username', params: { username } })
         : undefined,

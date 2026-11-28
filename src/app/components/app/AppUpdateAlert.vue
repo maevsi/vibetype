@@ -11,8 +11,9 @@
       </template>
       <AppButton
         :aria-label="t('updateReload')"
+        :loading="isReloading"
         size="small"
-        @click="$pwa?.needRefresh ? $pwa.updateServiceWorker() : reload()"
+        @click="update(reload)"
       >
         {{ t('updateReload') }}
       </AppButton>
@@ -24,6 +25,20 @@
 const { $pwa } = useNuxtApp()
 const { t } = useI18n()
 const hasUnsavedChanges = useHasUnsavedChanges()
+
+// only a failure resets the state, as success ends in a page reload
+const isReloading = ref(false)
+const update = async (reload: () => void) => {
+  isReloading.value = true
+
+  try {
+    if ($pwa?.needRefresh) await $pwa.updateServiceWorker()
+    else reload()
+  } catch (error) {
+    isReloading.value = false
+    throw error
+  }
+}
 
 // the browser looks for a new service worker on page loads only, so without this a reload for the new release would be followed by a second prompt for its service worker
 useSkewProtection().onAppOutdated(async () => {

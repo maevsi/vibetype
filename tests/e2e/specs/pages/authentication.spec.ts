@@ -86,14 +86,14 @@ appTest.describe('authentication', () => {
   appTest(
     'returns from the sign-in page with the back button',
     async ({ defaultPage }) => {
-      await goto({ defaultPage, path: '/event' })
+      await goto({ defaultPage, path: '/discover' })
       await defaultPage.page.getByRole('link', { name: 'Log in' }).click()
       await expect(defaultPage.page).toHaveURL(/\/session\/create$/)
 
       await defaultPage.page
         .getByRole('button', { name: 'Back', exact: true })
         .click()
-      await expect(defaultPage.page).toHaveURL(/\/event$/)
+      await expect(defaultPage.page).toHaveURL(/\/discover$/)
     },
   )
 

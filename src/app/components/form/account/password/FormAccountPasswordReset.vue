@@ -15,7 +15,12 @@
       @update:password-value="passwordPairValidation.handlePasswordInput"
       @update:repetition-value="passwordPairValidation.handleRepetitionInput"
     />
-    <AppButton :aria-label="t('save')" class="mt-4 w-full" type="submit">
+    <AppButton
+      :aria-label="t('save')"
+      class="mt-4 w-full"
+      :loading="api.isFetching"
+      type="submit"
+    >
       {{ t('save') }}
     </AppButton>
   </form>

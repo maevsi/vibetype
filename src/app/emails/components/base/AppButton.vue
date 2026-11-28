@@ -1,8 +1,7 @@
 <template>
   <EButton
-    class="button"
     style="
-      background-color: #000;
+      background-color: #15852a;
       border-radius: 9999px;
       color: #fff;
       font-weight: 700;

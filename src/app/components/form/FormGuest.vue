@@ -41,12 +41,11 @@
           v-if="contacts"
           class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto"
         >
-          <div
-            v-if="allContactsQuery.fetching.value"
-            class="flex justify-center"
-          >
-            <AppSpinner class="size-8" />
-          </div>
+          <AppLoaderProgress
+            v-if="!isComplete"
+            :count="contacts.length"
+            :total="apiData.data.allContacts?.totalCount ?? 0"
+          />
           <AppButton
             v-if="contactCreationCandidate"
             :aria-label="t('contactCreate')"
@@ -84,6 +83,7 @@
             <AppIconPlus class="ml-auto shrink-0" />
           </AppButton>
           <AppCheckboxGroup
+            v-if="isComplete"
             :aria-label="t('contactsSelect')"
             class="shrink-0"
             :model-value="[
@@ -139,14 +139,6 @@
         >
           {{ submitLabel }}
         </AppButton>
-        <p
-          v-if="
-            isInvitationSent && getEventPublicationState(event) !== 'published'
-          "
-          class="mt-2 text-body-small text-fg-2"
-        >
-          {{ t('disabledReasonDraft') }}
-        </p>
       </div>
       <AppAlert v-if="errorMessages?.length" variant="error">
         <AppSpanList :span="errorMessages" />
@@ -170,18 +162,15 @@ import type {
 import {
   getContactCreationCandidate,
   getContactItem,
+  getContactSearchText,
   getContactsSorted,
+  isSearchTextMatch,
 } from '~~/shared/utils/contact'
 import { getContactsByGroupFilter } from '~~/shared/utils/contactGroup'
 
-const {
-  event,
-  guestContactIdsExisting = undefined,
-  isInvitationSent = false,
-} = defineProps<{
-  event: Pick<EventItemFragment, 'publishedAt' | 'rowId'>
+const { event, guestContactIdsExisting = undefined } = defineProps<{
+  event: Pick<EventItemFragment, 'rowId'>
   guestContactIdsExisting?: string[]
-  isInvitationSent?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -190,7 +179,7 @@ const emit = defineEmits<{
 
 const store = useStore()
 const localePath = useLocalePath()
-const { locale, t } = useI18n()
+const { t } = useI18n()
 
 // data
 const after = ref<string | null>()
@@ -291,21 +280,11 @@ const createGuestsMutation = useMutation(
     }
   `),
 )
-const inviteMutation = useMutation(
-  graphql(`
-    mutation GuestsInvite($input: InviteInput!) {
-      invite(input: $input) {
-        clientMutationId
-      }
-    }
-  `),
-)
 const apiData = await useApiData([
   allContactGroupsQuery,
   allContactsQuery,
   createContactMutation,
   createGuestsMutation,
-  inviteMutation,
 ])
 const contacts = computed(
   () =>
@@ -332,10 +311,6 @@ const groupIdsByContactId = computed(() => {
 })
 // Contacts without a name sort to the very end of the contact book, far beyond the loaded page, so the ones this form is about are kept at hand separately.
 const contactsPinned = ref<ContactItemFragment[]>([])
-
-const isSending = computed(
-  () => isInvitationSent && getEventPublicationState(event) === 'published',
-)
 
 // form
 const formSchema = z.object({
@@ -367,10 +342,6 @@ const form = useForm({
       }
 
       successIds.push(...value.contactIds)
-
-      if (isSending.value) {
-        await invite(guestsCreated)
-      }
     } catch (error) {
       console.error(error)
       return
@@ -388,34 +359,9 @@ const form = useForm({
   },
 })
 
-// methods
-const invite = async (
-  guests: readonly { contactId: string; rowId: string }[],
-) => {
-  // Contacts without an account or an email address cannot receive an invitation, they stay on the guest list.
-  const contactIdsReachable = new Set(
-    contactsShown.value
-      .filter((contact) => contact.accountId || contact.emailAddresses?.length)
-      .map((contact) => contact.rowId),
-  )
-  const guestsReachable = guests.filter((guest) =>
-    contactIdsReachable.has(guest.contactId),
-  )
-  const results = await Promise.all(
-    guestsReachable.map((guest) =>
-      inviteMutation.executeMutation({
-        input: { guestId: guest.rowId, language: locale.value },
-      }),
-    ),
-  )
-  const sentCount = results.filter((result) => getResultData(result)).length
-  const skippedCount = guests.length - guestsReachable.length
-  const failedCount = guestsReachable.length - sentCount
+useFormLeaveConfirmation(form)
 
-  if (sentCount) toast.success(t('sendSuccess', { count: sentCount }))
-  if (skippedCount) toast.warning(t('sendSkipped', { count: skippedCount }))
-  if (failedCount) toast.error(t('sendFailed', { count: failedCount }))
-}
+// methods
 const contactCreate = async () => {
   const candidate = contactCreationCandidate.value
 
@@ -463,7 +409,8 @@ const contactsShown = computed(() => {
     ),
   ])
 })
-const contactsFiltered = computed(() => {
+// the search text is built once per data change instead of once per keystroke
+const contactsIndexed = computed(() => {
   const contactsInGroups = getContactsByGroupFilter({
     contacts: contactsShown.value,
     groupIdsByContactId: groupIdsByContactId.value,
@@ -471,32 +418,20 @@ const contactsFiltered = computed(() => {
     groupIdsIncluded: groupIdsIncluded.value,
   })
 
-  const searchStringParts = searchString.value
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
-  if (!searchStringParts.length) return contactsInGroups
-
-  // every word has to match, so that adding a last name narrows the results instead of widening them
-  return contactsInGroups.filter((contact) => {
-    const contactProperties = [
-      contact.accountByAccountId?.username,
-      ...(contact.emailAddresses ?? []),
-      contact.firstName,
-      contact.lastName,
-      contact.nickname,
-      contact.phoneNumber,
-    ]
-      .filter(isNeitherNullNorUndefined)
-      .map((contactProperty) => contactProperty.toLowerCase())
-
-    return searchStringParts.every((searchStringPart) =>
-      contactProperties.some((contactProperty) =>
-        contactProperty.includes(searchStringPart),
-      ),
-    )
-  })
+  return contactsInGroups.map((contact) => ({
+    contact,
+    searchText: getContactSearchText(contact),
+  }))
 })
+const contactsFiltered = computed(() =>
+  searchStringTrimmed.value
+    ? contactsIndexed.value
+        .filter(({ searchText }) =>
+          isSearchTextMatch(searchText, searchStringTrimmed.value),
+        )
+        .map(({ contact }) => contact)
+    : contactsIndexed.value.map(({ contact }) => contact),
+)
 
 const contactCreationCandidate = computed(() =>
   // Offering to create a contact before the whole book is known would suggest a duplicate of a contact that is still being loaded.
@@ -512,11 +447,7 @@ const contactCreationCandidate = computed(() =>
 const contactIdsSelectedCount = form.useStore(
   (state) => state.values.contactIds.length,
 )
-const submitLabel = computed(() =>
-  isSending.value
-    ? t('selectAndSend', contactIdsSelectedCount.value)
-    : t('select', contactIdsSelectedCount.value),
-)
+const submitLabel = computed(() => t('select', contactIdsSelectedCount.value))
 const errorMessages = computed(() =>
   apiData.value.errors
     ? getCombinedErrorMessages(apiData.value.errors, {
@@ -526,20 +457,15 @@ const errorMessages = computed(() =>
 )
 
 // lifecycle
-watch(
+// Sorting and searching happen in the client, which needs every page to be complete.
+const isComplete = usePagesAll(
+  after,
   () => apiData.value.data.allContacts?.pageInfo,
-  (pageInfo) => {
-    // Sorting and searching happen in the client, which needs every page to be complete.
-    if (import.meta.client && pageInfo?.hasNextPage)
-      after.value = pageInfo.endCursor
-  },
-  { immediate: true },
 )
 </script>
 
 <i18n lang="yaml">
 de:
-  disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   contactBookSearch: Kontaktbuch durchsuchen
   contactBookSearchDescription: Gib einen Nutzernamen oder eine E-Mail-Adresse ein, um eine Person hinzuzufügen, die noch nicht in Deinem Kontaktbuch steht.
   contactCreate: Zum Kontaktbuch hinzufügen
@@ -548,12 +474,7 @@ de:
   contactsSelect: Kontakte auswählen
   placeholderContact: Max Mustermann
   select: Zur Gästeliste hinzufügen | Eine Person zur Gästeliste hinzufügen | {count} Personen zur Gästeliste hinzufügen
-  selectAndSend: Einladung senden | Eine Einladung senden | {count} Einladungen senden
-  sendFailed: Eine Einladung konnte nicht versandt werden, der Gast steht aber auf der Gästeliste. | {count} Einladungen konnten nicht versandt werden, die Gäste stehen aber auf der Gästeliste.
-  sendSkipped: Ein Kontakt ohne Konto oder E-Mail-Adresse wurde nur zur Gästeliste hinzugefügt. | Für {count} Kontakte fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt.
-  sendSuccess: Eine Einladung wurde versandt. | {count} Einladungen wurden versandt.
 en:
-  disabledReasonDraft: Publish the event to send invitations.
   contactBookSearch: Search your contact book
   contactBookSearchDescription: Enter a username or an email address to add someone who is not in your contact book yet.
   contactCreate: Add to contact book
@@ -562,8 +483,4 @@ en:
   contactsSelect: Select contacts
   placeholderContact: John Doe
   select: Add to guest list | Add one person to the guest list | Add {count} people to the guest list
-  selectAndSend: Send invitation | Send one invitation | Send {count} invitations
-  sendFailed: One invitation could not be sent, but the guest is on the guest list. | {count} invitations could not be sent, but the guests are on the guest list.
-  sendSkipped: One contact has no account or email address and was only added to the guest list. | {count} contacts have no account or email address and were only added to the guest list.
-  sendSuccess: One invitation was sent. | {count} invitations were sent.
 </i18n>

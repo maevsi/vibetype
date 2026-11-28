@@ -26,11 +26,6 @@ const colorSchemeStyle = `
   }
 
   @media (prefers-color-scheme: dark) {
-    .button {
-      background-color: #fff !important;
-      color: #000 !important;
-    }
-
     .container {
       background-color: ${THEME_COLOR_DARK} !important;
     }

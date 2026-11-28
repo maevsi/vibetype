@@ -1,5 +1,5 @@
 <template>
-  <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
+  <AppDrawer v-model="isOpen" @animation-end="onAnimationEnd">
     <AppStepPanel v-slot="attributes" :is-active="!error">
       <div v-bind="attributes" class="text-fg-2">
         <span class="text-body">

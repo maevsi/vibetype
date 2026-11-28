@@ -17,7 +17,8 @@
           v-if="isCsrfTokenInvalid"
           :aria-label="t('reload')"
           class="w-full max-w-md"
-          @click="reloadNuxtApp()"
+          :loading="isReloading"
+          @click="reload"
         >
           {{ t('reload') }}
         </AppButton>
@@ -49,7 +50,8 @@
           v-else
           :aria-label="t('retry')"
           class="w-full max-w-md"
-          @click="reloadNuxtApp()"
+          :loading="isReloading"
+          @click="reload"
         >
           {{ t('retry') }}
         </AppButton>
@@ -57,7 +59,7 @@
           v-if="error.status === 404"
           :aria-label="t('events')"
           class="w-full max-w-md data-[variant=secondary]:bg-surface"
-          :to="localePath('event')"
+          :to="localePath('discover')"
           variant="secondary"
         >
           {{ t('events') }}
@@ -120,6 +122,12 @@ const store = useStore()
 const authentication = useAuthentication()
 const isSignedIn = computed(() => authentication.value.isSignedIn)
 const isDev = import.meta.dev
+// the page unloads, so the state never resets
+const isReloading = ref(false)
+const reload = () => {
+  isReloading.value = true
+  reloadNuxtApp()
+}
 // nuxt-csurf's rejection, whose status text reaches the browser only in the body, as HTTP/2 drops reason phrases
 const isCsrfTokenInvalid = computed(
   () =>

@@ -20,6 +20,14 @@
           <AppIconCamera class="size-4" />
           {{ t('hunt') }}
         </AppButton>
+        <AppButton
+          :aria-label="t('feedbackAction')"
+          size="icon"
+          :to="localePath('support-contact')"
+          variant="secondary"
+        >
+          <AppIconChatBubbleBottomCenterText />
+        </AppButton>
         <AppFeature feature="notifications">
           <AppButton
             :aria-label="t('notifications')"
@@ -85,7 +93,7 @@
               </AppButton>
               <AppButton
                 :aria-label="t('discover')"
-                :to="localePath('event')"
+                :to="localePath('discover')"
                 variant="secondary"
               >
                 {{ t('discover') }}
@@ -190,7 +198,7 @@
             :to="localePath('support-contact')"
             variant="secondary"
           >
-            <AppIconPaperAirplane />
+            <AppIconChatBubbleBottomCenterText />
             {{ t('feedbackAction') }}
           </AppButton>
         </section>
@@ -237,7 +245,7 @@
             <AppButton
               v-else
               :aria-label="t('discover')"
-              :to="localePath('event')"
+              :to="localePath('discover')"
             >
               {{ t('discover') }}
             </AppButton>

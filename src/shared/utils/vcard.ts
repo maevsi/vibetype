@@ -1,6 +1,6 @@
 import { getContactGroupNamesNormalized } from './contactGroup'
 import { getContactNamesFromFullName } from './contactImport'
-import type { ContactPicked } from './contactImport'
+import type { ContactPicked, ContactPickedLanguage } from './contactImport'
 import { isNeitherNullNorUndefined } from './types'
 
 const getDecodedQuotedPrintable = (value: string, charset?: string) => {
@@ -35,6 +35,17 @@ const getSplit = (value: string, separator: ',' | ';') =>
 
 const getComponents = (value: string) => getSplit(value, ';')
 
+const LANGUAGES: string[] = ['de', 'en']
+
+/** Takes the primary language subtag, so `de-AT` is `de`, and drops languages the app does not support. */
+const getLanguage = (value: string) => {
+  const subtag = value.split('-')[0]?.toLowerCase()
+
+  return subtag && LANGUAGES.includes(subtag)
+    ? (subtag as ContactPickedLanguage)
+    : undefined
+}
+
 const getContactFromCard = (card: string): ContactPicked | undefined => {
   const lines = card.split('\n')
   const contact: ContactPicked = {
@@ -42,6 +53,8 @@ const getContactFromCard = (card: string): ContactPicked | undefined => {
     groupNames: [],
     phoneNumbers: [],
   }
+  const languages: { language?: ContactPickedLanguage; preference: number }[] =
+    []
   const names: { family?: string; full?: string; given?: string } = {}
 
   for (const [lineIndex, lineFirst] of lines.entries()) {
@@ -59,7 +72,8 @@ const getContactFromCard = (card: string): ContactPicked | undefined => {
       .slice(nameWithGroup.lastIndexOf('.') + 1)
       .toUpperCase()
 
-    if (!['CATEGORIES', 'EMAIL', 'FN', 'N', 'TEL'].includes(name)) continue
+    if (!['CATEGORIES', 'EMAIL', 'FN', 'LANG', 'N', 'TEL'].includes(name))
+      continue
 
     const parametersUpper = parameters.map((parameter) =>
       parameter.toUpperCase(),
@@ -106,7 +120,18 @@ const getContactFromCard = (card: string): ContactPicked | undefined => {
 
     if (!value) continue
 
-    if (name === 'FN') names.full = value
+    if (name === 'LANG') {
+      const preference = Number.parseInt(
+        parametersUpper
+          .find((parameter) => parameter.startsWith('PREF='))
+          ?.slice('PREF='.length) ?? '',
+      )
+
+      languages.push({
+        language: getLanguage(value),
+        preference: Number.isNaN(preference) ? Infinity : preference,
+      })
+    } else if (name === 'FN') names.full = value
     else if (name === 'EMAIL') contact.emailAddresses.push(value)
     else contact.phoneNumbers.push(value.replace(/^tel:/i, ''))
   }
@@ -123,10 +148,15 @@ const getContactFromCard = (card: string): ContactPicked | undefined => {
   )
     return undefined
 
+  // the most preferred tag decides, even if it is unsupported; the sort is stable, so the first wins a tie
+  const language = languages.toSorted((a, b) => a.preference - b.preference)[0]
+    ?.language
+
   return {
     ...contact,
     groupNames: getContactGroupNamesNormalized(contact.groupNames),
     ...(firstName ? { firstName } : {}),
+    ...(language ? { language } : {}),
     ...(lastName ? { lastName } : {}),
   }
 }

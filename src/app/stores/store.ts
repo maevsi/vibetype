@@ -44,12 +44,18 @@ export const useStore = defineStore(SITE_NAME, () => {
   }
 
   // the browser's history is the only one that also knows about its own back button, deep links and replaced redirects, while `back` is the previous in-app entry vue-router records in it
-  const navigateBack = () =>
-    window.history.state?.back
+  // with a target, going back only counts when the previous entry is that target, as the page would be pushed on top of it otherwise
+  const navigateBack = (target?: string) =>
+    (
+      target
+        ? window.history.state?.back === target
+        : window.history.state?.back
+    )
       ? router.back()
-      : navigateTo(localePath(signedInUsername.value ? 'dashboard' : 'index'), {
-          replace: true,
-        })
+      : navigateTo(
+          target || localePath(signedInUsername.value ? 'dashboard' : 'index'),
+          { replace: true },
+        )
 
   return {
     jwtPayload,

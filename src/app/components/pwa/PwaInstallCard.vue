@@ -34,7 +34,7 @@
       v-if="!isIosBrowser"
       :aria-label="t('install')"
       size="small"
-      @click="$pwa?.install()"
+      @click="void $pwa?.install()"
     >
       {{ t('install') }}
     </AppButton>

@@ -326,7 +326,7 @@
 
             Weitere Details: https://d1.awsstatic.com/legal/privacypolicy/AWS_Privacy_Notice_German_2023-08-11.pdf.
 
-    1. **Analyse- und Trackingtools**
+    1. **Analysetools**
 
         1. **Google Analytics**
 
@@ -366,7 +366,7 @@
 
             Wir nutzen den Basic Consent Mode so, dass wir nur nach Zustimmung die vollen Funktionalitäten der Google-Dienste nutzen und ohne deine Zustimmung keine eingeschränkte Datenerhebung betreiben.
 
-            Die Verarbeitung nach Zustimmung dient der Verbesserung unserer Website sowie der Analyse von Conversion-Ereignissen in anonymisierter Form. So können wir die Performance unserer Marketing-Maßnahmen besser einschätzen.
+            Die Verarbeitung nach Zustimmung dient ausschließlich der Analyse und Verbesserung der Nutzung unserer Website und App. Wir nutzen diese Daten weder für Werbung noch für die Messung von Werbung, verknüpfen sie nicht mit Daten aus Apps oder Websites anderer Unternehmen und haben Google Signals, Werbefunktionen sowie die Datenfreigabe für Google-Produkte und -Dienste deaktiviert.
 
             Die Verarbeitung erfolgt in unserem berechtigten Interesse, bestimmte Funktionen der auf der Webseite eingesetzten einwilligungsbedürftigen Google-Dienste besser steuern und verwenden zu können. Rechtsgrundlage der Verarbeitung ist Art. 6 Abs. 1 S. 1 lit. f DSGVO.
 
@@ -390,7 +390,7 @@
 
             Sentry erhebt und speichert Daten, die aus anonymisierten Nutzungsprofilen erstellt werden, um die technische Stabilität unserer Website durch Überwachung der Systemstabilität und Ermittlung von Codefehlern zu verbessern. Nach Angaben des Dienstes werden die Daten der Nutzer, wie z. B. Angaben zum Gerät oder Fehlerzeitpunkt, anonym erhoben und nicht personenbezogen genutzt sowie anschließend gelöscht.
 
-            Sentry kann Cookies setzen, um die Aktivität auf unserer Website zu verfolgen und bestimmte Informationen zu speichern. Diese Cookies helfen uns, den Service zu betreiben, deine Präferenzen zu speichern und unsere Website sicher zu halten.
+            Sentry kann Cookies setzen, um die Aktivität auf unserer Website zu erfassen und bestimmte Informationen zu speichern. Diese Cookies helfen uns, den Service zu betreiben, deine Präferenzen zu speichern und unsere Website sicher zu halten.
 
             Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG, soweit diese Einwilligung den Zugriff auf Informationen im Endgerät des/der Nutzer\*in oder die Speicherung von Cookies im Sinne des TDDDG umfasst.
 
