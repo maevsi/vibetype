@@ -77,6 +77,9 @@ export const useFormLeaveConfirmation = (form: AnyFormApi) => {
 
     return Object.entries(state.values as Record<string, unknown>).some(
       ([key, value]) => {
+        // `FormFieldCaptcha` fills in its token unasked right after load, which would otherwise ask before leaving any untouched form with a captcha
+        if (key === 'captcha') return false
+
         const valueInitial = valuesInitial.get(key)
 
         return Array.isArray(value) && Array.isArray(valueInitial)
