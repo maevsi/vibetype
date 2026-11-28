@@ -1,3 +1,13 @@
+## [17.66.0](https://github.com/maevsi/vibetype/compare/17.65.3...17.66.0) (2026-11-28)
+
+### Features
+
+* **contact:** set preferred language ([#2923](https://github.com/maevsi/vibetype/issues/2923)) ([64a809b](https://github.com/maevsi/vibetype/commit/64a809b723c0c8300c587ff3e78c2817d22d1e90))
+
+### Bug Fixes
+
+* **guest:** let the organizer send invitations themselves ([#2922](https://github.com/maevsi/vibetype/issues/2922)) ([a401a74](https://github.com/maevsi/vibetype/commit/a401a749c44c9dec59763c568a3bc0a83b1feeaf))
+
 ## [17.65.3](https://github.com/maevsi/vibetype/compare/17.65.2...17.65.3) (2026-11-28)
 
 ### Bug Fixes
