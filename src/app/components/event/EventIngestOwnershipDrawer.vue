@@ -24,12 +24,14 @@
           {{ t('organizerContactHint') }}
         </p>
       </div>
-      <AppCheckboxGroup v-if="isLocationOfferable" v-model="locationChoice">
-        <AppCheckboxGroupItem value="location">
-          {{ t('location') }}
-          <template #description>{{ t('locationHint') }}</template>
-        </AppCheckboxGroupItem>
-      </AppCheckboxGroup>
+      <AppFeature v-if="isLocationOfferable" feature="location-live">
+        <AppCheckboxGroup v-model="locationChoice">
+          <AppCheckboxGroupItem value="location">
+            {{ t('location') }}
+            <template #description>{{ t('locationHint') }}</template>
+          </AppCheckboxGroupItem>
+        </AppCheckboxGroup>
+      </AppFeature>
     </form>
     <template #title>{{ t('title') }}</template>
     <template #footer>
