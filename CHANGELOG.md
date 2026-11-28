@@ -1,3 +1,13 @@
+## [18.0.0-beta.28](https://github.com/maevsi/vibetype/compare/18.0.0-beta.27...18.0.0-beta.28) (2026-11-28)
+
+### ⚠ BREAKING CHANGES
+
+* **event:** show attending guests on event cards (#2920)
+
+### Features
+
+* **event:** show attending guests on event cards ([#2920](https://github.com/maevsi/vibetype/issues/2920)) ([a47d57c](https://github.com/maevsi/vibetype/commit/a47d57c95d81f6e30a0d2ba96f55dd2ae5337289))
+
 ## [18.0.0-beta.27](https://github.com/maevsi/vibetype/compare/18.0.0-beta.26...18.0.0-beta.27) (2026-11-25)
 
 ### ⚠ BREAKING CHANGES
