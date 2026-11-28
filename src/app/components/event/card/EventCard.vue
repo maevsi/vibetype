@@ -106,7 +106,7 @@
         class="absolute top-2 left-2 flex items-center gap-1 rounded-small bg-info-tint px-2 py-0.5 text-caption text-fg-1"
       >
         <AppIconNetworkIntelligence aria-hidden="true" class="size-3" />
-        {{ t('match') }}
+        {{ matchLabel }}
       </div>
       <div
         v-if="variant === 'recommendation'"
@@ -273,6 +273,8 @@ export type EventCardProps = {
   // replaces the badge derived from the viewer's relation to the event
   badge?: EventCardBadge
   distanceKilometers?: number
+  // 0..1, only set when the recommendation score is a match
+  matchScore?: number
   // TODO: turn javascript usage into attribute based styles
   variant?: 'highlight' | 'recommendation' // alias for 'large'
 }
@@ -280,11 +282,23 @@ const {
   badge = undefined,
   distanceKilometers = undefined,
   event,
+  matchScore = undefined,
   variant = undefined,
 } = defineProps<EventCardProps>()
 
 // template
 const localePath = useLocalePath()
+
+// match
+const matchLabel = computed(() =>
+  matchScore === undefined
+    ? t('match')
+    : t('matchPercentage', {
+        percentage: n(Math.min(Math.max(matchScore, 0), 1), {
+          style: 'percent',
+        }),
+      }),
+)
 
 // event
 const categoryName = computed(
@@ -328,7 +342,7 @@ const badgeKind = computed<EventCardBadge | undefined>(
           ? 'going'
           : undefined),
 )
-const { locale, t } = useI18n()
+const { locale, n, t } = useI18n()
 const badgeLabel = computed(() =>
   badgeKind.value === 'draft'
     ? t('draft')
@@ -367,6 +381,7 @@ de:
   heroImage: Titelbild der Veranstaltung
   hosting: Von Dir
   match: Match
+  matchPercentage: '{percentage} Match'
   saved: Gemerkt
 en:
   distanceAway: '{distance} away'
@@ -377,5 +392,6 @@ en:
   heroImage: Title picture of the event
   hosting: Hosting
   match: Match
+  matchPercentage: '{percentage} match'
   saved: Saved
 </i18n>
