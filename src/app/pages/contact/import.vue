@@ -184,6 +184,7 @@ const importSelected = async () => {
           createdBy: store.signedInAccountId,
           emailAddress: row.emailAddress,
           firstName: row.firstName,
+          language: row.language,
           lastName: row.lastName,
           phoneNumber: row.phoneNumber,
         },
