@@ -129,7 +129,7 @@ const queryInvited = graphql(`
             }
           }
         }
-        guestCount
+        guestCountAccepted
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {

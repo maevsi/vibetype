@@ -3752,6 +3752,8 @@ export type Event = Node & {
   readonly feedbackDeadline?: Maybe<Scalars['Datetime']['output']>
   /** The number of seats taken at the event, each guest taking one plus their approved companions, maintained by triggers on the guest table. */
   readonly guestCount: Scalars['Int']['output']
+  /** The number of seats taken by guests who accepted their invitation to the event, each such guest taking one plus their approved companions, maintained by triggers on the guest table. */
+  readonly guestCountAccepted: Scalars['Int']['output']
   /** The event's maximum guest count. Must be greater than 0. */
   readonly guestCountMaximum?: Maybe<Scalars['Int']['output']>
   /** Reads and enables pagination through a set of `Guest`. */
@@ -12474,6 +12476,11 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       Scalars['Int']['output'] | string
     >
+    guestCountAccepted?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
     guestCountMaximum?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
@@ -18655,6 +18662,10 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     guestCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
+    guestCountAccepted?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
     >

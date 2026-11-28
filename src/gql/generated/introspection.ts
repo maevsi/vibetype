@@ -8536,6 +8536,17 @@ export default {
             args: [],
           },
           {
+            name: 'guestCountAccepted',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
             name: 'guestCountMaximum',
             type: {
               kind: 'SCALAR',

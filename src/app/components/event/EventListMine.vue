@@ -145,7 +145,7 @@ const queryEvents = graphql(`
             id
           }
         }
-        guestCount
+        guestCountAccepted
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -222,7 +222,7 @@ const querySaved = graphql(`
               id
             }
           }
-          guestCount
+          guestCountAccepted
           guestsByEventId(first: 1) {
             nodes {
               contactByContactId {
