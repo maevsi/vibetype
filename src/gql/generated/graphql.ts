@@ -2644,6 +2644,7 @@ export type ContactItemFragment = {
   emailAddressHash: string | null
   firstName: string | null
   id: string
+  language: Language | null
   lastName: string | null
   nickname: string | null
   note: string | null
@@ -2925,6 +2926,7 @@ export const ContactItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -3009,6 +3011,7 @@ export const GuestItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -3943,6 +3946,7 @@ export const AllContactsContactListDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -6122,6 +6126,7 @@ export const UpdateContactByRowIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -7057,6 +7062,7 @@ export const AllContactsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -7169,6 +7175,7 @@ export const CreateGuestContactDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -7747,6 +7754,7 @@ export const AllGuestsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -10411,6 +10419,7 @@ export const ContactByRowIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },

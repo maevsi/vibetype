@@ -10,6 +10,7 @@ export interface ContactImportRow {
   emailAddress?: string
   firstName?: string
   isPhoneNumberDropped: boolean
+  language?: ContactPickedLanguage
   lastName?: string
   phoneNumber?: string
   status: ContactImportRowStatus
@@ -18,9 +19,12 @@ export interface ContactImportRow {
 export type ContactImportRowStatus =
   'duplicate' | 'importable' | 'missingEmailAddress'
 
+export type ContactPickedLanguage = 'de' | 'en'
+
 export interface ContactPicked {
   emailAddresses: string[]
   firstName?: string
+  language?: ContactPickedLanguage
   lastName?: string
   phoneNumbers: string[]
 }
@@ -97,6 +101,7 @@ export const getContactImportRows = ({
       emailAddress,
       firstName: getNameNormalized(contact.firstName),
       isPhoneNumberDropped: Boolean(phoneNumberPicked) && !phoneNumber,
+      language: contact.language,
       lastName: getNameNormalized(contact.lastName),
       phoneNumber,
       status,

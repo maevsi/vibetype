@@ -24,6 +24,7 @@ export const ContactItem = graphql(`
     emailAddressHash
     firstName
     id
+    language
     lastName
     nickname
     note

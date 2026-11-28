@@ -86,4 +86,40 @@ describe('getContactsFromVcard', () => {
       ),
     ).toEqual([])
   })
+
+  describe('LANG', () => {
+    const getLanguage = (...langLines: string[]) =>
+      getContactsFromVcard(
+        [
+          'BEGIN:VCARD',
+          'VERSION:4.0',
+          'EMAIL:ada@example.com',
+          ...langLines,
+          'END:VCARD',
+        ].join('\n'),
+      )[0]?.language
+
+    test('reads a single language', () => {
+      expect(getLanguage('LANG:en')).toBe('en')
+    })
+
+    test('maps a language with region to its primary subtag', () => {
+      expect(getLanguage('LANG:de-AT')).toBe('de')
+      expect(getLanguage('LANG:EN-gb')).toBe('en')
+    })
+
+    test('prefers the lowest PREF, else the first', () => {
+      expect(getLanguage('LANG;PREF=2:de', 'LANG;PREF=1:en')).toBe('en')
+      expect(getLanguage('LANG:de', 'LANG:en')).toBe('de')
+      expect(getLanguage('LANG:de', 'LANG;PREF=1:en')).toBe('en')
+    })
+
+    test('ignores unsupported languages', () => {
+      expect(getLanguage('LANG:fr')).toBeUndefined()
+    })
+
+    test('leaves the language unset without LANG', () => {
+      expect(getLanguage()).toBeUndefined()
+    })
+  })
 })
