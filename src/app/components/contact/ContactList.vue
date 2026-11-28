@@ -19,6 +19,7 @@
             </template>
           </AppButton>
           <AppButton
+            v-if="!isApp"
             :aria-label="t('contactImport')"
             class="flex-1 whitespace-nowrap sm:flex-none"
             :to="localePath('contact-import')"
@@ -90,6 +91,7 @@
           </template>
         </AppButton>
         <AppButton
+          v-if="!isApp"
           :aria-label="t('contactImport')"
           :to="localePath('contact-import')"
           variant="secondary"
@@ -124,6 +126,7 @@ import {
 } from '~~/shared/utils/contact'
 
 const localePath = useLocalePath()
+const { isApp } = usePlatform()
 const route = useRoute()
 const { t } = useI18n()
 const store = useStore()
