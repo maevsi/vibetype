@@ -1,3 +1,21 @@
+## [17.67.0](https://github.com/maevsi/vibetype/compare/17.66.0...17.67.0) (2026-11-28)
+
+### Features
+
+* **event:** attach location to camera submissions ([#2935](https://github.com/maevsi/vibetype/issues/2935)) ([977cd89](https://github.com/maevsi/vibetype/commit/977cd896a5b9118478b30aa1ed0f223c8682e3f6))
+* **event:** let users submit events they find for points ([#2924](https://github.com/maevsi/vibetype/issues/2924)) ([75a34de](https://github.com/maevsi/vibetype/commit/75a34de997c01c817a4548ead5350bac49f18ba8))
+* **event:** show recommendation match percentage ([#2933](https://github.com/maevsi/vibetype/issues/2933)) ([686a584](https://github.com/maevsi/vibetype/commit/686a584545b628855a4d079d9d9749c5757723a7))
+* **preference:** point to settings after setup ([#2931](https://github.com/maevsi/vibetype/issues/2931)) ([a026aa8](https://github.com/maevsi/vibetype/commit/a026aa8dcc2d0fc15073159dbc32a068f0929580))
+
+### Bug Fixes
+
+* **contact:** hide vcard import in apps ([#2929](https://github.com/maevsi/vibetype/issues/2929)) ([1ecc074](https://github.com/maevsi/vibetype/commit/1ecc0745b312d32036f0cbcfb16930895e723eb6))
+* **discover:** color tab icons ([#2930](https://github.com/maevsi/vibetype/issues/2930)) ([0513330](https://github.com/maevsi/vibetype/commit/0513330f9edff60f549135a5353fe54f13b28457))
+* **event:** clarify organizer contact in submissions ([#2932](https://github.com/maevsi/vibetype/issues/2932)) ([bd9ec88](https://github.com/maevsi/vibetype/commit/bd9ec88a3c945b161462b82f230167738bf91628))
+* **event:** moderate submitted event text ([#2934](https://github.com/maevsi/vibetype/issues/2934)) ([0906735](https://github.com/maevsi/vibetype/commit/09067356fcb5f15eb48d77c50921759b5a303a51))
+* **event:** move maximum guest count to advanced ([#2928](https://github.com/maevsi/vibetype/issues/2928)) ([826ab47](https://github.com/maevsi/vibetype/commit/826ab47affa85d8875920f371287292e0e995d3f))
+* **map:** round corners ([#2927](https://github.com/maevsi/vibetype/issues/2927)) ([9e45fc4](https://github.com/maevsi/vibetype/commit/9e45fc46dcf8477e98bcbf6bd1771dddcc64f746))
+
 ## [17.66.0](https://github.com/maevsi/vibetype/compare/17.65.3...17.66.0) (2026-11-28)
 
 ### Features
