@@ -154,3 +154,30 @@ appTest.describe('captcha', () => {
     })
   }
 })
+
+appTest(
+  'leaves a form without asking once only the captcha token changed',
+  async ({ defaultPage }) => {
+    const { page } = defaultPage
+
+    await page.route(
+      'https://challenges.cloudflare.com/turnstile/v0/api.js',
+      (route) =>
+        route.fulfill({
+          body: TURNSTILE_SCRIPT,
+          contentType: 'text/javascript',
+        }),
+    )
+    await defaultPage.goto('/support/contact')
+    await page.waitForFunction(
+      () =>
+        (globalThis as { isTurnstileTokenIssued?: boolean })
+          .isTurnstileTokenIssued,
+    )
+    await page.locator('textarea[name="itemDescription"]').fill('description')
+    await page.locator('textarea[name="itemDescription"]').fill('')
+
+    await page.getByRole('button', { exact: true, name: 'Back' }).click()
+    await expect(page).not.toHaveURL(/\/support\/contact$/)
+  },
+)
