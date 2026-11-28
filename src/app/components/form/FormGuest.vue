@@ -128,12 +128,12 @@
       <FormPrivacyNotice />
       <div class="flex flex-col items-center">
         <AppButton
-          :aria-label="isInvitationSent ? t('selectAndSend') : t('select')"
+          :aria-label="t('select')"
           class="w-full"
           :loading="createGuestsMutation.fetching.value"
           type="submit"
         >
-          {{ isInvitationSent ? t('selectAndSend') : t('select') }}
+          {{ t('select') }}
         </AppButton>
       </div>
       <AppAlert v-if="errorMessages?.length" variant="error">
@@ -163,14 +163,9 @@ import {
   isSearchTextMatch,
 } from '~~/shared/utils/contact'
 
-const {
-  event,
-  guestContactIdsExisting = undefined,
-  isInvitationSent = false,
-} = defineProps<{
+const { event, guestContactIdsExisting = undefined } = defineProps<{
   event: Pick<EventItemFragment, 'rowId'>
   guestContactIdsExisting?: string[]
-  isInvitationSent?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -179,7 +174,7 @@ const emit = defineEmits<{
 
 const store = useStore()
 const localePath = useLocalePath()
-const { locale, t } = useI18n()
+const { t } = useI18n()
 
 // data
 const after = ref<string | null>()
@@ -272,20 +267,10 @@ const createGuestsMutation = useMutation(
     }
   `),
 )
-const inviteMutation = useMutation(
-  graphql(`
-    mutation GuestsInvite($input: InviteInput!) {
-      invite(input: $input) {
-        clientMutationId
-      }
-    }
-  `),
-)
 const apiData = await useApiData([
   allContactsQuery,
   createContactMutation,
   createGuestsMutation,
-  inviteMutation,
 ])
 const contacts = computed(
   () =>
@@ -326,10 +311,6 @@ const form = useForm({
       }
 
       successIds.push(...value.contactIds)
-
-      if (isInvitationSent) {
-        await invite(guestsCreated)
-      }
     } catch (error) {
       console.error(error)
       return
@@ -350,31 +331,6 @@ const form = useForm({
 useFormLeaveConfirmation(form)
 
 // methods
-const invite = async (guests: { contactId: string; rowId: string }[]) => {
-  // Contacts without an account or an email address cannot receive an invitation, they stay on the guest list.
-  const contactIdsReachable = new Set(
-    contactsShown.value
-      .filter((contact) => contact.accountId || contact.emailAddress)
-      .map((contact) => contact.rowId),
-  )
-  const guestsReachable = guests.filter((guest) =>
-    contactIdsReachable.has(guest.contactId),
-  )
-  const results = await Promise.all(
-    guestsReachable.map((guest) =>
-      inviteMutation.executeMutation({
-        input: { guestId: guest.rowId, language: locale.value },
-      }),
-    ),
-  )
-  const sentCount = results.filter((result) => getResultData(result)).length
-  const skippedCount = guests.length - guestsReachable.length
-  const failedCount = guestsReachable.length - sentCount
-
-  if (sentCount) toast.success(t('sendSuccess', { count: sentCount }))
-  if (skippedCount) toast.warning(t('sendSkipped', { count: skippedCount }))
-  if (failedCount) toast.error(t('sendFailed', { count: failedCount }))
-}
 const contactCreate = async () => {
   const candidate = contactCreationCandidate.value
 
@@ -474,10 +430,6 @@ de:
   contactsSelect: Kontakte auswählen
   placeholderContact: Max Mustermann
   select: Zur Gästeliste hinzufügen
-  selectAndSend: Einladung senden
-  sendFailed: Eine Einladung konnte nicht versandt werden, der Gast steht aber auf der Gästeliste. | {count} Einladungen konnten nicht versandt werden, die Gäste stehen aber auf der Gästeliste.
-  sendSkipped: Ein Kontakt ohne Konto oder E-Mail-Adresse wurde nur zur Gästeliste hinzugefügt. | Für {count} Kontakte fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt.
-  sendSuccess: Eine Einladung wurde versandt. | {count} Einladungen wurden versandt.
 en:
   contactBookSearch: Search your contact book
   contactBookSearchDescription: Enter a username or an email address to add someone who is not in your contact book yet.
@@ -487,8 +439,4 @@ en:
   contactsSelect: Select contacts
   placeholderContact: John Doe
   select: Add to guest list
-  selectAndSend: Send invitation
-  sendFailed: One invitation could not be sent, but the guest is on the guest list. | {count} invitations could not be sent, but the guests are on the guest list.
-  sendSkipped: One contact has no account or email address and was only added to the guest list. | {count} contacts have no account or email address and were only added to the guest list.
-  sendSuccess: One invitation was sent. | {count} invitations were sent.
 </i18n>

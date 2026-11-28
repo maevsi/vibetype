@@ -733,17 +733,6 @@ export type InvitationFeedback = 'accepted' | 'canceled'
 /** Possible choices on how to receive a paper invitation: none, paper, digital. */
 export type InvitationFeedbackPaper = 'digital' | 'none' | 'paper'
 
-/** All input for the `invite` mutation. */
-export type InviteInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: string | null | undefined
-  guestId: string
-  language: string
-}
-
 /** All input for the `jwtCreate` mutation. */
 export type JwtCreateInput = {
   /**
@@ -1533,14 +1522,6 @@ export type CreateGuestsMutation = {
   } | null
 }
 
-export type GuestsInviteMutationVariables = Exact<{
-  input: InviteInput
-}>
-
-export type GuestsInviteMutation = {
-  invite: { clientMutationId: string | null } | null
-}
-
 export type AccountPasswordResetMutationVariables = Exact<{
   input: AccountPasswordResetInput
 }>
@@ -1611,14 +1592,6 @@ export type AllGuestsQuery = {
     }>
     pageInfo: { hasNextPage: boolean; endCursor: string | null }
   } | null
-}
-
-export type InviteMutationVariables = Exact<{
-  input: InviteInput
-}>
-
-export type InviteMutation = {
-  invite: { clientMutationId: string | null } | null
 }
 
 export type UpdateGuestByRowIdFeedbackMutationVariables = Exact<{
@@ -7295,63 +7268,6 @@ export const CreateGuestsDocument = {
   CreateGuestsMutation,
   CreateGuestsMutationVariables
 >
-export const GuestsInviteDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'GuestsInvite' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'InviteInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'invite' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  GuestsInviteMutation,
-  GuestsInviteMutationVariables
->
 export const AccountPasswordResetDocument = {
   kind: 'Document',
   definitions: [
@@ -7872,60 +7788,6 @@ export const AllGuestsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllGuestsQuery, AllGuestsQueryVariables>
-export const InviteDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'Invite' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'InviteInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'invite' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<InviteMutation, InviteMutationVariables>
 export const UpdateGuestByRowIdFeedbackDocument = {
   kind: 'Document',
   definitions: [
