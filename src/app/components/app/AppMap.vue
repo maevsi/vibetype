@@ -84,7 +84,9 @@ const emit = defineEmits<{
   geocode: [result: GeocodeResult]
 }>()
 const isGeocodeListened = !!getCurrentInstance()?.vnode.props?.onGeocode
-const classComputed = computed(() => cn('h-96 w-full text-fg-1', classProps))
+const classComputed = computed(() =>
+  cn('h-96 w-full overflow-hidden rounded-large text-fg-1', classProps),
+)
 
 const templateIdMap = useId()
 const map = ref<Map>()
