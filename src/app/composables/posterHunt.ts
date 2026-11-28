@@ -30,10 +30,14 @@ export const takePosterShared = async () => {
 
 /** Holds a poster picked on another page until the ingest page reads it, in memory only. */
 export const usePosterPicked = () =>
-  useState<File | undefined>(STATE_KEY_POSTER_PICKED)
+  useState<{ file: File; isCaptured: boolean } | undefined>(
+    STATE_KEY_POSTER_PICKED,
+  )
 
-/** Picks a poster by camera, library or the iOS app's document camera and passes the file to `onPicked`. */
-export const usePosterPicker = (onPicked: (file: File) => void) => {
+/** Picks a poster by camera, library or the iOS app's document camera and passes the file to `onPicked`, with whether it was just captured. */
+export const usePosterPicker = (
+  onPicked: (file: File, options: { isCaptured: boolean }) => void,
+) => {
   const { t } = useI18n({ useScope: 'global' })
   const alertError = useAlertError()
 
@@ -57,7 +61,7 @@ export const usePosterPicker = (onPicked: (file: File) => void) => {
       const file = input.files?.[0]
 
       input.remove()
-      if (file) onPicked(file)
+      if (file) onPicked(file, { isCaptured: capture !== undefined })
     })
     // iOS Safari may not fire `change` on a file input outside the document
     document.body.append(input)
@@ -72,9 +76,11 @@ export const usePosterPicker = (onPicked: (file: File) => void) => {
   }
   const pickFromLibrary = () => pick()
 
-  const handlePosterFromApp = ({ detail }: CustomEvent<string>) => {
-    if (detail) onPicked(getFileFromDataUrl(detail))
-  }
+  const handlePosterFromApp =
+    (isCaptured: boolean) =>
+    ({ detail }: CustomEvent<string>) => {
+      if (detail) onPicked(getFileFromDataUrl(detail), { isCaptured })
+    }
 
   onMounted(() => {
     isPosterScanAvailable.value =
@@ -83,8 +89,8 @@ export const usePosterPicker = (onPicked: (file: File) => void) => {
   useEventListener('poster-scan-error', () =>
     alertError({ messageI18n: t('globalPosterScanFailed') }),
   )
-  useEventListener('poster-scan-result', handlePosterFromApp)
-  useEventListener('poster-shared', handlePosterFromApp)
+  useEventListener('poster-scan-result', handlePosterFromApp(true))
+  useEventListener('poster-shared', handlePosterFromApp(false))
 
   return { isCameraAvailable, pickFromCamera, pickFromLibrary }
 }

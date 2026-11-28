@@ -490,8 +490,8 @@ useHeadDefault({ title })
 // poster hunt
 const posterPicked = usePosterPicked()
 const { isCameraAvailable, pickFromCamera, pickFromLibrary } = usePosterPicker(
-  async (file) => {
-    posterPicked.value = file
+  async (file, { isCaptured }) => {
+    posterPicked.value = { file, isCaptured }
     await navigateTo(localePath('event-ingest-image'))
   },
 )

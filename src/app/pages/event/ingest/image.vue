@@ -98,7 +98,7 @@ const isNoEvent = ref(false)
 const isReading = ref(false)
 // asked for before the form opens, so nobody publishes someone else's event under their own account
 const submission = ref<EventSubmission>()
-const posterPending = ref<File>()
+const posterPending = ref<{ file: File; isCaptured: boolean }>()
 const posterPicked = usePosterPicked()
 const previewUrl = ref<string>()
 
@@ -139,15 +139,18 @@ const readPosterAsBase64 = async (file: File) => {
   return base64Image
 }
 const onConsentAllowed = () => {
-  const file = posterPending.value
+  const pending = posterPending.value
 
   giveConsent()
   posterPending.value = undefined
-  if (file) readPoster(file)
+  if (pending) readPoster(pending.file, { isCaptured: pending.isCaptured })
 }
-const readPoster = async (file: File) => {
+const readPoster = async (
+  file: File,
+  { isCaptured = false }: { isCaptured?: boolean } = {},
+) => {
   if (!isConsentGiven.value) {
-    posterPending.value = file
+    posterPending.value = { file, isCaptured }
     isConsentDrawerOpen.value = true
     return
   }
@@ -175,6 +178,7 @@ const readPoster = async (file: File) => {
       base64Image,
       description: output.description,
       end: output.end,
+      isCaptured,
       location: output.location,
       name: output.name ?? '',
       start: output.start,
@@ -209,11 +213,11 @@ onMounted(async () => {
   )
 
   // a poster picked on the dashboard is read right away
-  const file = posterPicked.value
+  const picked = posterPicked.value
 
-  if (file) {
+  if (picked) {
     posterPicked.value = undefined
-    readPoster(file)
+    readPoster(picked.file, { isCaptured: picked.isCaptured })
     return
   }
 

@@ -287,6 +287,8 @@
             When poster hunting finds an event you don't organize, you can send it to us instead of creating it yourself.
             We then receive the details read from it, the poster photo or the link, your username and, if you add one, a contact of the organizers.
             We store this in our ticket system Zammad, described above, and use it to review your submission, to credit you with points for it, and to invite the organizers to Vibetype.
+            If you choose to attach your location when submitting a photo you just took, we also receive its coordinates and their accuracy.
+            We use them only to locate the poster.
 
             The legal basis is Art. 6 para. 1 lit. f GDPR, as we have a legitimate interest in rewarding submissions and in bringing events and their organizers to Vibetype.
             We delete the poster photo and the organizers' contact no later than three months after receipt unless the organizers sign up, and keep the record of your accepted submission for crediting points as long as your account exists.</li>

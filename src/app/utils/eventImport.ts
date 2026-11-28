@@ -45,6 +45,7 @@ export type EventSubmission = Parameters<
   typeof getEventImportedFromIngest
 >[0] & {
   base64Image?: string
+  isCaptured?: boolean
   name: string
   sourceUrl?: string
 }
