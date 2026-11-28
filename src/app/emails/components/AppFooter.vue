@@ -48,18 +48,6 @@ const separator = '·'
         <AppText style="font-size: 13px; text-align: center">
           <ELink
             class="link"
-            :href="`mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${emailAddress}`"
-            style="
-              color: #117a23;
-              text-decoration: underline;
-              white-space: nowrap;
-            "
-          >
-            {{ t.unsubscribe }}
-          </ELink>
-          {{ separator }}
-          <ELink
-            class="link"
             :href="legalUrl('imprint')"
             style="
               color: #117a23;
@@ -80,6 +68,18 @@ const separator = '·'
             "
           >
             {{ t.privacy }}
+          </ELink>
+          {{ separator }}
+          <ELink
+            class="link"
+            :href="`mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${emailAddress}`"
+            style="
+              color: #117a23;
+              text-decoration: underline;
+              white-space: nowrap;
+            "
+          >
+            {{ t.unsubscribe }}
           </ELink>
         </AppText>
         <AppText
