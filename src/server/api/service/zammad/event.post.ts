@@ -28,6 +28,7 @@ type EventSubmissionPostEvent = H3Event<{
 
 /** Hands an event that someone found but does not organize to the team, so it is not created under their account. */
 export default defineEventHandler(async (event: EventSubmissionPostEvent) => {
+  const { client: openAiClient } = useOpenAi()
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
   const jwtPayload = await verifyJwt<Jwt>(getJwtFromCookie())
 
@@ -44,6 +45,30 @@ export default defineEventHandler(async (event: EventSubmissionPostEvent) => {
   const { assertBelowLimit, count } = useEventSubmissionQuota(jwtPayload.sub)
 
   assertBelowLimit()
+
+  const texts = [
+    body.name,
+    body.description,
+    body.location,
+    body.organizerContact,
+  ].filter(Boolean) as string[]
+  const moderation = await openAiClient.moderations
+    .create({ model: 'omni-moderation-latest', input: texts })
+    .catch((error: unknown) => {
+      console.error('Submission moderation failed', error)
+
+      throw createAppError({
+        status: 503,
+        statusText: 'Moderation unavailable',
+      })
+    })
+
+  // clients match this status text to show their moderation message
+  if (moderation.results.some((result) => result.flagged))
+    throw createAppError({
+      status: 422,
+      statusText: MODERATION_ERROR_CODE,
+    })
 
   // re-encoded, so only an image reaches the ticket
   const poster = body.base64Image
