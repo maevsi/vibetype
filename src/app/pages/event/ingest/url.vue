@@ -152,7 +152,7 @@ const templateIdHint = useId()
 
 <i18n lang="yaml">
 de:
-  description: 'Spar Dir das Abtippen: Eine externe KI liest die Seite aus und erstellt einen Entwurf, den Du vor dem Speichern prüfen kannst.'
+  description: Schick uns eine Veranstaltung über ihre Webseite und sammle Punkte. Eine externe KI liest die Seite aus, damit Du nichts abtippen musst.
   errorLimitReached: Damit die Plakatjagd für alle verfügbar bleibt, gibt es ein Tageslimit, und das hast Du erreicht. Versuche es morgen erneut.
   errorReadFailed: Der Link konnte nicht gelesen werden.
   errorUnreadable: Wir konnten diesen Link nicht öffnen. Prüfe, ob er zu einer öffentlichen Webseite führt.
@@ -163,10 +163,10 @@ de:
   next: Weiter
   noEvent: Auf dieser Seite wurde keine Veranstaltung gefunden. Probiere einen anderen Link.
   reading: Veranstaltung wird geladen…
-  sent: Danke! Wir melden uns bei den Veranstaltenden.
+  sent: Danke für Deinen Fund! Sobald wir ihn annehmen, bringt er Dir Punkte.
   title: Plakatjagd
 en:
-  description: 'Skip the typing: an external AI reads the page and creates a draft you can review before saving.'
+  description: Send us an event from its web page and earn points. An external AI reads the page, so you don't have to type anything.
   errorLimitReached: To keep poster hunting available for everyone, there's a daily limit, and you've reached it. Try again tomorrow.
   errorReadFailed: The link could not be read.
   errorUnreadable: We couldn't open this link. Make sure it leads to a public web page.
@@ -177,6 +177,6 @@ en:
   next: Next
   noEvent: No event found on this page. Try another link.
   reading: Fetching event data…
-  sent: Thanks! We'll reach out to the organizers.
+  sent: Thanks for your find! Once we accept it, it earns you points.
   title: Poster hunting
 </i18n>

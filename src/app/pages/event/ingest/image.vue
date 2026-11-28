@@ -230,7 +230,7 @@ onBeforeUnmount(() => {
 <i18n lang="yaml">
 de:
   chooseFromLibrary: Aus der Mediathek wählen
-  description: Fotografiere ein Veranstaltungsplakat oder wähle ein Foto aus und spar Dir das Abtippen. Eine externe KI liest es aus und erstellt einen Entwurf, den Du vor dem Speichern prüfen kannst.
+  description: Ein Veranstaltungsplakat entdeckt? Fotografiere es oder wähle ein Foto aus und schick uns die Veranstaltung, um Punkte zu sammeln. Eine externe KI liest die Angaben aus, damit Du nichts abtippen musst.
   errorLimitReached: Damit die Plakatjagd für alle verfügbar bleibt, gibt es ein Tageslimit, und das hast Du erreicht. Versuche es morgen erneut.
   errorModerated: Wir möchten, dass sich alle auf @.upper:{'globalSiteName'} willkommen fühlen, deshalb können wir dieses Foto nicht verwenden. Bitte versuche es mit einem anderen Plakat.
   errorReadFailed: Das Plakat konnte nicht gelesen werden.
@@ -239,12 +239,12 @@ de:
   preview: Vorschau
   provideLink: Link zu einer Webseite angeben
   reading: Plakat wird gelesen…
-  sent: Danke! Wir melden uns bei den Veranstaltenden.
+  sent: Danke für Deinen Fund! Sobald wir ihn annehmen, bringt er Dir Punkte.
   takePhoto: Foto aufnehmen
   title: Plakatjagd
 en:
   chooseFromLibrary: Choose from library
-  description: Take or choose a photo of an event poster and skip the typing. An external AI reads it and creates a draft you can review before saving.
+  description: Spotted an event poster? Take or choose a photo and send the event to us to earn points. An external AI reads the details, so you don't have to type them.
   errorLimitReached: To keep poster hunting available for everyone, there's a daily limit, and you've reached it. Try again tomorrow.
   errorModerated: We want everyone to feel welcome on @.upper:{'globalSiteName'}, so we can't use this photo. Please try a different poster.
   errorReadFailed: The poster could not be read.
@@ -253,7 +253,7 @@ en:
   preview: Preview
   provideLink: Provide link to website
   reading: Reading poster…
-  sent: Thanks! We'll reach out to the organizers.
+  sent: Thanks for your find! Once we accept it, it earns you points.
   takePhoto: Take photo
   title: Poster hunting
 </i18n>

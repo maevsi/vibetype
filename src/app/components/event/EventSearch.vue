@@ -312,7 +312,7 @@ watch(searchQueryVariable, () => query.value.executeQuery())
 <i18n lang="yaml">
 de:
   emptyCreate: Veranstaltung planen
-  emptyDescription: 'Sei die erste Person: Plane Deine eigene Veranstaltung oder füge eine hinzu, die Du auf einem Plakat entdeckt hast.'
+  emptyDescription: 'Sei die erste Person: Plane Deine eigene Veranstaltung oder schick uns eine, die Du auf einem Plakat entdeckt hast.'
   emptyHunt: Plakat jagen
   emptyTitle: Noch keine bevorstehenden Veranstaltungen
   searchClear: Suche zurücksetzen
@@ -320,7 +320,7 @@ de:
   searchEmptyTitle: Nichts passt zu „{query}“
 en:
   emptyCreate: Plan an event
-  emptyDescription: 'Be the first: plan your own event, or add one you spotted on a poster.'
+  emptyDescription: 'Be the first: plan your own event, or send us one you spotted on a poster.'
   emptyHunt: Hunt a poster
   emptyTitle: No upcoming events yet
   searchClear: Clear search

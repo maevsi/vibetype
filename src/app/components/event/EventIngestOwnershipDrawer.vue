@@ -1,5 +1,5 @@
 <template>
-  <AppDrawer v-model="isOpen">
+  <AppDrawer v-model="isOpen" @close="onClose">
     <form
       :id="templateIdForm"
       class="flex flex-col gap-4 pb-4"
@@ -38,7 +38,7 @@
       <AppButton
         :aria-label="t('own')"
         :disabled="isSending"
-        variant="secondary"
+        variant="tertiary"
         @click="own"
       >
         {{ t('own') }}
@@ -68,11 +68,18 @@ const { $csrfFetch } = useNuxtApp()
 // data
 const isSending = ref(false)
 const organizerContact = ref('')
+// emitted only once the drawer has closed, as removing its history entry would cancel a navigation started before
+let outcome: 'own' | 'sent' | undefined
 
 // methods
+const onClose = () => {
+  if (outcome === 'own') emit('own')
+  if (outcome === 'sent') emit('sent')
+  outcome = undefined
+}
 const own = () => {
+  outcome = 'own'
   isOpen.value = false
-  emit('own')
 }
 const send = async () => {
   if (!submission) return
@@ -87,9 +94,9 @@ const send = async () => {
       },
       method: 'POST',
     })
-    isOpen.value = false
     organizerContact.value = ''
-    emit('sent')
+    outcome = 'sent'
+    isOpen.value = false
   } catch (error) {
     alertError({
       ...(error instanceof Error ? { error } : {}),
@@ -111,25 +118,25 @@ const templateIdForm = useId()
 
 <i18n lang="yaml">
 de:
-  description: Wenn Du „{name}“ nicht selbst veranstaltest, schick die Veranstaltung an uns. Wir sprechen die Veranstaltenden an, statt sie unter Deinem Namen zu veröffentlichen.
-  errorLimitReached: Du hast heute schon viele Veranstaltungen geschickt. Versuche es morgen erneut.
-  errorSendFailed: Die Veranstaltung konnte nicht gesendet werden.
+  description: Schick uns „{name}“. Wir prüfen jede Einsendung, und sobald wir sie annehmen, bekommst Du Punkte für Vorteile bei Partner-Veranstaltungen. Punkte gibt es bald, und dieser Fund zählt schon.
+  errorLimitReached: Du hast heute schon viel eingesendet, danke! Versuche es morgen erneut.
+  errorSendFailed: Deine Einsendung konnte nicht gesendet werden.
   nameUnknown: diese Veranstaltung
-  organizerContact: Kontakt der Veranstaltenden (optional)
-  organizerContactHint: Wir nutzen ihn nur, um die Veranstaltenden auf @.upper:{'globalSiteName'} einzuladen.
+  organizerContact: Weißt Du, wer sie veranstaltet? (optional)
+  organizerContactHint: Ein Kontakt hilft uns, Deine Einsendung anzunehmen. Wir nutzen ihn nur, um die Veranstaltenden einzuladen.
   organizerContactPlaceholder: E-Mail, Webseite oder Instagram
-  own: Ich veranstalte sie
-  send: An @.upper:{'globalSiteName'} senden
-  title: Veranstaltest Du das?
+  own: Ich veranstalte das selbst
+  send: Einsenden und Punkte sammeln
+  title: Sammle Punkte für Deinen Fund
 en:
-  description: If you don't organize "{name}" yourself, send the event to us. We'll reach out to its organizers instead of publishing it under your name.
-  errorLimitReached: You've already sent many events today. Try again tomorrow.
-  errorSendFailed: The event could not be sent.
+  description: Send "{name}" to us. We review every submission, and once we accept it, you earn points for perks at partner events. Points start soon, and this find already counts.
+  errorLimitReached: You've submitted a lot today, thanks! Try again tomorrow.
+  errorSendFailed: Your submission could not be sent.
   nameUnknown: this event
-  organizerContact: Organizer contact (optional)
-  organizerContactHint: We only use it to invite the organizers to @.upper:{'globalSiteName'}.
+  organizerContact: Know who organizes it? (optional)
+  organizerContactHint: A contact helps us accept your submission. We only use it to invite the organizers.
   organizerContactPlaceholder: Email, website or Instagram
-  own: I organize it
-  send: Send to @.upper:{'globalSiteName'}
-  title: Is this your event?
+  own: I organize this myself
+  send: Submit and earn points
+  title: Earn points for your find
 </i18n>

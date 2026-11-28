@@ -91,7 +91,7 @@ authenticatedTest.describe('poster reading', () => {
       })
       await defaultPage.goto(PAGE_PATH)
       await pickPoster(page)
-      await page.getByRole('button', { name: 'I organize it' }).click()
+      await page.getByRole('button', { name: 'I organize this myself' }).click()
 
       await expect(page).toHaveURL(/\/event\/create$/)
       await expect(page.locator('#input-name')).toHaveValue('Test')
@@ -120,9 +120,9 @@ authenticatedTest.describe('poster reading', () => {
       await defaultPage.goto(PAGE_PATH)
       await pickPoster(page)
       await page
-        .getByRole('textbox', { name: 'Organizer contact (optional)' })
+        .getByRole('textbox', { name: 'Know who organizes it? (optional)' })
         .fill('organizer@example.com')
-      await page.getByRole('button', { name: /^Send to / }).click()
+      await page.getByRole('button', { name: 'Submit and earn points' }).click()
 
       await expect(page).toHaveURL(/\/dashboard$/)
       expect(submission).toMatchObject({
