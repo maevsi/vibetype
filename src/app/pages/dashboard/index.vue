@@ -198,7 +198,7 @@
             :to="localePath('support-contact')"
             variant="secondary"
           >
-            <AppIconPaperAirplane />
+            <AppIconChatBubbleBottomCenterText />
             {{ t('feedbackAction') }}
           </AppButton>
         </section>
