@@ -103,7 +103,10 @@ const send = async () => {
       messageI18n:
         error instanceof FetchError && error.statusCode === 429
           ? t('errorLimitReached')
-          : t('errorSendFailed'),
+          : error instanceof FetchError &&
+              error.statusText === MODERATION_ERROR_CODE
+            ? t('globalErrorModerated')
+            : t('errorSendFailed'),
     })
   } finally {
     isSending.value = false
