@@ -1,3 +1,9 @@
+## [17.65.2](https://github.com/maevsi/vibetype/compare/17.65.1...17.65.2) (2026-11-28)
+
+### Bug Fixes
+
+* **email:** list legal links before unsubscribe in footer ([#2917](https://github.com/maevsi/vibetype/issues/2917)) ([e5fd9be](https://github.com/maevsi/vibetype/commit/e5fd9be085aedad40cffff665ef2aa3fb48dee52))
+
 ## [17.65.1](https://github.com/maevsi/vibetype/compare/17.65.0...17.65.1) (2026-11-28)
 
 ### Bug Fixes
