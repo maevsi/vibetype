@@ -118,23 +118,23 @@ const templateIdForm = useId()
 
 <i18n lang="yaml">
 de:
-  description: Schick uns „{name}“. Wir prüfen jede Einsendung, und sobald wir sie annehmen, bekommst Du Punkte für Vorteile bei Partner-Veranstaltungen. Punkte gibt es bald, und dieser Fund zählt schon.
+  description: Schick uns „{name}“. Nehmen wir sie an, bekommst Du Punkte für Vorteile bei Partner-Veranstaltungen. Punkte gibt es bald, dieser Fund zählt schon.
   errorLimitReached: Du hast heute schon viel eingesendet, danke! Versuche es morgen erneut.
   errorSendFailed: Deine Einsendung konnte nicht gesendet werden.
   nameUnknown: diese Veranstaltung
-  organizerContact: Weißt Du, wer sie veranstaltet? (optional)
-  organizerContactHint: Ein Kontakt hilft uns, Deine Einsendung anzunehmen. Wir nutzen ihn nur, um die Veranstaltenden einzuladen.
+  organizerContact: Kontakt der Veranstaltenden (optional)
+  organizerContactHint: Nicht Deiner. Wir laden damit die Veranstaltenden ein.
   organizerContactPlaceholder: E-Mail, Webseite oder Instagram
   own: Ich veranstalte das selbst
   send: Einsenden und Punkte sammeln
   title: Sammle Punkte für Deinen Fund
 en:
-  description: Send "{name}" to us. We review every submission, and once we accept it, you earn points for perks at partner events. Points start soon, and this find already counts.
+  description: Send us "{name}". If we accept it, you earn points for perks at partner events. Points start soon, and this find already counts.
   errorLimitReached: You've submitted a lot today, thanks! Try again tomorrow.
   errorSendFailed: Your submission could not be sent.
   nameUnknown: this event
-  organizerContact: Know who organizes it? (optional)
-  organizerContactHint: A contact helps us accept your submission. We only use it to invite the organizers.
+  organizerContact: Organizer's contact (optional)
+  organizerContactHint: Not yours. We use it to invite the organizers.
   organizerContactPlaceholder: Email, website or Instagram
   own: I organize this myself
   send: Submit and earn points
