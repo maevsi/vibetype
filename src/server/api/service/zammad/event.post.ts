@@ -9,6 +9,13 @@ const eventSubmissionPostBodySchema = z.object({
     .string()
     .max(EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM)
     .optional(),
+  coordinates: z
+    .object({
+      accuracy: z.number().nonnegative(),
+      latitude: z.number().min(-90).max(90),
+      longitude: z.number().min(-180).max(180),
+    })
+    .optional(),
   description: text,
   end: text,
   location: text,
@@ -86,6 +93,9 @@ export default defineEventHandler(async (event: EventSubmissionPostEvent) => {
       ).toString('base64')
     : undefined
   const { createTicket } = useZammad()
+  const posterLocation = body.coordinates
+    ? `${body.coordinates.latitude}, ${body.coordinates.longitude} (±${Math.round(body.coordinates.accuracy)} m) https://www.openstreetmap.org/?mlat=${body.coordinates.latitude}&mlon=${body.coordinates.longitude}#map=18/${body.coordinates.latitude}/${body.coordinates.longitude}`
+    : ''
 
   count()
   await createTicket({
@@ -102,6 +112,7 @@ export default defineEventHandler(async (event: EventSubmissionPostEvent) => {
       '',
       `Organizer contact: ${body.organizerContact || ''}`,
       `Source: ${body.sourceUrl || (poster ? 'poster' : '')}`,
+      `Poster location: ${posterLocation}`,
       '',
       `Submitted by: ${jwtPayload.username} (${jwtPayload.sub})`,
     ].join('\n'),
