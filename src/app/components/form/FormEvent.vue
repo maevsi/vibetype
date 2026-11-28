@@ -328,33 +328,6 @@
             />
           </Field>
         </form.Field>
-        <form.Field
-          v-if="form.getFieldValue('visibility') === EventVisibility.Public"
-          v-slot="{ field }"
-          name="guestCountMaximum"
-        >
-          <Field>
-            <FieldLabel for="input-invitee-count-maximum">{{
-              t('maximumInviteeCount')
-            }}</FieldLabel>
-            <FieldContent>
-              <Input
-                id="input-invitee-count-maximum"
-                :aria-invalid="isFieldInvalid(field)"
-                :model-value="field.state.value"
-                type="number"
-                @blur="field.handleBlur"
-                @input="
-                  field.handleChange(($event.target as HTMLInputElement).value)
-                "
-              />
-            </FieldContent>
-            <FieldError
-              v-if="isFieldInvalid(field)"
-              :errors="field.state.meta.errors"
-            />
-          </Field>
-        </form.Field>
         <form.Field v-slot="{ field }" name="categoryIds">
           <Field>
             <FieldLabel>{{ t('categories') }}</FieldLabel>
@@ -392,10 +365,14 @@
             onChangeAsyncDebounceMs: 300,
           }"
         >
-          <!-- stays open while the slug is invalid, so that its error is never hidden -->
+          <!-- stays open while the slug or maximum guest count is invalid, so that its error is never hidden -->
           <Collapsible
             class="flex flex-col gap-4"
-            :open="isAdvancedOpen || isFieldInvalid(slugField)"
+            :open="
+              isAdvancedOpen ||
+              isFieldInvalid(slugField) ||
+              isGuestCountMaximumInvalid()
+            "
             @update:open="isAdvancedOpen = $event"
           >
             <CollapsibleTrigger as-child>
@@ -406,13 +383,48 @@
               >
                 {{ t('advanced') }}
                 <AppIconChevronUp
-                  v-if="isAdvancedOpen || isFieldInvalid(slugField)"
+                  v-if="
+                    isAdvancedOpen ||
+                    isFieldInvalid(slugField) ||
+                    isGuestCountMaximumInvalid()
+                  "
                   aria-hidden="true"
                 />
                 <AppIconChevronDown v-else aria-hidden="true" />
               </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent>
+            <CollapsibleContent class="flex flex-col gap-4">
+              <form.Field
+                v-if="
+                  form.getFieldValue('visibility') === EventVisibility.Public
+                "
+                v-slot="{ field }"
+                name="guestCountMaximum"
+              >
+                <Field>
+                  <FieldLabel for="input-invitee-count-maximum">{{
+                    t('maximumInviteeCount')
+                  }}</FieldLabel>
+                  <FieldContent>
+                    <Input
+                      id="input-invitee-count-maximum"
+                      :aria-invalid="isFieldInvalid(field)"
+                      :model-value="field.state.value"
+                      type="number"
+                      @blur="field.handleBlur"
+                      @input="
+                        field.handleChange(
+                          ($event.target as HTMLInputElement).value,
+                        )
+                      "
+                    />
+                  </FieldContent>
+                  <FieldError
+                    v-if="isFieldInvalid(field)"
+                    :errors="field.state.meta.errors"
+                  />
+                </Field>
+              </form.Field>
               <Field>
                 <FieldLabel for="input-slug">{{ t('slug') }}</FieldLabel>
                 <FieldContent>
@@ -531,6 +543,10 @@ const timeZone = useTimeZone()
 
 // data
 const now = useNow()
+const isGuestCountMaximumInvalid = () => {
+  const meta = form.getFieldMeta('guestCountMaximum')
+  return !!meta && isFieldInvalid({ state: { meta } })
+}
 const isAdvancedOpen = ref(false)
 const isSlugCustom = ref(false)
 
