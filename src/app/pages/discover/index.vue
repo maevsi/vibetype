@@ -37,7 +37,11 @@
             :to="{ query: getQuery(option.value) }"
             variant="ghost"
           >
-            <component :is="option.icon" aria-hidden="true" class="size-5" />
+            <component
+              :is="option.icon"
+              aria-hidden="true"
+              :class="cn('size-5', option.color)"
+            />
             {{ option.label }}
           </AppButton>
         </div>
@@ -63,11 +67,13 @@ const isMapVisible = useEventMapVisible()
 const title = t('title')
 const typeOptions = computed(() => [
   {
+    color: 'text-accent-pink',
     icon: resolveComponent('AppIconCalendar'),
     label: t('events'),
     value: 'events',
   },
   {
+    color: 'text-info',
     icon: resolveComponent('AppIconUsers'),
     label: t('people'),
     value: 'people',
