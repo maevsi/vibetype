@@ -60,6 +60,12 @@ export default defineNuxtConfig({
     viteEnvironmentApi: true,
     watcher: 'builder',
   },
+  imports: {
+    parser: 'regex', // TODO: remove once unimport issue is resolved (https://github.com/nuxt/nuxt/issues/35858)
+  },
+  future: {
+    compatibilityVersion: 5,
+  },
   modules: [
     '@comark/nuxt',
     '@dargmuesli/nuxt-cookie-control',
