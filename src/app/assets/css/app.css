@@ -89,7 +89,7 @@
 }
 
 @utility focus-ring {
-  @apply outline-3 outline-offset-2 outline-link;
+  @apply outline-3 outline-offset-2 outline-link outline-solid;
 }
 
 @utility heading {

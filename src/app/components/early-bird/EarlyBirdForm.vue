@@ -12,6 +12,7 @@
     <FormEarlyBird
       :id="templateIdForm"
       v-model:error="modelError"
+      v-model:is-submitting="isSubmitting"
       @success="emit('next')"
     />
     <template #bottom>
@@ -19,6 +20,7 @@
         :aria-label="t('button')"
         class="w-full max-w-md"
         :form="templateIdForm"
+        :loading="isSubmitting"
         type="submit"
       >
         {{ t('button') }}
@@ -33,6 +35,7 @@ const emit = defineEmits<{
 }>()
 
 const modelError = defineModel<Error>('error')
+const isSubmitting = ref(false)
 const { t } = useI18n()
 const templateIdForm = useId()
 </script>

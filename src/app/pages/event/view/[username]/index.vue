@@ -62,7 +62,7 @@
                 <template #icon><AppIconCalendar /></template>
                 <AppButton
                   :aria-label="t('emptyDiscover')"
-                  :to="localePath('event')"
+                  :to="localePath('discover')"
                 >
                   {{ t('emptyDiscover') }}
                 </AppButton>

@@ -2,7 +2,10 @@ import { describe, expect, test } from 'vitest'
 
 import {
   getContactCreationCandidate,
+  getContactSearchText,
   getContactsSorted,
+  isSearchTextMatch,
+  normalizeSearchText,
 } from '#src/shared/utils/contact'
 
 const CONTACTS = [
@@ -104,5 +107,57 @@ describe('getContactsSorted', () => {
     getContactsSorted(contacts)
 
     expect(contacts[0]).toBe(contactWithEmailAddress)
+  })
+})
+
+describe('search', () => {
+  const contact = {
+    accountByAccountId: { id: 'id', rowId: 'rowId', username: 'jt42' },
+    emailAddresses: ['jonas@example.com'],
+    firstName: 'Jonas',
+    lastName: 'Álvarez Thelemann',
+    nickname: 'JT',
+  }
+  const searchText = getContactSearchText(contact)
+
+  test('normalizes case, accents and surrounding whitespace', () => {
+    expect(normalizeSearchText('  Álvarez ')).toBe('alvarez')
+  })
+
+  test('finds the first name although a nickname is set', () => {
+    expect(isSearchTextMatch(searchText, 'jonas')).toBe(true)
+  })
+
+  test('finds the username although a first name exists', () => {
+    expect(isSearchTextMatch(searchText, 'jt42')).toBe(true)
+  })
+
+  test('folds accents in both directions', () => {
+    expect(isSearchTextMatch(searchText, 'alvarez')).toBe(true)
+    expect(isSearchTextMatch(searchText, 'ÁLVAREZ')).toBe(true)
+  })
+
+  test('matches words in any order', () => {
+    expect(isSearchTextMatch(searchText, 'thelemann jonas')).toBe(true)
+  })
+
+  test('requires every word to match', () => {
+    expect(isSearchTextMatch(searchText, 'jonas nobody')).toBe(false)
+  })
+
+  test('does not match unrelated text', () => {
+    expect(isSearchTextMatch(searchText, 'zzz')).toBe(false)
+  })
+
+  test('skips missing properties', () => {
+    expect(
+      getContactSearchText({
+        accountByAccountId: null,
+        emailAddresses: ['a@b.c'],
+        firstName: null,
+        lastName: null,
+        nickname: null,
+      }),
+    ).toBe('a@b.c')
   })
 })

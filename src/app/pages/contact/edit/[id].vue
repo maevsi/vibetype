@@ -15,7 +15,7 @@
         <FormContact
           :contact
           :contact-group-ids
-          @submit-success="navigateTo(redirectPath)"
+          @submit-success="store.navigateBack(redirectPath)"
         />
         <ContactGuestEventList
           :events="guestEvents"
@@ -34,6 +34,7 @@ import { getContactItem } from '~~/shared/utils/contact'
 
 const localePath = useLocalePath()
 const route = useRoute()
+const store = useStore()
 const { t } = useI18n()
 
 // validation

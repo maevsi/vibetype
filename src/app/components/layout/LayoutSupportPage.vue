@@ -4,6 +4,17 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
+      <!-- the result steps live on the form's route, so leaving the route would skip the form -->
+      <template v-if="step !== 'default'" #back>
+        <AppButton
+          :aria-label="t('back')"
+          size="none"
+          variant="ghost"
+          @click="toForm"
+        >
+          <AppIconBack />
+        </AppButton>
+      </template>
     </LayoutTopBar>
     <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
@@ -33,6 +44,7 @@
             :aria-label="formButton"
             class="w-full max-w-md"
             :form="templateIdForm"
+            :loading="isSubmitting"
             type="submit"
           >
             {{ formButton }}
@@ -54,7 +66,7 @@
           <AppButton
             :aria-label="successButton"
             class="w-full max-w-md"
-            @click="store.navigateBack"
+            @click="store.navigateBack()"
           >
             {{ successButton }}
           </AppButton>
@@ -69,6 +81,7 @@ defineProps<{
   errorButton: string
   errorDescription: string
   formButton: string
+  isSubmitting?: boolean
   successButton: string
   successDescription: string
   successTitle: string
@@ -79,6 +92,18 @@ const error = defineModel<Error>('error')
 const step = defineModel<string>('step', { required: true })
 
 const store = useStore()
+const { t } = useI18n()
+const toForm = () => {
+  error.value = undefined
+  step.value = 'default'
+}
 const templateIdForm = useId()
 const templateIdTitle = useId()
 </script>
+
+<i18n lang="yaml">
+de:
+  back: Zurück
+en:
+  back: Back
+</i18n>

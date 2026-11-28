@@ -48,6 +48,12 @@
           {{ `@${contact.accountByAccountId.username}` }}
         </div>
       </div>
+      <div
+        v-if="$slots.description"
+        class="max-w-full truncate text-body-small text-fg-2"
+      >
+        <slot name="description" />
+      </div>
     </div>
   </div>
 </template>

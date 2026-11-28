@@ -3752,7 +3752,7 @@ export type Event = Node & {
   readonly feedbackDeadline?: Maybe<Scalars['Datetime']['output']>
   /** The number of seats taken at the event, each guest taking one plus their approved companions, maintained by triggers on the guest table. */
   readonly guestCount: Scalars['Int']['output']
-  /** The number of seats taken by guests who accepted their invitation to the event, each such guest taking one plus their approved companions, maintained by triggers on the guest table. */
+  /** The number of seats taken by guests whose effective feedback is accepted, the organizer's override taking precedence, each such guest taking one plus their approved companions, maintained by triggers on the guest table. */
   readonly guestCountAccepted: Scalars['Int']['output']
   /** The event's maximum guest count. Must be greater than 0. */
   readonly guestCountMaximum?: Maybe<Scalars['Int']['output']>

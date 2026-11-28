@@ -25,6 +25,7 @@
         />
       </li>
     </ul>
+    <slot />
     <div class="flex flex-col gap-2">
       <AppButton :aria-label="t('allowAll')" @click="decide(allowAll)">
         {{ t('allowAll') }}

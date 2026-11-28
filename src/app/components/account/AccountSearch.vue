@@ -1,6 +1,5 @@
 <template>
   <div class="flex flex-col gap-4">
-    <AppInputSearch v-model="searchQuery" />
     <div v-if="accounts?.length" class="flex flex-col gap-2">
       <AccountCard v-for="account in accounts" :key="account.rowId" :account />
     </div>
@@ -42,7 +41,7 @@ const queryAccountSearch = graphql(`
   }
 `)
 const after = ref<string | null>()
-const searchQuery = ref<string>()
+const searchQuery = defineModel<string>('searchQuery')
 const searchQueryDebounced = refDebounced(searchQuery, 300)
 const searchQueryDebouncedTrimmed = computed(
   () => searchQueryDebounced.value?.trim() ?? '',

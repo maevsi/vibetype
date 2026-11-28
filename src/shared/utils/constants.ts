@@ -39,6 +39,8 @@ export const REGEX_URL_HTTPS = /^https:\/\//
 export const REGEX_UUID =
   /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/
 export const SEO_META_TWITTER_SITE = '@maev_si'
+// the target outlives the tab, as the verification link of a registration opens in a new one
+export const SIGN_IN_TARGET_STORAGE_KEY = 'sign-in-target'
 export const STATE_KEY_EVENT_IMPORTED = 'eventImported'
 export const STATE_KEY_NOW = 'dateTimeNow'
 export const STATE_KEY_POSTER_PICKED = 'posterPicked'

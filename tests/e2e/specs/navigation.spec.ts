@@ -55,7 +55,7 @@ appTest.describe('back button', () => {
     async ({ defaultPage }) => {
       const { page } = defaultPage
 
-      await defaultPage.goto('/event')
+      await defaultPage.goto('/discover')
       await page.getByRole('link', { name: 'Settings' }).click()
       await expect(page).toHaveURL(/\/session\/edit$/)
       await page.getByRole('link', { name: 'Color scheme' }).click()
@@ -69,7 +69,7 @@ appTest.describe('back button', () => {
       await expect(page).toHaveURL(/\/session\/edit$/)
 
       await page.goBack()
-      await expect(page).toHaveURL(/\/event$/)
+      await expect(page).toHaveURL(/\/discover$/)
     },
   )
 
@@ -85,7 +85,7 @@ appTest.describe('back button', () => {
 
 appTest.describe('settings', () => {
   appTest('is linked once when signed out', async ({ defaultPage }) => {
-    await defaultPage.goto('/event')
+    await defaultPage.goto('/discover')
 
     await expect(
       defaultPage.page.getByRole('link', { name: 'Settings' }),
@@ -95,7 +95,7 @@ appTest.describe('settings', () => {
   authenticatedTest(
     'is linked from the profile only when signed in',
     async ({ defaultPage }) => {
-      await defaultPage.goto('/event')
+      await defaultPage.goto('/discover')
 
       await expect(
         defaultPage.page.getByRole('link', { name: 'Settings' }),
@@ -127,6 +127,27 @@ authenticatedTest(
     await page.getByRole('button', BACK).click()
     await drawer.getByRole('button', { exact: true, name: 'Discard' }).click()
     await expect(page).not.toHaveURL(/\/event\/create$/)
+  },
+)
+
+authenticatedTest(
+  'asks before discarding unsaved contact changes',
+  async ({ defaultPage }) => {
+    const { page } = defaultPage
+
+    await defaultPage.goto('/contact/create')
+    await page.getByLabel('First name', { exact: true }).fill('Unsaved')
+
+    const drawer = page.getByRole('dialog', { name: 'Discard changes' })
+
+    await page.getByRole('button', BACK).click()
+    await drawer.getByRole('button', { name: 'Go back' }).click()
+    await expect(drawer).toBeHidden()
+    await expect(page).toHaveURL(/\/contact\/create$/)
+
+    await page.getByRole('button', BACK).click()
+    await drawer.getByRole('button', { exact: true, name: 'Discard' }).click()
+    await expect(page).not.toHaveURL(/\/contact\/create$/)
   },
 )
 

@@ -90,6 +90,8 @@ const redirectPath = getRedirectPath(
   }),
 )
 
+useLeaveConfirmation(computed(() => !!selectedUploadId.value))
+
 // profile picture
 const createProfilePictureMutation = useMutation(
   graphql(`
@@ -160,7 +162,10 @@ const submit = async () => {
       }),
     })
 
-    if (result) await navigateTo(redirectPath)
+    if (result) {
+      selectedUploadId.value = null
+      await navigateTo(redirectPath)
+    }
   } finally {
     isSubmitting.value = false
   }

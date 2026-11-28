@@ -78,12 +78,15 @@ const form = useForm({
     onSubmitAsync: formSchema,
   },
   onSubmit: async ({ value }) => {
+    form.reset(value)
     emit('submit', {
       captcha: value.captcha,
       password: value.password,
     })
   },
 })
+
+useFormLeaveConfirmation(form)
 
 // zxcvbn is loaded on demand (see passwordStrength.ts), so the meter can only be updated once
 // the score for the current input resolves; driven from the same input event as validation

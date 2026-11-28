@@ -399,9 +399,6 @@ importers:
       camelcase-keys:
         specifier: 10.0.3
         version: 10.0.3
-      chart.js:
-        specifier: 4.6.1
-        version: 4.6.1
       class-variance-authority:
         specifier: 0.7.1
         version: 0.7.1
@@ -624,9 +621,6 @@ importers:
       vue-advanced-cropper:
         specifier: 2.8.9
         version: 2.8.9(vue@3.5.46(typescript@6.0.3))
-      vue-chartjs:
-        specifier: 5.3.7
-        version: 5.3.7(chart.js@4.6.1)(vue@3.5.46(typescript@6.0.3))
       vue-qrcode-reader:
         specifier: 5.7.3
         version: 5.7.3
@@ -2816,9 +2810,6 @@ packages:
 
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
-
-  '@kurkle/color@0.3.4':
-    resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
 
   '@lucide/vue@1.73.0':
     resolution: {integrity: sha512-QVVRSgu2rqRX3NAUktT9venW0Bvtr03aCZjhFRLwnV3uqLyR7KCTOx5mMlukhw0aiyjC3D6w2b+fmy4MeM5R3Q==}
@@ -6928,10 +6919,6 @@ packages:
 
   chardet@2.2.0:
     resolution: {integrity: sha512-rddelWYNPRrXq6PtNEN2S3f6t9ILzvqaN5pVgi4kqt9jHQaXIial9PznB5iSPVlQSLNaaH22ItWz3EJtQ10+OA==}
-
-  chart.js@4.6.1:
-    resolution: {integrity: sha512-hJyniucsFmq//EvXYvJ6c6mahPoI3kaxdjVH8awTaJ/fDNWeSqqqArixMJWkWNN6fcYvPU3HneSANFNYtRi61g==}
-    engines: {pnpm: '>=8'}
 
   chokidar@5.0.0:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
@@ -11799,12 +11786,6 @@ packages:
   vue-bundle-renderer@2.5.0:
     resolution: {integrity: sha512-1dFEyECSjbpSXjblL5b7T/JWtxsABoSgmYaCrxih5Khuy67AOjd7YZnaaqQTzggy12glZl85zSjJ2utuJa8/nA==}
 
-  vue-chartjs@5.3.7:
-    resolution: {integrity: sha512-WzE556j2uKfJVlCDwfQIgTfrC9MDRCC+tlmY+VNA1nNIt0quomxJUBpVd0raT4e/ti9AfZH4u6VtSC76OKLUHg==}
-    peerDependencies:
-      chart.js: ^4.1.1
-      vue: ^3.0.0-0 || ^2.7.0
-
   vue-component-meta@3.3.14:
     resolution: {integrity: sha512-OQT0AVGbFjmo/aIsyrNN8M3zR3D7U3SNyQPzVlotl89dxIdhhy95wYALiiFrHkBWyvTLRxMRQ3cqkbOMHEh8DQ==}
     peerDependencies:
@@ -14766,8 +14747,6 @@ snapshots:
       keyv: 5.6.0
 
   '@keyv/serialize@1.1.1': {}
-
-  '@kurkle/color@0.3.4': {}
 
   '@lucide/vue@1.73.0(vue@3.5.46(typescript@6.0.3))':
     dependencies:
@@ -19611,10 +19590,6 @@ snapshots:
   character-reference-invalid@2.0.1: {}
 
   chardet@2.2.0: {}
-
-  chart.js@4.6.1:
-    dependencies:
-      '@kurkle/color': 0.3.4
 
   chokidar@5.0.0:
     dependencies:
@@ -25782,11 +25757,6 @@ snapshots:
   vue-bundle-renderer@2.5.0:
     dependencies:
       ufo: 1.6.4
-
-  vue-chartjs@5.3.7(chart.js@4.6.1)(vue@3.5.46(typescript@6.0.3)):
-    dependencies:
-      chart.js: 4.6.1
-      vue: 3.5.46(typescript@6.0.3)
 
   vue-component-meta@3.3.14(typescript@5.9.3):
     dependencies:

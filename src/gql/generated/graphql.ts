@@ -916,17 +916,6 @@ export type GuestPatch = {
 /** Possible answers to an invitation: accepted, canceled. */
 export type InvitationFeedback = 'accepted' | 'canceled'
 
-/** All input for the `invite` mutation. */
-export type InviteInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  readonly clientMutationId?: string | null | undefined
-  readonly guestId: string
-  readonly language: string
-}
-
 /** All input for the `jwtCreate` mutation. */
 export type JwtCreateInput = {
   /**
@@ -1987,14 +1976,6 @@ export type CreateGuestsMutation = {
   } | null
 }
 
-export type GuestsInviteMutationVariables = Exact<{
-  input: InviteInput
-}>
-
-export type GuestsInviteMutation = {
-  readonly invite: { readonly clientMutationId: string | null } | null
-}
-
 export type AccountPasswordResetMutationVariables = Exact<{
   input: AccountPasswordResetInput
 }>
@@ -2083,14 +2064,6 @@ export type AllGuestsQuery = {
       readonly endCursor: string | null
     }
   } | null
-}
-
-export type InviteMutationVariables = Exact<{
-  input: InviteInput
-}>
-
-export type InviteMutation = {
-  readonly invite: { readonly clientMutationId: string | null } | null
 }
 
 export type UpdateGuestByRowIdFeedbackMutationVariables = Exact<{
@@ -3673,6 +3646,7 @@ export type ContactItemFragment = {
   readonly emailAddressHash: string | null
   readonly firstName: string | null
   readonly id: string
+  readonly language: Language | null
   readonly lastName: string | null
   readonly nickname: string | null
   readonly note: string | null
@@ -4064,6 +4038,7 @@ export const ContactItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -4155,6 +4130,7 @@ export const GuestItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -5276,6 +5252,7 @@ export const AllContactsContactListDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -6384,7 +6361,10 @@ export const EventListMineSavedDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'guestCountAccepted' },
+                              name: {
+                                kind: 'Name',
+                                value: 'guestCountAccepted',
+                              },
                             },
                             {
                               kind: 'Field',
@@ -7866,6 +7846,7 @@ export const UpdateContactByRowIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -8989,6 +8970,7 @@ export const AllContactsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -9101,6 +9083,7 @@ export const CreateGuestContactDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -9199,63 +9182,6 @@ export const CreateGuestsDocument = {
 } as unknown as DocumentNode<
   CreateGuestsMutation,
   CreateGuestsMutationVariables
->
-export const GuestsInviteDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'GuestsInvite' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'InviteInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'invite' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  GuestsInviteMutation,
-  GuestsInviteMutationVariables
 >
 export const AccountPasswordResetDocument = {
   kind: 'Document',
@@ -9736,6 +9662,7 @@ export const AllGuestsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },
@@ -9784,60 +9711,6 @@ export const AllGuestsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllGuestsQuery, AllGuestsQueryVariables>
-export const InviteDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'Invite' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'InviteInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'invite' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<InviteMutation, InviteMutationVariables>
 export const UpdateGuestByRowIdFeedbackDocument = {
   kind: 'Document',
   definitions: [
@@ -12934,6 +12807,7 @@ export const ContactByRowIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'language' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
           { kind: 'Field', name: { kind: 'Name', value: 'note' } },

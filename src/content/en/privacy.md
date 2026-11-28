@@ -328,7 +328,7 @@
 
             More details: https://d1.awsstatic.com/legal/privacypolicy/AWS_Privacy_Notice_German_2023-08-11.pdf.
 
-    1. **Analysis and tracking tools**
+    1. **Analysis tools**
 
         1. **Google Analytics**
 
@@ -368,7 +368,7 @@
 
             We use the Basic Consent Mode in such a way that we only utilize the full functionality of Google services with your consent and do not conduct limited data collection without your consent.
 
-            Processing after consent serves to improve our website and analyze conversion events in an anonymized form. This allows us to better assess the performance of our marketing efforts.
+            Processing after consent serves solely to analyze and improve the use of our website and app. We do not use this data for advertising or advertising measurement, do not link it with data from other companies' apps or websites, and have disabled Google signals, advertising features, and data sharing with Google products and services.
 
             Processing is carried out in our legitimate interest to better control and use certain functions of the Google services requiring consent on the website. The legal basis for processing is Art. 6 para. 1 sentence 1 lit. f GDPR.
 
@@ -390,7 +390,7 @@
 
             Sentry collects and stores data created from anonymized usage profiles in order to improve the technical stability of our website by monitoring system stability and detecting code errors. According to the service, user data, such as information on the device or time of error, is collected anonymously, is not used for personal purposes, and is subsequently deleted.
 
-            Sentry may set cookies to track activity on our website and store certain information. These cookies help us operate the service, remember your preferences, and keep our website secure.
+            Sentry may set cookies to record activity on our website and store certain information. These cookies help us operate the service, remember your preferences, and keep our website secure.
 
             The legal basis for the processing is Art. 6 para. 1 lit. a GDPR and § 25 para. 1 TDDDG, insofar as this consent includes access to information in the user's terminal device or the storage of cookies within the meaning of the TDDDG.
 

@@ -21,7 +21,7 @@
       <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
-        @click="store.navigateBack"
+        @click="store.navigateBack()"
       >
         {{ t('button') }}
       </AppButton>

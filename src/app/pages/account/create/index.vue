@@ -95,7 +95,7 @@
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
               class="font-semibold text-link underline"
-              to="session-create"
+              :to="{ name: 'session-create', query: { to: route.query.to } }"
               >{{ t('signInLink') }}</NuxtLinkLocale
             >
           </p>
@@ -215,6 +215,7 @@
             :aria-label="t('confirmAge')"
             class="w-full"
             :form="templateIdAgeForm"
+            :loading="api.isFetching"
             type="submit"
           >
             {{ t('confirmAge') }}
@@ -284,6 +285,7 @@ import {
 } from '~/composables/useValidation'
 
 const { locale, t } = useI18n()
+const route = useRoute()
 
 // api data
 const accountRegistrationMutation = useMutation(accountRegistrationDocument)
@@ -427,6 +429,9 @@ const submit = async () => {
     return
   }
 
+  if (typeof route.query.to === 'string')
+    localStorage.setItem(SIGN_IN_TARGET_STORAGE_KEY, route.query.to)
+
   step.value = 'success'
 }
 
@@ -455,6 +460,16 @@ const { error, previous, restart, step } = useStepperPage<
     },
   },
 })
+useLeaveConfirmation(
+  () =>
+    step.value !== 'success' &&
+    !!(
+      emailField.value.value ||
+      passwordData.value ||
+      usernameField.value.value ||
+      birthDate.value
+    ),
+)
 useApiErrorModel({
   errorModel: error,
   errors: () => api.value.errors,

@@ -34,7 +34,7 @@
                   :message="t('locationChangedMessage')"
                 >
                   <template #icon>
-                    <AppIconMapPinSolid />
+                    <AppIconMap />
                   </template>
                 </NotificationGeneral>
                 <NotificationGeneral

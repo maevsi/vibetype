@@ -7,23 +7,6 @@
     </span>
     <div class="flex flex-wrap gap-2">
       <AppButton
-        :aria-label="t('guestSend')"
-        :disabled="
-          getEventPublicationState(event) !== 'published' ||
-          !guestsSendable.length ||
-          isPending
-        "
-        :loading="pending === 'send'"
-        size="small"
-        variant="secondary"
-        @click="send"
-      >
-        {{ t('guestSend') }}
-        <template #prefix>
-          <AppIconPaperAirplane />
-        </template>
-      </AppButton>
-      <AppButton
         :aria-label="t('guestFeedbackAccept')"
         :disabled="isPending"
         :loading="pending === InvitationFeedback.Accepted"
@@ -62,12 +45,6 @@
         </template>
       </AppButton>
     </div>
-    <span
-      v-if="getEventPublicationState(event) !== 'published'"
-      class="text-body-small text-fg-2"
-    >
-      {{ t('disabledReasonDraft') }}
-    </span>
   </div>
   <AppConfirmDeleteDrawer
     v-model:open="isDeleteDrawerOpen"
@@ -88,23 +65,18 @@ import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
-import type {
-  EventItemFragment,
-  GuestItemFragment,
-} from '~~/gql/generated/graphql'
-import { getContactItem } from '~~/shared/utils/contact'
+import type { GuestItemFragment } from '~~/gql/generated/graphql'
 
-const { event, guests } = defineProps<{
-  event: Pick<EventItemFragment, 'publishedAt'>
-  guests: Pick<GuestItemFragment, 'contactByContactId' | 'rowId'>[]
+const { guests } = defineProps<{
+  guests: Pick<GuestItemFragment, 'rowId'>[]
 }>()
 
-const { locale, t } = useI18n()
+const { t } = useI18n()
 
 // data
 const deleteError = ref<Error>()
 const isDeleteDrawerOpen = ref(false)
-const pending = ref<'delete' | 'send' | InvitationFeedback>()
+const pending = ref<'delete' | InvitationFeedback>()
 
 // api data
 const deleteGuestByRowIdMutation = useMutation(
@@ -119,15 +91,6 @@ const deleteGuestByRowIdMutation = useMutation(
           id
           rowId
         }
-      }
-    }
-  `),
-)
-const inviteMutation = useMutation(
-  graphql(`
-    mutation Invite($input: InviteInput!) {
-      invite(input: $input) {
-        clientMutationId
       }
     }
   `),
@@ -153,12 +116,6 @@ const updateGuestByRowIdMutation = useMutation(
 )
 
 // computations
-const guestsSendable = computed(() =>
-  guests.filter((guest) => {
-    const contact = getContactItem(guest.contactByContactId)
-    return contact?.accountId || contact?.emailAddresses?.length
-  }),
-)
 const isPending = computed(() => pending.value !== undefined)
 
 // methods
@@ -203,28 +160,6 @@ const report = ({
 
   toast.success(success)
 }
-const send = async () => {
-  pending.value = 'send'
-  const guestsToSend = guestsSendable.value
-  const skippedCount = guests.length - guestsToSend.length
-  const failureCount = await countFailures(
-    guestsToSend.map((guest) =>
-      inviteMutation.executeMutation({
-        input: { guestId: guest.rowId, language: locale.value },
-      }),
-    ),
-  )
-  pending.value = undefined
-
-  report({
-    failureCount,
-    success: [
-      t('sendSuccess', guestsToSend.length),
-      ...(skippedCount ? [t('sendSkipped', skippedCount)] : []),
-    ].join(' '),
-    total: guestsToSend.length,
-  })
-}
 const setFeedback = async (feedbackOverride: InvitationFeedback) => {
   pending.value = feedbackOverride
   const total = guests.length
@@ -247,29 +182,21 @@ const setFeedback = async (feedbackOverride: InvitationFeedback) => {
 
 <i18n lang="yaml">
 de:
-  disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   failure: 'Bei {count} von {total} Gästen ist das fehlgeschlagen.'
   guestDelete: Gäste löschen
   guestDeleteQuestion: 'Möchtest Du den ausgewählten Gast wirklich löschen? | Möchtest Du die {count} ausgewählten Gäste wirklich löschen?'
   guestFeedbackAccept: Als zugesagt markieren
   guestFeedbackCancel: Als abgesagt markieren
   guestFeedbackSuccess: 'Der Rückmeldestatus wurde aktualisiert. | Der Rückmeldestatus von {count} Gästen wurde aktualisiert.'
-  guestSend: Einladungen versenden
   keepGuests: Nein, behalten
   selected: '{count} ausgewählt'
-  sendSkipped: 'Ein Gast ohne E-Mail-Adresse wurde übersprungen. | {count} Gäste ohne E-Mail-Adresse wurden übersprungen.'
-  sendSuccess: 'Die Einladung wurde versandt. | {count} Einladungen wurden versandt.'
 en:
-  disabledReasonDraft: Publish the event to send invitations.
   failure: 'This failed for {count} of {total} guests.'
   guestDelete: Delete guests
   guestDeleteQuestion: 'Do you really want to delete the selected guest? | Do you really want to delete the {count} selected guests?'
   guestFeedbackAccept: Mark as accepted
   guestFeedbackCancel: Mark as declined
   guestFeedbackSuccess: 'The feedback status was updated. | The feedback status of {count} guests was updated.'
-  guestSend: Send invitations
   keepGuests: No, keep them
   selected: '{count} selected'
-  sendSkipped: 'One guest without an email address was skipped. | {count} guests without an email address were skipped.'
-  sendSuccess: 'The invitation was sent. | {count} invitations were sent.'
 </i18n>

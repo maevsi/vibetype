@@ -1,17 +1,18 @@
 <template>
-  <tr
+  <AppListItem
     v-if="contact"
+    :id="`guest-${guest.rowId}`"
     :class="{
       'animate-pulse': pending.deletions.includes(guest.rowId),
     }"
   >
-    <AppTableCell class="w-0">
-      <Checkbox
-        v-model="isSelected"
-        :aria-label="t('guestSelect', { name: contactName })"
-      />
-    </AppTableCell>
-    <AppTableCell class="max-w-0">
+    <Checkbox
+      v-if="isSelectionEnabled"
+      v-model="isSelected"
+      :aria-label="t('guestSelect', { name: contactName })"
+      class="ml-2"
+    />
+    <div class="flex min-w-0 flex-1 flex-col gap-1">
       <ContactPreview
         :contact
         :feedback="getGuestFeedback(guest)"
@@ -42,162 +43,153 @@
           }}
         </span>
       </div>
-    </AppTableCell>
-    <AppTableCell class="max-w-0">
-      <div class="flex items-center justify-evenly gap-4 text-fg-1">
-        <AppButton
-          :aria-label="sendLabel"
-          class="hidden md:block"
-          :disabled="
-            getEventPublicationState(event) !== 'published' ||
-            !isSendable ||
-            pending.sends.includes(guest.rowId)
-          "
-          size="none"
-          variant="ghost"
-          @click="send(guest)"
+    </div>
+    <div class="flex shrink-0 items-center gap-4 text-fg-1">
+      <AppButton
+        :aria-label="shareLabel"
+        class="hidden md:block"
+        :disabled="isDraft"
+        size="none"
+        variant="ghost"
+        @click="void share(guest)"
+      >
+        <AppIconPaperAirplane />
+      </AppButton>
+      <AppDropdown>
+        <AppDropdownItem
+          class="md:hidden"
+          :disabled="isDraft"
+          @select="share(guest)"
         >
           <AppIconPaperAirplane />
-        </AppButton>
-        <AppButton
-          :aria-label="t('guestLink')"
-          class="hidden md:block"
-          size="none"
-          variant="ghost"
-          @click="copyLink(guest)"
-        >
+          <span>
+            {{ shareLabel }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem @select="copyLink(guest)">
           <AppIconLink />
-        </AppButton>
-        <AppDropdown>
+          <span>
+            {{ t('guestLink') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
+          v-if="event.accountByCreatedBy?.username"
+          @select="
+            navigateTo(
+              localePath({
+                name: 'guest-view-id',
+                params: {
+                  id: guest.rowId,
+                },
+              }),
+            )
+          "
+        >
+          <AppIconEye />
+          <span>
+            {{ t('guestView') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
+          v-if="contact.createdBy === store.signedInAccountId"
+          @select="editContact"
+        >
+          <AppIconPencil />
+          <span>
+            {{ t('contactEdit') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
+          v-if="
+            getGuestFeedback(guest) === null ||
+            getGuestFeedback(guest) === InvitationFeedback.Canceled
+          "
+          :disabled="pending.feedbacks.includes(guest.rowId)"
+          @select="setFeedback(guest.rowId, InvitationFeedback.Accepted)"
+        >
+          <AppIconCheckCircleSolid />
+          <span>
+            {{ t('guestFeedbackAccept') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
+          v-if="
+            getGuestFeedback(guest) === null ||
+            getGuestFeedback(guest) === InvitationFeedback.Accepted
+          "
+          :disabled="pending.feedbacks.includes(guest.rowId)"
+          @select="setFeedback(guest.rowId, InvitationFeedback.Canceled)"
+        >
+          <AppIconXCircleSolid />
+          <span>
+            {{ t('guestFeedbackCancel') }}
+          </span>
+        </AppDropdownItem>
+        <AppDropdownItem
+          v-if="guest.feedbackOverride !== null"
+          :disabled="pending.feedbacks.includes(guest.rowId)"
+          @select="setFeedback(guest.rowId, null)"
+        >
+          <AppIconArrowRotateLeft />
+          <span>
+            {{ t('guestFeedbackReset') }}
+          </span>
+        </AppDropdownItem>
+        <template v-if="guest.companionCountRequested !== null">
           <AppDropdownItem
-            class="md:hidden"
-            :disabled="
-              getEventPublicationState(event) !== 'published' ||
-              !isSendable ||
-              pending.sends.includes(guest.rowId)
-            "
-            @select="send(guest)"
-          >
-            <AppIconPaperAirplane />
-            <span>
-              {{ sendLabel }}
-            </span>
-          </AppDropdownItem>
-          <AppDropdownItem class="md:hidden" @select="copyLink(guest)">
-            <AppIconLink />
-            <span>
-              {{ t('guestLink') }}
-            </span>
-          </AppDropdownItem>
-          <AppDropdownItem
-            v-if="event.accountByCreatedBy?.username"
+            :disabled="pending.companions.includes(guest.rowId)"
             @select="
-              navigateTo(
-                localePath({
-                  name: 'guest-view-id',
-                  params: {
-                    id: guest.rowId,
-                  },
-                }),
-              )
+              setCompanionCount(guest.rowId, {
+                companionCount: guest.companionCountRequested,
+              })
             "
-          >
-            <AppIconEye />
-            <span>
-              {{ t('guestView') }}
-            </span>
-          </AppDropdownItem>
-          <AppDropdownItem
-            v-if="
-              getGuestFeedback(guest) === null ||
-              getGuestFeedback(guest) === InvitationFeedback.Canceled
-            "
-            :disabled="pending.feedbacks.includes(guest.rowId)"
-            @select="setFeedback(guest.rowId, InvitationFeedback.Accepted)"
           >
             <AppIconCheckCircleSolid />
             <span>
-              {{ t('guestFeedbackAccept') }}
+              {{ t('companionApprove') }}
             </span>
           </AppDropdownItem>
           <AppDropdownItem
-            v-if="
-              getGuestFeedback(guest) === null ||
-              getGuestFeedback(guest) === InvitationFeedback.Accepted
+            v-if="guest.companionCountRequested - guest.companionCount > 1"
+            :disabled="pending.companions.includes(guest.rowId)"
+            @select="isCompanionDrawerOpen = true"
+          >
+            <AppIconCheckCircleSolid />
+            <span>
+              {{ t('companionApproveFewer') }}
+            </span>
+          </AppDropdownItem>
+          <AppDropdownItem
+            :disabled="pending.companions.includes(guest.rowId)"
+            @select="
+              setCompanionCount(guest.rowId, {
+                companionCountRequested: null,
+              })
             "
-            :disabled="pending.feedbacks.includes(guest.rowId)"
-            @select="setFeedback(guest.rowId, InvitationFeedback.Canceled)"
           >
             <AppIconXCircleSolid />
             <span>
-              {{ t('guestFeedbackCancel') }}
+              {{ t('companionReject') }}
             </span>
           </AppDropdownItem>
-          <AppDropdownItem
-            v-if="guest.feedbackOverride !== null"
-            :disabled="pending.feedbacks.includes(guest.rowId)"
-            @select="setFeedback(guest.rowId, null)"
-          >
-            <AppIconArrowRotateLeft />
-            <span>
-              {{ t('guestFeedbackReset') }}
-            </span>
-          </AppDropdownItem>
-          <template v-if="guest.companionCountRequested !== null">
-            <AppDropdownItem
-              :disabled="pending.companions.includes(guest.rowId)"
-              @select="
-                setCompanionCount(guest.rowId, {
-                  companionCount: guest.companionCountRequested,
-                })
-              "
-            >
-              <AppIconCheckCircleSolid />
-              <span>
-                {{ t('companionApprove') }}
-              </span>
-            </AppDropdownItem>
-            <AppDropdownItem
-              v-if="guest.companionCountRequested - guest.companionCount > 1"
-              :disabled="pending.companions.includes(guest.rowId)"
-              @select="isCompanionDrawerOpen = true"
-            >
-              <AppIconCheckCircleSolid />
-              <span>
-                {{ t('companionApproveFewer') }}
-              </span>
-            </AppDropdownItem>
-            <AppDropdownItem
-              :disabled="pending.companions.includes(guest.rowId)"
-              @select="
-                setCompanionCount(guest.rowId, {
-                  companionCountRequested: null,
-                })
-              "
-            >
-              <AppIconXCircleSolid />
-              <span>
-                {{ t('companionReject') }}
-              </span>
-            </AppDropdownItem>
-          </template>
-          <AppDropdownItem
-            :disabled="pending.deletions.includes(guest.rowId)"
-            variant="destructive"
-            @select="onDeleteSelect(guest.rowId)"
-          >
-            <AppIconTrash />
-            <span>
-              {{ t('guestDelete') }}
-            </span>
-          </AppDropdownItem>
-          <template #trigger>
-            <AppIconEllipsisVertical />
-          </template>
-        </AppDropdown>
-      </div>
-    </AppTableCell>
-  </tr>
+        </template>
+        <AppDropdownItem
+          :disabled="pending.deletions.includes(guest.rowId)"
+          variant="destructive"
+          @select="onDeleteSelect(guest.rowId)"
+        >
+          <AppIconTrash />
+          <span>
+            {{ t('guestDelete') }}
+          </span>
+        </AppDropdownItem>
+        <template #trigger>
+          <AppIconEllipsisVertical />
+          <span class="sr-only">{{ t('actions', { name: contactName }) }}</span>
+        </template>
+      </AppDropdown>
+    </div>
+  </AppListItem>
   <GuestCompanionDrawer
     v-if="guest.companionCountRequested !== null"
     v-model:open="isCompanionDrawerOpen"
@@ -244,10 +236,14 @@ const { event, guest } = defineProps<{
 }>()
 
 const alertErrorDetails = useAlertErrorDetails()
-const { defaultLocale, locale, t } = useI18n()
+const { defaultLocale, t } = useI18n()
 const localePath = useLocalePath()
+const route = useRoute()
+const router = useRouter()
+const store = useStore()
 const { copy } = useCopy()
 const { shift } = useMagicKeys()
+const isSelectionEnabled = useFeatureFlags().isFeatureEnabled('guest-selection')
 
 const isSelected = defineModel<boolean>('selected')
 
@@ -259,7 +255,6 @@ const pending = reactive({
   deletions: ref<string[]>([]),
   edits: ref<string[]>([]),
   feedbacks: ref<string[]>([]),
-  sends: ref<string[]>([]),
 })
 
 // api data
@@ -275,15 +270,6 @@ const deleteGuestByRowIdMutation = useMutation(
           id
           rowId
         }
-      }
-    }
-  `),
-)
-const inviteMutation = useMutation(
-  graphql(`
-    mutation Invite($input: InviteInput!) {
-      invite(input: $input) {
-        clientMutationId
       }
     }
   `),
@@ -350,6 +336,19 @@ const delete_ = async (id: string) => {
   await deleteGuestByRowIdMutation.executeMutation({ input: { rowId: id } })
   pending.deletions.splice(pending.deletions.indexOf(id), 1)
 }
+// the hash lets the list scroll back to this guest after the edit
+const editContact = async () => {
+  if (!contact.value) return
+
+  await router.replace({ ...route, hash: `#guest-${guest.rowId}` })
+  await navigateTo(
+    localePath({
+      name: 'contact-edit-id',
+      params: { id: contact.value.rowId },
+      query: { redirect: route.fullPath },
+    }),
+  )
+}
 const onDeleteSelect = (id: string) => {
   if (shift?.value) {
     delete_(id)
@@ -403,13 +402,16 @@ const setFeedback = async (
 
   toast.success(t('guestFeedbackSuccess'))
 }
+// the organizer passes the link on from their own device, as German courts
+// treat invitations the platform sends itself as its advertising, which needs
+// each invitee's prior consent (§ 7 UWG, BGH I ZR 65/14)
 // called without awaiting anything first, as iOS drops the user activation
 // that navigator.share requires once an await runs
 const share = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   if (!import.meta.client) return
 
   if (!navigator.share) {
-    await copyLink(guest)
+    await shareFallback(guest)
     return
   }
 
@@ -418,49 +420,34 @@ const share = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') return
 
-    await copyLink(guest)
+    await shareFallback(guest)
   }
 }
-const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
-  // without an email address to send to, the organizer passes the link on
-  // from their own device, e.g. by text message
-  if (!isEmailable.value) {
-    await share(guest)
+// without a share sheet, a known email address opens a draft in the
+// organizer's own mail app
+const shareFallback = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
+  const emailAddress = contact.value?.emailAddresses?.[0]
+
+  if (!emailAddress) {
+    await copyLink(guest)
     return
   }
 
-  pending.sends.push(guest.rowId)
-
-  const result = await inviteMutation.executeMutation({
-    input: {
-      guestId: guest.rowId,
-      language: locale.value,
-    },
+  // mailto wants spaces as %20, which URLSearchParams writes as +
+  const query = new URLSearchParams({
+    body: `${t('shareText')}\n\n${getLink(guest)}`,
+    subject: t('shareSubject'),
   })
-
-  pending.sends.splice(pending.sends.indexOf(guest.rowId), 1)
-
-  if (!getResultData(result)) return
-
-  toast.success(t('sendSuccess'))
+    .toString()
+    .replaceAll('+', '%20')
+  window.location.href = `mailto:${emailAddress}?${query}`
 }
 
 // computations
 const contact = computed(() => getContactItem(guest.contactByContactId))
-const isEmailable = computed(
-  () => !!(contact.value?.accountId || contact.value?.emailAddresses?.length),
-)
-const isSendable = computed(
-  () => isEmailable.value || !!contact.value?.phoneNumber,
-)
-const sendLabel = computed(() =>
-  getEventPublicationState(event) !== 'published'
-    ? t('disabledReasonDraft')
-    : isEmailable.value
-      ? t('guestSend')
-      : isSendable.value
-        ? t('guestShare')
-        : t('disabledReasonContactWayNone'),
+const isDraft = computed(() => getEventPublicationState(event) !== 'published')
+const shareLabel = computed(() =>
+  isDraft.value ? t('disabledReasonDraft') : t('guestShare'),
 )
 const contactName = computed(() =>
   contact.value
@@ -474,6 +461,7 @@ const contactName = computed(() =>
 
 <i18n lang="yaml">
 de:
+  actions: Aktionen für {name}
   companionApprove: Weitere Gäste zusagen
   companionApproveFewer: Weniger weitere Gäste zusagen
   companionCount: '+{count}'
@@ -481,9 +469,9 @@ de:
   companionErrorSeats: Es sind nicht genug Plätze frei. Erhöhe das Limit in den Veranstaltungseinstellungen oder sage weniger Gäste zu.
   companionReject: Weitere Gäste ablehnen
   companionSuccess: Die Anfrage für weitere Gäste wurde bearbeitet.
-  disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
+  contactEdit: Kontakt bearbeiten
+  disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu teilen.
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
-  disabledReasonContactWayNone: Diesem Kontakt fehlen E-Mail-Adresse und Telefonnummer.
   guestDelete: Gast löschen
   guestFeedbackAccept: Als zugesagt markieren
   guestFeedbackCancel: Als abgesagt markieren
@@ -491,13 +479,12 @@ de:
   guestFeedbackSuccess: Der Rückmeldestatus wurde aktualisiert.
   guestLink: Einladungslink kopieren
   guestSelect: Gast {name} auswählen
-  guestSend: Einladung versenden
   guestShare: Einladung teilen
   guestView: Einladung anzeigen
-  sendSuccess: Die Einladung wurde erfolgreich per E-Mail versandt.
+  shareSubject: Du bist eingeladen!
   shareText: 'Du bist eingeladen! Hier ist Deine Einladung:'
-  # postgresP0002: Die Einladung konnte nicht versandt werden! Möglicherweise hast du aktuell keinen Zugriff auf die notwendigen Daten. Versuche die Seite neu zu laden.
 en:
+  actions: Actions for {name}
   companionApprove: Approve additional guests
   companionApproveFewer: Approve fewer additional guests
   companionCount: '+{count}'
@@ -505,9 +492,9 @@ en:
   companionErrorSeats: Not enough seats are left. Raise the limit in the event settings or approve fewer guests.
   companionReject: Reject additional guests
   companionSuccess: The request for additional guests was processed.
-  disabledReasonDraft: Publish the event to send invitations.
+  contactEdit: Edit contact
+  disabledReasonDraft: Publish the event to share invitations.
   copySuccess: The guest link has been copied to the clipboard.
-  disabledReasonContactWayNone: This contact has neither an email address nor a phone number.
   guestDelete: Delete guest
   guestFeedbackAccept: Mark as accepted
   guestFeedbackCancel: Mark as declined
@@ -515,10 +502,8 @@ en:
   guestFeedbackSuccess: The feedback status was updated.
   guestLink: Copy invitation link
   guestSelect: Select guest {name}
-  guestSend: Send invitation
   guestShare: Share invitation
   guestView: View invitation
-  sendSuccess: The invitation was successfully sent by email.
+  shareSubject: You're invited!
   shareText: "You're invited! Here is your invitation:"
-  # postgresP0002: The guest could not be sent! You may not have access to the necessary data right now. Try reloading the page.
 </i18n>

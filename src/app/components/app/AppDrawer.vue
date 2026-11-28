@@ -42,6 +42,16 @@ const emit = defineEmits<{
 
 const isOpen = defineModel<boolean>()
 
+// unsaved changes
+// closing unmounts the content, so forms inside register their unsaved changes here to be asked about first
+const dirtyStates = new Set<MaybeRefOrGetter<boolean>>()
+provide(leaveConfirmationDrawerKey, (isDirty) => {
+  dirtyStates.add(isDirty)
+  onScopeDispose(() => dirtyStates.delete(isDirty))
+})
+let isCloseConfirmed = false
+let isReopening = false
+
 // history
 // an open drawer owns one history entry, so a back navigation closes it instead of leaving the page behind it
 const id = useId()
@@ -69,6 +79,31 @@ const historyEntryRemove = () => {
 
 // lifecycle
 watch(isOpen, async (newValue) => {
+  if (isReopening) {
+    isReopening = false
+    return
+  }
+
+  if (newValue) {
+    isCloseConfirmed = false
+  } else if (
+    !isCloseConfirmed &&
+    [...dirtyStates].some((isDirty) => toValue(isDirty))
+  ) {
+    isReopening = true
+    isOpen.value = true
+
+    if (await confirmLeave()) {
+      isCloseConfirmed = true
+      isOpen.value = false
+    } else if (!isWithoutHistoryEntry && history.state?.drawer !== id) {
+      // a back navigation already removed the entry that the open drawer owns
+      historyEntryAdd()
+    }
+
+    return
+  }
+
   if (isWithoutHistoryEntry) {
     if (!newValue) emit('close')
     return

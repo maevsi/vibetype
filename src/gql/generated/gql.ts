@@ -56,13 +56,11 @@ type Documents = {
   '\n    query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {\n      allContacts(\n        after: $after\n        condition: { createdBy: $createdBy }\n        first: $first\n        orderBy: [PRIMARY_KEY_ASC]\n      ) {\n        nodes {\n          ...ContactItem\n          contactGroupMembersByContactId {\n            nodes {\n              contactGroupId\n            }\n          }\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllContactsDocument
   '\n    mutation CreateGuestContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ': typeof types.CreateGuestContactDocument
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateGuestsDocument
-  '\n    mutation GuestsInvite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.GuestsInviteDocument
   '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetDocument
   '\n    mutation AccountPasswordResetRequest(\n      $input: AccountPasswordResetRequestInput!\n    ) {\n      accountPasswordResetRequest(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetRequestDocument
   '\n    query GuestCode($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          firstName\n          id\n          lastName\n          nickname\n          rowId\n        }\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          name\n          rowId\n          start\n        }\n        id\n        rowId\n      }\n    }\n  ': typeof types.GuestCodeDocument
   '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        guest {\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.DeleteGuestByRowIdDocument
   '\n    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n      allGuests(\n        after: $after\n        condition: { eventId: $eventId }\n        first: $first\n      ) {\n        nodes {\n          ...GuestItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllGuestsDocument
-  '\n    mutation Invite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.InviteDocument
   '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          companionCount\n          companionCountRequested\n          eventByEventId {\n            guestCount\n            id\n          }\n          feedbackOverride\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.UpdateGuestByRowIdFeedbackDocument
   '\n    mutation UpdateGuestByRowIdCompanion($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          companionCount\n          companionCountRequested\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.UpdateGuestByRowIdCompanionDocument
   '\n    query AllEventCategories {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventCategoriesDocument
@@ -128,7 +126,7 @@ type Documents = {
   '\n  mutation JwtUpdateAttendanceAdd($input: JwtUpdateAttendanceAddInput!) {\n    jwtUpdateAttendanceAdd(input: $input) {\n      result\n    }\n  }\n': typeof types.JwtUpdateAttendanceAddDocument
   '\n  mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {\n    jwtUpdateGuestAdd(input: $input) {\n      result\n    }\n  }\n': typeof types.JwtUpdateGuestAddDocument
   '\n  mutation AccountRegistration($input: AccountRegistrationInput!) {\n    accountRegistration(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationDocument
-  '\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddresses\n    emailAddressHash\n    firstName\n    id\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n': typeof types.ContactItemFragmentDoc
+  '\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddresses\n    emailAddressHash\n    firstName\n    id\n    language\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n': typeof types.ContactItemFragmentDoc
   '\n  fragment ContactGroupItem on ContactGroup {\n    id\n    name\n    rowId\n  }\n': typeof types.ContactGroupItemFragmentDoc
   '\n  fragment EventItem on Event {\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    description\n    end\n    eventCategoryMappingsByEventId {\n      nodes {\n        categoryId\n        eventCategoryByCategoryId {\n          id\n          name\n        }\n        id\n      }\n    }\n    eventFormatMappingsByEventId {\n      nodes {\n        eventFormatByFormatId {\n          id\n          name\n        }\n        formatId\n        id\n      }\n    }\n    eventUploadsByEventId {\n      nodes {\n        id\n        isHeaderImage\n        rowId\n        uploadByUploadId {\n          id\n          rowId\n          storageKey\n        }\n      }\n    }\n    feedbackDeadline\n    guestCountMaximum\n    id\n    isArchived\n    isInPerson\n    isRemote\n    name\n    publishedAt\n    rowId\n    slug\n    start\n    url\n    visibility\n  }\n': typeof types.EventItemFragmentDoc
   '\n  fragment GuestItem on Guest {\n    companionCount\n    companionCountRequested\n    contactByContactId {\n      ...ContactItem\n    }\n    contactId\n    feedback\n    feedbackOverride\n    feedbackReason\n    id\n    rowId\n  }\n': typeof types.GuestItemFragmentDoc
@@ -224,8 +222,6 @@ const documents: Documents = {
     types.CreateGuestContactDocument,
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.CreateGuestsDocument,
-  '\n    mutation GuestsInvite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
-    types.GuestsInviteDocument,
   '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.AccountPasswordResetDocument,
   '\n    mutation AccountPasswordResetRequest(\n      $input: AccountPasswordResetRequestInput!\n    ) {\n      accountPasswordResetRequest(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
@@ -236,8 +232,6 @@ const documents: Documents = {
     types.DeleteGuestByRowIdDocument,
   '\n    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n      allGuests(\n        after: $after\n        condition: { eventId: $eventId }\n        first: $first\n      ) {\n        nodes {\n          ...GuestItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ':
     types.AllGuestsDocument,
-  '\n    mutation Invite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
-    types.InviteDocument,
   '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          companionCount\n          companionCountRequested\n          eventByEventId {\n            guestCount\n            id\n          }\n          feedbackOverride\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.UpdateGuestByRowIdFeedbackDocument,
   '\n    mutation UpdateGuestByRowIdCompanion($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          companionCount\n          companionCountRequested\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ':
@@ -368,7 +362,7 @@ const documents: Documents = {
     types.JwtUpdateGuestAddDocument,
   '\n  mutation AccountRegistration($input: AccountRegistrationInput!) {\n    accountRegistration(input: $input) {\n      clientMutationId\n    }\n  }\n':
     types.AccountRegistrationDocument,
-  '\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddresses\n    emailAddressHash\n    firstName\n    id\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n':
+  '\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddresses\n    emailAddressHash\n    firstName\n    id\n    language\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n':
     types.ContactItemFragmentDoc,
   '\n  fragment ContactGroupItem on ContactGroup {\n    id\n    name\n    rowId\n  }\n':
     types.ContactGroupItemFragmentDoc,
@@ -660,12 +654,6 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation GuestsInvite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation GuestsInvite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
   source: '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
 /**
@@ -692,12 +680,6 @@ export function graphql(
 export function graphql(
   source: '\n    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n      allGuests(\n        after: $after\n        condition: { eventId: $eventId }\n        first: $first\n      ) {\n        nodes {\n          ...GuestItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ',
 ): (typeof documents)['\n    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n      allGuests(\n        after: $after\n        condition: { eventId: $eventId }\n        first: $first\n      ) {\n        nodes {\n          ...GuestItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n    mutation Invite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation Invite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1092,8 +1074,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddresses\n    emailAddressHash\n    firstName\n    id\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n',
-): (typeof documents)['\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddresses\n    emailAddressHash\n    firstName\n    id\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n']
+  source: '\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddresses\n    emailAddressHash\n    firstName\n    id\n    language\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n',
+): (typeof documents)['\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddresses\n    emailAddressHash\n    firstName\n    id\n    language\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -7,7 +7,7 @@
     :aria-label="t('share')"
     size="none"
     variant="ghost"
-    @click="share"
+    @click="void share()"
   >
     <AppIconShare :title="t('share')" />
   </AppButton>
@@ -34,6 +34,7 @@ const localePath = useLocalePath()
 const { copy } = useCopy()
 const { isSupported, share: shareNative } = useShare()
 
+// the click discards the promise, which waits on the share sheet instead of loading
 const share = async () => {
   if (!import.meta.client || !event.accountByCreatedBy) return
 
