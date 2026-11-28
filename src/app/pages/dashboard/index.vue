@@ -133,7 +133,11 @@
           <h2 :id="templateIdTopPick" class="py-1 text-title3 text-balance">
             {{ t('topPickTitle') }}
           </h2>
-          <EventCard :event="eventTopPick" variant="recommendation" />
+          <EventCard
+            :event="eventTopPick.event"
+            :match-score="eventTopPick.matchScore"
+            variant="recommendation"
+          />
         </section>
         <section
           :aria-labelledby="templateIdPosterHunt"
@@ -218,9 +222,10 @@
             class="flex flex-col gap-4"
           >
             <EventCard
-              v-for="event in eventRecommendationsOther"
+              v-for="{ event, matchScore } in eventRecommendationsOther"
               :key="event.rowId"
               :event
+              :match-score
               variant="recommendation"
             />
           </div>
@@ -338,22 +343,31 @@ const { data: eventRecommendations, pending: eventRecommendationsPending } =
       const eventIds = await requestFetch(
         '/api/service/reccoom/recommendations',
       )
-      const events = (
+      return (
         await Promise.all(
-          eventIds.map(
-            async (recommendation) =>
-              (
-                await $urql.value
-                  .query(eventQuery, {
-                    id: recommendation.event_id,
-                  })
-                  .toPromise()
-              ).data?.eventByRowId,
-          ),
+          eventIds.map(async (recommendation) => ({
+            event: (
+              await $urql.value
+                .query(eventQuery, {
+                  id: recommendation.event_id,
+                })
+                .toPromise()
+            ).data?.eventByRowId,
+            // only these score types express how well an event matches
+            matchScore: ['preference', 'similarity', 'testing'].includes(
+              recommendation.score_type,
+            )
+              ? recommendation.score
+              : undefined,
+          })),
         )
-      ).filter(isNeitherNullNorUndefined)
-
-      return events
+      ).filter(
+        (
+          recommendation,
+        ): recommendation is typeof recommendation & {
+          event: NonNullable<typeof recommendation.event>
+        } => isNeitherNullNorUndefined(recommendation.event),
+      )
     },
     { enabled: () => authentication.value.isSignedIn },
   )
