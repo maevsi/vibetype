@@ -125,7 +125,7 @@ const queryEventList = graphql(`
             }
           }
         }
-        guestCount
+        guestCountAccepted
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -207,7 +207,7 @@ const queryEventSearch = graphql(`
             }
           }
         }
-        guestCount
+        guestCountAccepted
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {

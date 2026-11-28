@@ -1376,7 +1376,7 @@ export type EventListMineEventsQuery = {
   readonly allEvents: {
     readonly nodes: ReadonlyArray<{
       readonly end: string | null
-      readonly guestCount: number
+      readonly guestCountAccepted: number
       readonly id: string
       readonly isInPerson: boolean | null
       readonly name: string
@@ -1452,7 +1452,7 @@ export type EventListMineSavedQuery = {
       readonly id: string
       readonly eventByEventId: {
         readonly end: string | null
-        readonly guestCount: number
+        readonly guestCountAccepted: number
         readonly id: string
         readonly isInPerson: boolean | null
         readonly name: string
@@ -1523,7 +1523,7 @@ export type EventListQuery = {
   readonly allEvents: {
     readonly totalCount: number
     readonly nodes: ReadonlyArray<{
-      readonly guestCount: number
+      readonly guestCountAccepted: number
       readonly id: string
       readonly isInPerson: boolean | null
       readonly name: string
@@ -1610,7 +1610,7 @@ export type EventSearchQuery = {
   readonly eventSearch: {
     readonly totalCount: number
     readonly nodes: ReadonlyArray<{
-      readonly guestCount: number
+      readonly guestCountAccepted: number
       readonly id: string
       readonly isInPerson: boolean | null
       readonly name: string
@@ -3280,7 +3280,7 @@ export type EventListInvitedQuery = {
   readonly allEvents: {
     readonly nodes: ReadonlyArray<{
       readonly end: string | null
-      readonly guestCount: number
+      readonly guestCountAccepted: number
       readonly id: string
       readonly isInPerson: boolean | null
       readonly name: string
@@ -5945,7 +5945,7 @@ export const EventListMineEventsDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'guestCount' },
+                        name: { kind: 'Name', value: 'guestCountAccepted' },
                       },
                       {
                         kind: 'Field',
@@ -6384,7 +6384,7 @@ export const EventListMineSavedDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'guestCount' },
+                              name: { kind: 'Name', value: 'guestCountAccepted' },
                             },
                             {
                               kind: 'Field',
@@ -6861,7 +6861,7 @@ export const EventListDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'guestCount' },
+                        name: { kind: 'Name', value: 'guestCountAccepted' },
                       },
                       {
                         kind: 'Field',
@@ -7322,7 +7322,7 @@ export const EventSearchDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'guestCount' },
+                        name: { kind: 'Name', value: 'guestCountAccepted' },
                       },
                       {
                         kind: 'Field',
@@ -16608,7 +16608,7 @@ export const EventListInvitedDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'guestCount' },
+                        name: { kind: 'Name', value: 'guestCountAccepted' },
                       },
                       {
                         kind: 'Field',
