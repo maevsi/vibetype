@@ -13,6 +13,9 @@
       <span class="text-body text-fg-2">
         {{ t('description') }}
       </span>
+      <span class="text-body-small text-fg-2">
+        {{ t('hint') }}
+      </span>
     </div>
     <template #bottom>
       <AppButton
@@ -38,9 +41,11 @@ const { t } = useI18n()
 de:
   button: Zu meinen Vorschlägen!
   description: "@.upper:{'globalSiteName'} ist bereit, Dich zu den besten Veranstaltungen zu führen."
+  hint: Deine Angaben kannst Du später jederzeit in Deinem Profil unter Einstellungen ändern.
   title: Alles klar, Du bist startklar!
 en:
   button: To my suggestions!
   description: "@.upper:{'globalSiteName'} is ready to guide you to the best events."
+  hint: You can change your answers anytime in your profile, under settings.
   title: All right, you're ready to go!
 </i18n>
