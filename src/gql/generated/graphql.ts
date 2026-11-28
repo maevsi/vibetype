@@ -5169,6 +5169,20 @@ export const EventListDocument = {
               },
               {
                 kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'hasEnded' },
+                      value: { kind: 'BooleanValue', value: false },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
                 name: { kind: 'Name', value: 'first' },
                 value: {
                   kind: 'Variable',

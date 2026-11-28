@@ -63,7 +63,12 @@ import { eventHasEnded } from '~~/shared/utils/event'
 
 const queryEventList = graphql(`
   query EventList($after: Cursor, $first: Int!) {
-    allEvents(after: $after, first: $first, orderBy: START_ASC) {
+    allEvents(
+      after: $after
+      condition: { hasEnded: false }
+      first: $first
+      orderBy: START_ASC
+    ) {
       nodes {
         accountByCreatedBy {
           id
@@ -212,17 +217,12 @@ const isMapVisible = useEventMapVisible()
 
 const now = useNow()
 
-// `orderBy: START_ASC` sorts past events first, so a freshly fetched page
-// can consist entirely of events that have already ended even though
-// upcoming ones exist further on. Starting with a large batch reduces how
-// many round trips that takes to get through.
 const allEventsQueryAfter = ref<string | null>()
-const allEventsQueryFirst = ref(ITEMS_PER_PAGE_LARGE)
 const allEventsQuery = useApiQuery({
   query: queryEventList,
   variables: computed(() => ({
     after: allEventsQueryAfter.value,
-    first: allEventsQueryFirst.value,
+    first: ITEMS_PER_PAGE,
   })),
 })
 
@@ -263,9 +263,7 @@ const query = computed(() =>
 // read as `undefined` for search results.
 const api = await useApiData([allEventsQuery, searchResultsQuery])
 const errorMessages = computed(() => getCombinedErrorMessages(api.value.errors))
-const isLoading = computed(
-  () => api.value.isFetching || isAdvancingUntilUpcomingEvent.value,
-)
+const isLoading = computed(() => api.value.isFetching)
 const retry = () => {
   allEventsQuery.executeQuery({ requestPolicy: 'network-only' })
   if (searchQueryVariable.value)
@@ -294,20 +292,10 @@ const events = computed(() => {
   return undefined
 })
 
-// Tracks whether the initial `advanceUntilUpcomingEvent` catch-up has
-// finished, so `loadMore` only switches `allEventsQueryFirst` back down to
-// `ITEMS_PER_PAGE` once there's also a new `after` cursor to go with it -
-// changing `allEventsQueryFirst` on its own would re-execute `allEventsQuery`
-// with the same `after` cursor, refetching (and discarding) data it already
-// has.
-let allEventsCaughtUpOnUpcomingEvent = false
-
 const loadMore = () => {
   if (!query.value.data.value) return
 
   if ('allEvents' in query.value.data.value) {
-    if (allEventsCaughtUpOnUpcomingEvent)
-      allEventsQueryFirst.value = ITEMS_PER_PAGE
     allEventsQueryAfter.value =
       query.value.data.value?.allEvents?.pageInfo.endCursor
   }
@@ -318,71 +306,7 @@ const loadMore = () => {
   }
 }
 
-// Bounds how far `advanceUntilUpcomingEvent` will page ahead looking for a
-// single upcoming event before giving up, so a server-side inconsistency
-// (see the `endCursor` guard below) can't turn into an unbounded loop.
-const ADVANCE_UNTIL_UPCOMING_EVENT_MAX_PAGES = 50
-
-// The "show more" button only renders once there's at least one upcoming
-// event to show, so a run of past-only pages would otherwise leave the list
-// stuck empty with no way to reach the upcoming ones. This pages ahead
-// (starting with a large batch, see `allEventsQueryFirst`/`ITEMS_PER_PAGE_LARGE`
-// above) until an upcoming event turns up, hasNextPage goes false, or one of
-// the guards below trips.
-// Keeps the list loading between the pages it skips, which are otherwise
-// briefly settled on no upcoming events and would flash the empty state.
-// Raised only once a skip is due rather than at the start, so hydration
-// renders the same state the server did
-const isAdvancingUntilUpcomingEvent = ref(false)
-const advanceUntilUpcomingEvent = async () => {
-  let pages = 0
-  let previousEndCursor: string | null | undefined
-
-  // On the client (unlike during SSR, see below), the query triggered by
-  // `useQuery` at setup is still in flight at this point, so `events.value`
-  // reads as `undefined` rather than an empty array; awaiting the query here
-  // lets the loop condition below see its actual result instead of exiting
-  // immediately.
-  await query.value
-
-  try {
-    while (events.value?.length === 0 && pageInfo.value?.hasNextPage) {
-      isAdvancingUntilUpcomingEvent.value = true
-      if (pages >= ADVANCE_UNTIL_UPCOMING_EVENT_MAX_PAGES) break
-      // `hasNextPage` being true with an `endCursor` that isn't moving would
-      // otherwise refetch the same page forever.
-      if (pages > 0 && pageInfo.value.endCursor === previousEndCursor) break
-
-      previousEndCursor = pageInfo.value.endCursor
-      pages++
-      loadMore()
-      await query.value.executeQuery()
-    }
-  } finally {
-    isAdvancingUntilUpcomingEvent.value = false
-  }
-}
-
-// Awaited on the server so the catch-up finishes during server-side
-// rendering, but not on the client, where awaiting the network at setup
-// would hold back the navigation until the events arrive
-const advanceUntilUpcomingEventInitially = advanceUntilUpcomingEvent().then(
-  () => {
-    allEventsCaughtUpOnUpcomingEvent = true
-  },
-)
-if (import.meta.server) await advanceUntilUpcomingEventInitially
-
-watch(searchQueryVariable, async () => {
-  // `query.value` already reflects the new search state by this point, so
-  // this re-fetches whichever query just changed (a fresh search, or
-  // `allEvents` again once the search is cleared) before re-running the
-  // same catch-up used on initial load - without it, a new search whose
-  // first page is entirely past events would get stuck the same way the
-  // initial load used to.
-  await query.value.executeQuery()
-  await advanceUntilUpcomingEvent()
-})
+watch(searchQueryVariable, () => query.value.executeQuery())
 </script>
 
 <i18n lang="yaml">
