@@ -1,3 +1,44 @@
+## [18.0.0-beta.29](https://github.com/maevsi/vibetype/compare/18.0.0-beta.28...18.0.0-beta.29) (2026-11-28)
+
+### Features
+
+* **account:** list blocked accounts as rows ([#2883](https://github.com/maevsi/vibetype/issues/2883)) ([742be07](https://github.com/maevsi/vibetype/commit/742be0745a9cc750f95ceff764a4994b993306e6))
+* **contact:** list contacts and guests as rows ([#2881](https://github.com/maevsi/vibetype/issues/2881)) ([32a7b75](https://github.com/maevsi/vibetype/commit/32a7b753722c3fac28bdd0af0de48d07400c927b))
+* **contact:** set preferred language ([#2923](https://github.com/maevsi/vibetype/issues/2923)) ([64a809b](https://github.com/maevsi/vibetype/commit/64a809b723c0c8300c587ff3e78c2817d22d1e90))
+* **dashboard:** add a feedback button to the top bar ([#2910](https://github.com/maevsi/vibetype/issues/2910)) ([b70ff20](https://github.com/maevsi/vibetype/commit/b70ff20bd657d3db3bf530acfce5dfe3bafbfa14))
+* **discover:** combine event and people search ([#2913](https://github.com/maevsi/vibetype/issues/2913)) ([450881c](https://github.com/maevsi/vibetype/commit/450881c4663c3387a62e3021900111d28ac5d9f4))
+* **email:** add company details to footer ([#2914](https://github.com/maevsi/vibetype/issues/2914)) ([45d3850](https://github.com/maevsi/vibetype/commit/45d3850725044e751363a3c4dd7276ec52e19dfe))
+* **form:** ask before discarding unsaved changes everywhere ([#2902](https://github.com/maevsi/vibetype/issues/2902)) ([a98c8fe](https://github.com/maevsi/vibetype/commit/a98c8fe56a62637652cd19dc5ee738b28fc22dde))
+* **guest:** add contact editing to the guest menu ([#2900](https://github.com/maevsi/vibetype/issues/2900)) ([712c9fd](https://github.com/maevsi/vibetype/commit/712c9fddf077c3be3b9b8c89dc3bfe16d6c22358))
+* **guest:** add guests from an icon button beside the search ([#2891](https://github.com/maevsi/vibetype/issues/2891)) ([fad77c2](https://github.com/maevsi/vibetype/commit/fad77c20d82c35763d3d2a7dc10b25b3b4d8f20c))
+* **guest:** remove the link back to the invitation overview ([#2886](https://github.com/maevsi/vibetype/issues/2886)) ([bee9707](https://github.com/maevsi/vibetype/commit/bee970773e2a309e13da2ce2afb1890a6c9cf2e8))
+* **guest:** tidy up the guest list ([#2908](https://github.com/maevsi/vibetype/issues/2908)) ([72d65f4](https://github.com/maevsi/vibetype/commit/72d65f456d2c614e51bc57c8ec7bf9b8a5149ca6))
+* **list:** search all contact names quickly ([#2911](https://github.com/maevsi/vibetype/issues/2911)) ([cda20ac](https://github.com/maevsi/vibetype/commit/cda20acb5e72a6c1dc4636b77df89310cc9c9c9b))
+* **list:** show sorted lists once complete and return to the edited contact ([#2907](https://github.com/maevsi/vibetype/issues/2907)) ([e02ff01](https://github.com/maevsi/vibetype/commit/e02ff0199cb52acab14da8cbacdd07e0e7fcc861))
+* **location:** offer to allow location in the android app ([#2901](https://github.com/maevsi/vibetype/issues/2901)) ([f6b6c97](https://github.com/maevsi/vibetype/commit/f6b6c97fe2ec96997926547a4b728a8c78d29693))
+* **map:** show event in marker popup ([#2887](https://github.com/maevsi/vibetype/issues/2887)) ([61f33f0](https://github.com/maevsi/vibetype/commit/61f33f09b9db55638b624bb82a026cea55b2d045))
+
+### Bug Fixes
+
+* **button:** show loading state on pending actions ([#2892](https://github.com/maevsi/vibetype/issues/2892)) ([0d4e743](https://github.com/maevsi/vibetype/commit/0d4e7439a4a7bc07ad90d5b43e5063bdd441a5e7))
+* **button:** show loading state while a click handler's promise runs ([#2895](https://github.com/maevsi/vibetype/issues/2895)) ([50135bf](https://github.com/maevsi/vibetype/commit/50135bfd5f810e04d1c2ae62af98a9395e28ad4f))
+* **consent:** group the ai toggle under its own heading above the buttons ([#2897](https://github.com/maevsi/vibetype/issues/2897)) ([64b3c1a](https://github.com/maevsi/vibetype/commit/64b3c1a1f46551b062d949289396d00e0234c32d))
+* **dashboard:** use speech bubble for feedback button ([#2921](https://github.com/maevsi/vibetype/issues/2921)) ([f2b3d1c](https://github.com/maevsi/vibetype/commit/f2b3d1c77966cec7d01b1f7cf58cafddd918d70e))
+* **email:** list legal links before unsubscribe in footer ([#2917](https://github.com/maevsi/vibetype/issues/2917)) ([e5fd9be](https://github.com/maevsi/vibetype/commit/e5fd9be085aedad40cffff665ef2aa3fb48dee52))
+* **email:** load images from hosted urls ([#2904](https://github.com/maevsi/vibetype/issues/2904)) ([10e3e22](https://github.com/maevsi/vibetype/commit/10e3e22495634e4ec78f59509696deb0d12b72e0))
+* **email:** put footer links in a row and fix author spacing ([#2912](https://github.com/maevsi/vibetype/issues/2912)) ([35ff6ad](https://github.com/maevsi/vibetype/commit/35ff6ada298458892207d039db01527046fedb69))
+* **email:** use the primary action color for buttons ([#2899](https://github.com/maevsi/vibetype/issues/2899)) ([9cf7ce9](https://github.com/maevsi/vibetype/commit/9cf7ce9c1cf86084b5cb377ae58c641c99f8ad3b))
+* **event:** query only upcoming events on discover ([#2919](https://github.com/maevsi/vibetype/issues/2919)) ([0ec1554](https://github.com/maevsi/vibetype/commit/0ec1554cadfeb335978acaf5bb048c0e3153171b))
+* **form:** ignore captcha token for leave confirmation ([#2918](https://github.com/maevsi/vibetype/issues/2918)) ([96096c6](https://github.com/maevsi/vibetype/commit/96096c674182e7c8e4c5ff74e863860f12b87313))
+* **guest:** ask anonymous guests to sign in before saving the event ([#2890](https://github.com/maevsi/vibetype/issues/2890)) ([f13ae0e](https://github.com/maevsi/vibetype/commit/f13ae0e36145295ca31f849868785a7596c770eb))
+* **guest:** let the organizer send invitations themselves ([#2922](https://github.com/maevsi/vibetype/issues/2922)) ([a401a74](https://github.com/maevsi/vibetype/commit/a401a749c44c9dec59763c568a3bc0a83b1feeaf))
+* **guest:** load all pages before filtering ([#2888](https://github.com/maevsi/vibetype/issues/2888)) ([9c0cd43](https://github.com/maevsi/vibetype/commit/9c0cd43ac4123839f131a380b1f7600eed655b95))
+* **icon:** show the map icon for maps and locations ([#2909](https://github.com/maevsi/vibetype/issues/2909)) ([d8a83da](https://github.com/maevsi/vibetype/commit/d8a83da6db08d6fbf6d62e14a116bf284face4d1))
+* **location:** point to the app settings after a denial on android ([#2898](https://github.com/maevsi/vibetype/issues/2898)) ([645d3f2](https://github.com/maevsi/vibetype/commit/645d3f27d87a7984cb0195cc594ae8ea43ec2fc7))
+* **privacy:** describe analytics without advertising use ([#2749](https://github.com/maevsi/vibetype/issues/2749)) ([7ac9d0b](https://github.com/maevsi/vibetype/commit/7ac9d0b7ee76f24e726cfc5b8573598770506c78))
+* **style:** show focus ring on checkboxes and radio buttons ([#2916](https://github.com/maevsi/vibetype/issues/2916)) ([e8e80e8](https://github.com/maevsi/vibetype/commit/e8e80e8ec0c1181242f0422464b75c891d642696))
+* **support:** return to the form from the result steps ([#2893](https://github.com/maevsi/vibetype/issues/2893)) ([279d2f8](https://github.com/maevsi/vibetype/commit/279d2f89524ec288a56f5db9e6e246b6188bcd6d))
+
 ## [18.0.0-beta.28](https://github.com/maevsi/vibetype/compare/18.0.0-beta.27...18.0.0-beta.28) (2026-11-28)
 
 ### ⚠ BREAKING CHANGES
