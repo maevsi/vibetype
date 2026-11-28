@@ -120,7 +120,7 @@ authenticatedTest.describe('poster reading', () => {
       await defaultPage.goto(PAGE_PATH)
       await pickPoster(page)
       await page
-        .getByRole('textbox', { name: 'Know who organizes it? (optional)' })
+        .getByRole('textbox', { name: "Organizer's contact (optional)" })
         .fill('organizer@example.com')
       await page.getByRole('button', { name: 'Submit and earn points' }).click()
 
