@@ -1,3 +1,9 @@
+## [17.65.3](https://github.com/maevsi/vibetype/compare/17.65.2...17.65.3) (2026-11-28)
+
+### Bug Fixes
+
+* **dashboard:** use speech bubble for feedback button ([#2921](https://github.com/maevsi/vibetype/issues/2921)) ([f2b3d1c](https://github.com/maevsi/vibetype/commit/f2b3d1c77966cec7d01b1f7cf58cafddd918d70e))
+
 ## [17.65.2](https://github.com/maevsi/vibetype/compare/17.65.1...17.65.2) (2026-11-28)
 
 ### Bug Fixes
