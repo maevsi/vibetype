@@ -91,10 +91,45 @@ authenticatedTest.describe('poster reading', () => {
       })
       await defaultPage.goto(PAGE_PATH)
       await pickPoster(page)
+      await page.getByRole('button', { name: 'I organize it' }).click()
 
       await expect(page).toHaveURL(/\/event\/create$/)
       await expect(page.locator('#input-name')).toHaveValue('Test')
       expect(csrfToken).toBeTruthy()
+    },
+  )
+
+  authenticatedTest(
+    'sends an event the user does not organize to the team',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+      let submission: Record<string, unknown> | undefined
+
+      await page.route(ROUTE, (route) =>
+        route.fulfill({
+          json: {
+            output: { description: '', is_event: true, name: 'Test' },
+          },
+        }),
+      )
+      await page.route('**/api/service/zammad/event', (route) => {
+        submission = route.request().postDataJSON()
+
+        return route.fulfill({ status: 204 })
+      })
+      await defaultPage.goto(PAGE_PATH)
+      await pickPoster(page)
+      await page
+        .getByRole('textbox', { name: 'Organizer contact (optional)' })
+        .fill('organizer@example.com')
+      await page.getByRole('button', { name: /^Send to / }).click()
+
+      await expect(page).toHaveURL(/\/dashboard$/)
+      expect(submission).toMatchObject({
+        name: 'Test',
+        organizerContact: 'organizer@example.com',
+      })
+      expect(submission?.base64Image).toBeTruthy()
     },
   )
 

@@ -40,6 +40,15 @@ export const getEventImported = async ({
   }
 }
 
+/** An event an ingest route read, which the person either creates as its organizer or sends to the team. */
+export type EventSubmission = Parameters<
+  typeof getEventImportedFromIngest
+>[0] & {
+  base64Image?: string
+  name: string
+  sourceUrl?: string
+}
+
 /** Builds the prefill from what an ingest route read, which the model answers without a time zone, so the browser takes it as local time. */
 export const getEventImportedFromIngest = (output: {
   description?: string | null

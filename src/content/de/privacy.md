@@ -280,6 +280,16 @@
             </address>
 
             als unser Ticketsystem zur Bearbeitung von Kontaktanfragen. Weitere Details: https://zammad.com/de/unternehmen/datenschutz.</li>
+            <li>
+
+            **Eingesendete Veranstaltungen**
+
+            Findest Du bei der Plakatjagd eine Veranstaltung, die Du nicht selbst veranstaltest, kannst Du sie uns schicken, statt sie selbst zu erstellen.
+            Wir erhalten dann die daraus gelesenen Angaben, das Foto des Plakats oder den Link, Deinen Benutzernamen und, falls Du ihn angibst, einen Kontakt der Veranstaltenden.
+            Wir speichern das in unserem oben beschriebenen Ticketsystem Zammad und nutzen es, um die Veranstaltenden zu Vibetype einzuladen.
+
+            Die Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse daran haben, Veranstaltungen und ihre Veranstaltenden zu Vibetype zu bringen.
+            Wir löschen diese Daten spätestens 3 Monate nach Erhalt, es sei denn, die Veranstaltenden registrieren sich.</li>
             </ol>
 
         1. **Fragebögen/Formulare**

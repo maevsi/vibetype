@@ -40,10 +40,12 @@ export const useZammad = () => {
   const { apiToken, url } = zammadConfig
 
   const createTicket = async ({
+    attachments,
     body,
     customerEmailAddress,
     title,
   }: {
+    attachments?: { data: string; filename: string; 'mime-type': string }[]
     body: string
     customerEmailAddress: string
     title: string
@@ -51,6 +53,7 @@ export const useZammad = () => {
     const response = await $fetch(new URL('/api/v1/tickets', url).toString(), {
       body: {
         article: {
+          attachments,
           body,
           internal: false,
           subject: title,

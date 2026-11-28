@@ -280,6 +280,16 @@
             </address>
 
             as our ticket system for processing contact requests. More details: https://zammad.com/en/company/privacy.</li>
+            <li>
+
+            **Event submissions**
+
+            When poster hunting finds an event you don't organize, you can send it to us instead of creating it yourself.
+            We then receive the details read from it, the poster photo or the link, your username and, if you add one, a contact of the organizers.
+            We store this in our ticket system Zammad, described above, and use it to invite the organizers to Vibetype.
+
+            The legal basis is Art. 6 para. 1 lit. f GDPR, as we have a legitimate interest in bringing events and their organizers to Vibetype.
+            We delete this data no later than three months after receipt unless the organizers sign up.</li>
             </ol>
 
         1. **Questionnaires/forms**

@@ -64,6 +64,12 @@
         v-model="isConsentDrawerOpen"
         @allowed="onConsentAllowed"
       />
+      <EventIngestOwnershipDrawer
+        v-model="isOwnershipDrawerOpen"
+        :submission
+        @own="createEvent"
+        @sent="onSent"
+      />
     </LayoutPage>
   </div>
 </template>
@@ -87,13 +93,26 @@ useHeadDefault({ title: t('title') })
 const { give: giveConsent, isGiven: isConsentGiven } = useEventIngestConsent()
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
 const isConsentDrawerOpen = ref(false)
+const isOwnershipDrawerOpen = ref(false)
 const isNoEvent = ref(false)
 const isReading = ref(false)
+// asked for before the form opens, so nobody publishes someone else's event under their own account
+const submission = ref<EventSubmission>()
 const posterPending = ref<File>()
 const posterPicked = usePosterPicked()
 const previewUrl = ref<string>()
 
 // methods
+const createEvent = async () => {
+  if (!submission.value) return
+
+  eventImported.value = await getEventImportedFromIngest(submission.value)
+  await navigateTo(localePath('event-create'))
+}
+const onSent = async () => {
+  toast.success(t('sent'))
+  await navigateTo(localePath('dashboard'))
+}
 // shrinks the poster to the size the server reads, as a phone photo can exceed the request size limit
 const readPosterAsBase64 = async (file: File) => {
   const bitmap = await createImageBitmap(file) // applies the orientation phone cameras store as metadata
@@ -141,8 +160,9 @@ const readPoster = async (file: File) => {
   isNoEvent.value = false
 
   try {
+    const base64Image = await readPosterAsBase64(file)
     const { output } = await $csrfFetch('/api/model/event/ingest/image', {
-      body: { base64Image: await readPosterAsBase64(file) },
+      body: { base64Image },
       method: 'POST',
     })
 
@@ -151,8 +171,16 @@ const readPoster = async (file: File) => {
       return
     }
 
-    eventImported.value = await getEventImportedFromIngest(output)
-    await navigateTo(localePath('event-create'))
+    submission.value = {
+      base64Image,
+      description: output.description,
+      end: output.end,
+      location: output.location,
+      name: output.name ?? '',
+      start: output.start,
+      url: output.url,
+    }
+    isOwnershipDrawerOpen.value = true
   } catch (error) {
     const status = error instanceof FetchError ? error.statusCode : undefined
 
@@ -211,6 +239,7 @@ de:
   preview: Vorschau
   provideLink: Link zu einer Webseite angeben
   reading: Plakat wird gelesen…
+  sent: Danke! Wir melden uns bei den Veranstaltenden.
   takePhoto: Foto aufnehmen
   title: Plakatjagd
 en:
@@ -224,6 +253,7 @@ en:
   preview: Preview
   provideLink: Provide link to website
   reading: Reading poster…
+  sent: Thanks! We'll reach out to the organizers.
   takePhoto: Take photo
   title: Poster hunting
 </i18n>
