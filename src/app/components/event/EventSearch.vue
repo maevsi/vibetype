@@ -59,7 +59,6 @@
 import { refDebounced } from '@vueuse/core'
 
 import { graphql } from '~~/gql/generated'
-import { eventHasEnded } from '~~/shared/utils/event'
 
 const queryEventList = graphql(`
   query EventList($after: Cursor, $first: Int!) {
@@ -84,7 +83,6 @@ const queryEventList = graphql(`
           }
           rowId
         }
-        end
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
@@ -110,7 +108,19 @@ const queryEventList = graphql(`
             id
           }
         }
-        guestCount
+        eventUploadsByEventId {
+          nodes {
+            id
+            isHeaderImage
+            rowId
+            uploadByUploadId {
+              id
+              rowId
+              storageKey
+            }
+          }
+        }
+        guestCountAccepted
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -155,7 +165,6 @@ const queryEventSearch = graphql(`
           }
           rowId
         }
-        end
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
@@ -181,7 +190,19 @@ const queryEventSearch = graphql(`
             id
           }
         }
-        guestCount
+        eventUploadsByEventId {
+          nodes {
+            id
+            isHeaderImage
+            rowId
+            uploadByUploadId {
+              id
+              rowId
+              storageKey
+            }
+          }
+        }
+        guestCountAccepted
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -215,8 +236,6 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const isMapVisible = useEventMapVisible()
 
-const now = useNow()
-
 const allEventsQueryAfter = ref<string | null>()
 const allEventsQuery = useApiQuery({
   query: queryEventList,
@@ -233,10 +252,9 @@ const searchQueryDebounced = refDebounced(searchQuery, 300)
 const searchQueryVariable = computed(() => searchQueryDebounced.value?.trim())
 const searchResultsQueryAfter = ref<string | null>()
 // `flush: 'sync'` so the cursor is already cleared by the time the reactive
-// `variables` computed below is next read, otherwise `searchResultsQuery`'s
-// own reactive refetch (scheduled together with, but ahead of, the `watch`
-// further down) would fire once more with the old cursor and the new query,
-// skipping that query's first page.
+// `variables` computed below is next read, otherwise `searchResultsQuery`
+// would refetch with the old cursor and the new query, skipping that query's
+// first page.
 watch(
   searchQueryVariable,
   () => {
@@ -258,9 +276,7 @@ const query = computed(() =>
 )
 // Both queries are passed here (rather than just `query.value` at setup
 // time) so `api.value.data`/`pageInfo` keep reflecting whichever one is
-// currently active - otherwise, once a search starts, `api` would stay
-// permanently frozen on `allEvents`'s data and `pageInfo` would always
-// read as `undefined` for search results.
+// currently active.
 const api = await useApiData([allEventsQuery, searchResultsQuery])
 const errorMessages = computed(() => getCombinedErrorMessages(api.value.errors))
 const isLoading = computed(() => api.value.isFetching)
@@ -278,15 +294,11 @@ const events = computed(() => {
   if (!query.value.data.value) return
 
   if ('allEvents' in query.value.data.value) {
-    return query.value.data.value.allEvents?.nodes.filter(
-      (event) => !eventHasEnded(event, now.value),
-    )
+    return query.value.data.value.allEvents?.nodes
   }
 
   if ('eventSearch' in query.value.data.value) {
-    return query.value.data.value.eventSearch?.nodes.filter(
-      (event) => !eventHasEnded(event, now.value),
-    )
+    return query.value.data.value.eventSearch?.nodes
   }
 
   return undefined
@@ -305,8 +317,6 @@ const loadMore = () => {
       query.value.data.value?.eventSearch?.pageInfo.endCursor
   }
 }
-
-watch(searchQueryVariable, () => query.value.executeQuery())
 </script>
 
 <i18n lang="yaml">

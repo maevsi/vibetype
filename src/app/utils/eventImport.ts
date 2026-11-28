@@ -28,10 +28,12 @@ export const getEventImported = async ({
     addressByAddressId: { name: locationName },
     description: description ? getHtmlFromText(description) : null,
     end: end ?? null,
+    feedbackDeadline: null,
     guestCountMaximum: null,
     isInPerson,
     isRemote: false,
     name,
+    publishedAt: null,
     rowId: '',
     slug: slugify(name, { lower: true, strict: true }), // the form derives it only while the name is typed
     start: start ?? '',

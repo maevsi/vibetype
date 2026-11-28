@@ -156,12 +156,30 @@ const createAttendanceMutation = useMutation(
     }
   `),
 )
+const tagSerialNumberUpdateMutation = useMutation(
+  graphql(`
+    mutation AttendanceTagSerialNumberUpdate(
+      $id: UUID!
+      $attendancePatch: AttendancePatch!
+    ) {
+      updateAttendanceByRowId(
+        input: { rowId: $id, attendancePatch: $attendancePatch }
+      ) {
+        attendance {
+          id
+          rowId
+          tagSerialNumber
+        }
+      }
+    }
+  `),
+)
 const { siteUrlTyped: siteUrl } = useSiteUrl()
 const localePath = useLocalePath()
 const onClick = async () => {
   if (!guestId.value) return
 
-  await executeUrqlRequest({
+  const result = await executeUrqlRequest({
     errorMessageI18n: t('errorAttendanceCreate'),
     request: createAttendanceMutation.executeMutation({
       input: {
@@ -171,17 +189,28 @@ const onClick = async () => {
       },
     }),
   })
+  const attendanceId = result?.data?.createAttendance?.attendance?.rowId
+  if (!attendanceId) return
 
-  await writeTag({
+  const tag = await writeTag({
     records: [
       {
         recordType: 'url',
         data: `https://${siteUrl.host}${localePath({
           name: 'attendance-view-id',
-          params: { id: guestId.value },
+          params: { id: attendanceId },
         })}`,
       },
     ],
+  })
+  if (!tag?.serialNumber) return
+
+  await executeUrqlRequest({
+    errorMessageI18n: t('errorTagSerialNumberSave'),
+    request: tagSerialNumberUpdateMutation.executeMutation({
+      id: attendanceId,
+      attendancePatch: { tagSerialNumber: tag.serialNumber },
+    }),
   })
 }
 
@@ -224,9 +253,18 @@ onMounted(() => {
   })
 })
 const writeTag = async (data: NDEFMessageSource) => {
+  const controller = new AbortController()
+
   try {
-    await new NDEFReader().write(data)
+    const reader = new NDEFReader()
+    // reading the tag first keeps its serial number, which tells this tag apart from a copy of its link later
+    const serialNumber = await nfcTagSerialNumberRead({
+      reader,
+      signal: controller.signal,
+    })
+    await reader.write(data)
     toast.success(t('successWrite'))
+    return { serialNumber }
   } catch (error) {
     if (error instanceof DOMException) {
       let errorMessage: string = error.message
@@ -256,6 +294,8 @@ const writeTag = async (data: NDEFMessageSource) => {
     } else {
       alert(`Unexpected error: ${error}`)
     }
+  } finally {
+    controller.abort()
   }
 }
 const isNfcError = computed(() => {
@@ -277,6 +317,7 @@ de:
   errorNfcNotReadable: Zugriff auf den NFC-Adapter nicht möglich. Wird er von einem anderen Programm verwendet?
   errorNfcNotSupported: Es wurde kein kompatibler NFC-Adapter gefunden. {hintUpdateOrChrome}
   errorPermissionDenied: Nur wer diese Veranstaltung organisiert, kann diese Seite öffnen. Wenn es Deine Veranstaltung ist, melde Dich mit dem Konto an, mit dem Du sie erstellt hast.
+  errorTagSerialNumberSave: Die Seriennummer des Tags konnte nicht gespeichert werden.
   hintBrowserSettings: Sieh in Deinen Browser-Einstellungen nach.
   hintUpdateOrChrome: Versuche Deinen Browser zu aktualisieren oder Google Chrome zu verwenden.
   hintTryAgain: Versuch es noch einmal.
@@ -295,6 +336,7 @@ en:
   errorNfcNotReadable: Could not access NFC adapter. Is it in use by another program right now?
   errorNfcNotSupported: No compatible NFC adapter was found. {hintUpdateOrChrome}
   errorPermissionDenied: Only the organizer of this event can open this page. If it's your event, sign in with the account that created it.
+  errorTagSerialNumberSave: Failed to save the tag's serial number.
   hintBrowserSettings: Check your browser settings.
   hintTryAgain: Try again.
   hintUpdateOrChrome: Try updating your browser or use Google Chrome.

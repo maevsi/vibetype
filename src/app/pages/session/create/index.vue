@@ -126,10 +126,7 @@ const getSignInTarget = ({
   return localePath(`dashboard`, language)
 }
 const onSignIn = async (username: string) => {
-  const language = await syncLocaleCookieToOwnContactLanguage({
-    nuxtApp,
-    store,
-  })
+  const language = syncLocaleCookieToTokenLanguage({ nuxtApp, store })
 
   const target = getSignInTarget({ language, username })
   localStorage.removeItem(SIGN_IN_TARGET_STORAGE_KEY)

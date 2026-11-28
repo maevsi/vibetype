@@ -43,6 +43,7 @@ const queryEventGuests = useApiQuery({
               username
             }
             createdBy
+            guestCount
             guestCountMaximum
             guestsByEventId {
               nodes {
@@ -62,6 +63,7 @@ const queryEventGuests = useApiQuery({
             }
             id
             name
+            publishedAt
             rowId
             slug
           }

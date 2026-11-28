@@ -2,6 +2,55 @@
   <div>
     <form novalidate @submit.prevent="submit">
       <div class="flex flex-col gap-4">
+        <Field>
+          <FieldLabel>{{ t('headerImage') }}</FieldLabel>
+          <FieldContent>
+            <div
+              class="flex items-center justify-between gap-4 rounded-medium bg-surface-raised p-3"
+            >
+              <AppImage
+                v-if="headerImage?.storageKey"
+                :alt="t('headerImage')"
+                aspect="aspect-[3/2]"
+                class="h-15 rounded-small object-cover"
+                height="2"
+                :src="TUSD_FILES_URL + headerImage.storageKey"
+                width="3"
+              />
+              <span v-else class="text-body-small text-fg-2">
+                {{ t('headerImageNone') }}
+              </span>
+              <div class="flex gap-3">
+                <AppButton
+                  :aria-label="
+                    headerImage
+                      ? t('headerImageReplace')
+                      : t('headerImageSelect')
+                  "
+                  @click="isModalUploadSelectionOpen = true"
+                >
+                  <span class="text-caption">
+                    {{
+                      headerImage
+                        ? t('headerImageReplace')
+                        : t('headerImageSelect')
+                    }}
+                  </span>
+                </AppButton>
+                <AppButton
+                  v-if="headerImage"
+                  :aria-label="t('headerImageRemove')"
+                  variant="secondary"
+                  @click="headerImage = undefined"
+                >
+                  <span class="text-caption">
+                    {{ t('headerImageRemove') }}
+                  </span>
+                </AppButton>
+              </div>
+            </div>
+          </FieldContent>
+        </Field>
         <form.Field v-slot="{ field: nameField }" name="name">
           <Field>
             <FieldLabel for="input-name">{{ t('name') }}</FieldLabel>
@@ -174,6 +223,64 @@
             </FieldContent>
           </Field>
         </form.Field>
+        <form.Field v-slot="{ field }" name="feedbackDeadline">
+          <Field class="flex flex-col">
+            <FieldLabel for="button-feedbackDeadline">{{
+              t('feedbackDeadline')
+            }}</FieldLabel>
+            <FieldContent>
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-feedbackDeadline"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :min-value="
+                        isoToCalendarDate(form.getFieldValue('start'))
+                      "
+                      :model-value="isoToCalendarDate(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </FieldContent>
+            <FieldDescription>{{ t('feedbackDeadlineHint') }}</FieldDescription>
+          </Field>
+        </form.Field>
         <form.Field v-slot="{ field: isInPersonField }" name="isInPerson">
           <form.Field v-slot="{ field: isRemoteField }" name="isRemote">
             <AppCheckboxGroup
@@ -303,16 +410,14 @@
               :default-value="field.state.value"
               :items="[
                 {
+                  description: t('visibilityPublicDescription'),
                   label: t('visibilityPublic'),
                   value: EventVisibility.Public,
                 },
                 {
+                  description: t('visibilityPrivateDescription'),
                   label: t('visibilityPrivate'),
                   value: EventVisibility.Private,
-                },
-                {
-                  label: t('visibilityUnlisted'),
-                  value: EventVisibility.Unlisted,
                 },
               ]"
               @update:model-value="
@@ -322,6 +427,103 @@
             >
               <template #legend>{{ t('visibility') }}</template>
             </AppRadioGroup>
+            <FieldError
+              v-if="isFieldInvalid(field)"
+              :errors="field.state.meta.errors"
+            />
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="publication">
+          <Field>
+            <AppRadioGroup
+              :default-value="field.state.value"
+              :items="[
+                {
+                  description: t('publicationNowDescription'),
+                  label: isLiveExisting
+                    ? t('publicationPublished')
+                    : t('publicationNow'),
+                  value: 'now',
+                },
+                {
+                  description: t('publicationScheduleDescription'),
+                  label: t('publicationSchedule'),
+                  value: 'schedule',
+                },
+                {
+                  description: t('publicationDraftDescription'),
+                  label: t('publicationDraft'),
+                  value: 'draft',
+                },
+              ]"
+              @update:model-value="
+                (value) =>
+                  field.handleChange(
+                    String(value ?? '') as typeof field.state.value,
+                  )
+              "
+            >
+              <template #legend>{{ t('publication') }}</template>
+            </AppRadioGroup>
+          </Field>
+        </form.Field>
+        <form.Field
+          v-if="form.getFieldValue('publication') === 'schedule'"
+          v-slot="{ field }"
+          name="publishedAt"
+        >
+          <Field class="flex flex-col">
+            <FieldLabel for="button-published-at">{{
+              t('publishedAt')
+            }}</FieldLabel>
+            <FieldContent>
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-published-at"
+                    :aria-invalid="isFieldInvalid(field)"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :model-value="isoToCalendarDate(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </FieldContent>
             <FieldError
               v-if="isFieldInvalid(field)"
               :errors="field.state.meta.errors"
@@ -467,6 +669,13 @@
         </AppAlert>
       </div>
     </form>
+    <ModalUploadSelection
+      v-model="isModalUploadSelectionOpen"
+      :aspect-ratio="3 / 2"
+      @select="onHeaderImageSelect"
+    >
+      <template #header>{{ t('headerImageSelect') }}</template>
+    </ModalUploadSelection>
   </div>
 </template>
 
@@ -502,8 +711,10 @@ const { event = undefined } = defineProps<{
     | 'guestCountMaximum'
     | 'start'
     | 'end'
+    | 'feedbackDeadline'
     | 'isInPerson'
     | 'isRemote'
+    | 'publishedAt'
     | 'url'
     | 'description'
     | 'rowId'
@@ -521,6 +732,16 @@ const { event = undefined } = defineProps<{
     eventFormatMappingsByEventId?: {
       nodes: readonly { formatId: string }[]
     } | null
+    eventUploadsByEventId?: {
+      nodes: readonly {
+        isHeaderImage?: boolean | null
+        rowId: string
+        uploadByUploadId?: {
+          rowId: string
+          storageKey?: string | null
+        } | null
+      }[]
+    } | null
   }
 }>()
 
@@ -528,6 +749,7 @@ const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
 const timeZone = useTimeZone()
+const TUSD_FILES_URL = useTusdFilesUrl()
 
 // data
 const now = useNow()
@@ -569,6 +791,7 @@ const updateEventMutation = useMutation(
           }
           description
           end
+          feedbackDeadline
           guestCountMaximum
           id
           isInPerson
@@ -671,6 +894,35 @@ const deleteEventFormatMappingByEventIdAndFormatIdMutation = useMutation(
     }
   `),
 )
+const createEventUploadMutation = useMutation(
+  graphql(`
+    mutation CreateEventUpload($input: CreateEventUploadInput!) {
+      createEventUpload(input: $input) {
+        eventUpload {
+          eventByEventId {
+            id
+          }
+          id
+        }
+      }
+    }
+  `),
+)
+const deleteEventUploadByRowIdMutation = useMutation(
+  graphql(`
+    mutation DeleteEventUploadByRowId($input: DeleteEventUploadByRowIdInput!) {
+      deleteEventUploadByRowId(input: $input) {
+        deletedEventUploadId
+        eventUpload {
+          eventByEventId {
+            id
+          }
+          id
+        }
+      }
+    }
+  `),
+)
 const api = await useApiData([
   createAddressMutation,
   createEventMutation,
@@ -680,6 +932,8 @@ const api = await useApiData([
   deleteEventCategoryMappingByEventIdAndCategoryIdMutation,
   createEventFormatMappingMutation,
   deleteEventFormatMappingByEventIdAndFormatIdMutation,
+  createEventUploadMutation,
+  deleteEventUploadByRowIdMutation,
 ])
 
 // slug validation
@@ -699,23 +953,56 @@ const validateEventSlugFn = async (value: string) => {
   }
 }
 
+// publication
+const publicationStateInitial = event?.rowId
+  ? getEventPublicationState(event)
+  : undefined
+// an already published event keeps its original publication time
+const isLiveExisting = publicationStateInitial === 'published'
+const getPublishedAt = (value: {
+  publication: 'draft' | 'now' | 'schedule'
+  publishedAt: string
+}) =>
+  value.publication === 'draft'
+    ? null
+    : value.publication === 'schedule'
+      ? value.publishedAt
+      : isLiveExisting
+        ? event?.publishedAt
+        : new Date().toISOString()
+
 // form
-const formSchema = z.object({
-  categoryIds: z.array(z.string()),
-  description: SCHEMA_EVENT_DESCRIPTION_OPTIONAL,
-  end: z.string(),
-  formatIds: z.array(z.string()),
-  guestCountMaximum: z.string(),
-  isInPerson: z.boolean(),
-  isRemote: z.boolean(),
-  locationName: SCHEMA_EVENT_LOCATION_NAME_OPTIONAL,
-  name: SCHEMA_EVENT_NAME_REQUIRED,
-  rowId: z.string(),
-  slug: SCHEMA_EVENT_SLUG_REQUIRED,
-  start: z.string().min(1),
-  url: SCHEMA_URL_HTTPS_OPTIONAL,
-  visibility: z.enum(EventVisibility),
-})
+const formSchema = z
+  .object({
+    categoryIds: z.array(z.string()),
+    description: SCHEMA_EVENT_DESCRIPTION_OPTIONAL,
+    end: z.string(),
+    feedbackDeadline: z.string(),
+    formatIds: z.array(z.string()),
+    guestCountMaximum: z.string(),
+    isInPerson: z.boolean(),
+    isRemote: z.boolean(),
+    locationName: SCHEMA_EVENT_LOCATION_NAME_OPTIONAL,
+    name: SCHEMA_EVENT_NAME_REQUIRED,
+    publication: z.enum(['draft', 'now', 'schedule']),
+    publishedAt: z.string(),
+    rowId: z.string(),
+    slug: SCHEMA_EVENT_SLUG_REQUIRED,
+    start: z.string().min(1),
+    url: SCHEMA_URL_HTTPS_OPTIONAL,
+    visibility: z.enum(EventVisibility),
+  })
+  .superRefine((value, ctx) => {
+    if (
+      value.publication === 'schedule' &&
+      (!value.publishedAt || new Date(value.publishedAt) <= new Date())
+    )
+      ctx.addIssue({
+        code: 'custom',
+        message: t('validationPublishedAtFuture'),
+        path: ['publishedAt'],
+      })
+  })
 
 const syncEventCategoryMappings = async ({
   eventId,
@@ -772,6 +1059,48 @@ const syncEventFormatMappings = async ({
   ])
 
   return results.every((result) => !result.error)
+}
+
+// header image
+const headerImageOriginal = computed(() =>
+  event?.eventUploadsByEventId?.nodes.find((node) => node.isHeaderImage),
+)
+const headerImage = ref<{ storageKey?: string | null; uploadId: string }>()
+if (headerImageOriginal.value?.uploadByUploadId) {
+  headerImage.value = {
+    storageKey: headerImageOriginal.value.uploadByUploadId.storageKey,
+    uploadId: headerImageOriginal.value.uploadByUploadId.rowId,
+  }
+}
+const isModalUploadSelectionOpen = ref<boolean>()
+const onHeaderImageSelect = (
+  uploadId?: string | null,
+  storageKey?: string | null,
+) => {
+  if (!uploadId) return
+
+  headerImage.value = { storageKey, uploadId }
+}
+// the original is deleted first, as an event can have one header image only
+const syncHeaderImage = async (eventId: string) => {
+  const original = headerImageOriginal.value
+  const uploadId = headerImage.value?.uploadId
+
+  if (uploadId === original?.uploadByUploadId?.rowId) return true
+
+  if (original) {
+    const result = await deleteEventUploadByRowIdMutation.executeMutation({
+      input: { rowId: original.rowId },
+    })
+    if (result.error) return false
+  }
+
+  if (!uploadId) return true
+
+  const result = await createEventUploadMutation.executeMutation({
+    input: { eventUpload: { eventId, isHeaderImage: true, uploadId } },
+  })
+  return !result.error
 }
 
 // location
@@ -917,6 +1246,7 @@ const form = useForm({
         .map((node) => node.categoryId) ?? [],
     description: (event?.description as string) ?? '',
     end: (event?.end as string) ?? '',
+    feedbackDeadline: (event?.feedbackDeadline as string) ?? '',
     formatIds:
       event?.eventFormatMappingsByEventId?.nodes
         .filter(isNeitherNullNorUndefined)
@@ -928,6 +1258,13 @@ const form = useForm({
     isRemote: event?.isRemote ?? false,
     locationName: event?.addressByAddressId?.name ?? '',
     name: (event?.name as string) ?? '',
+    publication: (publicationStateInitial === 'draft'
+      ? 'draft'
+      : publicationStateInitial === 'scheduled'
+        ? 'schedule'
+        : 'now') as 'draft' | 'now' | 'schedule',
+    publishedAt:
+      publicationStateInitial === 'scheduled' ? (event?.publishedAt ?? '') : '',
     rowId: (event?.rowId as string) ?? '',
     slug: (event?.slug as string) ?? '',
     start: (event?.start as string) ?? '',
@@ -954,10 +1291,12 @@ const form = useForm({
             createdBy: store.signedInAccountId,
             description: value.description || null,
             end: value.end || null,
+            feedbackDeadline: value.feedbackDeadline || null,
             guestCountMaximum: value.guestCountMaximum
               ? +value.guestCountMaximum
               : null,
             isInPerson: value.isInPerson,
+            publishedAt: getPublishedAt(value),
             isRemote: value.isRemote,
             name: value.name || null,
             slug: value.slug || null,
@@ -986,7 +1325,13 @@ const form = useForm({
             .map((node) => node.formatId) ?? [],
         selectedFormatIds: value.formatIds,
       })
-      if (!categoryMappingsSynced || !formatMappingsSynced) return
+      const headerImageSynced = await syncHeaderImage(value.rowId)
+      if (
+        !categoryMappingsSynced ||
+        !formatMappingsSynced ||
+        !headerImageSynced
+      )
+        return
 
       toast.success(t('eventUpdateSuccess'))
       // the saved values are the new baseline for unsaved changes
@@ -1017,10 +1362,12 @@ const form = useForm({
             createdBy: store.signedInAccountId || '',
             description: value.description || null,
             end: value.end || null,
+            feedbackDeadline: value.feedbackDeadline || null,
             guestCountMaximum: value.guestCountMaximum
               ? +value.guestCountMaximum
               : null,
             isInPerson: value.isInPerson,
+            publishedAt: getPublishedAt(value),
             isRemote: value.isRemote,
             name: value.name || '',
             slug: value.slug || '',
@@ -1046,7 +1393,13 @@ const form = useForm({
           originalFormatIds: [],
           selectedFormatIds: value.formatIds,
         })
-        if (!categoryMappingsSynced || !formatMappingsSynced) return
+        const headerImageSynced = await syncHeaderImage(eventId)
+        if (
+          !categoryMappingsSynced ||
+          !formatMappingsSynced ||
+          !headerImageSynced
+        )
+          return
       }
 
       toast.success(t('eventCreateSuccess'))
@@ -1169,7 +1522,14 @@ de:
   eventCreateSuccess: Veranstaltung erfolgreich erstellt.
   eventUpdate: Änderungen speichern
   eventUpdateSuccess: Aktualisiert
+  feedbackDeadline: Rückmeldefrist
+  feedbackDeadlineHint: Danach können Gäste ihre Rückmeldung nicht mehr ändern.
   formats: Formate
+  headerImage: Titelbild
+  headerImageNone: Kein Titelbild ausgewählt
+  headerImageRemove: Entfernen
+  headerImageReplace: Ersetzen
+  headerImageSelect: Titelbild auswählen
   isInPerson: vor Ort
   isRemote: digital
   location: Ort
@@ -1182,16 +1542,27 @@ de:
   maximumInviteeCount: Maximale Gästezahl
   name: Name
   namePlaceholder: Willkommensfeier
+  publication: Veröffentlichung
+  publicationDraft: Als Entwurf speichern
+  publicationDraftDescription: Nur du kannst die Veranstaltung sehen, bis du sie veröffentlichst.
+  publicationNow: Jetzt veröffentlichen
+  publicationNowDescription: Alle, die die Sichtbarkeit zulässt, sehen die Veranstaltung sofort.
+  publicationPublished: Veröffentlicht
+  publicationSchedule: Planen
+  publicationScheduleDescription: Die Veranstaltung erscheint zur gewählten Zeit. Bis dahin kannst nur du sie sehen.
+  publishedAt: Veröffentlichung am
   slug: Kennung im Link
   slugHint: Erscheint in der Adresse der Veranstaltung und darf nur Buchstaben, Ziffern und Bindestriche enthalten.
   start: Beginn
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
+  validationPublishedAtFuture: Wähle einen Zeitpunkt in der Zukunft.
   validationWarningNameChangeSlug: Wenn Du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   validationWarningSlugChange: Wenn Du die Kennung änderst, funktionieren bestehende Links zur Veranstaltung nicht mehr
   visibility: Sichtbarkeit
   visibilityPrivate: privat
+  visibilityPrivateDescription: Nur eingeladene Gäste können diese Veranstaltung ansehen und daran teilnehmen.
   visibilityPublic: öffentlich
-  visibilityUnlisted: ungelistet
+  visibilityPublicDescription: Alle können diese Veranstaltung finden, ansehen und daran teilnehmen.
   url: Weblink
 en:
   advanced: Advanced
@@ -1203,7 +1574,14 @@ en:
   eventCreateSuccess: Event created successfully.
   eventUpdate: Save changes
   eventUpdateSuccess: Updated
+  feedbackDeadline: RSVP deadline
+  feedbackDeadlineHint: Guests can no longer change their response after this point.
   formats: Formats
+  headerImage: Cover image
+  headerImageNone: No cover image selected
+  headerImageRemove: Remove
+  headerImageReplace: Replace
+  headerImageSelect: Select a cover image
   isInPerson: in person
   isRemote: remote
   location: Location
@@ -1216,15 +1594,26 @@ en:
   maximumInviteeCount: Maximum guest count
   name: Name
   namePlaceholder: Welcome Party
+  publication: Publication
+  publicationDraft: Save as draft
+  publicationDraftDescription: Only you can see the event until you publish it.
+  publicationNow: Publish now
+  publicationNowDescription: Everyone the visibility allows can see the event right away.
+  publicationPublished: Published
+  publicationSchedule: Schedule
+  publicationScheduleDescription: The event appears at the chosen time. Until then, only you can see it.
+  publishedAt: Publication date
   slug: Link identifier
   slugHint: Appears in the event's address and may only contain letters, digits, and hyphens.
   start: Start
   validationExistenceNone: You have already created an event with id "{slug}"
+  validationPublishedAtFuture: Choose a time in the future.
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
   validationWarningSlugChange: If you change the identifier, existing links to the event will no longer work
   visibility: Visibility
   visibilityPrivate: private
+  visibilityPrivateDescription: Only invited guests can view and join this event.
   visibilityPublic: public
-  visibilityUnlisted: unlisted
+  visibilityPublicDescription: Anyone can find, view and join this event.
   url: Weblink
 </i18n>

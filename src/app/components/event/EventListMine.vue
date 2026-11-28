@@ -81,7 +81,6 @@
 <script setup lang="ts">
 import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
-import { eventHasEnded } from '~~/shared/utils/event'
 
 const { t } = useI18n()
 
@@ -92,9 +91,8 @@ const { isMapVisible = false, search = undefined } = defineProps<{
   search?: string
 }>()
 
-// the condition is passed whole, as a `null` field in it would match a `NULL` column instead of being left out
 const queryEvents = graphql(`
-  query EventListMine(
+  query EventListMineEvents(
     $after: Cursor
     $condition: EventCondition!
     $first: Int!
@@ -147,7 +145,7 @@ const queryEvents = graphql(`
             id
           }
         }
-        guestCount
+        guestCountAccepted
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -224,7 +222,7 @@ const querySaved = graphql(`
               id
             }
           }
-          guestCount
+          guestCountAccepted
           guestsByEventId(first: 1) {
             nodes {
               contactByContactId {
@@ -307,12 +305,18 @@ const filter = computed(() => {
     ? (value as (typeof filterOptions.value)[number]['value'])
     : 'hosting'
 })
-// drafts have no data yet, as they wait on a schema change, so they show the empty state without a query
+// drafts have no data until the schema has them, so they show the empty state
+// without a query
 const isWithoutData = computed(() => filter.value === 'drafts')
+const isEventsFilter = computed(
+  () => filter.value === 'attending' || filter.value === 'hosting',
+)
 const badge = computed(() =>
-  filter.value === 'hosting' || filter.value === 'saved'
-    ? filter.value
-    : undefined,
+  filter.value === 'attending'
+    ? 'going'
+    : filter.value === 'hosting' || filter.value === 'saved'
+      ? filter.value
+      : undefined,
 )
 const time = computed(() => (route.query.time === 'past' ? 'past' : 'upcoming'))
 const router = useRouter()
@@ -425,9 +429,7 @@ watch(
   { flush: 'sync' },
 )
 const eventsApi = useApiQuery({
-  pause: computed(
-    () => filter.value !== 'hosting' && filter.value !== 'attending',
-  ),
+  pause: computed(() => !isEventsFilter.value),
   query: queryEvents,
   variables: computed(() => ({
     after: eventsAfter.value,
@@ -484,6 +486,7 @@ const savedEvents = computed(() => {
   // Deliberate shortcut: the saved events are matched by name in the browser, without the server's word stems and typo tolerance, as they are filtered here anyway; the SQL function named above would let the server search them too
   const searchLowerCase = search?.toLocaleLowerCase()
 
+  // like the server's `hasEnded`, an event without an end ends at its start
   return nodes
     .flatMap((node) => (node.eventByEventId ? [node.eventByEventId] : []))
     .filter(
@@ -492,7 +495,9 @@ const savedEvents = computed(() => {
         event.name.toLocaleLowerCase().includes(searchLowerCase),
     )
     .filter(
-      (event) => eventHasEnded(event, now.value) === (time.value === 'past'),
+      (event) =>
+        new Date(event.end ?? event.start) <= now.value ===
+        (time.value === 'past'),
     )
     .toSorted(
       (a, b) =>

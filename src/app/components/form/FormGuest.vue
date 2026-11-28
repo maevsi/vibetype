@@ -16,11 +16,10 @@
             />
             <Input
               id="input-contact-id"
+              v-model="searchString"
               class="pl-9"
-              :model-value="searchString"
               :placeholder="t('placeholderContact')"
               type="text"
-              @input="searchString = ($event.target as HTMLInputElement).value"
             />
           </div>
         </FieldContent>
@@ -28,6 +27,11 @@
           {{ t('contactBookSearchDescription') }}
         </FieldDescription>
       </Field>
+      <ContactGroupFilter
+        v-model:excluded="groupIdsExcluded"
+        v-model:included="groupIdsIncluded"
+        :groups="contactGroups"
+      />
       <form.Field v-slot="{ field }" name="contactIds">
         <FieldError
           v-if="isFieldInvalid(field)"
@@ -128,12 +132,12 @@
       <FormPrivacyNotice />
       <div class="flex flex-col items-center">
         <AppButton
-          :aria-label="t('select')"
+          :aria-label="submitLabel"
           class="w-full"
           :loading="createGuestsMutation.fetching.value"
           type="submit"
         >
-          {{ t('select') }}
+          {{ submitLabel }}
         </AppButton>
       </div>
       <AppAlert v-if="errorMessages?.length" variant="error">
@@ -162,6 +166,7 @@ import {
   getContactsSorted,
   isSearchTextMatch,
 } from '~~/shared/utils/contact'
+import { getContactsByGroupFilter } from '~~/shared/utils/contactGroup'
 
 const { event, guestContactIdsExisting = undefined } = defineProps<{
   event: Pick<EventItemFragment, 'rowId'>
@@ -178,6 +183,8 @@ const { t } = useI18n()
 
 // data
 const after = ref<string | null>()
+const groupIdsExcluded = ref<string[]>([])
+const groupIdsIncluded = ref<string[]>([])
 const searchString = ref('')
 const searchStringDebounced = refDebounced(searchString, 300)
 const searchStringTrimmed = computed(() => searchStringDebounced.value.trim())
@@ -193,6 +200,7 @@ const usernameSearched = computed(() =>
 )
 
 // api data
+const { contactGroups, query: allContactGroupsQuery } = useContactGroupsQuery()
 const allContactsQuery = useApiQuery({
   query: graphql(`
     query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
@@ -204,6 +212,11 @@ const allContactsQuery = useApiQuery({
       ) {
         nodes {
           ...ContactItem
+          contactGroupMembersByContactId {
+            nodes {
+              contactGroupId
+            }
+          }
         }
         pageInfo {
           hasNextPage
@@ -268,6 +281,7 @@ const createGuestsMutation = useMutation(
   `),
 )
 const apiData = await useApiData([
+  allContactGroupsQuery,
   allContactsQuery,
   createContactMutation,
   createGuestsMutation,
@@ -278,6 +292,23 @@ const contacts = computed(
       .map((x) => getContactItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )
+const groupIdsByContactId = computed(() => {
+  const groupIds = new Map<string, string[]>()
+
+  for (const node of apiData.value.data.allContacts?.nodes ?? []) {
+    const contact = getContactItem(node)
+
+    if (contact)
+      groupIds.set(
+        contact.rowId,
+        node.contactGroupMembersByContactId.nodes.map(
+          ({ contactGroupId }) => contactGroupId,
+        ),
+      )
+  }
+
+  return groupIds
+})
 // Contacts without a name sort to the very end of the contact book, far beyond the loaded page, so the ones this form is about are kept at hand separately.
 const contactsPinned = ref<ContactItemFragment[]>([])
 
@@ -341,7 +372,9 @@ const contactCreate = async () => {
       contact: {
         accountId: candidate.accountId || null,
         createdBy: store.signedInAccountId,
-        emailAddress: candidate.emailAddress || null,
+        emailAddresses: candidate.emailAddress
+          ? [candidate.emailAddress]
+          : null,
       },
     },
   })
@@ -377,12 +410,19 @@ const contactsShown = computed(() => {
   ])
 })
 // the search text is built once per data change instead of once per keystroke
-const contactsIndexed = computed(() =>
-  contactsShown.value.map((contact) => ({
+const contactsIndexed = computed(() => {
+  const contactsInGroups = getContactsByGroupFilter({
+    contacts: contactsShown.value,
+    groupIdsByContactId: groupIdsByContactId.value,
+    groupIdsExcluded: groupIdsExcluded.value,
+    groupIdsIncluded: groupIdsIncluded.value,
+  })
+
+  return contactsInGroups.map((contact) => ({
     contact,
     searchText: getContactSearchText(contact),
-  })),
-)
+  }))
+})
 const contactsFiltered = computed(() =>
   searchStringTrimmed.value
     ? contactsIndexed.value
@@ -390,7 +430,7 @@ const contactsFiltered = computed(() =>
           isSearchTextMatch(searchText, searchStringTrimmed.value),
         )
         .map(({ contact }) => contact)
-    : contactsShown.value,
+    : contactsIndexed.value.map(({ contact }) => contact),
 )
 
 const contactCreationCandidate = computed(() =>
@@ -404,6 +444,10 @@ const contactCreationCandidate = computed(() =>
       })
     : undefined,
 )
+const contactIdsSelectedCount = form.useStore(
+  (state) => state.values.contactIds.length,
+)
+const submitLabel = computed(() => t('select', contactIdsSelectedCount.value))
 const errorMessages = computed(() =>
   apiData.value.errors
     ? getCombinedErrorMessages(apiData.value.errors, {
@@ -429,7 +473,7 @@ de:
   contactsAdd: Zu meinem Kontaktbuch
   contactsSelect: Kontakte auswählen
   placeholderContact: Max Mustermann
-  select: Zur Gästeliste hinzufügen
+  select: Zur Gästeliste hinzufügen | Eine Person zur Gästeliste hinzufügen | {count} Personen zur Gästeliste hinzufügen
 en:
   contactBookSearch: Search your contact book
   contactBookSearchDescription: Enter a username or an email address to add someone who is not in your contact book yet.
@@ -438,5 +482,5 @@ en:
   contactsAdd: To my contact book
   contactsSelect: Select contacts
   placeholderContact: John Doe
-  select: Add to guest list
+  select: Add to guest list | Add one person to the guest list | Add {count} people to the guest list
 </i18n>

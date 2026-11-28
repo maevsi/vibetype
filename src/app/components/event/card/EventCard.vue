@@ -23,7 +23,7 @@
       "
     >
       <div
-        v-if="categoryName || formatName"
+        v-if="!headerImageSrc && (categoryName || formatName)"
         :aria-label="t('heroImage')"
         :class="
           cn(
@@ -85,7 +85,10 @@
               ? '120'
               : '80'
         "
-        :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
+        :src="
+          headerImageSrc ||
+          `/assets/static/images/event/${getHeroImageName(event.name)}.jpg`
+        "
         :width="
           variant === 'recommendation'
             ? '400'
@@ -189,7 +192,9 @@
       </span>
       <div
         v-if="
-          event.addressByAddressId?.city || distanceText || event.guestCount
+          event.addressByAddressId?.city ||
+          distanceText ||
+          event.guestCountAccepted
         "
         class="flex items-center gap-3 text-body-small text-fg-3"
       >
@@ -206,13 +211,13 @@
           <span class="truncate">{{ distanceText }}</span>
         </span>
         <span
-          v-if="event.guestCount"
-          :aria-label="t('guestCountLabel', event.guestCount)"
+          v-if="event.guestCountAccepted"
+          :aria-label="t('guestCountAcceptedLabel', event.guestCountAccepted)"
           class="flex items-center gap-1"
           role="img"
         >
           <AppIconUsers aria-hidden="true" class="size-4 shrink-0" />
-          <span>{{ event.guestCount }}</span>
+          <span>{{ event.guestCountAccepted }}</span>
         </span>
       </div>
     </div>
@@ -251,7 +256,13 @@ export type EventCardProps = {
         eventFormatByFormatId?: { name: string } | null
       }[]
     } | null
-    guestCount?: number
+    eventUploadsByEventId?: {
+      nodes: {
+        isHeaderImage?: boolean | null
+        uploadByUploadId?: { storageKey?: string | null } | null
+      }[]
+    } | null
+    guestCountAccepted?: number
     guestsByEventId?: {
       nodes: {
         contactByContactId?: {
@@ -296,6 +307,11 @@ const formatName = computed(
   () =>
     event.eventFormatMappingsByEventId?.nodes[0]?.eventFormatByFormatId?.name,
 )
+const TUSD_FILES_URL = useTusdFilesUrl()
+const headerImageSrc = computed(() => {
+  const storageKey = getEventHeaderImageStorageKey(event)
+  return storageKey ? TUSD_FILES_URL + storageKey : undefined
+})
 const store = useStore()
 const isCreator = computed(
   () =>
@@ -363,7 +379,7 @@ de:
   distanceLessThanOneKilometer: Weniger als {distance}
   draft: Entwurf
   going: Dabei
-  guestCountLabel: Kein Gast | 1 Gast | {count} Gäste
+  guestCountAcceptedLabel: Niemand nimmt teil | 1 Person nimmt teil | {count} Personen nehmen teil
   heroImage: Titelbild der Veranstaltung
   hosting: Von Dir
   match: Match
@@ -373,7 +389,7 @@ en:
   distanceLessThanOneKilometer: Less than {distance}
   draft: Draft
   going: Going
-  guestCountLabel: No guests | 1 guest | {count} guests
+  guestCountAcceptedLabel: No one attending | 1 person attending | {count} people attending
   heroImage: Title picture of the event
   hosting: Hosting
   match: Match

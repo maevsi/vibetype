@@ -11,7 +11,7 @@
       <ContactAvatar
         v-else
         class="size-12 rounded-full"
-        :email-address="contact.emailAddress"
+        :email-address="contact.emailAddresses?.[0]"
         :email-address-hash="contact.emailAddressHash"
         size="48"
       />
@@ -19,6 +19,7 @@
         v-if="feedback"
         class="absolute right-0 bottom-0 rounded-full bg-surface"
         :feedback
+        :is-override="isFeedbackOverride"
       />
     </div>
     <div class="flex flex-col items-start justify-center overflow-hidden">
@@ -66,6 +67,7 @@ import type {
 const {
   contact,
   feedback = undefined,
+  isFeedbackOverride = false,
   isUsernameLinked = true,
 } = defineProps<{
   contact: MakeOptional<
@@ -74,14 +76,15 @@ const {
       | 'accountId'
       | 'accountByAccountId'
       | 'accountByCreatedBy'
-      | 'emailAddress'
+      | 'emailAddresses'
       | 'emailAddressHash'
       | 'firstName'
       | 'lastName'
     >,
-    'accountId' | 'accountByCreatedBy' | 'emailAddress' | 'emailAddressHash'
+    'accountId' | 'accountByCreatedBy' | 'emailAddresses' | 'emailAddressHash'
   >
   feedback?: GuestItemFragment['feedback']
+  isFeedbackOverride?: boolean
   isUsernameLinked?: boolean
 }>()
 

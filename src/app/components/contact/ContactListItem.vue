@@ -17,9 +17,22 @@
       <AppIconChevronRight class="size-5 shrink-0 text-fg-2" />
     </a>
     <AppDropdown>
-      <AppDropdownItem @select="edit">
+      <AppDropdownItem
+        :disabled="contact.createdBy !== store.signedInAccountId"
+        @select="edit"
+      >
         <AppIconPencil />
         <span>{{ t('contactEdit') }}</span>
+      </AppDropdownItem>
+      <AppDropdownItem
+        :disabled="
+          contact.createdBy !== store.signedInAccountId ||
+          contact.accountId === store.signedInAccountId
+        "
+        @select="emit('merge')"
+      >
+        <AppIconArrowsPointingIn />
+        <span>{{ t('contactMerge') }}</span>
       </AppDropdownItem>
       <AppDropdownItem
         :disabled="isDeleting || contact.accountId === store.signedInAccountId"
@@ -47,7 +60,8 @@ const { contact, guestCount, isDeleting } = defineProps<{
     | 'accountId'
     | 'accountByAccountId'
     | 'accountByCreatedBy'
-    | 'emailAddress'
+    | 'createdBy'
+    | 'emailAddresses'
     | 'emailAddressHash'
     | 'firstName'
     | 'lastName'
@@ -61,6 +75,7 @@ const { contact, guestCount, isDeleting } = defineProps<{
 
 const emit = defineEmits<{
   delete: []
+  merge: []
 }>()
 
 const localePath = useLocalePath()
@@ -77,7 +92,8 @@ const contactName = computed(() =>
 const contactWay = computed(() =>
   contact.accountByAccountId?.username
     ? undefined
-    : contact.emailAddress || getPhoneNumberFormatted(contact.phoneNumber),
+    : contact.emailAddresses?.[0] ||
+      getPhoneNumberFormatted(contact.phoneNumber),
 )
 const editPath = computed(() =>
   localePath({
@@ -107,10 +123,12 @@ de:
   actions: Aktionen für {name}
   contactDelete: Kontakt löschen
   contactEdit: Kontakt bearbeiten
+  contactMerge: Kontakt zusammenführen
   guestCount: '{count} Veranstaltung | {count} Veranstaltungen'
 en:
   actions: Actions for {name}
   contactDelete: Delete contact
   contactEdit: Edit contact
+  contactMerge: Merge contact
   guestCount: '{count} event | {count} events'
 </i18n>

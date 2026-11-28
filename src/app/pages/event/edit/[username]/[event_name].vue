@@ -64,12 +64,26 @@ const eventQuery = useApiQuery({
                 id
               }
             }
+            eventUploadsByEventId {
+              nodes {
+                id
+                isHeaderImage
+                rowId
+                uploadByUploadId {
+                  id
+                  rowId
+                  storageKey
+                }
+              }
+            }
+            feedbackDeadline
             id
             guestCountMaximum
             isArchived
             isInPerson
             isRemote
             name
+            publishedAt
             rowId
             slug
             start

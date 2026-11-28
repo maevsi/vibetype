@@ -64,6 +64,16 @@
       </LayoutTopBar>
       <LayoutPage>
         <div class="flex flex-col gap-6">
+          <AppAlert v-if="publicationState === 'draft'">
+            {{ t('draftNotice') }}
+          </AppAlert>
+          <AppAlert v-else-if="publicationState === 'scheduled'">
+            <i18n-t keypath="scheduledNotice" tag="span">
+              <template #date>
+                <AppTime :datetime="event.publishedAt!" />
+              </template>
+            </i18n-t>
+          </AppAlert>
           <div class="relative">
             <EventHeroImage class="h-64 rounded-large" :event />
             <div
@@ -112,7 +122,11 @@
             <h1 class="m-0 text-title3">
               {{ event.name }}
             </h1>
-            <EventOwner link :username="event.accountByCreatedBy.username" />
+            <EventOwner
+              :display-name="event.accountByCreatedBy.displayName"
+              link
+              :username="event.accountByCreatedBy.username"
+            />
           </div>
           <AppButtonGroup
             v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
@@ -180,24 +194,69 @@
             </AppButton>
           </AppButtonGroup>
           <AppFeature
-            v-else-if="!routeQueryIc && eventState !== 'ended'"
+            v-else-if="
+              !routeQueryIc &&
+              eventState !== 'ended' &&
+              (guestOwn || event.visibility === EventVisibility.Public)
+            "
             feature="participation"
           >
-            <!-- The tiles are inert, as an event can only be joined through an invitation yet; once guests can join by themselves, bind the actions and remove `inert` -->
-            <AppButtonGroup class="grid grid-cols-2 gap-2 lg:gap-2" inert>
+            <AppButtonGroup class="grid grid-cols-2 gap-2 lg:gap-2">
               <AppButton
-                :aria-label="t('participate')"
+                v-if="guestOwn"
+                :aria-label="t('participation')"
                 class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
                 size="none"
+                :to="
+                  localePath({
+                    name: 'guest-view-id',
+                    params: { id: guestOwn.rowId },
+                  })
+                "
+              >
+                {{ t('participation') }}
+                <template #prefix>
+                  <AppIconTicket />
+                </template>
+              </AppButton>
+              <AppButton
+                v-else-if="isFeedbackClosed"
+                :aria-label="t('feedbackClosed')"
+                class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                disabled
+                size="none"
+              >
+                {{ t('participateClosed') }}
+                <template #prefix>
+                  <AppIconTicket />
+                </template>
+              </AppButton>
+              <AppButton
+                v-else
+                :aria-label="t('participate')"
+                class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                :loading="isParticipatePending"
+                size="none"
+                :to="
+                  store.signedInAccountId
+                    ? undefined
+                    : localePath({
+                        name: 'session-create',
+                        query: { to: route.fullPath },
+                      })
+                "
+                @click="participate"
               >
                 {{ t('participate') }}
                 <template #prefix>
                   <AppIconTicket />
                 </template>
               </AppButton>
+              <!-- inert until the participants can be listed (https://github.com/maevsi/vibetype/issues/769) -->
               <AppButton
                 :aria-label="t('participants')"
                 class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                inert
                 size="none"
                 variant="secondary"
               >
@@ -243,15 +302,23 @@
 </template>
 
 <script setup lang="ts">
+import { useMutation } from '@urql/vue'
 import { sanitize } from 'isomorphic-dompurify'
 
 import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
+import {
+  EventVisibility,
+  InvitationFeedback,
+} from '~~/gql/generated/graphcache'
 
 const { t } = useI18n()
 const store = useStore()
 const route = useRoute()
 const localePath = useLocalePath()
+const { $urql } = useNuxtApp()
+const alertError = useAlertError()
+const executeUrqlRequest = useExecuteUrqlRequest()
 
 const isOpenDeleteDrawer = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
@@ -264,6 +331,7 @@ const eventQuery = useApiQuery({
         eventsByCreatedBy(condition: { slug: $slug }) {
           nodes {
             accountByCreatedBy {
+              displayName
               id
               rowId
               username
@@ -286,6 +354,7 @@ const eventQuery = useApiQuery({
             createdBy
             description
             end
+            feedbackDeadline
             eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
               nodes {
                 categoryId
@@ -313,11 +382,30 @@ const eventQuery = useApiQuery({
                 id
               }
             }
+            eventUploadsByEventId {
+              nodes {
+                id
+                isHeaderImage
+                rowId
+                uploadByUploadId {
+                  id
+                  rowId
+                  storageKey
+                }
+              }
+            }
+            guestsByEventId(first: 1) {
+              nodes {
+                id
+                rowId
+              }
+            }
             id
             isArchived
             isInPerson
             isRemote
             name
+            publishedAt
             rowId
             slug
             start
@@ -339,8 +427,94 @@ const eventQuery = useApiQuery({
 const account = computed(() => eventQuery.data.value?.accountByUsername)
 const events = computed(() => account.value?.eventsByCreatedBy.nodes)
 const event = computed(() => (events.value ? events.value[0] : undefined))
+const getIsFeedbackClosed = (time: number) =>
+  !!event.value?.feedbackDeadline &&
+  new Date(event.value.feedbackDeadline).getTime() <= time
+const isFeedbackClosed = computed(() => getIsFeedbackClosed(Date.now()))
 const address = computed(() => event.value?.addressByAddressId)
+const createGuestMutation = useMutation(
+  graphql(`
+    mutation CreateGuest($input: CreateGuestInput!) {
+      createGuest(input: $input) {
+        guest {
+          feedback
+          id
+          rowId
+        }
+      }
+    }
+  `),
+)
 const api = await useApiData([eventQuery])
+
+const publicationState = computed(() =>
+  event.value ? getEventPublicationState(event.value) : undefined,
+)
+
+// read once on the server, where the data above is awaited before rendering, as `useRobotsRule` is not reactive and a no-op on the client
+useRobotsRule(
+  event.value &&
+    (event.value.visibility !== EventVisibility.Public ||
+      getEventPublicationState(event.value) !== 'published')
+    ? false
+    : undefined,
+)
+
+// participation
+// an organizer sees every guest of the event, anyone else only their own
+const guestOwn = computed(() =>
+  event.value?.createdBy === store.signedInAccountId
+    ? undefined
+    : event.value?.guestsByEventId.nodes[0],
+)
+const isParticipatePending = ref<boolean>()
+const participate = async () => {
+  if (!event.value || !store.signedInAccountId) return
+
+  // The deadline can pass while the page is open, and the database would then reject the participation with a generic error.
+  if (getIsFeedbackClosed(Date.now())) {
+    alertError({ messageI18n: t('feedbackClosed') })
+    return
+  }
+
+  isParticipatePending.value = true
+
+  try {
+    const contactOwn = await getOwnContact({
+      $urql,
+      accountId: store.signedInAccountId,
+    })
+
+    if (!contactOwn) throw new Error('The account has no contact of its own')
+
+    const result = await executeUrqlRequest({
+      errorMessageI18n: t('participateError'),
+      request: createGuestMutation.executeMutation({
+        input: {
+          guest: {
+            contactId: contactOwn.rowId,
+            eventId: event.value.rowId,
+            feedback: InvitationFeedback.Accepted,
+          },
+        },
+      }),
+    })
+    const guest = result?.data?.createGuest?.guest
+
+    if (!guest) return
+
+    await navigateTo(
+      localePath({ name: 'guest-view-id', params: { id: guest.rowId } }),
+    )
+  } catch (error) {
+    alertError({
+      error: error instanceof Error ? error : undefined,
+      messageI18n: t('participateError'),
+    })
+  } finally {
+    isParticipatePending.value = false
+  }
+}
 
 // computations
 const eventDescriptionTemplate = computed(() => {
@@ -438,7 +612,11 @@ defineEvent({
         : undefined,
   name: event.value?.name,
   organizer: event.value?.accountByCreatedBy
-    ? definePerson({ name: event.value.accountByCreatedBy.username })
+    ? definePerson({
+        name:
+          event.value.accountByCreatedBy.displayName ||
+          event.value.accountByCreatedBy.username,
+      })
     : undefined,
   startDate: event.value?.start,
 })
@@ -467,16 +645,22 @@ de:
   attendances: Check-in
   delete: Veranstaltung löschen
   details: Details
+  draftNotice: Diese Veranstaltung ist ein Entwurf. Nur du kannst sie sehen.
   edit: Bearbeiten
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn Dir jemand einen Link geschickt hat, frage nach einem neuen.
   errorTemplate: Wert nur in der Einladung verfügbar
+  feedbackClosed: Die Rückmeldefrist ist abgelaufen.
   guests: Gäste
   location: Ort
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   participants: Teilnehmende
   participate: Teilnehmen
+  participateClosed: Anmeldung geschlossen
+  participateError: Teilnahme fehlgeschlagen
+  participation: Deine Teilnahme
   report: Veranstaltung melden
+  scheduledNotice: Diese Veranstaltung wird am {date} veröffentlicht. Bis dahin kannst nur du sie sehen.
   stateEnded: Vorbei
   stateOngoing: Läuft gerade
   stateUpcoming: Bevorstehend
@@ -486,16 +670,22 @@ en:
   attendances: Check in
   delete: Delete event
   details: Details
+  draftNotice: This event is a draft. Only you can see it.
   edit: Edit
   errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.
   errorTemplate: value available in invitation only
+  feedbackClosed: The RSVP deadline has passed.
   guests: Guests
   location: Location
   ogImageAlt: The event's preview image.
   participants: Participants
   participate: Participate
+  participateClosed: RSVP closed
+  participateError: Participation failed
+  participation: Your participation
   report: Report event
+  scheduledNotice: This event will be published on {date}. Until then, only you can see it.
   stateEnded: Ended
   stateOngoing: Happening now
   stateUpcoming: Upcoming

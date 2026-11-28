@@ -6,6 +6,7 @@ const getNodeId = (typeName: string, ...keys: string[]) =>
   btoa([typeName, ...keys].join(':'))
 
 const ACCOUNT = {
+  displayName: null,
   id: TESTING_ACCOUNT_ID,
   rowId: TESTING_ACCOUNT_ROW_ID,
   username: TESTING_ACCOUNT_USERNAME,
@@ -43,12 +44,17 @@ const EVENT = {
   isInPerson: true,
   isRemote: false,
   name: TESTING_EVENT_NAME,
+  publishedAt: '2020-01-01T00:00:00.000Z',
   rowId: TESTING_EVENT_ROW_ID,
   slug: TESTING_EVENT_SLUG,
   start: '2030-06-15T18:00:00+00:00',
   url: 'https://example.com/community-meetup',
   visibility: 'public',
   __typename: 'Event',
+}
+const EVENT_UPLOADS = {
+  nodes: [],
+  __typename: 'EventUploadConnection',
 }
 const EVENT_LIST_ITEM = {
   eventCategoryMappingsByEventId: {
@@ -83,6 +89,7 @@ const EVENT_LIST_ITEM = {
     ],
     __typename: 'EventFormatMappingConnection',
   },
+  eventUploadsByEventId: EVENT_UPLOADS,
   guestsByEventId: {
     nodes: [],
     __typename: 'GuestConnection',
@@ -192,11 +199,18 @@ const EVENT_VIEW = {
     ],
     __typename: 'EventFormatMappingConnection',
   },
+  eventUploadsByEventId: EVENT_UPLOADS,
+  feedbackDeadline: null,
+  guestsByEventId: {
+    nodes: [],
+    __typename: 'GuestConnection',
+  },
   id: EVENT.id,
   isArchived: EVENT.isArchived,
   isInPerson: EVENT.isInPerson,
   isRemote: EVENT.isRemote,
   name: EVENT.name,
+  publishedAt: EVENT.publishedAt,
   rowId: EVENT.rowId,
   slug: EVENT.slug,
   start: EVENT.start,
@@ -212,6 +226,58 @@ const CONTACT = {
   rowId: TESTING_CONTACT_ROW_ID,
   __typename: 'Contact',
 }
+const CONTACT_GROUP_COLLEAGUES = {
+  id: getNodeId('ContactGroup', '44444444-4444-4444-8444-444444444444'),
+  name: 'Colleagues',
+  rowId: '44444444-4444-4444-8444-444444444444',
+  __typename: 'ContactGroup',
+}
+const CONTACT_GROUP_UNIVERSITY = {
+  id: getNodeId('ContactGroup', '55555555-5555-4555-8555-555555555555'),
+  name: 'University',
+  rowId: '55555555-5555-4555-8555-555555555555',
+  __typename: 'ContactGroup',
+}
+const getContactWithGroups = ({
+  emailAddress,
+  firstName,
+  groupIds,
+  lastName,
+  rowId,
+}: {
+  emailAddress: string
+  firstName: string
+  groupIds: string[]
+  lastName: string
+  rowId: string
+}) => ({
+  accountByAccountId: null,
+  accountByCreatedBy: ACCOUNT,
+  accountId: null,
+  addressId: null,
+  contactGroupMembersByContactId: {
+    nodes: groupIds.map((contactGroupId) => ({
+      contactGroupId,
+      __typename: 'ContactGroupMember',
+    })),
+    __typename: 'ContactGroupMemberConnection',
+  },
+  createdBy: ACCOUNT.rowId,
+  emailAddresses: [emailAddress],
+  emailAddressHash: null,
+  firstName,
+  guestsByContactId: { totalCount: 0, __typename: 'GuestConnection' },
+  id: getNodeId('Contact', rowId),
+  language: null,
+  lastName,
+  nickname: null,
+  note: null,
+  phoneNumber: null,
+  rowId,
+  timeZone: null,
+  url: null,
+  __typename: 'Contact',
+})
 const GUEST_ID = getNodeId('Guest', TESTING_GUEST_ROW_ID)
 const OWN_CONTACT_ID = getNodeId('Contact', TESTING_OWN_CONTACT_ROW_ID)
 
@@ -331,6 +397,7 @@ export const getTestingGraphqlResult = async ({
               __typename: 'AchievementConnection',
             },
             description: TESTING_ACCOUNT_DESCRIPTION,
+            displayName: ACCOUNT.displayName,
             eventsByCreatedBy: {
               nodes: [EVENT_LIST_ITEM],
               totalCount: 1,
@@ -389,6 +456,10 @@ export const getTestingGraphqlResult = async ({
             imprintUrl: null,
             profilePictureByAccountId: null,
           },
+          allContacts: {
+            nodes: [],
+            __typename: 'ContactConnection',
+          },
         },
       }
     case 'AccountPasswordResetRequest':
@@ -436,70 +507,64 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'AllContactGroups':
+      return {
+        data: {
+          allContactGroups: {
+            nodes: [CONTACT_GROUP_COLLEAGUES, CONTACT_GROUP_UNIVERSITY],
+            pageInfo: {
+              endCursor: null,
+              hasNextPage: false,
+              __typename: 'PageInfo',
+            },
+            __typename: 'ContactGroupConnection',
+          },
+        },
+      }
+    case 'AllContacts':
     case 'AllContactsContactList':
       return {
         data: {
           allContacts: {
             nodes: [
-              {
-                firstName: 'Ana',
-                lastName: 'Álvarez',
-                emailAddress: 'ana@example.com',
-                guestCount: 3,
-                rowId: '55555555-5555-5555-5555-555555555555',
-              },
-              {
-                ...CONTACT,
-                emailAddress: null,
-                guestCount: 1,
-                phoneNumber: '+4915112345678',
-              },
-              {
-                firstName: 'Max',
-                lastName: 'Mustermann',
-                emailAddress: 'max@example.com',
-                guestCount: 0,
-                rowId: '66666666-6666-6666-6666-666666666666',
-              },
-            ].map(({ guestCount, ...contact }) => ({
-              accountByAccountId: null,
-              accountByCreatedBy: ACCOUNT,
-              accountId: null,
-              createdBy: ACCOUNT.rowId,
-              emailAddressHash: null,
-              guestsByContactId: {
-                totalCount: guestCount,
-                __typename: 'GuestConnection',
-              },
-              id: getNodeId('Contact', contact.rowId),
-              nickname: null,
-              note: null,
-              phoneNumber: null,
-              url: null,
-              __typename: 'Contact',
-              ...contact,
-            })),
+              getContactWithGroups({
+                emailAddress: 'ada.lovelace@example.com',
+                firstName: 'Ada',
+                groupIds: [CONTACT_GROUP_COLLEAGUES.rowId],
+                lastName: 'Lovelace',
+                rowId: '66666666-6666-4666-8666-666666666666',
+              }),
+              getContactWithGroups({
+                emailAddress: 'grace.hopper@example.com',
+                firstName: 'Grace',
+                groupIds: [
+                  CONTACT_GROUP_COLLEAGUES.rowId,
+                  CONTACT_GROUP_UNIVERSITY.rowId,
+                ],
+                lastName: 'Hopper',
+                rowId: '77777777-7777-4777-8777-777777777777',
+              }),
+              getContactWithGroups({
+                emailAddress: 'linus.pauling@example.com',
+                firstName: 'Linus',
+                groupIds: [CONTACT_GROUP_UNIVERSITY.rowId],
+                lastName: 'Pauling',
+                rowId: '88888888-8888-4888-8888-888888888888',
+              }),
+              getContactWithGroups({
+                emailAddress: 'jane.doe@example.com',
+                firstName: CONTACT.firstName,
+                groupIds: [],
+                lastName: CONTACT.lastName,
+                rowId: CONTACT.rowId,
+              }),
+            ],
             pageInfo: {
               endCursor: null,
               hasNextPage: false,
               __typename: 'PageInfo',
             },
-            totalCount: 3,
-            __typename: 'ContactConnection',
-          },
-        },
-      }
-    case 'AllContacts':
-      return {
-        data: {
-          allContacts: {
-            nodes: [],
-            pageInfo: {
-              endCursor: null,
-              hasNextPage: false,
-              __typename: 'PageInfo',
-            },
-            totalCount: 0,
+            totalCount: 4,
             __typename: 'ContactConnection',
           },
         },
@@ -556,14 +621,18 @@ export const getTestingGraphqlResult = async ({
                   accountByCreatedBy: ACCOUNT,
                   accountId: null,
                   createdBy: ACCOUNT.rowId,
-                  emailAddress: 'jane.doe@example.com',
+                  emailAddresses: ['jane.doe@example.com'],
                   emailAddressHash: null,
                   note: null,
                   phoneNumber: null,
                   url: null,
                 },
+                companionCount: 0,
+                companionCountRequested: null,
                 contactId: CONTACT.rowId,
                 feedback: 'accepted',
+                feedbackOverride: null,
+                feedbackReason: null,
                 id: GUEST_ID,
                 rowId: TESTING_GUEST_ROW_ID,
                 __typename: 'Guest',
@@ -632,17 +701,30 @@ export const getTestingGraphqlResult = async ({
               accountByAccountId: null,
               language: 'en',
             },
+            createdAt: '2025-01-01T00:00:00.000Z',
             guestByGuestId: {
+              contactByContactId: {
+                accountId: null,
+                id: CONTACT.id,
+                __typename: 'Contact',
+              },
               id: GUEST_ID,
               rowId: TESTING_GUEST_ROW_ID,
               __typename: 'Guest',
             },
             id: getNodeId('Attendance', TESTING_ATTENDANCE_ROW_ID),
             rowId: TESTING_ATTENDANCE_ROW_ID,
+            tagSerialNumber: null,
             updatedAt: null,
             __typename: 'Attendance',
           },
           eventByAttendanceId: {
+            accountByCreatedBy: {
+              id: ACCOUNT.id,
+              username: ACCOUNT.username,
+              __typename: 'Account',
+            },
+            createdBy: ACCOUNT.rowId,
             eventAppsByEventId: {
               nodes: [],
               __typename: 'EventAppConnection',
@@ -650,6 +732,7 @@ export const getTestingGraphqlResult = async ({
             id: EVENT.id,
             name: EVENT.name,
             rowId: EVENT.rowId,
+            slug: EVENT.slug,
             __typename: 'Event',
           },
         },
@@ -667,8 +750,17 @@ export const getTestingGraphqlResult = async ({
               __typename: 'Account',
             },
             accountId: null,
+            contactGroupMembersByContactId: {
+              nodes: [
+                {
+                  contactGroupId: CONTACT_GROUP_COLLEAGUES.rowId,
+                  __typename: 'ContactGroupMember',
+                },
+              ],
+              __typename: 'ContactGroupMemberConnection',
+            },
             createdBy: ACCOUNT.rowId,
-            emailAddress: null,
+            emailAddresses: null,
             emailAddressHash: null,
             guestsByContactId: {
               nodes: [],
@@ -697,11 +789,11 @@ export const getTestingGraphqlResult = async ({
             nodes: [
               {
                 accountByCreatedBy: ACCOUNT,
-                end: EVENT.end,
                 eventCategoryMappingsByEventId:
                   EVENT_LIST_ITEM.eventCategoryMappingsByEventId,
                 eventFormatMappingsByEventId:
                   EVENT_LIST_ITEM.eventFormatMappingsByEventId,
+                eventUploadsByEventId: EVENT_UPLOADS,
                 id: EVENT.id,
                 name: EVENT.name,
                 rowId: EVENT.rowId,
@@ -818,12 +910,15 @@ export const getTestingGraphqlResult = async ({
                     ],
                     __typename: 'EventFormatMappingConnection',
                   },
+                  eventUploadsByEventId: EVENT_UPLOADS,
+                  feedbackDeadline: null,
                   guestCountMaximum: EVENT.guestCountMaximum,
                   id: EVENT.id,
                   isArchived: EVENT.isArchived,
                   isInPerson: EVENT.isInPerson,
                   isRemote: EVENT.isRemote,
                   name: EVENT.name,
+                  publishedAt: EVENT.publishedAt,
                   rowId: EVENT.rowId,
                   slug: EVENT.slug,
                   start: EVENT.start,
@@ -846,6 +941,8 @@ export const getTestingGraphqlResult = async ({
                 {
                   accountByCreatedBy: ACCOUNT,
                   createdBy: EVENT.createdBy,
+                  feedbackDeadline: null,
+                  guestCount: 1,
                   guestCountMaximum: EVENT.guestCountMaximum,
                   guestsByEventId: {
                     nodes: [
@@ -871,6 +968,7 @@ export const getTestingGraphqlResult = async ({
                   },
                   id: EVENT.id,
                   name: EVENT.name,
+                  publishedAt: EVENT.publishedAt,
                   rowId: EVENT.rowId,
                   slug: EVENT.slug,
                   __typename: 'Event',
@@ -913,8 +1011,12 @@ export const getTestingGraphqlResult = async ({
               accountByAccountId: null,
               createdBy: ACCOUNT.rowId,
             },
+            companionCount: 0,
+            companionCountRequested: null,
             eventByEventId: EVENT_VIEW,
             feedback: null,
+            feedbackOverride: null,
+            feedbackReason: null,
             id: GUEST_ID,
             rowId: TESTING_GUEST_ROW_ID,
             __typename: 'Guest',
@@ -982,22 +1084,18 @@ export const getTestingGraphqlResult = async ({
         },
       }
     }
-    // only the german account has a language, so the default account covers
-    // sessions without one
-    case 'OwnContact': {
-      const { accountId } = (variables ?? {}) as { accountId?: unknown }
-
+    // without a language the session keeps the locale of the visited url
+    case 'OwnContact':
       return {
         data: {
           contactByCreatedByAndAccountId: {
             id: OWN_CONTACT_ID,
-            language: accountId === TESTING_ACCOUNT_GERMAN_ROW_ID ? 'de' : null,
+            language: null,
             rowId: TESTING_OWN_CONTACT_ROW_ID,
             __typename: 'Contact',
           },
         },
       }
-    }
     // echoes the patch like the real api would
     case 'UpdateAccountByRowId': {
       const { input } = z
@@ -1005,6 +1103,7 @@ export const getTestingGraphqlResult = async ({
           input: z.object({
             accountPatch: z.object({
               description: z.string().nullish(),
+              displayName: z.string().nullish(),
               imprintUrl: z.string().nullish(),
             }),
           }),
@@ -1019,6 +1118,10 @@ export const getTestingGraphqlResult = async ({
                 'description' in input.accountPatch
                   ? input.accountPatch.description
                   : TESTING_ACCOUNT_DESCRIPTION,
+              displayName:
+                'displayName' in input.accountPatch
+                  ? input.accountPatch.displayName
+                  : ACCOUNT.displayName,
               id: ACCOUNT.id,
               imprintUrl: input.accountPatch.imprintUrl ?? null,
               rowId: ACCOUNT.rowId,
@@ -1034,7 +1137,10 @@ export const getTestingGraphqlResult = async ({
       const { input } = z
         .object({
           input: z.object({
-            guestPatch: z.object({ feedback: z.string().nullable() }),
+            guestPatch: z.object({
+              feedback: z.string().nullable().optional(),
+              feedbackReason: z.string().nullable().optional(),
+            }),
           }),
         })
         .parse(variables)
@@ -1043,7 +1149,8 @@ export const getTestingGraphqlResult = async ({
         data: {
           updateGuestByRowId: {
             guest: {
-              feedback: input.guestPatch.feedback,
+              feedback: input.guestPatch.feedback ?? null,
+              feedbackReason: input.guestPatch.feedbackReason ?? null,
               id: GUEST_ID,
               rowId: TESTING_GUEST_ROW_ID,
               __typename: 'Guest',

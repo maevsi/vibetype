@@ -11,11 +11,11 @@ import {
 const CONTACTS = [
   {
     accountByAccountId: { id: 'id', rowId: 'accountRowId', username: 'Ada' },
-    emailAddress: null,
+    emailAddresses: null,
   },
   {
     accountByAccountId: null,
-    emailAddress: 'Grace@example.com',
+    emailAddresses: ['ada@example.com', 'Grace@example.com'],
   },
 ]
 
@@ -69,21 +69,21 @@ describe('getContactsSorted', () => {
   // The server can only order contacts by their primary key, so a contact without a name has to find its place through whatever else identifies it.
   const contactNamed = {
     accountByAccountId: null,
-    emailAddress: null,
+    emailAddresses: null,
     firstName: 'Mia',
     lastName: 'Meyer',
     nickname: null,
   }
   const contactWithUsername = {
     accountByAccountId: { id: 'id', rowId: 'accountRowId', username: 'abcdee' },
-    emailAddress: null,
+    emailAddresses: null,
     firstName: null,
     lastName: null,
     nickname: null,
   }
   const contactWithEmailAddress = {
     accountByAccountId: null,
-    emailAddress: 'zoe@example.com',
+    emailAddresses: ['zoe@example.com'],
     firstName: null,
     lastName: null,
     nickname: null,
@@ -113,7 +113,7 @@ describe('getContactsSorted', () => {
 describe('search', () => {
   const contact = {
     accountByAccountId: { id: 'id', rowId: 'rowId', username: 'jt42' },
-    emailAddress: 'jonas@example.com',
+    emailAddresses: ['jonas@example.com'],
     firstName: 'Jonas',
     lastName: 'Álvarez Thelemann',
     nickname: 'JT',
@@ -153,7 +153,7 @@ describe('search', () => {
     expect(
       getContactSearchText({
         accountByAccountId: null,
-        emailAddress: 'a@b.c',
+        emailAddresses: ['a@b.c'],
         firstName: null,
         lastName: null,
         nickname: null,

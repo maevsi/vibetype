@@ -10,28 +10,35 @@
           })
         "
       >
-        {{ `@${username}` }}
+        {{ displayName || t('username', { username }) }}
       </AppLink>
       <span v-else>
-        {{ `@${username}` }}
+        {{ displayName || t('username', { username }) }}
       </span>
     </template>
   </i18n-t>
 </template>
 
 <script setup lang="ts">
-const { link, username } = defineProps<{
+const {
+  displayName = undefined,
+  link,
+  username,
+} = defineProps<{
+  displayName?: string | null
   link?: boolean
   username: string
 }>()
 
-useI18n()
+const { t } = useI18n()
 const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">
 de:
   eventAuthor: von {username}
+  username: "{'@'}{username}"
 en:
   eventAuthor: by {username}
+  username: "{'@'}{username}"
 </i18n>

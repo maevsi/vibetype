@@ -72,8 +72,17 @@
               width="128"
             />
             <h1 class="text-center text-heading-medium text-balance">
-              {{ t('username', { username: route.params.username }) }}
+              {{
+                accountDisplayName ||
+                t('username', { username: route.params.username })
+              }}
             </h1>
+            <span
+              v-if="accountDisplayName"
+              class="-mt-2 text-center text-body text-fg-2"
+            >
+              {{ t('username', { username: route.params.username }) }}
+            </span>
           </div>
           <!-- the stat cards only fill the row once friends exist, before that the event list below covers the same -->
           <AppFeature feature="friends">
@@ -264,6 +273,7 @@ const queryAccount = graphql(`
         }
       }
       description
+      displayName
       profilePictureByAccountId {
         id
         rowId
@@ -298,6 +308,18 @@ const queryAccount = graphql(`
                 name
               }
               id
+            }
+          }
+          eventUploadsByEventId {
+            nodes {
+              id
+              isHeaderImage
+              rowId
+              uploadByUploadId {
+                id
+                rowId
+                storageKey
+              }
             }
           }
           guestsByEventId(first: 1) {
@@ -347,6 +369,7 @@ const query = useApiQuery({
 })
 const api = await useApiData([query])
 const account = computed(() => query.data.value?.accountByUsername)
+const accountDisplayName = computed(() => account.value?.displayName?.trim())
 const accountDescription = computed(() => account.value?.description?.trim())
 const accountImprintUrl = computed(() => account.value?.imprintUrl?.trim())
 const achievements = computed(
@@ -395,7 +418,7 @@ useHeadDefault({
 definePerson({
   description: accountDescription,
   image: accountProfilePictureUrl,
-  name: route.params.username,
+  name: accountDisplayName.value || route.params.username,
   url: `https://${siteUrl.host}${route.fullPath}`,
 })
 defineOgImage(

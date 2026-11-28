@@ -30,7 +30,7 @@ const toSitemapUrl = (loc: string): SitemapUrl => ({
 // Postgraphile's row-level security already scopes `allEvents` to what an
 // anonymous requester (no cookie is forwarded here) may see, i.e. public
 // events only. `visibility` is still checked defensively so a backend change
-// can't silently leak unlisted/private event URLs into the sitemap.
+// can't silently leak private event URLs into the sitemap.
 const fetchEventSitemapUrls = async (event: H3Event): Promise<SitemapUrl[]> => {
   const urls: SitemapUrl[] = []
   let after: string | null | undefined

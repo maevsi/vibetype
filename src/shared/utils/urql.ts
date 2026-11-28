@@ -114,6 +114,7 @@ type QueryData<T> = {
 
 const QUERY_FIELDS_PAGINATED = [
   'allAccounts',
+  'allContactGroups',
   'allContacts',
   'allEvents',
   'allGuests',
@@ -158,6 +159,12 @@ const invalidateAccountBlockDependents = (cache: Cache) =>
     'allGuests',
     'eventSearch',
   ].forEach((name) => invalidateCache(cache, name))
+
+// A membership is only reachable through its contact, so the lists and details of contacts are refetched when memberships change
+const invalidateContactGroupMemberDependents = (cache: Cache) =>
+  ['allContacts', 'contactByRowId'].forEach((name) =>
+    invalidateCache(cache, name),
+  )
 
 const cacheListAppend = <
   Fragment,
@@ -255,6 +262,7 @@ export const getUrqlClient = async ({
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
       Contact: (data) => keyByRowId(data),
+      ContactGroup: (data) => keyByRowId(data),
       EventFavorite: (data) => keyByRowId(data),
       GeographyPoint: () => null,
       Guest: (data) => keyByRowId(data),
@@ -283,12 +291,25 @@ export const getUrqlClient = async ({
           invalidateAccountBlockDependents(cache),
         createContact: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allContacts'),
+        createContactGroup: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allContactGroups'),
+        createContactGroupMember: (_result, _args, cache, _info) =>
+          invalidateContactGroupMemberDependents(cache),
+        createContactGroupMembers: (_result, _args, cache, _info) =>
+          invalidateContactGroupMemberDependents(cache),
+        createContactGroups: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allContactGroups'),
+        createContacts: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allContacts'),
         createEvent: (_result, _args, cache, _info) => {
           invalidateCache(cache, 'allEvents')
           invalidateCache(cache, 'eventSearch')
         },
-        createGuests: (_result, _args, cache, _info) =>
-          invalidateCache(cache, 'allGuests'),
+        createGuests: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allGuests')
+          // the seat count of the event is part of the organizer's guest page
+          invalidateCache(cache, 'accountByUsername')
+        },
         createEventFavorite: (result, _args, cache, _info) => {
           const newNode = result.createEventFavorite?.eventFavorite
           if (!newNode?.eventByEventId?.id) return
@@ -319,6 +340,16 @@ export const getUrqlClient = async ({
           cache.invalidate(
             { __typename: 'Event', id: eventId },
             'eventFormatMappingsByEventId',
+          )
+        },
+        createEventUpload: (result, _args, cache, _info) => {
+          const eventId =
+            result.createEventUpload?.eventUpload?.eventByEventId?.id
+          if (!eventId) return
+
+          cache.invalidate(
+            { __typename: 'Event', id: eventId },
+            'eventUploadsByEventId',
           )
         },
         createPreferenceEventCategory: (result, _args, cache, _info) =>
@@ -360,8 +391,26 @@ export const getUrqlClient = async ({
           cache,
           _info,
         ) => invalidateAccountBlockDependents(cache),
+        contactMerge: (_result, args, cache, _info) => {
+          invalidateCache(cache, 'Contact', {
+            input: { rowId: args.input.contactIdMerged },
+          })
+          invalidateCache(cache, 'allContacts')
+          invalidateCache(cache, 'allGuests')
+          invalidateContactGroupMemberDependents(cache)
+        },
         deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
+        deleteContactGroupByRowId: (_result, args, cache, _info) => {
+          invalidateCache(cache, 'ContactGroup', args)
+          invalidateContactGroupMemberDependents(cache)
+        },
+        deleteContactGroupMemberByContactGroupIdAndContactId: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateContactGroupMemberDependents(cache),
         eventDelete: (_result, _args, cache, _info) => {
           invalidateCache(cache, 'allEvents')
           invalidateCache(cache, 'eventSearch')
@@ -413,6 +462,23 @@ export const getUrqlClient = async ({
             cache.invalidate(
               { __typename: 'Event', id: eventId },
               'eventFormatMappingsByEventId',
+            )
+        },
+        deleteEventUploadByRowId: (result, _args, cache, _info) => {
+          const payload = result.deleteEventUploadByRowId
+          if (!payload) return
+
+          if (payload.deletedEventUploadId)
+            cache.invalidate({
+              __typename: 'EventUpload',
+              id: payload.deletedEventUploadId,
+            })
+
+          const eventId = payload.eventUpload?.eventByEventId?.id
+          if (eventId)
+            cache.invalidate(
+              { __typename: 'Event', id: eventId },
+              'eventUploadsByEventId',
             )
         },
         deletePreferenceEventCategoryByAccountIdAndCategoryId: (

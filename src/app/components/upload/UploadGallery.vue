@@ -64,7 +64,6 @@
                 sizeTotal: bytesToString(accountUploadQuotaBytes),
               })
             "
-            @click="onProfilePictureClick"
             @select="onProfilePictureSelect"
           >
             <AppIconPlusSolid class="size-12 text-fg-2" />
@@ -100,6 +99,7 @@
         :default-size="({ imageSize }: { imageSize: Size }) => imageSize"
         :init-stretcher
         :src="fileSelectedUrl"
+        :stencil-props="{ aspectRatio }"
       />
       <AppAlert v-if="uploadSubmitErrors" class="mb-4" variant="error">
         <AppSpanList :span="uploadSubmitErrors" />
@@ -136,21 +136,24 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 import type { AllUploadsQueryVariables } from '~~/gql/generated/graphql'
 
-const { isReadonly, isSelectable } = defineProps<{
+const {
+  aspectRatio = undefined,
+  isReadonly,
+  isSelectable,
+} = defineProps<{
+  aspectRatio?: number
   isReadonly?: boolean
   isSelectable?: boolean
 }>()
 
 const emit = defineEmits<{
-  selection: [uploadId?: string | null]
+  selection: [uploadId?: string | null, storageKey?: string | null]
 }>()
 
 const { t } = useI18n()
-const route = useRoute()
 const store = useStore()
 const runtimeConfig = useRuntimeConfig()
 const TUSD_FILES_URL = useTusdFilesUrl()
-const localePath = useLocalePath()
 const templateCropper = useTemplateRef('cropper')
 
 // data
@@ -167,6 +170,7 @@ const uploadToDelete = ref<{
 }>()
 const selectedItem = ref<{
   rowId?: string | null
+  storageKey?: string | null
 }>()
 
 // api data
@@ -263,24 +267,8 @@ const initStretcher = ({
   stretcher.style.height = `${cropper.parentElement?.clientHeight}px`
   stretcher.style.width = `${cropper.parentElement?.clientWidth}px`
 }
-const redirectToUpload = async () => {
-  await navigateTo(localePath('upload'))
-}
-const isOnUploadPage = () => route.path === localePath('upload').toString()
-// the picker only opens on the upload page, elsewhere the tile navigates there
-const onProfilePictureClick = async (event: Event) => {
-  if (isOnUploadPage()) return
-
-  event.preventDefault()
-  await redirectToUpload()
-}
-const onProfilePictureSelect = async ([file]: File[]) => {
+const onProfilePictureSelect = ([file]: File[]) => {
   if (!file) return
-
-  if (!isOnUploadPage()) {
-    await redirectToUpload()
-    return
-  }
 
   loadProfilePicture(file)
 }
@@ -340,7 +328,7 @@ const toggleSelect = (upload: UnwrapRef<typeof selectedItem>) => {
     emit('selection', undefined)
   } else {
     selectedItem.value = upload
-    emit('selection', selectedItem.value?.rowId)
+    emit('selection', selectedItem.value?.rowId, selectedItem.value?.storageKey)
   }
 }
 const uploadBlob = async () => {

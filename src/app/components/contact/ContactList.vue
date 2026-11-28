@@ -28,6 +28,25 @@
           </AppButton>
         </div>
       </div>
+      <div
+        v-if="isComplete && contacts.length && contactGroups.length"
+        class="flex flex-wrap items-center gap-2"
+      >
+        <ContactGroupFilter
+          v-model:excluded="groupIdsExcluded"
+          v-model:included="groupIdsIncluded"
+          :groups="contactGroups"
+        />
+        <AppButton
+          :aria-label="t('groupsManage')"
+          class="h-10 px-2 font-medium"
+          size="none"
+          variant="tertiary"
+          @click="isGroupsDrawerOpen = true"
+        >
+          {{ t('groupsManage') }}
+        </AppButton>
+      </div>
       <AppLoaderProgress
         v-if="!isComplete"
         :count="contacts.length"
@@ -36,7 +55,7 @@
       <template v-else-if="contactsFiltered.length">
         <p class="text-body-small text-fg-2">
           {{
-            searchStringDebounced.trim()
+            contactsFiltered.length !== contacts.length
               ? t('contactCountFiltered', {
                   count: contactsFiltered.length,
                   total: contacts.length,
@@ -59,6 +78,7 @@
               :contact
               :guest-count="contact.guestCount"
               @delete="onDeleteSelect(contact)"
+              @merge="onMergeSelect(contact)"
             />
           </AppList>
         </section>
@@ -71,9 +91,13 @@
       <AppEmptyState
         v-else-if="contacts.length"
         :description="t('searchEmptyDescription')"
-        :title="t('searchEmptyTitle', { query: searchStringDebounced.trim() })"
+        :title="
+          searchStringDebounced.trim()
+            ? t('searchEmptyTitle', { query: searchStringDebounced.trim() })
+            : t('filterEmptyTitle')
+        "
       >
-        <AppButton :aria-label="t('searchClear')" @click="searchString = ''">
+        <AppButton :aria-label="t('searchClear')" @click="searchClear">
           {{ t('searchClear') }}
         </AppButton>
       </AppEmptyState>
@@ -97,11 +121,21 @@
           {{ t('contactImport') }}
         </AppButton>
       </AppEmptyState>
+      <ContactGroupDrawer
+        v-model:open="isGroupsDrawerOpen"
+        :groups="contactGroups"
+      />
       <ContactDeleteDrawer
         v-if="contactToDelete"
         v-model:open="isDeleteDrawerOpen"
         :contact="contactToDelete"
         :contact-row-id="contactToDelete.rowId"
+      />
+      <ContactMergeDrawer
+        v-if="contactToMerge"
+        v-model:open="isMergeDrawerOpen"
+        :contact="contactToMerge"
+        :contacts
       />
     </div>
   </Loader>
@@ -122,6 +156,7 @@ import {
   getContactsSorted,
   isSearchTextMatch,
 } from '~~/shared/utils/contact'
+import { getContactsByGroupFilter } from '~~/shared/utils/contactGroup'
 
 const localePath = useLocalePath()
 const route = useRoute()
@@ -142,11 +177,16 @@ const contactToDelete =
       | 'rowId'
     >
   >()
+const groupIdsExcluded = ref<string[]>([])
+const groupIdsIncluded = ref<string[]>([])
 const isDeleteDrawerOpen = ref(false)
+const isGroupsDrawerOpen = ref(false)
+const isMergeDrawerOpen = ref(false)
 const searchString = ref<string>('')
 const searchStringDebounced = refDebounced(searchString, 200)
 
 // api data
+const { contactGroups, query: contactGroupsQuery } = useContactGroupsQuery()
 const contactsQuery = useApiQuery({
   query: graphql(`
     query AllContactsContactList(
@@ -162,6 +202,14 @@ const contactsQuery = useApiQuery({
       ) {
         nodes {
           ...ContactItem
+          addressId
+          language
+          timeZone
+          contactGroupMembersByContactId {
+            nodes {
+              contactGroupId
+            }
+          }
           guestsByContactId {
             totalCount
           }
@@ -180,7 +228,7 @@ const contactsQuery = useApiQuery({
     first: ITEMS_PER_PAGE_LARGE,
   })),
 })
-const api = await useApiData([contactsQuery])
+const api = await useApiData([contactGroupsQuery, contactsQuery])
 const contacts = computed(() =>
   getContactsSorted(
     api.value.data.allContacts?.nodes
@@ -189,20 +237,48 @@ const contacts = computed(() =>
         return (
           contact && {
             ...contact,
+            addressId: node.addressId,
             guestCount: node.guestsByContactId.totalCount,
+            language: node.language,
+            timeZone: node.timeZone,
           }
         )
       })
       .filter(isNeitherNullNorUndefined) || [],
   ),
 )
+const contactToMerge = ref<(typeof contacts.value)[number]>()
+const groupIdsByContactId = computed(() => {
+  const groupIds = new Map<string, string[]>()
+
+  for (const node of api.value.data.allContacts?.nodes ?? []) {
+    const contact = getContactItem(node)
+
+    if (contact)
+      groupIds.set(
+        contact.rowId,
+        node.contactGroupMembersByContactId.nodes.map(
+          ({ contactGroupId }) => contactGroupId,
+        ),
+      )
+  }
+
+  return groupIds
+})
 // the search text is built once per data change instead of once per keystroke
-const contactsIndexed = computed(() =>
-  contacts.value.map((contact) => ({
+const contactsIndexed = computed(() => {
+  const contactsInGroups = getContactsByGroupFilter({
+    contacts: contacts.value,
+    groupIdsByContactId: groupIdsByContactId.value,
+    groupIdsExcluded: groupIdsExcluded.value,
+    groupIdsIncluded: groupIdsIncluded.value,
+  })
+
+  return contactsInGroups.map((contact) => ({
     contact,
     searchText: getContactSearchText(contact),
-  })),
-)
+  }))
+})
 const contactsFiltered = computed(() =>
   searchStringDebounced.value.trim()
     ? contactsIndexed.value
@@ -210,9 +286,13 @@ const contactsFiltered = computed(() =>
           isSearchTextMatch(searchText, searchStringDebounced.value),
         )
         .map(({ contact }) => contact)
-    : contacts.value,
+    : contactsIndexed.value.map(({ contact }) => contact),
 )
-const { limit, sentinel } = useRenderLimit([searchStringDebounced])
+const { limit, sentinel } = useRenderLimit([
+  groupIdsExcluded,
+  groupIdsIncluded,
+  searchStringDebounced,
+])
 const contactsRendered = computed(() =>
   contactsFiltered.value.slice(0, limit.value),
 )
@@ -257,6 +337,16 @@ const onDeleteSelect = (
   contactToDelete.value = contact
   isDeleteDrawerOpen.value = true
 }
+const onMergeSelect = (contact: (typeof contacts.value)[number]) => {
+  contactToMerge.value = contact
+  isMergeDrawerOpen.value = true
+}
+
+const searchClear = () => {
+  groupIdsExcluded.value = []
+  groupIdsIncluded.value = []
+  searchString.value = ''
+}
 
 // lifecycle
 // Sorting and searching happen in the client, which needs every page to be complete.
@@ -280,7 +370,9 @@ de:
   contactImport: Kontakte importieren
   emptyDescription: Speichere die Menschen, die Du triffst, um sie mit einem Fingertipp zu Veranstaltungen einzuladen.
   emptyTitle: Dein Kontaktbuch ist leer
-  searchClear: Suche zurücksetzen
+  filterEmptyTitle: Kein Kontakt passt zu den gewählten Gruppen
+  groupsManage: Gruppen verwalten
+  searchClear: Suche und Filter zurücksetzen
   searchEmptyDescription: Prüfe die Schreibweise oder suche stattdessen nach der E-Mail-Adresse.
   searchEmptyTitle: Kein Kontakt passt zu „{query}“
 en:
@@ -290,7 +382,9 @@ en:
   contactImport: Import contacts
   emptyDescription: Save the people you meet so you can invite them to events with one tap.
   emptyTitle: Your contact book is empty
-  searchClear: Clear search
+  filterEmptyTitle: No contact matches the chosen groups
+  groupsManage: Manage groups
+  searchClear: Clear search and filters
   searchEmptyDescription: Check the spelling or search by email address instead.
   searchEmptyTitle: 'No contact matches "{query}"'
 </i18n>

@@ -23,7 +23,9 @@
     >
       <span class="absolute inset-0 z-10" />
       <span class="text-heading-medium text-balance">
-        {{ `@${account.username}` }}
+        {{
+          account.displayName || t('username', { username: account.username })
+        }}
       </span>
     </AppButton>
   </div>
@@ -33,6 +35,7 @@
 // compiler
 const { account } = defineProps<{
   account: {
+    displayName?: string | null
     rowId: string
     username: string
   }
@@ -45,7 +48,9 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  link: Zum Profil von {'@'}{username}
+  link: Zum Profil von ${username}
+  username: "{'@'}{username}"
 en:
-  link: View {'@'}{username}'s profile
+  link: View {username}'s profile
+  username: "{'@'}{username}"
 </i18n>

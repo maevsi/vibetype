@@ -100,7 +100,13 @@ const updateGuestByRowIdMutation = useMutation(
     mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {
       updateGuestByRowId(input: $input) {
         guest {
-          feedback
+          companionCount
+          companionCountRequested
+          eventByEventId {
+            guestCount
+            id
+          }
+          feedbackOverride
           id
           rowId
         }
@@ -154,13 +160,13 @@ const report = ({
 
   toast.success(success)
 }
-const setFeedback = async (feedback: InvitationFeedback) => {
-  pending.value = feedback
+const setFeedback = async (feedbackOverride: InvitationFeedback) => {
+  pending.value = feedbackOverride
   const total = guests.length
   const failureCount = await countFailures(
     guests.map((guest) =>
       updateGuestByRowIdMutation.executeMutation({
-        input: { guestPatch: { feedback }, rowId: guest.rowId },
+        input: { guestPatch: { feedbackOverride }, rowId: guest.rowId },
       }),
     ),
   )

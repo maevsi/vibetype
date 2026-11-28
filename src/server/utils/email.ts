@@ -99,7 +99,10 @@ export const sendEmail = async <T extends EmailName>({
   }
 
   const mailOptionsWithDefaults = {
-    from: `"${mailOptions.fromName || SITE_NAME}" <noreply@maev.si>`,
+    from: {
+      address: 'noreply@maev.si',
+      name: mailOptions.fromName || SITE_NAME,
+    },
     to: developerMail ? `Developer <${developerMail}>` : mailOptions.to,
     subject: mailOptions.subject,
     text,

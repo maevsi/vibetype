@@ -9,12 +9,14 @@ export const codegenConfigBase: CodegenConfig = {
   ], // ignoreNoDocuments: true,
   hooks: { afterAllFileWrite: ['prettier --write', 'eslint --fix'] },
   config: {
+    immutableTypes: true,
     useTypeImports: true,
     scalars: {
       BigInt: 'number',
       Cursor: 'string',
       Date: 'string',
       Datetime: 'string',
+      EmailAddress: 'string',
       GeoJSON: 'GeoJSON',
       Jwt: 'string',
       RegConfig: 'unknown', // explicitly set to `unknown` as this should not be used directly in client code

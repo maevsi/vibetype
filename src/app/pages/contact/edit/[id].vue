@@ -14,6 +14,7 @@
       <LayoutPage>
         <FormContact
           :contact
+          :contact-group-ids
           @submit-success="store.navigateBack(redirectPath)"
         />
         <ContactGuestEventList
@@ -52,6 +53,11 @@ const contactQuery = useApiQuery({
     query ContactByRowId($first: Int!, $id: UUID!) {
       contactByRowId(rowId: $id) {
         ...ContactItem
+        contactGroupMembersByContactId {
+          nodes {
+            contactGroupId
+          }
+        }
         guestsByContactId(first: $first) {
           nodes {
             eventByEventId {
@@ -81,6 +87,12 @@ const api = await useApiData([contactQuery])
 
 // computations
 const contact = computed(() => getContactItem(api.value.data.contactByRowId))
+const contactGroupIds = computed(
+  () =>
+    api.value.data.contactByRowId?.contactGroupMembersByContactId.nodes.map(
+      ({ contactGroupId }) => contactGroupId,
+    ) ?? [],
+)
 const guestEvents = computed(() =>
   (api.value.data.contactByRowId?.guestsByContactId.nodes || [])
     .map((guest) => guest.eventByEventId)

@@ -28,6 +28,7 @@ const queryAccountSearch = graphql(`
   query AccountSearch($after: Cursor, $first: Int, $query: String) {
     accountSearch(after: $after, first: $first, query: $query) {
       nodes {
+        displayName
         id
         rowId
         username

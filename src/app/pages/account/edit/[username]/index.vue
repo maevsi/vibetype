@@ -59,6 +59,33 @@
         </div>
         <form class="flex flex-col gap-4" @submit.prevent="save">
           <Field>
+            <FieldLabel for="displayName">
+              <span class="text-headline">{{ t('displayName') }}</span>
+            </FieldLabel>
+            <Input
+              id="displayName"
+              v-model="displayName"
+              :maxlength="displayNameLengthMaximum"
+              name="displayName"
+              :placeholder="t('displayNamePlaceholder')"
+              type="text"
+            />
+            <AppButton
+              v-if="!displayName.trim() && contactNameSuggestion"
+              :aria-label="
+                t('displayNameUseContact', { name: contactNameSuggestion })
+              "
+              class="self-start"
+              type="button"
+              variant="secondary"
+              @click="displayName = contactNameSuggestion"
+            >
+              <span class="text-caption">{{
+                t('displayNameUseContact', { name: contactNameSuggestion })
+              }}</span>
+            </AppButton>
+          </Field>
+          <Field>
             <FieldLabel for="description">
               <span class="text-headline">{{ t('about') }}</span>
             </FieldLabel>
@@ -155,9 +182,10 @@ if (
 // api data
 const query = useApiQuery({
   query: graphql(`
-    query AccountEdit($username: String!) {
+    query AccountEdit($accountId: UUID, $username: String!) {
       accountByUsername(username: $username) {
         description
+        displayName
         id
         imprintUrl
         profilePictureByAccountId {
@@ -172,9 +200,20 @@ const query = useApiQuery({
         rowId
         username
       }
+      allContacts(
+        condition: { accountId: $accountId, createdBy: $accountId }
+        first: 1
+      ) {
+        nodes {
+          firstName
+          id
+          lastName
+        }
+      }
     }
   `),
   variables: {
+    accountId: store.signedInAccountId,
     username: route.params.username,
   },
 })
@@ -188,7 +227,8 @@ const openProfilePictureRemoveDrawer = () => {
   isProfilePictureRemoveDrawerOpen.value = true
 }
 
-// description and imprint
+// display name, description and imprint
+const displayNameLengthMaximum = 100
 const descriptionLengthMaximum = 500
 
 const updateAccountByRowIdMutation = useMutation(
@@ -197,6 +237,7 @@ const updateAccountByRowIdMutation = useMutation(
       updateAccountByRowId(input: $input) {
         account {
           description
+          displayName
           id
           imprintUrl
           rowId
@@ -206,10 +247,18 @@ const updateAccountByRowIdMutation = useMutation(
   `),
 )
 
+// the own contact's name is offered as a button while no display name is set
+const contactNameSuggestion = computed(() => {
+  const contact = api.value.data.allContacts?.nodes[0]
+
+  return `${contact?.firstName ?? ''} ${contact?.lastName ?? ''}`.trim()
+})
+const displayName = ref(account.value?.displayName?.trim() ?? '')
 const description = ref(account.value?.description?.trim() ?? '')
 const imprintUrl = ref(account.value?.imprintUrl?.trim() ?? '')
 const isDirty = computed(
   () =>
+    displayName.value.trim() !== (account.value?.displayName?.trim() ?? '') ||
     description.value.trim() !== (account.value?.description?.trim() ?? '') ||
     imprintUrl.value.trim() !== (account.value?.imprintUrl?.trim() ?? ''),
 )
@@ -230,6 +279,7 @@ const save = async () => {
         rowId: account.value.rowId,
         accountPatch: {
           description: description.value.trim(),
+          displayName: displayName.value.trim() || null,
           // the database rejects an empty string, so clearing the field stores no imprint
           imprintUrl: imprintUrl.value.trim() || null,
         },
@@ -255,6 +305,9 @@ de:
   about: Über Dich
   aboutPlaceholder: Erzähl ein wenig von Dir! Was inspiriert Dich, was machst Du gern, oder verrate einfach eine lustige Tatsache.
   deleteAccount: Konto löschen
+  displayName: Anzeigename
+  displayNamePlaceholder: Wie sollen andere dich nennen?
+  displayNameUseContact: „{name}“ verwenden
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorUpdate: Beim Speichern des Profils ist ein Problem aufgetreten
   imprint: Impressum
@@ -271,6 +324,9 @@ en:
   about: About you
   aboutPlaceholder: Share a bit about yourself! What inspires you, what you love doing, or just a fun fact.
   deleteAccount: Delete Account
+  displayName: Display name
+  displayNamePlaceholder: What should others call you?
+  displayNameUseContact: Use “{name}”
   errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorUpdate: There was a problem saving the profile
   imprint: Imprint

@@ -127,22 +127,61 @@
           />
         </Field>
       </form.Field>
-      <form.Field v-slot="{ field }" name="emailAddress">
+      <form.Field v-slot="{ field }" mode="array" name="emailAddresses">
         <Field>
-          <FieldLabel for="input-email-address">{{
-            t('emailAddress')
+          <FieldLabel for="input-email-address-0">{{
+            t('emailAddresses')
           }}</FieldLabel>
           <FieldContent>
-            <Input
-              id="input-email-address"
-              :aria-invalid="isFieldInvalid(field)"
-              :model-value="field.state.value"
-              type="email"
-              @blur="field.handleBlur"
-              @input="
-                field.handleChange(($event.target as HTMLInputElement).value)
-              "
-            />
+            <form.Field
+              v-for="(_, index) in field.state.value"
+              :key="index"
+              v-slot="{ field: subField }"
+              :name="`emailAddresses[${index}]`"
+            >
+              <div class="flex items-center gap-2">
+                <Input
+                  :id="`input-email-address-${index}`"
+                  :aria-invalid="isFieldInvalid(subField)"
+                  :aria-label="t('emailAddress', { position: index + 1 })"
+                  :model-value="subField.state.value"
+                  type="email"
+                  @blur="subField.handleBlur"
+                  @input="
+                    subField.handleChange(
+                      ($event.target as HTMLInputElement).value,
+                    )
+                  "
+                />
+                <AppButton
+                  v-if="field.state.value.length > 1"
+                  :aria-label="t('emailAddressRemove', { position: index + 1 })"
+                  size="none"
+                  variant="ghost"
+                  @click="field.removeValue(index)"
+                >
+                  <AppIconTrash />
+                </AppButton>
+              </div>
+              <FieldError
+                v-if="isFieldInvalid(subField)"
+                :errors="subField.state.meta.errors"
+              />
+            </form.Field>
+            <AppButton
+              v-if="field.state.value.length < EMAIL_ADDRESSES_MAXIMUM"
+              :aria-label="t('emailAddressAdd')"
+              class="self-start"
+              size="none"
+              variant="tertiary"
+              @click="field.pushValue('')"
+            >
+              <AppIconPlus />
+              {{ t('emailAddressAdd') }}
+            </AppButton>
+            <FieldDescription v-if="field.state.value.length > 1">
+              {{ t('emailAddressesDescription') }}
+            </FieldDescription>
           </FieldContent>
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -264,6 +303,42 @@
           />
         </Field>
       </form.Field>
+      <form.Field v-slot="{ field }" name="groupIds">
+        <Field>
+          <FieldLabel for="input-group-name">{{ t('groups') }}</FieldLabel>
+          <FieldContent>
+            <AppCheckboxGroup
+              v-if="contactGroups.length"
+              :aria-label="t('groups')"
+              :items="groupItems"
+              :model-value="field.state.value"
+              @update:model-value="
+                (values) => field.handleChange(values.map(String))
+              "
+            />
+            <div class="flex items-center gap-2">
+              <AppInput
+                id="input-group-name"
+                v-model="groupNameNew"
+                :placeholder="t('groupNamePlaceholder')"
+                type="text"
+                @keydown.enter.prevent="groupAdd"
+              />
+              <AppButton
+                :aria-label="t('groupAdd')"
+                :disabled="!groupNameNewNormalized"
+                :loading="createContactGroupMutation.fetching.value"
+                size="none"
+                variant="ghost"
+                @click="groupAdd"
+              >
+                <AppIconPlus />
+              </AppButton>
+            </div>
+          </FieldContent>
+          <FieldDescription>{{ t('groupsDescription') }}</FieldDescription>
+        </Field>
+      </form.Field>
       <FormPrivacyNotice />
       <div class="flex flex-col items-center">
         <AppButton
@@ -289,13 +364,17 @@ import { z } from 'zod'
 
 import { graphql } from '~~/gql/generated'
 import type { ContactItemFragment, Language } from '~~/gql/generated/graphql'
+import {
+  getContactGroupItem,
+  getContactGroupNamesNormalized,
+} from '~~/shared/utils/contactGroup'
 
-const { contact = undefined } = defineProps<{
+const { contact = undefined, contactGroupIds = [] } = defineProps<{
   contact?: Pick<
     ContactItemFragment,
     | 'accountByAccountId'
     // | 'addressByAddressId'
-    | 'emailAddress'
+    | 'emailAddresses'
     | 'firstName'
     // | 'id'
     | 'language'
@@ -306,6 +385,7 @@ const { contact = undefined } = defineProps<{
     | 'rowId'
     | 'url'
   >
+  contactGroupIds?: string[]
 }>()
 
 const emit = defineEmits<{
@@ -325,14 +405,53 @@ const languages = locales.value
   )
   .filter(isNeitherNullNorUndefined)
 
+// data
+const groupNameNew = ref('')
+
 // api data
+const { contactGroups, query: contactGroupsQuery } = useContactGroupsQuery()
+const createContactGroupMemberMutation = useMutation(
+  graphql(`
+    mutation CreateContactGroupMember($input: CreateContactGroupMemberInput!) {
+      createContactGroupMember(input: $input) {
+        contactGroupMember {
+          contactGroupId
+          contactId
+        }
+      }
+    }
+  `),
+)
+const createContactGroupMutation = useMutation(
+  graphql(`
+    mutation CreateContactGroup($input: CreateContactGroupInput!) {
+      createContactGroup(input: $input) {
+        contactGroup {
+          ...ContactGroupItem
+        }
+      }
+    }
+  `),
+)
 const createContactMutation = useMutation(
   graphql(`
     mutation CreateContact($input: CreateContactInput!) {
       createContact(input: $input) {
         contact {
           id
+          rowId
         }
+      }
+    }
+  `),
+)
+const deleteContactGroupMemberMutation = useMutation(
+  graphql(`
+    mutation DeleteContactGroupMemberByContactGroupIdAndContactId(
+      $input: DeleteContactGroupMemberByContactGroupIdAndContactIdInput!
+    ) {
+      deleteContactGroupMemberByContactGroupIdAndContactId(input: $input) {
+        clientMutationId
       }
     }
   `),
@@ -349,16 +468,29 @@ const updateContactByRowIdMutation = useMutation(
   `),
 )
 const api = await useApiData([
+  contactGroupsQuery,
+  createContactGroupMemberMutation,
+  createContactGroupMutation,
   createContactMutation,
+  deleteContactGroupMemberMutation,
   updateContactByRowIdMutation,
 ])
 
 // form
+const EMAIL_ADDRESSES_MAXIMUM = 10 // the `contact` table's limit
+const getEmailAddressesInput = (emailAddresses: string[]) => {
+  const emailAddressesFilled = emailAddresses.filter(Boolean)
+
+  return emailAddressesFilled.length ? emailAddressesFilled : null
+}
 const formSchema = z
   .object({
     accountUsername: SCHEMA_USERNAME_OPTIONAL,
-    emailAddress: SCHEMA_EMAIL_ADDRESS_OPTIONAL,
+    emailAddresses: z
+      .array(SCHEMA_EMAIL_ADDRESS_OPTIONAL)
+      .max(EMAIL_ADDRESSES_MAXIMUM),
     firstName: SCHEMA_NAME_FIRST_OPTIONAL,
+    groupIds: z.array(z.string()),
     language: z.enum(['', 'de', 'en']),
     lastName: SCHEMA_NAME_LAST_OPTIONAL,
     nickname: SCHEMA_NAME_NICK_OPTIONAL,
@@ -369,9 +501,14 @@ const formSchema = z
   })
   // mirrors the database's contact_identity_check
   .superRefine((data, context) => {
-    if (data.accountUsername || data.emailAddress || data.phoneNumber) return
+    if (
+      data.accountUsername ||
+      data.emailAddresses.some(Boolean) ||
+      data.phoneNumber
+    )
+      return
 
-    for (const path of ['accountUsername', 'emailAddress', 'phoneNumber']) {
+    for (const path of ['accountUsername', 'emailAddresses', 'phoneNumber']) {
       context.addIssue({
         code: 'custom',
         message: t('contactWayRequired'),
@@ -383,8 +520,11 @@ const formSchema = z
 const form = useForm({
   defaultValues: {
     accountUsername: contact?.accountByAccountId?.username ?? '',
-    emailAddress: contact?.emailAddress ?? '',
+    emailAddresses: contact?.emailAddresses?.length
+      ? [...contact.emailAddresses]
+      : [''],
     firstName: contact?.firstName ?? '',
+    groupIds: [...contactGroupIds],
     language: (contact?.language ?? '') as '' | Language,
     lastName: contact?.lastName ?? '',
     nickname: contact?.nickname ?? '',
@@ -412,7 +552,7 @@ const form = useForm({
           contactPatch: {
             accountId: account?.rowId || null,
             createdBy: store.signedInAccountId,
-            emailAddress: value.emailAddress || null,
+            emailAddresses: getEmailAddressesInput(value.emailAddresses),
             firstName: value.firstName || null,
             language: value.language || null,
             lastName: value.lastName || null,
@@ -425,6 +565,14 @@ const form = useForm({
       })
 
       if (!getResultData(result)) return
+
+      if (
+        !(await groupsSave({
+          contactId: value.rowId,
+          groupIds: value.groupIds,
+        }))
+      )
+        return
 
       form.reset(value)
 
@@ -438,7 +586,7 @@ const form = useForm({
           contact: {
             accountId: account?.rowId || null,
             createdBy: store.signedInAccountId,
-            emailAddress: value.emailAddress || null,
+            emailAddresses: getEmailAddressesInput(value.emailAddresses),
             firstName: value.firstName || null,
             language: value.language || null,
             lastName: value.lastName || null,
@@ -450,7 +598,11 @@ const form = useForm({
         },
       })
 
-      if (!getResultData(result)) return
+      const contactId = getResultData(result)?.createContact?.contact?.rowId
+
+      if (!contactId) return
+
+      if (!(await groupsSave({ contactId, groupIds: value.groupIds }))) return
 
       form.reset(value)
 
@@ -459,9 +611,72 @@ const form = useForm({
   },
 })
 
+// methods
+const groupAdd = async () => {
+  const name = groupNameNewNormalized.value
+
+  if (!name || !store.signedInAccountId) return
+
+  const groupExisting = contactGroups.value.find(
+    (group) => group.name.toLowerCase() === name.toLowerCase(),
+  )
+  const groupId =
+    groupExisting?.rowId ??
+    getContactGroupItem(
+      getResultData(
+        await createContactGroupMutation.executeMutation({
+          input: {
+            contactGroup: { createdBy: store.signedInAccountId, name },
+          },
+        }),
+      )?.createContactGroup?.contactGroup,
+    )?.rowId
+
+  if (!groupId) return
+
+  groupNameNew.value = ''
+
+  if (!form.getFieldValue('groupIds').includes(groupId))
+    form.setFieldValue('groupIds', [...form.getFieldValue('groupIds'), groupId])
+}
+const groupsSave = async ({
+  contactId,
+  groupIds,
+}: {
+  contactId: string
+  groupIds: string[]
+}) => {
+  const results = await Promise.all([
+    ...groupIds
+      .filter((groupId) => !contactGroupIds.includes(groupId))
+      .map((contactGroupId) =>
+        createContactGroupMemberMutation.executeMutation({
+          input: { contactGroupMember: { contactGroupId, contactId } },
+        }),
+      ),
+    ...contactGroupIds
+      .filter((groupId) => !groupIds.includes(groupId))
+      .map((contactGroupId) =>
+        deleteContactGroupMemberMutation.executeMutation({
+          input: { contactGroupId, contactId },
+        }),
+      ),
+  ])
+
+  return results.every((result) => !result.error)
+}
+
 useFormLeaveConfirmation(form)
 
 // computations
+const groupItems = computed(() =>
+  [...contactGroups.value]
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map(({ name, rowId }) => ({ label: name, value: rowId })),
+)
+const groupNameNewNormalized = computed(
+  () => getContactGroupNamesNormalized([groupNameNew.value])[0],
+)
 const errorMessages = computed(() =>
   api.value.errors
     ? getCombinedErrorMessages(api.value.errors, {
@@ -475,8 +690,16 @@ const errorMessages = computed(() =>
 de:
   accountOverride: Angaben, die Du hier einträgst, haben Vorrang vor denen aus dem Konto oben.
   contactWayRequired: Gib einen Nutzernamen, eine E-Mail-Adresse oder eine Telefonnummer an.
-  emailAddress: E-Mail-Adresse
+  emailAddress: E-Mail-Adresse {position}
+  emailAddressAdd: E-Mail-Adresse hinzufügen
+  emailAddressRemove: E-Mail-Adresse {position} entfernen
+  emailAddresses: E-Mail-Adressen
+  emailAddressesDescription: Einladungen gehen an die erste E-Mail-Adresse.
   firstName: Vorname
+  groupAdd: Gruppe hinzufügen
+  groupNamePlaceholder: Neue Gruppe
+  groups: Gruppen
+  groupsDescription: Gruppen sind nur für Dich sichtbar. Mit ihnen findest Du Kontakte beim Einladen schneller.
   language: Sprache
   languageDescription: In dieser Sprache gehen die Einladungs-E-Mails an diesen Kontakt raus. Ohne Auswahl sind sie in Deiner Sprache.
   languageNone: Nicht festgelegt
@@ -494,8 +717,16 @@ de:
 en:
   accountOverride: Details you enter here take priority over the ones from the account above.
   contactWayRequired: Enter a username, an email address, or a phone number.
-  emailAddress: Email address
+  emailAddress: Email address {position}
+  emailAddressAdd: Add email address
+  emailAddressRemove: Remove email address {position}
+  emailAddresses: Email addresses
+  emailAddressesDescription: Invitations go to the first email address.
   firstName: First name
+  groupAdd: Add group
+  groupNamePlaceholder: New group
+  groups: Groups
+  groupsDescription: Groups are only visible to you. They help you find contacts faster when inviting.
   language: Language
   languageDescription: Invitation emails to this contact are sent in this language. If not set, they are sent in yours.
   languageNone: Not set

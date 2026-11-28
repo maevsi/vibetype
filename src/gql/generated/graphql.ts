@@ -12,9 +12,9 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 /** An input for mutations affecting `AccountBlock` */
 export type AccountBlockInput = {
   /** The account id of the user who is blocked. */
-  blockedAccountId: string
+  readonly blockedAccountId: string
   /** The account id of the user who created the account block. */
-  createdBy: string
+  readonly createdBy: string
 }
 
 /** All input for the `accountDelete` mutation. */
@@ -23,8 +23,8 @@ export type AccountDeleteInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  password: string
+  readonly clientMutationId?: string | null | undefined
+  readonly password: string
 }
 
 /** All input for the `accountEmailAddressVerification` mutation. */
@@ -33,8 +33,8 @@ export type AccountEmailAddressVerificationInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  code: string
+  readonly clientMutationId?: string | null | undefined
+  readonly code: string
 }
 
 /** All input for the `accountPasswordReset` mutation. */
@@ -43,9 +43,9 @@ export type AccountPasswordResetInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  code: string
-  password: string
+  readonly clientMutationId?: string | null | undefined
+  readonly code: string
+  readonly password: string
 }
 
 /** All input for the `accountPasswordResetRequest` mutation. */
@@ -54,36 +54,36 @@ export type AccountPasswordResetRequestInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  emailAddress: string
-  language: string
-  timeZone?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
+  readonly emailAddress: string
+  readonly language: string
+  readonly timeZone?: string | null | undefined
 }
 
 /** Represents an update to a `Account`. Fields that are set will be updated. */
 export type AccountPatch = {
   /** The account's description. Must not exceed 1,000 characters. */
-  description?: string | null | undefined
+  readonly description?: string | null | undefined
   /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
-  displayName?: string | null | undefined
+  readonly displayName?: string | null | undefined
   /** The account's imprint URL. Must start with "https://" and not exceed 2,000 characters. */
-  imprintUrl?: string | null | undefined
+  readonly imprintUrl?: string | null | undefined
 }
 
 /** All input for the `accountRegistration` mutation. */
 export type AccountRegistrationInput = {
-  birthDate: string
+  readonly birthDate: string
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  emailAddress: string
-  language: string
-  legalTermId: string
-  password: string
-  timeZone?: string | null | undefined
-  username: string
+  readonly clientMutationId?: string | null | undefined
+  readonly emailAddress: string
+  readonly language: string
+  readonly legalTermId: string
+  readonly password: string
+  readonly timeZone?: string | null | undefined
+  readonly username: string
 }
 
 /** Achievements that can be unlocked by users. */
@@ -91,158 +91,241 @@ export type AchievementType = 'early_bird' | 'meet_the_team'
 
 /** All input for the `achievementUnlock` mutation. */
 export type AchievementUnlockInput = {
-  alias: string
+  readonly alias: string
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  code: string
+  readonly clientMutationId?: string | null | undefined
+  readonly code: string
 }
 
 /** An input for mutations affecting `Address` */
 export type AddressInput = {
   /** City of the address. Must be between 1 and 300 characters. */
-  city?: string | null | undefined
+  readonly city?: string | null | undefined
   /** Country of the address. Must be between 1 and 300 characters. */
-  country?: string | null | undefined
+  readonly country?: string | null | undefined
   /** Reference to the account that created the address. */
-  createdBy: string
+  readonly createdBy: string
   /** First line of the address (e.g., street address). Must be between 1 and 300 characters. */
-  line1?: string | null | undefined
+  readonly line1?: string | null | undefined
   /** Second line of the address, if needed. Must be between 1 and 300 characters. */
-  line2?: string | null | undefined
+  readonly line2?: string | null | undefined
   /** The geographic location of the address. */
-  location?: GeoJSON | null | undefined
+  readonly location?: GeoJSON | null | undefined
   /** Person or company name. Must be between 1 and 300 characters. */
-  name: string
+  readonly name: string
   /** Postal or ZIP code for the address. Must be between 1 and 20 characters. */
-  postalCode?: string | null | undefined
+  readonly postalCode?: string | null | undefined
   /** Region of the address (e.g., state, province, county, department or territory). Must be between 1 and 300 characters. */
-  region?: string | null | undefined
+  readonly region?: string | null | undefined
 }
 
 /** Represents an update to a `Address`. Fields that are set will be updated. */
 export type AddressPatch = {
   /** City of the address. Must be between 1 and 300 characters. */
-  city?: string | null | undefined
+  readonly city?: string | null | undefined
   /** Country of the address. Must be between 1 and 300 characters. */
-  country?: string | null | undefined
+  readonly country?: string | null | undefined
   /** First line of the address (e.g., street address). Must be between 1 and 300 characters. */
-  line1?: string | null | undefined
+  readonly line1?: string | null | undefined
   /** Second line of the address, if needed. Must be between 1 and 300 characters. */
-  line2?: string | null | undefined
+  readonly line2?: string | null | undefined
   /** The geographic location of the address. */
-  location?: GeoJSON | null | undefined
+  readonly location?: GeoJSON | null | undefined
   /** Person or company name. Must be between 1 and 300 characters. */
-  name?: string | null | undefined
+  readonly name?: string | null | undefined
   /** Postal or ZIP code for the address. Must be between 1 and 20 characters. */
-  postalCode?: string | null | undefined
+  readonly postalCode?: string | null | undefined
   /** Region of the address (e.g., state, province, county, department or territory). Must be between 1 and 300 characters. */
-  region?: string | null | undefined
+  readonly region?: string | null | undefined
 }
 
 /** An input for mutations affecting `Attendance` */
 export type AttendanceInput = {
   /** The contact information available to anyone with access to this attendance entry. This may differ from the guest information if the guest provided different details at check-in. */
-  contactId?: string | null | undefined
+  readonly contactId?: string | null | undefined
   /** Who this entry is for. */
-  guestId: string
+  readonly guestId: string
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  readonly tagSerialNumber?: string | null | undefined
 }
 
 /** Represents an update to a `Attendance`. Fields that are set will be updated. */
 export type AttendancePatch = {
   /** Shows if the person has left. When this turns on, the time is saved automatically. */
-  checkedOut?: boolean | null | undefined
+  readonly checkedOut?: boolean | null | undefined
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  readonly tagSerialNumber?: string | null | undefined
+}
+
+/** An input for mutations affecting `ContactGroup` */
+export type ContactGroupInput = {
+  /** Reference to the account that created this group. Enforces cascading deletion. */
+  readonly createdBy: string
+  /** Name of the group. Must be between 1 and 100 characters and unique per account, ignoring case. */
+  readonly name: string
+}
+
+/** An input for mutations affecting `ContactGroupMember` */
+export type ContactGroupMemberInput = {
+  /** A contact group id. */
+  readonly contactGroupId: string
+  /** A contact id. */
+  readonly contactId: string
+}
+
+/** Represents an update to a `ContactGroup`. Fields that are set will be updated. */
+export type ContactGroupPatch = {
+  /** Name of the group. Must be between 1 and 100 characters and unique per account, ignoring case. */
+  readonly name?: string | null | undefined
 }
 
 /** An input for mutations affecting `Contact` */
 export type ContactInput = {
   /** Optional reference to an associated account. */
-  accountId?: string | null | undefined
+  readonly accountId?: string | null | undefined
   /** Optional reference to the physical address of the contact. */
-  addressId?: string | null | undefined
+  readonly addressId?: string | null | undefined
   /** Reference to the account that created this contact. Enforces cascading deletion. */
-  createdBy: string
-  /** Email address of the contact. Must not exceed 254 characters (RFC 5321). */
-  emailAddress?: string | null | undefined
+  readonly createdBy: string
+  /** Email addresses of the contact, between 1 and 10 when set. The first one is the primary address, which invitations are sent to. */
+  readonly emailAddresses?:
+    ReadonlyArray<string | null | undefined> | null | undefined
   /** First name of the contact. Must be between 1 and 100 characters. */
-  firstName?: string | null | undefined
+  readonly firstName?: string | null | undefined
   /** Reference to the preferred language of the contact. */
-  language?: Language | null | undefined
+  readonly language?: Language | null | undefined
   /** Last name of the contact. Must be between 1 and 100 characters. */
-  lastName?: string | null | undefined
+  readonly lastName?: string | null | undefined
   /** Nickname of the contact. Must be between 1 and 100 characters. Useful when the contact is not commonly referred to by their legal name. */
-  nickname?: string | null | undefined
+  readonly nickname?: string | null | undefined
   /** Additional notes about the contact. Must be between 1 and 1,000 characters. Useful for providing context or distinguishing details if the name alone is insufficient. */
-  note?: string | null | undefined
+  readonly note?: string | null | undefined
   /** The international phone number of the contact, formatted according to E.164 (https://wikipedia.org/wiki/E.164). */
-  phoneNumber?: string | null | undefined
+  readonly phoneNumber?: string | null | undefined
   /** Time zone of the contact in IANA format, e.g., `Europe/Berlin` or `America/New_York`. */
-  timeZone?: string | null | undefined
+  readonly timeZone?: string | null | undefined
   /** URL associated with the contact, must start with "https://" and not exceed 2,000 characters. */
-  url?: string | null | undefined
+  readonly url?: string | null | undefined
+}
+
+/** All input for the `contactMerge` mutation. */
+export type ContactMergeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  readonly contact: ContactInput
+  readonly contactId: string
+  readonly contactIdMerged: string
 }
 
 /** Represents an update to a `Contact`. Fields that are set will be updated. */
 export type ContactPatch = {
   /** Optional reference to an associated account. */
-  accountId?: string | null | undefined
+  readonly accountId?: string | null | undefined
   /** Optional reference to the physical address of the contact. */
-  addressId?: string | null | undefined
+  readonly addressId?: string | null | undefined
   /** Reference to the account that created this contact. Enforces cascading deletion. */
-  createdBy?: string | null | undefined
-  /** Email address of the contact. Must not exceed 254 characters (RFC 5321). */
-  emailAddress?: string | null | undefined
+  readonly createdBy?: string | null | undefined
+  /** Email addresses of the contact, between 1 and 10 when set. The first one is the primary address, which invitations are sent to. */
+  readonly emailAddresses?:
+    ReadonlyArray<string | null | undefined> | null | undefined
   /** First name of the contact. Must be between 1 and 100 characters. */
-  firstName?: string | null | undefined
+  readonly firstName?: string | null | undefined
   /** Reference to the preferred language of the contact. */
-  language?: Language | null | undefined
+  readonly language?: Language | null | undefined
   /** Last name of the contact. Must be between 1 and 100 characters. */
-  lastName?: string | null | undefined
+  readonly lastName?: string | null | undefined
   /** Nickname of the contact. Must be between 1 and 100 characters. Useful when the contact is not commonly referred to by their legal name. */
-  nickname?: string | null | undefined
+  readonly nickname?: string | null | undefined
   /** Additional notes about the contact. Must be between 1 and 1,000 characters. Useful for providing context or distinguishing details if the name alone is insufficient. */
-  note?: string | null | undefined
+  readonly note?: string | null | undefined
   /** The international phone number of the contact, formatted according to E.164 (https://wikipedia.org/wiki/E.164). */
-  phoneNumber?: string | null | undefined
+  readonly phoneNumber?: string | null | undefined
   /** Time zone of the contact in IANA format, e.g., `Europe/Berlin` or `America/New_York`. */
-  timeZone?: string | null | undefined
+  readonly timeZone?: string | null | undefined
   /** URL associated with the contact, must start with "https://" and not exceed 2,000 characters. */
-  url?: string | null | undefined
+  readonly url?: string | null | undefined
 }
 
 /** All input for the create `AccountBlock` mutation. */
 export type CreateAccountBlockInput = {
   /** The `AccountBlock` to be created by this mutation. */
-  accountBlock: AccountBlockInput
+  readonly accountBlock: AccountBlockInput
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
 }
 
 /** All input for the create `Address` mutation. */
 export type CreateAddressInput = {
   /** The `Address` to be created by this mutation. */
-  address: AddressInput
+  readonly address: AddressInput
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
 }
 
 /** All input for the create `Attendance` mutation. */
 export type CreateAttendanceInput = {
   /** The `Attendance` to be created by this mutation. */
-  attendance: AttendanceInput
+  readonly attendance: AttendanceInput
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
+}
+
+/** All input for the create `ContactGroup` mutation. */
+export type CreateContactGroupInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  /** The `ContactGroup` to be created by this mutation. */
+  readonly contactGroup: ContactGroupInput
+}
+
+/** All input for the create `ContactGroupMember` mutation. */
+export type CreateContactGroupMemberInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  /** The `ContactGroupMember` to be created by this mutation. */
+  readonly contactGroupMember: ContactGroupMemberInput
+}
+
+/** All input for the `createContactGroupMembers` mutation. */
+export type CreateContactGroupMembersInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  readonly contactGroupIds: ReadonlyArray<string | null | undefined>
+  readonly contactIds: ReadonlyArray<string | null | undefined>
+}
+
+/** All input for the `createContactGroups` mutation. */
+export type CreateContactGroupsInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  readonly names: ReadonlyArray<string | null | undefined>
 }
 
 /** All input for the create `Contact` mutation. */
@@ -251,9 +334,19 @@ export type CreateContactInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `Contact` to be created by this mutation. */
-  contact: ContactInput
+  readonly contact: ContactInput
+}
+
+/** All input for the `createContacts` mutation. */
+export type CreateContactsInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  readonly contacts: ReadonlyArray<ContactInput | null | undefined>
 }
 
 /** All input for the create `Device` mutation. */
@@ -262,9 +355,9 @@ export type CreateDeviceInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `Device` to be created by this mutation. */
-  device: DeviceInput
+  readonly device: DeviceInput
 }
 
 /** All input for the create `EventCategoryMapping` mutation. */
@@ -273,9 +366,9 @@ export type CreateEventCategoryMappingInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `EventCategoryMapping` to be created by this mutation. */
-  eventCategoryMapping: EventCategoryMappingInput
+  readonly eventCategoryMapping: EventCategoryMappingInput
 }
 
 /** All input for the create `EventFavorite` mutation. */
@@ -284,9 +377,9 @@ export type CreateEventFavoriteInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `EventFavorite` to be created by this mutation. */
-  eventFavorite: EventFavoriteInput
+  readonly eventFavorite: EventFavoriteInput
 }
 
 /** All input for the create `EventFormatMapping` mutation. */
@@ -295,9 +388,9 @@ export type CreateEventFormatMappingInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `EventFormatMapping` to be created by this mutation. */
-  eventFormatMapping: EventFormatMappingInput
+  readonly eventFormatMapping: EventFormatMappingInput
 }
 
 /** All input for the create `Event` mutation. */
@@ -306,9 +399,31 @@ export type CreateEventInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `Event` to be created by this mutation. */
-  event: EventInput
+  readonly event: EventInput
+}
+
+/** All input for the create `EventUpload` mutation. */
+export type CreateEventUploadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  /** The `EventUpload` to be created by this mutation. */
+  readonly eventUpload: EventUploadInput
+}
+
+/** All input for the create `Guest` mutation. */
+export type CreateGuestInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  /** The `Guest` to be created by this mutation. */
+  readonly guest: GuestInput
 }
 
 /** All input for the `createGuests` mutation. */
@@ -317,9 +432,9 @@ export type CreateGuestsInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  contactIds: Array<string | null | undefined>
-  eventId: string
+  readonly clientMutationId?: string | null | undefined
+  readonly contactIds: ReadonlyArray<string | null | undefined>
+  readonly eventId: string
 }
 
 /** All input for the create `PreferenceEventCategory` mutation. */
@@ -328,9 +443,9 @@ export type CreatePreferenceEventCategoryInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `PreferenceEventCategory` to be created by this mutation. */
-  preferenceEventCategory: PreferenceEventCategoryInput
+  readonly preferenceEventCategory: PreferenceEventCategoryInput
 }
 
 /** All input for the create `PreferenceEventFormat` mutation. */
@@ -339,9 +454,9 @@ export type CreatePreferenceEventFormatInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `PreferenceEventFormat` to be created by this mutation. */
-  preferenceEventFormat: PreferenceEventFormatInput
+  readonly preferenceEventFormat: PreferenceEventFormatInput
 }
 
 /** All input for the create `PreferenceEventLocation` mutation. */
@@ -350,9 +465,9 @@ export type CreatePreferenceEventLocationInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `PreferenceEventLocation` to be created by this mutation. */
-  preferenceEventLocation: PreferenceEventLocationInput
+  readonly preferenceEventLocation: PreferenceEventLocationInput
 }
 
 /** All input for the create `PreferenceEventSize` mutation. */
@@ -361,9 +476,9 @@ export type CreatePreferenceEventSizeInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `PreferenceEventSize` to be created by this mutation. */
-  preferenceEventSize: PreferenceEventSizeInput
+  readonly preferenceEventSize: PreferenceEventSizeInput
 }
 
 /** All input for the create `ProfilePicture` mutation. */
@@ -372,9 +487,9 @@ export type CreateProfilePictureInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `ProfilePicture` to be created by this mutation. */
-  profilePicture: ProfilePictureInput
+  readonly profilePicture: ProfilePictureInput
 }
 
 /** All input for the create `Report` mutation. */
@@ -383,9 +498,9 @@ export type CreateReportInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `Report` to be created by this mutation. */
-  report: ReportInput
+  readonly report: ReportInput
 }
 
 /** All input for the create `Upload` mutation. */
@@ -394,22 +509,22 @@ export type CreateUploadInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The `Upload` to be created by this mutation. */
-  upload: UploadInput
+  readonly upload: UploadInput
 }
 
 /** All input for the `deleteAccountBlockByCreatedByAndBlockedAccountId` mutation. */
 export type DeleteAccountBlockByCreatedByAndBlockedAccountIdInput = {
   /** The account id of the user who is blocked. */
-  blockedAccountId: string
+  readonly blockedAccountId: string
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The account id of the user who created the account block. */
-  createdBy: string
+  readonly createdBy: string
 }
 
 /** All input for the `deleteContactByRowId` mutation. */
@@ -418,9 +533,33 @@ export type DeleteContactByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** Primary key, uniquely identifies each contact. */
-  rowId: string
+  readonly rowId: string
+}
+
+/** All input for the `deleteContactGroupByRowId` mutation. */
+export type DeleteContactGroupByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  /** Primary key, uniquely identifies each contact group. */
+  readonly rowId: string
+}
+
+/** All input for the `deleteContactGroupMemberByContactGroupIdAndContactId` mutation. */
+export type DeleteContactGroupMemberByContactGroupIdAndContactIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  /** A contact group id. */
+  readonly contactGroupId: string
+  /** A contact id. */
+  readonly contactId: string
 }
 
 /** All input for the `deleteDeviceByCreatedByAndFcmToken` mutation. */
@@ -429,24 +568,24 @@ export type DeleteDeviceByCreatedByAndFcmTokenInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** Reference to the account that created the device. */
-  createdBy: string
+  readonly createdBy: string
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
-  fcmToken: string
+  readonly fcmToken: string
 }
 
 /** All input for the `deleteEventCategoryMappingByEventIdAndCategoryId` mutation. */
 export type DeleteEventCategoryMappingByEventIdAndCategoryIdInput = {
   /** A category id. */
-  categoryId: string
+  readonly categoryId: string
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** An event id. */
-  eventId: string
+  readonly eventId: string
 }
 
 /** All input for the `deleteEventFavoriteByRowId` mutation. */
@@ -455,9 +594,9 @@ export type DeleteEventFavoriteByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** Primary key, uniquely identifies each favorite entry. */
-  rowId: string
+  readonly rowId: string
 }
 
 /** All input for the `deleteEventFormatMappingByEventIdAndFormatId` mutation. */
@@ -466,11 +605,22 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** An event id. */
-  eventId: string
+  readonly eventId: string
   /** A format id. */
-  formatId: string
+  readonly formatId: string
+}
+
+/** All input for the `deleteEventUploadByRowId` mutation. */
+export type DeleteEventUploadByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  /** Primary key, uniquely identifies each event-upload association. */
+  readonly rowId: string
 }
 
 /** All input for the `deleteGuestByRowId` mutation. */
@@ -479,35 +629,35 @@ export type DeleteGuestByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The guest's internal id. */
-  rowId: string
+  readonly rowId: string
 }
 
 /** All input for the `deletePreferenceEventCategoryByAccountIdAndCategoryId` mutation. */
 export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput = {
   /** A user account id. */
-  accountId: string
+  readonly accountId: string
   /** An event category id. */
-  categoryId: string
+  readonly categoryId: string
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
 }
 
 /** All input for the `deletePreferenceEventFormatByAccountIdAndFormatId` mutation. */
 export type DeletePreferenceEventFormatByAccountIdAndFormatIdInput = {
   /** A user account id. */
-  accountId: string
+  readonly accountId: string
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The id of an event format. */
-  formatId: string
+  readonly formatId: string
 }
 
 /** All input for the `deletePreferenceEventLocationByRowId` mutation. */
@@ -516,22 +666,22 @@ export type DeletePreferenceEventLocationByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** Unique identifier for the preference record. */
-  rowId: string
+  readonly rowId: string
 }
 
 /** All input for the `deletePreferenceEventSizeByAccountIdAndEventSize` mutation. */
 export type DeletePreferenceEventSizeByAccountIdAndEventSizeInput = {
   /** The account's internal id. */
-  accountId: string
+  readonly accountId: string
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** A preferred event size. */
-  eventSize: EventSize
+  readonly eventSize: EventSize
 }
 
 /** All input for the `deleteProfilePictureByRowId` mutation. */
@@ -540,9 +690,9 @@ export type DeleteProfilePictureByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The profile picture's internal id. */
-  rowId: string
+  readonly rowId: string
 }
 
 /** All input for the `deleteUploadByRowId` mutation. */
@@ -551,59 +701,57 @@ export type DeleteUploadByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The upload's internal id. */
-  rowId: string
+  readonly rowId: string
 }
 
 /** An input for mutations affecting `Device` */
 export type DeviceInput = {
   /** Reference to the account that created the device. */
-  createdBy: string
+  readonly createdBy: string
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
-  fcmToken: string
+  readonly fcmToken: string
 }
 
 /** An input for mutations affecting `EventCategoryMapping` */
 export type EventCategoryMappingInput = {
   /** A category id. */
-  categoryId: string
+  readonly categoryId: string
   /** An event id. */
-  eventId: string
+  readonly eventId: string
 }
 
 /** A condition to be used against `Event` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type EventCondition = {
   /** Checks for equality with the object’s `addressId` field. */
-  addressId?: string | null | undefined
+  readonly addressId?: string | null | undefined
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: string | null | undefined
-  /** Checks for equality with the object’s `end` field. */
-  end?: string | null | undefined
+  readonly createdBy?: string | null | undefined
   /** Events ending before this instant, exclusive, where an event without an end ends at its start. */
-  endsBefore?: string | null | undefined
+  readonly endsBefore?: string | null | undefined
   /** Events ending at or after this instant, inclusive, where an event without an end ends at its start. */
-  endsFrom?: string | null | undefined
+  readonly endsFrom?: string | null | undefined
   /** Whether the event has ended, judged by its end, or by its start if it has no end, against the database clock. */
-  hasEnded?: boolean | null | undefined
+  readonly hasEnded?: boolean | null | undefined
   /** Whether the invoker attends the event, that is whether one of their contacts accepted a guest invitation to it. Combine with `hasEnded` to split upcoming from past events. */
-  isAttending?: boolean | null | undefined
+  readonly isAttending?: boolean | null | undefined
   /** Whether the invoker is invited to the event, that is whether they claimed one of its guest invitations or one of their contacts was invited to it, whatever the feedback. Combine with `hasEnded` to split upcoming from past invitations. */
-  isInvited?: boolean | null | undefined
+  readonly isInvited?: boolean | null | undefined
   /** Checks for equality with the object’s `name` field. */
-  name?: string | null | undefined
+  readonly name?: string | null | undefined
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: string | null | undefined
+  readonly rowId?: string | null | undefined
   /** Events matching the search text by prefix on their name and description, or by similarity to their name. A blank text matches every event. Combine with other conditions such as `createdBy` to search within a subset. */
-  search?: string | null | undefined
+  readonly search?: string | null | undefined
   /** Checks for equality with the object’s `slug` field. */
-  slug?: string | null | undefined
+  readonly slug?: string | null | undefined
   /** Checks for equality with the object’s `start` field. */
-  start?: string | null | undefined
+  readonly start?: string | null | undefined
   /** Events starting before this instant, exclusive. */
-  startsBefore?: string | null | undefined
+  readonly startsBefore?: string | null | undefined
   /** Events starting at or after this instant, inclusive. */
-  startsFrom?: string | null | undefined
+  readonly startsFrom?: string | null | undefined
 }
 
 /** All input for the `eventDelete` mutation. */
@@ -612,56 +760,60 @@ export type EventDeleteInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  id: string
-  password: string
+  readonly clientMutationId?: string | null | undefined
+  readonly id: string
+  readonly password: string
 }
 
 /** An input for mutations affecting `EventFavorite` */
 export type EventFavoriteInput = {
   /** Reference to the account that created the event favorite. */
-  createdBy: string
+  readonly createdBy: string
   /** Reference to the event that is marked as a favorite. */
-  eventId: string
+  readonly eventId: string
 }
 
 /** An input for mutations affecting `EventFormatMapping` */
 export type EventFormatMappingInput = {
   /** An event id. */
-  eventId: string
+  readonly eventId: string
   /** A format id. */
-  formatId: string
+  readonly formatId: string
 }
 
 /** An input for mutations affecting `Event` */
 export type EventInput = {
   /** Optional reference to the physical address of the event. */
-  addressId?: string | null | undefined
+  readonly addressId?: string | null | undefined
   /** The event creator's id. */
-  createdBy: string
+  readonly createdBy: string
   /** The event's description. Must be non-empty and not exceed 10,000 characters. */
-  description?: string | null | undefined
+  readonly description?: string | null | undefined
   /** The event's end date and time, with time zone. */
-  end?: string | null | undefined
+  readonly end?: string | null | undefined
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  readonly feedbackDeadline?: string | null | undefined
   /** The event's maximum guest count. Must be greater than 0. */
-  guestCountMaximum?: number | null | undefined
+  readonly guestCountMaximum?: number | null | undefined
   /** Indicates whether the event is archived. */
-  isArchived?: boolean | null | undefined
+  readonly isArchived?: boolean | null | undefined
   /** Indicates whether the event takes place in person. */
-  isInPerson?: boolean | null | undefined
+  readonly isInPerson?: boolean | null | undefined
   /** Indicates whether the event takes place remotely. */
-  isRemote?: boolean | null | undefined
-  language?: Language | null | undefined
+  readonly isRemote?: boolean | null | undefined
+  readonly language?: Language | null | undefined
   /** The event's name. Must be non-empty and not exceed 100 characters. */
-  name: string
+  readonly name: string
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
+  readonly publishedAt?: string | null | undefined
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
-  slug: string
+  readonly slug: string
   /** The event's start date and time, with time zone. */
-  start: string
+  readonly start: string
   /** The event's unified resource locator. Must start with "https://" and not exceed 2,000 characters. */
-  url?: string | null | undefined
+  readonly url?: string | null | undefined
   /** The event's visibility. */
-  visibility: EventVisibility
+  readonly visibility: EventVisibility
 }
 
 /** Methods to use when ordering `Event`. */
@@ -685,53 +837,84 @@ export type EventOrderBy =
 /** Represents an update to a `Event`. Fields that are set will be updated. */
 export type EventPatch = {
   /** Optional reference to the physical address of the event. */
-  addressId?: string | null | undefined
+  readonly addressId?: string | null | undefined
   /** The event creator's id. */
-  createdBy?: string | null | undefined
+  readonly createdBy?: string | null | undefined
   /** The event's description. Must be non-empty and not exceed 10,000 characters. */
-  description?: string | null | undefined
+  readonly description?: string | null | undefined
   /** The event's end date and time, with time zone. */
-  end?: string | null | undefined
+  readonly end?: string | null | undefined
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  readonly feedbackDeadline?: string | null | undefined
   /** The event's maximum guest count. Must be greater than 0. */
-  guestCountMaximum?: number | null | undefined
+  readonly guestCountMaximum?: number | null | undefined
   /** Indicates whether the event is archived. */
-  isArchived?: boolean | null | undefined
+  readonly isArchived?: boolean | null | undefined
   /** Indicates whether the event takes place in person. */
-  isInPerson?: boolean | null | undefined
+  readonly isInPerson?: boolean | null | undefined
   /** Indicates whether the event takes place remotely. */
-  isRemote?: boolean | null | undefined
-  language?: Language | null | undefined
+  readonly isRemote?: boolean | null | undefined
+  readonly language?: Language | null | undefined
   /** The event's name. Must be non-empty and not exceed 100 characters. */
-  name?: string | null | undefined
+  readonly name?: string | null | undefined
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
+  readonly publishedAt?: string | null | undefined
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
-  slug?: string | null | undefined
+  readonly slug?: string | null | undefined
   /** The event's start date and time, with time zone. */
-  start?: string | null | undefined
+  readonly start?: string | null | undefined
   /** The event's unified resource locator. Must start with "https://" and not exceed 2,000 characters. */
-  url?: string | null | undefined
+  readonly url?: string | null | undefined
   /** The event's visibility. */
-  visibility?: EventVisibility | null | undefined
+  readonly visibility?: EventVisibility | null | undefined
 }
 
 /** Possible event sizes: small, medium, large, huge. */
 export type EventSize = 'huge' | 'large' | 'medium' | 'small'
 
-/** Possible visibilities of events and event groups: public, private and unlisted. */
-export type EventVisibility = 'private' | 'public' | 'unlisted'
+/** An input for mutations affecting `EventUpload` */
+export type EventUploadInput = {
+  /** Reference to the event associated with the upload. */
+  readonly eventId: string
+  /** Optional boolean flag indicating if the upload is the header image for the event. */
+  readonly isHeaderImage?: boolean | null | undefined
+  /** Reference to the uploaded file. */
+  readonly uploadId: string
+}
+
+/** Possible visibilities of events and event groups: public and private. */
+export type EventVisibility = 'private' | 'public'
+
+/** An input for mutations affecting `Guest` */
+export type GuestInput = {
+  /** The internal id of the guest's contact. */
+  readonly contactId: string
+  /** The internal id of the guest's event. */
+  readonly eventId: string
+  /** The guest's own feedback status. Only the guest can set it. */
+  readonly feedback?: InvitationFeedback | null | undefined
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  readonly feedbackOverride?: InvitationFeedback | null | undefined
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  readonly feedbackReason?: string | null | undefined
+}
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The guest's general feedback status. */
-  feedback?: InvitationFeedback | null | undefined
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InvitationFeedbackPaper | null | undefined
+  /** The number of additional guests the organizer approved for the guest, each of whom takes a seat of the event. The organizer can raise it up to the request, the guest can only lower it. Setting it fails with error code **VTGCM** when the event's maximum guest count would be exceeded. Resets to 0 when the guest's effective feedback is `canceled`. */
+  readonly companionCount?: number | null | undefined
+  /** The number of additional guests the guest asks the organizer to approve in total. `NULL` when there is no pending request, which also holds for a request that does not exceed the approved companion count. The organizer clears it by approving or rejecting. Resets to `NULL` when the guest's effective feedback is `canceled`. */
+  readonly companionCountRequested?: number | null | undefined
+  /** The guest's own feedback status. Only the guest can set it. */
+  readonly feedback?: InvitationFeedback | null | undefined
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  readonly feedbackOverride?: InvitationFeedback | null | undefined
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  readonly feedbackReason?: string | null | undefined
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
 export type InvitationFeedback = 'accepted' | 'canceled'
-
-/** Possible choices on how to receive a paper invitation: none, paper, digital. */
-export type InvitationFeedbackPaper = 'digital' | 'none' | 'paper'
 
 /** All input for the `jwtCreate` mutation. */
 export type JwtCreateInput = {
@@ -739,19 +922,19 @@ export type JwtCreateInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  password: string
-  username: string
+  readonly clientMutationId?: string | null | undefined
+  readonly password: string
+  readonly username: string
 }
 
 /** All input for the `jwtUpdateAttendanceAdd` mutation. */
 export type JwtUpdateAttendanceAddInput = {
-  attendanceId: string
+  readonly attendanceId: string
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
 }
 
 /** All input for the `jwtUpdateGuestAdd` mutation. */
@@ -760,8 +943,8 @@ export type JwtUpdateGuestAddInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  guestId: string
+  readonly clientMutationId?: string | null | undefined
+  readonly guestId: string
 }
 
 /** All input for the `jwtUpdate` mutation. */
@@ -770,8 +953,8 @@ export type JwtUpdateInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
-  jwtId: string
+  readonly clientMutationId?: string | null | undefined
+  readonly jwtId: string
 }
 
 /** Supported ISO 639 language codes. */
@@ -780,89 +963,89 @@ export type Language = 'de' | 'en'
 /** An input for mutations affecting `PreferenceEventCategory` */
 export type PreferenceEventCategoryInput = {
   /** A user account id. */
-  accountId: string
+  readonly accountId: string
   /** An event category id. */
-  categoryId: string
-  createdAt?: string | null | undefined
-  rowId?: string | null | undefined
+  readonly categoryId: string
+  readonly createdAt?: string | null | undefined
+  readonly rowId?: string | null | undefined
 }
 
 /** An input for mutations affecting `PreferenceEventFormat` */
 export type PreferenceEventFormatInput = {
   /** A user account id. */
-  accountId: string
+  readonly accountId: string
   /** The timestammp when the record was created.. */
-  createdAt?: string | null | undefined
+  readonly createdAt?: string | null | undefined
   /** The id of an event format. */
-  formatId: string
-  rowId?: string | null | undefined
+  readonly formatId: string
+  readonly rowId?: string | null | undefined
 }
 
 /** An input for mutations affecting `PreferenceEventLocation` */
 export type PreferenceEventLocationInput = {
   /** Reference to the account that created the location preference. */
-  createdBy: string
+  readonly createdBy: string
   /** Geographical point representing the preferred location, derived from latitude and longitude. */
-  location: GeoJSON
+  readonly location: GeoJSON
   /** Search radius in meters around the location where events are preferred. Must be positive. */
-  radius: number
+  readonly radius: number
 }
 
 /** An input for mutations affecting `PreferenceEventSize` */
 export type PreferenceEventSizeInput = {
   /** The account's internal id. */
-  accountId: string
+  readonly accountId: string
   /** A preferred event size. */
-  eventSize: EventSize
-  rowId?: string | null | undefined
+  readonly eventSize: EventSize
+  readonly rowId?: string | null | undefined
 }
 
 /** An input for mutations affecting `ProfilePicture` */
 export type ProfilePictureInput = {
   /** The account's id. */
-  accountId: string
+  readonly accountId: string
   /** The upload's id. */
-  uploadId: string
+  readonly uploadId: string
 }
 
 /** An input for mutations affecting `Report` */
 export type ReportInput = {
   /** The ID of the user who created the report. */
-  createdBy: string
+  readonly createdBy: string
   /** The reason for the report, provided by the reporting user. Must be non-empty and not exceed 2,000 characters. */
-  reason: string
+  readonly reason: string
   /** The ID of the account being reported, if applicable. */
-  targetAccountId?: string | null | undefined
+  readonly targetAccountId?: string | null | undefined
   /** The ID of the event being reported, if applicable. */
-  targetEventId?: string | null | undefined
+  readonly targetEventId?: string | null | undefined
   /** The ID of the upload being reported, if applicable. */
-  targetUploadId?: string | null | undefined
+  readonly targetUploadId?: string | null | undefined
 }
 
 /** All input for the `updateAccountByRowId` mutation. */
 export type UpdateAccountByRowIdInput = {
   /** An object where the defined keys will be set on the `Account` being updated. */
-  accountPatch: AccountPatch
+  readonly accountPatch: AccountPatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** The account's internal id. */
-  rowId: string
+  readonly rowId: string
 }
 
 /** All input for the `updateAddressByRowId` mutation. */
 export type UpdateAddressByRowIdInput = {
   /** An object where the defined keys will be set on the `Address` being updated. */
-  addressPatch: AddressPatch
+  readonly addressPatch: AddressPatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** Primary key, uniquely identifies each address. */
-  rowId: string
+  readonly rowId: string
 }
 
 /** All input for the `updateContactByRowId` mutation. */
@@ -871,11 +1054,24 @@ export type UpdateContactByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** An object where the defined keys will be set on the `Contact` being updated. */
-  contactPatch: ContactPatch
+  readonly contactPatch: ContactPatch
   /** Primary key, uniquely identifies each contact. */
-  rowId: string
+  readonly rowId: string
+}
+
+/** All input for the `updateContactGroupByRowId` mutation. */
+export type UpdateContactGroupByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: string | null | undefined
+  /** An object where the defined keys will be set on the `ContactGroup` being updated. */
+  readonly contactGroupPatch: ContactGroupPatch
+  /** Primary key, uniquely identifies each contact group. */
+  readonly rowId: string
 }
 
 /** All input for the `updateEventByRowId` mutation. */
@@ -884,11 +1080,11 @@ export type UpdateEventByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** An object where the defined keys will be set on the `Event` being updated. */
-  eventPatch: EventPatch
+  readonly eventPatch: EventPatch
   /** The event's internal id. */
-  rowId: string
+  readonly rowId: string
 }
 
 /** All input for the `updateGuestByRowId` mutation. */
@@ -897,21 +1093,21 @@ export type UpdateGuestByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: string | null | undefined
+  readonly clientMutationId?: string | null | undefined
   /** An object where the defined keys will be set on the `Guest` being updated. */
-  guestPatch: GuestPatch
+  readonly guestPatch: GuestPatch
   /** The guest's internal id. */
-  rowId: string
+  readonly rowId: string
 }
 
 /** An input for mutations affecting `Upload` */
 export type UploadInput = {
   /** The uploader's account id. */
-  createdBy: string
+  readonly createdBy: string
   /** The name of the uploaded file. Must be non-empty and not exceed 300 characters. */
-  name?: string | null | undefined
+  readonly name?: string | null | undefined
   /** The upload's size in bytes. */
-  sizeByte: number
+  readonly sizeByte: number
 }
 
 export type AccountDeleteMutationVariables = Exact<{
@@ -919,7 +1115,7 @@ export type AccountDeleteMutationVariables = Exact<{
 }>
 
 export type AccountDeleteMutation = {
-  accountDelete: { clientMutationId: string | null } | null
+  readonly accountDelete: { readonly clientMutationId: string | null } | null
 }
 
 export type AccountPickerSearchQueryVariables = Exact<{
@@ -928,8 +1124,12 @@ export type AccountPickerSearchQueryVariables = Exact<{
 }>
 
 export type AccountPickerSearchQuery = {
-  accountSearch: {
-    nodes: Array<{ id: string; rowId: string; username: string }>
+  readonly accountSearch: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly rowId: string
+      readonly username: string
+    }>
   } | null
 }
 
@@ -938,17 +1138,17 @@ export type AccountByRowIdQueryVariables = Exact<{
 }>
 
 export type AccountByRowIdQuery = {
-  accountByRowId: {
-    id: string
-    rowId: string
-    username: string
-    profilePictureByAccountId: {
-      id: string
-      rowId: string
-      uploadByUploadId: {
-        id: string
-        rowId: string
-        storageKey: string | null
+  readonly accountByRowId: {
+    readonly id: string
+    readonly rowId: string
+    readonly username: string
+    readonly profilePictureByAccountId: {
+      readonly id: string
+      readonly rowId: string
+      readonly uploadByUploadId: {
+        readonly id: string
+        readonly rowId: string
+        readonly storageKey: string | null
       } | null
     } | null
   } | null
@@ -959,7 +1159,9 @@ export type DeleteProfilePictureByRowIdMutationMutationVariables = Exact<{
 }>
 
 export type DeleteProfilePictureByRowIdMutationMutation = {
-  deleteProfilePictureByRowId: { clientMutationId: string | null } | null
+  readonly deleteProfilePictureByRowId: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type AccountSearchQueryVariables = Exact<{
@@ -969,9 +1171,17 @@ export type AccountSearchQueryVariables = Exact<{
 }>
 
 export type AccountSearchQuery = {
-  accountSearch: {
-    nodes: Array<{ id: string; rowId: string; username: string }>
-    pageInfo: { endCursor: string | null; hasNextPage: boolean }
+  readonly accountSearch: {
+    readonly nodes: ReadonlyArray<{
+      readonly displayName: string | null
+      readonly id: string
+      readonly rowId: string
+      readonly username: string
+    }>
+    readonly pageInfo: {
+      readonly endCursor: string | null
+      readonly hasNextPage: boolean
+    }
   } | null
 }
 
@@ -980,7 +1190,9 @@ export type CreateAccountBlockMutationVariables = Exact<{
 }>
 
 export type CreateAccountBlockMutation = {
-  createAccountBlock: { clientMutationId: string | null } | null
+  readonly createAccountBlock: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type DeleteAccountBlockMutationVariables = Exact<{
@@ -988,8 +1200,8 @@ export type DeleteAccountBlockMutationVariables = Exact<{
 }>
 
 export type DeleteAccountBlockMutation = {
-  deleteAccountBlockByCreatedByAndBlockedAccountId: {
-    clientMutationId: string | null
+  readonly deleteAccountBlockByCreatedByAndBlockedAccountId: {
+    readonly clientMutationId: string | null
   } | null
 }
 
@@ -998,24 +1210,29 @@ export type AttendanceGuestQueryVariables = Exact<{
 }>
 
 export type AttendanceGuestQuery = {
-  guestByRowId: {
-    feedback: InvitationFeedback | null
-    id: string
-    rowId: string
-    contactByContactId: {
-      firstName: string | null
-      id: string
-      lastName: string | null
-      language: Language | null
-      nickname: string | null
-      rowId: string
-      accountByAccountId: { id: string; rowId: string; username: string } | null
+  readonly guestByRowId: {
+    readonly feedback: InvitationFeedback | null
+    readonly feedbackOverride: InvitationFeedback | null
+    readonly id: string
+    readonly rowId: string
+    readonly contactByContactId: {
+      readonly firstName: string | null
+      readonly id: string
+      readonly lastName: string | null
+      readonly language: Language | null
+      readonly nickname: string | null
+      readonly rowId: string
+      readonly accountByAccountId: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
+      } | null
     } | null
-    attendanceByGuestId: {
-      checkedOut: boolean | null
-      id: string
-      rowId: string
-      updatedAt: string | null
+    readonly attendanceByGuestId: {
+      readonly checkedOut: boolean | null
+      readonly id: string
+      readonly rowId: string
+      readonly updatedAt: string | null
     } | null
   } | null
 }
@@ -1025,7 +1242,31 @@ export type DeleteContactByRowIdMutationVariables = Exact<{
 }>
 
 export type DeleteContactByRowIdMutation = {
-  deleteContactByRowId: { clientMutationId: string | null } | null
+  readonly deleteContactByRowId: {
+    readonly clientMutationId: string | null
+  } | null
+}
+
+export type DeleteContactGroupByRowIdMutationVariables = Exact<{
+  input: DeleteContactGroupByRowIdInput
+}>
+
+export type DeleteContactGroupByRowIdMutation = {
+  readonly deleteContactGroupByRowId: {
+    readonly clientMutationId: string | null
+  } | null
+}
+
+export type UpdateContactGroupByRowIdMutationVariables = Exact<{
+  input: UpdateContactGroupByRowIdInput
+}>
+
+export type UpdateContactGroupByRowIdMutation = {
+  readonly updateContactGroupByRowId: {
+    readonly contactGroup: {
+      ' $fragmentRefs'?: { ContactGroupItemFragment: ContactGroupItemFragment }
+    } | null
+  } | null
 }
 
 export type AllContactsContactListQueryVariables = Exact<{
@@ -1035,14 +1276,33 @@ export type AllContactsContactListQueryVariables = Exact<{
 }>
 
 export type AllContactsContactListQuery = {
-  allContacts: {
-    totalCount: number
-    nodes: Array<
-      { guestsByContactId: { totalCount: number } } & {
-        ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
-      }
+  readonly allContacts: {
+    readonly totalCount: number
+    readonly nodes: ReadonlyArray<
+      {
+        readonly addressId: string | null
+        readonly language: Language | null
+        readonly timeZone: string | null
+        readonly contactGroupMembersByContactId: {
+          readonly nodes: ReadonlyArray<{ readonly contactGroupId: string }>
+        }
+        readonly guestsByContactId: { readonly totalCount: number }
+      } & { ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment } }
     >
-    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+    readonly pageInfo: {
+      readonly hasNextPage: boolean
+      readonly endCursor: string | null
+    }
+  } | null
+}
+
+export type ContactMergeMutationVariables = Exact<{
+  input: ContactMergeInput
+}>
+
+export type ContactMergeMutation = {
+  readonly contactMerge: {
+    readonly result: { readonly id: string; readonly rowId: string } | null
   } | null
 }
 
@@ -1051,8 +1311,12 @@ export type AllLegalTermsQueryVariables = Exact<{
 }>
 
 export type AllLegalTermsQuery = {
-  allLegalTerms: {
-    nodes: Array<{ id: string; rowId: string; term: string }>
+  readonly allLegalTerms: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly rowId: string
+      readonly term: string
+    }>
   } | null
 }
 
@@ -1061,7 +1325,7 @@ export type EventDeleteMutationVariables = Exact<{
 }>
 
 export type EventDeleteMutation = {
-  eventDelete: { clientMutationId: string | null } | null
+  readonly eventDelete: { readonly clientMutationId: string | null } | null
 }
 
 export type CreateEventFavoriteMutationVariables = Exact<{
@@ -1069,13 +1333,13 @@ export type CreateEventFavoriteMutationVariables = Exact<{
 }>
 
 export type CreateEventFavoriteMutation = {
-  createEventFavorite: {
-    eventFavorite: {
-      createdBy: string
-      eventId: string
-      id: string
-      rowId: string
-      eventByEventId: { id: string } | null
+  readonly createEventFavorite: {
+    readonly eventFavorite: {
+      readonly createdBy: string
+      readonly eventId: string
+      readonly id: string
+      readonly rowId: string
+      readonly eventByEventId: { readonly id: string } | null
     } | null
   } | null
 }
@@ -1085,62 +1349,84 @@ export type DeleteEventFavoriteByRowIdMutationVariables = Exact<{
 }>
 
 export type DeleteEventFavoriteByRowIdMutation = {
-  deleteEventFavoriteByRowId: { clientMutationId: string | null } | null
+  readonly deleteEventFavoriteByRowId: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
-export type EventListMineQueryVariables = Exact<{
+export type EventListMineEventsQueryVariables = Exact<{
   after?: string | null | undefined
   condition: EventCondition
   first: number
-  orderBy?: Array<EventOrderBy> | EventOrderBy | null | undefined
+  orderBy?: ReadonlyArray<EventOrderBy> | EventOrderBy | null | undefined
 }>
 
-export type EventListMineQuery = {
-  allEvents: {
-    nodes: Array<{
-      end: string | null
-      guestCount: number
-      id: string
-      isInPerson: boolean | null
-      name: string
-      rowId: string
-      slug: string
-      start: string
-      accountByCreatedBy: { id: string; rowId: string; username: string } | null
-      addressByAddressId: {
-        city: string | null
-        id: string
-        rowId: string
-        location: { latitude: number; longitude: number } | null
+export type EventListMineEventsQuery = {
+  readonly allEvents: {
+    readonly nodes: ReadonlyArray<{
+      readonly end: string | null
+      readonly guestCountAccepted: number
+      readonly id: string
+      readonly isInPerson: boolean | null
+      readonly name: string
+      readonly rowId: string
+      readonly slug: string
+      readonly start: string
+      readonly accountByCreatedBy: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
       } | null
-      eventCategoryMappingsByEventId: {
-        nodes: Array<{
-          id: string
-          eventCategoryByCategoryId: { id: string; name: string } | null
+      readonly addressByAddressId: {
+        readonly city: string | null
+        readonly id: string
+        readonly rowId: string
+        readonly location: {
+          readonly latitude: number
+          readonly longitude: number
+        } | null
+      } | null
+      readonly eventCategoryMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventCategoryByCategoryId: {
+            readonly id: string
+            readonly name: string
+          } | null
         }>
       }
-      eventFavoritesByEventId: {
-        nodes: Array<{ createdBy: string; id: string; rowId: string }>
-      }
-      eventFormatMappingsByEventId: {
-        nodes: Array<{
-          id: string
-          eventFormatByFormatId: { id: string; name: string } | null
+      readonly eventFavoritesByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly createdBy: string
+          readonly id: string
+          readonly rowId: string
         }>
       }
-      guestsByEventId: {
-        nodes: Array<{
-          id: string
-          rowId: string
-          contactByContactId: {
-            accountId: string | null
-            id: string
-            rowId: string
+      readonly eventFormatMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventFormatByFormatId: {
+            readonly id: string
+            readonly name: string
+          } | null
+        }>
+      }
+      readonly guestsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly rowId: string
+          readonly contactByContactId: {
+            readonly accountId: string | null
+            readonly id: string
+            readonly rowId: string
           } | null
         }>
       }
     }>
-    pageInfo: { endCursor: string | null; hasNextPage: boolean }
+    readonly pageInfo: {
+      readonly endCursor: string | null
+      readonly hasNextPage: boolean
+    }
   } | null
 }
 
@@ -1150,52 +1436,65 @@ export type EventListMineSavedQueryVariables = Exact<{
 }>
 
 export type EventListMineSavedQuery = {
-  allEventFavorites: {
-    nodes: Array<{
-      id: string
-      eventByEventId: {
-        end: string | null
-        guestCount: number
-        id: string
-        isInPerson: boolean | null
-        name: string
-        rowId: string
-        slug: string
-        start: string
-        accountByCreatedBy: {
-          id: string
-          rowId: string
-          username: string
+  readonly allEventFavorites: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly eventByEventId: {
+        readonly end: string | null
+        readonly guestCountAccepted: number
+        readonly id: string
+        readonly isInPerson: boolean | null
+        readonly name: string
+        readonly rowId: string
+        readonly slug: string
+        readonly start: string
+        readonly accountByCreatedBy: {
+          readonly id: string
+          readonly rowId: string
+          readonly username: string
         } | null
-        addressByAddressId: {
-          city: string | null
-          id: string
-          rowId: string
-          location: { latitude: number; longitude: number } | null
+        readonly addressByAddressId: {
+          readonly city: string | null
+          readonly id: string
+          readonly rowId: string
+          readonly location: {
+            readonly latitude: number
+            readonly longitude: number
+          } | null
         } | null
-        eventCategoryMappingsByEventId: {
-          nodes: Array<{
-            id: string
-            eventCategoryByCategoryId: { id: string; name: string } | null
+        readonly eventCategoryMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly eventCategoryByCategoryId: {
+              readonly id: string
+              readonly name: string
+            } | null
           }>
         }
-        eventFavoritesByEventId: {
-          nodes: Array<{ createdBy: string; id: string; rowId: string }>
-        }
-        eventFormatMappingsByEventId: {
-          nodes: Array<{
-            id: string
-            eventFormatByFormatId: { id: string; name: string } | null
+        readonly eventFavoritesByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly createdBy: string
+            readonly id: string
+            readonly rowId: string
           }>
         }
-        guestsByEventId: {
-          nodes: Array<{
-            id: string
-            rowId: string
-            contactByContactId: {
-              accountId: string | null
-              id: string
-              rowId: string
+        readonly eventFormatMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly eventFormatByFormatId: {
+              readonly id: string
+              readonly name: string
+            } | null
+          }>
+        }
+        readonly guestsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly rowId: string
+            readonly contactByContactId: {
+              readonly accountId: string | null
+              readonly id: string
+              readonly rowId: string
             } | null
           }>
         }
@@ -1210,52 +1509,83 @@ export type EventListQueryVariables = Exact<{
 }>
 
 export type EventListQuery = {
-  allEvents: {
-    totalCount: number
-    nodes: Array<{
-      end: string | null
-      guestCount: number
-      id: string
-      isInPerson: boolean | null
-      name: string
-      rowId: string
-      slug: string
-      start: string
-      accountByCreatedBy: { id: string; rowId: string; username: string } | null
-      addressByAddressId: {
-        city: string | null
-        id: string
-        rowId: string
-        location: { latitude: number; longitude: number } | null
+  readonly allEvents: {
+    readonly totalCount: number
+    readonly nodes: ReadonlyArray<{
+      readonly guestCountAccepted: number
+      readonly id: string
+      readonly isInPerson: boolean | null
+      readonly name: string
+      readonly rowId: string
+      readonly slug: string
+      readonly start: string
+      readonly accountByCreatedBy: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
       } | null
-      eventCategoryMappingsByEventId: {
-        nodes: Array<{
-          id: string
-          eventCategoryByCategoryId: { id: string; name: string } | null
+      readonly addressByAddressId: {
+        readonly city: string | null
+        readonly id: string
+        readonly rowId: string
+        readonly location: {
+          readonly latitude: number
+          readonly longitude: number
+        } | null
+      } | null
+      readonly eventCategoryMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventCategoryByCategoryId: {
+            readonly id: string
+            readonly name: string
+          } | null
         }>
       }
-      eventFavoritesByEventId: {
-        nodes: Array<{ id: string; createdBy: string; rowId: string }>
-      }
-      eventFormatMappingsByEventId: {
-        nodes: Array<{
-          id: string
-          eventFormatByFormatId: { id: string; name: string } | null
+      readonly eventFavoritesByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly createdBy: string
+          readonly rowId: string
         }>
       }
-      guestsByEventId: {
-        nodes: Array<{
-          id: string
-          rowId: string
-          contactByContactId: {
-            accountId: string | null
-            id: string
-            rowId: string
+      readonly eventFormatMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventFormatByFormatId: {
+            readonly id: string
+            readonly name: string
+          } | null
+        }>
+      }
+      readonly eventUploadsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly isHeaderImage: boolean | null
+          readonly rowId: string
+          readonly uploadByUploadId: {
+            readonly id: string
+            readonly rowId: string
+            readonly storageKey: string | null
+          } | null
+        }>
+      }
+      readonly guestsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly rowId: string
+          readonly contactByContactId: {
+            readonly accountId: string | null
+            readonly id: string
+            readonly rowId: string
           } | null
         }>
       }
     }>
-    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+    readonly pageInfo: {
+      readonly hasNextPage: boolean
+      readonly endCursor: string | null
+    }
   } | null
 }
 
@@ -1266,52 +1596,83 @@ export type EventSearchQueryVariables = Exact<{
 }>
 
 export type EventSearchQuery = {
-  eventSearch: {
-    totalCount: number
-    nodes: Array<{
-      end: string | null
-      guestCount: number
-      id: string
-      isInPerson: boolean | null
-      name: string
-      rowId: string
-      slug: string
-      start: string
-      accountByCreatedBy: { id: string; rowId: string; username: string } | null
-      addressByAddressId: {
-        city: string | null
-        id: string
-        rowId: string
-        location: { latitude: number; longitude: number } | null
+  readonly eventSearch: {
+    readonly totalCount: number
+    readonly nodes: ReadonlyArray<{
+      readonly guestCountAccepted: number
+      readonly id: string
+      readonly isInPerson: boolean | null
+      readonly name: string
+      readonly rowId: string
+      readonly slug: string
+      readonly start: string
+      readonly accountByCreatedBy: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
       } | null
-      eventCategoryMappingsByEventId: {
-        nodes: Array<{
-          id: string
-          eventCategoryByCategoryId: { id: string; name: string } | null
+      readonly addressByAddressId: {
+        readonly city: string | null
+        readonly id: string
+        readonly rowId: string
+        readonly location: {
+          readonly latitude: number
+          readonly longitude: number
+        } | null
+      } | null
+      readonly eventCategoryMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventCategoryByCategoryId: {
+            readonly id: string
+            readonly name: string
+          } | null
         }>
       }
-      eventFavoritesByEventId: {
-        nodes: Array<{ createdBy: string; id: string; rowId: string }>
-      }
-      eventFormatMappingsByEventId: {
-        nodes: Array<{
-          id: string
-          eventFormatByFormatId: { id: string; name: string } | null
+      readonly eventFavoritesByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly createdBy: string
+          readonly id: string
+          readonly rowId: string
         }>
       }
-      guestsByEventId: {
-        nodes: Array<{
-          id: string
-          rowId: string
-          contactByContactId: {
-            accountId: string | null
-            id: string
-            rowId: string
+      readonly eventFormatMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventFormatByFormatId: {
+            readonly id: string
+            readonly name: string
+          } | null
+        }>
+      }
+      readonly eventUploadsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly isHeaderImage: boolean | null
+          readonly rowId: string
+          readonly uploadByUploadId: {
+            readonly id: string
+            readonly rowId: string
+            readonly storageKey: string | null
+          } | null
+        }>
+      }
+      readonly guestsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly rowId: string
+          readonly contactByContactId: {
+            readonly accountId: string | null
+            readonly id: string
+            readonly rowId: string
           } | null
         }>
       }
     }>
-    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+    readonly pageInfo: {
+      readonly hasNextPage: boolean
+      readonly endCursor: string | null
+    }
   } | null
 }
 
@@ -1320,7 +1681,32 @@ export type CreateReportMutationVariables = Exact<{
 }>
 
 export type CreateReportMutation = {
-  createReport: { clientMutationId: string | null } | null
+  readonly createReport: { readonly clientMutationId: string | null } | null
+}
+
+export type CreateContactGroupMemberMutationVariables = Exact<{
+  input: CreateContactGroupMemberInput
+}>
+
+export type CreateContactGroupMemberMutation = {
+  readonly createContactGroupMember: {
+    readonly contactGroupMember: {
+      readonly contactGroupId: string
+      readonly contactId: string
+    } | null
+  } | null
+}
+
+export type CreateContactGroupMutationVariables = Exact<{
+  input: CreateContactGroupInput
+}>
+
+export type CreateContactGroupMutation = {
+  readonly createContactGroup: {
+    readonly contactGroup: {
+      ' $fragmentRefs'?: { ContactGroupItemFragment: ContactGroupItemFragment }
+    } | null
+  } | null
 }
 
 export type CreateContactMutationVariables = Exact<{
@@ -1328,7 +1714,20 @@ export type CreateContactMutationVariables = Exact<{
 }>
 
 export type CreateContactMutation = {
-  createContact: { contact: { id: string } | null } | null
+  readonly createContact: {
+    readonly contact: { readonly id: string; readonly rowId: string } | null
+  } | null
+}
+
+export type DeleteContactGroupMemberByContactGroupIdAndContactIdMutationVariables =
+  Exact<{
+    input: DeleteContactGroupMemberByContactGroupIdAndContactIdInput
+  }>
+
+export type DeleteContactGroupMemberByContactGroupIdAndContactIdMutation = {
+  readonly deleteContactGroupMemberByContactGroupIdAndContactId: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type UpdateContactByRowIdMutationVariables = Exact<{
@@ -1336,8 +1735,8 @@ export type UpdateContactByRowIdMutationVariables = Exact<{
 }>
 
 export type UpdateContactByRowIdMutation = {
-  updateContactByRowId: {
-    contact: {
+  readonly updateContactByRowId: {
+    readonly contact: {
       ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
     } | null
   } | null
@@ -1348,7 +1747,9 @@ export type CreateEventMutationVariables = Exact<{
 }>
 
 export type CreateEventMutation = {
-  createEvent: { event: { id: string; rowId: string } | null } | null
+  readonly createEvent: {
+    readonly event: { readonly id: string; readonly rowId: string } | null
+  } | null
 }
 
 export type UpdateEventByRowIdMutationVariables = Exact<{
@@ -1356,30 +1757,34 @@ export type UpdateEventByRowIdMutationVariables = Exact<{
 }>
 
 export type UpdateEventByRowIdMutation = {
-  updateEventByRowId: {
-    event: {
-      description: string | null
-      end: string | null
-      guestCountMaximum: number | null
-      id: string
-      isInPerson: boolean | null
-      isRemote: boolean | null
-      name: string
-      slug: string
-      start: string
-      url: string | null
-      visibility: EventVisibility
-      addressByAddressId: {
-        city: string | null
-        country: string | null
-        id: string
-        line1: string | null
-        line2: string | null
-        name: string
-        postalCode: string | null
-        region: string | null
-        rowId: string
-        location: { latitude: number; longitude: number } | null
+  readonly updateEventByRowId: {
+    readonly event: {
+      readonly description: string | null
+      readonly end: string | null
+      readonly feedbackDeadline: string | null
+      readonly guestCountMaximum: number | null
+      readonly id: string
+      readonly isInPerson: boolean | null
+      readonly isRemote: boolean | null
+      readonly name: string
+      readonly slug: string
+      readonly start: string
+      readonly url: string | null
+      readonly visibility: EventVisibility
+      readonly addressByAddressId: {
+        readonly city: string | null
+        readonly country: string | null
+        readonly id: string
+        readonly line1: string | null
+        readonly line2: string | null
+        readonly name: string
+        readonly postalCode: string | null
+        readonly region: string | null
+        readonly rowId: string
+        readonly location: {
+          readonly latitude: number
+          readonly longitude: number
+        } | null
       } | null
     } | null
   } | null
@@ -1390,7 +1795,9 @@ export type CreateAddressMutationVariables = Exact<{
 }>
 
 export type CreateAddressMutation = {
-  createAddress: { address: { rowId: string } | null } | null
+  readonly createAddress: {
+    readonly address: { readonly rowId: string } | null
+  } | null
 }
 
 export type UpdateAddressByRowIdMutationVariables = Exact<{
@@ -1398,7 +1805,9 @@ export type UpdateAddressByRowIdMutationVariables = Exact<{
 }>
 
 export type UpdateAddressByRowIdMutation = {
-  updateAddressByRowId: { address: { rowId: string } | null } | null
+  readonly updateAddressByRowId: {
+    readonly address: { readonly rowId: string } | null
+  } | null
 }
 
 export type CreateEventCategoryMappingMutationVariables = Exact<{
@@ -1406,11 +1815,11 @@ export type CreateEventCategoryMappingMutationVariables = Exact<{
 }>
 
 export type CreateEventCategoryMappingMutation = {
-  createEventCategoryMapping: {
-    eventCategoryMapping: {
-      categoryId: string
-      id: string
-      eventByEventId: { id: string } | null
+  readonly createEventCategoryMapping: {
+    readonly eventCategoryMapping: {
+      readonly categoryId: string
+      readonly id: string
+      readonly eventByEventId: { readonly id: string } | null
     } | null
   } | null
 }
@@ -1421,11 +1830,11 @@ export type DeleteEventCategoryMappingByEventIdAndCategoryIdMutationVariables =
   }>
 
 export type DeleteEventCategoryMappingByEventIdAndCategoryIdMutation = {
-  deleteEventCategoryMappingByEventIdAndCategoryId: {
-    deletedEventCategoryMappingId: string | null
-    eventCategoryMapping: {
-      id: string
-      eventByEventId: { id: string } | null
+  readonly deleteEventCategoryMappingByEventIdAndCategoryId: {
+    readonly deletedEventCategoryMappingId: string | null
+    readonly eventCategoryMapping: {
+      readonly id: string
+      readonly eventByEventId: { readonly id: string } | null
     } | null
   } | null
 }
@@ -1435,11 +1844,11 @@ export type CreateEventFormatMappingMutationVariables = Exact<{
 }>
 
 export type CreateEventFormatMappingMutation = {
-  createEventFormatMapping: {
-    eventFormatMapping: {
-      formatId: string
-      id: string
-      eventByEventId: { id: string } | null
+  readonly createEventFormatMapping: {
+    readonly eventFormatMapping: {
+      readonly formatId: string
+      readonly id: string
+      readonly eventByEventId: { readonly id: string } | null
     } | null
   } | null
 }
@@ -1450,11 +1859,38 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdMutationVariables =
   }>
 
 export type DeleteEventFormatMappingByEventIdAndFormatIdMutation = {
-  deleteEventFormatMappingByEventIdAndFormatId: {
-    deletedEventFormatMappingId: string | null
-    eventFormatMapping: {
-      id: string
-      eventByEventId: { id: string } | null
+  readonly deleteEventFormatMappingByEventIdAndFormatId: {
+    readonly deletedEventFormatMappingId: string | null
+    readonly eventFormatMapping: {
+      readonly id: string
+      readonly eventByEventId: { readonly id: string } | null
+    } | null
+  } | null
+}
+
+export type CreateEventUploadMutationVariables = Exact<{
+  input: CreateEventUploadInput
+}>
+
+export type CreateEventUploadMutation = {
+  readonly createEventUpload: {
+    readonly eventUpload: {
+      readonly id: string
+      readonly eventByEventId: { readonly id: string } | null
+    } | null
+  } | null
+}
+
+export type DeleteEventUploadByRowIdMutationVariables = Exact<{
+  input: DeleteEventUploadByRowIdInput
+}>
+
+export type DeleteEventUploadByRowIdMutation = {
+  readonly deleteEventUploadByRowId: {
+    readonly deletedEventUploadId: string | null
+    readonly eventUpload: {
+      readonly id: string
+      readonly eventByEventId: { readonly id: string } | null
     } | null
   } | null
 }
@@ -1464,8 +1900,12 @@ export type AllEventCategoriesFormEventQueryVariables = Exact<{
 }>
 
 export type AllEventCategoriesFormEventQuery = {
-  allEventCategories: {
-    nodes: Array<{ id: string; name: string; rowId: string }>
+  readonly allEventCategories: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly name: string
+      readonly rowId: string
+    }>
   } | null
 }
 
@@ -1474,8 +1914,12 @@ export type AllEventFormatsFormEventQueryVariables = Exact<{
 }>
 
 export type AllEventFormatsFormEventQuery = {
-  allEventFormats: {
-    nodes: Array<{ id: string; name: string; rowId: string }>
+  readonly allEventFormats: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly name: string
+      readonly rowId: string
+    }>
   } | null
 }
 
@@ -1486,12 +1930,19 @@ export type AllContactsQueryVariables = Exact<{
 }>
 
 export type AllContactsQuery = {
-  allContacts: {
-    totalCount: number
-    nodes: Array<{
-      ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
-    }>
-    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+  readonly allContacts: {
+    readonly totalCount: number
+    readonly nodes: ReadonlyArray<
+      {
+        readonly contactGroupMembersByContactId: {
+          readonly nodes: ReadonlyArray<{ readonly contactGroupId: string }>
+        }
+      } & { ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment } }
+    >
+    readonly pageInfo: {
+      readonly hasNextPage: boolean
+      readonly endCursor: string | null
+    }
   } | null
 }
 
@@ -1500,8 +1951,8 @@ export type CreateGuestContactMutationVariables = Exact<{
 }>
 
 export type CreateGuestContactMutation = {
-  createContact: {
-    contact: {
+  readonly createContact: {
+    readonly contact: {
       ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
     } | null
   } | null
@@ -1512,12 +1963,15 @@ export type CreateGuestsMutationVariables = Exact<{
 }>
 
 export type CreateGuestsMutation = {
-  createGuests: {
-    result: Array<{
-      contactId: string
-      id: string
-      rowId: string
-      eventByEventId: { guestCount: number; id: string } | null
+  readonly createGuests: {
+    readonly result: ReadonlyArray<{
+      readonly contactId: string
+      readonly id: string
+      readonly rowId: string
+      readonly eventByEventId: {
+        readonly guestCount: number
+        readonly id: string
+      } | null
     }> | null
   } | null
 }
@@ -1527,7 +1981,9 @@ export type AccountPasswordResetMutationVariables = Exact<{
 }>
 
 export type AccountPasswordResetMutation = {
-  accountPasswordReset: { clientMutationId: string | null } | null
+  readonly accountPasswordReset: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type AccountPasswordResetRequestMutationVariables = Exact<{
@@ -1535,7 +1991,9 @@ export type AccountPasswordResetRequestMutationVariables = Exact<{
 }>
 
 export type AccountPasswordResetRequestMutation = {
-  accountPasswordResetRequest: { clientMutationId: string | null } | null
+  readonly accountPasswordResetRequest: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type GuestCodeQueryVariables = Exact<{
@@ -1543,23 +2001,31 @@ export type GuestCodeQueryVariables = Exact<{
 }>
 
 export type GuestCodeQuery = {
-  guestByRowId: {
-    id: string
-    rowId: string
-    contactByContactId: {
-      firstName: string | null
-      id: string
-      lastName: string | null
-      nickname: string | null
-      rowId: string
-      accountByAccountId: { id: string; rowId: string; username: string } | null
+  readonly guestByRowId: {
+    readonly id: string
+    readonly rowId: string
+    readonly contactByContactId: {
+      readonly firstName: string | null
+      readonly id: string
+      readonly lastName: string | null
+      readonly nickname: string | null
+      readonly rowId: string
+      readonly accountByAccountId: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
+      } | null
     } | null
-    eventByEventId: {
-      id: string
-      name: string
-      rowId: string
-      start: string
-      accountByCreatedBy: { id: string; rowId: string; username: string } | null
+    readonly eventByEventId: {
+      readonly id: string
+      readonly name: string
+      readonly rowId: string
+      readonly start: string
+      readonly accountByCreatedBy: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
+      } | null
     } | null
   } | null
 }
@@ -1569,11 +2035,14 @@ export type DeleteGuestByRowIdMutationVariables = Exact<{
 }>
 
 export type DeleteGuestByRowIdMutation = {
-  deleteGuestByRowId: {
-    guest: {
-      id: string
-      rowId: string
-      eventByEventId: { guestCount: number; id: string } | null
+  readonly deleteGuestByRowId: {
+    readonly guest: {
+      readonly id: string
+      readonly rowId: string
+      readonly eventByEventId: {
+        readonly guestCount: number
+        readonly id: string
+      } | null
     } | null
   } | null
 }
@@ -1585,12 +2054,15 @@ export type AllGuestsQueryVariables = Exact<{
 }>
 
 export type AllGuestsQuery = {
-  allGuests: {
-    totalCount: number
-    nodes: Array<{
+  readonly allGuests: {
+    readonly totalCount: number
+    readonly nodes: ReadonlyArray<{
       ' $fragmentRefs'?: { GuestItemFragment: GuestItemFragment }
     }>
-    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+    readonly pageInfo: {
+      readonly hasNextPage: boolean
+      readonly endCursor: string | null
+    }
   } | null
 }
 
@@ -1599,11 +2071,36 @@ export type UpdateGuestByRowIdFeedbackMutationVariables = Exact<{
 }>
 
 export type UpdateGuestByRowIdFeedbackMutation = {
-  updateGuestByRowId: {
-    guest: {
-      feedback: InvitationFeedback | null
-      id: string
-      rowId: string
+  readonly updateGuestByRowId: {
+    readonly guest: {
+      readonly companionCount: number
+      readonly companionCountRequested: number | null
+      readonly feedbackOverride: InvitationFeedback | null
+      readonly id: string
+      readonly rowId: string
+      readonly eventByEventId: {
+        readonly guestCount: number
+        readonly id: string
+      } | null
+    } | null
+  } | null
+}
+
+export type UpdateGuestByRowIdCompanionMutationVariables = Exact<{
+  input: UpdateGuestByRowIdInput
+}>
+
+export type UpdateGuestByRowIdCompanionMutation = {
+  readonly updateGuestByRowId: {
+    readonly guest: {
+      readonly companionCount: number
+      readonly companionCountRequested: number | null
+      readonly id: string
+      readonly rowId: string
+      readonly eventByEventId: {
+        readonly guestCount: number
+        readonly id: string
+      } | null
     } | null
   } | null
 }
@@ -1611,8 +2108,12 @@ export type UpdateGuestByRowIdFeedbackMutation = {
 export type AllEventCategoriesQueryVariables = Exact<{ [key: string]: never }>
 
 export type AllEventCategoriesQuery = {
-  allEventCategories: {
-    nodes: Array<{ id: string; name: string; rowId: string }>
+  readonly allEventCategories: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly name: string
+      readonly rowId: string
+    }>
   } | null
 }
 
@@ -1621,8 +2122,8 @@ export type CreatePreferenceEventCategoryMutationVariables = Exact<{
 }>
 
 export type CreatePreferenceEventCategoryMutation = {
-  createPreferenceEventCategory: {
-    preferenceEventCategory: {
+  readonly createPreferenceEventCategory: {
+    readonly preferenceEventCategory: {
       ' $fragmentRefs'?: {
         PreferenceEventCategoryItemFragment: PreferenceEventCategoryItemFragment
       }
@@ -1636,16 +2137,20 @@ export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutationVariabl
   }>
 
 export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation = {
-  deletePreferenceEventCategoryByAccountIdAndCategoryId: {
-    deletedPreferenceEventCategoryId: string | null
+  readonly deletePreferenceEventCategoryByAccountIdAndCategoryId: {
+    readonly deletedPreferenceEventCategoryId: string | null
   } | null
 }
 
 export type AllEventFormatsQueryVariables = Exact<{ [key: string]: never }>
 
 export type AllEventFormatsQuery = {
-  allEventFormats: {
-    nodes: Array<{ id: string; name: string; rowId: string }>
+  readonly allEventFormats: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly name: string
+      readonly rowId: string
+    }>
   } | null
 }
 
@@ -1654,8 +2159,8 @@ export type CreatePreferenceEventFormatMutationVariables = Exact<{
 }>
 
 export type CreatePreferenceEventFormatMutation = {
-  createPreferenceEventFormat: {
-    preferenceEventFormat: {
+  readonly createPreferenceEventFormat: {
+    readonly preferenceEventFormat: {
       ' $fragmentRefs'?: {
         PreferenceEventFormatItemFragment: PreferenceEventFormatItemFragment
       }
@@ -1669,8 +2174,8 @@ export type DeletePreferenceEventFormatByAccountIdAndFormatIdMutationVariables =
   }>
 
 export type DeletePreferenceEventFormatByAccountIdAndFormatIdMutation = {
-  deletePreferenceEventFormatByAccountIdAndFormatId: {
-    deletedPreferenceEventFormatId: string | null
+  readonly deletePreferenceEventFormatByAccountIdAndFormatId: {
+    readonly deletedPreferenceEventFormatId: string | null
   } | null
 }
 
@@ -1679,8 +2184,8 @@ export type CreatePreferenceEventLocationMutationVariables = Exact<{
 }>
 
 export type CreatePreferenceEventLocationMutation = {
-  createPreferenceEventLocation: {
-    preferenceEventLocation: {
+  readonly createPreferenceEventLocation: {
+    readonly preferenceEventLocation: {
       ' $fragmentRefs'?: {
         PreferenceEventLocationItemFragment: PreferenceEventLocationItemFragment
       }
@@ -1693,8 +2198,8 @@ export type DeletePreferenceEventLocationByRowIdMutationVariables = Exact<{
 }>
 
 export type DeletePreferenceEventLocationByRowIdMutation = {
-  deletePreferenceEventLocationByRowId: {
-    deletedPreferenceEventLocationId: string | null
+  readonly deletePreferenceEventLocationByRowId: {
+    readonly deletedPreferenceEventLocationId: string | null
   } | null
 }
 
@@ -1703,8 +2208,12 @@ export type AllPreferenceEventSizesQueryVariables = Exact<{
 }>
 
 export type AllPreferenceEventSizesQuery = {
-  allPreferenceEventSizes: {
-    nodes: Array<{ eventSize: EventSize; id: string; rowId: string }>
+  readonly allPreferenceEventSizes: {
+    readonly nodes: ReadonlyArray<{
+      readonly eventSize: EventSize
+      readonly id: string
+      readonly rowId: string
+    }>
   } | null
 }
 
@@ -1713,7 +2222,9 @@ export type CreatePreferenceEventSizeMutationVariables = Exact<{
 }>
 
 export type CreatePreferenceEventSizeMutation = {
-  createPreferenceEventSize: { clientMutationId: string | null } | null
+  readonly createPreferenceEventSize: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
@@ -1722,8 +2233,8 @@ export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
   }>
 
 export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
-  deletePreferenceEventSizeByAccountIdAndEventSize: {
-    clientMutationId: string | null
+  readonly deletePreferenceEventSizeByAccountIdAndEventSize: {
+    readonly clientMutationId: string | null
   } | null
 }
 
@@ -1732,7 +2243,9 @@ export type DeleteUploadByRowIdMutationVariables = Exact<{
 }>
 
 export type DeleteUploadByRowIdMutation = {
-  deleteUploadByRowId: { clientMutationId: string | null } | null
+  readonly deleteUploadByRowId: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type AccountUploadQuotaBytesQueryVariables = Exact<{
@@ -1740,7 +2253,7 @@ export type AccountUploadQuotaBytesQueryVariables = Exact<{
 }>
 
 export type AccountUploadQuotaBytesQuery = {
-  accountUploadQuotaBytes: number | null
+  readonly accountUploadQuotaBytes: number | null
 }
 
 export type AllUploadsQueryVariables = Exact<{
@@ -1750,15 +2263,18 @@ export type AllUploadsQueryVariables = Exact<{
 }>
 
 export type AllUploadsQuery = {
-  allUploads: {
-    totalCount: number
-    nodes: Array<{
-      id: string
-      rowId: string
-      sizeByte: number
-      storageKey: string | null
+  readonly allUploads: {
+    readonly totalCount: number
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly rowId: string
+      readonly sizeByte: number
+      readonly storageKey: string | null
     }>
-    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+    readonly pageInfo: {
+      readonly hasNextPage: boolean
+      readonly endCursor: string | null
+    }
   } | null
 }
 
@@ -1767,9 +2283,9 @@ export type CreateUploadMutationVariables = Exact<{
 }>
 
 export type CreateUploadMutation = {
-  createUpload: {
-    clientMutationId: string | null
-    upload: { id: string; rowId: string } | null
+  readonly createUpload: {
+    readonly clientMutationId: string | null
+    readonly upload: { readonly id: string; readonly rowId: string } | null
   } | null
 }
 
@@ -1778,7 +2294,27 @@ export type DeleteFailedUploadMutationVariables = Exact<{
 }>
 
 export type DeleteFailedUploadMutation = {
-  deleteUploadByRowId: { clientMutationId: string | null } | null
+  readonly deleteUploadByRowId: {
+    readonly clientMutationId: string | null
+  } | null
+}
+
+export type AllContactGroupsQueryVariables = Exact<{
+  after?: string | null | undefined
+  createdBy?: string | null | undefined
+  first: number
+}>
+
+export type AllContactGroupsQuery = {
+  readonly allContactGroups: {
+    readonly nodes: ReadonlyArray<{
+      ' $fragmentRefs'?: { ContactGroupItemFragment: ContactGroupItemFragment }
+    }>
+    readonly pageInfo: {
+      readonly hasNextPage: boolean
+      readonly endCursor: string | null
+    }
+  } | null
 }
 
 export type OwnContactQueryVariables = Exact<{
@@ -1786,10 +2322,10 @@ export type OwnContactQueryVariables = Exact<{
 }>
 
 export type OwnContactQuery = {
-  contactByCreatedByAndAccountId: {
-    id: string
-    language: Language | null
-    rowId: string
+  readonly contactByCreatedByAndAccountId: {
+    readonly id: string
+    readonly language: Language | null
+    readonly rowId: string
   } | null
 }
 
@@ -1798,8 +2334,12 @@ export type UpdateOwnContactLanguageMutationVariables = Exact<{
 }>
 
 export type UpdateOwnContactLanguageMutation = {
-  updateContactByRowId: {
-    contact: { id: string; language: Language | null; rowId: string } | null
+  readonly updateContactByRowId: {
+    readonly contact: {
+      readonly id: string
+      readonly language: Language | null
+      readonly rowId: string
+    } | null
   } | null
 }
 
@@ -1808,29 +2348,38 @@ export type JwtUpdateGuestAddGuestMutationVariables = Exact<{
 }>
 
 export type JwtUpdateGuestAddGuestMutation = {
-  jwtUpdateGuestAdd: { result: string | null } | null
+  readonly jwtUpdateGuestAdd: { readonly result: string | null } | null
 }
 
 export type AccountEditQueryVariables = Exact<{
+  accountId?: string | null | undefined
   username: string
 }>
 
 export type AccountEditQuery = {
-  accountByUsername: {
-    description: string | null
-    id: string
-    imprintUrl: string | null
-    rowId: string
-    username: string
-    profilePictureByAccountId: {
-      id: string
-      rowId: string
-      uploadByUploadId: {
-        id: string
-        rowId: string
-        storageKey: string | null
+  readonly accountByUsername: {
+    readonly description: string | null
+    readonly displayName: string | null
+    readonly id: string
+    readonly imprintUrl: string | null
+    readonly rowId: string
+    readonly username: string
+    readonly profilePictureByAccountId: {
+      readonly id: string
+      readonly rowId: string
+      readonly uploadByUploadId: {
+        readonly id: string
+        readonly rowId: string
+        readonly storageKey: string | null
       } | null
     } | null
+  } | null
+  readonly allContacts: {
+    readonly nodes: ReadonlyArray<{
+      readonly firstName: string | null
+      readonly id: string
+      readonly lastName: string | null
+    }>
   } | null
 }
 
@@ -1839,12 +2388,13 @@ export type UpdateAccountByRowIdMutationVariables = Exact<{
 }>
 
 export type UpdateAccountByRowIdMutation = {
-  updateAccountByRowId: {
-    account: {
-      description: string | null
-      id: string
-      imprintUrl: string | null
-      rowId: string
+  readonly updateAccountByRowId: {
+    readonly account: {
+      readonly description: string | null
+      readonly displayName: string | null
+      readonly id: string
+      readonly imprintUrl: string | null
+      readonly rowId: string
     } | null
   } | null
 }
@@ -1854,10 +2404,13 @@ export type AccountProfilePictureQueryVariables = Exact<{
 }>
 
 export type AccountProfilePictureQuery = {
-  accountByUsername: {
-    id: string
-    rowId: string
-    profilePictureByAccountId: { id: string; rowId: string } | null
+  readonly accountByUsername: {
+    readonly id: string
+    readonly rowId: string
+    readonly profilePictureByAccountId: {
+      readonly id: string
+      readonly rowId: string
+    } | null
   } | null
 }
 
@@ -1866,15 +2419,18 @@ export type CreateProfilePictureMutationVariables = Exact<{
 }>
 
 export type CreateProfilePictureMutation = {
-  createProfilePicture: {
-    profilePicture: {
-      id: string
-      rowId: string
-      uploadId: string
-      accountByAccountId: {
-        id: string
-        rowId: string
-        profilePictureByAccountId: { id: string; rowId: string } | null
+  readonly createProfilePicture: {
+    readonly profilePicture: {
+      readonly id: string
+      readonly rowId: string
+      readonly uploadId: string
+      readonly accountByAccountId: {
+        readonly id: string
+        readonly rowId: string
+        readonly profilePictureByAccountId: {
+          readonly id: string
+          readonly rowId: string
+        } | null
       } | null
     } | null
   } | null
@@ -1885,17 +2441,19 @@ export type AccountEmailAddressVerificationMutationVariables = Exact<{
 }>
 
 export type AccountEmailAddressVerificationMutation = {
-  accountEmailAddressVerification: { clientMutationId: string | null } | null
+  readonly accountEmailAddressVerification: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type AccountBlockAccountsQueryVariables = Exact<{ [key: string]: never }>
 
 export type AccountBlockAccountsQuery = {
-  accountBlockAccounts: {
-    nodes: Array<{
-      id: string | null
-      storageKey: string | null
-      username: string | null
+  readonly accountBlockAccounts: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string | null
+      readonly storageKey: string | null
+      readonly username: string | null
     }>
   } | null
 }
@@ -1905,54 +2463,81 @@ export type AccountQueryVariables = Exact<{
 }>
 
 export type AccountQuery = {
-  accountByUsername: {
-    description: string | null
-    id: string
-    imprintUrl: string | null
-    rowId: string
-    achievementsByAccountId: {
-      nodes: Array<{ achievement: AchievementType; id: string; rowId: string }>
+  readonly accountByUsername: {
+    readonly description: string | null
+    readonly displayName: string | null
+    readonly id: string
+    readonly imprintUrl: string | null
+    readonly rowId: string
+    readonly achievementsByAccountId: {
+      readonly nodes: ReadonlyArray<{
+        readonly achievement: AchievementType
+        readonly id: string
+        readonly rowId: string
+      }>
     }
-    profilePictureByAccountId: {
-      id: string
-      rowId: string
-      uploadByUploadId: {
-        id: string
-        rowId: string
-        storageKey: string | null
+    readonly profilePictureByAccountId: {
+      readonly id: string
+      readonly rowId: string
+      readonly uploadByUploadId: {
+        readonly id: string
+        readonly rowId: string
+        readonly storageKey: string | null
       } | null
     } | null
-    eventsByCreatedBy: {
-      totalCount: number
-      nodes: Array<{
-        id: string
-        name: string
-        rowId: string
-        slug: string
-        start: string
-        eventCategoryMappingsByEventId: {
-          nodes: Array<{
-            id: string
-            eventCategoryByCategoryId: { id: string; name: string } | null
+    readonly eventsByCreatedBy: {
+      readonly totalCount: number
+      readonly nodes: ReadonlyArray<{
+        readonly id: string
+        readonly name: string
+        readonly rowId: string
+        readonly slug: string
+        readonly start: string
+        readonly eventCategoryMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly eventCategoryByCategoryId: {
+              readonly id: string
+              readonly name: string
+            } | null
           }>
         }
-        eventFavoritesByEventId: {
-          nodes: Array<{ createdBy: string; id: string; rowId: string }>
-        }
-        eventFormatMappingsByEventId: {
-          nodes: Array<{
-            id: string
-            eventFormatByFormatId: { id: string; name: string } | null
+        readonly eventFavoritesByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly createdBy: string
+            readonly id: string
+            readonly rowId: string
           }>
         }
-        guestsByEventId: {
-          nodes: Array<{
-            id: string
-            rowId: string
-            contactByContactId: {
-              accountId: string | null
-              id: string
-              rowId: string
+        readonly eventFormatMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly eventFormatByFormatId: {
+              readonly id: string
+              readonly name: string
+            } | null
+          }>
+        }
+        readonly eventUploadsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly isHeaderImage: boolean | null
+            readonly rowId: string
+            readonly uploadByUploadId: {
+              readonly id: string
+              readonly rowId: string
+              readonly storageKey: string | null
+            } | null
+          }>
+        }
+        readonly guestsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly rowId: string
+            readonly contactByContactId: {
+              readonly accountId: string | null
+              readonly id: string
+              readonly rowId: string
             } | null
           }>
         }
@@ -1966,37 +2551,56 @@ export type AttendanceQueryVariables = Exact<{
 }>
 
 export type AttendanceQuery = {
-  attendanceByRowId: {
-    checkedOut: boolean | null
-    id: string
-    rowId: string
-    updatedAt: string | null
-    contactByContactId: {
-      firstName: string | null
-      id: string
-      lastName: string | null
-      language: Language | null
-      nickname: string | null
-      rowId: string
-      accountByAccountId: { id: string; rowId: string; username: string } | null
+  readonly attendanceByRowId: {
+    readonly checkedOut: boolean | null
+    readonly createdAt: string
+    readonly id: string
+    readonly rowId: string
+    readonly tagSerialNumber: string | null
+    readonly updatedAt: string | null
+    readonly contactByContactId: {
+      readonly firstName: string | null
+      readonly id: string
+      readonly lastName: string | null
+      readonly language: Language | null
+      readonly nickname: string | null
+      readonly rowId: string
+      readonly accountByAccountId: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
+      } | null
     } | null
-    guestByGuestId: { id: string; rowId: string } | null
+    readonly guestByGuestId: {
+      readonly id: string
+      readonly rowId: string
+      readonly contactByContactId: {
+        readonly accountId: string | null
+        readonly id: string
+      } | null
+    } | null
   } | null
-  eventByAttendanceId: {
-    id: string
-    name: string
-    rowId: string
-    eventAppsByEventId: {
-      nodes: Array<{
-        id: string
-        rowId: string
-        appByAppId: {
-          iconSvg: string
-          id: string
-          name: string
-          rowId: string
-          url: string
-          urlAttendance: string
+  readonly eventByAttendanceId: {
+    readonly createdBy: string
+    readonly id: string
+    readonly name: string
+    readonly slug: string
+    readonly rowId: string
+    readonly accountByCreatedBy: {
+      readonly id: string
+      readonly username: string
+    } | null
+    readonly eventAppsByEventId: {
+      readonly nodes: ReadonlyArray<{
+        readonly id: string
+        readonly rowId: string
+        readonly appByAppId: {
+          readonly iconSvg: string
+          readonly id: string
+          readonly name: string
+          readonly rowId: string
+          readonly url: string
+          readonly urlAttendance: string
         } | null
       }>
     }
@@ -2009,12 +2613,12 @@ export type AttendanceCheckOutMutationVariables = Exact<{
 }>
 
 export type AttendanceCheckOutMutation = {
-  updateAttendanceByRowId: {
-    attendance: {
-      id: string
-      checkedOut: boolean | null
-      rowId: string
-      updatedAt: string | null
+  readonly updateAttendanceByRowId: {
+    readonly attendance: {
+      readonly id: string
+      readonly checkedOut: boolean | null
+      readonly rowId: string
+      readonly updatedAt: string | null
     } | null
   } | null
 }
@@ -2025,18 +2629,24 @@ export type ContactByRowIdQueryVariables = Exact<{
 }>
 
 export type ContactByRowIdQuery = {
-  contactByRowId:
+  readonly contactByRowId:
     | ({
-        guestsByContactId: {
-          totalCount: number
-          nodes: Array<{
-            id: string
-            eventByEventId: {
-              id: string
-              name: string
-              slug: string
-              start: string
-              accountByCreatedBy: { id: string; username: string } | null
+        readonly contactGroupMembersByContactId: {
+          readonly nodes: ReadonlyArray<{ readonly contactGroupId: string }>
+        }
+        readonly guestsByContactId: {
+          readonly totalCount: number
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly eventByEventId: {
+              readonly id: string
+              readonly name: string
+              readonly slug: string
+              readonly start: string
+              readonly accountByCreatedBy: {
+                readonly id: string
+                readonly username: string
+              } | null
             } | null
           }>
         }
@@ -2051,18 +2661,77 @@ export type AllContactsEmailAddressesQueryVariables = Exact<{
 }>
 
 export type AllContactsEmailAddressesQuery = {
-  allContacts: {
-    nodes: Array<{ emailAddress: string | null; id: string }>
-    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+  readonly allContacts: {
+    readonly nodes: ReadonlyArray<{
+      readonly emailAddresses: ReadonlyArray<string> | null
+      readonly firstName: string | null
+      readonly id: string
+      readonly lastName: string | null
+      readonly phoneNumber: string | null
+      readonly rowId: string
+    }>
+    readonly pageInfo: {
+      readonly hasNextPage: boolean
+      readonly endCursor: string | null
+    }
   } | null
 }
 
-export type CreateContactImportMutationVariables = Exact<{
-  input: CreateContactInput
+export type UpdateContactByRowIdImportMutationVariables = Exact<{
+  input: UpdateContactByRowIdInput
 }>
 
-export type CreateContactImportMutation = {
-  createContact: { contact: { id: string } | null } | null
+export type UpdateContactByRowIdImportMutation = {
+  readonly updateContactByRowId: {
+    readonly contact: {
+      readonly emailAddresses: ReadonlyArray<string> | null
+      readonly firstName: string | null
+      readonly id: string
+      readonly lastName: string | null
+      readonly phoneNumber: string | null
+      readonly rowId: string
+    } | null
+  } | null
+}
+
+export type CreateContactGroupMembersImportMutationVariables = Exact<{
+  input: CreateContactGroupMembersInput
+}>
+
+export type CreateContactGroupMembersImportMutation = {
+  readonly createContactGroupMembers: {
+    readonly result: ReadonlyArray<{
+      readonly contactGroupId: string
+      readonly contactId: string
+      readonly id: string
+    }> | null
+  } | null
+}
+
+export type CreateContactGroupsImportMutationVariables = Exact<{
+  input: CreateContactGroupsInput
+}>
+
+export type CreateContactGroupsImportMutation = {
+  readonly createContactGroups: {
+    readonly result: ReadonlyArray<{
+      ' $fragmentRefs'?: { ContactGroupItemFragment: ContactGroupItemFragment }
+    }> | null
+  } | null
+}
+
+export type CreateContactsImportMutationVariables = Exact<{
+  input: CreateContactsInput
+}>
+
+export type CreateContactsImportMutation = {
+  readonly createContacts: {
+    readonly result: ReadonlyArray<{
+      readonly emailAddresses: ReadonlyArray<string> | null
+      readonly id: string
+      readonly rowId: string
+    }> | null
+  } | null
 }
 
 export type DashboardEventRecommendationsQueryVariables = Exact<{
@@ -2070,42 +2739,71 @@ export type DashboardEventRecommendationsQueryVariables = Exact<{
 }>
 
 export type DashboardEventRecommendationsQuery = {
-  eventByRowId: {
-    id: string
-    name: string
-    rowId: string
-    slug: string
-    start: string
-    accountByCreatedBy: { id: string; rowId: string; username: string } | null
-    addressByAddressId: {
-      city: string | null
-      id: string
-      rowId: string
-      location: { latitude: number; longitude: number } | null
+  readonly eventByRowId: {
+    readonly id: string
+    readonly name: string
+    readonly rowId: string
+    readonly slug: string
+    readonly start: string
+    readonly accountByCreatedBy: {
+      readonly id: string
+      readonly rowId: string
+      readonly username: string
     } | null
-    eventCategoryMappingsByEventId: {
-      nodes: Array<{
-        id: string
-        eventCategoryByCategoryId: { id: string; name: string } | null
+    readonly addressByAddressId: {
+      readonly city: string | null
+      readonly id: string
+      readonly rowId: string
+      readonly location: {
+        readonly latitude: number
+        readonly longitude: number
+      } | null
+    } | null
+    readonly eventCategoryMappingsByEventId: {
+      readonly nodes: ReadonlyArray<{
+        readonly id: string
+        readonly eventCategoryByCategoryId: {
+          readonly id: string
+          readonly name: string
+        } | null
       }>
     }
-    eventFavoritesByEventId: {
-      nodes: Array<{ createdBy: string; id: string; rowId: string }>
-    }
-    eventFormatMappingsByEventId: {
-      nodes: Array<{
-        id: string
-        eventFormatByFormatId: { id: string; name: string } | null
+    readonly eventFavoritesByEventId: {
+      readonly nodes: ReadonlyArray<{
+        readonly createdBy: string
+        readonly id: string
+        readonly rowId: string
       }>
     }
-    guestsByEventId: {
-      nodes: Array<{
-        id: string
-        rowId: string
-        contactByContactId: {
-          accountId: string | null
-          id: string
-          rowId: string
+    readonly eventFormatMappingsByEventId: {
+      readonly nodes: ReadonlyArray<{
+        readonly id: string
+        readonly eventFormatByFormatId: {
+          readonly id: string
+          readonly name: string
+        } | null
+      }>
+    }
+    readonly eventUploadsByEventId: {
+      readonly nodes: ReadonlyArray<{
+        readonly id: string
+        readonly isHeaderImage: boolean | null
+        readonly rowId: string
+        readonly uploadByUploadId: {
+          readonly id: string
+          readonly rowId: string
+          readonly storageKey: string | null
+        } | null
+      }>
+    }
+    readonly guestsByEventId: {
+      readonly nodes: ReadonlyArray<{
+        readonly id: string
+        readonly rowId: string
+        readonly contactByContactId: {
+          readonly accountId: string | null
+          readonly id: string
+          readonly rowId: string
         } | null
       }>
     }
@@ -2117,25 +2815,46 @@ export type DashboardEventUpcomingQueryVariables = Exact<{
 }>
 
 export type DashboardEventUpcomingQuery = {
-  allEvents: {
-    nodes: Array<{
-      end: string | null
-      id: string
-      name: string
-      rowId: string
-      slug: string
-      start: string
-      accountByCreatedBy: { id: string; rowId: string; username: string } | null
-      eventCategoryMappingsByEventId: {
-        nodes: Array<{
-          id: string
-          eventCategoryByCategoryId: { id: string; name: string } | null
+  readonly allEvents: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly name: string
+      readonly rowId: string
+      readonly slug: string
+      readonly start: string
+      readonly accountByCreatedBy: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
+      } | null
+      readonly eventCategoryMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventCategoryByCategoryId: {
+            readonly id: string
+            readonly name: string
+          } | null
         }>
       }
-      eventFormatMappingsByEventId: {
-        nodes: Array<{
-          id: string
-          eventFormatByFormatId: { id: string; name: string } | null
+      readonly eventFormatMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventFormatByFormatId: {
+            readonly id: string
+            readonly name: string
+          } | null
+        }>
+      }
+      readonly eventUploadsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly isHeaderImage: boolean | null
+          readonly rowId: string
+          readonly uploadByUploadId: {
+            readonly id: string
+            readonly rowId: string
+            readonly storageKey: string | null
+          } | null
         }>
       }
     }>
@@ -2147,10 +2866,10 @@ export type DashboardPreferenceCountQueryVariables = Exact<{
 }>
 
 export type DashboardPreferenceCountQuery = {
-  allPreferenceEventCategories: { totalCount: number } | null
-  allPreferenceEventFormats: { totalCount: number } | null
-  allPreferenceEventLocations: { totalCount: number } | null
-  allPreferenceEventSizes: { totalCount: number } | null
+  readonly allPreferenceEventCategories: { readonly totalCount: number } | null
+  readonly allPreferenceEventFormats: { readonly totalCount: number } | null
+  readonly allPreferenceEventLocations: { readonly totalCount: number } | null
+  readonly allPreferenceEventSizes: { readonly totalCount: number } | null
 }
 
 export type EventEditQueryVariables = Exact<{
@@ -2159,43 +2878,66 @@ export type EventEditQueryVariables = Exact<{
 }>
 
 export type EventEditQuery = {
-  accountByUsername: {
-    id: string
-    rowId: string
-    username: string
-    eventsByCreatedBy: {
-      nodes: Array<{
-        createdBy: string
-        description: string | null
-        end: string | null
-        id: string
-        guestCountMaximum: number | null
-        isArchived: boolean
-        isInPerson: boolean | null
-        isRemote: boolean | null
-        name: string
-        rowId: string
-        slug: string
-        start: string
-        url: string | null
-        visibility: EventVisibility
-        addressByAddressId: {
-          city: string | null
-          country: string | null
-          id: string
-          line1: string | null
-          line2: string | null
-          name: string
-          postalCode: string | null
-          region: string | null
-          rowId: string
-          location: { latitude: number; longitude: number } | null
+  readonly accountByUsername: {
+    readonly id: string
+    readonly rowId: string
+    readonly username: string
+    readonly eventsByCreatedBy: {
+      readonly nodes: ReadonlyArray<{
+        readonly createdBy: string
+        readonly description: string | null
+        readonly end: string | null
+        readonly feedbackDeadline: string | null
+        readonly id: string
+        readonly guestCountMaximum: number | null
+        readonly isArchived: boolean
+        readonly isInPerson: boolean | null
+        readonly isRemote: boolean | null
+        readonly name: string
+        readonly publishedAt: string | null
+        readonly rowId: string
+        readonly slug: string
+        readonly start: string
+        readonly url: string | null
+        readonly visibility: EventVisibility
+        readonly addressByAddressId: {
+          readonly city: string | null
+          readonly country: string | null
+          readonly id: string
+          readonly line1: string | null
+          readonly line2: string | null
+          readonly name: string
+          readonly postalCode: string | null
+          readonly region: string | null
+          readonly rowId: string
+          readonly location: {
+            readonly latitude: number
+            readonly longitude: number
+          } | null
         } | null
-        eventCategoryMappingsByEventId: {
-          nodes: Array<{ categoryId: string; id: string }>
+        readonly eventCategoryMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly categoryId: string
+            readonly id: string
+          }>
         }
-        eventFormatMappingsByEventId: {
-          nodes: Array<{ formatId: string; id: string }>
+        readonly eventFormatMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly formatId: string
+            readonly id: string
+          }>
+        }
+        readonly eventUploadsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly isHeaderImage: boolean | null
+            readonly rowId: string
+            readonly uploadByUploadId: {
+              readonly id: string
+              readonly rowId: string
+              readonly storageKey: string | null
+            } | null
+          }>
         }
       }>
     }
@@ -2208,10 +2950,15 @@ export type EventAttendanceQueryVariables = Exact<{
 }>
 
 export type EventAttendanceQuery = {
-  accountByUsername: {
-    id: string
-    eventsByCreatedBy: {
-      nodes: Array<{ id: string; name: string; rowId: string; slug: string }>
+  readonly accountByUsername: {
+    readonly id: string
+    readonly eventsByCreatedBy: {
+      readonly nodes: ReadonlyArray<{
+        readonly id: string
+        readonly name: string
+        readonly rowId: string
+        readonly slug: string
+      }>
     }
   } | null
 }
@@ -2221,20 +2968,35 @@ export type AttendanceCreateMutationVariables = Exact<{
 }>
 
 export type AttendanceCreateMutation = {
-  createAttendance: {
-    attendance: {
-      id: string
-      rowId: string
-      guestByGuestId: {
-        id: string
-        rowId: string
-        attendanceByGuestId: {
-          checkedOut: boolean | null
-          id: string
-          rowId: string
-          updatedAt: string | null
+  readonly createAttendance: {
+    readonly attendance: {
+      readonly id: string
+      readonly rowId: string
+      readonly guestByGuestId: {
+        readonly id: string
+        readonly rowId: string
+        readonly attendanceByGuestId: {
+          readonly checkedOut: boolean | null
+          readonly id: string
+          readonly rowId: string
+          readonly updatedAt: string | null
         } | null
       } | null
+    } | null
+  } | null
+}
+
+export type AttendanceTagSerialNumberUpdateMutationVariables = Exact<{
+  id: string
+  attendancePatch: AttendancePatch
+}>
+
+export type AttendanceTagSerialNumberUpdateMutation = {
+  readonly updateAttendanceByRowId: {
+    readonly attendance: {
+      readonly id: string
+      readonly rowId: string
+      readonly tagSerialNumber: string | null
     } | null
   } | null
 }
@@ -2245,34 +3007,39 @@ export type EventGuestsQueryVariables = Exact<{
 }>
 
 export type EventGuestsQuery = {
-  accountByUsername: {
-    id: string
-    rowId: string
-    eventsByCreatedBy: {
-      nodes: Array<{
-        createdBy: string
-        guestCountMaximum: number | null
-        id: string
-        name: string
-        rowId: string
-        slug: string
-        accountByCreatedBy: {
-          id: string
-          rowId: string
-          username: string
+  readonly accountByUsername: {
+    readonly id: string
+    readonly rowId: string
+    readonly eventsByCreatedBy: {
+      readonly nodes: ReadonlyArray<{
+        readonly createdBy: string
+        readonly guestCount: number
+        readonly guestCountMaximum: number | null
+        readonly id: string
+        readonly name: string
+        readonly publishedAt: string | null
+        readonly rowId: string
+        readonly slug: string
+        readonly accountByCreatedBy: {
+          readonly id: string
+          readonly rowId: string
+          readonly username: string
         } | null
-        guestsByEventId: {
-          totalCount: number
-          nodes: Array<{
-            id: string
-            rowId: string
-            contactByContactId: {
-              accountId: string | null
-              id: string
-              rowId: string
+        readonly guestsByEventId: {
+          readonly totalCount: number
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly rowId: string
+            readonly contactByContactId: {
+              readonly accountId: string | null
+              readonly id: string
+              readonly rowId: string
             } | null
           }>
-          pageInfo: { hasNextPage: boolean; endCursor: string | null }
+          readonly pageInfo: {
+            readonly hasNextPage: boolean
+            readonly endCursor: string | null
+          }
         }
       }>
     }
@@ -2285,61 +3052,109 @@ export type EventQueryVariables = Exact<{
 }>
 
 export type EventQuery = {
-  accountByUsername: {
-    id: string
-    rowId: string
-    username: string
-    eventsByCreatedBy: {
-      nodes: Array<{
-        createdBy: string
-        description: string | null
-        end: string | null
-        id: string
-        isArchived: boolean
-        isInPerson: boolean | null
-        isRemote: boolean | null
-        name: string
-        rowId: string
-        slug: string
-        start: string
-        url: string | null
-        visibility: EventVisibility
-        accountByCreatedBy: {
-          id: string
-          rowId: string
-          username: string
+  readonly accountByUsername: {
+    readonly id: string
+    readonly rowId: string
+    readonly username: string
+    readonly eventsByCreatedBy: {
+      readonly nodes: ReadonlyArray<{
+        readonly createdBy: string
+        readonly description: string | null
+        readonly end: string | null
+        readonly feedbackDeadline: string | null
+        readonly id: string
+        readonly isArchived: boolean
+        readonly isInPerson: boolean | null
+        readonly isRemote: boolean | null
+        readonly name: string
+        readonly publishedAt: string | null
+        readonly rowId: string
+        readonly slug: string
+        readonly start: string
+        readonly url: string | null
+        readonly visibility: EventVisibility
+        readonly accountByCreatedBy: {
+          readonly displayName: string | null
+          readonly id: string
+          readonly rowId: string
+          readonly username: string
         } | null
-        addressByAddressId: {
-          city: string | null
-          country: string | null
-          id: string
-          line1: string | null
-          line2: string | null
-          name: string
-          postalCode: string | null
-          region: string | null
-          rowId: string
-          location: { latitude: number; longitude: number } | null
+        readonly addressByAddressId: {
+          readonly city: string | null
+          readonly country: string | null
+          readonly id: string
+          readonly line1: string | null
+          readonly line2: string | null
+          readonly name: string
+          readonly postalCode: string | null
+          readonly region: string | null
+          readonly rowId: string
+          readonly location: {
+            readonly latitude: number
+            readonly longitude: number
+          } | null
         } | null
-        eventCategoryMappingsByEventId: {
-          nodes: Array<{
-            categoryId: string
-            id: string
-            eventCategoryByCategoryId: { id: string; name: string } | null
+        readonly eventCategoryMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly categoryId: string
+            readonly id: string
+            readonly eventCategoryByCategoryId: {
+              readonly id: string
+              readonly name: string
+            } | null
           }>
         }
-        eventFavoritesByEventId: {
-          nodes: Array<{ createdBy: string; id: string; rowId: string }>
+        readonly eventFavoritesByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly createdBy: string
+            readonly id: string
+            readonly rowId: string
+          }>
         }
-        eventFormatMappingsByEventId: {
-          nodes: Array<{
-            formatId: string
-            id: string
-            eventFormatByFormatId: { id: string; name: string } | null
+        readonly eventFormatMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly formatId: string
+            readonly id: string
+            readonly eventFormatByFormatId: {
+              readonly id: string
+              readonly name: string
+            } | null
+          }>
+        }
+        readonly eventUploadsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly isHeaderImage: boolean | null
+            readonly rowId: string
+            readonly uploadByUploadId: {
+              readonly id: string
+              readonly rowId: string
+              readonly storageKey: string | null
+            } | null
+          }>
+        }
+        readonly guestsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly rowId: string
           }>
         }
       }>
     }
+  } | null
+}
+
+export type CreateGuestMutationVariables = Exact<{
+  input: CreateGuestInput
+}>
+
+export type CreateGuestMutation = {
+  readonly createGuest: {
+    readonly guest: {
+      readonly feedback: InvitationFeedback | null
+      readonly id: string
+      readonly rowId: string
+    } | null
   } | null
 }
 
@@ -2351,50 +3166,165 @@ export type EventListAccountQueryVariables = Exact<{
 }>
 
 export type EventListAccountQuery = {
-  accountByUsername: {
-    id: string
-    rowId: string
-    eventsByCreatedBy: {
-      totalCount: number
-      nodes: Array<{
-        id: string
-        name: string
-        rowId: string
-        slug: string
-        start: string
-        addressByAddressId: {
-          id: string
-          rowId: string
-          location: { latitude: number; longitude: number } | null
+  readonly accountByUsername: {
+    readonly id: string
+    readonly rowId: string
+    readonly eventsByCreatedBy: {
+      readonly totalCount: number
+      readonly nodes: ReadonlyArray<{
+        readonly id: string
+        readonly name: string
+        readonly rowId: string
+        readonly slug: string
+        readonly start: string
+        readonly addressByAddressId: {
+          readonly id: string
+          readonly rowId: string
+          readonly location: {
+            readonly latitude: number
+            readonly longitude: number
+          } | null
         } | null
-        eventCategoryMappingsByEventId: {
-          nodes: Array<{
-            id: string
-            eventCategoryByCategoryId: { id: string; name: string } | null
+        readonly eventCategoryMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly eventCategoryByCategoryId: {
+              readonly id: string
+              readonly name: string
+            } | null
           }>
         }
-        eventFavoritesByEventId: {
-          nodes: Array<{ createdBy: string; id: string; rowId: string }>
-        }
-        eventFormatMappingsByEventId: {
-          nodes: Array<{
-            id: string
-            eventFormatByFormatId: { id: string; name: string } | null
+        readonly eventFavoritesByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly createdBy: string
+            readonly id: string
+            readonly rowId: string
           }>
         }
-        guestsByEventId: {
-          nodes: Array<{
-            id: string
-            rowId: string
-            contactByContactId: {
-              accountId: string | null
-              id: string
-              rowId: string
+        readonly eventFormatMappingsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly eventFormatByFormatId: {
+              readonly id: string
+              readonly name: string
+            } | null
+          }>
+        }
+        readonly eventUploadsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly isHeaderImage: boolean | null
+            readonly rowId: string
+            readonly uploadByUploadId: {
+              readonly id: string
+              readonly rowId: string
+              readonly storageKey: string | null
+            } | null
+          }>
+        }
+        readonly guestsByEventId: {
+          readonly nodes: ReadonlyArray<{
+            readonly id: string
+            readonly rowId: string
+            readonly contactByContactId: {
+              readonly accountId: string | null
+              readonly id: string
+              readonly rowId: string
             } | null
           }>
         }
       }>
-      pageInfo: { hasNextPage: boolean; endCursor: string | null }
+      readonly pageInfo: {
+        readonly hasNextPage: boolean
+        readonly endCursor: string | null
+      }
+    }
+  } | null
+}
+
+export type EventListInvitedQueryVariables = Exact<{
+  after?: string | null | undefined
+  first: number
+  hasEnded: boolean
+  orderBy?: ReadonlyArray<EventOrderBy> | EventOrderBy | null | undefined
+}>
+
+export type EventListInvitedQuery = {
+  readonly allEvents: {
+    readonly nodes: ReadonlyArray<{
+      readonly end: string | null
+      readonly guestCountAccepted: number
+      readonly id: string
+      readonly isInPerson: boolean | null
+      readonly name: string
+      readonly rowId: string
+      readonly slug: string
+      readonly start: string
+      readonly accountByCreatedBy: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
+      } | null
+      readonly addressByAddressId: {
+        readonly id: string
+        readonly rowId: string
+        readonly location: {
+          readonly latitude: number
+          readonly longitude: number
+        } | null
+      } | null
+      readonly eventCategoryMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventCategoryByCategoryId: {
+            readonly id: string
+            readonly name: string
+          } | null
+        }>
+      }
+      readonly eventFavoritesByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly createdBy: string
+          readonly id: string
+          readonly rowId: string
+        }>
+      }
+      readonly eventFormatMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly eventFormatByFormatId: {
+            readonly id: string
+            readonly name: string
+          } | null
+        }>
+      }
+      readonly eventUploadsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly isHeaderImage: boolean | null
+          readonly rowId: string
+          readonly uploadByUploadId: {
+            readonly id: string
+            readonly rowId: string
+            readonly storageKey: string | null
+          } | null
+        }>
+      }
+      readonly guestsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly rowId: string
+          readonly contactByContactId: {
+            readonly accountId: string | null
+            readonly id: string
+            readonly rowId: string
+          } | null
+        }>
+      }
+    }>
+    readonly pageInfo: {
+      readonly endCursor: string | null
+      readonly hasNextPage: boolean
     }
   } | null
 }
@@ -2404,11 +3334,18 @@ export type UpdateGuestByRowIdMutationVariables = Exact<{
 }>
 
 export type UpdateGuestByRowIdMutation = {
-  updateGuestByRowId: {
-    guest: {
-      feedback: InvitationFeedback | null
-      id: string
-      rowId: string
+  readonly updateGuestByRowId: {
+    readonly guest: {
+      readonly companionCount: number
+      readonly companionCountRequested: number | null
+      readonly feedback: InvitationFeedback | null
+      readonly feedbackReason: string | null
+      readonly id: string
+      readonly rowId: string
+      readonly eventByEventId: {
+        readonly guestCount: number
+        readonly id: string
+      } | null
     } | null
   } | null
 }
@@ -2418,61 +3355,101 @@ export type GuestEventQueryVariables = Exact<{
 }>
 
 export type GuestEventQuery = {
-  guestByRowId: {
-    feedback: InvitationFeedback | null
-    id: string
-    rowId: string
-    contactByContactId: {
-      createdBy: string
-      firstName: string | null
-      id: string
-      lastName: string | null
-      nickname: string | null
-      rowId: string
-      accountByAccountId: { id: string; rowId: string; username: string } | null
-    } | null
-    eventByEventId: {
-      createdBy: string
-      description: string | null
-      end: string | null
-      id: string
-      isArchived: boolean
-      isInPerson: boolean | null
-      isRemote: boolean | null
-      name: string
-      rowId: string
-      slug: string
-      start: string
-      url: string | null
-      visibility: EventVisibility
-      accountByCreatedBy: { id: string; rowId: string; username: string } | null
-      addressByAddressId: {
-        city: string | null
-        country: string | null
-        id: string
-        line1: string | null
-        line2: string | null
-        name: string
-        postalCode: string | null
-        region: string | null
-        rowId: string
-        location: { latitude: number; longitude: number } | null
+  readonly guestByRowId: {
+    readonly companionCount: number
+    readonly companionCountRequested: number | null
+    readonly feedback: InvitationFeedback | null
+    readonly feedbackOverride: InvitationFeedback | null
+    readonly feedbackReason: string | null
+    readonly id: string
+    readonly rowId: string
+    readonly contactByContactId: {
+      readonly createdBy: string
+      readonly firstName: string | null
+      readonly id: string
+      readonly lastName: string | null
+      readonly nickname: string | null
+      readonly rowId: string
+      readonly accountByAccountId: {
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
       } | null
-      eventCategoryMappingsByEventId: {
-        nodes: Array<{
-          categoryId: string
-          id: string
-          eventCategoryByCategoryId: { id: string; name: string } | null
+    } | null
+    readonly eventByEventId: {
+      readonly createdBy: string
+      readonly description: string | null
+      readonly end: string | null
+      readonly feedbackDeadline: string | null
+      readonly id: string
+      readonly isArchived: boolean
+      readonly isInPerson: boolean | null
+      readonly isRemote: boolean | null
+      readonly name: string
+      readonly publishedAt: string | null
+      readonly rowId: string
+      readonly slug: string
+      readonly start: string
+      readonly url: string | null
+      readonly visibility: EventVisibility
+      readonly accountByCreatedBy: {
+        readonly displayName: string | null
+        readonly id: string
+        readonly rowId: string
+        readonly username: string
+      } | null
+      readonly addressByAddressId: {
+        readonly city: string | null
+        readonly country: string | null
+        readonly id: string
+        readonly line1: string | null
+        readonly line2: string | null
+        readonly name: string
+        readonly postalCode: string | null
+        readonly region: string | null
+        readonly rowId: string
+        readonly location: {
+          readonly latitude: number
+          readonly longitude: number
+        } | null
+      } | null
+      readonly eventCategoryMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly categoryId: string
+          readonly id: string
+          readonly eventCategoryByCategoryId: {
+            readonly id: string
+            readonly name: string
+          } | null
         }>
       }
-      eventFavoritesByEventId: {
-        nodes: Array<{ createdBy: string; id: string; rowId: string }>
+      readonly eventFavoritesByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly createdBy: string
+          readonly id: string
+          readonly rowId: string
+        }>
       }
-      eventFormatMappingsByEventId: {
-        nodes: Array<{
-          formatId: string
-          id: string
-          eventFormatByFormatId: { id: string; name: string } | null
+      readonly eventFormatMappingsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly formatId: string
+          readonly id: string
+          readonly eventFormatByFormatId: {
+            readonly id: string
+            readonly name: string
+          } | null
+        }>
+      }
+      readonly eventUploadsByEventId: {
+        readonly nodes: ReadonlyArray<{
+          readonly id: string
+          readonly isHeaderImage: boolean | null
+          readonly rowId: string
+          readonly uploadByUploadId: {
+            readonly id: string
+            readonly rowId: string
+            readonly storageKey: string | null
+          } | null
         }>
       }
     } | null
@@ -2484,9 +3461,9 @@ export type AchievementUnlockMutationVariables = Exact<{
 }>
 
 export type AchievementUnlockMutation = {
-  achievementUnlock: {
-    clientMutationId: string | null
-    result: string | null
+  readonly achievementUnlock: {
+    readonly clientMutationId: string | null
+    readonly result: string | null
   } | null
 }
 
@@ -2496,7 +3473,7 @@ export type DeviceByCreatedByAndFcmTokenQueryVariables = Exact<{
 }>
 
 export type DeviceByCreatedByAndFcmTokenQuery = {
-  deviceByCreatedByAndFcmToken: { id: string } | null
+  readonly deviceByCreatedByAndFcmToken: { readonly id: string } | null
 }
 
 export type CreateDeviceMutationVariables = Exact<{
@@ -2504,7 +3481,7 @@ export type CreateDeviceMutationVariables = Exact<{
 }>
 
 export type CreateDeviceMutation = {
-  createDevice: { clientMutationId: string | null } | null
+  readonly createDevice: { readonly clientMutationId: string | null } | null
 }
 
 export type DeleteDeviceByCreatedByAndFcmTokenMutationVariables = Exact<{
@@ -2512,7 +3489,9 @@ export type DeleteDeviceByCreatedByAndFcmTokenMutationVariables = Exact<{
 }>
 
 export type DeleteDeviceByCreatedByAndFcmTokenMutation = {
-  deleteDeviceByCreatedByAndFcmToken: { clientMutationId: string | null } | null
+  readonly deleteDeviceByCreatedByAndFcmToken: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type AccountByUsernameQueryVariables = Exact<{
@@ -2520,7 +3499,10 @@ export type AccountByUsernameQueryVariables = Exact<{
 }>
 
 export type AccountByUsernameQuery = {
-  accountByUsername: { id: string; rowId: string } | null
+  readonly accountByUsername: {
+    readonly id: string
+    readonly rowId: string
+  } | null
 }
 
 export type EventByCreatedByAndSlugQueryVariables = Exact<{
@@ -2529,7 +3511,7 @@ export type EventByCreatedByAndSlugQueryVariables = Exact<{
 }>
 
 export type EventByCreatedByAndSlugQuery = {
-  eventByCreatedByAndSlug: { id: string } | null
+  readonly eventByCreatedByAndSlug: { readonly id: string } | null
 }
 
 export type AccountsSitemapQueryVariables = Exact<{
@@ -2538,9 +3520,12 @@ export type AccountsSitemapQueryVariables = Exact<{
 }>
 
 export type AccountsSitemapQuery = {
-  allAccounts: {
-    nodes: Array<{ username: string }>
-    pageInfo: { endCursor: string | null; hasNextPage: boolean }
+  readonly allAccounts: {
+    readonly nodes: ReadonlyArray<{ readonly username: string }>
+    readonly pageInfo: {
+      readonly endCursor: string | null
+      readonly hasNextPage: boolean
+    }
   } | null
 }
 
@@ -2550,13 +3535,16 @@ export type EventsSitemapQueryVariables = Exact<{
 }>
 
 export type EventsSitemapQuery = {
-  allEvents: {
-    nodes: Array<{
-      slug: string
-      visibility: EventVisibility
-      accountByCreatedBy: { username: string } | null
+  readonly allEvents: {
+    readonly nodes: ReadonlyArray<{
+      readonly slug: string
+      readonly visibility: EventVisibility
+      readonly accountByCreatedBy: { readonly username: string } | null
     }>
-    pageInfo: { endCursor: string | null; hasNextPage: boolean }
+    readonly pageInfo: {
+      readonly endCursor: string | null
+      readonly hasNextPage: boolean
+    }
   } | null
 }
 
@@ -2565,33 +3553,39 @@ export type TicketGuestQueryVariables = Exact<{
 }>
 
 export type TicketGuestQuery = {
-  guestByRowId: {
-    id: string
-    rowId: string
-    contactByContactId: {
-      accountId: string | null
-      firstName: string | null
-      id: string
-      lastName: string | null
-      nickname: string | null
-      accountByAccountId: { id: string; username: string } | null
+  readonly guestByRowId: {
+    readonly id: string
+    readonly rowId: string
+    readonly contactByContactId: {
+      readonly accountId: string | null
+      readonly firstName: string | null
+      readonly id: string
+      readonly lastName: string | null
+      readonly nickname: string | null
+      readonly accountByAccountId: {
+        readonly id: string
+        readonly username: string
+      } | null
     } | null
-    eventByEventId: {
-      end: string | null
-      id: string
-      name: string
-      slug: string
-      start: string
-      accountByCreatedBy: { id: string; username: string } | null
-      addressByAddressId: {
-        city: string | null
-        country: string | null
-        id: string
-        line1: string | null
-        line2: string | null
-        name: string
-        postalCode: string | null
-        region: string | null
+    readonly eventByEventId: {
+      readonly end: string | null
+      readonly id: string
+      readonly name: string
+      readonly slug: string
+      readonly start: string
+      readonly accountByCreatedBy: {
+        readonly id: string
+        readonly username: string
+      } | null
+      readonly addressByAddressId: {
+        readonly city: string | null
+        readonly country: string | null
+        readonly id: string
+        readonly line1: string | null
+        readonly line2: string | null
+        readonly name: string
+        readonly postalCode: string | null
+        readonly region: string | null
       } | null
     } | null
   } | null
@@ -2602,7 +3596,10 @@ export type JwtCreateMutationVariables = Exact<{
 }>
 
 export type JwtCreateMutation = {
-  jwtCreate: { clientMutationId: string | null; result: string | null } | null
+  readonly jwtCreate: {
+    readonly clientMutationId: string | null
+    readonly result: string | null
+  } | null
 }
 
 export type JwtUpdateMutationVariables = Exact<{
@@ -2610,7 +3607,10 @@ export type JwtUpdateMutationVariables = Exact<{
 }>
 
 export type JwtUpdateMutation = {
-  jwtUpdate: { clientMutationId: string | null; result: string | null } | null
+  readonly jwtUpdate: {
+    readonly clientMutationId: string | null
+    readonly result: string | null
+  } | null
 }
 
 export type JwtUpdateAttendanceAddMutationVariables = Exact<{
@@ -2618,7 +3618,7 @@ export type JwtUpdateAttendanceAddMutationVariables = Exact<{
 }>
 
 export type JwtUpdateAttendanceAddMutation = {
-  jwtUpdateAttendanceAdd: { result: string | null } | null
+  readonly jwtUpdateAttendanceAdd: { readonly result: string | null } | null
 }
 
 export type JwtUpdateGuestAddMutationVariables = Exact<{
@@ -2626,7 +3626,7 @@ export type JwtUpdateGuestAddMutationVariables = Exact<{
 }>
 
 export type JwtUpdateGuestAddMutation = {
-  jwtUpdateGuestAdd: { result: string | null } | null
+  readonly jwtUpdateGuestAdd: { readonly result: string | null } | null
 }
 
 export type AccountRegistrationMutationVariables = Exact<{
@@ -2634,72 +3634,116 @@ export type AccountRegistrationMutationVariables = Exact<{
 }>
 
 export type AccountRegistrationMutation = {
-  accountRegistration: { clientMutationId: string | null } | null
+  readonly accountRegistration: {
+    readonly clientMutationId: string | null
+  } | null
 }
 
 export type ContactItemFragment = {
-  accountId: string | null
-  createdBy: string
-  emailAddress: string | null
-  emailAddressHash: string | null
-  firstName: string | null
-  id: string
-  language: Language | null
-  lastName: string | null
-  nickname: string | null
-  note: string | null
-  phoneNumber: string | null
-  rowId: string
-  url: string | null
-  accountByAccountId: { id: string; rowId: string; username: string } | null
-  accountByCreatedBy: { id: string; rowId: string; username: string } | null
+  readonly accountId: string | null
+  readonly createdBy: string
+  readonly emailAddresses: ReadonlyArray<string> | null
+  readonly emailAddressHash: string | null
+  readonly firstName: string | null
+  readonly id: string
+  readonly language: Language | null
+  readonly lastName: string | null
+  readonly nickname: string | null
+  readonly note: string | null
+  readonly phoneNumber: string | null
+  readonly rowId: string
+  readonly url: string | null
+  readonly accountByAccountId: {
+    readonly id: string
+    readonly rowId: string
+    readonly username: string
+  } | null
+  readonly accountByCreatedBy: {
+    readonly id: string
+    readonly rowId: string
+    readonly username: string
+  } | null
 } & { ' $fragmentName'?: 'ContactItemFragment' }
 
+export type ContactGroupItemFragment = {
+  readonly id: string
+  readonly name: string
+  readonly rowId: string
+} & { ' $fragmentName'?: 'ContactGroupItemFragment' }
+
 export type EventItemFragment = {
-  createdBy: string
-  description: string | null
-  end: string | null
-  guestCountMaximum: number | null
-  id: string
-  isArchived: boolean
-  isInPerson: boolean | null
-  isRemote: boolean | null
-  name: string
-  rowId: string
-  slug: string
-  start: string
-  url: string | null
-  visibility: EventVisibility
-  accountByCreatedBy: { id: string; rowId: string; username: string } | null
-  eventCategoryMappingsByEventId: {
-    nodes: Array<{
-      categoryId: string
-      id: string
-      eventCategoryByCategoryId: { id: string; name: string } | null
+  readonly createdBy: string
+  readonly description: string | null
+  readonly end: string | null
+  readonly feedbackDeadline: string | null
+  readonly guestCountMaximum: number | null
+  readonly id: string
+  readonly isArchived: boolean
+  readonly isInPerson: boolean | null
+  readonly isRemote: boolean | null
+  readonly name: string
+  readonly publishedAt: string | null
+  readonly rowId: string
+  readonly slug: string
+  readonly start: string
+  readonly url: string | null
+  readonly visibility: EventVisibility
+  readonly accountByCreatedBy: {
+    readonly id: string
+    readonly rowId: string
+    readonly username: string
+  } | null
+  readonly eventCategoryMappingsByEventId: {
+    readonly nodes: ReadonlyArray<{
+      readonly categoryId: string
+      readonly id: string
+      readonly eventCategoryByCategoryId: {
+        readonly id: string
+        readonly name: string
+      } | null
     }>
   }
-  eventFormatMappingsByEventId: {
-    nodes: Array<{
-      formatId: string
-      id: string
-      eventFormatByFormatId: { id: string; name: string } | null
+  readonly eventFormatMappingsByEventId: {
+    readonly nodes: ReadonlyArray<{
+      readonly formatId: string
+      readonly id: string
+      readonly eventFormatByFormatId: {
+        readonly id: string
+        readonly name: string
+      } | null
+    }>
+  }
+  readonly eventUploadsByEventId: {
+    readonly nodes: ReadonlyArray<{
+      readonly id: string
+      readonly isHeaderImage: boolean | null
+      readonly rowId: string
+      readonly uploadByUploadId: {
+        readonly id: string
+        readonly rowId: string
+        readonly storageKey: string | null
+      } | null
     }>
   }
 } & { ' $fragmentName'?: 'EventItemFragment' }
 
 export type GuestItemFragment = {
-  contactId: string
-  feedback: InvitationFeedback | null
-  id: string
-  rowId: string
-  contactByContactId: {
+  readonly companionCount: number
+  readonly companionCountRequested: number | null
+  readonly contactId: string
+  readonly feedback: InvitationFeedback | null
+  readonly feedbackOverride: InvitationFeedback | null
+  readonly feedbackReason: string | null
+  readonly id: string
+  readonly rowId: string
+  readonly contactByContactId: {
     ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
   } | null
 } & { ' $fragmentName'?: 'GuestItemFragment' }
 
 export type PreferenceEventCategoryItemFragment = {
-  categoryId: string
-  id: string
+  readonly categoryId: string
+  readonly id: string
 } & { ' $fragmentName'?: 'PreferenceEventCategoryItemFragment' }
 
 export type AllPreferenceEventCategoriesQueryVariables = Exact<{
@@ -2707,8 +3751,8 @@ export type AllPreferenceEventCategoriesQueryVariables = Exact<{
 }>
 
 export type AllPreferenceEventCategoriesQuery = {
-  allPreferenceEventCategories: {
-    nodes: Array<{
+  readonly allPreferenceEventCategories: {
+    readonly nodes: ReadonlyArray<{
       ' $fragmentRefs'?: {
         PreferenceEventCategoryItemFragment: PreferenceEventCategoryItemFragment
       }
@@ -2717,8 +3761,8 @@ export type AllPreferenceEventCategoriesQuery = {
 }
 
 export type PreferenceEventFormatItemFragment = {
-  formatId: string
-  id: string
+  readonly formatId: string
+  readonly id: string
 } & { ' $fragmentName'?: 'PreferenceEventFormatItemFragment' }
 
 export type AllPreferenceEventFormatsQueryVariables = Exact<{
@@ -2726,8 +3770,8 @@ export type AllPreferenceEventFormatsQueryVariables = Exact<{
 }>
 
 export type AllPreferenceEventFormatsQuery = {
-  allPreferenceEventFormats: {
-    nodes: Array<{
+  readonly allPreferenceEventFormats: {
+    readonly nodes: ReadonlyArray<{
       ' $fragmentRefs'?: {
         PreferenceEventFormatItemFragment: PreferenceEventFormatItemFragment
       }
@@ -2736,10 +3780,10 @@ export type AllPreferenceEventFormatsQuery = {
 }
 
 export type PreferenceEventLocationItemFragment = {
-  id: string
-  radius: number
-  rowId: string
-  location: { latitude: number; longitude: number }
+  readonly id: string
+  readonly radius: number
+  readonly rowId: string
+  readonly location: { readonly latitude: number; readonly longitude: number }
 } & { ' $fragmentName'?: 'PreferenceEventLocationItemFragment' }
 
 export type AllPreferenceEventLocationsQueryVariables = Exact<{
@@ -2747,8 +3791,8 @@ export type AllPreferenceEventLocationsQueryVariables = Exact<{
 }>
 
 export type AllPreferenceEventLocationsQuery = {
-  allPreferenceEventLocations: {
-    nodes: Array<{
+  readonly allPreferenceEventLocations: {
+    readonly nodes: ReadonlyArray<{
       ' $fragmentRefs'?: {
         PreferenceEventLocationItemFragment: PreferenceEventLocationItemFragment
       }
@@ -2756,6 +3800,27 @@ export type AllPreferenceEventLocationsQuery = {
   } | null
 }
 
+export const ContactGroupItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ContactGroupItemFragment, unknown>
 export const EventItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -2867,12 +3932,59 @@ export const EventItemFragmentDoc = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'eventUploadsByEventId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isHeaderImage' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'uploadByUploadId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'storageKey' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackDeadline' } },
           { kind: 'Field', name: { kind: 'Name', value: 'guestCountMaximum' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'isArchived' } },
           { kind: 'Field', name: { kind: 'Name', value: 'isInPerson' } },
           { kind: 'Field', name: { kind: 'Name', value: 'isRemote' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
           { kind: 'Field', name: { kind: 'Name', value: 'start' } },
@@ -2922,7 +4034,7 @@ export const ContactItemFragmentDoc = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddresses' } },
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
@@ -2951,6 +4063,11 @@ export const GuestItemFragmentDoc = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'companionCount' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'companionCountRequested' },
+          },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'contactByContactId' },
@@ -2966,6 +4083,8 @@ export const GuestItemFragmentDoc = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'contactId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackOverride' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackReason' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
         ],
@@ -3007,7 +4126,7 @@ export const GuestItemFragmentDoc = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddresses' } },
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
@@ -3440,6 +4559,10 @@ export const AccountSearchDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'displayName' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       {
@@ -3698,6 +4821,10 @@ export const AttendanceGuestDocument = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feedbackOverride' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
               ],
@@ -3767,6 +4894,145 @@ export const DeleteContactByRowIdDocument = {
 } as unknown as DocumentNode<
   DeleteContactByRowIdMutation,
   DeleteContactByRowIdMutationVariables
+>
+export const DeleteContactGroupByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteContactGroupByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteContactGroupByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteContactGroupByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteContactGroupByRowIdMutation,
+  DeleteContactGroupByRowIdMutationVariables
+>
+export const UpdateContactGroupByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateContactGroupByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateContactGroupByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateContactGroupByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contactGroup' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactGroupItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateContactGroupByRowIdMutation,
+  UpdateContactGroupByRowIdMutationVariables
 >
 export const AllContactsContactListDocument = {
   kind: 'Document',
@@ -3868,6 +5134,46 @@ export const AllContactsContactListDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'addressId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'language' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'timeZone' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'contactGroupMembersByContactId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'contactGroupId',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'guestsByContactId' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -3942,7 +5248,7 @@ export const AllContactsContactListDocument = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddresses' } },
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
@@ -3960,6 +5266,70 @@ export const AllContactsContactListDocument = {
 } as unknown as DocumentNode<
   AllContactsContactListQuery,
   AllContactsContactListQueryVariables
+>
+export const ContactMergeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'ContactMerge' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ContactMergeInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'contactMerge' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ContactMergeMutation,
+  ContactMergeMutationVariables
 >
 export const AllLegalTermsDocument = {
   kind: 'Document',
@@ -4222,13 +5592,13 @@ export const DeleteEventFavoriteByRowIdDocument = {
   DeleteEventFavoriteByRowIdMutation,
   DeleteEventFavoriteByRowIdMutationVariables
 >
-export const EventListMineDocument = {
+export const EventListMineEventsDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'EventListMine' },
+      name: { kind: 'Name', value: 'EventListMineEvents' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -4552,7 +5922,7 @@ export const EventListMineDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'guestCount' },
+                        name: { kind: 'Name', value: 'guestCountAccepted' },
                       },
                       {
                         kind: 'Field',
@@ -4653,7 +6023,10 @@ export const EventListMineDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<EventListMineQuery, EventListMineQueryVariables>
+} as unknown as DocumentNode<
+  EventListMineEventsQuery,
+  EventListMineEventsQueryVariables
+>
 export const EventListMineSavedDocument = {
   kind: 'Document',
   definitions: [
@@ -4988,7 +6361,10 @@ export const EventListMineSavedDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'guestCount' },
+                              name: {
+                                kind: 'Name',
+                                value: 'guestCountAccepted',
+                              },
                             },
                             {
                               kind: 'Field',
@@ -5240,7 +6616,6 @@ export const EventListDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -5403,7 +6778,70 @@ export const EventListDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'guestCount' },
+                        name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'isHeaderImage',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'uploadByUploadId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'storageKey',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCountAccepted' },
                       },
                       {
                         kind: 'Field',
@@ -5639,7 +7077,6 @@ export const EventSearchDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -5802,7 +7239,70 @@ export const EventSearchDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'guestCount' },
+                        name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'isHeaderImage',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'uploadByUploadId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'storageKey',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCountAccepted' },
                       },
                       {
                         kind: 'Field',
@@ -5962,6 +7462,158 @@ export const CreateReportDocument = {
   CreateReportMutation,
   CreateReportMutationVariables
 >
+export const CreateContactGroupMemberDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactGroupMember' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactGroupMemberInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContactGroupMember' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contactGroupMember' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactGroupId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactId' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateContactGroupMemberMutation,
+  CreateContactGroupMemberMutationVariables
+>
+export const CreateContactGroupDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactGroup' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactGroupInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContactGroup' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contactGroup' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactGroupItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateContactGroupMutation,
+  CreateContactGroupMutationVariables
+>
 export const CreateContactDocument = {
   kind: 'Document',
   definitions: [
@@ -6011,6 +7663,7 @@ export const CreateContactDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
                   },
                 },
@@ -6024,6 +7677,73 @@ export const CreateContactDocument = {
 } as unknown as DocumentNode<
   CreateContactMutation,
   CreateContactMutationVariables
+>
+export const DeleteContactGroupMemberByContactGroupIdAndContactIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeleteContactGroupMemberByContactGroupIdAndContactId',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value:
+                  'DeleteContactGroupMemberByContactGroupIdAndContactIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deleteContactGroupMemberByContactGroupIdAndContactId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteContactGroupMemberByContactGroupIdAndContactIdMutation,
+  DeleteContactGroupMemberByContactGroupIdAndContactIdMutationVariables
 >
 export const UpdateContactByRowIdDocument = {
   kind: 'Document',
@@ -6122,7 +7842,7 @@ export const UpdateContactByRowIdDocument = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddresses' } },
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
@@ -6317,6 +8037,10 @@ export const UpdateEventByRowIdDocument = {
                         name: { kind: 'Name', value: 'description' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedbackDeadline' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'guestCountMaximum' },
@@ -6819,6 +8543,162 @@ export const DeleteEventFormatMappingByEventIdAndFormatIdDocument = {
   DeleteEventFormatMappingByEventIdAndFormatIdMutation,
   DeleteEventFormatMappingByEventIdAndFormatIdMutationVariables
 >
+export const CreateEventUploadDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateEventUpload' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateEventUploadInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createEventUpload' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventUpload' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateEventUploadMutation,
+  CreateEventUploadMutationVariables
+>
+export const DeleteEventUploadByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteEventUploadByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteEventUploadByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteEventUploadByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'deletedEventUploadId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventUpload' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteEventUploadByRowIdMutation,
+  DeleteEventUploadByRowIdMutationVariables
+>
 export const AllEventCategoriesFormEventDocument = {
   kind: 'Document',
   definitions: [
@@ -6995,6 +8875,34 @@ export const AllContactsDocument = {
                         kind: 'FragmentSpread',
                         name: { kind: 'Name', value: 'ContactItem' },
                       },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'contactGroupMembersByContactId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'contactGroupId',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -7058,7 +8966,7 @@ export const AllContactsDocument = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddresses' } },
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
@@ -7171,7 +9079,7 @@ export const CreateGuestContactDocument = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddresses' } },
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
@@ -7750,7 +9658,7 @@ export const AllGuestsDocument = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddresses' } },
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
@@ -7774,6 +9682,11 @@ export const AllGuestsDocument = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'companionCount' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'companionCountRequested' },
+          },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'contactByContactId' },
@@ -7789,6 +9702,8 @@ export const AllGuestsDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'contactId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackOverride' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'feedbackReason' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
         ],
@@ -7846,7 +9761,35 @@ export const UpdateGuestByRowIdFeedbackDocument = {
                     selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'feedback' },
+                        name: { kind: 'Name', value: 'companionCount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'companionCountRequested',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedbackOverride' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
@@ -7863,6 +9806,98 @@ export const UpdateGuestByRowIdFeedbackDocument = {
 } as unknown as DocumentNode<
   UpdateGuestByRowIdFeedbackMutation,
   UpdateGuestByRowIdFeedbackMutationVariables
+>
+export const UpdateGuestByRowIdCompanionDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateGuestByRowIdCompanion' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateGuestByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateGuestByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'guest' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'companionCount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'companionCountRequested',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateGuestByRowIdCompanionMutation,
+  UpdateGuestByRowIdCompanionMutationVariables
 >
 export const AllEventCategoriesDocument = {
   kind: 'Document',
@@ -8911,6 +10946,151 @@ export const DeleteFailedUploadDocument = {
   DeleteFailedUploadMutation,
   DeleteFailedUploadMutationVariables
 >
+export const AllContactGroupsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllContactGroups' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allContactGroups' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: {
+                  kind: 'ListValue',
+                  values: [{ kind: 'EnumValue', value: 'PRIMARY_KEY_ASC' }],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactGroupItem' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllContactGroupsQuery,
+  AllContactGroupsQueryVariables
+>
 export const OwnContactDocument = {
   kind: 'Document',
   definitions: [
@@ -9103,6 +11283,14 @@ export const AccountEditDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
+            name: { kind: 'Name', value: 'accountId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
             name: { kind: 'Name', value: 'username' },
           },
           type: {
@@ -9134,6 +11322,7 @@ export const AccountEditDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'imprintUrl' } },
                 {
@@ -9170,6 +11359,65 @@ export const AccountEditDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allContacts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'accountId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -9229,6 +11477,10 @@ export const UpdateAccountByRowIdDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'description' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'displayName' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
@@ -9606,6 +11858,7 @@ export const AccountDocument = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'profilePictureByAccountId' },
@@ -9842,6 +12095,78 @@ export const AccountDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventUploadsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'isHeaderImage',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'uploadByUploadId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rowId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'storageKey',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'guestsByEventId' },
                               arguments: [
                                 {
@@ -10035,12 +12360,30 @@ export const AttendanceDocument = {
                     ],
                   },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'guestByGuestId' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactByContactId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'accountId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
@@ -10048,6 +12391,10 @@ export const AttendanceDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tagSerialNumber' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
             },
@@ -10068,8 +12415,24 @@ export const AttendanceDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'accountByCreatedBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'eventAppsByEventId' },
@@ -10291,6 +12654,31 @@ export const ContactByRowIdDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: {
+                    kind: 'Name',
+                    value: 'contactGroupMembersByContactId',
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactGroupId' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'guestsByContactId' },
                   arguments: [
                     {
@@ -10415,7 +12803,7 @@ export const ContactByRowIdDocument = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddresses' } },
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
@@ -10527,9 +12915,22 @@ export const AllContactsEmailAddressesDocument = {
                     selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'emailAddress' },
+                        name: { kind: 'Name', value: 'emailAddresses' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'phoneNumber' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
                   },
                 },
@@ -10561,13 +12962,13 @@ export const AllContactsEmailAddressesDocument = {
   AllContactsEmailAddressesQuery,
   AllContactsEmailAddressesQueryVariables
 >
-export const CreateContactImportDocument = {
+export const UpdateContactByRowIdImportDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateContactImport' },
+      name: { kind: 'Name', value: 'UpdateContactByRowIdImport' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10579,7 +12980,7 @@ export const CreateContactImportDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateContactInput' },
+              name: { kind: 'Name', value: 'UpdateContactByRowIdInput' },
             },
           },
         },
@@ -10589,7 +12990,7 @@ export const CreateContactImportDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'createContact' },
+            name: { kind: 'Name', value: 'updateContactByRowId' },
             arguments: [
               {
                 kind: 'Argument',
@@ -10609,6 +13010,94 @@ export const CreateContactImportDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'emailAddresses' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'phoneNumber' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateContactByRowIdImportMutation,
+  UpdateContactByRowIdImportMutationVariables
+>
+export const CreateContactGroupMembersImportDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactGroupMembersImport' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactGroupMembersInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContactGroupMembers' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactGroupId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactId' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
@@ -10621,8 +13110,158 @@ export const CreateContactImportDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  CreateContactImportMutation,
-  CreateContactImportMutationVariables
+  CreateContactGroupMembersImportMutation,
+  CreateContactGroupMembersImportMutationVariables
+>
+export const CreateContactGroupsImportDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactGroupsImport' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactGroupsInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContactGroups' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactGroupItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactGroupItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ContactGroup' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateContactGroupsImportMutation,
+  CreateContactGroupsImportMutationVariables
+>
+export const CreateContactsImportDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContactsImport' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactsInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContacts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'emailAddresses' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateContactsImportMutation,
+  CreateContactsImportMutationVariables
 >
 export const DashboardEventRecommendationsDocument = {
   kind: 'Document',
@@ -10854,6 +13493,57 @@ export const DashboardEventRecommendationsDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isHeaderImage' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'uploadByUploadId' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'storageKey' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'guestsByEventId' },
                   arguments: [
                     {
@@ -10966,8 +13656,23 @@ export const DashboardEventUpcomingDocument = {
                         name: { kind: 'Name', value: 'createdBy' },
                       },
                     },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'hasEnded' },
+                      value: { kind: 'BooleanValue', value: false },
+                    },
                   ],
                 },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'START_ASC' },
               },
             ],
             selectionSet: {
@@ -11000,7 +13705,6 @@ export const DashboardEventUpcomingDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -11114,6 +13818,69 @@ export const DashboardEventUpcomingDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'isHeaderImage',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'uploadByUploadId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'storageKey',
+                                          },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },
@@ -11431,6 +14198,82 @@ export const EventEditDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventUploadsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'isHeaderImage',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'uploadByUploadId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rowId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'storageKey',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'feedbackDeadline' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -11455,6 +14298,10 @@ export const EventEditDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'publishedAt' },
                             },
                             {
                               kind: 'Field',
@@ -11720,6 +14567,99 @@ export const AttendanceCreateDocument = {
   AttendanceCreateMutation,
   AttendanceCreateMutationVariables
 >
+export const AttendanceTagSerialNumberUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AttendanceTagSerialNumberUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'attendancePatch' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AttendancePatch' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAttendanceByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'rowId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'attendancePatch' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'attendancePatch' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'attendance' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tagSerialNumber' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AttendanceTagSerialNumberUpdateMutation,
+  AttendanceTagSerialNumberUpdateMutationVariables
+>
 export const EventGuestsDocument = {
   kind: 'Document',
   definitions: [
@@ -11834,6 +14774,10 @@ export const EventGuestsDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
                               name: {
                                 kind: 'Name',
                                 value: 'guestCountMaximum',
@@ -11935,6 +14879,10 @@ export const EventGuestsDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'publishedAt' },
                             },
                             {
                               kind: 'Field',
@@ -12055,6 +15003,13 @@ export const EventDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'displayName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
                                   },
                                   {
@@ -12150,6 +15105,10 @@ export const EventDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'end' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'feedbackDeadline' },
                             },
                             {
                               kind: 'Field',
@@ -12345,6 +15304,114 @@ export const EventDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventUploadsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'isHeaderImage',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'uploadByUploadId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rowId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'storageKey',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestsByEventId' },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                              ],
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -12362,6 +15429,10 @@ export const EventDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'publishedAt' },
                             },
                             {
                               kind: 'Field',
@@ -12400,6 +15471,71 @@ export const EventDocument = {
     },
   ],
 } as unknown as DocumentNode<EventQuery, EventQueryVariables>
+export const CreateGuestDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateGuest' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateGuestInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createGuest' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'guest' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedback' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateGuestMutation, CreateGuestMutationVariables>
 export const EventListAccountDocument = {
   kind: 'Document',
   definitions: [
@@ -12744,6 +15880,78 @@ export const EventListAccountDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventUploadsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'isHeaderImage',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'uploadByUploadId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rowId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'storageKey',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'guestsByEventId' },
                               arguments: [
                                 {
@@ -12871,6 +16079,514 @@ export const EventListAccountDocument = {
   EventListAccountQuery,
   EventListAccountQueryVariables
 >
+export const EventListInvitedDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventListInvited' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'hasEnded' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'Boolean' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'orderBy' },
+          },
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: {
+                kind: 'NamedType',
+                name: { kind: 'Name', value: 'EventOrderBy' },
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allEvents' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'hasEnded' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'hasEnded' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'isInvited' },
+                      value: { kind: 'BooleanValue', value: true },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'orderBy' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByCreatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'addressByAddressId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'latitude' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'longitude' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventCategoryMappingsByEventId',
+                        },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'eventCategoryByCategoryId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventFavoritesByEventId',
+                        },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdBy' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventFormatMappingsByEventId',
+                        },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'eventFormatByFormatId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'isHeaderImage',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'uploadByUploadId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'storageKey',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCountAccepted' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestsByEventId' },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'contactByContactId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'accountId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  EventListInvitedQuery,
+  EventListInvitedQueryVariables
+>
 export const UpdateGuestByRowIdDocument = {
   kind: 'Document',
   definitions: [
@@ -12921,7 +16637,39 @@ export const UpdateGuestByRowIdDocument = {
                     selections: [
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'companionCount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'companionCountRequested',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'feedback' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedbackReason' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
@@ -12975,6 +16723,14 @@ export const GuestEventDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'companionCount' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'companionCountRequested' },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'contactByContactId' },
@@ -13035,6 +16791,10 @@ export const GuestEventDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'displayName' },
+                            },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
@@ -13289,6 +17049,73 @@ export const GuestEventDocument = {
                           ],
                         },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'isHeaderImage',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'uploadByUploadId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'storageKey',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedbackDeadline' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
@@ -13303,6 +17130,10 @@ export const GuestEventDocument = {
                         name: { kind: 'Name', value: 'isRemote' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publishedAt' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'start' } },
@@ -13315,6 +17146,14 @@ export const GuestEventDocument = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feedbackOverride' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feedbackReason' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
               ],

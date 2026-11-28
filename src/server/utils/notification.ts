@@ -66,6 +66,7 @@ type EventInvitationEvent = {
         timeZone: string | null
       }
       event: Event
+      eventCreatorDisplayName?: string | null
       eventCreatorProfilePictureUploadStorageKey: string
       eventCreatorUsername: string
       guest: {
@@ -105,7 +106,6 @@ const locales = {
       eventIsArchived: 'archiviert',
       eventVisibilityIsPrivate: 'private',
       eventVisibilityIsPublic: 'öffentliche',
-      eventVisibilityIsUnlisted: 'ungelistete',
       subject: (eventName: string) => `Einladung: ${eventName}`,
     },
     en: {
@@ -114,7 +114,6 @@ const locales = {
       eventIsArchived: 'archived',
       eventVisibilityIsPrivate: 'a private',
       eventVisibilityIsPublic: 'a public',
-      eventVisibilityIsUnlisted: 'an unlisted',
       subject: (eventName: string) => `Invitation: ${eventName}`,
     },
   },
@@ -242,24 +241,15 @@ export const processNotification = async ({
 }
 
 const ack = async ({ id }: { id: string }) => {
-  const baseURL = getServiceHrefPostgraphile()
-  const response = await fetch(`${baseURL}/graphql`, {
-    body: JSON.stringify({
-      query: `mutation ($id: UUID!) { notificationAcknowledge(input: { id: $id, isAcknowledged: true }) { clientMutationId } }`,
-      variables: { id },
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-  })
-
   // best-effort: the email was already sent above, so a failed ack must not
   // throw here, that would trigger a retry and resend it. The Redis dedupe
   // key is the actual guard against reprocessing; a lost ack only matters if
   // that key expires (24h) before the notification row is touched again.
-  if (!response.ok)
-    console.error(`Could not ack due to error: "${response.statusText}"`)
+  try {
+    await sql`SELECT vibetype.notification_acknowledge(${id}::uuid, true)`
+  } catch (error) {
+    console.error(`Could not ack due to error: "${error}"`)
+  }
 }
 
 export type NotificationMessageKey = { payload: { id: string } }
@@ -356,6 +346,7 @@ export const sendEventInvitationMail = async ({
     contact,
     event,
     guest,
+    eventCreatorDisplayName,
     eventCreatorProfilePictureUploadStorageKey,
     eventCreatorUsername,
   } = payloadCamelCased.data
@@ -434,18 +425,16 @@ export const sendEventInvitationMail = async ({
     eventVisibility = t.eventVisibilityIsPublic
   } else if (event.visibility === EventVisibility.Private) {
     eventVisibility = t.eventVisibilityIsPrivate
-  } else if (event.visibility === EventVisibility.Unlisted) {
-    eventVisibility = t.eventVisibilityIsUnlisted
   } else {
     throw new Error(
-      `Event is neither archived nor has it a visibility of public, unlisted or private: ${event}`,
+      `Event is neither archived nor has it a visibility of public or private: ${event}`,
     )
   }
 
   await sendEmail({
     rateLimitPerDay,
     mailOptions: {
-      fromName: eventCreatorUsername,
+      fromName: eventCreatorDisplayName || eventCreatorUsername,
       ...(icalText
         ? {
             icalEvent: {
@@ -462,6 +451,7 @@ export const sendEventInvitationMail = async ({
     props: {
       emailAddress,
       eventAttendanceType,
+      eventAuthorDisplayName: eventCreatorDisplayName ?? undefined,
       eventAuthorProfileHref: `${siteUrl}${getLocalePrefix(language)}/account/view/${eventCreatorUsername}`,
       eventAuthorProfilePictureSrc: eventCreatorProfilePictureUploadStorageKey
         ? tusdFilesUrl + eventCreatorProfilePictureUploadStorageKey

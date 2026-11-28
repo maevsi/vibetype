@@ -20,6 +20,7 @@ export type Scalars = {
   Cursor: { input: string; output: string }
   Date: { input: string; output: string }
   Datetime: { input: string; output: string }
+  EmailAddress: { input: string; output: string }
   GeoJSON: { input: GeoJSON; output: GeoJSON }
   Jwt: { input: string; output: string }
   RegConfig: { input: unknown; output: unknown }
@@ -28,79 +29,81 @@ export type Scalars = {
 
 /** Public account data. */
 export type Account = Node & {
-  __typename?: 'Account'
+  readonly __typename?: 'Account'
   /** Reads and enables pagination through a set of `AccountBlock`. */
-  accountBlocksByBlockedAccountId: AccountBlockConnection
+  readonly accountBlocksByBlockedAccountId: AccountBlockConnection
   /** Reads and enables pagination through a set of `AccountBlock`. */
-  accountBlocksByCreatedBy: AccountBlockConnection
+  readonly accountBlocksByCreatedBy: AccountBlockConnection
   /** Reads and enables pagination through a set of `AccountSocialNetwork`. */
-  accountSocialNetworksByAccountId: AccountSocialNetworkConnection
+  readonly accountSocialNetworksByAccountId: AccountSocialNetworkConnection
   /** Reads and enables pagination through a set of `Achievement`. */
-  achievementsByAccountId: AchievementConnection
+  readonly achievementsByAccountId: AchievementConnection
   /** Reads and enables pagination through a set of `Address`. */
-  addressesByCreatedBy: AddressConnection
+  readonly addressesByCreatedBy: AddressConnection
   /** Reads and enables pagination through a set of `Address`. */
-  addressesByUpdatedBy: AddressConnection
+  readonly addressesByUpdatedBy: AddressConnection
   /** Reads and enables pagination through a set of `App`. */
-  appsByCreatedBy: AppConnection
+  readonly appsByCreatedBy: AppConnection
   /** Reads and enables pagination through a set of `Attendance`. */
-  attendancesByUpdatedBy: AttendanceConnection
+  readonly attendancesByUpdatedBy: AttendanceConnection
+  /** Reads and enables pagination through a set of `ContactGroup`. */
+  readonly contactGroupsByCreatedBy: ContactGroupConnection
   /** Reads and enables pagination through a set of `Contact`. */
-  contactsByAccountId: ContactConnection
+  readonly contactsByAccountId: ContactConnection
   /** Reads and enables pagination through a set of `Contact`. */
-  contactsByCreatedBy: ContactConnection
+  readonly contactsByCreatedBy: ContactConnection
   /** The account's description. Must not exceed 1,000 characters. */
-  description?: Maybe<Scalars['String']['output']>
+  readonly description?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `Device`. */
-  devicesByCreatedBy: DeviceConnection
+  readonly devicesByCreatedBy: DeviceConnection
   /** Reads and enables pagination through a set of `Device`. */
-  devicesByUpdatedBy: DeviceConnection
+  readonly devicesByUpdatedBy: DeviceConnection
   /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
-  displayName?: Maybe<Scalars['String']['output']>
+  readonly displayName?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `EventApp`. */
-  eventAppsByCreatedBy: EventAppConnection
+  readonly eventAppsByCreatedBy: EventAppConnection
   /** Reads and enables pagination through a set of `EventFavorite`. */
-  eventFavoritesByCreatedBy: EventFavoriteConnection
+  readonly eventFavoritesByCreatedBy: EventFavoriteConnection
   /** Reads and enables pagination through a set of `EventRecommendation`. */
-  eventRecommendationsByAccountId: EventRecommendationConnection
+  readonly eventRecommendationsByAccountId: EventRecommendationConnection
   /** Reads and enables pagination through a set of `Event`. */
-  eventsByCreatedBy: EventConnection
+  readonly eventsByCreatedBy: EventConnection
   /** Reads and enables pagination through a set of `Friendship`. */
-  friendshipsByAAccountId: FriendshipConnection
+  readonly friendshipsByAAccountId: FriendshipConnection
   /** Reads and enables pagination through a set of `Friendship`. */
-  friendshipsByBAccountId: FriendshipConnection
+  readonly friendshipsByBAccountId: FriendshipConnection
   /** Reads and enables pagination through a set of `Friendship`. */
-  friendshipsByCreatedBy: FriendshipConnection
+  readonly friendshipsByCreatedBy: FriendshipConnection
   /** Reads and enables pagination through a set of `Friendship`. */
-  friendshipsByUpdatedBy: FriendshipConnection
+  readonly friendshipsByUpdatedBy: FriendshipConnection
   /** Reads and enables pagination through a set of `Guest`. */
-  guestsByUpdatedBy: GuestConnection
+  readonly guestsByUpdatedBy: GuestConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The account's imprint URL. Must start with "https://" and not exceed 2,000 characters. */
-  imprintUrl?: Maybe<Scalars['String']['output']>
+  readonly imprintUrl?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `LegalTermAcceptance`. */
-  legalTermAcceptancesByAccountId: LegalTermAcceptanceConnection
+  readonly legalTermAcceptancesByAccountId: LegalTermAcceptanceConnection
   /** Reads and enables pagination through a set of `PreferenceEventCategory`. */
-  preferenceEventCategoriesByAccountId: PreferenceEventCategoryConnection
+  readonly preferenceEventCategoriesByAccountId: PreferenceEventCategoryConnection
   /** Reads and enables pagination through a set of `PreferenceEventFormat`. */
-  preferenceEventFormatsByAccountId: PreferenceEventFormatConnection
+  readonly preferenceEventFormatsByAccountId: PreferenceEventFormatConnection
   /** Reads and enables pagination through a set of `PreferenceEventLocation`. */
-  preferenceEventLocationsByCreatedBy: PreferenceEventLocationConnection
+  readonly preferenceEventLocationsByCreatedBy: PreferenceEventLocationConnection
   /** Reads and enables pagination through a set of `PreferenceEventSize`. */
-  preferenceEventSizesByAccountId: PreferenceEventSizeConnection
+  readonly preferenceEventSizesByAccountId: PreferenceEventSizeConnection
   /** Reads a single `ProfilePicture` that is related to this `Account`. */
-  profilePictureByAccountId?: Maybe<ProfilePicture>
+  readonly profilePictureByAccountId?: Maybe<ProfilePicture>
   /** Reads and enables pagination through a set of `Report`. */
-  reportsByCreatedBy: ReportConnection
+  readonly reportsByCreatedBy: ReportConnection
   /** Reads and enables pagination through a set of `Report`. */
-  reportsByTargetAccountId: ReportConnection
+  readonly reportsByTargetAccountId: ReportConnection
   /** The account's internal id. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** Reads and enables pagination through a set of `Upload`. */
-  uploadsByCreatedBy: UploadConnection
+  readonly uploadsByCreatedBy: UploadConnection
   /** The account's username. Must be alphanumeric with hyphens and not exceed 100 characters. */
-  username: Scalars['String']['output']
+  readonly username: Scalars['String']['output']
 }
 
 /** Public account data. */
@@ -111,7 +114,7 @@ export type AccountAccountBlocksByBlockedAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountBlockOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AccountBlockOrderBy>>
 }
 
 /** Public account data. */
@@ -122,7 +125,7 @@ export type AccountAccountBlocksByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountBlockOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AccountBlockOrderBy>>
 }
 
 /** Public account data. */
@@ -133,7 +136,7 @@ export type AccountAccountSocialNetworksByAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountSocialNetworkOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AccountSocialNetworkOrderBy>>
 }
 
 /** Public account data. */
@@ -144,7 +147,7 @@ export type AccountAchievementsByAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AchievementOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AchievementOrderBy>>
 }
 
 /** Public account data. */
@@ -155,7 +158,7 @@ export type AccountAddressesByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AddressOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AddressOrderBy>>
 }
 
 /** Public account data. */
@@ -166,7 +169,7 @@ export type AccountAddressesByUpdatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AddressOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AddressOrderBy>>
 }
 
 /** Public account data. */
@@ -177,7 +180,7 @@ export type AccountAppsByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AppOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AppOrderBy>>
 }
 
 /** Public account data. */
@@ -188,7 +191,18 @@ export type AccountAttendancesByUpdatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AttendanceOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AttendanceOrderBy>>
+}
+
+/** Public account data. */
+export type AccountContactGroupsByCreatedByArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<ContactGroupCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<ReadonlyArray<ContactGroupOrderBy>>
 }
 
 /** Public account data. */
@@ -199,7 +213,7 @@ export type AccountContactsByAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ContactOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ContactOrderBy>>
 }
 
 /** Public account data. */
@@ -210,7 +224,7 @@ export type AccountContactsByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ContactOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ContactOrderBy>>
 }
 
 /** Public account data. */
@@ -221,7 +235,7 @@ export type AccountDevicesByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<DeviceOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<DeviceOrderBy>>
 }
 
 /** Public account data. */
@@ -232,7 +246,7 @@ export type AccountDevicesByUpdatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<DeviceOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<DeviceOrderBy>>
 }
 
 /** Public account data. */
@@ -243,7 +257,7 @@ export type AccountEventAppsByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventAppOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventAppOrderBy>>
 }
 
 /** Public account data. */
@@ -254,7 +268,7 @@ export type AccountEventFavoritesByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFavoriteOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventFavoriteOrderBy>>
 }
 
 /** Public account data. */
@@ -265,7 +279,7 @@ export type AccountEventRecommendationsByAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventRecommendationOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventRecommendationOrderBy>>
 }
 
 /** Public account data. */
@@ -276,7 +290,7 @@ export type AccountEventsByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventOrderBy>>
 }
 
 /** Public account data. */
@@ -287,7 +301,7 @@ export type AccountFriendshipsByAAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<FriendshipOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<FriendshipOrderBy>>
 }
 
 /** Public account data. */
@@ -298,7 +312,7 @@ export type AccountFriendshipsByBAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<FriendshipOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<FriendshipOrderBy>>
 }
 
 /** Public account data. */
@@ -309,7 +323,7 @@ export type AccountFriendshipsByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<FriendshipOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<FriendshipOrderBy>>
 }
 
 /** Public account data. */
@@ -320,7 +334,7 @@ export type AccountFriendshipsByUpdatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<FriendshipOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<FriendshipOrderBy>>
 }
 
 /** Public account data. */
@@ -331,7 +345,7 @@ export type AccountGuestsByUpdatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<GuestOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<GuestOrderBy>>
 }
 
 /** Public account data. */
@@ -342,7 +356,7 @@ export type AccountLegalTermAcceptancesByAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<LegalTermAcceptanceOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<LegalTermAcceptanceOrderBy>>
 }
 
 /** Public account data. */
@@ -353,7 +367,7 @@ export type AccountPreferenceEventCategoriesByAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventCategoryOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventCategoryOrderBy>>
 }
 
 /** Public account data. */
@@ -364,7 +378,7 @@ export type AccountPreferenceEventFormatsByAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventFormatOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventFormatOrderBy>>
 }
 
 /** Public account data. */
@@ -375,7 +389,7 @@ export type AccountPreferenceEventLocationsByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventLocationOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventLocationOrderBy>>
 }
 
 /** Public account data. */
@@ -386,7 +400,7 @@ export type AccountPreferenceEventSizesByAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventSizeOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventSizeOrderBy>>
 }
 
 /** Public account data. */
@@ -397,7 +411,7 @@ export type AccountReportsByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ReportOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ReportOrderBy>>
 }
 
 /** Public account data. */
@@ -408,7 +422,7 @@ export type AccountReportsByTargetAccountIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ReportOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ReportOrderBy>>
 }
 
 /** Public account data. */
@@ -419,55 +433,55 @@ export type AccountUploadsByCreatedByArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<UploadOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<UploadOrderBy>>
 }
 
 /** Blocking of one account by another. */
 export type AccountBlock = Node & {
-  __typename?: 'AccountBlock'
+  readonly __typename?: 'AccountBlock'
   /** Reads a single `Account` that is related to this `AccountBlock`. */
-  accountByBlockedAccountId?: Maybe<Account>
+  readonly accountByBlockedAccountId?: Maybe<Account>
   /** Reads a single `Account` that is related to this `AccountBlock`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** The account id of the user who is blocked. */
-  blockedAccountId: Scalars['UUID']['output']
+  readonly blockedAccountId: Scalars['UUID']['output']
   /** Timestamp of when the account block was created. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** The account id of the user who created the account block. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The account block's internal id. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /** A connection to a list of `AccountBlockAccountsRecord` values. */
 export type AccountBlockAccountsConnection = {
-  __typename?: 'AccountBlockAccountsConnection'
+  readonly __typename?: 'AccountBlockAccountsConnection'
   /** A list of edges which contains the `AccountBlockAccountsRecord` and cursor to aid in pagination. */
-  edges: Array<AccountBlockAccountsEdge>
+  readonly edges: ReadonlyArray<AccountBlockAccountsEdge>
   /** A list of `AccountBlockAccountsRecord` objects. */
-  nodes: Array<AccountBlockAccountsRecord>
+  readonly nodes: ReadonlyArray<AccountBlockAccountsRecord>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `AccountBlockAccountsRecord` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `AccountBlockAccountsRecord` edge in the connection. */
 export type AccountBlockAccountsEdge = {
-  __typename?: 'AccountBlockAccountsEdge'
+  readonly __typename?: 'AccountBlockAccountsEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `AccountBlockAccountsRecord` at the end of the edge. */
-  node: AccountBlockAccountsRecord
+  readonly node: AccountBlockAccountsRecord
 }
 
 export type AccountBlockAccountsRecord = {
-  __typename?: 'AccountBlockAccountsRecord'
-  id?: Maybe<Scalars['UUID']['output']>
-  storageKey?: Maybe<Scalars['String']['output']>
-  username?: Maybe<Scalars['String']['output']>
+  readonly __typename?: 'AccountBlockAccountsRecord'
+  readonly id?: Maybe<Scalars['UUID']['output']>
+  readonly storageKey?: Maybe<Scalars['String']['output']>
+  readonly username?: Maybe<Scalars['String']['output']>
 }
 
 /**
@@ -476,41 +490,41 @@ export type AccountBlockAccountsRecord = {
  */
 export type AccountBlockCondition = {
   /** Checks for equality with the object’s `blockedAccountId` field. */
-  blockedAccountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly blockedAccountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `AccountBlock` values. */
 export type AccountBlockConnection = {
-  __typename?: 'AccountBlockConnection'
+  readonly __typename?: 'AccountBlockConnection'
   /** A list of edges which contains the `AccountBlock` and cursor to aid in pagination. */
-  edges: Array<AccountBlockEdge>
+  readonly edges: ReadonlyArray<AccountBlockEdge>
   /** A list of `AccountBlock` objects. */
-  nodes: Array<AccountBlock>
+  readonly nodes: ReadonlyArray<AccountBlock>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `AccountBlock` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `AccountBlock` edge in the connection. */
 export type AccountBlockEdge = {
-  __typename?: 'AccountBlockEdge'
+  readonly __typename?: 'AccountBlockEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `AccountBlock` at the end of the edge. */
-  node: AccountBlock
+  readonly node: AccountBlock
 }
 
 /** An input for mutations affecting `AccountBlock` */
 export type AccountBlockInput = {
   /** The account id of the user who is blocked. */
-  blockedAccountId: Scalars['UUID']['input']
+  readonly blockedAccountId: Scalars['UUID']['input']
   /** The account id of the user who created the account block. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
 }
 
 /** Methods to use when ordering `AccountBlock`. */
@@ -529,22 +543,22 @@ export enum AccountBlockOrderBy {
 /** A condition to be used against `Account` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type AccountCondition = {
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `username` field. */
-  username?: InputMaybe<Scalars['String']['input']>
+  readonly username?: InputMaybe<Scalars['String']['input']>
 }
 
 /** A connection to a list of `Account` values. */
 export type AccountConnection = {
-  __typename?: 'AccountConnection'
+  readonly __typename?: 'AccountConnection'
   /** A list of edges which contains the `Account` and cursor to aid in pagination. */
-  edges: Array<AccountEdge>
+  readonly edges: ReadonlyArray<AccountEdge>
   /** A list of `Account` objects. */
-  nodes: Array<Account>
+  readonly nodes: ReadonlyArray<Account>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Account` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** All input for the `accountDelete` mutation. */
@@ -553,29 +567,29 @@ export type AccountDeleteInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  password: Scalars['String']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly password: Scalars['String']['input']
 }
 
 /** The output of our `accountDelete` mutation. */
 export type AccountDeletePayload = {
-  __typename?: 'AccountDeletePayload'
+  readonly __typename?: 'AccountDeletePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** A `Account` edge in the connection. */
 export type AccountEdge = {
-  __typename?: 'AccountEdge'
+  readonly __typename?: 'AccountEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Account` at the end of the edge. */
-  node: Account
+  readonly node: Account
 }
 
 /** All input for the `accountEmailAddressVerification` mutation. */
@@ -584,20 +598,20 @@ export type AccountEmailAddressVerificationInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  code: Scalars['UUID']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly code: Scalars['UUID']['input']
 }
 
 /** The output of our `accountEmailAddressVerification` mutation. */
 export type AccountEmailAddressVerificationPayload = {
-  __typename?: 'AccountEmailAddressVerificationPayload'
+  readonly __typename?: 'AccountEmailAddressVerificationPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** Methods to use when ordering `Account`. */
@@ -617,21 +631,21 @@ export type AccountPasswordChangeInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  passwordCurrent: Scalars['String']['input']
-  passwordNew: Scalars['String']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly passwordCurrent: Scalars['String']['input']
+  readonly passwordNew: Scalars['String']['input']
 }
 
 /** The output of our `accountPasswordChange` mutation. */
 export type AccountPasswordChangePayload = {
-  __typename?: 'AccountPasswordChangePayload'
+  readonly __typename?: 'AccountPasswordChangePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** All input for the `accountPasswordReset` mutation. */
@@ -640,21 +654,21 @@ export type AccountPasswordResetInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  code: Scalars['UUID']['input']
-  password: Scalars['String']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly code: Scalars['UUID']['input']
+  readonly password: Scalars['String']['input']
 }
 
 /** The output of our `accountPasswordReset` mutation. */
 export type AccountPasswordResetPayload = {
-  __typename?: 'AccountPasswordResetPayload'
+  readonly __typename?: 'AccountPasswordResetPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** All input for the `accountPasswordResetRequest` mutation. */
@@ -663,98 +677,98 @@ export type AccountPasswordResetRequestInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  emailAddress: Scalars['String']['input']
-  language: Scalars['String']['input']
-  timeZone?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly emailAddress: Scalars['String']['input']
+  readonly language: Scalars['String']['input']
+  readonly timeZone?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The output of our `accountPasswordResetRequest` mutation. */
 export type AccountPasswordResetRequestPayload = {
-  __typename?: 'AccountPasswordResetRequestPayload'
+  readonly __typename?: 'AccountPasswordResetRequestPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** Represents an update to a `Account`. Fields that are set will be updated. */
 export type AccountPatch = {
   /** The account's description. Must not exceed 1,000 characters. */
-  description?: InputMaybe<Scalars['String']['input']>
+  readonly description?: InputMaybe<Scalars['String']['input']>
   /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
-  displayName?: InputMaybe<Scalars['String']['input']>
+  readonly displayName?: InputMaybe<Scalars['String']['input']>
   /** The account's imprint URL. Must start with "https://" and not exceed 2,000 characters. */
-  imprintUrl?: InputMaybe<Scalars['String']['input']>
+  readonly imprintUrl?: InputMaybe<Scalars['String']['input']>
 }
 
 /** All input for the `accountRegistration` mutation. */
 export type AccountRegistrationInput = {
-  birthDate: Scalars['Date']['input']
+  readonly birthDate: Scalars['Date']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  emailAddress: Scalars['String']['input']
-  language: Scalars['String']['input']
-  legalTermId: Scalars['UUID']['input']
-  password: Scalars['String']['input']
-  timeZone?: InputMaybe<Scalars['String']['input']>
-  username: Scalars['String']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly emailAddress: Scalars['String']['input']
+  readonly language: Scalars['String']['input']
+  readonly legalTermId: Scalars['UUID']['input']
+  readonly password: Scalars['String']['input']
+  readonly timeZone?: InputMaybe<Scalars['String']['input']>
+  readonly username: Scalars['String']['input']
 }
 
 /** The output of our `accountRegistration` mutation. */
 export type AccountRegistrationPayload = {
-  __typename?: 'AccountRegistrationPayload'
+  readonly __typename?: 'AccountRegistrationPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** All input for the `accountRegistrationRefresh` mutation. */
 export type AccountRegistrationRefreshInput = {
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  language: Scalars['String']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly language: Scalars['String']['input']
 }
 
 /** The output of our `accountRegistrationRefresh` mutation. */
 export type AccountRegistrationRefreshPayload = {
-  __typename?: 'AccountRegistrationRefreshPayload'
+  readonly __typename?: 'AccountRegistrationRefreshPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** Links accounts to their social media profiles. Each entry represents a specific social network and associated username for an account. */
 export type AccountSocialNetwork = Node & {
-  __typename?: 'AccountSocialNetwork'
+  readonly __typename?: 'AccountSocialNetwork'
   /** Reads a single `Account` that is related to this `AccountSocialNetwork`. */
-  accountByAccountId?: Maybe<Account>
+  readonly accountByAccountId?: Maybe<Account>
   /** The unique identifier of the account. */
-  accountId: Scalars['UUID']['output']
+  readonly accountId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The social network to which the account is linked. */
-  socialNetwork: SocialNetwork
+  readonly socialNetwork: SocialNetwork
   /** The username of the account on the specified social network. */
-  socialNetworkUsername: Scalars['String']['output']
+  readonly socialNetworkUsername: Scalars['String']['output']
 }
 
 /**
@@ -763,41 +777,41 @@ export type AccountSocialNetwork = Node & {
  */
 export type AccountSocialNetworkCondition = {
   /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `socialNetwork` field. */
-  socialNetwork?: InputMaybe<SocialNetwork>
+  readonly socialNetwork?: InputMaybe<SocialNetwork>
 }
 
 /** A connection to a list of `AccountSocialNetwork` values. */
 export type AccountSocialNetworkConnection = {
-  __typename?: 'AccountSocialNetworkConnection'
+  readonly __typename?: 'AccountSocialNetworkConnection'
   /** A list of edges which contains the `AccountSocialNetwork` and cursor to aid in pagination. */
-  edges: Array<AccountSocialNetworkEdge>
+  readonly edges: ReadonlyArray<AccountSocialNetworkEdge>
   /** A list of `AccountSocialNetwork` objects. */
-  nodes: Array<AccountSocialNetwork>
+  readonly nodes: ReadonlyArray<AccountSocialNetwork>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `AccountSocialNetwork` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `AccountSocialNetwork` edge in the connection. */
 export type AccountSocialNetworkEdge = {
-  __typename?: 'AccountSocialNetworkEdge'
+  readonly __typename?: 'AccountSocialNetworkEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `AccountSocialNetwork` at the end of the edge. */
-  node: AccountSocialNetwork
+  readonly node: AccountSocialNetwork
 }
 
 /** An input for mutations affecting `AccountSocialNetwork` */
 export type AccountSocialNetworkInput = {
   /** The unique identifier of the account. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /** The social network to which the account is linked. */
-  socialNetwork: SocialNetwork
+  readonly socialNetwork: SocialNetwork
   /** The username of the account on the specified social network. */
-  socialNetworkUsername: Scalars['String']['input']
+  readonly socialNetworkUsername: Scalars['String']['input']
 }
 
 /** Methods to use when ordering `AccountSocialNetwork`. */
@@ -812,28 +826,28 @@ export enum AccountSocialNetworkOrderBy {
 /** Represents an update to a `AccountSocialNetwork`. Fields that are set will be updated. */
 export type AccountSocialNetworkPatch = {
   /** The unique identifier of the account. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** The social network to which the account is linked. */
-  socialNetwork?: InputMaybe<SocialNetwork>
+  readonly socialNetwork?: InputMaybe<SocialNetwork>
   /** The username of the account on the specified social network. */
-  socialNetworkUsername?: InputMaybe<Scalars['String']['input']>
+  readonly socialNetworkUsername?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Achievements unlocked by users. */
 export type Achievement = Node & {
-  __typename?: 'Achievement'
+  readonly __typename?: 'Achievement'
   /** Reads a single `Account` that is related to this `Achievement`. */
-  accountByAccountId?: Maybe<Account>
+  readonly accountByAccountId?: Maybe<Account>
   /** The account which unlocked the achievement. */
-  accountId: Scalars['UUID']['output']
+  readonly accountId: Scalars['UUID']['output']
   /** The unlock's achievement. */
-  achievement: AchievementType
+  readonly achievement: AchievementType
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The achievement unlock's level. */
-  level: Scalars['Int']['output']
+  readonly level: Scalars['Int']['output']
   /** The achievement unlock's internal id. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /**
@@ -842,33 +856,33 @@ export type Achievement = Node & {
  */
 export type AchievementCondition = {
   /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `achievement` field. */
-  achievement?: InputMaybe<AchievementType>
+  readonly achievement?: InputMaybe<AchievementType>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `Achievement` values. */
 export type AchievementConnection = {
-  __typename?: 'AchievementConnection'
+  readonly __typename?: 'AchievementConnection'
   /** A list of edges which contains the `Achievement` and cursor to aid in pagination. */
-  edges: Array<AchievementEdge>
+  readonly edges: ReadonlyArray<AchievementEdge>
   /** A list of `Achievement` objects. */
-  nodes: Array<Achievement>
+  readonly nodes: ReadonlyArray<Achievement>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Achievement` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `Achievement` edge in the connection. */
 export type AchievementEdge = {
-  __typename?: 'AchievementEdge'
+  readonly __typename?: 'AchievementEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Achievement` at the end of the edge. */
-  node: Achievement
+  readonly node: Achievement
 }
 
 /** Methods to use when ordering `Achievement`. */
@@ -890,67 +904,67 @@ export enum AchievementType {
 
 /** All input for the `achievementUnlock` mutation. */
 export type AchievementUnlockInput = {
-  alias: Scalars['String']['input']
+  readonly alias: Scalars['String']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  code: Scalars['UUID']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly code: Scalars['UUID']['input']
 }
 
 /** The output of our `achievementUnlock` mutation. */
 export type AchievementUnlockPayload = {
-  __typename?: 'AchievementUnlockPayload'
+  readonly __typename?: 'AchievementUnlockPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  result?: Maybe<Scalars['UUID']['output']>
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<Scalars['UUID']['output']>
 }
 
 /** Stores detailed address information, including lines, city, state, country, and metadata. */
 export type Address = Node & {
-  __typename?: 'Address'
+  readonly __typename?: 'Address'
   /** Reads a single `Account` that is related to this `Address`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Address`. */
-  accountByUpdatedBy?: Maybe<Account>
+  readonly accountByUpdatedBy?: Maybe<Account>
   /** City of the address. Must be between 1 and 300 characters. */
-  city?: Maybe<Scalars['String']['output']>
+  readonly city?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `Contact`. */
-  contactsByAddressId: ContactConnection
+  readonly contactsByAddressId: ContactConnection
   /** Country of the address. Must be between 1 and 300 characters. */
-  country?: Maybe<Scalars['String']['output']>
+  readonly country?: Maybe<Scalars['String']['output']>
   /** Timestamp when the address was created. Defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Reference to the account that created the address. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** Reads and enables pagination through a set of `Event`. */
-  eventsByAddressId: EventConnection
+  readonly eventsByAddressId: EventConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** First line of the address (e.g., street address). Must be between 1 and 300 characters. */
-  line1?: Maybe<Scalars['String']['output']>
+  readonly line1?: Maybe<Scalars['String']['output']>
   /** Second line of the address, if needed. Must be between 1 and 300 characters. */
-  line2?: Maybe<Scalars['String']['output']>
+  readonly line2?: Maybe<Scalars['String']['output']>
   /** The geographic location of the address. */
-  location?: Maybe<GeographyPoint>
+  readonly location?: Maybe<GeographyPoint>
   /** Person or company name. Must be between 1 and 300 characters. */
-  name: Scalars['String']['output']
+  readonly name: Scalars['String']['output']
   /** Postal or ZIP code for the address. Must be between 1 and 20 characters. */
-  postalCode?: Maybe<Scalars['String']['output']>
+  readonly postalCode?: Maybe<Scalars['String']['output']>
   /** Region of the address (e.g., state, province, county, department or territory). Must be between 1 and 300 characters. */
-  region?: Maybe<Scalars['String']['output']>
+  readonly region?: Maybe<Scalars['String']['output']>
   /** Primary key, uniquely identifies each address. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** Timestamp when the address was last updated. */
-  updatedAt?: Maybe<Scalars['Datetime']['output']>
+  readonly updatedAt?: Maybe<Scalars['Datetime']['output']>
   /** Reference to the account that last updated the address. */
-  updatedBy?: Maybe<Scalars['UUID']['output']>
+  readonly updatedBy?: Maybe<Scalars['UUID']['output']>
 }
 
 /** Stores detailed address information, including lines, city, state, country, and metadata. */
@@ -961,7 +975,7 @@ export type AddressContactsByAddressIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ContactOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ContactOrderBy>>
 }
 
 /** Stores detailed address information, including lines, city, state, country, and metadata. */
@@ -972,61 +986,61 @@ export type AddressEventsByAddressIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventOrderBy>>
 }
 
 /** A condition to be used against `Address` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type AddressCondition = {
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `updatedBy` field. */
-  updatedBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly updatedBy?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `Address` values. */
 export type AddressConnection = {
-  __typename?: 'AddressConnection'
+  readonly __typename?: 'AddressConnection'
   /** A list of edges which contains the `Address` and cursor to aid in pagination. */
-  edges: Array<AddressEdge>
+  readonly edges: ReadonlyArray<AddressEdge>
   /** A list of `Address` objects. */
-  nodes: Array<Address>
+  readonly nodes: ReadonlyArray<Address>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Address` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `Address` edge in the connection. */
 export type AddressEdge = {
-  __typename?: 'AddressEdge'
+  readonly __typename?: 'AddressEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Address` at the end of the edge. */
-  node: Address
+  readonly node: Address
 }
 
 /** An input for mutations affecting `Address` */
 export type AddressInput = {
   /** City of the address. Must be between 1 and 300 characters. */
-  city?: InputMaybe<Scalars['String']['input']>
+  readonly city?: InputMaybe<Scalars['String']['input']>
   /** Country of the address. Must be between 1 and 300 characters. */
-  country?: InputMaybe<Scalars['String']['input']>
+  readonly country?: InputMaybe<Scalars['String']['input']>
   /** Reference to the account that created the address. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** First line of the address (e.g., street address). Must be between 1 and 300 characters. */
-  line1?: InputMaybe<Scalars['String']['input']>
+  readonly line1?: InputMaybe<Scalars['String']['input']>
   /** Second line of the address, if needed. Must be between 1 and 300 characters. */
-  line2?: InputMaybe<Scalars['String']['input']>
+  readonly line2?: InputMaybe<Scalars['String']['input']>
   /** The geographic location of the address. */
-  location?: InputMaybe<Scalars['GeoJSON']['input']>
+  readonly location?: InputMaybe<Scalars['GeoJSON']['input']>
   /** Person or company name. Must be between 1 and 300 characters. */
-  name: Scalars['String']['input']
+  readonly name: Scalars['String']['input']
   /** Postal or ZIP code for the address. Must be between 1 and 20 characters. */
-  postalCode?: InputMaybe<Scalars['String']['input']>
+  readonly postalCode?: InputMaybe<Scalars['String']['input']>
   /** Region of the address (e.g., state, province, county, department or territory). Must be between 1 and 300 characters. */
-  region?: InputMaybe<Scalars['String']['input']>
+  readonly region?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Methods to use when ordering `Address`. */
@@ -1045,46 +1059,46 @@ export enum AddressOrderBy {
 /** Represents an update to a `Address`. Fields that are set will be updated. */
 export type AddressPatch = {
   /** City of the address. Must be between 1 and 300 characters. */
-  city?: InputMaybe<Scalars['String']['input']>
+  readonly city?: InputMaybe<Scalars['String']['input']>
   /** Country of the address. Must be between 1 and 300 characters. */
-  country?: InputMaybe<Scalars['String']['input']>
+  readonly country?: InputMaybe<Scalars['String']['input']>
   /** First line of the address (e.g., street address). Must be between 1 and 300 characters. */
-  line1?: InputMaybe<Scalars['String']['input']>
+  readonly line1?: InputMaybe<Scalars['String']['input']>
   /** Second line of the address, if needed. Must be between 1 and 300 characters. */
-  line2?: InputMaybe<Scalars['String']['input']>
+  readonly line2?: InputMaybe<Scalars['String']['input']>
   /** The geographic location of the address. */
-  location?: InputMaybe<Scalars['GeoJSON']['input']>
+  readonly location?: InputMaybe<Scalars['GeoJSON']['input']>
   /** Person or company name. Must be between 1 and 300 characters. */
-  name?: InputMaybe<Scalars['String']['input']>
+  readonly name?: InputMaybe<Scalars['String']['input']>
   /** Postal or ZIP code for the address. Must be between 1 and 20 characters. */
-  postalCode?: InputMaybe<Scalars['String']['input']>
+  readonly postalCode?: InputMaybe<Scalars['String']['input']>
   /** Region of the address (e.g., state, province, county, department or territory). Must be between 1 and 300 characters. */
-  region?: InputMaybe<Scalars['String']['input']>
+  readonly region?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Integrations that can be added to events. Each app has a name, icon, and an endpoint for attendance management. */
 export type App = Node & {
-  __typename?: 'App'
+  readonly __typename?: 'App'
   /** Reads a single `Account` that is related to this `App`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** When the app was created. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Who created this app. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** Reads and enables pagination through a set of `EventApp`. */
-  eventAppsByAppId: EventAppConnection
+  readonly eventAppsByAppId: EventAppConnection
   /** An SVG icon for displaying the app. */
-  iconSvg: Scalars['String']['output']
+  readonly iconSvg: Scalars['String']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The name of the app. */
-  name: Scalars['String']['output']
+  readonly name: Scalars['String']['output']
   /** A unique reference for this app. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** The main URL of the app. */
-  url: Scalars['String']['output']
+  readonly url: Scalars['String']['output']
   /** The URL endpoint for managing attendance. */
-  urlAttendance: Scalars['String']['output']
+  readonly urlAttendance: Scalars['String']['output']
 }
 
 /** Integrations that can be added to events. Each app has a name, icon, and an endpoint for attendance management. */
@@ -1095,39 +1109,39 @@ export type AppEventAppsByAppIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventAppOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventAppOrderBy>>
 }
 
 /** A condition to be used against `App` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type AppCondition = {
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `name` field. */
-  name?: InputMaybe<Scalars['String']['input']>
+  readonly name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `App` values. */
 export type AppConnection = {
-  __typename?: 'AppConnection'
+  readonly __typename?: 'AppConnection'
   /** A list of edges which contains the `App` and cursor to aid in pagination. */
-  edges: Array<AppEdge>
+  readonly edges: ReadonlyArray<AppEdge>
   /** A list of `App` objects. */
-  nodes: Array<App>
+  readonly nodes: ReadonlyArray<App>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `App` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `App` edge in the connection. */
 export type AppEdge = {
-  __typename?: 'AppEdge'
+  readonly __typename?: 'AppEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `App` at the end of the edge. */
-  node: App
+  readonly node: App
 }
 
 /** Methods to use when ordering `App`. */
@@ -1145,29 +1159,31 @@ export enum AppOrderBy {
 
 /** Keeps track of when someone arrives and leaves an event. Each person can only be checked in once. */
 export type Attendance = Node & {
-  __typename?: 'Attendance'
+  readonly __typename?: 'Attendance'
   /** Reads a single `Account` that is related to this `Attendance`. */
-  accountByUpdatedBy?: Maybe<Account>
+  readonly accountByUpdatedBy?: Maybe<Account>
   /** Shows if the person has left. When this turns on, the time is saved automatically. */
-  checkedOut?: Maybe<Scalars['Boolean']['output']>
+  readonly checkedOut?: Maybe<Scalars['Boolean']['output']>
   /** Reads a single `Contact` that is related to this `Attendance`. */
-  contactByContactId?: Maybe<Contact>
+  readonly contactByContactId?: Maybe<Contact>
   /** The contact information available to anyone with access to this attendance entry. This may differ from the guest information if the guest provided different details at check-in. */
-  contactId?: Maybe<Scalars['UUID']['output']>
+  readonly contactId?: Maybe<Scalars['UUID']['output']>
   /** When the entry was created (the check-in time). */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Reads a single `Guest` that is related to this `Attendance`. */
-  guestByGuestId?: Maybe<Guest>
+  readonly guestByGuestId?: Maybe<Guest>
   /** Who this entry is for. */
-  guestId: Scalars['UUID']['output']
+  readonly guestId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** A unique reference for this entry. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  readonly tagSerialNumber?: Maybe<Scalars['String']['output']>
   /** When this entry was last changed. If someone checks out, this shows the checkout time. */
-  updatedAt?: Maybe<Scalars['Datetime']['output']>
+  readonly updatedAt?: Maybe<Scalars['Datetime']['output']>
   /** Who last changed this entry. This may be empty if done without signing in. */
-  updatedBy?: Maybe<Scalars['UUID']['output']>
+  readonly updatedBy?: Maybe<Scalars['UUID']['output']>
 }
 
 /**
@@ -1176,43 +1192,45 @@ export type Attendance = Node & {
  */
 export type AttendanceCondition = {
   /** Checks for equality with the object’s `contactId` field. */
-  contactId?: InputMaybe<Scalars['UUID']['input']>
+  readonly contactId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `guestId` field. */
-  guestId?: InputMaybe<Scalars['UUID']['input']>
+  readonly guestId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `updatedBy` field. */
-  updatedBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly updatedBy?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `Attendance` values. */
 export type AttendanceConnection = {
-  __typename?: 'AttendanceConnection'
+  readonly __typename?: 'AttendanceConnection'
   /** A list of edges which contains the `Attendance` and cursor to aid in pagination. */
-  edges: Array<AttendanceEdge>
+  readonly edges: ReadonlyArray<AttendanceEdge>
   /** A list of `Attendance` objects. */
-  nodes: Array<Attendance>
+  readonly nodes: ReadonlyArray<Attendance>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Attendance` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `Attendance` edge in the connection. */
 export type AttendanceEdge = {
-  __typename?: 'AttendanceEdge'
+  readonly __typename?: 'AttendanceEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Attendance` at the end of the edge. */
-  node: Attendance
+  readonly node: Attendance
 }
 
 /** An input for mutations affecting `Attendance` */
 export type AttendanceInput = {
   /** The contact information available to anyone with access to this attendance entry. This may differ from the guest information if the guest provided different details at check-in. */
-  contactId?: InputMaybe<Scalars['UUID']['input']>
+  readonly contactId?: InputMaybe<Scalars['UUID']['input']>
   /** Who this entry is for. */
-  guestId: Scalars['UUID']['input']
+  readonly guestId: Scalars['UUID']['input']
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  readonly tagSerialNumber?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Methods to use when ordering `Attendance`. */
@@ -1233,54 +1251,60 @@ export enum AttendanceOrderBy {
 /** Represents an update to a `Attendance`. Fields that are set will be updated. */
 export type AttendancePatch = {
   /** Shows if the person has left. When this turns on, the time is saved automatically. */
-  checkedOut?: InputMaybe<Scalars['Boolean']['input']>
+  readonly checkedOut?: InputMaybe<Scalars['Boolean']['input']>
+  /** The serial number of the physical tag written for this entry, which tells a tag apart from a copy that carries the same link. */
+  readonly tagSerialNumber?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Stores contact information related to accounts, including personal details, communication preferences, and metadata. */
 export type Contact = Node & {
-  __typename?: 'Contact'
+  readonly __typename?: 'Contact'
   /** Reads a single `Account` that is related to this `Contact`. */
-  accountByAccountId?: Maybe<Account>
+  readonly accountByAccountId?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Contact`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Optional reference to an associated account. */
-  accountId?: Maybe<Scalars['UUID']['output']>
+  readonly accountId?: Maybe<Scalars['UUID']['output']>
   /** Reads a single `Address` that is related to this `Contact`. */
-  addressByAddressId?: Maybe<Address>
+  readonly addressByAddressId?: Maybe<Address>
   /** Optional reference to the physical address of the contact. */
-  addressId?: Maybe<Scalars['UUID']['output']>
+  readonly addressId?: Maybe<Scalars['UUID']['output']>
   /** Reads and enables pagination through a set of `Attendance`. */
-  attendancesByContactId: AttendanceConnection
+  readonly attendancesByContactId: AttendanceConnection
+  /** Reads and enables pagination through a set of `ContactGroupMember`. */
+  readonly contactGroupMembersByContactId: ContactGroupMemberConnection
   /** Timestamp when the contact was created. Defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Reference to the account that created this contact. Enforces cascading deletion. */
-  createdBy: Scalars['UUID']['output']
-  /** Email address of the contact. Must not exceed 254 characters (RFC 5321). */
-  emailAddress?: Maybe<Scalars['String']['output']>
-  /** Hash of the email address, generated using md5 on the lowercased trimmed version of the email. Useful to display a profile picture from Gravatar. */
-  emailAddressHash?: Maybe<Scalars['String']['output']>
+  readonly createdBy: Scalars['UUID']['output']
+  /** Hash of the primary email address, generated using md5 on the lowercased trimmed version of the email. Useful to display a profile picture from Gravatar. */
+  readonly emailAddressHash?: Maybe<Scalars['String']['output']>
+  /** Email addresses of the contact, between 1 and 10 when set. The first one is the primary address, which invitations are sent to. */
+  readonly emailAddresses?: Maybe<
+    ReadonlyArray<Scalars['EmailAddress']['output']>
+  >
   /** First name of the contact. Must be between 1 and 100 characters. */
-  firstName?: Maybe<Scalars['String']['output']>
+  readonly firstName?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `Guest`. */
-  guestsByContactId: GuestConnection
+  readonly guestsByContactId: GuestConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** Reference to the preferred language of the contact. */
-  language?: Maybe<Language>
+  readonly language?: Maybe<Language>
   /** Last name of the contact. Must be between 1 and 100 characters. */
-  lastName?: Maybe<Scalars['String']['output']>
+  readonly lastName?: Maybe<Scalars['String']['output']>
   /** Nickname of the contact. Must be between 1 and 100 characters. Useful when the contact is not commonly referred to by their legal name. */
-  nickname?: Maybe<Scalars['String']['output']>
+  readonly nickname?: Maybe<Scalars['String']['output']>
   /** Additional notes about the contact. Must be between 1 and 1,000 characters. Useful for providing context or distinguishing details if the name alone is insufficient. */
-  note?: Maybe<Scalars['String']['output']>
+  readonly note?: Maybe<Scalars['String']['output']>
   /** The international phone number of the contact, formatted according to E.164 (https://wikipedia.org/wiki/E.164). */
-  phoneNumber?: Maybe<Scalars['String']['output']>
+  readonly phoneNumber?: Maybe<Scalars['String']['output']>
   /** Primary key, uniquely identifies each contact. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** Time zone of the contact in IANA format, e.g., `Europe/Berlin` or `America/New_York`. */
-  timeZone?: Maybe<Scalars['String']['output']>
+  readonly timeZone?: Maybe<Scalars['String']['output']>
   /** URL associated with the contact, must start with "https://" and not exceed 2,000 characters. */
-  url?: Maybe<Scalars['String']['output']>
+  readonly url?: Maybe<Scalars['String']['output']>
 }
 
 /** Stores contact information related to accounts, including personal details, communication preferences, and metadata. */
@@ -1291,7 +1315,18 @@ export type ContactAttendancesByContactIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AttendanceOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AttendanceOrderBy>>
+}
+
+/** Stores contact information related to accounts, including personal details, communication preferences, and metadata. */
+export type ContactContactGroupMembersByContactIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<ContactGroupMemberCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<ReadonlyArray<ContactGroupMemberOrderBy>>
 }
 
 /** Stores contact information related to accounts, including personal details, communication preferences, and metadata. */
@@ -1302,73 +1337,262 @@ export type ContactGuestsByContactIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<GuestOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<GuestOrderBy>>
 }
 
 /** A condition to be used against `Contact` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type ContactCondition = {
   /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `addressId` field. */
-  addressId?: InputMaybe<Scalars['UUID']['input']>
+  readonly addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `firstName` field. */
-  firstName?: InputMaybe<Scalars['String']['input']>
+  readonly firstName?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `lastName` field. */
-  lastName?: InputMaybe<Scalars['String']['input']>
+  readonly lastName?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `Contact` values. */
 export type ContactConnection = {
-  __typename?: 'ContactConnection'
+  readonly __typename?: 'ContactConnection'
   /** A list of edges which contains the `Contact` and cursor to aid in pagination. */
-  edges: Array<ContactEdge>
+  readonly edges: ReadonlyArray<ContactEdge>
   /** A list of `Contact` objects. */
-  nodes: Array<Contact>
+  readonly nodes: ReadonlyArray<Contact>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Contact` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `Contact` edge in the connection. */
 export type ContactEdge = {
-  __typename?: 'ContactEdge'
+  readonly __typename?: 'ContactEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Contact` at the end of the edge. */
-  node: Contact
+  readonly node: Contact
+}
+
+/** A private group an account sorts its contacts into, e.g. to filter the invitation contact picker. */
+export type ContactGroup = Node & {
+  readonly __typename?: 'ContactGroup'
+  /** Reads a single `Account` that is related to this `ContactGroup`. */
+  readonly accountByCreatedBy?: Maybe<Account>
+  /** Reads and enables pagination through a set of `ContactGroupMember`. */
+  readonly contactGroupMembersByContactGroupId: ContactGroupMemberConnection
+  /** Timestamp when the group was created. Defaults to the current timestamp. */
+  readonly createdAt: Scalars['Datetime']['output']
+  /** Reference to the account that created this group. Enforces cascading deletion. */
+  readonly createdBy: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  readonly id: Scalars['ID']['output']
+  /** Name of the group. Must be between 1 and 100 characters and unique per account, ignoring case. */
+  readonly name: Scalars['String']['output']
+  /** Primary key, uniquely identifies each contact group. */
+  readonly rowId: Scalars['UUID']['output']
+}
+
+/** A private group an account sorts its contacts into, e.g. to filter the invitation contact picker. */
+export type ContactGroupContactGroupMembersByContactGroupIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<ContactGroupMemberCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<ReadonlyArray<ContactGroupMemberOrderBy>>
+}
+
+/**
+ * A condition to be used against `ContactGroup` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ContactGroupCondition = {
+  /** Checks for equality with the object’s `createdBy` field. */
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `rowId` field. */
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** A connection to a list of `ContactGroup` values. */
+export type ContactGroupConnection = {
+  readonly __typename?: 'ContactGroupConnection'
+  /** A list of edges which contains the `ContactGroup` and cursor to aid in pagination. */
+  readonly edges: ReadonlyArray<ContactGroupEdge>
+  /** A list of `ContactGroup` objects. */
+  readonly nodes: ReadonlyArray<ContactGroup>
+  /** Information to aid in pagination. */
+  readonly pageInfo: PageInfo
+  /** The count of *all* `ContactGroup` you could get from the connection. */
+  readonly totalCount: Scalars['Int']['output']
+}
+
+/** A `ContactGroup` edge in the connection. */
+export type ContactGroupEdge = {
+  readonly __typename?: 'ContactGroupEdge'
+  /** A cursor for use in pagination. */
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `ContactGroup` at the end of the edge. */
+  readonly node: ContactGroup
+}
+
+/** An input for mutations affecting `ContactGroup` */
+export type ContactGroupInput = {
+  /** Reference to the account that created this group. Enforces cascading deletion. */
+  readonly createdBy: Scalars['UUID']['input']
+  /** Name of the group. Must be between 1 and 100 characters and unique per account, ignoring case. */
+  readonly name: Scalars['String']['input']
+}
+
+/** Mapping contacts to contact groups (M:N relationship). */
+export type ContactGroupMember = Node & {
+  readonly __typename?: 'ContactGroupMember'
+  /** Reads a single `Contact` that is related to this `ContactGroupMember`. */
+  readonly contactByContactId?: Maybe<Contact>
+  /** Reads a single `ContactGroup` that is related to this `ContactGroupMember`. */
+  readonly contactGroupByContactGroupId?: Maybe<ContactGroup>
+  /** A contact group id. */
+  readonly contactGroupId: Scalars['UUID']['output']
+  /** A contact id. */
+  readonly contactId: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  readonly id: Scalars['ID']['output']
+}
+
+/**
+ * A condition to be used against `ContactGroupMember` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ContactGroupMemberCondition = {
+  /** Checks for equality with the object’s `contactGroupId` field. */
+  readonly contactGroupId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `contactId` field. */
+  readonly contactId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** A connection to a list of `ContactGroupMember` values. */
+export type ContactGroupMemberConnection = {
+  readonly __typename?: 'ContactGroupMemberConnection'
+  /** A list of edges which contains the `ContactGroupMember` and cursor to aid in pagination. */
+  readonly edges: ReadonlyArray<ContactGroupMemberEdge>
+  /** A list of `ContactGroupMember` objects. */
+  readonly nodes: ReadonlyArray<ContactGroupMember>
+  /** Information to aid in pagination. */
+  readonly pageInfo: PageInfo
+  /** The count of *all* `ContactGroupMember` you could get from the connection. */
+  readonly totalCount: Scalars['Int']['output']
+}
+
+/** A `ContactGroupMember` edge in the connection. */
+export type ContactGroupMemberEdge = {
+  readonly __typename?: 'ContactGroupMemberEdge'
+  /** A cursor for use in pagination. */
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `ContactGroupMember` at the end of the edge. */
+  readonly node: ContactGroupMember
+}
+
+/** An input for mutations affecting `ContactGroupMember` */
+export type ContactGroupMemberInput = {
+  /** A contact group id. */
+  readonly contactGroupId: Scalars['UUID']['input']
+  /** A contact id. */
+  readonly contactId: Scalars['UUID']['input']
+}
+
+/** Methods to use when ordering `ContactGroupMember`. */
+export enum ContactGroupMemberOrderBy {
+  ContactGroupIdAsc = 'CONTACT_GROUP_ID_ASC',
+  ContactGroupIdDesc = 'CONTACT_GROUP_ID_DESC',
+  ContactIdAsc = 'CONTACT_ID_ASC',
+  ContactIdDesc = 'CONTACT_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+}
+
+/** Methods to use when ordering `ContactGroup`. */
+export enum ContactGroupOrderBy {
+  CreatedByAsc = 'CREATED_BY_ASC',
+  CreatedByDesc = 'CREATED_BY_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+}
+
+/** Represents an update to a `ContactGroup`. Fields that are set will be updated. */
+export type ContactGroupPatch = {
+  /** Name of the group. Must be between 1 and 100 characters and unique per account, ignoring case. */
+  readonly name?: InputMaybe<Scalars['String']['input']>
 }
 
 /** An input for mutations affecting `Contact` */
 export type ContactInput = {
   /** Optional reference to an associated account. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Optional reference to the physical address of the contact. */
-  addressId?: InputMaybe<Scalars['UUID']['input']>
+  readonly addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Reference to the account that created this contact. Enforces cascading deletion. */
-  createdBy: Scalars['UUID']['input']
-  /** Email address of the contact. Must not exceed 254 characters (RFC 5321). */
-  emailAddress?: InputMaybe<Scalars['String']['input']>
+  readonly createdBy: Scalars['UUID']['input']
+  /** Email addresses of the contact, between 1 and 10 when set. The first one is the primary address, which invitations are sent to. */
+  readonly emailAddresses?: InputMaybe<
+    ReadonlyArray<InputMaybe<Scalars['EmailAddress']['input']>>
+  >
   /** First name of the contact. Must be between 1 and 100 characters. */
-  firstName?: InputMaybe<Scalars['String']['input']>
+  readonly firstName?: InputMaybe<Scalars['String']['input']>
   /** Reference to the preferred language of the contact. */
-  language?: InputMaybe<Language>
+  readonly language?: InputMaybe<Language>
   /** Last name of the contact. Must be between 1 and 100 characters. */
-  lastName?: InputMaybe<Scalars['String']['input']>
+  readonly lastName?: InputMaybe<Scalars['String']['input']>
   /** Nickname of the contact. Must be between 1 and 100 characters. Useful when the contact is not commonly referred to by their legal name. */
-  nickname?: InputMaybe<Scalars['String']['input']>
+  readonly nickname?: InputMaybe<Scalars['String']['input']>
   /** Additional notes about the contact. Must be between 1 and 1,000 characters. Useful for providing context or distinguishing details if the name alone is insufficient. */
-  note?: InputMaybe<Scalars['String']['input']>
+  readonly note?: InputMaybe<Scalars['String']['input']>
   /** The international phone number of the contact, formatted according to E.164 (https://wikipedia.org/wiki/E.164). */
-  phoneNumber?: InputMaybe<Scalars['String']['input']>
+  readonly phoneNumber?: InputMaybe<Scalars['String']['input']>
   /** Time zone of the contact in IANA format, e.g., `Europe/Berlin` or `America/New_York`. */
-  timeZone?: InputMaybe<Scalars['String']['input']>
+  readonly timeZone?: InputMaybe<Scalars['String']['input']>
   /** URL associated with the contact, must start with "https://" and not exceed 2,000 characters. */
-  url?: InputMaybe<Scalars['String']['input']>
+  readonly url?: InputMaybe<Scalars['String']['input']>
+}
+
+/** All input for the `contactMerge` mutation. */
+export type ContactMergeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly contact: ContactInput
+  readonly contactId: Scalars['UUID']['input']
+  readonly contactIdMerged: Scalars['UUID']['input']
+}
+
+/** The output of our `contactMerge` mutation. */
+export type ContactMergePayload = {
+  readonly __typename?: 'ContactMergePayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** An edge for our `Contact`. May be used by Relay 1. */
+  readonly contactEdge?: Maybe<ContactEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<Contact>
+}
+
+/** The output of our `contactMerge` mutation. */
+export type ContactMergePayloadContactEdgeArgs = {
+  orderBy?: ReadonlyArray<ContactOrderBy>
 }
 
 /** Methods to use when ordering `Contact`. */
@@ -1393,157 +1617,270 @@ export enum ContactOrderBy {
 /** Represents an update to a `Contact`. Fields that are set will be updated. */
 export type ContactPatch = {
   /** Optional reference to an associated account. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Optional reference to the physical address of the contact. */
-  addressId?: InputMaybe<Scalars['UUID']['input']>
+  readonly addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Reference to the account that created this contact. Enforces cascading deletion. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Email address of the contact. Must not exceed 254 characters (RFC 5321). */
-  emailAddress?: InputMaybe<Scalars['String']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Email addresses of the contact, between 1 and 10 when set. The first one is the primary address, which invitations are sent to. */
+  readonly emailAddresses?: InputMaybe<
+    ReadonlyArray<InputMaybe<Scalars['EmailAddress']['input']>>
+  >
   /** First name of the contact. Must be between 1 and 100 characters. */
-  firstName?: InputMaybe<Scalars['String']['input']>
+  readonly firstName?: InputMaybe<Scalars['String']['input']>
   /** Reference to the preferred language of the contact. */
-  language?: InputMaybe<Language>
+  readonly language?: InputMaybe<Language>
   /** Last name of the contact. Must be between 1 and 100 characters. */
-  lastName?: InputMaybe<Scalars['String']['input']>
+  readonly lastName?: InputMaybe<Scalars['String']['input']>
   /** Nickname of the contact. Must be between 1 and 100 characters. Useful when the contact is not commonly referred to by their legal name. */
-  nickname?: InputMaybe<Scalars['String']['input']>
+  readonly nickname?: InputMaybe<Scalars['String']['input']>
   /** Additional notes about the contact. Must be between 1 and 1,000 characters. Useful for providing context or distinguishing details if the name alone is insufficient. */
-  note?: InputMaybe<Scalars['String']['input']>
+  readonly note?: InputMaybe<Scalars['String']['input']>
   /** The international phone number of the contact, formatted according to E.164 (https://wikipedia.org/wiki/E.164). */
-  phoneNumber?: InputMaybe<Scalars['String']['input']>
+  readonly phoneNumber?: InputMaybe<Scalars['String']['input']>
   /** Time zone of the contact in IANA format, e.g., `Europe/Berlin` or `America/New_York`. */
-  timeZone?: InputMaybe<Scalars['String']['input']>
+  readonly timeZone?: InputMaybe<Scalars['String']['input']>
   /** URL associated with the contact, must start with "https://" and not exceed 2,000 characters. */
-  url?: InputMaybe<Scalars['String']['input']>
+  readonly url?: InputMaybe<Scalars['String']['input']>
 }
 
 /** All input for the create `AccountBlock` mutation. */
 export type CreateAccountBlockInput = {
   /** The `AccountBlock` to be created by this mutation. */
-  accountBlock: AccountBlockInput
+  readonly accountBlock: AccountBlockInput
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The output of our create `AccountBlock` mutation. */
 export type CreateAccountBlockPayload = {
-  __typename?: 'CreateAccountBlockPayload'
+  readonly __typename?: 'CreateAccountBlockPayload'
   /** The `AccountBlock` that was created by this mutation. */
-  accountBlock?: Maybe<AccountBlock>
+  readonly accountBlock?: Maybe<AccountBlock>
   /** An edge for our `AccountBlock`. May be used by Relay 1. */
-  accountBlockEdge?: Maybe<AccountBlockEdge>
+  readonly accountBlockEdge?: Maybe<AccountBlockEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `AccountBlock` mutation. */
 export type CreateAccountBlockPayloadAccountBlockEdgeArgs = {
-  orderBy?: Array<AccountBlockOrderBy>
+  orderBy?: ReadonlyArray<AccountBlockOrderBy>
 }
 
 /** All input for the create `AccountSocialNetwork` mutation. */
 export type CreateAccountSocialNetworkInput = {
   /** The `AccountSocialNetwork` to be created by this mutation. */
-  accountSocialNetwork: AccountSocialNetworkInput
+  readonly accountSocialNetwork: AccountSocialNetworkInput
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The output of our create `AccountSocialNetwork` mutation. */
 export type CreateAccountSocialNetworkPayload = {
-  __typename?: 'CreateAccountSocialNetworkPayload'
+  readonly __typename?: 'CreateAccountSocialNetworkPayload'
   /** The `AccountSocialNetwork` that was created by this mutation. */
-  accountSocialNetwork?: Maybe<AccountSocialNetwork>
+  readonly accountSocialNetwork?: Maybe<AccountSocialNetwork>
   /** An edge for our `AccountSocialNetwork`. May be used by Relay 1. */
-  accountSocialNetworkEdge?: Maybe<AccountSocialNetworkEdge>
+  readonly accountSocialNetworkEdge?: Maybe<AccountSocialNetworkEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `AccountSocialNetwork` mutation. */
 export type CreateAccountSocialNetworkPayloadAccountSocialNetworkEdgeArgs = {
-  orderBy?: Array<AccountSocialNetworkOrderBy>
+  orderBy?: ReadonlyArray<AccountSocialNetworkOrderBy>
 }
 
 /** All input for the create `Address` mutation. */
 export type CreateAddressInput = {
   /** The `Address` to be created by this mutation. */
-  address: AddressInput
+  readonly address: AddressInput
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The output of our create `Address` mutation. */
 export type CreateAddressPayload = {
-  __typename?: 'CreateAddressPayload'
+  readonly __typename?: 'CreateAddressPayload'
   /** The `Address` that was created by this mutation. */
-  address?: Maybe<Address>
+  readonly address?: Maybe<Address>
   /** An edge for our `Address`. May be used by Relay 1. */
-  addressEdge?: Maybe<AddressEdge>
+  readonly addressEdge?: Maybe<AddressEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `Address` mutation. */
 export type CreateAddressPayloadAddressEdgeArgs = {
-  orderBy?: Array<AddressOrderBy>
+  orderBy?: ReadonlyArray<AddressOrderBy>
 }
 
 /** All input for the create `Attendance` mutation. */
 export type CreateAttendanceInput = {
   /** The `Attendance` to be created by this mutation. */
-  attendance: AttendanceInput
+  readonly attendance: AttendanceInput
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The output of our create `Attendance` mutation. */
 export type CreateAttendancePayload = {
-  __typename?: 'CreateAttendancePayload'
+  readonly __typename?: 'CreateAttendancePayload'
   /** The `Attendance` that was created by this mutation. */
-  attendance?: Maybe<Attendance>
+  readonly attendance?: Maybe<Attendance>
   /** An edge for our `Attendance`. May be used by Relay 1. */
-  attendanceEdge?: Maybe<AttendanceEdge>
+  readonly attendanceEdge?: Maybe<AttendanceEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `Attendance` mutation. */
 export type CreateAttendancePayloadAttendanceEdgeArgs = {
-  orderBy?: Array<AttendanceOrderBy>
+  orderBy?: ReadonlyArray<AttendanceOrderBy>
+}
+
+/** All input for the create `ContactGroup` mutation. */
+export type CreateContactGroupInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `ContactGroup` to be created by this mutation. */
+  readonly contactGroup: ContactGroupInput
+}
+
+/** All input for the create `ContactGroupMember` mutation. */
+export type CreateContactGroupMemberInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `ContactGroupMember` to be created by this mutation. */
+  readonly contactGroupMember: ContactGroupMemberInput
+}
+
+/** The output of our create `ContactGroupMember` mutation. */
+export type CreateContactGroupMemberPayload = {
+  readonly __typename?: 'CreateContactGroupMemberPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `ContactGroupMember` that was created by this mutation. */
+  readonly contactGroupMember?: Maybe<ContactGroupMember>
+  /** An edge for our `ContactGroupMember`. May be used by Relay 1. */
+  readonly contactGroupMemberEdge?: Maybe<ContactGroupMemberEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+}
+
+/** The output of our create `ContactGroupMember` mutation. */
+export type CreateContactGroupMemberPayloadContactGroupMemberEdgeArgs = {
+  orderBy?: ReadonlyArray<ContactGroupMemberOrderBy>
+}
+
+/** All input for the `createContactGroupMembers` mutation. */
+export type CreateContactGroupMembersInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly contactGroupIds: ReadonlyArray<InputMaybe<Scalars['UUID']['input']>>
+  readonly contactIds: ReadonlyArray<InputMaybe<Scalars['UUID']['input']>>
+}
+
+/** The output of our `createContactGroupMembers` mutation. */
+export type CreateContactGroupMembersPayload = {
+  readonly __typename?: 'CreateContactGroupMembersPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<ReadonlyArray<ContactGroupMember>>
+}
+
+/** The output of our create `ContactGroup` mutation. */
+export type CreateContactGroupPayload = {
+  readonly __typename?: 'CreateContactGroupPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `ContactGroup` that was created by this mutation. */
+  readonly contactGroup?: Maybe<ContactGroup>
+  /** An edge for our `ContactGroup`. May be used by Relay 1. */
+  readonly contactGroupEdge?: Maybe<ContactGroupEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+}
+
+/** The output of our create `ContactGroup` mutation. */
+export type CreateContactGroupPayloadContactGroupEdgeArgs = {
+  orderBy?: ReadonlyArray<ContactGroupOrderBy>
+}
+
+/** All input for the `createContactGroups` mutation. */
+export type CreateContactGroupsInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly names: ReadonlyArray<InputMaybe<Scalars['String']['input']>>
+}
+
+/** The output of our `createContactGroups` mutation. */
+export type CreateContactGroupsPayload = {
+  readonly __typename?: 'CreateContactGroupsPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<ReadonlyArray<ContactGroup>>
 }
 
 /** All input for the create `Contact` mutation. */
@@ -1552,30 +1889,53 @@ export type CreateContactInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `Contact` to be created by this mutation. */
-  contact: ContactInput
+  readonly contact: ContactInput
 }
 
 /** The output of our create `Contact` mutation. */
 export type CreateContactPayload = {
-  __typename?: 'CreateContactPayload'
+  readonly __typename?: 'CreateContactPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Contact` that was created by this mutation. */
-  contact?: Maybe<Contact>
+  readonly contact?: Maybe<Contact>
   /** An edge for our `Contact`. May be used by Relay 1. */
-  contactEdge?: Maybe<ContactEdge>
+  readonly contactEdge?: Maybe<ContactEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `Contact` mutation. */
 export type CreateContactPayloadContactEdgeArgs = {
-  orderBy?: Array<ContactOrderBy>
+  orderBy?: ReadonlyArray<ContactOrderBy>
+}
+
+/** All input for the `createContacts` mutation. */
+export type CreateContactsInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly contacts: ReadonlyArray<InputMaybe<ContactInput>>
+}
+
+/** The output of our `createContacts` mutation. */
+export type CreateContactsPayload = {
+  readonly __typename?: 'CreateContactsPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<ReadonlyArray<Contact>>
 }
 
 /** All input for the create `Device` mutation. */
@@ -1584,30 +1944,30 @@ export type CreateDeviceInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `Device` to be created by this mutation. */
-  device: DeviceInput
+  readonly device: DeviceInput
 }
 
 /** The output of our create `Device` mutation. */
 export type CreateDevicePayload = {
-  __typename?: 'CreateDevicePayload'
+  readonly __typename?: 'CreateDevicePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Device` that was created by this mutation. */
-  device?: Maybe<Device>
+  readonly device?: Maybe<Device>
   /** An edge for our `Device`. May be used by Relay 1. */
-  deviceEdge?: Maybe<DeviceEdge>
+  readonly deviceEdge?: Maybe<DeviceEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `Device` mutation. */
 export type CreateDevicePayloadDeviceEdgeArgs = {
-  orderBy?: Array<DeviceOrderBy>
+  orderBy?: ReadonlyArray<DeviceOrderBy>
 }
 
 /** All input for the create `EventCategoryMapping` mutation. */
@@ -1616,30 +1976,30 @@ export type CreateEventCategoryMappingInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `EventCategoryMapping` to be created by this mutation. */
-  eventCategoryMapping: EventCategoryMappingInput
+  readonly eventCategoryMapping: EventCategoryMappingInput
 }
 
 /** The output of our create `EventCategoryMapping` mutation. */
 export type CreateEventCategoryMappingPayload = {
-  __typename?: 'CreateEventCategoryMappingPayload'
+  readonly __typename?: 'CreateEventCategoryMappingPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `EventCategoryMapping` that was created by this mutation. */
-  eventCategoryMapping?: Maybe<EventCategoryMapping>
+  readonly eventCategoryMapping?: Maybe<EventCategoryMapping>
   /** An edge for our `EventCategoryMapping`. May be used by Relay 1. */
-  eventCategoryMappingEdge?: Maybe<EventCategoryMappingEdge>
+  readonly eventCategoryMappingEdge?: Maybe<EventCategoryMappingEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `EventCategoryMapping` mutation. */
 export type CreateEventCategoryMappingPayloadEventCategoryMappingEdgeArgs = {
-  orderBy?: Array<EventCategoryMappingOrderBy>
+  orderBy?: ReadonlyArray<EventCategoryMappingOrderBy>
 }
 
 /** All input for the create `EventFavorite` mutation. */
@@ -1648,30 +2008,30 @@ export type CreateEventFavoriteInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `EventFavorite` to be created by this mutation. */
-  eventFavorite: EventFavoriteInput
+  readonly eventFavorite: EventFavoriteInput
 }
 
 /** The output of our create `EventFavorite` mutation. */
 export type CreateEventFavoritePayload = {
-  __typename?: 'CreateEventFavoritePayload'
+  readonly __typename?: 'CreateEventFavoritePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `EventFavorite` that was created by this mutation. */
-  eventFavorite?: Maybe<EventFavorite>
+  readonly eventFavorite?: Maybe<EventFavorite>
   /** An edge for our `EventFavorite`. May be used by Relay 1. */
-  eventFavoriteEdge?: Maybe<EventFavoriteEdge>
+  readonly eventFavoriteEdge?: Maybe<EventFavoriteEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `EventFavorite` mutation. */
 export type CreateEventFavoritePayloadEventFavoriteEdgeArgs = {
-  orderBy?: Array<EventFavoriteOrderBy>
+  orderBy?: ReadonlyArray<EventFavoriteOrderBy>
 }
 
 /** All input for the create `EventFormatMapping` mutation. */
@@ -1680,30 +2040,30 @@ export type CreateEventFormatMappingInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `EventFormatMapping` to be created by this mutation. */
-  eventFormatMapping: EventFormatMappingInput
+  readonly eventFormatMapping: EventFormatMappingInput
 }
 
 /** The output of our create `EventFormatMapping` mutation. */
 export type CreateEventFormatMappingPayload = {
-  __typename?: 'CreateEventFormatMappingPayload'
+  readonly __typename?: 'CreateEventFormatMappingPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `EventFormatMapping` that was created by this mutation. */
-  eventFormatMapping?: Maybe<EventFormatMapping>
+  readonly eventFormatMapping?: Maybe<EventFormatMapping>
   /** An edge for our `EventFormatMapping`. May be used by Relay 1. */
-  eventFormatMappingEdge?: Maybe<EventFormatMappingEdge>
+  readonly eventFormatMappingEdge?: Maybe<EventFormatMappingEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `EventFormatMapping` mutation. */
 export type CreateEventFormatMappingPayloadEventFormatMappingEdgeArgs = {
-  orderBy?: Array<EventFormatMappingOrderBy>
+  orderBy?: ReadonlyArray<EventFormatMappingOrderBy>
 }
 
 /** All input for the create `Event` mutation. */
@@ -1712,30 +2072,62 @@ export type CreateEventInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `Event` to be created by this mutation. */
-  event: EventInput
+  readonly event: EventInput
 }
 
-/** The output of our create `Event` mutation. */
-export type CreateEventPayload = {
-  __typename?: 'CreateEventPayload'
+/** All input for the create `EventInvitationLink` mutation. */
+export type CreateEventInvitationLinkInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `EventInvitationLink` to be created by this mutation. */
+  readonly eventInvitationLink: EventInvitationLinkInput
+}
+
+/** The output of our create `EventInvitationLink` mutation. */
+export type CreateEventInvitationLinkPayload = {
+  readonly __typename?: 'CreateEventInvitationLinkPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** The `Event` that was created by this mutation. */
-  event?: Maybe<Event>
-  /** An edge for our `Event`. May be used by Relay 1. */
-  eventEdge?: Maybe<EventEdge>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `EventInvitationLink` that was created by this mutation. */
+  readonly eventInvitationLink?: Maybe<EventInvitationLink>
+  /** An edge for our `EventInvitationLink`. May be used by Relay 1. */
+  readonly eventInvitationLinkEdge?: Maybe<EventInvitationLinkEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
+}
+
+/** The output of our create `EventInvitationLink` mutation. */
+export type CreateEventInvitationLinkPayloadEventInvitationLinkEdgeArgs = {
+  orderBy?: ReadonlyArray<EventInvitationLinkOrderBy>
+}
+
+/** The output of our create `Event` mutation. */
+export type CreateEventPayload = {
+  readonly __typename?: 'CreateEventPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `Event` that was created by this mutation. */
+  readonly event?: Maybe<Event>
+  /** An edge for our `Event`. May be used by Relay 1. */
+  readonly eventEdge?: Maybe<EventEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `Event` mutation. */
 export type CreateEventPayloadEventEdgeArgs = {
-  orderBy?: Array<EventOrderBy>
+  orderBy?: ReadonlyArray<EventOrderBy>
 }
 
 /** All input for the create `EventUpload` mutation. */
@@ -1744,30 +2136,30 @@ export type CreateEventUploadInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `EventUpload` to be created by this mutation. */
-  eventUpload: EventUploadInput
+  readonly eventUpload: EventUploadInput
 }
 
 /** The output of our create `EventUpload` mutation. */
 export type CreateEventUploadPayload = {
-  __typename?: 'CreateEventUploadPayload'
+  readonly __typename?: 'CreateEventUploadPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `EventUpload` that was created by this mutation. */
-  eventUpload?: Maybe<EventUpload>
+  readonly eventUpload?: Maybe<EventUpload>
   /** An edge for our `EventUpload`. May be used by Relay 1. */
-  eventUploadEdge?: Maybe<EventUploadEdge>
+  readonly eventUploadEdge?: Maybe<EventUploadEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `EventUpload` mutation. */
 export type CreateEventUploadPayloadEventUploadEdgeArgs = {
-  orderBy?: Array<EventUploadOrderBy>
+  orderBy?: ReadonlyArray<EventUploadOrderBy>
 }
 
 /** All input for the create `Friendship` mutation. */
@@ -1776,30 +2168,30 @@ export type CreateFriendshipInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `Friendship` to be created by this mutation. */
-  friendship: FriendshipInput
+  readonly friendship: FriendshipInput
 }
 
 /** The output of our create `Friendship` mutation. */
 export type CreateFriendshipPayload = {
-  __typename?: 'CreateFriendshipPayload'
+  readonly __typename?: 'CreateFriendshipPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Friendship` that was created by this mutation. */
-  friendship?: Maybe<Friendship>
+  readonly friendship?: Maybe<Friendship>
   /** An edge for our `Friendship`. May be used by Relay 1. */
-  friendshipEdge?: Maybe<FriendshipEdge>
+  readonly friendshipEdge?: Maybe<FriendshipEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `Friendship` mutation. */
 export type CreateFriendshipPayloadFriendshipEdgeArgs = {
-  orderBy?: Array<FriendshipOrderBy>
+  orderBy?: ReadonlyArray<FriendshipOrderBy>
 }
 
 /** All input for the create `Guest` mutation. */
@@ -1808,30 +2200,30 @@ export type CreateGuestInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `Guest` to be created by this mutation. */
-  guest: GuestInput
+  readonly guest: GuestInput
 }
 
 /** The output of our create `Guest` mutation. */
 export type CreateGuestPayload = {
-  __typename?: 'CreateGuestPayload'
+  readonly __typename?: 'CreateGuestPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Guest` that was created by this mutation. */
-  guest?: Maybe<Guest>
+  readonly guest?: Maybe<Guest>
   /** An edge for our `Guest`. May be used by Relay 1. */
-  guestEdge?: Maybe<GuestEdge>
+  readonly guestEdge?: Maybe<GuestEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `Guest` mutation. */
 export type CreateGuestPayloadGuestEdgeArgs = {
-  orderBy?: Array<GuestOrderBy>
+  orderBy?: ReadonlyArray<GuestOrderBy>
 }
 
 /** All input for the `createGuests` mutation. */
@@ -1840,22 +2232,22 @@ export type CreateGuestsInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  contactIds: Array<InputMaybe<Scalars['UUID']['input']>>
-  eventId: Scalars['UUID']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly contactIds: ReadonlyArray<InputMaybe<Scalars['UUID']['input']>>
+  readonly eventId: Scalars['UUID']['input']
 }
 
 /** The output of our `createGuests` mutation. */
 export type CreateGuestsPayload = {
-  __typename?: 'CreateGuestsPayload'
+  readonly __typename?: 'CreateGuestsPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  result?: Maybe<Array<Guest>>
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<ReadonlyArray<Guest>>
 }
 
 /** All input for the create `LegalTermAcceptance` mutation. */
@@ -1864,30 +2256,30 @@ export type CreateLegalTermAcceptanceInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `LegalTermAcceptance` to be created by this mutation. */
-  legalTermAcceptance: LegalTermAcceptanceInput
+  readonly legalTermAcceptance: LegalTermAcceptanceInput
 }
 
 /** The output of our create `LegalTermAcceptance` mutation. */
 export type CreateLegalTermAcceptancePayload = {
-  __typename?: 'CreateLegalTermAcceptancePayload'
+  readonly __typename?: 'CreateLegalTermAcceptancePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `LegalTermAcceptance` that was created by this mutation. */
-  legalTermAcceptance?: Maybe<LegalTermAcceptance>
+  readonly legalTermAcceptance?: Maybe<LegalTermAcceptance>
   /** An edge for our `LegalTermAcceptance`. May be used by Relay 1. */
-  legalTermAcceptanceEdge?: Maybe<LegalTermAcceptanceEdge>
+  readonly legalTermAcceptanceEdge?: Maybe<LegalTermAcceptanceEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `LegalTermAcceptance` mutation. */
 export type CreateLegalTermAcceptancePayloadLegalTermAcceptanceEdgeArgs = {
-  orderBy?: Array<LegalTermAcceptanceOrderBy>
+  orderBy?: ReadonlyArray<LegalTermAcceptanceOrderBy>
 }
 
 /** All input for the create `PreferenceEventCategory` mutation. */
@@ -1896,31 +2288,31 @@ export type CreatePreferenceEventCategoryInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `PreferenceEventCategory` to be created by this mutation. */
-  preferenceEventCategory: PreferenceEventCategoryInput
+  readonly preferenceEventCategory: PreferenceEventCategoryInput
 }
 
 /** The output of our create `PreferenceEventCategory` mutation. */
 export type CreatePreferenceEventCategoryPayload = {
-  __typename?: 'CreatePreferenceEventCategoryPayload'
+  readonly __typename?: 'CreatePreferenceEventCategoryPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `PreferenceEventCategory` that was created by this mutation. */
-  preferenceEventCategory?: Maybe<PreferenceEventCategory>
+  readonly preferenceEventCategory?: Maybe<PreferenceEventCategory>
   /** An edge for our `PreferenceEventCategory`. May be used by Relay 1. */
-  preferenceEventCategoryEdge?: Maybe<PreferenceEventCategoryEdge>
+  readonly preferenceEventCategoryEdge?: Maybe<PreferenceEventCategoryEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `PreferenceEventCategory` mutation. */
 export type CreatePreferenceEventCategoryPayloadPreferenceEventCategoryEdgeArgs =
   {
-    orderBy?: Array<PreferenceEventCategoryOrderBy>
+    orderBy?: ReadonlyArray<PreferenceEventCategoryOrderBy>
   }
 
 /** All input for the create `PreferenceEventFormat` mutation. */
@@ -1929,30 +2321,30 @@ export type CreatePreferenceEventFormatInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `PreferenceEventFormat` to be created by this mutation. */
-  preferenceEventFormat: PreferenceEventFormatInput
+  readonly preferenceEventFormat: PreferenceEventFormatInput
 }
 
 /** The output of our create `PreferenceEventFormat` mutation. */
 export type CreatePreferenceEventFormatPayload = {
-  __typename?: 'CreatePreferenceEventFormatPayload'
+  readonly __typename?: 'CreatePreferenceEventFormatPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `PreferenceEventFormat` that was created by this mutation. */
-  preferenceEventFormat?: Maybe<PreferenceEventFormat>
+  readonly preferenceEventFormat?: Maybe<PreferenceEventFormat>
   /** An edge for our `PreferenceEventFormat`. May be used by Relay 1. */
-  preferenceEventFormatEdge?: Maybe<PreferenceEventFormatEdge>
+  readonly preferenceEventFormatEdge?: Maybe<PreferenceEventFormatEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `PreferenceEventFormat` mutation. */
 export type CreatePreferenceEventFormatPayloadPreferenceEventFormatEdgeArgs = {
-  orderBy?: Array<PreferenceEventFormatOrderBy>
+  orderBy?: ReadonlyArray<PreferenceEventFormatOrderBy>
 }
 
 /** All input for the create `PreferenceEventLocation` mutation. */
@@ -1961,31 +2353,31 @@ export type CreatePreferenceEventLocationInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `PreferenceEventLocation` to be created by this mutation. */
-  preferenceEventLocation: PreferenceEventLocationInput
+  readonly preferenceEventLocation: PreferenceEventLocationInput
 }
 
 /** The output of our create `PreferenceEventLocation` mutation. */
 export type CreatePreferenceEventLocationPayload = {
-  __typename?: 'CreatePreferenceEventLocationPayload'
+  readonly __typename?: 'CreatePreferenceEventLocationPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `PreferenceEventLocation` that was created by this mutation. */
-  preferenceEventLocation?: Maybe<PreferenceEventLocation>
+  readonly preferenceEventLocation?: Maybe<PreferenceEventLocation>
   /** An edge for our `PreferenceEventLocation`. May be used by Relay 1. */
-  preferenceEventLocationEdge?: Maybe<PreferenceEventLocationEdge>
+  readonly preferenceEventLocationEdge?: Maybe<PreferenceEventLocationEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `PreferenceEventLocation` mutation. */
 export type CreatePreferenceEventLocationPayloadPreferenceEventLocationEdgeArgs =
   {
-    orderBy?: Array<PreferenceEventLocationOrderBy>
+    orderBy?: ReadonlyArray<PreferenceEventLocationOrderBy>
   }
 
 /** All input for the create `PreferenceEventSize` mutation. */
@@ -1994,30 +2386,30 @@ export type CreatePreferenceEventSizeInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `PreferenceEventSize` to be created by this mutation. */
-  preferenceEventSize: PreferenceEventSizeInput
+  readonly preferenceEventSize: PreferenceEventSizeInput
 }
 
 /** The output of our create `PreferenceEventSize` mutation. */
 export type CreatePreferenceEventSizePayload = {
-  __typename?: 'CreatePreferenceEventSizePayload'
+  readonly __typename?: 'CreatePreferenceEventSizePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `PreferenceEventSize` that was created by this mutation. */
-  preferenceEventSize?: Maybe<PreferenceEventSize>
+  readonly preferenceEventSize?: Maybe<PreferenceEventSize>
   /** An edge for our `PreferenceEventSize`. May be used by Relay 1. */
-  preferenceEventSizeEdge?: Maybe<PreferenceEventSizeEdge>
+  readonly preferenceEventSizeEdge?: Maybe<PreferenceEventSizeEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `PreferenceEventSize` mutation. */
 export type CreatePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs = {
-  orderBy?: Array<PreferenceEventSizeOrderBy>
+  orderBy?: ReadonlyArray<PreferenceEventSizeOrderBy>
 }
 
 /** All input for the create `ProfilePicture` mutation. */
@@ -2026,30 +2418,30 @@ export type CreateProfilePictureInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `ProfilePicture` to be created by this mutation. */
-  profilePicture: ProfilePictureInput
+  readonly profilePicture: ProfilePictureInput
 }
 
 /** The output of our create `ProfilePicture` mutation. */
 export type CreateProfilePicturePayload = {
-  __typename?: 'CreateProfilePicturePayload'
+  readonly __typename?: 'CreateProfilePicturePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `ProfilePicture` that was created by this mutation. */
-  profilePicture?: Maybe<ProfilePicture>
+  readonly profilePicture?: Maybe<ProfilePicture>
   /** An edge for our `ProfilePicture`. May be used by Relay 1. */
-  profilePictureEdge?: Maybe<ProfilePictureEdge>
+  readonly profilePictureEdge?: Maybe<ProfilePictureEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our create `ProfilePicture` mutation. */
 export type CreateProfilePicturePayloadProfilePictureEdgeArgs = {
-  orderBy?: Array<ProfilePictureOrderBy>
+  orderBy?: ReadonlyArray<ProfilePictureOrderBy>
 }
 
 /** All input for the create `Report` mutation. */
@@ -2058,30 +2450,30 @@ export type CreateReportInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `Report` to be created by this mutation. */
-  report: ReportInput
+  readonly report: ReportInput
 }
 
 /** The output of our create `Report` mutation. */
 export type CreateReportPayload = {
-  __typename?: 'CreateReportPayload'
+  readonly __typename?: 'CreateReportPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
   /** The `Report` that was created by this mutation. */
-  report?: Maybe<Report>
+  readonly report?: Maybe<Report>
   /** An edge for our `Report`. May be used by Relay 1. */
-  reportEdge?: Maybe<ReportEdge>
+  readonly reportEdge?: Maybe<ReportEdge>
 }
 
 /** The output of our create `Report` mutation. */
 export type CreateReportPayloadReportEdgeArgs = {
-  orderBy?: Array<ReportOrderBy>
+  orderBy?: ReadonlyArray<ReportOrderBy>
 }
 
 /** All input for the create `Upload` mutation. */
@@ -2090,43 +2482,43 @@ export type CreateUploadInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The `Upload` to be created by this mutation. */
-  upload: UploadInput
+  readonly upload: UploadInput
 }
 
 /** The output of our create `Upload` mutation. */
 export type CreateUploadPayload = {
-  __typename?: 'CreateUploadPayload'
+  readonly __typename?: 'CreateUploadPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
   /** The `Upload` that was created by this mutation. */
-  upload?: Maybe<Upload>
+  readonly upload?: Maybe<Upload>
   /** An edge for our `Upload`. May be used by Relay 1. */
-  uploadEdge?: Maybe<UploadEdge>
+  readonly uploadEdge?: Maybe<UploadEdge>
 }
 
 /** The output of our create `Upload` mutation. */
 export type CreateUploadPayloadUploadEdgeArgs = {
-  orderBy?: Array<UploadOrderBy>
+  orderBy?: ReadonlyArray<UploadOrderBy>
 }
 
 /** All input for the `deleteAccountBlockByCreatedByAndBlockedAccountId` mutation. */
 export type DeleteAccountBlockByCreatedByAndBlockedAccountIdInput = {
   /** The account id of the user who is blocked. */
-  blockedAccountId: Scalars['UUID']['input']
+  readonly blockedAccountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The account id of the user who created the account block. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteAccountBlockByRowId` mutation. */
@@ -2135,9 +2527,9 @@ export type DeleteAccountBlockByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The account block's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteAccountBlock` mutation. */
@@ -2146,44 +2538,44 @@ export type DeleteAccountBlockInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `AccountBlock` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `AccountBlock` mutation. */
 export type DeleteAccountBlockPayload = {
-  __typename?: 'DeleteAccountBlockPayload'
+  readonly __typename?: 'DeleteAccountBlockPayload'
   /** The `AccountBlock` that was deleted by this mutation. */
-  accountBlock?: Maybe<AccountBlock>
+  readonly accountBlock?: Maybe<AccountBlock>
   /** An edge for our `AccountBlock`. May be used by Relay 1. */
-  accountBlockEdge?: Maybe<AccountBlockEdge>
+  readonly accountBlockEdge?: Maybe<AccountBlockEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAccountBlockId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedAccountBlockId?: Maybe<Scalars['ID']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `AccountBlock` mutation. */
 export type DeleteAccountBlockPayloadAccountBlockEdgeArgs = {
-  orderBy?: Array<AccountBlockOrderBy>
+  orderBy?: ReadonlyArray<AccountBlockOrderBy>
 }
 
 /** All input for the `deleteAccountSocialNetworkByAccountIdAndSocialNetwork` mutation. */
 export type DeleteAccountSocialNetworkByAccountIdAndSocialNetworkInput = {
   /** The unique identifier of the account. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The social network to which the account is linked. */
-  socialNetwork: SocialNetwork
+  readonly socialNetwork: SocialNetwork
 }
 
 /** All input for the `deleteAccountSocialNetwork` mutation. */
@@ -2192,31 +2584,31 @@ export type DeleteAccountSocialNetworkInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `AccountSocialNetwork` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `AccountSocialNetwork` mutation. */
 export type DeleteAccountSocialNetworkPayload = {
-  __typename?: 'DeleteAccountSocialNetworkPayload'
+  readonly __typename?: 'DeleteAccountSocialNetworkPayload'
   /** The `AccountSocialNetwork` that was deleted by this mutation. */
-  accountSocialNetwork?: Maybe<AccountSocialNetwork>
+  readonly accountSocialNetwork?: Maybe<AccountSocialNetwork>
   /** An edge for our `AccountSocialNetwork`. May be used by Relay 1. */
-  accountSocialNetworkEdge?: Maybe<AccountSocialNetworkEdge>
+  readonly accountSocialNetworkEdge?: Maybe<AccountSocialNetworkEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAccountSocialNetworkId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedAccountSocialNetworkId?: Maybe<Scalars['ID']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `AccountSocialNetwork` mutation. */
 export type DeleteAccountSocialNetworkPayloadAccountSocialNetworkEdgeArgs = {
-  orderBy?: Array<AccountSocialNetworkOrderBy>
+  orderBy?: ReadonlyArray<AccountSocialNetworkOrderBy>
 }
 
 /** All input for the `deleteAddressByRowId` mutation. */
@@ -2225,9 +2617,9 @@ export type DeleteAddressByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Primary key, uniquely identifies each address. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteAddress` mutation. */
@@ -2236,44 +2628,44 @@ export type DeleteAddressInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Address` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `Address` mutation. */
 export type DeleteAddressPayload = {
-  __typename?: 'DeleteAddressPayload'
+  readonly __typename?: 'DeleteAddressPayload'
   /** The `Address` that was deleted by this mutation. */
-  address?: Maybe<Address>
+  readonly address?: Maybe<Address>
   /** An edge for our `Address`. May be used by Relay 1. */
-  addressEdge?: Maybe<AddressEdge>
+  readonly addressEdge?: Maybe<AddressEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAddressId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedAddressId?: Maybe<Scalars['ID']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `Address` mutation. */
 export type DeleteAddressPayloadAddressEdgeArgs = {
-  orderBy?: Array<AddressOrderBy>
+  orderBy?: ReadonlyArray<AddressOrderBy>
 }
 
 /** All input for the `deleteContactByCreatedByAndAccountId` mutation. */
 export type DeleteContactByCreatedByAndAccountIdInput = {
   /** Optional reference to an associated account. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Reference to the account that created this contact. Enforces cascading deletion. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteContactByRowId` mutation. */
@@ -2282,9 +2674,99 @@ export type DeleteContactByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Primary key, uniquely identifies each contact. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteContactGroupByRowId` mutation. */
+export type DeleteContactGroupByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** Primary key, uniquely identifies each contact group. */
+  readonly rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteContactGroup` mutation. */
+export type DeleteContactGroupInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `ContactGroup` to be deleted. */
+  readonly id: Scalars['ID']['input']
+}
+
+/** All input for the `deleteContactGroupMemberByContactGroupIdAndContactId` mutation. */
+export type DeleteContactGroupMemberByContactGroupIdAndContactIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** A contact group id. */
+  readonly contactGroupId: Scalars['UUID']['input']
+  /** A contact id. */
+  readonly contactId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteContactGroupMember` mutation. */
+export type DeleteContactGroupMemberInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `ContactGroupMember` to be deleted. */
+  readonly id: Scalars['ID']['input']
+}
+
+/** The output of our delete `ContactGroupMember` mutation. */
+export type DeleteContactGroupMemberPayload = {
+  readonly __typename?: 'DeleteContactGroupMemberPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `ContactGroupMember` that was deleted by this mutation. */
+  readonly contactGroupMember?: Maybe<ContactGroupMember>
+  /** An edge for our `ContactGroupMember`. May be used by Relay 1. */
+  readonly contactGroupMemberEdge?: Maybe<ContactGroupMemberEdge>
+  readonly deletedContactGroupMemberId?: Maybe<Scalars['ID']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+}
+
+/** The output of our delete `ContactGroupMember` mutation. */
+export type DeleteContactGroupMemberPayloadContactGroupMemberEdgeArgs = {
+  orderBy?: ReadonlyArray<ContactGroupMemberOrderBy>
+}
+
+/** The output of our delete `ContactGroup` mutation. */
+export type DeleteContactGroupPayload = {
+  readonly __typename?: 'DeleteContactGroupPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `ContactGroup` that was deleted by this mutation. */
+  readonly contactGroup?: Maybe<ContactGroup>
+  /** An edge for our `ContactGroup`. May be used by Relay 1. */
+  readonly contactGroupEdge?: Maybe<ContactGroupEdge>
+  readonly deletedContactGroupId?: Maybe<Scalars['ID']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+}
+
+/** The output of our delete `ContactGroup` mutation. */
+export type DeleteContactGroupPayloadContactGroupEdgeArgs = {
+  orderBy?: ReadonlyArray<ContactGroupOrderBy>
 }
 
 /** All input for the `deleteContact` mutation. */
@@ -2293,31 +2775,31 @@ export type DeleteContactInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Contact` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `Contact` mutation. */
 export type DeleteContactPayload = {
-  __typename?: 'DeleteContactPayload'
+  readonly __typename?: 'DeleteContactPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Contact` that was deleted by this mutation. */
-  contact?: Maybe<Contact>
+  readonly contact?: Maybe<Contact>
   /** An edge for our `Contact`. May be used by Relay 1. */
-  contactEdge?: Maybe<ContactEdge>
-  deletedContactId?: Maybe<Scalars['ID']['output']>
+  readonly contactEdge?: Maybe<ContactEdge>
+  readonly deletedContactId?: Maybe<Scalars['ID']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `Contact` mutation. */
 export type DeleteContactPayloadContactEdgeArgs = {
-  orderBy?: Array<ContactOrderBy>
+  orderBy?: ReadonlyArray<ContactOrderBy>
 }
 
 /** All input for the `deleteDeviceByCreatedByAndFcmToken` mutation. */
@@ -2326,11 +2808,11 @@ export type DeleteDeviceByCreatedByAndFcmTokenInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Reference to the account that created the device. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
-  fcmToken: Scalars['String']['input']
+  readonly fcmToken: Scalars['String']['input']
 }
 
 /** All input for the `deleteDeviceByRowId` mutation. */
@@ -2339,9 +2821,9 @@ export type DeleteDeviceByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The internal id of the device. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteDevice` mutation. */
@@ -2350,31 +2832,31 @@ export type DeleteDeviceInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Device` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `Device` mutation. */
 export type DeleteDevicePayload = {
-  __typename?: 'DeleteDevicePayload'
+  readonly __typename?: 'DeleteDevicePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedDeviceId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedDeviceId?: Maybe<Scalars['ID']['output']>
   /** The `Device` that was deleted by this mutation. */
-  device?: Maybe<Device>
+  readonly device?: Maybe<Device>
   /** An edge for our `Device`. May be used by Relay 1. */
-  deviceEdge?: Maybe<DeviceEdge>
+  readonly deviceEdge?: Maybe<DeviceEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `Device` mutation. */
 export type DeleteDevicePayloadDeviceEdgeArgs = {
-  orderBy?: Array<DeviceOrderBy>
+  orderBy?: ReadonlyArray<DeviceOrderBy>
 }
 
 /** All input for the `deleteEventByCreatedByAndSlug` mutation. */
@@ -2383,11 +2865,11 @@ export type DeleteEventByCreatedByAndSlugInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The event creator's id. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
-  slug: Scalars['String']['input']
+  readonly slug: Scalars['String']['input']
 }
 
 /** All input for the `deleteEventByRowId` mutation. */
@@ -2396,22 +2878,22 @@ export type DeleteEventByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The event's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteEventCategoryMappingByEventIdAndCategoryId` mutation. */
 export type DeleteEventCategoryMappingByEventIdAndCategoryIdInput = {
   /** A category id. */
-  categoryId: Scalars['UUID']['input']
+  readonly categoryId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An event id. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteEventCategoryMapping` mutation. */
@@ -2420,31 +2902,31 @@ export type DeleteEventCategoryMappingInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `EventCategoryMapping` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `EventCategoryMapping` mutation. */
 export type DeleteEventCategoryMappingPayload = {
-  __typename?: 'DeleteEventCategoryMappingPayload'
+  readonly __typename?: 'DeleteEventCategoryMappingPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventCategoryMappingId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedEventCategoryMappingId?: Maybe<Scalars['ID']['output']>
   /** The `EventCategoryMapping` that was deleted by this mutation. */
-  eventCategoryMapping?: Maybe<EventCategoryMapping>
+  readonly eventCategoryMapping?: Maybe<EventCategoryMapping>
   /** An edge for our `EventCategoryMapping`. May be used by Relay 1. */
-  eventCategoryMappingEdge?: Maybe<EventCategoryMappingEdge>
+  readonly eventCategoryMappingEdge?: Maybe<EventCategoryMappingEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `EventCategoryMapping` mutation. */
 export type DeleteEventCategoryMappingPayloadEventCategoryMappingEdgeArgs = {
-  orderBy?: Array<EventCategoryMappingOrderBy>
+  orderBy?: ReadonlyArray<EventCategoryMappingOrderBy>
 }
 
 /** All input for the `deleteEventFavoriteByCreatedByAndEventId` mutation. */
@@ -2453,11 +2935,11 @@ export type DeleteEventFavoriteByCreatedByAndEventIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Reference to the account that created the event favorite. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** Reference to the event that is marked as a favorite. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteEventFavoriteByRowId` mutation. */
@@ -2466,9 +2948,9 @@ export type DeleteEventFavoriteByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Primary key, uniquely identifies each favorite entry. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteEventFavorite` mutation. */
@@ -2477,31 +2959,31 @@ export type DeleteEventFavoriteInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `EventFavorite` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `EventFavorite` mutation. */
 export type DeleteEventFavoritePayload = {
-  __typename?: 'DeleteEventFavoritePayload'
+  readonly __typename?: 'DeleteEventFavoritePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventFavoriteId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedEventFavoriteId?: Maybe<Scalars['ID']['output']>
   /** The `EventFavorite` that was deleted by this mutation. */
-  eventFavorite?: Maybe<EventFavorite>
+  readonly eventFavorite?: Maybe<EventFavorite>
   /** An edge for our `EventFavorite`. May be used by Relay 1. */
-  eventFavoriteEdge?: Maybe<EventFavoriteEdge>
+  readonly eventFavoriteEdge?: Maybe<EventFavoriteEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `EventFavorite` mutation. */
 export type DeleteEventFavoritePayloadEventFavoriteEdgeArgs = {
-  orderBy?: Array<EventFavoriteOrderBy>
+  orderBy?: ReadonlyArray<EventFavoriteOrderBy>
 }
 
 /** All input for the `deleteEventFormatMappingByEventIdAndFormatId` mutation. */
@@ -2510,11 +2992,11 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An event id. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
   /** A format id. */
-  formatId: Scalars['UUID']['input']
+  readonly formatId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteEventFormatMapping` mutation. */
@@ -2523,31 +3005,31 @@ export type DeleteEventFormatMappingInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `EventFormatMapping` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `EventFormatMapping` mutation. */
 export type DeleteEventFormatMappingPayload = {
-  __typename?: 'DeleteEventFormatMappingPayload'
+  readonly __typename?: 'DeleteEventFormatMappingPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventFormatMappingId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedEventFormatMappingId?: Maybe<Scalars['ID']['output']>
   /** The `EventFormatMapping` that was deleted by this mutation. */
-  eventFormatMapping?: Maybe<EventFormatMapping>
+  readonly eventFormatMapping?: Maybe<EventFormatMapping>
   /** An edge for our `EventFormatMapping`. May be used by Relay 1. */
-  eventFormatMappingEdge?: Maybe<EventFormatMappingEdge>
+  readonly eventFormatMappingEdge?: Maybe<EventFormatMappingEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `EventFormatMapping` mutation. */
 export type DeleteEventFormatMappingPayloadEventFormatMappingEdgeArgs = {
-  orderBy?: Array<EventFormatMappingOrderBy>
+  orderBy?: ReadonlyArray<EventFormatMappingOrderBy>
 }
 
 /** All input for the `deleteEvent` mutation. */
@@ -2556,31 +3038,86 @@ export type DeleteEventInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Event` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
-/** The output of our delete `Event` mutation. */
-export type DeleteEventPayload = {
-  __typename?: 'DeleteEventPayload'
+/** All input for the `deleteEventInvitationLinkByEventId` mutation. */
+export type DeleteEventInvitationLinkByEventIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** Reference to the event the link invites to. */
+  readonly eventId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteEventInvitationLinkByRowId` mutation. */
+export type DeleteEventInvitationLinkByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The link's secret code and primary key. */
+  readonly rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteEventInvitationLink` mutation. */
+export type DeleteEventInvitationLinkInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `EventInvitationLink` to be deleted. */
+  readonly id: Scalars['ID']['input']
+}
+
+/** The output of our delete `EventInvitationLink` mutation. */
+export type DeleteEventInvitationLinkPayload = {
+  readonly __typename?: 'DeleteEventInvitationLinkPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventId?: Maybe<Scalars['ID']['output']>
-  /** The `Event` that was deleted by this mutation. */
-  event?: Maybe<Event>
-  /** An edge for our `Event`. May be used by Relay 1. */
-  eventEdge?: Maybe<EventEdge>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedEventInvitationLinkId?: Maybe<Scalars['ID']['output']>
+  /** The `EventInvitationLink` that was deleted by this mutation. */
+  readonly eventInvitationLink?: Maybe<EventInvitationLink>
+  /** An edge for our `EventInvitationLink`. May be used by Relay 1. */
+  readonly eventInvitationLinkEdge?: Maybe<EventInvitationLinkEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
+}
+
+/** The output of our delete `EventInvitationLink` mutation. */
+export type DeleteEventInvitationLinkPayloadEventInvitationLinkEdgeArgs = {
+  orderBy?: ReadonlyArray<EventInvitationLinkOrderBy>
+}
+
+/** The output of our delete `Event` mutation. */
+export type DeleteEventPayload = {
+  readonly __typename?: 'DeleteEventPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedEventId?: Maybe<Scalars['ID']['output']>
+  /** The `Event` that was deleted by this mutation. */
+  readonly event?: Maybe<Event>
+  /** An edge for our `Event`. May be used by Relay 1. */
+  readonly eventEdge?: Maybe<EventEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `Event` mutation. */
 export type DeleteEventPayloadEventEdgeArgs = {
-  orderBy?: Array<EventOrderBy>
+  orderBy?: ReadonlyArray<EventOrderBy>
 }
 
 /** All input for the `deleteEventUploadByEventIdAndUploadId` mutation. */
@@ -2589,11 +3126,11 @@ export type DeleteEventUploadByEventIdAndUploadIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Reference to the event associated with the upload. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
   /** Reference to the uploaded file. */
-  uploadId: Scalars['UUID']['input']
+  readonly uploadId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteEventUploadByRowId` mutation. */
@@ -2602,9 +3139,9 @@ export type DeleteEventUploadByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Primary key, uniquely identifies each event-upload association. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteEventUpload` mutation. */
@@ -2613,44 +3150,44 @@ export type DeleteEventUploadInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `EventUpload` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `EventUpload` mutation. */
 export type DeleteEventUploadPayload = {
-  __typename?: 'DeleteEventUploadPayload'
+  readonly __typename?: 'DeleteEventUploadPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventUploadId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedEventUploadId?: Maybe<Scalars['ID']['output']>
   /** The `EventUpload` that was deleted by this mutation. */
-  eventUpload?: Maybe<EventUpload>
+  readonly eventUpload?: Maybe<EventUpload>
   /** An edge for our `EventUpload`. May be used by Relay 1. */
-  eventUploadEdge?: Maybe<EventUploadEdge>
+  readonly eventUploadEdge?: Maybe<EventUploadEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `EventUpload` mutation. */
 export type DeleteEventUploadPayloadEventUploadEdgeArgs = {
-  orderBy?: Array<EventUploadOrderBy>
+  orderBy?: ReadonlyArray<EventUploadOrderBy>
 }
 
 /** All input for the `deleteFriendshipByAAccountIdAndBAccountId` mutation. */
 export type DeleteFriendshipByAAccountIdAndBAccountIdInput = {
   /** The 'left' side of the friend relation. It must be lexically less than the 'right' side. */
-  aAccountId: Scalars['UUID']['input']
+  readonly aAccountId: Scalars['UUID']['input']
   /** The 'right' side of the friend relation. It must be lexically greater than the 'left' side. */
-  bAccountId: Scalars['UUID']['input']
+  readonly bAccountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
 }
 
 /** All input for the `deleteFriendshipByRowId` mutation. */
@@ -2659,9 +3196,9 @@ export type DeleteFriendshipByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The friend relation's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteFriendship` mutation. */
@@ -2670,31 +3207,31 @@ export type DeleteFriendshipInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Friendship` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `Friendship` mutation. */
 export type DeleteFriendshipPayload = {
-  __typename?: 'DeleteFriendshipPayload'
+  readonly __typename?: 'DeleteFriendshipPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedFriendshipId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedFriendshipId?: Maybe<Scalars['ID']['output']>
   /** The `Friendship` that was deleted by this mutation. */
-  friendship?: Maybe<Friendship>
+  readonly friendship?: Maybe<Friendship>
   /** An edge for our `Friendship`. May be used by Relay 1. */
-  friendshipEdge?: Maybe<FriendshipEdge>
+  readonly friendshipEdge?: Maybe<FriendshipEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `Friendship` mutation. */
 export type DeleteFriendshipPayloadFriendshipEdgeArgs = {
-  orderBy?: Array<FriendshipOrderBy>
+  orderBy?: ReadonlyArray<FriendshipOrderBy>
 }
 
 /** All input for the `deleteGuestByEventIdAndContactId` mutation. */
@@ -2703,11 +3240,11 @@ export type DeleteGuestByEventIdAndContactIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The internal id of the guest's contact. */
-  contactId: Scalars['UUID']['input']
+  readonly contactId: Scalars['UUID']['input']
   /** The internal id of the guest's event. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteGuestByRowId` mutation. */
@@ -2716,9 +3253,9 @@ export type DeleteGuestByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The guest's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteGuest` mutation. */
@@ -2727,44 +3264,44 @@ export type DeleteGuestInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Guest` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `Guest` mutation. */
 export type DeleteGuestPayload = {
-  __typename?: 'DeleteGuestPayload'
+  readonly __typename?: 'DeleteGuestPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedGuestId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedGuestId?: Maybe<Scalars['ID']['output']>
   /** The `Guest` that was deleted by this mutation. */
-  guest?: Maybe<Guest>
+  readonly guest?: Maybe<Guest>
   /** An edge for our `Guest`. May be used by Relay 1. */
-  guestEdge?: Maybe<GuestEdge>
+  readonly guestEdge?: Maybe<GuestEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `Guest` mutation. */
 export type DeleteGuestPayloadGuestEdgeArgs = {
-  orderBy?: Array<GuestOrderBy>
+  orderBy?: ReadonlyArray<GuestOrderBy>
 }
 
 /** All input for the `deletePreferenceEventCategoryByAccountIdAndCategoryId` mutation. */
 export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput = {
   /** A user account id. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /** An event category id. */
-  categoryId: Scalars['UUID']['input']
+  readonly categoryId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
 }
 
 /** All input for the `deletePreferenceEventCategoryByRowId` mutation. */
@@ -2773,8 +3310,8 @@ export type DeletePreferenceEventCategoryByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  rowId: Scalars['UUID']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deletePreferenceEventCategory` mutation. */
@@ -2783,45 +3320,45 @@ export type DeletePreferenceEventCategoryInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `PreferenceEventCategory` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `PreferenceEventCategory` mutation. */
 export type DeletePreferenceEventCategoryPayload = {
-  __typename?: 'DeletePreferenceEventCategoryPayload'
+  readonly __typename?: 'DeletePreferenceEventCategoryPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedPreferenceEventCategoryId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedPreferenceEventCategoryId?: Maybe<Scalars['ID']['output']>
   /** The `PreferenceEventCategory` that was deleted by this mutation. */
-  preferenceEventCategory?: Maybe<PreferenceEventCategory>
+  readonly preferenceEventCategory?: Maybe<PreferenceEventCategory>
   /** An edge for our `PreferenceEventCategory`. May be used by Relay 1. */
-  preferenceEventCategoryEdge?: Maybe<PreferenceEventCategoryEdge>
+  readonly preferenceEventCategoryEdge?: Maybe<PreferenceEventCategoryEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `PreferenceEventCategory` mutation. */
 export type DeletePreferenceEventCategoryPayloadPreferenceEventCategoryEdgeArgs =
   {
-    orderBy?: Array<PreferenceEventCategoryOrderBy>
+    orderBy?: ReadonlyArray<PreferenceEventCategoryOrderBy>
   }
 
 /** All input for the `deletePreferenceEventFormatByAccountIdAndFormatId` mutation. */
 export type DeletePreferenceEventFormatByAccountIdAndFormatIdInput = {
   /** A user account id. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The id of an event format. */
-  formatId: Scalars['UUID']['input']
+  readonly formatId: Scalars['UUID']['input']
 }
 
 /** All input for the `deletePreferenceEventFormatByRowId` mutation. */
@@ -2830,8 +3367,8 @@ export type DeletePreferenceEventFormatByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  rowId: Scalars['UUID']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deletePreferenceEventFormat` mutation. */
@@ -2840,31 +3377,31 @@ export type DeletePreferenceEventFormatInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `PreferenceEventFormat` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `PreferenceEventFormat` mutation. */
 export type DeletePreferenceEventFormatPayload = {
-  __typename?: 'DeletePreferenceEventFormatPayload'
+  readonly __typename?: 'DeletePreferenceEventFormatPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedPreferenceEventFormatId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedPreferenceEventFormatId?: Maybe<Scalars['ID']['output']>
   /** The `PreferenceEventFormat` that was deleted by this mutation. */
-  preferenceEventFormat?: Maybe<PreferenceEventFormat>
+  readonly preferenceEventFormat?: Maybe<PreferenceEventFormat>
   /** An edge for our `PreferenceEventFormat`. May be used by Relay 1. */
-  preferenceEventFormatEdge?: Maybe<PreferenceEventFormatEdge>
+  readonly preferenceEventFormatEdge?: Maybe<PreferenceEventFormatEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `PreferenceEventFormat` mutation. */
 export type DeletePreferenceEventFormatPayloadPreferenceEventFormatEdgeArgs = {
-  orderBy?: Array<PreferenceEventFormatOrderBy>
+  orderBy?: ReadonlyArray<PreferenceEventFormatOrderBy>
 }
 
 /** All input for the `deletePreferenceEventLocationByCreatedByAndLocationAndRadius` mutation. */
@@ -2874,13 +3411,13 @@ export type DeletePreferenceEventLocationByCreatedByAndLocationAndRadiusInput =
      * An arbitrary string value with no semantic meaning. Will be included in the
      * payload verbatim. May be used to track mutations by the client.
      */
-    clientMutationId?: InputMaybe<Scalars['String']['input']>
+    readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
     /** Reference to the account that created the location preference. */
-    createdBy: Scalars['UUID']['input']
+    readonly createdBy: Scalars['UUID']['input']
     /** Geographical point representing the preferred location, derived from latitude and longitude. */
-    location: Scalars['GeoJSON']['input']
+    readonly location: Scalars['GeoJSON']['input']
     /** Search radius in meters around the location where events are preferred. Must be positive. */
-    radius: Scalars['Float']['input']
+    readonly radius: Scalars['Float']['input']
   }
 
 /** All input for the `deletePreferenceEventLocationByRowId` mutation. */
@@ -2889,9 +3426,9 @@ export type DeletePreferenceEventLocationByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Unique identifier for the preference record. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deletePreferenceEventLocation` mutation. */
@@ -2900,45 +3437,45 @@ export type DeletePreferenceEventLocationInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `PreferenceEventLocation` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `PreferenceEventLocation` mutation. */
 export type DeletePreferenceEventLocationPayload = {
-  __typename?: 'DeletePreferenceEventLocationPayload'
+  readonly __typename?: 'DeletePreferenceEventLocationPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedPreferenceEventLocationId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedPreferenceEventLocationId?: Maybe<Scalars['ID']['output']>
   /** The `PreferenceEventLocation` that was deleted by this mutation. */
-  preferenceEventLocation?: Maybe<PreferenceEventLocation>
+  readonly preferenceEventLocation?: Maybe<PreferenceEventLocation>
   /** An edge for our `PreferenceEventLocation`. May be used by Relay 1. */
-  preferenceEventLocationEdge?: Maybe<PreferenceEventLocationEdge>
+  readonly preferenceEventLocationEdge?: Maybe<PreferenceEventLocationEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `PreferenceEventLocation` mutation. */
 export type DeletePreferenceEventLocationPayloadPreferenceEventLocationEdgeArgs =
   {
-    orderBy?: Array<PreferenceEventLocationOrderBy>
+    orderBy?: ReadonlyArray<PreferenceEventLocationOrderBy>
   }
 
 /** All input for the `deletePreferenceEventSizeByAccountIdAndEventSize` mutation. */
 export type DeletePreferenceEventSizeByAccountIdAndEventSizeInput = {
   /** The account's internal id. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** A preferred event size. */
-  eventSize: EventSize
+  readonly eventSize: EventSize
 }
 
 /** All input for the `deletePreferenceEventSizeByRowId` mutation. */
@@ -2947,8 +3484,8 @@ export type DeletePreferenceEventSizeByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  rowId: Scalars['UUID']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deletePreferenceEventSize` mutation. */
@@ -2957,42 +3494,42 @@ export type DeletePreferenceEventSizeInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `PreferenceEventSize` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `PreferenceEventSize` mutation. */
 export type DeletePreferenceEventSizePayload = {
-  __typename?: 'DeletePreferenceEventSizePayload'
+  readonly __typename?: 'DeletePreferenceEventSizePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedPreferenceEventSizeId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedPreferenceEventSizeId?: Maybe<Scalars['ID']['output']>
   /** The `PreferenceEventSize` that was deleted by this mutation. */
-  preferenceEventSize?: Maybe<PreferenceEventSize>
+  readonly preferenceEventSize?: Maybe<PreferenceEventSize>
   /** An edge for our `PreferenceEventSize`. May be used by Relay 1. */
-  preferenceEventSizeEdge?: Maybe<PreferenceEventSizeEdge>
+  readonly preferenceEventSizeEdge?: Maybe<PreferenceEventSizeEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `PreferenceEventSize` mutation. */
 export type DeletePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs = {
-  orderBy?: Array<PreferenceEventSizeOrderBy>
+  orderBy?: ReadonlyArray<PreferenceEventSizeOrderBy>
 }
 
 /** All input for the `deleteProfilePictureByAccountId` mutation. */
 export type DeleteProfilePictureByAccountIdInput = {
   /** The account's id. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
 }
 
 /** All input for the `deleteProfilePictureByRowId` mutation. */
@@ -3001,9 +3538,9 @@ export type DeleteProfilePictureByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The profile picture's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteProfilePicture` mutation. */
@@ -3012,31 +3549,31 @@ export type DeleteProfilePictureInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `ProfilePicture` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `ProfilePicture` mutation. */
 export type DeleteProfilePicturePayload = {
-  __typename?: 'DeleteProfilePicturePayload'
+  readonly __typename?: 'DeleteProfilePicturePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedProfilePictureId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedProfilePictureId?: Maybe<Scalars['ID']['output']>
   /** The `ProfilePicture` that was deleted by this mutation. */
-  profilePicture?: Maybe<ProfilePicture>
+  readonly profilePicture?: Maybe<ProfilePicture>
   /** An edge for our `ProfilePicture`. May be used by Relay 1. */
-  profilePictureEdge?: Maybe<ProfilePictureEdge>
+  readonly profilePictureEdge?: Maybe<ProfilePictureEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our delete `ProfilePicture` mutation. */
 export type DeleteProfilePicturePayloadProfilePictureEdgeArgs = {
-  orderBy?: Array<ProfilePictureOrderBy>
+  orderBy?: ReadonlyArray<ProfilePictureOrderBy>
 }
 
 /** All input for the `deleteUploadByRowId` mutation. */
@@ -3045,9 +3582,9 @@ export type DeleteUploadByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The upload's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `deleteUploadByStorageKey` mutation. */
@@ -3056,9 +3593,9 @@ export type DeleteUploadByStorageKeyInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The upload's storage key. */
-  storageKey: Scalars['String']['input']
+  readonly storageKey: Scalars['String']['input']
 }
 
 /** All input for the `deleteUpload` mutation. */
@@ -3067,96 +3604,96 @@ export type DeleteUploadInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Upload` to be deleted. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our delete `Upload` mutation. */
 export type DeleteUploadPayload = {
-  __typename?: 'DeleteUploadPayload'
+  readonly __typename?: 'DeleteUploadPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedUploadId?: Maybe<Scalars['ID']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly deletedUploadId?: Maybe<Scalars['ID']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
   /** The `Upload` that was deleted by this mutation. */
-  upload?: Maybe<Upload>
+  readonly upload?: Maybe<Upload>
   /** An edge for our `Upload`. May be used by Relay 1. */
-  uploadEdge?: Maybe<UploadEdge>
+  readonly uploadEdge?: Maybe<UploadEdge>
 }
 
 /** The output of our delete `Upload` mutation. */
 export type DeleteUploadPayloadUploadEdgeArgs = {
-  orderBy?: Array<UploadOrderBy>
+  orderBy?: ReadonlyArray<UploadOrderBy>
 }
 
 /** A device that's assigned to an account. */
 export type Device = Node & {
-  __typename?: 'Device'
+  readonly __typename?: 'Device'
   /** Reads a single `Account` that is related to this `Device`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Device`. */
-  accountByUpdatedBy?: Maybe<Account>
+  readonly accountByUpdatedBy?: Maybe<Account>
   /** Timestamp when the device was created. Defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Reference to the account that created the device. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
-  fcmToken: Scalars['String']['output']
+  readonly fcmToken: Scalars['String']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The internal id of the device. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** Timestamp when the device was last updated. */
-  updatedAt?: Maybe<Scalars['Datetime']['output']>
+  readonly updatedAt?: Maybe<Scalars['Datetime']['output']>
   /** Reference to the account that last updated the device. */
-  updatedBy?: Maybe<Scalars['UUID']['output']>
+  readonly updatedBy?: Maybe<Scalars['UUID']['output']>
 }
 
 /** A condition to be used against `Device` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type DeviceCondition = {
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `fcmToken` field. */
-  fcmToken?: InputMaybe<Scalars['String']['input']>
+  readonly fcmToken?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `updatedBy` field. */
-  updatedBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly updatedBy?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `Device` values. */
 export type DeviceConnection = {
-  __typename?: 'DeviceConnection'
+  readonly __typename?: 'DeviceConnection'
   /** A list of edges which contains the `Device` and cursor to aid in pagination. */
-  edges: Array<DeviceEdge>
+  readonly edges: ReadonlyArray<DeviceEdge>
   /** A list of `Device` objects. */
-  nodes: Array<Device>
+  readonly nodes: ReadonlyArray<Device>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Device` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `Device` edge in the connection. */
 export type DeviceEdge = {
-  __typename?: 'DeviceEdge'
+  readonly __typename?: 'DeviceEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Device` at the end of the edge. */
-  node: Device
+  readonly node: Device
 }
 
 /** An input for mutations affecting `Device` */
 export type DeviceInput = {
   /** Reference to the account that created the device. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
-  fcmToken: Scalars['String']['input']
+  readonly fcmToken: Scalars['String']['input']
 }
 
 /** Methods to use when ordering `Device`. */
@@ -3177,67 +3714,75 @@ export enum DeviceOrderBy {
 /** Represents an update to a `Device`. Fields that are set will be updated. */
 export type DevicePatch = {
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
-  fcmToken?: InputMaybe<Scalars['String']['input']>
+  readonly fcmToken?: InputMaybe<Scalars['String']['input']>
 }
 
 /** An event. */
 export type Event = Node & {
-  __typename?: 'Event'
+  readonly __typename?: 'Event'
   /** Reads a single `Account` that is related to this `Event`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Reads a single `Address` that is related to this `Event`. */
-  addressByAddressId?: Maybe<Address>
+  readonly addressByAddressId?: Maybe<Address>
   /** Optional reference to the physical address of the event. */
-  addressId?: Maybe<Scalars['UUID']['output']>
+  readonly addressId?: Maybe<Scalars['UUID']['output']>
   /** Timestamp of when the event was created, defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** The event creator's id. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** The event's description. Must be non-empty and not exceed 10,000 characters. */
-  description?: Maybe<Scalars['String']['output']>
+  readonly description?: Maybe<Scalars['String']['output']>
   /** The event's end date and time, with time zone. */
-  end?: Maybe<Scalars['Datetime']['output']>
+  readonly end?: Maybe<Scalars['Datetime']['output']>
   /** Reads and enables pagination through a set of `EventApp`. */
-  eventAppsByEventId: EventAppConnection
+  readonly eventAppsByEventId: EventAppConnection
   /** Reads and enables pagination through a set of `EventCategoryMapping`. */
-  eventCategoryMappingsByEventId: EventCategoryMappingConnection
+  readonly eventCategoryMappingsByEventId: EventCategoryMappingConnection
   /** Reads and enables pagination through a set of `EventFavorite`. */
-  eventFavoritesByEventId: EventFavoriteConnection
+  readonly eventFavoritesByEventId: EventFavoriteConnection
   /** Reads and enables pagination through a set of `EventFormatMapping`. */
-  eventFormatMappingsByEventId: EventFormatMappingConnection
+  readonly eventFormatMappingsByEventId: EventFormatMappingConnection
+  /** Reads a single `EventInvitationLink` that is related to this `Event`. */
+  readonly eventInvitationLinkByEventId?: Maybe<EventInvitationLink>
   /** Reads and enables pagination through a set of `EventRecommendation`. */
-  eventRecommendationsByEventId: EventRecommendationConnection
+  readonly eventRecommendationsByEventId: EventRecommendationConnection
   /** Reads and enables pagination through a set of `EventUpload`. */
-  eventUploadsByEventId: EventUploadConnection
-  /** The number of guests of the event, maintained by triggers on the guest table. */
-  guestCount: Scalars['Int']['output']
+  readonly eventUploadsByEventId: EventUploadConnection
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  readonly feedbackDeadline?: Maybe<Scalars['Datetime']['output']>
+  /** The number of seats taken at the event, each guest taking one plus their approved companions, maintained by triggers on the guest table. */
+  readonly guestCount: Scalars['Int']['output']
+  /** The number of seats taken by guests whose effective feedback is accepted, the organizer's override taking precedence, each such guest taking one plus their approved companions, maintained by triggers on the guest table. */
+  readonly guestCountAccepted: Scalars['Int']['output']
   /** The event's maximum guest count. Must be greater than 0. */
-  guestCountMaximum?: Maybe<Scalars['Int']['output']>
+  readonly guestCountMaximum?: Maybe<Scalars['Int']['output']>
   /** Reads and enables pagination through a set of `Guest`. */
-  guestsByEventId: GuestConnection
+  readonly guestsByEventId: GuestConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** Indicates whether the event is archived. */
-  isArchived: Scalars['Boolean']['output']
+  readonly isArchived: Scalars['Boolean']['output']
   /** Indicates whether the event takes place in person. */
-  isInPerson?: Maybe<Scalars['Boolean']['output']>
+  readonly isInPerson?: Maybe<Scalars['Boolean']['output']>
   /** Indicates whether the event takes place remotely. */
-  isRemote?: Maybe<Scalars['Boolean']['output']>
-  language?: Maybe<Language>
+  readonly isRemote?: Maybe<Scalars['Boolean']['output']>
+  readonly language?: Maybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
-  name: Scalars['String']['output']
+  readonly name: Scalars['String']['output']
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
+  readonly publishedAt?: Maybe<Scalars['Datetime']['output']>
   /** Reads and enables pagination through a set of `Report`. */
-  reportsByTargetEventId: ReportConnection
+  readonly reportsByTargetEventId: ReportConnection
   /** The event's internal id. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
-  slug: Scalars['String']['output']
+  readonly slug: Scalars['String']['output']
   /** The event's start date and time, with time zone. */
-  start: Scalars['Datetime']['output']
+  readonly start: Scalars['Datetime']['output']
   /** The event's unified resource locator. Must start with "https://" and not exceed 2,000 characters. */
-  url?: Maybe<Scalars['String']['output']>
+  readonly url?: Maybe<Scalars['String']['output']>
   /** The event's visibility. */
-  visibility: EventVisibility
+  readonly visibility: EventVisibility
 }
 
 /** An event. */
@@ -3248,7 +3793,7 @@ export type EventEventAppsByEventIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventAppOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventAppOrderBy>>
 }
 
 /** An event. */
@@ -3259,7 +3804,7 @@ export type EventEventCategoryMappingsByEventIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventCategoryMappingOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventCategoryMappingOrderBy>>
 }
 
 /** An event. */
@@ -3270,7 +3815,7 @@ export type EventEventFavoritesByEventIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFavoriteOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventFavoriteOrderBy>>
 }
 
 /** An event. */
@@ -3281,7 +3826,7 @@ export type EventEventFormatMappingsByEventIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFormatMappingOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventFormatMappingOrderBy>>
 }
 
 /** An event. */
@@ -3292,7 +3837,7 @@ export type EventEventRecommendationsByEventIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventRecommendationOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventRecommendationOrderBy>>
 }
 
 /** An event. */
@@ -3303,7 +3848,7 @@ export type EventEventUploadsByEventIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventUploadOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventUploadOrderBy>>
 }
 
 /** An event. */
@@ -3314,7 +3859,7 @@ export type EventGuestsByEventIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<GuestOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<GuestOrderBy>>
 }
 
 /** An event. */
@@ -3325,30 +3870,30 @@ export type EventReportsByTargetEventIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ReportOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ReportOrderBy>>
 }
 
 /** Records which apps are installed on which events. */
 export type EventApp = Node & {
-  __typename?: 'EventApp'
+  readonly __typename?: 'EventApp'
   /** Reads a single `Account` that is related to this `EventApp`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Reads a single `App` that is related to this `EventApp`. */
-  appByAppId?: Maybe<App>
+  readonly appByAppId?: Maybe<App>
   /** The app that is installed. */
-  appId: Scalars['UUID']['output']
+  readonly appId: Scalars['UUID']['output']
   /** When the app was installed. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Who installed this app. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** Reads a single `Event` that is related to this `EventApp`. */
-  eventByEventId?: Maybe<Event>
+  readonly eventByEventId?: Maybe<Event>
   /** The event the app is installed on. */
-  eventId: Scalars['UUID']['output']
+  readonly eventId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** A unique reference for this installation. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /**
@@ -3357,35 +3902,35 @@ export type EventApp = Node & {
  */
 export type EventAppCondition = {
   /** Checks for equality with the object’s `appId` field. */
-  appId?: InputMaybe<Scalars['UUID']['input']>
+  readonly appId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
+  readonly eventId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `EventApp` values. */
 export type EventAppConnection = {
-  __typename?: 'EventAppConnection'
+  readonly __typename?: 'EventAppConnection'
   /** A list of edges which contains the `EventApp` and cursor to aid in pagination. */
-  edges: Array<EventAppEdge>
+  readonly edges: ReadonlyArray<EventAppEdge>
   /** A list of `EventApp` objects. */
-  nodes: Array<EventApp>
+  readonly nodes: ReadonlyArray<EventApp>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `EventApp` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `EventApp` edge in the connection. */
 export type EventAppEdge = {
-  __typename?: 'EventAppEdge'
+  readonly __typename?: 'EventAppEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `EventApp` at the end of the edge. */
-  node: EventApp
+  readonly node: EventApp
 }
 
 /** Methods to use when ordering `EventApp`. */
@@ -3405,17 +3950,17 @@ export enum EventAppOrderBy {
 
 /** Event categories. */
 export type EventCategory = Node & {
-  __typename?: 'EventCategory'
+  readonly __typename?: 'EventCategory'
   /** Reads and enables pagination through a set of `EventCategoryMapping`. */
-  eventCategoryMappingsByCategoryId: EventCategoryMappingConnection
+  readonly eventCategoryMappingsByCategoryId: EventCategoryMappingConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** A category name. */
-  name: Scalars['String']['output']
+  readonly name: Scalars['String']['output']
   /** Reads and enables pagination through a set of `PreferenceEventCategory`. */
-  preferenceEventCategoriesByCategoryId: PreferenceEventCategoryConnection
+  readonly preferenceEventCategoriesByCategoryId: PreferenceEventCategoryConnection
   /** The id of the event category. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /** Event categories. */
@@ -3426,7 +3971,7 @@ export type EventCategoryEventCategoryMappingsByCategoryIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventCategoryMappingOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventCategoryMappingOrderBy>>
 }
 
 /** Event categories. */
@@ -3437,7 +3982,7 @@ export type EventCategoryPreferenceEventCategoriesByCategoryIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventCategoryOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventCategoryOrderBy>>
 }
 
 /**
@@ -3446,46 +3991,46 @@ export type EventCategoryPreferenceEventCategoriesByCategoryIdArgs = {
  */
 export type EventCategoryCondition = {
   /** Checks for equality with the object’s `name` field. */
-  name?: InputMaybe<Scalars['String']['input']>
+  readonly name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `EventCategory` values. */
 export type EventCategoryConnection = {
-  __typename?: 'EventCategoryConnection'
+  readonly __typename?: 'EventCategoryConnection'
   /** A list of edges which contains the `EventCategory` and cursor to aid in pagination. */
-  edges: Array<EventCategoryEdge>
+  readonly edges: ReadonlyArray<EventCategoryEdge>
   /** A list of `EventCategory` objects. */
-  nodes: Array<EventCategory>
+  readonly nodes: ReadonlyArray<EventCategory>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `EventCategory` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `EventCategory` edge in the connection. */
 export type EventCategoryEdge = {
-  __typename?: 'EventCategoryEdge'
+  readonly __typename?: 'EventCategoryEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `EventCategory` at the end of the edge. */
-  node: EventCategory
+  readonly node: EventCategory
 }
 
 /** Mapping events to categories (M:N relationship). */
 export type EventCategoryMapping = Node & {
-  __typename?: 'EventCategoryMapping'
+  readonly __typename?: 'EventCategoryMapping'
   /** A category id. */
-  categoryId: Scalars['UUID']['output']
+  readonly categoryId: Scalars['UUID']['output']
   /** Reads a single `Event` that is related to this `EventCategoryMapping`. */
-  eventByEventId?: Maybe<Event>
+  readonly eventByEventId?: Maybe<Event>
   /** Reads a single `EventCategory` that is related to this `EventCategoryMapping`. */
-  eventCategoryByCategoryId?: Maybe<EventCategory>
+  readonly eventCategoryByCategoryId?: Maybe<EventCategory>
   /** An event id. */
-  eventId: Scalars['UUID']['output']
+  readonly eventId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
 }
 
 /**
@@ -3494,39 +4039,39 @@ export type EventCategoryMapping = Node & {
  */
 export type EventCategoryMappingCondition = {
   /** Checks for equality with the object’s `categoryId` field. */
-  categoryId?: InputMaybe<Scalars['UUID']['input']>
+  readonly categoryId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
+  readonly eventId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `EventCategoryMapping` values. */
 export type EventCategoryMappingConnection = {
-  __typename?: 'EventCategoryMappingConnection'
+  readonly __typename?: 'EventCategoryMappingConnection'
   /** A list of edges which contains the `EventCategoryMapping` and cursor to aid in pagination. */
-  edges: Array<EventCategoryMappingEdge>
+  readonly edges: ReadonlyArray<EventCategoryMappingEdge>
   /** A list of `EventCategoryMapping` objects. */
-  nodes: Array<EventCategoryMapping>
+  readonly nodes: ReadonlyArray<EventCategoryMapping>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `EventCategoryMapping` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `EventCategoryMapping` edge in the connection. */
 export type EventCategoryMappingEdge = {
-  __typename?: 'EventCategoryMappingEdge'
+  readonly __typename?: 'EventCategoryMappingEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `EventCategoryMapping` at the end of the edge. */
-  node: EventCategoryMapping
+  readonly node: EventCategoryMapping
 }
 
 /** An input for mutations affecting `EventCategoryMapping` */
 export type EventCategoryMappingInput = {
   /** A category id. */
-  categoryId: Scalars['UUID']['input']
+  readonly categoryId: Scalars['UUID']['input']
   /** An event id. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
 }
 
 /** Methods to use when ordering `EventCategoryMapping`. */
@@ -3554,48 +4099,46 @@ export enum EventCategoryOrderBy {
 /** A condition to be used against `Event` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type EventCondition = {
   /** Checks for equality with the object’s `addressId` field. */
-  addressId?: InputMaybe<Scalars['UUID']['input']>
+  readonly addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `end` field. */
-  end?: InputMaybe<Scalars['Datetime']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Events ending before this instant, exclusive, where an event without an end ends at its start. */
-  endsBefore?: InputMaybe<Scalars['Datetime']['input']>
+  readonly endsBefore?: InputMaybe<Scalars['Datetime']['input']>
   /** Events ending at or after this instant, inclusive, where an event without an end ends at its start. */
-  endsFrom?: InputMaybe<Scalars['Datetime']['input']>
+  readonly endsFrom?: InputMaybe<Scalars['Datetime']['input']>
   /** Whether the event has ended, judged by its end, or by its start if it has no end, against the database clock. */
-  hasEnded?: InputMaybe<Scalars['Boolean']['input']>
+  readonly hasEnded?: InputMaybe<Scalars['Boolean']['input']>
   /** Whether the invoker attends the event, that is whether one of their contacts accepted a guest invitation to it. Combine with `hasEnded` to split upcoming from past events. */
-  isAttending?: InputMaybe<Scalars['Boolean']['input']>
+  readonly isAttending?: InputMaybe<Scalars['Boolean']['input']>
   /** Whether the invoker is invited to the event, that is whether they claimed one of its guest invitations or one of their contacts was invited to it, whatever the feedback. Combine with `hasEnded` to split upcoming from past invitations. */
-  isInvited?: InputMaybe<Scalars['Boolean']['input']>
+  readonly isInvited?: InputMaybe<Scalars['Boolean']['input']>
   /** Checks for equality with the object’s `name` field. */
-  name?: InputMaybe<Scalars['String']['input']>
+  readonly name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Events matching the search text by prefix on their name and description, or by similarity to their name. A blank text matches every event. Combine with other conditions such as `createdBy` to search within a subset. */
-  search?: InputMaybe<Scalars['String']['input']>
+  readonly search?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `slug` field. */
-  slug?: InputMaybe<Scalars['String']['input']>
+  readonly slug?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `start` field. */
-  start?: InputMaybe<Scalars['Datetime']['input']>
+  readonly start?: InputMaybe<Scalars['Datetime']['input']>
   /** Events starting before this instant, exclusive. */
-  startsBefore?: InputMaybe<Scalars['Datetime']['input']>
+  readonly startsBefore?: InputMaybe<Scalars['Datetime']['input']>
   /** Events starting at or after this instant, inclusive. */
-  startsFrom?: InputMaybe<Scalars['Datetime']['input']>
+  readonly startsFrom?: InputMaybe<Scalars['Datetime']['input']>
 }
 
 /** A connection to a list of `Event` values. */
 export type EventConnection = {
-  __typename?: 'EventConnection'
+  readonly __typename?: 'EventConnection'
   /** A list of edges which contains the `Event` and cursor to aid in pagination. */
-  edges: Array<EventEdge>
+  readonly edges: ReadonlyArray<EventEdge>
   /** A list of `Event` objects. */
-  nodes: Array<Event>
+  readonly nodes: ReadonlyArray<Event>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Event` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** All input for the `eventDelete` mutation. */
@@ -3604,57 +4147,57 @@ export type EventDeleteInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  id: Scalars['UUID']['input']
-  password: Scalars['String']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly id: Scalars['UUID']['input']
+  readonly password: Scalars['String']['input']
 }
 
 /** The output of our `eventDelete` mutation. */
 export type EventDeletePayload = {
-  __typename?: 'EventDeletePayload'
+  readonly __typename?: 'EventDeletePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** An edge for our `Event`. May be used by Relay 1. */
-  eventEdge?: Maybe<EventEdge>
+  readonly eventEdge?: Maybe<EventEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  result?: Maybe<Event>
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<Event>
 }
 
 /** The output of our `eventDelete` mutation. */
 export type EventDeletePayloadEventEdgeArgs = {
-  orderBy?: Array<EventOrderBy>
+  orderBy?: ReadonlyArray<EventOrderBy>
 }
 
 /** A `Event` edge in the connection. */
 export type EventEdge = {
-  __typename?: 'EventEdge'
+  readonly __typename?: 'EventEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Event` at the end of the edge. */
-  node: Event
+  readonly node: Event
 }
 
 /** Stores user-specific event favorites, linking an event to the account that marked it as a favorite. */
 export type EventFavorite = Node & {
-  __typename?: 'EventFavorite'
+  readonly __typename?: 'EventFavorite'
   /** Reads a single `Account` that is related to this `EventFavorite`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Timestamp when the favorite was created. Defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Reference to the account that created the event favorite. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** Reads a single `Event` that is related to this `EventFavorite`. */
-  eventByEventId?: Maybe<Event>
+  readonly eventByEventId?: Maybe<Event>
   /** Reference to the event that is marked as a favorite. */
-  eventId: Scalars['UUID']['output']
+  readonly eventId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** Primary key, uniquely identifies each favorite entry. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /**
@@ -3663,41 +4206,41 @@ export type EventFavorite = Node & {
  */
 export type EventFavoriteCondition = {
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
+  readonly eventId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `EventFavorite` values. */
 export type EventFavoriteConnection = {
-  __typename?: 'EventFavoriteConnection'
+  readonly __typename?: 'EventFavoriteConnection'
   /** A list of edges which contains the `EventFavorite` and cursor to aid in pagination. */
-  edges: Array<EventFavoriteEdge>
+  readonly edges: ReadonlyArray<EventFavoriteEdge>
   /** A list of `EventFavorite` objects. */
-  nodes: Array<EventFavorite>
+  readonly nodes: ReadonlyArray<EventFavorite>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `EventFavorite` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `EventFavorite` edge in the connection. */
 export type EventFavoriteEdge = {
-  __typename?: 'EventFavoriteEdge'
+  readonly __typename?: 'EventFavoriteEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `EventFavorite` at the end of the edge. */
-  node: EventFavorite
+  readonly node: EventFavorite
 }
 
 /** An input for mutations affecting `EventFavorite` */
 export type EventFavoriteInput = {
   /** Reference to the account that created the event favorite. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** Reference to the event that is marked as a favorite. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
 }
 
 /** Methods to use when ordering `EventFavorite`. */
@@ -3715,17 +4258,17 @@ export enum EventFavoriteOrderBy {
 
 /** Event formats. */
 export type EventFormat = Node & {
-  __typename?: 'EventFormat'
+  readonly __typename?: 'EventFormat'
   /** Reads and enables pagination through a set of `EventFormatMapping`. */
-  eventFormatMappingsByFormatId: EventFormatMappingConnection
+  readonly eventFormatMappingsByFormatId: EventFormatMappingConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The name of the event format. */
-  name: Scalars['String']['output']
+  readonly name: Scalars['String']['output']
   /** Reads and enables pagination through a set of `PreferenceEventFormat`. */
-  preferenceEventFormatsByFormatId: PreferenceEventFormatConnection
+  readonly preferenceEventFormatsByFormatId: PreferenceEventFormatConnection
   /** The id of the event format. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /** Event formats. */
@@ -3736,7 +4279,7 @@ export type EventFormatEventFormatMappingsByFormatIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFormatMappingOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventFormatMappingOrderBy>>
 }
 
 /** Event formats. */
@@ -3747,7 +4290,7 @@ export type EventFormatPreferenceEventFormatsByFormatIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventFormatOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventFormatOrderBy>>
 }
 
 /**
@@ -3756,46 +4299,46 @@ export type EventFormatPreferenceEventFormatsByFormatIdArgs = {
  */
 export type EventFormatCondition = {
   /** Checks for equality with the object’s `name` field. */
-  name?: InputMaybe<Scalars['String']['input']>
+  readonly name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `EventFormat` values. */
 export type EventFormatConnection = {
-  __typename?: 'EventFormatConnection'
+  readonly __typename?: 'EventFormatConnection'
   /** A list of edges which contains the `EventFormat` and cursor to aid in pagination. */
-  edges: Array<EventFormatEdge>
+  readonly edges: ReadonlyArray<EventFormatEdge>
   /** A list of `EventFormat` objects. */
-  nodes: Array<EventFormat>
+  readonly nodes: ReadonlyArray<EventFormat>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `EventFormat` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `EventFormat` edge in the connection. */
 export type EventFormatEdge = {
-  __typename?: 'EventFormatEdge'
+  readonly __typename?: 'EventFormatEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `EventFormat` at the end of the edge. */
-  node: EventFormat
+  readonly node: EventFormat
 }
 
 /** Mapping events to formats (M:N relationship). */
 export type EventFormatMapping = Node & {
-  __typename?: 'EventFormatMapping'
+  readonly __typename?: 'EventFormatMapping'
   /** Reads a single `Event` that is related to this `EventFormatMapping`. */
-  eventByEventId?: Maybe<Event>
+  readonly eventByEventId?: Maybe<Event>
   /** Reads a single `EventFormat` that is related to this `EventFormatMapping`. */
-  eventFormatByFormatId?: Maybe<EventFormat>
+  readonly eventFormatByFormatId?: Maybe<EventFormat>
   /** An event id. */
-  eventId: Scalars['UUID']['output']
+  readonly eventId: Scalars['UUID']['output']
   /** A format id. */
-  formatId: Scalars['UUID']['output']
+  readonly formatId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
 }
 
 /**
@@ -3804,39 +4347,39 @@ export type EventFormatMapping = Node & {
  */
 export type EventFormatMappingCondition = {
   /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
+  readonly eventId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `formatId` field. */
-  formatId?: InputMaybe<Scalars['UUID']['input']>
+  readonly formatId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `EventFormatMapping` values. */
 export type EventFormatMappingConnection = {
-  __typename?: 'EventFormatMappingConnection'
+  readonly __typename?: 'EventFormatMappingConnection'
   /** A list of edges which contains the `EventFormatMapping` and cursor to aid in pagination. */
-  edges: Array<EventFormatMappingEdge>
+  readonly edges: ReadonlyArray<EventFormatMappingEdge>
   /** A list of `EventFormatMapping` objects. */
-  nodes: Array<EventFormatMapping>
+  readonly nodes: ReadonlyArray<EventFormatMapping>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `EventFormatMapping` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `EventFormatMapping` edge in the connection. */
 export type EventFormatMappingEdge = {
-  __typename?: 'EventFormatMappingEdge'
+  readonly __typename?: 'EventFormatMappingEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `EventFormatMapping` at the end of the edge. */
-  node: EventFormatMapping
+  readonly node: EventFormatMapping
 }
 
 /** An input for mutations affecting `EventFormatMapping` */
 export type EventFormatMappingInput = {
   /** An event id. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
   /** A format id. */
-  formatId: Scalars['UUID']['input']
+  readonly formatId: Scalars['UUID']['input']
 }
 
 /** Methods to use when ordering `EventFormatMapping`. */
@@ -3864,32 +4407,126 @@ export enum EventFormatOrderBy {
 /** An input for mutations affecting `Event` */
 export type EventInput = {
   /** Optional reference to the physical address of the event. */
-  addressId?: InputMaybe<Scalars['UUID']['input']>
+  readonly addressId?: InputMaybe<Scalars['UUID']['input']>
   /** The event creator's id. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** The event's description. Must be non-empty and not exceed 10,000 characters. */
-  description?: InputMaybe<Scalars['String']['input']>
+  readonly description?: InputMaybe<Scalars['String']['input']>
   /** The event's end date and time, with time zone. */
-  end?: InputMaybe<Scalars['Datetime']['input']>
+  readonly end?: InputMaybe<Scalars['Datetime']['input']>
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  readonly feedbackDeadline?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's maximum guest count. Must be greater than 0. */
-  guestCountMaximum?: InputMaybe<Scalars['Int']['input']>
+  readonly guestCountMaximum?: InputMaybe<Scalars['Int']['input']>
   /** Indicates whether the event is archived. */
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>
+  readonly isArchived?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place in person. */
-  isInPerson?: InputMaybe<Scalars['Boolean']['input']>
+  readonly isInPerson?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place remotely. */
-  isRemote?: InputMaybe<Scalars['Boolean']['input']>
-  language?: InputMaybe<Language>
+  readonly isRemote?: InputMaybe<Scalars['Boolean']['input']>
+  readonly language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
-  name: Scalars['String']['input']
+  readonly name: Scalars['String']['input']
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
+  readonly publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
-  slug: Scalars['String']['input']
+  readonly slug: Scalars['String']['input']
   /** The event's start date and time, with time zone. */
-  start: Scalars['Datetime']['input']
+  readonly start: Scalars['Datetime']['input']
   /** The event's unified resource locator. Must start with "https://" and not exceed 2,000 characters. */
-  url?: InputMaybe<Scalars['String']['input']>
+  readonly url?: InputMaybe<Scalars['String']['input']>
   /** The event's visibility. */
-  visibility: EventVisibility
+  readonly visibility: EventVisibility
+}
+
+/** A general invitation link that lets anyone holding it join an event as a guest. Deleting it pauses the link, and creating a new one resets it. */
+export type EventInvitationLink = Node & {
+  readonly __typename?: 'EventInvitationLink'
+  /** Timestamp when the link was created. Defaults to the current timestamp. */
+  readonly createdAt: Scalars['Datetime']['output']
+  /** Reads a single `Event` that is related to this `EventInvitationLink`. */
+  readonly eventByEventId?: Maybe<Event>
+  /** Reference to the event the link invites to. */
+  readonly eventId: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  readonly id: Scalars['ID']['output']
+  /** The link's secret code and primary key. */
+  readonly rowId: Scalars['UUID']['output']
+}
+
+/**
+ * A condition to be used against `EventInvitationLink` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type EventInvitationLinkCondition = {
+  /** Checks for equality with the object’s `eventId` field. */
+  readonly eventId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `rowId` field. */
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** A connection to a list of `EventInvitationLink` values. */
+export type EventInvitationLinkConnection = {
+  readonly __typename?: 'EventInvitationLinkConnection'
+  /** A list of edges which contains the `EventInvitationLink` and cursor to aid in pagination. */
+  readonly edges: ReadonlyArray<EventInvitationLinkEdge>
+  /** A list of `EventInvitationLink` objects. */
+  readonly nodes: ReadonlyArray<EventInvitationLink>
+  /** Information to aid in pagination. */
+  readonly pageInfo: PageInfo
+  /** The count of *all* `EventInvitationLink` you could get from the connection. */
+  readonly totalCount: Scalars['Int']['output']
+}
+
+/** A `EventInvitationLink` edge in the connection. */
+export type EventInvitationLinkEdge = {
+  readonly __typename?: 'EventInvitationLinkEdge'
+  /** A cursor for use in pagination. */
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `EventInvitationLink` at the end of the edge. */
+  readonly node: EventInvitationLink
+}
+
+/** An input for mutations affecting `EventInvitationLink` */
+export type EventInvitationLinkInput = {
+  /** Reference to the event the link invites to. */
+  readonly eventId: Scalars['UUID']['input']
+}
+
+/** Methods to use when ordering `EventInvitationLink`. */
+export enum EventInvitationLinkOrderBy {
+  EventIdAsc = 'EVENT_ID_ASC',
+  EventIdDesc = 'EVENT_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+}
+
+/** All input for the `eventInvitationLinkRedeem` mutation. */
+export type EventInvitationLinkRedeemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly emailAddress?: InputMaybe<Scalars['String']['input']>
+  readonly firstName?: InputMaybe<Scalars['String']['input']>
+  readonly invitationLinkId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** The output of our `eventInvitationLinkRedeem` mutation. */
+export type EventInvitationLinkRedeemPayload = {
+  readonly __typename?: 'EventInvitationLinkRedeemPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<Scalars['UUID']['output']>
 }
 
 /** Methods to use when ordering `Event`. */
@@ -3914,51 +4551,55 @@ export enum EventOrderBy {
 /** Represents an update to a `Event`. Fields that are set will be updated. */
 export type EventPatch = {
   /** Optional reference to the physical address of the event. */
-  addressId?: InputMaybe<Scalars['UUID']['input']>
+  readonly addressId?: InputMaybe<Scalars['UUID']['input']>
   /** The event creator's id. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** The event's description. Must be non-empty and not exceed 10,000 characters. */
-  description?: InputMaybe<Scalars['String']['input']>
+  readonly description?: InputMaybe<Scalars['String']['input']>
   /** The event's end date and time, with time zone. */
-  end?: InputMaybe<Scalars['Datetime']['input']>
+  readonly end?: InputMaybe<Scalars['Datetime']['input']>
+  /** The point in time from which on only the organizer can change the feedback of the event's guests. No deadline when `NULL`. */
+  readonly feedbackDeadline?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's maximum guest count. Must be greater than 0. */
-  guestCountMaximum?: InputMaybe<Scalars['Int']['input']>
+  readonly guestCountMaximum?: InputMaybe<Scalars['Int']['input']>
   /** Indicates whether the event is archived. */
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>
+  readonly isArchived?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place in person. */
-  isInPerson?: InputMaybe<Scalars['Boolean']['input']>
+  readonly isInPerson?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place remotely. */
-  isRemote?: InputMaybe<Scalars['Boolean']['input']>
-  language?: InputMaybe<Language>
+  readonly isRemote?: InputMaybe<Scalars['Boolean']['input']>
+  readonly language?: InputMaybe<Language>
   /** The event's name. Must be non-empty and not exceed 100 characters. */
-  name?: InputMaybe<Scalars['String']['input']>
+  readonly name?: InputMaybe<Scalars['String']['input']>
+  /** The timestamp from which the event is published. An event without one is a draft and one with a future timestamp is scheduled; until then only its organizer can see it. */
+  readonly publishedAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
-  slug?: InputMaybe<Scalars['String']['input']>
+  readonly slug?: InputMaybe<Scalars['String']['input']>
   /** The event's start date and time, with time zone. */
-  start?: InputMaybe<Scalars['Datetime']['input']>
+  readonly start?: InputMaybe<Scalars['Datetime']['input']>
   /** The event's unified resource locator. Must start with "https://" and not exceed 2,000 characters. */
-  url?: InputMaybe<Scalars['String']['input']>
+  readonly url?: InputMaybe<Scalars['String']['input']>
   /** The event's visibility. */
-  visibility?: InputMaybe<EventVisibility>
+  readonly visibility?: InputMaybe<EventVisibility>
 }
 
 /** Events recommended to a user account (M:N relationship). */
 export type EventRecommendation = Node & {
-  __typename?: 'EventRecommendation'
+  readonly __typename?: 'EventRecommendation'
   /** Reads a single `Account` that is related to this `EventRecommendation`. */
-  accountByAccountId?: Maybe<Account>
+  readonly accountByAccountId?: Maybe<Account>
   /** A user account id. */
-  accountId: Scalars['UUID']['output']
+  readonly accountId: Scalars['UUID']['output']
   /** Reads a single `Event` that is related to this `EventRecommendation`. */
-  eventByEventId?: Maybe<Event>
+  readonly eventByEventId?: Maybe<Event>
   /** The predicted score of the recommendation. */
-  eventId: Scalars['UUID']['output']
+  readonly eventId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The score of the recommendation. */
-  predictedScore?: Maybe<Scalars['Float']['output']>
+  readonly predictedScore?: Maybe<Scalars['Float']['output']>
   /** An event id. */
-  score?: Maybe<Scalars['Float']['output']>
+  readonly score?: Maybe<Scalars['Float']['output']>
 }
 
 /**
@@ -3967,31 +4608,31 @@ export type EventRecommendation = Node & {
  */
 export type EventRecommendationCondition = {
   /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
+  readonly eventId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `EventRecommendation` values. */
 export type EventRecommendationConnection = {
-  __typename?: 'EventRecommendationConnection'
+  readonly __typename?: 'EventRecommendationConnection'
   /** A list of edges which contains the `EventRecommendation` and cursor to aid in pagination. */
-  edges: Array<EventRecommendationEdge>
+  readonly edges: ReadonlyArray<EventRecommendationEdge>
   /** A list of `EventRecommendation` objects. */
-  nodes: Array<EventRecommendation>
+  readonly nodes: ReadonlyArray<EventRecommendation>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `EventRecommendation` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `EventRecommendation` edge in the connection. */
 export type EventRecommendationEdge = {
-  __typename?: 'EventRecommendationEdge'
+  readonly __typename?: 'EventRecommendationEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `EventRecommendation` at the end of the edge. */
-  node: EventRecommendation
+  readonly node: EventRecommendation
 }
 
 /** Methods to use when ordering `EventRecommendation`. */
@@ -4015,21 +4656,21 @@ export enum EventSize {
 
 /** Associates uploaded files with events. */
 export type EventUpload = Node & {
-  __typename?: 'EventUpload'
+  readonly __typename?: 'EventUpload'
   /** Reads a single `Event` that is related to this `EventUpload`. */
-  eventByEventId?: Maybe<Event>
+  readonly eventByEventId?: Maybe<Event>
   /** Reference to the event associated with the upload. */
-  eventId: Scalars['UUID']['output']
+  readonly eventId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** Optional boolean flag indicating if the upload is the header image for the event. */
-  isHeaderImage?: Maybe<Scalars['Boolean']['output']>
+  readonly isHeaderImage?: Maybe<Scalars['Boolean']['output']>
   /** Primary key, uniquely identifies each event-upload association. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** Reads a single `Upload` that is related to this `EventUpload`. */
-  uploadByUploadId?: Maybe<Upload>
+  readonly uploadByUploadId?: Maybe<Upload>
   /** Reference to the uploaded file. */
-  uploadId: Scalars['UUID']['output']
+  readonly uploadId: Scalars['UUID']['output']
 }
 
 /**
@@ -4038,43 +4679,43 @@ export type EventUpload = Node & {
  */
 export type EventUploadCondition = {
   /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
+  readonly eventId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `uploadId` field. */
-  uploadId?: InputMaybe<Scalars['UUID']['input']>
+  readonly uploadId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `EventUpload` values. */
 export type EventUploadConnection = {
-  __typename?: 'EventUploadConnection'
+  readonly __typename?: 'EventUploadConnection'
   /** A list of edges which contains the `EventUpload` and cursor to aid in pagination. */
-  edges: Array<EventUploadEdge>
+  readonly edges: ReadonlyArray<EventUploadEdge>
   /** A list of `EventUpload` objects. */
-  nodes: Array<EventUpload>
+  readonly nodes: ReadonlyArray<EventUpload>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `EventUpload` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `EventUpload` edge in the connection. */
 export type EventUploadEdge = {
-  __typename?: 'EventUploadEdge'
+  readonly __typename?: 'EventUploadEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `EventUpload` at the end of the edge. */
-  node: EventUpload
+  readonly node: EventUpload
 }
 
 /** An input for mutations affecting `EventUpload` */
 export type EventUploadInput = {
   /** Reference to the event associated with the upload. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
   /** Optional boolean flag indicating if the upload is the header image for the event. */
-  isHeaderImage?: InputMaybe<Scalars['Boolean']['input']>
+  readonly isHeaderImage?: InputMaybe<Scalars['Boolean']['input']>
   /** Reference to the uploaded file. */
-  uploadId: Scalars['UUID']['input']
+  readonly uploadId: Scalars['UUID']['input']
 }
 
 /** Methods to use when ordering `EventUpload`. */
@@ -4090,42 +4731,41 @@ export enum EventUploadOrderBy {
   UploadIdDesc = 'UPLOAD_ID_DESC',
 }
 
-/** Possible visibilities of events and event groups: public, private and unlisted. */
+/** Possible visibilities of events and event groups: public and private. */
 export enum EventVisibility {
   Private = 'private',
   Public = 'public',
-  Unlisted = 'unlisted',
 }
 
 /** A friend relation together with its status. */
 export type Friendship = Node & {
-  __typename?: 'Friendship'
+  readonly __typename?: 'Friendship'
   /** The 'left' side of the friend relation. It must be lexically less than the 'right' side. */
-  aAccountId: Scalars['UUID']['output']
+  readonly aAccountId: Scalars['UUID']['output']
   /** Reads a single `Account` that is related to this `Friendship`. */
-  accountByAAccountId?: Maybe<Account>
+  readonly accountByAAccountId?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Friendship`. */
-  accountByBAccountId?: Maybe<Account>
+  readonly accountByBAccountId?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Friendship`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Friendship`. */
-  accountByUpdatedBy?: Maybe<Account>
+  readonly accountByUpdatedBy?: Maybe<Account>
   /** The 'right' side of the friend relation. It must be lexically greater than the 'left' side. */
-  bAccountId: Scalars['UUID']['output']
+  readonly bAccountId: Scalars['UUID']['output']
   /** The timestamp when the friend relation was created. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** The account that created the friend relation. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The friend relation's internal id. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** The status of the friend relation. */
-  status: FriendshipStatus
+  readonly status: FriendshipStatus
   /** The timestamp when the friend relation's status was updated. */
-  updatedAt?: Maybe<Scalars['Datetime']['output']>
+  readonly updatedAt?: Maybe<Scalars['Datetime']['output']>
   /** The account that updated the friend relation's status. */
-  updatedBy?: Maybe<Scalars['UUID']['output']>
+  readonly updatedBy?: Maybe<Scalars['UUID']['output']>
 }
 
 /**
@@ -4134,47 +4774,47 @@ export type Friendship = Node & {
  */
 export type FriendshipCondition = {
   /** Checks for equality with the object’s `aAccountId` field. */
-  aAccountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly aAccountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `bAccountId` field. */
-  bAccountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly bAccountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `updatedBy` field. */
-  updatedBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly updatedBy?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `Friendship` values. */
 export type FriendshipConnection = {
-  __typename?: 'FriendshipConnection'
+  readonly __typename?: 'FriendshipConnection'
   /** A list of edges which contains the `Friendship` and cursor to aid in pagination. */
-  edges: Array<FriendshipEdge>
+  readonly edges: ReadonlyArray<FriendshipEdge>
   /** A list of `Friendship` objects. */
-  nodes: Array<Friendship>
+  readonly nodes: ReadonlyArray<Friendship>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Friendship` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `Friendship` edge in the connection. */
 export type FriendshipEdge = {
-  __typename?: 'FriendshipEdge'
+  readonly __typename?: 'FriendshipEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Friendship` at the end of the edge. */
-  node: Friendship
+  readonly node: Friendship
 }
 
 /** An input for mutations affecting `Friendship` */
 export type FriendshipInput = {
   /** The 'left' side of the friend relation. It must be lexically less than the 'right' side. */
-  aAccountId: Scalars['UUID']['input']
+  readonly aAccountId: Scalars['UUID']['input']
   /** The 'right' side of the friend relation. It must be lexically greater than the 'left' side. */
-  bAccountId: Scalars['UUID']['input']
+  readonly bAccountId: Scalars['UUID']['input']
   /** The account that created the friend relation. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
 }
 
 /** Methods to use when ordering `Friendship`. */
@@ -4197,7 +4837,7 @@ export enum FriendshipOrderBy {
 /** Represents an update to a `Friendship`. Fields that are set will be updated. */
 export type FriendshipPatch = {
   /** The status of the friend relation. */
-  status?: InputMaybe<FriendshipStatus>
+  readonly status?: InputMaybe<FriendshipStatus>
 }
 
 /**
@@ -4212,303 +4852,133 @@ export enum FriendshipStatus {
 /** All geography XY types implement this interface */
 export type GeographyGeometry = {
   /** Converts the object to GeoJSON */
-  geojson?: Maybe<Scalars['GeoJSON']['output']>
+  readonly geojson?: Maybe<Scalars['GeoJSON']['output']>
   /** Spatial reference identifier (SRID) */
-  srid: Scalars['Int']['output']
+  readonly srid: Scalars['Int']['output']
 }
 
 /** All geography types implement this interface */
 export type GeographyInterface = {
   /** Converts the object to GeoJSON */
-  geojson?: Maybe<Scalars['GeoJSON']['output']>
+  readonly geojson?: Maybe<Scalars['GeoJSON']['output']>
   /** Spatial reference identifier (SRID) */
-  srid: Scalars['Int']['output']
+  readonly srid: Scalars['Int']['output']
 }
 
 export type GeographyPoint = GeographyGeometry &
   GeographyInterface & {
-    __typename?: 'GeographyPoint'
-    geojson?: Maybe<Scalars['GeoJSON']['output']>
-    latitude: Scalars['Float']['output']
-    longitude: Scalars['Float']['output']
-    srid: Scalars['Int']['output']
+    readonly __typename?: 'GeographyPoint'
+    readonly geojson?: Maybe<Scalars['GeoJSON']['output']>
+    readonly latitude: Scalars['Float']['output']
+    readonly longitude: Scalars['Float']['output']
+    readonly srid: Scalars['Int']['output']
   }
 
 /** A guest for a contact. A bidirectional mapping between an event and a contact. */
 export type Guest = Node & {
-  __typename?: 'Guest'
+  readonly __typename?: 'Guest'
   /** Reads a single `Account` that is related to this `Guest`. */
-  accountByUpdatedBy?: Maybe<Account>
+  readonly accountByUpdatedBy?: Maybe<Account>
   /** Reads a single `Attendance` that is related to this `Guest`. */
-  attendanceByGuestId?: Maybe<Attendance>
+  readonly attendanceByGuestId?: Maybe<Attendance>
+  /** The number of additional guests the organizer approved for the guest, each of whom takes a seat of the event. The organizer can raise it up to the request, the guest can only lower it. Setting it fails with error code **VTGCM** when the event's maximum guest count would be exceeded. Resets to 0 when the guest's effective feedback is `canceled`. */
+  readonly companionCount: Scalars['Int']['output']
+  /** The number of additional guests the guest asks the organizer to approve in total. `NULL` when there is no pending request, which also holds for a request that does not exceed the approved companion count. The organizer clears it by approving or rejecting. Resets to `NULL` when the guest's effective feedback is `canceled`. */
+  readonly companionCountRequested?: Maybe<Scalars['Int']['output']>
   /** Reads a single `Contact` that is related to this `Guest`. */
-  contactByContactId?: Maybe<Contact>
+  readonly contactByContactId?: Maybe<Contact>
   /** The internal id of the guest's contact. */
-  contactId: Scalars['UUID']['output']
+  readonly contactId: Scalars['UUID']['output']
   /** Timestamp of when the guest was created, defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Reads a single `Event` that is related to this `Guest`. */
-  eventByEventId?: Maybe<Event>
+  readonly eventByEventId?: Maybe<Event>
   /** The internal id of the guest's event. */
-  eventId: Scalars['UUID']['output']
-  /** The guest's general feedback status. */
-  feedback?: Maybe<InvitationFeedback>
-  /** The guest's paper feedback status. */
-  feedbackPaper?: Maybe<InvitationFeedbackPaper>
+  readonly eventId: Scalars['UUID']['output']
+  /** The guest's own feedback status. Only the guest can set it. */
+  readonly feedback?: Maybe<InvitationFeedback>
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  readonly feedbackOverride?: Maybe<InvitationFeedback>
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  readonly feedbackReason?: Maybe<Scalars['String']['output']>
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The guest's internal id. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** Timestamp of when the guest was last updated. */
-  updatedAt?: Maybe<Scalars['Datetime']['output']>
+  readonly updatedAt?: Maybe<Scalars['Datetime']['output']>
   /** The id of the account which last updated the guest. `NULL` if the guest was updated by an anonymous user. */
-  updatedBy?: Maybe<Scalars['UUID']['output']>
+  readonly updatedBy?: Maybe<Scalars['UUID']['output']>
 }
 
 /** A condition to be used against `Guest` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type GuestCondition = {
   /** Checks for equality with the object’s `contactId` field. */
-  contactId?: InputMaybe<Scalars['UUID']['input']>
+  readonly contactId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
+  readonly eventId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `updatedBy` field. */
-  updatedBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly updatedBy?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `Guest` values. */
 export type GuestConnection = {
-  __typename?: 'GuestConnection'
+  readonly __typename?: 'GuestConnection'
   /** A list of edges which contains the `Guest` and cursor to aid in pagination. */
-  edges: Array<GuestEdge>
+  readonly edges: ReadonlyArray<GuestEdge>
   /** A list of `Guest` objects. */
-  nodes: Array<Guest>
+  readonly nodes: ReadonlyArray<Guest>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Guest` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A connection to a list of `UUID` values. */
 export type GuestContactIdsConnection = {
-  __typename?: 'GuestContactIdsConnection'
+  readonly __typename?: 'GuestContactIdsConnection'
   /** A list of edges which contains the `UUID` and cursor to aid in pagination. */
-  edges: Array<Maybe<GuestContactIdsEdge>>
+  readonly edges: ReadonlyArray<Maybe<GuestContactIdsEdge>>
   /** A list of `UUID` objects. */
-  nodes: Array<Maybe<Scalars['UUID']['output']>>
+  readonly nodes: ReadonlyArray<Maybe<Scalars['UUID']['output']>>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `UUID` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `UUID` edge in the connection. */
 export type GuestContactIdsEdge = {
-  __typename?: 'GuestContactIdsEdge'
+  readonly __typename?: 'GuestContactIdsEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `UUID` at the end of the edge. */
-  node?: Maybe<Scalars['UUID']['output']>
+  readonly node?: Maybe<Scalars['UUID']['output']>
 }
 
 /** A `Guest` edge in the connection. */
 export type GuestEdge = {
-  __typename?: 'GuestEdge'
+  readonly __typename?: 'GuestEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Guest` at the end of the edge. */
-  node: Guest
-}
-
-/** View returning flattened guests. */
-export type GuestFlat = {
-  __typename?: 'GuestFlat'
-  contactAccountId?: Maybe<Scalars['UUID']['output']>
-  contactAddressId?: Maybe<Scalars['UUID']['output']>
-  contactCreatedBy?: Maybe<Scalars['UUID']['output']>
-  contactEmailAddress?: Maybe<Scalars['String']['output']>
-  contactEmailAddressHash?: Maybe<Scalars['String']['output']>
-  contactFirstName?: Maybe<Scalars['String']['output']>
-  contactId?: Maybe<Scalars['UUID']['output']>
-  contactLastName?: Maybe<Scalars['String']['output']>
-  contactPhoneNumber?: Maybe<Scalars['String']['output']>
-  contactUrl?: Maybe<Scalars['String']['output']>
-  eventAddressId?: Maybe<Scalars['UUID']['output']>
-  eventCreatedBy?: Maybe<Scalars['UUID']['output']>
-  eventDescription?: Maybe<Scalars['String']['output']>
-  eventEnd?: Maybe<Scalars['Datetime']['output']>
-  eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
-  eventId?: Maybe<Scalars['UUID']['output']>
-  eventIsArchived?: Maybe<Scalars['Boolean']['output']>
-  eventIsInPerson?: Maybe<Scalars['Boolean']['output']>
-  eventIsRemote?: Maybe<Scalars['Boolean']['output']>
-  eventName?: Maybe<Scalars['String']['output']>
-  eventSlug?: Maybe<Scalars['String']['output']>
-  eventStart?: Maybe<Scalars['Datetime']['output']>
-  eventUrl?: Maybe<Scalars['String']['output']>
-  eventVisibility?: Maybe<EventVisibility>
-  guestContactId?: Maybe<Scalars['UUID']['output']>
-  guestEventId?: Maybe<Scalars['UUID']['output']>
-  guestFeedback?: Maybe<InvitationFeedback>
-  guestFeedbackPaper?: Maybe<InvitationFeedbackPaper>
-  guestId?: Maybe<Scalars['UUID']['output']>
-}
-
-/**
- * A condition to be used against `GuestFlat` object types. All fields are tested
- * for equality and combined with a logical ‘and.’
- */
-export type GuestFlatCondition = {
-  /** Checks for equality with the object’s `contactAccountId` field. */
-  contactAccountId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `contactAddressId` field. */
-  contactAddressId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `contactCreatedBy` field. */
-  contactCreatedBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `contactEmailAddress` field. */
-  contactEmailAddress?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactEmailAddressHash` field. */
-  contactEmailAddressHash?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactFirstName` field. */
-  contactFirstName?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactId` field. */
-  contactId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `contactLastName` field. */
-  contactLastName?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactPhoneNumber` field. */
-  contactPhoneNumber?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactUrl` field. */
-  contactUrl?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventAddressId` field. */
-  eventAddressId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `eventCreatedBy` field. */
-  eventCreatedBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `eventDescription` field. */
-  eventDescription?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventEnd` field. */
-  eventEnd?: InputMaybe<Scalars['Datetime']['input']>
-  /** Checks for equality with the object’s `eventGuestCountMaximum` field. */
-  eventGuestCountMaximum?: InputMaybe<Scalars['Int']['input']>
-  /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `eventIsArchived` field. */
-  eventIsArchived?: InputMaybe<Scalars['Boolean']['input']>
-  /** Checks for equality with the object’s `eventIsInPerson` field. */
-  eventIsInPerson?: InputMaybe<Scalars['Boolean']['input']>
-  /** Checks for equality with the object’s `eventIsRemote` field. */
-  eventIsRemote?: InputMaybe<Scalars['Boolean']['input']>
-  /** Checks for equality with the object’s `eventName` field. */
-  eventName?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventSlug` field. */
-  eventSlug?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventStart` field. */
-  eventStart?: InputMaybe<Scalars['Datetime']['input']>
-  /** Checks for equality with the object’s `eventUrl` field. */
-  eventUrl?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventVisibility` field. */
-  eventVisibility?: InputMaybe<EventVisibility>
-  /** Checks for equality with the object’s `guestContactId` field. */
-  guestContactId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `guestEventId` field. */
-  guestEventId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `guestFeedback` field. */
-  guestFeedback?: InputMaybe<InvitationFeedback>
-  /** Checks for equality with the object’s `guestFeedbackPaper` field. */
-  guestFeedbackPaper?: InputMaybe<InvitationFeedbackPaper>
-  /** Checks for equality with the object’s `guestId` field. */
-  guestId?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** A connection to a list of `GuestFlat` values. */
-export type GuestFlatConnection = {
-  __typename?: 'GuestFlatConnection'
-  /** A list of edges which contains the `GuestFlat` and cursor to aid in pagination. */
-  edges: Array<GuestFlatEdge>
-  /** A list of `GuestFlat` objects. */
-  nodes: Array<GuestFlat>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `GuestFlat` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `GuestFlat` edge in the connection. */
-export type GuestFlatEdge = {
-  __typename?: 'GuestFlatEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `GuestFlat` at the end of the edge. */
-  node: GuestFlat
-}
-
-/** Methods to use when ordering `GuestFlat`. */
-export enum GuestFlatOrderBy {
-  ContactAccountIdAsc = 'CONTACT_ACCOUNT_ID_ASC',
-  ContactAccountIdDesc = 'CONTACT_ACCOUNT_ID_DESC',
-  ContactAddressIdAsc = 'CONTACT_ADDRESS_ID_ASC',
-  ContactAddressIdDesc = 'CONTACT_ADDRESS_ID_DESC',
-  ContactCreatedByAsc = 'CONTACT_CREATED_BY_ASC',
-  ContactCreatedByDesc = 'CONTACT_CREATED_BY_DESC',
-  ContactEmailAddressAsc = 'CONTACT_EMAIL_ADDRESS_ASC',
-  ContactEmailAddressDesc = 'CONTACT_EMAIL_ADDRESS_DESC',
-  ContactEmailAddressHashAsc = 'CONTACT_EMAIL_ADDRESS_HASH_ASC',
-  ContactEmailAddressHashDesc = 'CONTACT_EMAIL_ADDRESS_HASH_DESC',
-  ContactFirstNameAsc = 'CONTACT_FIRST_NAME_ASC',
-  ContactFirstNameDesc = 'CONTACT_FIRST_NAME_DESC',
-  ContactIdAsc = 'CONTACT_ID_ASC',
-  ContactIdDesc = 'CONTACT_ID_DESC',
-  ContactLastNameAsc = 'CONTACT_LAST_NAME_ASC',
-  ContactLastNameDesc = 'CONTACT_LAST_NAME_DESC',
-  ContactPhoneNumberAsc = 'CONTACT_PHONE_NUMBER_ASC',
-  ContactPhoneNumberDesc = 'CONTACT_PHONE_NUMBER_DESC',
-  ContactUrlAsc = 'CONTACT_URL_ASC',
-  ContactUrlDesc = 'CONTACT_URL_DESC',
-  EventAddressIdAsc = 'EVENT_ADDRESS_ID_ASC',
-  EventAddressIdDesc = 'EVENT_ADDRESS_ID_DESC',
-  EventCreatedByAsc = 'EVENT_CREATED_BY_ASC',
-  EventCreatedByDesc = 'EVENT_CREATED_BY_DESC',
-  EventDescriptionAsc = 'EVENT_DESCRIPTION_ASC',
-  EventDescriptionDesc = 'EVENT_DESCRIPTION_DESC',
-  EventEndAsc = 'EVENT_END_ASC',
-  EventEndDesc = 'EVENT_END_DESC',
-  EventGuestCountMaximumAsc = 'EVENT_GUEST_COUNT_MAXIMUM_ASC',
-  EventGuestCountMaximumDesc = 'EVENT_GUEST_COUNT_MAXIMUM_DESC',
-  EventIdAsc = 'EVENT_ID_ASC',
-  EventIdDesc = 'EVENT_ID_DESC',
-  EventIsArchivedAsc = 'EVENT_IS_ARCHIVED_ASC',
-  EventIsArchivedDesc = 'EVENT_IS_ARCHIVED_DESC',
-  EventIsInPersonAsc = 'EVENT_IS_IN_PERSON_ASC',
-  EventIsInPersonDesc = 'EVENT_IS_IN_PERSON_DESC',
-  EventIsRemoteAsc = 'EVENT_IS_REMOTE_ASC',
-  EventIsRemoteDesc = 'EVENT_IS_REMOTE_DESC',
-  EventNameAsc = 'EVENT_NAME_ASC',
-  EventNameDesc = 'EVENT_NAME_DESC',
-  EventSlugAsc = 'EVENT_SLUG_ASC',
-  EventSlugDesc = 'EVENT_SLUG_DESC',
-  EventStartAsc = 'EVENT_START_ASC',
-  EventStartDesc = 'EVENT_START_DESC',
-  EventUrlAsc = 'EVENT_URL_ASC',
-  EventUrlDesc = 'EVENT_URL_DESC',
-  GuestContactIdAsc = 'GUEST_CONTACT_ID_ASC',
-  GuestContactIdDesc = 'GUEST_CONTACT_ID_DESC',
-  GuestEventIdAsc = 'GUEST_EVENT_ID_ASC',
-  GuestEventIdDesc = 'GUEST_EVENT_ID_DESC',
-  GuestIdAsc = 'GUEST_ID_ASC',
-  GuestIdDesc = 'GUEST_ID_DESC',
-  Natural = 'NATURAL',
+  readonly node: Guest
 }
 
 /** An input for mutations affecting `Guest` */
 export type GuestInput = {
   /** The internal id of the guest's contact. */
-  contactId: Scalars['UUID']['input']
+  readonly contactId: Scalars['UUID']['input']
   /** The internal id of the guest's event. */
-  eventId: Scalars['UUID']['input']
-  /** The guest's general feedback status. */
-  feedback?: InputMaybe<InvitationFeedback>
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InputMaybe<InvitationFeedbackPaper>
+  readonly eventId: Scalars['UUID']['input']
+  /** The guest's own feedback status. Only the guest can set it. */
+  readonly feedback?: InputMaybe<InvitationFeedback>
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  readonly feedbackOverride?: InputMaybe<InvitationFeedback>
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  readonly feedbackReason?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Methods to use when ordering `Guest`. */
@@ -4528,10 +4998,16 @@ export enum GuestOrderBy {
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The guest's general feedback status. */
-  feedback?: InputMaybe<InvitationFeedback>
-  /** The guest's paper feedback status. */
-  feedbackPaper?: InputMaybe<InvitationFeedbackPaper>
+  /** The number of additional guests the organizer approved for the guest, each of whom takes a seat of the event. The organizer can raise it up to the request, the guest can only lower it. Setting it fails with error code **VTGCM** when the event's maximum guest count would be exceeded. Resets to 0 when the guest's effective feedback is `canceled`. */
+  readonly companionCount?: InputMaybe<Scalars['Int']['input']>
+  /** The number of additional guests the guest asks the organizer to approve in total. `NULL` when there is no pending request, which also holds for a request that does not exceed the approved companion count. The organizer clears it by approving or rejecting. Resets to `NULL` when the guest's effective feedback is `canceled`. */
+  readonly companionCountRequested?: InputMaybe<Scalars['Int']['input']>
+  /** The guest's own feedback status. Only the guest can set it. */
+  readonly feedback?: InputMaybe<InvitationFeedback>
+  /** The organizer's correction of the guest's feedback, which takes precedence over it. Only the event's organizer can set it, so the guest's own feedback stays as given. */
+  readonly feedbackOverride?: InputMaybe<InvitationFeedback>
+  /** The guest's optional reason for their feedback, e.g. why they declined. Only the guest can set it. */
+  readonly feedbackReason?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
@@ -4540,34 +5016,27 @@ export enum InvitationFeedback {
   Canceled = 'canceled',
 }
 
-/** Possible choices on how to receive a paper invitation: none, paper, digital. */
-export enum InvitationFeedbackPaper {
-  Digital = 'digital',
-  None = 'none',
-  Paper = 'paper',
-}
-
 /** All input for the `invite` mutation. */
 export type InviteInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  guestId: Scalars['UUID']['input']
-  language: Scalars['String']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly guestId: Scalars['UUID']['input']
+  readonly language: Scalars['String']['input']
 }
 
 /** The output of our `invite` mutation. */
 export type InvitePayload = {
-  __typename?: 'InvitePayload'
+  readonly __typename?: 'InvitePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** All input for the `jwtCreate` mutation. */
@@ -4576,45 +5045,45 @@ export type JwtCreateInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  password: Scalars['String']['input']
-  username: Scalars['String']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly password: Scalars['String']['input']
+  readonly username: Scalars['String']['input']
 }
 
 /** The output of our `jwtCreate` mutation. */
 export type JwtCreatePayload = {
-  __typename?: 'JwtCreatePayload'
+  readonly __typename?: 'JwtCreatePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  result?: Maybe<Scalars['Jwt']['output']>
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<Scalars['Jwt']['output']>
 }
 
 /** All input for the `jwtUpdateAttendanceAdd` mutation. */
 export type JwtUpdateAttendanceAddInput = {
-  attendanceId: Scalars['UUID']['input']
+  readonly attendanceId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The output of our `jwtUpdateAttendanceAdd` mutation. */
 export type JwtUpdateAttendanceAddPayload = {
-  __typename?: 'JwtUpdateAttendanceAddPayload'
+  readonly __typename?: 'JwtUpdateAttendanceAddPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  result?: Maybe<Scalars['Jwt']['output']>
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<Scalars['Jwt']['output']>
 }
 
 /** All input for the `jwtUpdateGuestAdd` mutation. */
@@ -4623,21 +5092,21 @@ export type JwtUpdateGuestAddInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  guestId: Scalars['UUID']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly guestId: Scalars['UUID']['input']
 }
 
 /** The output of our `jwtUpdateGuestAdd` mutation. */
 export type JwtUpdateGuestAddPayload = {
-  __typename?: 'JwtUpdateGuestAddPayload'
+  readonly __typename?: 'JwtUpdateGuestAddPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  result?: Maybe<Scalars['Jwt']['output']>
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<Scalars['Jwt']['output']>
 }
 
 /** All input for the `jwtUpdate` mutation. */
@@ -4646,21 +5115,21 @@ export type JwtUpdateInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  jwtId: Scalars['UUID']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly jwtId: Scalars['UUID']['input']
 }
 
 /** The output of our `jwtUpdate` mutation. */
 export type JwtUpdatePayload = {
-  __typename?: 'JwtUpdatePayload'
+  readonly __typename?: 'JwtUpdatePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  result?: Maybe<Scalars['Jwt']['output']>
+  readonly query?: Maybe<Query>
+  readonly result?: Maybe<Scalars['Jwt']['output']>
 }
 
 /** Supported ISO 639 language codes. */
@@ -4671,21 +5140,21 @@ export enum Language {
 
 /** Legal terms like privacy policies or terms of service. */
 export type LegalTerm = Node & {
-  __typename?: 'LegalTerm'
+  readonly __typename?: 'LegalTerm'
   /** Timestamp when the term was created. Set to the current time by default. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** Language code in ISO 639-1 format with optional region (e.g., `en` for English, `en_GB` for British English) */
-  language: Scalars['String']['output']
+  readonly language: Scalars['String']['output']
   /** Reads and enables pagination through a set of `LegalTermAcceptance`. */
-  legalTermAcceptancesByLegalTermId: LegalTermAcceptanceConnection
+  readonly legalTermAcceptancesByLegalTermId: LegalTermAcceptanceConnection
   /** Unique identifier for each legal term. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** Text of the legal term. Markdown is expected to be used. It must be non-empty and cannot exceed 500,000 characters. */
-  term: Scalars['String']['output']
+  readonly term: Scalars['String']['output']
   /** Semantic versioning string to track changes to the legal terms (format: `X.Y.Z`). */
-  version: Scalars['String']['output']
+  readonly version: Scalars['String']['output']
 }
 
 /** Legal terms like privacy policies or terms of service. */
@@ -4696,26 +5165,26 @@ export type LegalTermLegalTermAcceptancesByLegalTermIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<LegalTermAcceptanceOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<LegalTermAcceptanceOrderBy>>
 }
 
 /** Tracks each user account's acceptance of legal terms and conditions. */
 export type LegalTermAcceptance = Node & {
-  __typename?: 'LegalTermAcceptance'
+  readonly __typename?: 'LegalTermAcceptance'
   /** Reads a single `Account` that is related to this `LegalTermAcceptance`. */
-  accountByAccountId?: Maybe<Account>
+  readonly accountByAccountId?: Maybe<Account>
   /** The user account ID that accepted the legal terms. If the account is deleted, this acceptance record will also be deleted. */
-  accountId: Scalars['UUID']['output']
+  readonly accountId: Scalars['UUID']['output']
   /** Timestamp showing when the legal terms were accepted, set automatically at the time of acceptance. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** Reads a single `LegalTerm` that is related to this `LegalTermAcceptance`. */
-  legalTermByLegalTermId?: Maybe<LegalTerm>
+  readonly legalTermByLegalTermId?: Maybe<LegalTerm>
   /** The ID of the legal terms that were accepted. Deletion of these legal terms is restricted while they are still referenced in this table. */
-  legalTermId: Scalars['UUID']['output']
+  readonly legalTermId: Scalars['UUID']['output']
   /** Unique identifier for this legal term acceptance record. Automatically generated for each new acceptance. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /**
@@ -4724,41 +5193,41 @@ export type LegalTermAcceptance = Node & {
  */
 export type LegalTermAcceptanceCondition = {
   /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `legalTermId` field. */
-  legalTermId?: InputMaybe<Scalars['UUID']['input']>
+  readonly legalTermId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `LegalTermAcceptance` values. */
 export type LegalTermAcceptanceConnection = {
-  __typename?: 'LegalTermAcceptanceConnection'
+  readonly __typename?: 'LegalTermAcceptanceConnection'
   /** A list of edges which contains the `LegalTermAcceptance` and cursor to aid in pagination. */
-  edges: Array<LegalTermAcceptanceEdge>
+  readonly edges: ReadonlyArray<LegalTermAcceptanceEdge>
   /** A list of `LegalTermAcceptance` objects. */
-  nodes: Array<LegalTermAcceptance>
+  readonly nodes: ReadonlyArray<LegalTermAcceptance>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `LegalTermAcceptance` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `LegalTermAcceptance` edge in the connection. */
 export type LegalTermAcceptanceEdge = {
-  __typename?: 'LegalTermAcceptanceEdge'
+  readonly __typename?: 'LegalTermAcceptanceEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `LegalTermAcceptance` at the end of the edge. */
-  node: LegalTermAcceptance
+  readonly node: LegalTermAcceptance
 }
 
 /** An input for mutations affecting `LegalTermAcceptance` */
 export type LegalTermAcceptanceInput = {
   /** The user account ID that accepted the legal terms. If the account is deleted, this acceptance record will also be deleted. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /** The ID of the legal terms that were accepted. Deletion of these legal terms is restricted while they are still referenced in this table. */
-  legalTermId: Scalars['UUID']['input']
+  readonly legalTermId: Scalars['UUID']['input']
 }
 
 /** Methods to use when ordering `LegalTermAcceptance`. */
@@ -4780,33 +5249,33 @@ export enum LegalTermAcceptanceOrderBy {
  */
 export type LegalTermCondition = {
   /** Checks for equality with the object’s `language` field. */
-  language?: InputMaybe<Scalars['String']['input']>
+  readonly language?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `version` field. */
-  version?: InputMaybe<Scalars['String']['input']>
+  readonly version?: InputMaybe<Scalars['String']['input']>
 }
 
 /** A connection to a list of `LegalTerm` values. */
 export type LegalTermConnection = {
-  __typename?: 'LegalTermConnection'
+  readonly __typename?: 'LegalTermConnection'
   /** A list of edges which contains the `LegalTerm` and cursor to aid in pagination. */
-  edges: Array<LegalTermEdge>
+  readonly edges: ReadonlyArray<LegalTermEdge>
   /** A list of `LegalTerm` objects. */
-  nodes: Array<LegalTerm>
+  readonly nodes: ReadonlyArray<LegalTerm>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `LegalTerm` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `LegalTerm` edge in the connection. */
 export type LegalTermEdge = {
-  __typename?: 'LegalTermEdge'
+  readonly __typename?: 'LegalTermEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `LegalTerm` at the end of the edge. */
-  node: LegalTerm
+  readonly node: LegalTerm
 }
 
 /** Methods to use when ordering `LegalTerm`. */
@@ -4824,7 +5293,7 @@ export enum LegalTermOrderBy {
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
-  __typename?: 'Mutation'
+  readonly __typename?: 'Mutation'
   /**
    * Allows to delete an account.
    *
@@ -4833,15 +5302,15 @@ export type Mutation = {
    *
    * Deleting an account that organizes many events can take several seconds.
    */
-  accountDelete?: Maybe<AccountDeletePayload>
+  readonly accountDelete?: Maybe<AccountDeletePayload>
   /** Sets the account's email address verification code to `NULL` for which the email address verification code equals the one passed and is up to date.\n\nError codes:\n- **P0002** when the verification code is unknown.\n- **55000** when the verification code has expired. */
-  accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
+  readonly accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
   /** Allows to change an account's password.\n\nError codes:\n- **22023** when the new password is too short.\n- **28P01** when an account with the given password is not found. */
-  accountPasswordChange?: Maybe<AccountPasswordChangePayload>
+  readonly accountPasswordChange?: Maybe<AccountPasswordChangePayload>
   /** Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired. */
-  accountPasswordReset?: Maybe<AccountPasswordResetPayload>
+  readonly accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
-  accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
+  readonly accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
   /**
    * Creates a contact and registers an account referencing it.
    *
@@ -4850,233 +5319,285 @@ export type Mutation = {
    * - **VTPLL** when the password length does not reach its minimum.
    * - **VTAUV** when an account with the given username already exists.
    */
-  accountRegistration?: Maybe<AccountRegistrationPayload>
+  readonly accountRegistration?: Maybe<AccountRegistrationPayload>
   /** Refreshes an account's email address verification validity period.\n\nError codes:\n- **01P01** in all cases right now as refreshing registrations is currently not available due to missing rate limiting.\n- **22023** when an account with this account id does not exist. */
-  accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
+  readonly accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
   /** Inserts an achievement unlock for the user that gave an existing achievement code.\n\nError codes:\n- **P0002** when the achievement or the account is unknown. */
-  achievementUnlock?: Maybe<AchievementUnlockPayload>
+  readonly achievementUnlock?: Maybe<AchievementUnlockPayload>
+  /**
+   * Merges a contact into another one of yours and returns the kept contact. The kept contact takes over the given contact's account, address, email addresses, names, language, note, phone number, time zone and URL, so the caller picks each value. The merged contact's guests, attendances and group memberships move to the kept contact, so existing invitations stay valid, and the merged contact is deleted.
+   *
+   * Error codes:
+   * - **VTCMN** when either contact is not one of yours or both are the same.
+   * - **VTCMS** when either contact is your own account's contact.
+   * - **VTCMA** when the contacts refer to two different accounts.
+   * - **VTCMV** when the account or address is not taken from either contact.
+   * - **VTCMG** when both contacts are guests of the same event.
+   */
+  readonly contactMerge?: Maybe<ContactMergePayload>
   /** Creates a single `AccountBlock`. */
-  createAccountBlock?: Maybe<CreateAccountBlockPayload>
+  readonly createAccountBlock?: Maybe<CreateAccountBlockPayload>
   /** Creates a single `AccountSocialNetwork`. */
-  createAccountSocialNetwork?: Maybe<CreateAccountSocialNetworkPayload>
+  readonly createAccountSocialNetwork?: Maybe<CreateAccountSocialNetworkPayload>
   /** Creates a single `Address`. */
-  createAddress?: Maybe<CreateAddressPayload>
+  readonly createAddress?: Maybe<CreateAddressPayload>
   /** Creates a single `Attendance`. */
-  createAttendance?: Maybe<CreateAttendancePayload>
+  readonly createAttendance?: Maybe<CreateAttendancePayload>
   /** Creates a single `Contact`. */
-  createContact?: Maybe<CreateContactPayload>
+  readonly createContact?: Maybe<CreateContactPayload>
+  /** Creates a single `ContactGroup`. */
+  readonly createContactGroup?: Maybe<CreateContactGroupPayload>
+  /** Creates a single `ContactGroupMember`. */
+  readonly createContactGroupMember?: Maybe<CreateContactGroupMemberPayload>
+  /** Pairs the group ids and contact ids by position and inserts the memberships that do not exist yet. Arrays of different lengths pad with NULL, which fails the whole call. */
+  readonly createContactGroupMembers?: Maybe<CreateContactGroupMembersPayload>
+  /** Creates the contact groups of the invoker that do not exist yet, ignoring case, and returns all groups matching the names, existing ones included. */
+  readonly createContactGroups?: Maybe<CreateContactGroupsPayload>
+  /** Inserts multiple contacts for the invoker. Ids, timestamps and the creator passed in are ignored. Rows are not returned in input order. */
+  readonly createContacts?: Maybe<CreateContactsPayload>
   /** Creates a single `Device`. */
-  createDevice?: Maybe<CreateDevicePayload>
+  readonly createDevice?: Maybe<CreateDevicePayload>
   /** Creates a single `Event`. */
-  createEvent?: Maybe<CreateEventPayload>
+  readonly createEvent?: Maybe<CreateEventPayload>
   /** Creates a single `EventCategoryMapping`. */
-  createEventCategoryMapping?: Maybe<CreateEventCategoryMappingPayload>
+  readonly createEventCategoryMapping?: Maybe<CreateEventCategoryMappingPayload>
   /** Creates a single `EventFavorite`. */
-  createEventFavorite?: Maybe<CreateEventFavoritePayload>
+  readonly createEventFavorite?: Maybe<CreateEventFavoritePayload>
   /** Creates a single `EventFormatMapping`. */
-  createEventFormatMapping?: Maybe<CreateEventFormatMappingPayload>
+  readonly createEventFormatMapping?: Maybe<CreateEventFormatMappingPayload>
+  /** Creates a single `EventInvitationLink`. */
+  readonly createEventInvitationLink?: Maybe<CreateEventInvitationLinkPayload>
   /** Creates a single `EventUpload`. */
-  createEventUpload?: Maybe<CreateEventUploadPayload>
+  readonly createEventUpload?: Maybe<CreateEventUploadPayload>
   /** Creates a single `Friendship`. */
-  createFriendship?: Maybe<CreateFriendshipPayload>
+  readonly createFriendship?: Maybe<CreateFriendshipPayload>
   /** Creates a single `Guest`. */
-  createGuest?: Maybe<CreateGuestPayload>
+  readonly createGuest?: Maybe<CreateGuestPayload>
   /** Function for inserting multiple guest records. */
-  createGuests?: Maybe<CreateGuestsPayload>
+  readonly createGuests?: Maybe<CreateGuestsPayload>
   /** Creates a single `LegalTermAcceptance`. */
-  createLegalTermAcceptance?: Maybe<CreateLegalTermAcceptancePayload>
+  readonly createLegalTermAcceptance?: Maybe<CreateLegalTermAcceptancePayload>
   /** Creates a single `PreferenceEventCategory`. */
-  createPreferenceEventCategory?: Maybe<CreatePreferenceEventCategoryPayload>
+  readonly createPreferenceEventCategory?: Maybe<CreatePreferenceEventCategoryPayload>
   /** Creates a single `PreferenceEventFormat`. */
-  createPreferenceEventFormat?: Maybe<CreatePreferenceEventFormatPayload>
+  readonly createPreferenceEventFormat?: Maybe<CreatePreferenceEventFormatPayload>
   /** Creates a single `PreferenceEventLocation`. */
-  createPreferenceEventLocation?: Maybe<CreatePreferenceEventLocationPayload>
+  readonly createPreferenceEventLocation?: Maybe<CreatePreferenceEventLocationPayload>
   /** Creates a single `PreferenceEventSize`. */
-  createPreferenceEventSize?: Maybe<CreatePreferenceEventSizePayload>
+  readonly createPreferenceEventSize?: Maybe<CreatePreferenceEventSizePayload>
   /** Creates a single `ProfilePicture`. */
-  createProfilePicture?: Maybe<CreateProfilePicturePayload>
+  readonly createProfilePicture?: Maybe<CreateProfilePicturePayload>
   /** Creates a single `Report`. */
-  createReport?: Maybe<CreateReportPayload>
+  readonly createReport?: Maybe<CreateReportPayload>
   /** Creates a single `Upload`. */
-  createUpload?: Maybe<CreateUploadPayload>
+  readonly createUpload?: Maybe<CreateUploadPayload>
   /** Deletes a single `AccountBlock` using its globally unique id. */
-  deleteAccountBlock?: Maybe<DeleteAccountBlockPayload>
+  readonly deleteAccountBlock?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountBlock` using a unique key. */
-  deleteAccountBlockByCreatedByAndBlockedAccountId?: Maybe<DeleteAccountBlockPayload>
+  readonly deleteAccountBlockByCreatedByAndBlockedAccountId?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountBlock` using a unique key. */
-  deleteAccountBlockByRowId?: Maybe<DeleteAccountBlockPayload>
+  readonly deleteAccountBlockByRowId?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountSocialNetwork` using its globally unique id. */
-  deleteAccountSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
+  readonly deleteAccountSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
   /** Deletes a single `AccountSocialNetwork` using a unique key. */
-  deleteAccountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
+  readonly deleteAccountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
   /** Deletes a single `Address` using its globally unique id. */
-  deleteAddress?: Maybe<DeleteAddressPayload>
+  readonly deleteAddress?: Maybe<DeleteAddressPayload>
   /** Deletes a single `Address` using a unique key. */
-  deleteAddressByRowId?: Maybe<DeleteAddressPayload>
+  readonly deleteAddressByRowId?: Maybe<DeleteAddressPayload>
   /** Deletes a single `Contact` using its globally unique id. */
-  deleteContact?: Maybe<DeleteContactPayload>
+  readonly deleteContact?: Maybe<DeleteContactPayload>
   /** Deletes a single `Contact` using a unique key. */
-  deleteContactByCreatedByAndAccountId?: Maybe<DeleteContactPayload>
+  readonly deleteContactByCreatedByAndAccountId?: Maybe<DeleteContactPayload>
   /** Deletes a single `Contact` using a unique key. */
-  deleteContactByRowId?: Maybe<DeleteContactPayload>
+  readonly deleteContactByRowId?: Maybe<DeleteContactPayload>
+  /** Deletes a single `ContactGroup` using its globally unique id. */
+  readonly deleteContactGroup?: Maybe<DeleteContactGroupPayload>
+  /** Deletes a single `ContactGroup` using a unique key. */
+  readonly deleteContactGroupByRowId?: Maybe<DeleteContactGroupPayload>
+  /** Deletes a single `ContactGroupMember` using its globally unique id. */
+  readonly deleteContactGroupMember?: Maybe<DeleteContactGroupMemberPayload>
+  /** Deletes a single `ContactGroupMember` using a unique key. */
+  readonly deleteContactGroupMemberByContactGroupIdAndContactId?: Maybe<DeleteContactGroupMemberPayload>
   /** Deletes a single `Device` using its globally unique id. */
-  deleteDevice?: Maybe<DeleteDevicePayload>
+  readonly deleteDevice?: Maybe<DeleteDevicePayload>
   /** Deletes a single `Device` using a unique key. */
-  deleteDeviceByCreatedByAndFcmToken?: Maybe<DeleteDevicePayload>
+  readonly deleteDeviceByCreatedByAndFcmToken?: Maybe<DeleteDevicePayload>
   /** Deletes a single `Device` using a unique key. */
-  deleteDeviceByRowId?: Maybe<DeleteDevicePayload>
+  readonly deleteDeviceByRowId?: Maybe<DeleteDevicePayload>
   /** Deletes a single `Event` using its globally unique id. */
-  deleteEvent?: Maybe<DeleteEventPayload>
+  readonly deleteEvent?: Maybe<DeleteEventPayload>
   /** Deletes a single `Event` using a unique key. */
-  deleteEventByCreatedByAndSlug?: Maybe<DeleteEventPayload>
+  readonly deleteEventByCreatedByAndSlug?: Maybe<DeleteEventPayload>
   /** Deletes a single `Event` using a unique key. */
-  deleteEventByRowId?: Maybe<DeleteEventPayload>
+  readonly deleteEventByRowId?: Maybe<DeleteEventPayload>
   /** Deletes a single `EventCategoryMapping` using its globally unique id. */
-  deleteEventCategoryMapping?: Maybe<DeleteEventCategoryMappingPayload>
+  readonly deleteEventCategoryMapping?: Maybe<DeleteEventCategoryMappingPayload>
   /** Deletes a single `EventCategoryMapping` using a unique key. */
-  deleteEventCategoryMappingByEventIdAndCategoryId?: Maybe<DeleteEventCategoryMappingPayload>
+  readonly deleteEventCategoryMappingByEventIdAndCategoryId?: Maybe<DeleteEventCategoryMappingPayload>
   /** Deletes a single `EventFavorite` using its globally unique id. */
-  deleteEventFavorite?: Maybe<DeleteEventFavoritePayload>
+  readonly deleteEventFavorite?: Maybe<DeleteEventFavoritePayload>
   /** Deletes a single `EventFavorite` using a unique key. */
-  deleteEventFavoriteByCreatedByAndEventId?: Maybe<DeleteEventFavoritePayload>
+  readonly deleteEventFavoriteByCreatedByAndEventId?: Maybe<DeleteEventFavoritePayload>
   /** Deletes a single `EventFavorite` using a unique key. */
-  deleteEventFavoriteByRowId?: Maybe<DeleteEventFavoritePayload>
+  readonly deleteEventFavoriteByRowId?: Maybe<DeleteEventFavoritePayload>
   /** Deletes a single `EventFormatMapping` using its globally unique id. */
-  deleteEventFormatMapping?: Maybe<DeleteEventFormatMappingPayload>
+  readonly deleteEventFormatMapping?: Maybe<DeleteEventFormatMappingPayload>
   /** Deletes a single `EventFormatMapping` using a unique key. */
-  deleteEventFormatMappingByEventIdAndFormatId?: Maybe<DeleteEventFormatMappingPayload>
+  readonly deleteEventFormatMappingByEventIdAndFormatId?: Maybe<DeleteEventFormatMappingPayload>
+  /** Deletes a single `EventInvitationLink` using its globally unique id. */
+  readonly deleteEventInvitationLink?: Maybe<DeleteEventInvitationLinkPayload>
+  /** Deletes a single `EventInvitationLink` using a unique key. */
+  readonly deleteEventInvitationLinkByEventId?: Maybe<DeleteEventInvitationLinkPayload>
+  /** Deletes a single `EventInvitationLink` using a unique key. */
+  readonly deleteEventInvitationLinkByRowId?: Maybe<DeleteEventInvitationLinkPayload>
   /** Deletes a single `EventUpload` using its globally unique id. */
-  deleteEventUpload?: Maybe<DeleteEventUploadPayload>
+  readonly deleteEventUpload?: Maybe<DeleteEventUploadPayload>
   /** Deletes a single `EventUpload` using a unique key. */
-  deleteEventUploadByEventIdAndUploadId?: Maybe<DeleteEventUploadPayload>
+  readonly deleteEventUploadByEventIdAndUploadId?: Maybe<DeleteEventUploadPayload>
   /** Deletes a single `EventUpload` using a unique key. */
-  deleteEventUploadByRowId?: Maybe<DeleteEventUploadPayload>
+  readonly deleteEventUploadByRowId?: Maybe<DeleteEventUploadPayload>
   /** Deletes a single `Friendship` using its globally unique id. */
-  deleteFriendship?: Maybe<DeleteFriendshipPayload>
+  readonly deleteFriendship?: Maybe<DeleteFriendshipPayload>
   /** Deletes a single `Friendship` using a unique key. */
-  deleteFriendshipByAAccountIdAndBAccountId?: Maybe<DeleteFriendshipPayload>
+  readonly deleteFriendshipByAAccountIdAndBAccountId?: Maybe<DeleteFriendshipPayload>
   /** Deletes a single `Friendship` using a unique key. */
-  deleteFriendshipByRowId?: Maybe<DeleteFriendshipPayload>
+  readonly deleteFriendshipByRowId?: Maybe<DeleteFriendshipPayload>
   /** Deletes a single `Guest` using its globally unique id. */
-  deleteGuest?: Maybe<DeleteGuestPayload>
+  readonly deleteGuest?: Maybe<DeleteGuestPayload>
   /** Deletes a single `Guest` using a unique key. */
-  deleteGuestByEventIdAndContactId?: Maybe<DeleteGuestPayload>
+  readonly deleteGuestByEventIdAndContactId?: Maybe<DeleteGuestPayload>
   /** Deletes a single `Guest` using a unique key. */
-  deleteGuestByRowId?: Maybe<DeleteGuestPayload>
+  readonly deleteGuestByRowId?: Maybe<DeleteGuestPayload>
   /** Deletes a single `PreferenceEventCategory` using its globally unique id. */
-  deletePreferenceEventCategory?: Maybe<DeletePreferenceEventCategoryPayload>
+  readonly deletePreferenceEventCategory?: Maybe<DeletePreferenceEventCategoryPayload>
   /** Deletes a single `PreferenceEventCategory` using a unique key. */
-  deletePreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<DeletePreferenceEventCategoryPayload>
+  readonly deletePreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<DeletePreferenceEventCategoryPayload>
   /** Deletes a single `PreferenceEventCategory` using a unique key. */
-  deletePreferenceEventCategoryByRowId?: Maybe<DeletePreferenceEventCategoryPayload>
+  readonly deletePreferenceEventCategoryByRowId?: Maybe<DeletePreferenceEventCategoryPayload>
   /** Deletes a single `PreferenceEventFormat` using its globally unique id. */
-  deletePreferenceEventFormat?: Maybe<DeletePreferenceEventFormatPayload>
+  readonly deletePreferenceEventFormat?: Maybe<DeletePreferenceEventFormatPayload>
   /** Deletes a single `PreferenceEventFormat` using a unique key. */
-  deletePreferenceEventFormatByAccountIdAndFormatId?: Maybe<DeletePreferenceEventFormatPayload>
+  readonly deletePreferenceEventFormatByAccountIdAndFormatId?: Maybe<DeletePreferenceEventFormatPayload>
   /** Deletes a single `PreferenceEventFormat` using a unique key. */
-  deletePreferenceEventFormatByRowId?: Maybe<DeletePreferenceEventFormatPayload>
+  readonly deletePreferenceEventFormatByRowId?: Maybe<DeletePreferenceEventFormatPayload>
   /** Deletes a single `PreferenceEventLocation` using its globally unique id. */
-  deletePreferenceEventLocation?: Maybe<DeletePreferenceEventLocationPayload>
+  readonly deletePreferenceEventLocation?: Maybe<DeletePreferenceEventLocationPayload>
   /** Deletes a single `PreferenceEventLocation` using a unique key. */
-  deletePreferenceEventLocationByCreatedByAndLocationAndRadius?: Maybe<DeletePreferenceEventLocationPayload>
+  readonly deletePreferenceEventLocationByCreatedByAndLocationAndRadius?: Maybe<DeletePreferenceEventLocationPayload>
   /** Deletes a single `PreferenceEventLocation` using a unique key. */
-  deletePreferenceEventLocationByRowId?: Maybe<DeletePreferenceEventLocationPayload>
+  readonly deletePreferenceEventLocationByRowId?: Maybe<DeletePreferenceEventLocationPayload>
   /** Deletes a single `PreferenceEventSize` using its globally unique id. */
-  deletePreferenceEventSize?: Maybe<DeletePreferenceEventSizePayload>
+  readonly deletePreferenceEventSize?: Maybe<DeletePreferenceEventSizePayload>
   /** Deletes a single `PreferenceEventSize` using a unique key. */
-  deletePreferenceEventSizeByAccountIdAndEventSize?: Maybe<DeletePreferenceEventSizePayload>
+  readonly deletePreferenceEventSizeByAccountIdAndEventSize?: Maybe<DeletePreferenceEventSizePayload>
   /** Deletes a single `PreferenceEventSize` using a unique key. */
-  deletePreferenceEventSizeByRowId?: Maybe<DeletePreferenceEventSizePayload>
+  readonly deletePreferenceEventSizeByRowId?: Maybe<DeletePreferenceEventSizePayload>
   /** Deletes a single `ProfilePicture` using its globally unique id. */
-  deleteProfilePicture?: Maybe<DeleteProfilePicturePayload>
+  readonly deleteProfilePicture?: Maybe<DeleteProfilePicturePayload>
   /** Deletes a single `ProfilePicture` using a unique key. */
-  deleteProfilePictureByAccountId?: Maybe<DeleteProfilePicturePayload>
+  readonly deleteProfilePictureByAccountId?: Maybe<DeleteProfilePicturePayload>
   /** Deletes a single `ProfilePicture` using a unique key. */
-  deleteProfilePictureByRowId?: Maybe<DeleteProfilePicturePayload>
+  readonly deleteProfilePictureByRowId?: Maybe<DeleteProfilePicturePayload>
   /** Deletes a single `Upload` using its globally unique id. */
-  deleteUpload?: Maybe<DeleteUploadPayload>
+  readonly deleteUpload?: Maybe<DeleteUploadPayload>
   /** Deletes a single `Upload` using a unique key. */
-  deleteUploadByRowId?: Maybe<DeleteUploadPayload>
+  readonly deleteUploadByRowId?: Maybe<DeleteUploadPayload>
   /** Deletes a single `Upload` using a unique key. */
-  deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
+  readonly deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
   /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
-  eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
-  invite?: Maybe<InvitePayload>
+  readonly eventDelete?: Maybe<EventDeletePayload>
+  /**
+   * Joins the event of a general invitation link as a guest who accepted, and returns the guest's id. An account joins with its own contact and gets its existing guest back if it already joined. Without an account, the email address and first name become a new contact of the organizer.
+   *
+   * Error codes:
+   * - **VTILN** when the invitation link does not exist or its event is a draft or not yet published.
+   * - **VTEEN** when the event has ended.
+   * - **VTFDP** when the event's feedback deadline has passed.
+   * - **VTIDM** when an email address or first name is missing without an account.
+   * - **VTGCM** when the event's maximum guest count is reached.
+   */
+  readonly eventInvitationLinkRedeem?: Maybe<EventInvitationLinkRedeemPayload>
+  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible.\n- **VTEUP** when the event is a draft or not yet published. */
+  readonly invite?: Maybe<InvitePayload>
   /** Creates a JWT token that will securely identify an account and give it certain permissions. */
-  jwtCreate?: Maybe<JwtCreatePayload>
+  readonly jwtCreate?: Maybe<JwtCreatePayload>
   /** Refreshes a JWT. */
-  jwtUpdate?: Maybe<JwtUpdatePayload>
+  readonly jwtUpdate?: Maybe<JwtUpdatePayload>
   /** Adds an attendance claim to the current session. */
-  jwtUpdateAttendanceAdd?: Maybe<JwtUpdateAttendanceAddPayload>
+  readonly jwtUpdateAttendanceAdd?: Maybe<JwtUpdateAttendanceAddPayload>
   /** Adds a guest claim to the current session. */
-  jwtUpdateGuestAdd?: Maybe<JwtUpdateGuestAddPayload>
+  readonly jwtUpdateGuestAdd?: Maybe<JwtUpdateGuestAddPayload>
   /** Allows to set the acknowledgement state of a notification.\n\nError codes:\n- **P0002** when no notification with the given id is found. */
-  notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
+  readonly notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
   /** Sets the picture with the given upload id as the invoker's profile picture. */
-  profilePictureSet?: Maybe<ProfilePictureSetPayload>
+  readonly profilePictureSet?: Maybe<ProfilePictureSetPayload>
   /** Updates a single `Account` using its globally unique id and a patch. */
-  updateAccount?: Maybe<UpdateAccountPayload>
+  readonly updateAccount?: Maybe<UpdateAccountPayload>
   /** Updates a single `Account` using a unique key and a patch. */
-  updateAccountByRowId?: Maybe<UpdateAccountPayload>
+  readonly updateAccountByRowId?: Maybe<UpdateAccountPayload>
   /** Updates a single `Account` using a unique key and a patch. */
-  updateAccountByUsername?: Maybe<UpdateAccountPayload>
+  readonly updateAccountByUsername?: Maybe<UpdateAccountPayload>
   /** Updates a single `AccountSocialNetwork` using its globally unique id and a patch. */
-  updateAccountSocialNetwork?: Maybe<UpdateAccountSocialNetworkPayload>
+  readonly updateAccountSocialNetwork?: Maybe<UpdateAccountSocialNetworkPayload>
   /** Updates a single `AccountSocialNetwork` using a unique key and a patch. */
-  updateAccountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<UpdateAccountSocialNetworkPayload>
+  readonly updateAccountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<UpdateAccountSocialNetworkPayload>
   /** Updates a single `Address` using its globally unique id and a patch. */
-  updateAddress?: Maybe<UpdateAddressPayload>
+  readonly updateAddress?: Maybe<UpdateAddressPayload>
   /** Updates a single `Address` using a unique key and a patch. */
-  updateAddressByRowId?: Maybe<UpdateAddressPayload>
+  readonly updateAddressByRowId?: Maybe<UpdateAddressPayload>
   /** Updates a single `Attendance` using its globally unique id and a patch. */
-  updateAttendance?: Maybe<UpdateAttendancePayload>
+  readonly updateAttendance?: Maybe<UpdateAttendancePayload>
   /** Updates a single `Attendance` using a unique key and a patch. */
-  updateAttendanceByGuestId?: Maybe<UpdateAttendancePayload>
+  readonly updateAttendanceByGuestId?: Maybe<UpdateAttendancePayload>
   /** Updates a single `Attendance` using a unique key and a patch. */
-  updateAttendanceByRowId?: Maybe<UpdateAttendancePayload>
+  readonly updateAttendanceByRowId?: Maybe<UpdateAttendancePayload>
   /** Updates a single `Contact` using its globally unique id and a patch. */
-  updateContact?: Maybe<UpdateContactPayload>
+  readonly updateContact?: Maybe<UpdateContactPayload>
   /** Updates a single `Contact` using a unique key and a patch. */
-  updateContactByCreatedByAndAccountId?: Maybe<UpdateContactPayload>
+  readonly updateContactByCreatedByAndAccountId?: Maybe<UpdateContactPayload>
   /** Updates a single `Contact` using a unique key and a patch. */
-  updateContactByRowId?: Maybe<UpdateContactPayload>
+  readonly updateContactByRowId?: Maybe<UpdateContactPayload>
+  /** Updates a single `ContactGroup` using its globally unique id and a patch. */
+  readonly updateContactGroup?: Maybe<UpdateContactGroupPayload>
+  /** Updates a single `ContactGroup` using a unique key and a patch. */
+  readonly updateContactGroupByRowId?: Maybe<UpdateContactGroupPayload>
   /** Updates a single `Device` using its globally unique id and a patch. */
-  updateDevice?: Maybe<UpdateDevicePayload>
+  readonly updateDevice?: Maybe<UpdateDevicePayload>
   /** Updates a single `Device` using a unique key and a patch. */
-  updateDeviceByCreatedByAndFcmToken?: Maybe<UpdateDevicePayload>
+  readonly updateDeviceByCreatedByAndFcmToken?: Maybe<UpdateDevicePayload>
   /** Updates a single `Device` using a unique key and a patch. */
-  updateDeviceByRowId?: Maybe<UpdateDevicePayload>
+  readonly updateDeviceByRowId?: Maybe<UpdateDevicePayload>
   /** Updates a single `Event` using its globally unique id and a patch. */
-  updateEvent?: Maybe<UpdateEventPayload>
+  readonly updateEvent?: Maybe<UpdateEventPayload>
   /** Updates a single `Event` using a unique key and a patch. */
-  updateEventByCreatedByAndSlug?: Maybe<UpdateEventPayload>
+  readonly updateEventByCreatedByAndSlug?: Maybe<UpdateEventPayload>
   /** Updates a single `Event` using a unique key and a patch. */
-  updateEventByRowId?: Maybe<UpdateEventPayload>
+  readonly updateEventByRowId?: Maybe<UpdateEventPayload>
   /** Updates a single `Friendship` using its globally unique id and a patch. */
-  updateFriendship?: Maybe<UpdateFriendshipPayload>
+  readonly updateFriendship?: Maybe<UpdateFriendshipPayload>
   /** Updates a single `Friendship` using a unique key and a patch. */
-  updateFriendshipByAAccountIdAndBAccountId?: Maybe<UpdateFriendshipPayload>
+  readonly updateFriendshipByAAccountIdAndBAccountId?: Maybe<UpdateFriendshipPayload>
   /** Updates a single `Friendship` using a unique key and a patch. */
-  updateFriendshipByRowId?: Maybe<UpdateFriendshipPayload>
+  readonly updateFriendshipByRowId?: Maybe<UpdateFriendshipPayload>
   /** Updates a single `Guest` using its globally unique id and a patch. */
-  updateGuest?: Maybe<UpdateGuestPayload>
+  readonly updateGuest?: Maybe<UpdateGuestPayload>
   /** Updates a single `Guest` using a unique key and a patch. */
-  updateGuestByEventIdAndContactId?: Maybe<UpdateGuestPayload>
+  readonly updateGuestByEventIdAndContactId?: Maybe<UpdateGuestPayload>
   /** Updates a single `Guest` using a unique key and a patch. */
-  updateGuestByRowId?: Maybe<UpdateGuestPayload>
+  readonly updateGuestByRowId?: Maybe<UpdateGuestPayload>
   /** Updates a single `ProfilePicture` using its globally unique id and a patch. */
-  updateProfilePicture?: Maybe<UpdateProfilePicturePayload>
+  readonly updateProfilePicture?: Maybe<UpdateProfilePicturePayload>
   /** Updates a single `ProfilePicture` using a unique key and a patch. */
-  updateProfilePictureByAccountId?: Maybe<UpdateProfilePicturePayload>
+  readonly updateProfilePictureByAccountId?: Maybe<UpdateProfilePicturePayload>
   /** Updates a single `ProfilePicture` using a unique key and a patch. */
-  updateProfilePictureByRowId?: Maybe<UpdateProfilePicturePayload>
+  readonly updateProfilePictureByRowId?: Maybe<UpdateProfilePicturePayload>
   /** Updates a single `Upload` using its globally unique id and a patch. */
-  updateUpload?: Maybe<UpdateUploadPayload>
+  readonly updateUpload?: Maybe<UpdateUploadPayload>
   /** Updates a single `Upload` using a unique key and a patch. */
-  updateUploadByRowId?: Maybe<UpdateUploadPayload>
+  readonly updateUploadByRowId?: Maybe<UpdateUploadPayload>
   /** Updates a single `Upload` using a unique key and a patch. */
-  updateUploadByStorageKey?: Maybe<UpdateUploadPayload>
+  readonly updateUploadByStorageKey?: Maybe<UpdateUploadPayload>
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5120,6 +5641,11 @@ export type MutationAchievementUnlockArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationContactMergeArgs = {
+  input: ContactMergeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateAccountBlockArgs = {
   input: CreateAccountBlockInput
 }
@@ -5145,6 +5671,31 @@ export type MutationCreateContactArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateContactGroupArgs = {
+  input: CreateContactGroupInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateContactGroupMemberArgs = {
+  input: CreateContactGroupMemberInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateContactGroupMembersArgs = {
+  input: CreateContactGroupMembersInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateContactGroupsArgs = {
+  input: CreateContactGroupsInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateContactsArgs = {
+  input: CreateContactsInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateDeviceArgs = {
   input: CreateDeviceInput
 }
@@ -5167,6 +5718,11 @@ export type MutationCreateEventFavoriteArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateEventFormatMappingArgs = {
   input: CreateEventFormatMappingInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateEventInvitationLinkArgs = {
+  input: CreateEventInvitationLinkInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5281,6 +5837,26 @@ export type MutationDeleteContactByRowIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContactGroupArgs = {
+  input: DeleteContactGroupInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContactGroupByRowIdArgs = {
+  input: DeleteContactGroupByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContactGroupMemberArgs = {
+  input: DeleteContactGroupMemberInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContactGroupMemberByContactGroupIdAndContactIdArgs = {
+  input: DeleteContactGroupMemberByContactGroupIdAndContactIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteDeviceArgs = {
   input: DeleteDeviceInput
 }
@@ -5343,6 +5919,21 @@ export type MutationDeleteEventFormatMappingArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs = {
   input: DeleteEventFormatMappingByEventIdAndFormatIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventInvitationLinkArgs = {
+  input: DeleteEventInvitationLinkInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventInvitationLinkByEventIdArgs = {
+  input: DeleteEventInvitationLinkByEventIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventInvitationLinkByRowIdArgs = {
+  input: DeleteEventInvitationLinkByRowIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5488,6 +6079,11 @@ export type MutationEventDeleteArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationEventInvitationLinkRedeemArgs = {
+  input: EventInvitationLinkRedeemInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationInviteArgs = {
   input: InviteInput
 }
@@ -5589,6 +6185,16 @@ export type MutationUpdateContactByRowIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContactGroupArgs = {
+  input: UpdateContactGroupInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContactGroupByRowIdArgs = {
+  input: UpdateContactGroupByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateDeviceArgs = {
   input: UpdateDeviceInput
 }
@@ -5681,7 +6287,7 @@ export type MutationUpdateUploadByStorageKeyArgs = {
 /** An object with a globally unique `ID`. */
 export type Node = {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
 }
 
 /** All input for the `notificationAcknowledge` mutation. */
@@ -5690,51 +6296,51 @@ export type NotificationAcknowledgeInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  id: Scalars['UUID']['input']
-  isAcknowledged: Scalars['Boolean']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly id: Scalars['UUID']['input']
+  readonly isAcknowledged: Scalars['Boolean']['input']
 }
 
 /** The output of our `notificationAcknowledge` mutation. */
 export type NotificationAcknowledgePayload = {
-  __typename?: 'NotificationAcknowledgePayload'
+  readonly __typename?: 'NotificationAcknowledgePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** Information about pagination in a connection. */
 export type PageInfo = {
-  __typename?: 'PageInfo'
+  readonly __typename?: 'PageInfo'
   /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars['Cursor']['output']>
+  readonly endCursor?: Maybe<Scalars['Cursor']['output']>
   /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output']
+  readonly hasNextPage: Scalars['Boolean']['output']
   /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output']
+  readonly hasPreviousPage: Scalars['Boolean']['output']
   /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars['Cursor']['output']>
+  readonly startCursor?: Maybe<Scalars['Cursor']['output']>
 }
 
 /** Event categories a user account is interested in (M:N relationship). */
 export type PreferenceEventCategory = Node & {
-  __typename?: 'PreferenceEventCategory'
+  readonly __typename?: 'PreferenceEventCategory'
   /** Reads a single `Account` that is related to this `PreferenceEventCategory`. */
-  accountByAccountId?: Maybe<Account>
+  readonly accountByAccountId?: Maybe<Account>
   /** A user account id. */
-  accountId: Scalars['UUID']['output']
+  readonly accountId: Scalars['UUID']['output']
   /** An event category id. */
-  categoryId: Scalars['UUID']['output']
-  createdAt: Scalars['Datetime']['output']
+  readonly categoryId: Scalars['UUID']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Reads a single `EventCategory` that is related to this `PreferenceEventCategory`. */
-  eventCategoryByCategoryId?: Maybe<EventCategory>
+  readonly eventCategoryByCategoryId?: Maybe<EventCategory>
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
-  rowId: Scalars['UUID']['output']
+  readonly id: Scalars['ID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /**
@@ -5743,43 +6349,43 @@ export type PreferenceEventCategory = Node & {
  */
 export type PreferenceEventCategoryCondition = {
   /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `categoryId` field. */
-  categoryId?: InputMaybe<Scalars['UUID']['input']>
+  readonly categoryId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `PreferenceEventCategory` values. */
 export type PreferenceEventCategoryConnection = {
-  __typename?: 'PreferenceEventCategoryConnection'
+  readonly __typename?: 'PreferenceEventCategoryConnection'
   /** A list of edges which contains the `PreferenceEventCategory` and cursor to aid in pagination. */
-  edges: Array<PreferenceEventCategoryEdge>
+  readonly edges: ReadonlyArray<PreferenceEventCategoryEdge>
   /** A list of `PreferenceEventCategory` objects. */
-  nodes: Array<PreferenceEventCategory>
+  readonly nodes: ReadonlyArray<PreferenceEventCategory>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `PreferenceEventCategory` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `PreferenceEventCategory` edge in the connection. */
 export type PreferenceEventCategoryEdge = {
-  __typename?: 'PreferenceEventCategoryEdge'
+  readonly __typename?: 'PreferenceEventCategoryEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `PreferenceEventCategory` at the end of the edge. */
-  node: PreferenceEventCategory
+  readonly node: PreferenceEventCategory
 }
 
 /** An input for mutations affecting `PreferenceEventCategory` */
 export type PreferenceEventCategoryInput = {
   /** A user account id. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /** An event category id. */
-  categoryId: Scalars['UUID']['input']
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly categoryId: Scalars['UUID']['input']
+  readonly createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** Methods to use when ordering `PreferenceEventCategory`. */
@@ -5797,20 +6403,20 @@ export enum PreferenceEventCategoryOrderBy {
 
 /** Event formats a user account is interested in (M:N relationship). */
 export type PreferenceEventFormat = Node & {
-  __typename?: 'PreferenceEventFormat'
+  readonly __typename?: 'PreferenceEventFormat'
   /** Reads a single `Account` that is related to this `PreferenceEventFormat`. */
-  accountByAccountId?: Maybe<Account>
+  readonly accountByAccountId?: Maybe<Account>
   /** A user account id. */
-  accountId: Scalars['UUID']['output']
+  readonly accountId: Scalars['UUID']['output']
   /** The timestammp when the record was created.. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Reads a single `EventFormat` that is related to this `PreferenceEventFormat`. */
-  eventFormatByFormatId?: Maybe<EventFormat>
+  readonly eventFormatByFormatId?: Maybe<EventFormat>
   /** The id of an event format. */
-  formatId: Scalars['UUID']['output']
+  readonly formatId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
-  rowId: Scalars['UUID']['output']
+  readonly id: Scalars['ID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /**
@@ -5819,44 +6425,44 @@ export type PreferenceEventFormat = Node & {
  */
 export type PreferenceEventFormatCondition = {
   /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `formatId` field. */
-  formatId?: InputMaybe<Scalars['UUID']['input']>
+  readonly formatId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `PreferenceEventFormat` values. */
 export type PreferenceEventFormatConnection = {
-  __typename?: 'PreferenceEventFormatConnection'
+  readonly __typename?: 'PreferenceEventFormatConnection'
   /** A list of edges which contains the `PreferenceEventFormat` and cursor to aid in pagination. */
-  edges: Array<PreferenceEventFormatEdge>
+  readonly edges: ReadonlyArray<PreferenceEventFormatEdge>
   /** A list of `PreferenceEventFormat` objects. */
-  nodes: Array<PreferenceEventFormat>
+  readonly nodes: ReadonlyArray<PreferenceEventFormat>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `PreferenceEventFormat` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `PreferenceEventFormat` edge in the connection. */
 export type PreferenceEventFormatEdge = {
-  __typename?: 'PreferenceEventFormatEdge'
+  readonly __typename?: 'PreferenceEventFormatEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `PreferenceEventFormat` at the end of the edge. */
-  node: PreferenceEventFormat
+  readonly node: PreferenceEventFormat
 }
 
 /** An input for mutations affecting `PreferenceEventFormat` */
 export type PreferenceEventFormatInput = {
   /** A user account id. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /** The timestammp when the record was created.. */
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  readonly createdAt?: InputMaybe<Scalars['Datetime']['input']>
   /** The id of an event format. */
-  formatId: Scalars['UUID']['input']
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly formatId: Scalars['UUID']['input']
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** Methods to use when ordering `PreferenceEventFormat`. */
@@ -5874,21 +6480,21 @@ export enum PreferenceEventFormatOrderBy {
 
 /** Stores preferred event locations for user accounts, including coordinates and search radius. */
 export type PreferenceEventLocation = Node & {
-  __typename?: 'PreferenceEventLocation'
+  readonly __typename?: 'PreferenceEventLocation'
   /** Reads a single `Account` that is related to this `PreferenceEventLocation`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Timestamp of when the event location preference was created, defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** Reference to the account that created the location preference. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** Geographical point representing the preferred location, derived from latitude and longitude. */
-  location: GeographyPoint
+  readonly location: GeographyPoint
   /** Search radius in meters around the location where events are preferred. Must be positive. */
-  radius: Scalars['Float']['output']
+  readonly radius: Scalars['Float']['output']
   /** Unique identifier for the preference record. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /**
@@ -5897,43 +6503,43 @@ export type PreferenceEventLocation = Node & {
  */
 export type PreferenceEventLocationCondition = {
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `radius` field. */
-  radius?: InputMaybe<Scalars['Float']['input']>
+  readonly radius?: InputMaybe<Scalars['Float']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `PreferenceEventLocation` values. */
 export type PreferenceEventLocationConnection = {
-  __typename?: 'PreferenceEventLocationConnection'
+  readonly __typename?: 'PreferenceEventLocationConnection'
   /** A list of edges which contains the `PreferenceEventLocation` and cursor to aid in pagination. */
-  edges: Array<PreferenceEventLocationEdge>
+  readonly edges: ReadonlyArray<PreferenceEventLocationEdge>
   /** A list of `PreferenceEventLocation` objects. */
-  nodes: Array<PreferenceEventLocation>
+  readonly nodes: ReadonlyArray<PreferenceEventLocation>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `PreferenceEventLocation` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `PreferenceEventLocation` edge in the connection. */
 export type PreferenceEventLocationEdge = {
-  __typename?: 'PreferenceEventLocationEdge'
+  readonly __typename?: 'PreferenceEventLocationEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `PreferenceEventLocation` at the end of the edge. */
-  node: PreferenceEventLocation
+  readonly node: PreferenceEventLocation
 }
 
 /** An input for mutations affecting `PreferenceEventLocation` */
 export type PreferenceEventLocationInput = {
   /** Reference to the account that created the location preference. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** Geographical point representing the preferred location, derived from latitude and longitude. */
-  location: Scalars['GeoJSON']['input']
+  readonly location: Scalars['GeoJSON']['input']
   /** Search radius in meters around the location where events are preferred. Must be positive. */
-  radius: Scalars['Float']['input']
+  readonly radius: Scalars['Float']['input']
 }
 
 /** Methods to use when ordering `PreferenceEventLocation`. */
@@ -5951,18 +6557,18 @@ export enum PreferenceEventLocationOrderBy {
 
 /** Table for the user accounts' preferred event sizes (M:N relationship). */
 export type PreferenceEventSize = Node & {
-  __typename?: 'PreferenceEventSize'
+  readonly __typename?: 'PreferenceEventSize'
   /** Reads a single `Account` that is related to this `PreferenceEventSize`. */
-  accountByAccountId?: Maybe<Account>
+  readonly accountByAccountId?: Maybe<Account>
   /** The account's internal id. */
-  accountId: Scalars['UUID']['output']
+  readonly accountId: Scalars['UUID']['output']
   /** Timestamp of when the event size preference was created, defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** A preferred event size. */
-  eventSize: EventSize
+  readonly eventSize: EventSize
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
-  rowId: Scalars['UUID']['output']
+  readonly id: Scalars['ID']['output']
+  readonly rowId: Scalars['UUID']['output']
 }
 
 /**
@@ -5971,42 +6577,42 @@ export type PreferenceEventSize = Node & {
  */
 export type PreferenceEventSizeCondition = {
   /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `eventSize` field. */
-  eventSize?: InputMaybe<EventSize>
+  readonly eventSize?: InputMaybe<EventSize>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `PreferenceEventSize` values. */
 export type PreferenceEventSizeConnection = {
-  __typename?: 'PreferenceEventSizeConnection'
+  readonly __typename?: 'PreferenceEventSizeConnection'
   /** A list of edges which contains the `PreferenceEventSize` and cursor to aid in pagination. */
-  edges: Array<PreferenceEventSizeEdge>
+  readonly edges: ReadonlyArray<PreferenceEventSizeEdge>
   /** A list of `PreferenceEventSize` objects. */
-  nodes: Array<PreferenceEventSize>
+  readonly nodes: ReadonlyArray<PreferenceEventSize>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `PreferenceEventSize` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `PreferenceEventSize` edge in the connection. */
 export type PreferenceEventSizeEdge = {
-  __typename?: 'PreferenceEventSizeEdge'
+  readonly __typename?: 'PreferenceEventSizeEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `PreferenceEventSize` at the end of the edge. */
-  node: PreferenceEventSize
+  readonly node: PreferenceEventSize
 }
 
 /** An input for mutations affecting `PreferenceEventSize` */
 export type PreferenceEventSizeInput = {
   /** The account's internal id. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /** A preferred event size. */
-  eventSize: EventSize
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly eventSize: EventSize
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** Methods to use when ordering `PreferenceEventSize`. */
@@ -6022,19 +6628,19 @@ export enum PreferenceEventSizeOrderBy {
 
 /** Mapping of account ids to upload ids. */
 export type ProfilePicture = Node & {
-  __typename?: 'ProfilePicture'
+  readonly __typename?: 'ProfilePicture'
   /** Reads a single `Account` that is related to this `ProfilePicture`. */
-  accountByAccountId?: Maybe<Account>
+  readonly accountByAccountId?: Maybe<Account>
   /** The account's id. */
-  accountId: Scalars['UUID']['output']
+  readonly accountId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The profile picture's internal id. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** Reads a single `Upload` that is related to this `ProfilePicture`. */
-  uploadByUploadId?: Maybe<Upload>
+  readonly uploadByUploadId?: Maybe<Upload>
   /** The upload's id. */
-  uploadId: Scalars['UUID']['output']
+  readonly uploadId: Scalars['UUID']['output']
 }
 
 /**
@@ -6043,41 +6649,41 @@ export type ProfilePicture = Node & {
  */
 export type ProfilePictureCondition = {
   /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `uploadId` field. */
-  uploadId?: InputMaybe<Scalars['UUID']['input']>
+  readonly uploadId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `ProfilePicture` values. */
 export type ProfilePictureConnection = {
-  __typename?: 'ProfilePictureConnection'
+  readonly __typename?: 'ProfilePictureConnection'
   /** A list of edges which contains the `ProfilePicture` and cursor to aid in pagination. */
-  edges: Array<ProfilePictureEdge>
+  readonly edges: ReadonlyArray<ProfilePictureEdge>
   /** A list of `ProfilePicture` objects. */
-  nodes: Array<ProfilePicture>
+  readonly nodes: ReadonlyArray<ProfilePicture>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `ProfilePicture` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `ProfilePicture` edge in the connection. */
 export type ProfilePictureEdge = {
-  __typename?: 'ProfilePictureEdge'
+  readonly __typename?: 'ProfilePictureEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `ProfilePicture` at the end of the edge. */
-  node: ProfilePicture
+  readonly node: ProfilePicture
 }
 
 /** An input for mutations affecting `ProfilePicture` */
 export type ProfilePictureInput = {
   /** The account's id. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /** The upload's id. */
-  uploadId: Scalars['UUID']['input']
+  readonly uploadId: Scalars['UUID']['input']
 }
 
 /** Methods to use when ordering `ProfilePicture`. */
@@ -6096,9 +6702,9 @@ export enum ProfilePictureOrderBy {
 /** Represents an update to a `ProfilePicture`. Fields that are set will be updated. */
 export type ProfilePicturePatch = {
   /** The account's id. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly accountId?: InputMaybe<Scalars['UUID']['input']>
   /** The upload's id. */
-  uploadId?: InputMaybe<Scalars['UUID']['input']>
+  readonly uploadId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** All input for the `profilePictureSet` mutation. */
@@ -6107,286 +6713,310 @@ export type ProfilePictureSetInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  uploadId: Scalars['UUID']['input']
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly uploadId: Scalars['UUID']['input']
 }
 
 /** The output of our `profilePictureSet` mutation. */
 export type ProfilePictureSetPayload = {
-  __typename?: 'ProfilePictureSetPayload'
+  readonly __typename?: 'ProfilePictureSetPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The root query type which gives access points into the data universe. */
 export type Query = Node & {
-  __typename?: 'Query'
+  readonly __typename?: 'Query'
   /** Reads a single `Account` using its globally unique `ID`. */
-  account?: Maybe<Account>
+  readonly account?: Maybe<Account>
   /** Reads a single `AccountBlock` using its globally unique `ID`. */
-  accountBlock?: Maybe<AccountBlock>
+  readonly accountBlock?: Maybe<AccountBlock>
   /** Returns the id, username, and storage key of the profile picture, if it exists, of all accounts blocked by the invoker account. */
-  accountBlockAccounts?: Maybe<AccountBlockAccountsConnection>
+  readonly accountBlockAccounts?: Maybe<AccountBlockAccountsConnection>
   /** Get a single `AccountBlock`. */
-  accountBlockByCreatedByAndBlockedAccountId?: Maybe<AccountBlock>
+  readonly accountBlockByCreatedByAndBlockedAccountId?: Maybe<AccountBlock>
   /** Get a single `AccountBlock`. */
-  accountBlockByRowId?: Maybe<AccountBlock>
+  readonly accountBlockByRowId?: Maybe<AccountBlock>
   /** Get a single `Account`. */
-  accountByRowId?: Maybe<Account>
+  readonly accountByRowId?: Maybe<Account>
   /** Get a single `Account`. */
-  accountByUsername?: Maybe<Account>
+  readonly accountByUsername?: Maybe<Account>
   /**
    * Returns accounts with a username containing a given substring, closest matches first.
    * Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size.
    * Queries under 3 characters match few trigrams and so scan a larger share of the index; keep that in mind if this backs search-as-you-type.
    */
-  accountSearch?: Maybe<AccountConnection>
+  readonly accountSearch?: Maybe<AccountConnection>
   /** Reads a single `AccountSocialNetwork` using its globally unique `ID`. */
-  accountSocialNetwork?: Maybe<AccountSocialNetwork>
+  readonly accountSocialNetwork?: Maybe<AccountSocialNetwork>
   /** Get a single `AccountSocialNetwork`. */
-  accountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<AccountSocialNetwork>
+  readonly accountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<AccountSocialNetwork>
   /** Gets the total upload quota in bytes for the invoking account. */
-  accountUploadQuotaBytes?: Maybe<Scalars['BigInt']['output']>
+  readonly accountUploadQuotaBytes?: Maybe<Scalars['BigInt']['output']>
   /** Reads a single `Achievement` using its globally unique `ID`. */
-  achievement?: Maybe<Achievement>
+  readonly achievement?: Maybe<Achievement>
   /** Get a single `Achievement`. */
-  achievementByAccountIdAndAchievement?: Maybe<Achievement>
+  readonly achievementByAccountIdAndAchievement?: Maybe<Achievement>
   /** Get a single `Achievement`. */
-  achievementByRowId?: Maybe<Achievement>
+  readonly achievementByRowId?: Maybe<Achievement>
   /** Reads a single `Address` using its globally unique `ID`. */
-  address?: Maybe<Address>
+  readonly address?: Maybe<Address>
   /** Get a single `Address`. */
-  addressByRowId?: Maybe<Address>
+  readonly addressByRowId?: Maybe<Address>
   /** Reads and enables pagination through a set of `AccountBlock`. */
-  allAccountBlocks?: Maybe<AccountBlockConnection>
+  readonly allAccountBlocks?: Maybe<AccountBlockConnection>
   /** Reads and enables pagination through a set of `AccountSocialNetwork`. */
-  allAccountSocialNetworks?: Maybe<AccountSocialNetworkConnection>
+  readonly allAccountSocialNetworks?: Maybe<AccountSocialNetworkConnection>
   /** Reads and enables pagination through a set of `Account`. */
-  allAccounts?: Maybe<AccountConnection>
+  readonly allAccounts?: Maybe<AccountConnection>
   /** Reads and enables pagination through a set of `Achievement`. */
-  allAchievements?: Maybe<AchievementConnection>
+  readonly allAchievements?: Maybe<AchievementConnection>
   /** Reads and enables pagination through a set of `Address`. */
-  allAddresses?: Maybe<AddressConnection>
+  readonly allAddresses?: Maybe<AddressConnection>
   /** Reads and enables pagination through a set of `App`. */
-  allApps?: Maybe<AppConnection>
+  readonly allApps?: Maybe<AppConnection>
   /** Reads and enables pagination through a set of `Attendance`. */
-  allAttendances?: Maybe<AttendanceConnection>
+  readonly allAttendances?: Maybe<AttendanceConnection>
+  /** Reads and enables pagination through a set of `ContactGroupMember`. */
+  readonly allContactGroupMembers?: Maybe<ContactGroupMemberConnection>
+  /** Reads and enables pagination through a set of `ContactGroup`. */
+  readonly allContactGroups?: Maybe<ContactGroupConnection>
   /** Reads and enables pagination through a set of `Contact`. */
-  allContacts?: Maybe<ContactConnection>
+  readonly allContacts?: Maybe<ContactConnection>
   /** Reads and enables pagination through a set of `Device`. */
-  allDevices?: Maybe<DeviceConnection>
+  readonly allDevices?: Maybe<DeviceConnection>
   /** Reads and enables pagination through a set of `EventApp`. */
-  allEventApps?: Maybe<EventAppConnection>
+  readonly allEventApps?: Maybe<EventAppConnection>
   /** Reads and enables pagination through a set of `EventCategory`. */
-  allEventCategories?: Maybe<EventCategoryConnection>
+  readonly allEventCategories?: Maybe<EventCategoryConnection>
   /** Reads and enables pagination through a set of `EventCategoryMapping`. */
-  allEventCategoryMappings?: Maybe<EventCategoryMappingConnection>
+  readonly allEventCategoryMappings?: Maybe<EventCategoryMappingConnection>
   /** Reads and enables pagination through a set of `EventFavorite`. */
-  allEventFavorites?: Maybe<EventFavoriteConnection>
+  readonly allEventFavorites?: Maybe<EventFavoriteConnection>
   /** Reads and enables pagination through a set of `EventFormatMapping`. */
-  allEventFormatMappings?: Maybe<EventFormatMappingConnection>
+  readonly allEventFormatMappings?: Maybe<EventFormatMappingConnection>
   /** Reads and enables pagination through a set of `EventFormat`. */
-  allEventFormats?: Maybe<EventFormatConnection>
+  readonly allEventFormats?: Maybe<EventFormatConnection>
+  /** Reads and enables pagination through a set of `EventInvitationLink`. */
+  readonly allEventInvitationLinks?: Maybe<EventInvitationLinkConnection>
   /** Reads and enables pagination through a set of `EventRecommendation`. */
-  allEventRecommendations?: Maybe<EventRecommendationConnection>
+  readonly allEventRecommendations?: Maybe<EventRecommendationConnection>
   /** Reads and enables pagination through a set of `EventUpload`. */
-  allEventUploads?: Maybe<EventUploadConnection>
+  readonly allEventUploads?: Maybe<EventUploadConnection>
   /** Reads and enables pagination through a set of `Event`. */
-  allEvents?: Maybe<EventConnection>
+  readonly allEvents?: Maybe<EventConnection>
   /** Reads and enables pagination through a set of `Friendship`. */
-  allFriendships?: Maybe<FriendshipConnection>
-  /** Reads and enables pagination through a set of `GuestFlat`. */
-  allGuestFlats?: Maybe<GuestFlatConnection>
+  readonly allFriendships?: Maybe<FriendshipConnection>
   /** Reads and enables pagination through a set of `Guest`. */
-  allGuests?: Maybe<GuestConnection>
+  readonly allGuests?: Maybe<GuestConnection>
   /** Reads and enables pagination through a set of `LegalTermAcceptance`. */
-  allLegalTermAcceptances?: Maybe<LegalTermAcceptanceConnection>
+  readonly allLegalTermAcceptances?: Maybe<LegalTermAcceptanceConnection>
   /** Reads and enables pagination through a set of `LegalTerm`. */
-  allLegalTerms?: Maybe<LegalTermConnection>
+  readonly allLegalTerms?: Maybe<LegalTermConnection>
   /** Reads and enables pagination through a set of `PreferenceEventCategory`. */
-  allPreferenceEventCategories?: Maybe<PreferenceEventCategoryConnection>
+  readonly allPreferenceEventCategories?: Maybe<PreferenceEventCategoryConnection>
   /** Reads and enables pagination through a set of `PreferenceEventFormat`. */
-  allPreferenceEventFormats?: Maybe<PreferenceEventFormatConnection>
+  readonly allPreferenceEventFormats?: Maybe<PreferenceEventFormatConnection>
   /** Reads and enables pagination through a set of `PreferenceEventLocation`. */
-  allPreferenceEventLocations?: Maybe<PreferenceEventLocationConnection>
+  readonly allPreferenceEventLocations?: Maybe<PreferenceEventLocationConnection>
   /** Reads and enables pagination through a set of `PreferenceEventSize`. */
-  allPreferenceEventSizes?: Maybe<PreferenceEventSizeConnection>
+  readonly allPreferenceEventSizes?: Maybe<PreferenceEventSizeConnection>
   /** Reads and enables pagination through a set of `ProfilePicture`. */
-  allProfilePictures?: Maybe<ProfilePictureConnection>
+  readonly allProfilePictures?: Maybe<ProfilePictureConnection>
   /** Reads and enables pagination through a set of `Report`. */
-  allReports?: Maybe<ReportConnection>
+  readonly allReports?: Maybe<ReportConnection>
   /** Reads and enables pagination through a set of `Upload`. */
-  allUploads?: Maybe<UploadConnection>
+  readonly allUploads?: Maybe<UploadConnection>
   /** Reads a single `App` using its globally unique `ID`. */
-  app?: Maybe<App>
+  readonly app?: Maybe<App>
   /** Get a single `App`. */
-  appByName?: Maybe<App>
+  readonly appByName?: Maybe<App>
   /** Get a single `App`. */
-  appByRowId?: Maybe<App>
+  readonly appByRowId?: Maybe<App>
   /** Reads a single `Attendance` using its globally unique `ID`. */
-  attendance?: Maybe<Attendance>
+  readonly attendance?: Maybe<Attendance>
   /** Get a single `Attendance`. */
-  attendanceByGuestId?: Maybe<Attendance>
+  readonly attendanceByGuestId?: Maybe<Attendance>
   /** Get a single `Attendance`. */
-  attendanceByRowId?: Maybe<Attendance>
+  readonly attendanceByRowId?: Maybe<Attendance>
   /** Returns the current attendance claims as UUID array. */
-  attendanceClaimArray?: Maybe<Array<Maybe<Scalars['UUID']['output']>>>
+  readonly attendanceClaimArray?: Maybe<
+    ReadonlyArray<Maybe<Scalars['UUID']['output']>>
+  >
   /** Reads a single `Contact` using its globally unique `ID`. */
-  contact?: Maybe<Contact>
+  readonly contact?: Maybe<Contact>
   /** Get a single `Contact`. */
-  contactByCreatedByAndAccountId?: Maybe<Contact>
+  readonly contactByCreatedByAndAccountId?: Maybe<Contact>
   /** Get a single `Contact`. */
-  contactByRowId?: Maybe<Contact>
+  readonly contactByRowId?: Maybe<Contact>
+  /** Reads a single `ContactGroup` using its globally unique `ID`. */
+  readonly contactGroup?: Maybe<ContactGroup>
+  /** Get a single `ContactGroup`. */
+  readonly contactGroupByRowId?: Maybe<ContactGroup>
+  /** Reads a single `ContactGroupMember` using its globally unique `ID`. */
+  readonly contactGroupMember?: Maybe<ContactGroupMember>
+  /** Get a single `ContactGroupMember`. */
+  readonly contactGroupMemberByContactGroupIdAndContactId?: Maybe<ContactGroupMember>
   /** Reads a single `Device` using its globally unique `ID`. */
-  device?: Maybe<Device>
+  readonly device?: Maybe<Device>
   /** Get a single `Device`. */
-  deviceByCreatedByAndFcmToken?: Maybe<Device>
+  readonly deviceByCreatedByAndFcmToken?: Maybe<Device>
   /** Get a single `Device`. */
-  deviceByRowId?: Maybe<Device>
+  readonly deviceByRowId?: Maybe<Device>
   /** Reads a single `Event` using its globally unique `ID`. */
-  event?: Maybe<Event>
+  readonly event?: Maybe<Event>
   /** Reads a single `EventApp` using its globally unique `ID`. */
-  eventApp?: Maybe<EventApp>
+  readonly eventApp?: Maybe<EventApp>
   /** Get a single `EventApp`. */
-  eventAppByEventIdAndAppId?: Maybe<EventApp>
+  readonly eventAppByEventIdAndAppId?: Maybe<EventApp>
   /** Get a single `EventApp`. */
-  eventAppByRowId?: Maybe<EventApp>
-  /** Returns the event associated with the given attendance ID. */
-  eventByAttendanceId?: Maybe<Event>
+  readonly eventAppByRowId?: Maybe<EventApp>
+  /** Returns the event associated with the given attendance ID, unless it is a draft or scheduled and not organized by the invoker. */
+  readonly eventByAttendanceId?: Maybe<Event>
   /** Get a single `Event`. */
-  eventByCreatedByAndSlug?: Maybe<Event>
+  readonly eventByCreatedByAndSlug?: Maybe<Event>
+  /** Returns the event a general invitation link invites to, also when it is private, unless the link was deleted, the event is a draft or scheduled and not organized by the invoker, or its organizer is involved in a block with the invoker. */
+  readonly eventByInvitationLink?: Maybe<Event>
   /** Get a single `Event`. */
-  eventByRowId?: Maybe<Event>
+  readonly eventByRowId?: Maybe<Event>
   /** Reads a single `EventCategory` using its globally unique `ID`. */
-  eventCategory?: Maybe<EventCategory>
+  readonly eventCategory?: Maybe<EventCategory>
   /** Get a single `EventCategory`. */
-  eventCategoryByName?: Maybe<EventCategory>
+  readonly eventCategoryByName?: Maybe<EventCategory>
   /** Get a single `EventCategory`. */
-  eventCategoryByRowId?: Maybe<EventCategory>
+  readonly eventCategoryByRowId?: Maybe<EventCategory>
   /** Reads a single `EventCategoryMapping` using its globally unique `ID`. */
-  eventCategoryMapping?: Maybe<EventCategoryMapping>
+  readonly eventCategoryMapping?: Maybe<EventCategoryMapping>
   /** Get a single `EventCategoryMapping`. */
-  eventCategoryMappingByEventIdAndCategoryId?: Maybe<EventCategoryMapping>
+  readonly eventCategoryMappingByEventIdAndCategoryId?: Maybe<EventCategoryMapping>
   /** Reads a single `EventFavorite` using its globally unique `ID`. */
-  eventFavorite?: Maybe<EventFavorite>
+  readonly eventFavorite?: Maybe<EventFavorite>
   /** Get a single `EventFavorite`. */
-  eventFavoriteByCreatedByAndEventId?: Maybe<EventFavorite>
+  readonly eventFavoriteByCreatedByAndEventId?: Maybe<EventFavorite>
   /** Get a single `EventFavorite`. */
-  eventFavoriteByRowId?: Maybe<EventFavorite>
+  readonly eventFavoriteByRowId?: Maybe<EventFavorite>
   /** Reads a single `EventFormat` using its globally unique `ID`. */
-  eventFormat?: Maybe<EventFormat>
+  readonly eventFormat?: Maybe<EventFormat>
   /** Get a single `EventFormat`. */
-  eventFormatByName?: Maybe<EventFormat>
+  readonly eventFormatByName?: Maybe<EventFormat>
   /** Get a single `EventFormat`. */
-  eventFormatByRowId?: Maybe<EventFormat>
+  readonly eventFormatByRowId?: Maybe<EventFormat>
   /** Reads a single `EventFormatMapping` using its globally unique `ID`. */
-  eventFormatMapping?: Maybe<EventFormatMapping>
+  readonly eventFormatMapping?: Maybe<EventFormatMapping>
   /** Get a single `EventFormatMapping`. */
-  eventFormatMappingByEventIdAndFormatId?: Maybe<EventFormatMapping>
+  readonly eventFormatMappingByEventIdAndFormatId?: Maybe<EventFormatMapping>
   /** Add a function that returns the maximum guest count of an accessible event. */
-  eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
-  /** Lists public in-person events within the given radius in meters around the given coordinates, nearest first. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
-  eventNearby?: Maybe<EventConnection>
+  readonly eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
+  /** Reads a single `EventInvitationLink` using its globally unique `ID`. */
+  readonly eventInvitationLink?: Maybe<EventInvitationLink>
+  /** Get a single `EventInvitationLink`. */
+  readonly eventInvitationLinkByEventId?: Maybe<EventInvitationLink>
+  /** Get a single `EventInvitationLink`. */
+  readonly eventInvitationLinkByRowId?: Maybe<EventInvitationLink>
+  /** Lists public, published (not draft or scheduled), non-archived in-person events within the given radius in meters around the given coordinates, nearest first. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
+  readonly eventNearby?: Maybe<EventConnection>
   /** Reads a single `EventRecommendation` using its globally unique `ID`. */
-  eventRecommendation?: Maybe<EventRecommendation>
+  readonly eventRecommendation?: Maybe<EventRecommendation>
   /** Get a single `EventRecommendation`. */
-  eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
+  readonly eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
   /** Searches events by name and description. Matches by prefix so partial words match as the user types, and falls back to trigram similarity on the name for typo tolerance. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
-  eventSearch?: Maybe<EventConnection>
+  readonly eventSearch?: Maybe<EventConnection>
   /** Reads a single `EventUpload` using its globally unique `ID`. */
-  eventUpload?: Maybe<EventUpload>
+  readonly eventUpload?: Maybe<EventUpload>
   /** Get a single `EventUpload`. */
-  eventUploadByEventIdAndUploadId?: Maybe<EventUpload>
+  readonly eventUploadByEventIdAndUploadId?: Maybe<EventUpload>
   /** Get a single `EventUpload`. */
-  eventUploadByRowId?: Maybe<EventUpload>
+  readonly eventUploadByRowId?: Maybe<EventUpload>
   /** Reads a single `Friendship` using its globally unique `ID`. */
-  friendship?: Maybe<Friendship>
+  readonly friendship?: Maybe<Friendship>
   /** Get a single `Friendship`. */
-  friendshipByAAccountIdAndBAccountId?: Maybe<Friendship>
+  readonly friendshipByAAccountIdAndBAccountId?: Maybe<Friendship>
   /** Get a single `Friendship`. */
-  friendshipByRowId?: Maybe<Friendship>
+  readonly friendshipByRowId?: Maybe<Friendship>
   /** Reads a single `Guest` using its globally unique `ID`. */
-  guest?: Maybe<Guest>
+  readonly guest?: Maybe<Guest>
   /** Get a single `Guest`. */
-  guestByEventIdAndContactId?: Maybe<Guest>
+  readonly guestByEventIdAndContactId?: Maybe<Guest>
   /** Get a single `Guest`. */
-  guestByRowId?: Maybe<Guest>
+  readonly guestByRowId?: Maybe<Guest>
   /** Returns the current guest claims as UUID array. */
-  guestClaimArray?: Maybe<Array<Maybe<Scalars['UUID']['output']>>>
+  readonly guestClaimArray?: Maybe<
+    ReadonlyArray<Maybe<Scalars['UUID']['output']>>
+  >
   /** Returns contact ids that are accessible through guests. */
-  guestContactIds?: Maybe<GuestContactIdsConnection>
-  /** Returns the guest count for an event. */
-  guestCount?: Maybe<Scalars['Int']['output']>
+  readonly guestContactIds?: Maybe<GuestContactIdsConnection>
+  /** Returns the number of seats taken for an event: each guest plus their approved companions. */
+  readonly guestCount?: Maybe<Scalars['Int']['output']>
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** Returns the session's account id. */
-  invokerAccountId?: Maybe<Scalars['UUID']['output']>
+  readonly invokerAccountId?: Maybe<Scalars['UUID']['output']>
   /** Maps an ISO language code to the corresponding PostgreSQL text search configuration. This function returns the appropriate text search configuration for supported languages, such as "german" for "de" and "english" for "en". If the language code is not explicitly handled, the function defaults to the "simple" configuration, which is a basic tokenizer that does not perform stemming or handle stop words. This ensures that full-text search can work with a wide range of languages even if specific optimizations are not available for some. */
-  languageIsoFullTextSearch?: Maybe<Scalars['RegConfig']['output']>
+  readonly languageIsoFullTextSearch?: Maybe<Scalars['RegConfig']['output']>
   /** Reads a single `LegalTerm` using its globally unique `ID`. */
-  legalTerm?: Maybe<LegalTerm>
+  readonly legalTerm?: Maybe<LegalTerm>
   /** Reads a single `LegalTermAcceptance` using its globally unique `ID`. */
-  legalTermAcceptance?: Maybe<LegalTermAcceptance>
+  readonly legalTermAcceptance?: Maybe<LegalTermAcceptance>
   /** Get a single `LegalTermAcceptance`. */
-  legalTermAcceptanceByRowId?: Maybe<LegalTermAcceptance>
+  readonly legalTermAcceptanceByRowId?: Maybe<LegalTermAcceptance>
   /** Get a single `LegalTerm`. */
-  legalTermByLanguageAndVersion?: Maybe<LegalTerm>
+  readonly legalTermByLanguageAndVersion?: Maybe<LegalTerm>
   /** Get a single `LegalTerm`. */
-  legalTermByRowId?: Maybe<LegalTerm>
+  readonly legalTermByRowId?: Maybe<LegalTerm>
   /** Fetches an object given its globally unique `ID`. */
-  node?: Maybe<Node>
+  readonly node?: Maybe<Node>
   /** Reads a single `PreferenceEventCategory` using its globally unique `ID`. */
-  preferenceEventCategory?: Maybe<PreferenceEventCategory>
+  readonly preferenceEventCategory?: Maybe<PreferenceEventCategory>
   /** Get a single `PreferenceEventCategory`. */
-  preferenceEventCategoryByAccountIdAndCategoryId?: Maybe<PreferenceEventCategory>
+  readonly preferenceEventCategoryByAccountIdAndCategoryId?: Maybe<PreferenceEventCategory>
   /** Get a single `PreferenceEventCategory`. */
-  preferenceEventCategoryByRowId?: Maybe<PreferenceEventCategory>
+  readonly preferenceEventCategoryByRowId?: Maybe<PreferenceEventCategory>
   /** Reads a single `PreferenceEventFormat` using its globally unique `ID`. */
-  preferenceEventFormat?: Maybe<PreferenceEventFormat>
+  readonly preferenceEventFormat?: Maybe<PreferenceEventFormat>
   /** Get a single `PreferenceEventFormat`. */
-  preferenceEventFormatByAccountIdAndFormatId?: Maybe<PreferenceEventFormat>
+  readonly preferenceEventFormatByAccountIdAndFormatId?: Maybe<PreferenceEventFormat>
   /** Get a single `PreferenceEventFormat`. */
-  preferenceEventFormatByRowId?: Maybe<PreferenceEventFormat>
+  readonly preferenceEventFormatByRowId?: Maybe<PreferenceEventFormat>
   /** Reads a single `PreferenceEventLocation` using its globally unique `ID`. */
-  preferenceEventLocation?: Maybe<PreferenceEventLocation>
+  readonly preferenceEventLocation?: Maybe<PreferenceEventLocation>
   /** Get a single `PreferenceEventLocation`. */
-  preferenceEventLocationByCreatedByAndLocationAndRadius?: Maybe<PreferenceEventLocation>
+  readonly preferenceEventLocationByCreatedByAndLocationAndRadius?: Maybe<PreferenceEventLocation>
   /** Get a single `PreferenceEventLocation`. */
-  preferenceEventLocationByRowId?: Maybe<PreferenceEventLocation>
+  readonly preferenceEventLocationByRowId?: Maybe<PreferenceEventLocation>
   /** Reads a single `PreferenceEventSize` using its globally unique `ID`. */
-  preferenceEventSize?: Maybe<PreferenceEventSize>
+  readonly preferenceEventSize?: Maybe<PreferenceEventSize>
   /** Get a single `PreferenceEventSize`. */
-  preferenceEventSizeByAccountIdAndEventSize?: Maybe<PreferenceEventSize>
+  readonly preferenceEventSizeByAccountIdAndEventSize?: Maybe<PreferenceEventSize>
   /** Get a single `PreferenceEventSize`. */
-  preferenceEventSizeByRowId?: Maybe<PreferenceEventSize>
+  readonly preferenceEventSizeByRowId?: Maybe<PreferenceEventSize>
   /** Reads a single `ProfilePicture` using its globally unique `ID`. */
-  profilePicture?: Maybe<ProfilePicture>
+  readonly profilePicture?: Maybe<ProfilePicture>
   /** Get a single `ProfilePicture`. */
-  profilePictureByAccountId?: Maybe<ProfilePicture>
+  readonly profilePictureByAccountId?: Maybe<ProfilePicture>
   /** Get a single `ProfilePicture`. */
-  profilePictureByRowId?: Maybe<ProfilePicture>
+  readonly profilePictureByRowId?: Maybe<ProfilePicture>
   /**
    * Exposes the root query type nested one level down. This is helpful for Relay 1
    * which can only query top level fields if they are in a particular form.
    */
-  query: Query
+  readonly query: Query
   /** Reads a single `Report` using its globally unique `ID`. */
-  report?: Maybe<Report>
+  readonly report?: Maybe<Report>
   /** Get a single `Report`. */
-  reportByCreatedByAndTargetAccountIdAndTargetEventIdAndTargetUploadId?: Maybe<Report>
+  readonly reportByCreatedByAndTargetAccountIdAndTargetEventIdAndTargetUploadId?: Maybe<Report>
   /** Get a single `Report`. */
-  reportByRowId?: Maybe<Report>
+  readonly reportByRowId?: Maybe<Report>
   /** Reads a single `Upload` using its globally unique `ID`. */
-  upload?: Maybe<Upload>
+  readonly upload?: Maybe<Upload>
   /** Get a single `Upload`. */
-  uploadByRowId?: Maybe<Upload>
+  readonly uploadByRowId?: Maybe<Upload>
   /** Get a single `Upload`. */
-  uploadByStorageKey?: Maybe<Upload>
+  readonly uploadByStorageKey?: Maybe<Upload>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6480,7 +7110,7 @@ export type QueryAllAccountBlocksArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountBlockOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AccountBlockOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6491,7 +7121,7 @@ export type QueryAllAccountSocialNetworksArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountSocialNetworkOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AccountSocialNetworkOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6502,7 +7132,7 @@ export type QueryAllAccountsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AccountOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6513,7 +7143,7 @@ export type QueryAllAchievementsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AchievementOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AchievementOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6524,7 +7154,7 @@ export type QueryAllAddressesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AddressOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AddressOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6535,7 +7165,7 @@ export type QueryAllAppsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AppOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AppOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6546,7 +7176,29 @@ export type QueryAllAttendancesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AttendanceOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<AttendanceOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllContactGroupMembersArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<ContactGroupMemberCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<ReadonlyArray<ContactGroupMemberOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllContactGroupsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<ContactGroupCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<ReadonlyArray<ContactGroupOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6557,7 +7209,7 @@ export type QueryAllContactsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ContactOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ContactOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6568,7 +7220,7 @@ export type QueryAllDevicesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<DeviceOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<DeviceOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6579,7 +7231,7 @@ export type QueryAllEventAppsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventAppOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventAppOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6590,7 +7242,7 @@ export type QueryAllEventCategoriesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventCategoryOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventCategoryOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6601,7 +7253,7 @@ export type QueryAllEventCategoryMappingsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventCategoryMappingOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventCategoryMappingOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6612,7 +7264,7 @@ export type QueryAllEventFavoritesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFavoriteOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventFavoriteOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6623,7 +7275,7 @@ export type QueryAllEventFormatMappingsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFormatMappingOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventFormatMappingOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6634,7 +7286,18 @@ export type QueryAllEventFormatsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFormatOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventFormatOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllEventInvitationLinksArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<EventInvitationLinkCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<ReadonlyArray<EventInvitationLinkOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6645,7 +7308,7 @@ export type QueryAllEventRecommendationsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventRecommendationOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventRecommendationOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6656,7 +7319,7 @@ export type QueryAllEventUploadsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventUploadOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventUploadOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6667,7 +7330,7 @@ export type QueryAllEventsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6678,18 +7341,7 @@ export type QueryAllFriendshipsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<FriendshipOrderBy>>
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllGuestFlatsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<GuestFlatCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<GuestFlatOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<FriendshipOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6700,7 +7352,7 @@ export type QueryAllGuestsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<GuestOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<GuestOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6711,7 +7363,7 @@ export type QueryAllLegalTermAcceptancesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<LegalTermAcceptanceOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<LegalTermAcceptanceOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6722,7 +7374,7 @@ export type QueryAllLegalTermsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<LegalTermOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<LegalTermOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6733,7 +7385,7 @@ export type QueryAllPreferenceEventCategoriesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventCategoryOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventCategoryOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6744,7 +7396,7 @@ export type QueryAllPreferenceEventFormatsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventFormatOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventFormatOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6755,7 +7407,7 @@ export type QueryAllPreferenceEventLocationsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventLocationOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventLocationOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6766,7 +7418,7 @@ export type QueryAllPreferenceEventSizesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<PreferenceEventSizeOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<PreferenceEventSizeOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6777,7 +7429,7 @@ export type QueryAllProfilePicturesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ProfilePictureOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ProfilePictureOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6788,7 +7440,7 @@ export type QueryAllReportsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ReportOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ReportOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6799,7 +7451,7 @@ export type QueryAllUploadsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<UploadOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<UploadOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6849,6 +7501,27 @@ export type QueryContactByRowIdArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
+export type QueryContactGroupArgs = {
+  id: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContactGroupByRowIdArgs = {
+  rowId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContactGroupMemberArgs = {
+  id: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContactGroupMemberByContactGroupIdAndContactIdArgs = {
+  contactGroupId: Scalars['UUID']['input']
+  contactId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
 export type QueryDeviceArgs = {
   id: Scalars['ID']['input']
 }
@@ -6894,6 +7567,11 @@ export type QueryEventByAttendanceIdArgs = {
 export type QueryEventByCreatedByAndSlugArgs = {
   createdBy: Scalars['UUID']['input']
   slug: Scalars['String']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventByInvitationLinkArgs = {
+  invitationLinkId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6972,6 +7650,21 @@ export type QueryEventFormatMappingByEventIdAndFormatIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryEventGuestCountMaximumArgs = {
   eventId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventInvitationLinkArgs = {
+  id: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventInvitationLinkByEventIdArgs = {
+  eventId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventInvitationLinkByRowIdArgs = {
+  rowId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7217,81 +7910,81 @@ export type QueryUploadByStorageKeyArgs = {
 
 /** Stores reports made by users on other users, events, or uploads for moderation purposes. */
 export type Report = Node & {
-  __typename?: 'Report'
+  readonly __typename?: 'Report'
   /** Reads a single `Account` that is related to this `Report`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Report`. */
-  accountByTargetAccountId?: Maybe<Account>
+  readonly accountByTargetAccountId?: Maybe<Account>
   /** Timestamp of when the report was created, defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** The ID of the user who created the report. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** Reads a single `Event` that is related to this `Report`. */
-  eventByTargetEventId?: Maybe<Event>
+  readonly eventByTargetEventId?: Maybe<Event>
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The reason for the report, provided by the reporting user. Must be non-empty and not exceed 2,000 characters. */
-  reason: Scalars['String']['output']
+  readonly reason: Scalars['String']['output']
   /** Unique identifier for the report, generated randomly using UUIDs. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** The ID of the account being reported, if applicable. */
-  targetAccountId?: Maybe<Scalars['UUID']['output']>
+  readonly targetAccountId?: Maybe<Scalars['UUID']['output']>
   /** The ID of the event being reported, if applicable. */
-  targetEventId?: Maybe<Scalars['UUID']['output']>
+  readonly targetEventId?: Maybe<Scalars['UUID']['output']>
   /** The ID of the upload being reported, if applicable. */
-  targetUploadId?: Maybe<Scalars['UUID']['output']>
+  readonly targetUploadId?: Maybe<Scalars['UUID']['output']>
   /** Reads a single `Upload` that is related to this `Report`. */
-  uploadByTargetUploadId?: Maybe<Upload>
+  readonly uploadByTargetUploadId?: Maybe<Upload>
 }
 
 /** A condition to be used against `Report` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type ReportCondition = {
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `targetAccountId` field. */
-  targetAccountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly targetAccountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `targetEventId` field. */
-  targetEventId?: InputMaybe<Scalars['UUID']['input']>
+  readonly targetEventId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `targetUploadId` field. */
-  targetUploadId?: InputMaybe<Scalars['UUID']['input']>
+  readonly targetUploadId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `Report` values. */
 export type ReportConnection = {
-  __typename?: 'ReportConnection'
+  readonly __typename?: 'ReportConnection'
   /** A list of edges which contains the `Report` and cursor to aid in pagination. */
-  edges: Array<ReportEdge>
+  readonly edges: ReadonlyArray<ReportEdge>
   /** A list of `Report` objects. */
-  nodes: Array<Report>
+  readonly nodes: ReadonlyArray<Report>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Report` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `Report` edge in the connection. */
 export type ReportEdge = {
-  __typename?: 'ReportEdge'
+  readonly __typename?: 'ReportEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Report` at the end of the edge. */
-  node: Report
+  readonly node: Report
 }
 
 /** An input for mutations affecting `Report` */
 export type ReportInput = {
   /** The ID of the user who created the report. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** The reason for the report, provided by the reporting user. Must be non-empty and not exceed 2,000 characters. */
-  reason: Scalars['String']['input']
+  readonly reason: Scalars['String']['input']
   /** The ID of the account being reported, if applicable. */
-  targetAccountId?: InputMaybe<Scalars['UUID']['input']>
+  readonly targetAccountId?: InputMaybe<Scalars['UUID']['input']>
   /** The ID of the event being reported, if applicable. */
-  targetEventId?: InputMaybe<Scalars['UUID']['input']>
+  readonly targetEventId?: InputMaybe<Scalars['UUID']['input']>
   /** The ID of the upload being reported, if applicable. */
-  targetUploadId?: InputMaybe<Scalars['UUID']['input']>
+  readonly targetUploadId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** Methods to use when ordering `Report`. */
@@ -7322,232 +8015,232 @@ export enum SocialNetwork {
 /** All input for the `updateAccountByRowId` mutation. */
 export type UpdateAccountByRowIdInput = {
   /** An object where the defined keys will be set on the `Account` being updated. */
-  accountPatch: AccountPatch
+  readonly accountPatch: AccountPatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The account's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `updateAccountByUsername` mutation. */
 export type UpdateAccountByUsernameInput = {
   /** An object where the defined keys will be set on the `Account` being updated. */
-  accountPatch: AccountPatch
+  readonly accountPatch: AccountPatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The account's username. Must be alphanumeric with hyphens and not exceed 100 characters. */
-  username: Scalars['String']['input']
+  readonly username: Scalars['String']['input']
 }
 
 /** All input for the `updateAccount` mutation. */
 export type UpdateAccountInput = {
   /** An object where the defined keys will be set on the `Account` being updated. */
-  accountPatch: AccountPatch
+  readonly accountPatch: AccountPatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Account` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our update `Account` mutation. */
 export type UpdateAccountPayload = {
-  __typename?: 'UpdateAccountPayload'
+  readonly __typename?: 'UpdateAccountPayload'
   /** The `Account` that was updated by this mutation. */
-  account?: Maybe<Account>
+  readonly account?: Maybe<Account>
   /** An edge for our `Account`. May be used by Relay 1. */
-  accountEdge?: Maybe<AccountEdge>
+  readonly accountEdge?: Maybe<AccountEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `Account` mutation. */
 export type UpdateAccountPayloadAccountEdgeArgs = {
-  orderBy?: Array<AccountOrderBy>
+  orderBy?: ReadonlyArray<AccountOrderBy>
 }
 
 /** All input for the `updateAccountSocialNetworkByAccountIdAndSocialNetwork` mutation. */
 export type UpdateAccountSocialNetworkByAccountIdAndSocialNetworkInput = {
   /** The unique identifier of the account. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /** An object where the defined keys will be set on the `AccountSocialNetwork` being updated. */
-  accountSocialNetworkPatch: AccountSocialNetworkPatch
+  readonly accountSocialNetworkPatch: AccountSocialNetworkPatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The social network to which the account is linked. */
-  socialNetwork: SocialNetwork
+  readonly socialNetwork: SocialNetwork
 }
 
 /** All input for the `updateAccountSocialNetwork` mutation. */
 export type UpdateAccountSocialNetworkInput = {
   /** An object where the defined keys will be set on the `AccountSocialNetwork` being updated. */
-  accountSocialNetworkPatch: AccountSocialNetworkPatch
+  readonly accountSocialNetworkPatch: AccountSocialNetworkPatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `AccountSocialNetwork` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our update `AccountSocialNetwork` mutation. */
 export type UpdateAccountSocialNetworkPayload = {
-  __typename?: 'UpdateAccountSocialNetworkPayload'
+  readonly __typename?: 'UpdateAccountSocialNetworkPayload'
   /** The `AccountSocialNetwork` that was updated by this mutation. */
-  accountSocialNetwork?: Maybe<AccountSocialNetwork>
+  readonly accountSocialNetwork?: Maybe<AccountSocialNetwork>
   /** An edge for our `AccountSocialNetwork`. May be used by Relay 1. */
-  accountSocialNetworkEdge?: Maybe<AccountSocialNetworkEdge>
+  readonly accountSocialNetworkEdge?: Maybe<AccountSocialNetworkEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `AccountSocialNetwork` mutation. */
 export type UpdateAccountSocialNetworkPayloadAccountSocialNetworkEdgeArgs = {
-  orderBy?: Array<AccountSocialNetworkOrderBy>
+  orderBy?: ReadonlyArray<AccountSocialNetworkOrderBy>
 }
 
 /** All input for the `updateAddressByRowId` mutation. */
 export type UpdateAddressByRowIdInput = {
   /** An object where the defined keys will be set on the `Address` being updated. */
-  addressPatch: AddressPatch
+  readonly addressPatch: AddressPatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Primary key, uniquely identifies each address. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `updateAddress` mutation. */
 export type UpdateAddressInput = {
   /** An object where the defined keys will be set on the `Address` being updated. */
-  addressPatch: AddressPatch
+  readonly addressPatch: AddressPatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Address` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our update `Address` mutation. */
 export type UpdateAddressPayload = {
-  __typename?: 'UpdateAddressPayload'
+  readonly __typename?: 'UpdateAddressPayload'
   /** The `Address` that was updated by this mutation. */
-  address?: Maybe<Address>
+  readonly address?: Maybe<Address>
   /** An edge for our `Address`. May be used by Relay 1. */
-  addressEdge?: Maybe<AddressEdge>
+  readonly addressEdge?: Maybe<AddressEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `Address` mutation. */
 export type UpdateAddressPayloadAddressEdgeArgs = {
-  orderBy?: Array<AddressOrderBy>
+  orderBy?: ReadonlyArray<AddressOrderBy>
 }
 
 /** All input for the `updateAttendanceByGuestId` mutation. */
 export type UpdateAttendanceByGuestIdInput = {
   /** An object where the defined keys will be set on the `Attendance` being updated. */
-  attendancePatch: AttendancePatch
+  readonly attendancePatch: AttendancePatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Who this entry is for. */
-  guestId: Scalars['UUID']['input']
+  readonly guestId: Scalars['UUID']['input']
 }
 
 /** All input for the `updateAttendanceByRowId` mutation. */
 export type UpdateAttendanceByRowIdInput = {
   /** An object where the defined keys will be set on the `Attendance` being updated. */
-  attendancePatch: AttendancePatch
+  readonly attendancePatch: AttendancePatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** A unique reference for this entry. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `updateAttendance` mutation. */
 export type UpdateAttendanceInput = {
   /** An object where the defined keys will be set on the `Attendance` being updated. */
-  attendancePatch: AttendancePatch
+  readonly attendancePatch: AttendancePatch
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Attendance` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our update `Attendance` mutation. */
 export type UpdateAttendancePayload = {
-  __typename?: 'UpdateAttendancePayload'
+  readonly __typename?: 'UpdateAttendancePayload'
   /** The `Attendance` that was updated by this mutation. */
-  attendance?: Maybe<Attendance>
+  readonly attendance?: Maybe<Attendance>
   /** An edge for our `Attendance`. May be used by Relay 1. */
-  attendanceEdge?: Maybe<AttendanceEdge>
+  readonly attendanceEdge?: Maybe<AttendanceEdge>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `Attendance` mutation. */
 export type UpdateAttendancePayloadAttendanceEdgeArgs = {
-  orderBy?: Array<AttendanceOrderBy>
+  orderBy?: ReadonlyArray<AttendanceOrderBy>
 }
 
 /** All input for the `updateContactByCreatedByAndAccountId` mutation. */
 export type UpdateContactByCreatedByAndAccountIdInput = {
   /** Optional reference to an associated account. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Contact` being updated. */
-  contactPatch: ContactPatch
+  readonly contactPatch: ContactPatch
   /** Reference to the account that created this contact. Enforces cascading deletion. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
 }
 
 /** All input for the `updateContactByRowId` mutation. */
@@ -7556,11 +8249,58 @@ export type UpdateContactByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Contact` being updated. */
-  contactPatch: ContactPatch
+  readonly contactPatch: ContactPatch
   /** Primary key, uniquely identifies each contact. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateContactGroupByRowId` mutation. */
+export type UpdateContactGroupByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `ContactGroup` being updated. */
+  readonly contactGroupPatch: ContactGroupPatch
+  /** Primary key, uniquely identifies each contact group. */
+  readonly rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateContactGroup` mutation. */
+export type UpdateContactGroupInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `ContactGroup` being updated. */
+  readonly contactGroupPatch: ContactGroupPatch
+  /** The globally unique `ID` which will identify a single `ContactGroup` to be updated. */
+  readonly id: Scalars['ID']['input']
+}
+
+/** The output of our update `ContactGroup` mutation. */
+export type UpdateContactGroupPayload = {
+  readonly __typename?: 'UpdateContactGroupPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `ContactGroup` that was updated by this mutation. */
+  readonly contactGroup?: Maybe<ContactGroup>
+  /** An edge for our `ContactGroup`. May be used by Relay 1. */
+  readonly contactGroupEdge?: Maybe<ContactGroupEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  readonly query?: Maybe<Query>
+}
+
+/** The output of our update `ContactGroup` mutation. */
+export type UpdateContactGroupPayloadContactGroupEdgeArgs = {
+  orderBy?: ReadonlyArray<ContactGroupOrderBy>
 }
 
 /** All input for the `updateContact` mutation. */
@@ -7569,32 +8309,32 @@ export type UpdateContactInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Contact` being updated. */
-  contactPatch: ContactPatch
+  readonly contactPatch: ContactPatch
   /** The globally unique `ID` which will identify a single `Contact` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our update `Contact` mutation. */
 export type UpdateContactPayload = {
-  __typename?: 'UpdateContactPayload'
+  readonly __typename?: 'UpdateContactPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Contact` that was updated by this mutation. */
-  contact?: Maybe<Contact>
+  readonly contact?: Maybe<Contact>
   /** An edge for our `Contact`. May be used by Relay 1. */
-  contactEdge?: Maybe<ContactEdge>
+  readonly contactEdge?: Maybe<ContactEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `Contact` mutation. */
 export type UpdateContactPayloadContactEdgeArgs = {
-  orderBy?: Array<ContactOrderBy>
+  orderBy?: ReadonlyArray<ContactOrderBy>
 }
 
 /** All input for the `updateDeviceByCreatedByAndFcmToken` mutation. */
@@ -7603,13 +8343,13 @@ export type UpdateDeviceByCreatedByAndFcmTokenInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** Reference to the account that created the device. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** An object where the defined keys will be set on the `Device` being updated. */
-  devicePatch: DevicePatch
+  readonly devicePatch: DevicePatch
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
-  fcmToken: Scalars['String']['input']
+  readonly fcmToken: Scalars['String']['input']
 }
 
 /** All input for the `updateDeviceByRowId` mutation. */
@@ -7618,11 +8358,11 @@ export type UpdateDeviceByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Device` being updated. */
-  devicePatch: DevicePatch
+  readonly devicePatch: DevicePatch
   /** The internal id of the device. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `updateDevice` mutation. */
@@ -7631,32 +8371,32 @@ export type UpdateDeviceInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Device` being updated. */
-  devicePatch: DevicePatch
+  readonly devicePatch: DevicePatch
   /** The globally unique `ID` which will identify a single `Device` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our update `Device` mutation. */
 export type UpdateDevicePayload = {
-  __typename?: 'UpdateDevicePayload'
+  readonly __typename?: 'UpdateDevicePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Device` that was updated by this mutation. */
-  device?: Maybe<Device>
+  readonly device?: Maybe<Device>
   /** An edge for our `Device`. May be used by Relay 1. */
-  deviceEdge?: Maybe<DeviceEdge>
+  readonly deviceEdge?: Maybe<DeviceEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `Device` mutation. */
 export type UpdateDevicePayloadDeviceEdgeArgs = {
-  orderBy?: Array<DeviceOrderBy>
+  orderBy?: ReadonlyArray<DeviceOrderBy>
 }
 
 /** All input for the `updateEventByCreatedByAndSlug` mutation. */
@@ -7665,13 +8405,13 @@ export type UpdateEventByCreatedByAndSlugInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The event creator's id. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** An object where the defined keys will be set on the `Event` being updated. */
-  eventPatch: EventPatch
+  readonly eventPatch: EventPatch
   /** The event's name, slugified. Must be alphanumeric with hyphens and not exceed 100 characters. */
-  slug: Scalars['String']['input']
+  readonly slug: Scalars['String']['input']
 }
 
 /** All input for the `updateEventByRowId` mutation. */
@@ -7680,11 +8420,11 @@ export type UpdateEventByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Event` being updated. */
-  eventPatch: EventPatch
+  readonly eventPatch: EventPatch
   /** The event's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `updateEvent` mutation. */
@@ -7693,47 +8433,47 @@ export type UpdateEventInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Event` being updated. */
-  eventPatch: EventPatch
+  readonly eventPatch: EventPatch
   /** The globally unique `ID` which will identify a single `Event` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our update `Event` mutation. */
 export type UpdateEventPayload = {
-  __typename?: 'UpdateEventPayload'
+  readonly __typename?: 'UpdateEventPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Event` that was updated by this mutation. */
-  event?: Maybe<Event>
+  readonly event?: Maybe<Event>
   /** An edge for our `Event`. May be used by Relay 1. */
-  eventEdge?: Maybe<EventEdge>
+  readonly eventEdge?: Maybe<EventEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `Event` mutation. */
 export type UpdateEventPayloadEventEdgeArgs = {
-  orderBy?: Array<EventOrderBy>
+  orderBy?: ReadonlyArray<EventOrderBy>
 }
 
 /** All input for the `updateFriendshipByAAccountIdAndBAccountId` mutation. */
 export type UpdateFriendshipByAAccountIdAndBAccountIdInput = {
   /** The 'left' side of the friend relation. It must be lexically less than the 'right' side. */
-  aAccountId: Scalars['UUID']['input']
+  readonly aAccountId: Scalars['UUID']['input']
   /** The 'right' side of the friend relation. It must be lexically greater than the 'left' side. */
-  bAccountId: Scalars['UUID']['input']
+  readonly bAccountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Friendship` being updated. */
-  friendshipPatch: FriendshipPatch
+  readonly friendshipPatch: FriendshipPatch
 }
 
 /** All input for the `updateFriendshipByRowId` mutation. */
@@ -7742,11 +8482,11 @@ export type UpdateFriendshipByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Friendship` being updated. */
-  friendshipPatch: FriendshipPatch
+  readonly friendshipPatch: FriendshipPatch
   /** The friend relation's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `updateFriendship` mutation. */
@@ -7755,32 +8495,32 @@ export type UpdateFriendshipInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Friendship` being updated. */
-  friendshipPatch: FriendshipPatch
+  readonly friendshipPatch: FriendshipPatch
   /** The globally unique `ID` which will identify a single `Friendship` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our update `Friendship` mutation. */
 export type UpdateFriendshipPayload = {
-  __typename?: 'UpdateFriendshipPayload'
+  readonly __typename?: 'UpdateFriendshipPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Friendship` that was updated by this mutation. */
-  friendship?: Maybe<Friendship>
+  readonly friendship?: Maybe<Friendship>
   /** An edge for our `Friendship`. May be used by Relay 1. */
-  friendshipEdge?: Maybe<FriendshipEdge>
+  readonly friendshipEdge?: Maybe<FriendshipEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `Friendship` mutation. */
 export type UpdateFriendshipPayloadFriendshipEdgeArgs = {
-  orderBy?: Array<FriendshipOrderBy>
+  orderBy?: ReadonlyArray<FriendshipOrderBy>
 }
 
 /** All input for the `updateGuestByEventIdAndContactId` mutation. */
@@ -7789,13 +8529,13 @@ export type UpdateGuestByEventIdAndContactIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The internal id of the guest's contact. */
-  contactId: Scalars['UUID']['input']
+  readonly contactId: Scalars['UUID']['input']
   /** The internal id of the guest's event. */
-  eventId: Scalars['UUID']['input']
+  readonly eventId: Scalars['UUID']['input']
   /** An object where the defined keys will be set on the `Guest` being updated. */
-  guestPatch: GuestPatch
+  readonly guestPatch: GuestPatch
 }
 
 /** All input for the `updateGuestByRowId` mutation. */
@@ -7804,11 +8544,11 @@ export type UpdateGuestByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Guest` being updated. */
-  guestPatch: GuestPatch
+  readonly guestPatch: GuestPatch
   /** The guest's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `updateGuest` mutation. */
@@ -7817,45 +8557,45 @@ export type UpdateGuestInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `Guest` being updated. */
-  guestPatch: GuestPatch
+  readonly guestPatch: GuestPatch
   /** The globally unique `ID` which will identify a single `Guest` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
 }
 
 /** The output of our update `Guest` mutation. */
 export type UpdateGuestPayload = {
-  __typename?: 'UpdateGuestPayload'
+  readonly __typename?: 'UpdateGuestPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `Guest` that was updated by this mutation. */
-  guest?: Maybe<Guest>
+  readonly guest?: Maybe<Guest>
   /** An edge for our `Guest`. May be used by Relay 1. */
-  guestEdge?: Maybe<GuestEdge>
+  readonly guestEdge?: Maybe<GuestEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `Guest` mutation. */
 export type UpdateGuestPayloadGuestEdgeArgs = {
-  orderBy?: Array<GuestOrderBy>
+  orderBy?: ReadonlyArray<GuestOrderBy>
 }
 
 /** All input for the `updateProfilePictureByAccountId` mutation. */
 export type UpdateProfilePictureByAccountIdInput = {
   /** The account's id. */
-  accountId: Scalars['UUID']['input']
+  readonly accountId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `ProfilePicture` being updated. */
-  profilePicturePatch: ProfilePicturePatch
+  readonly profilePicturePatch: ProfilePicturePatch
 }
 
 /** All input for the `updateProfilePictureByRowId` mutation. */
@@ -7864,11 +8604,11 @@ export type UpdateProfilePictureByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `ProfilePicture` being updated. */
-  profilePicturePatch: ProfilePicturePatch
+  readonly profilePicturePatch: ProfilePicturePatch
   /** The profile picture's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
 }
 
 /** All input for the `updateProfilePicture` mutation. */
@@ -7877,32 +8617,32 @@ export type UpdateProfilePictureInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `ProfilePicture` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
   /** An object where the defined keys will be set on the `ProfilePicture` being updated. */
-  profilePicturePatch: ProfilePicturePatch
+  readonly profilePicturePatch: ProfilePicturePatch
 }
 
 /** The output of our update `ProfilePicture` mutation. */
 export type UpdateProfilePicturePayload = {
-  __typename?: 'UpdateProfilePicturePayload'
+  readonly __typename?: 'UpdateProfilePicturePayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** The `ProfilePicture` that was updated by this mutation. */
-  profilePicture?: Maybe<ProfilePicture>
+  readonly profilePicture?: Maybe<ProfilePicture>
   /** An edge for our `ProfilePicture`. May be used by Relay 1. */
-  profilePictureEdge?: Maybe<ProfilePictureEdge>
+  readonly profilePictureEdge?: Maybe<ProfilePictureEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
 }
 
 /** The output of our update `ProfilePicture` mutation. */
 export type UpdateProfilePicturePayloadProfilePictureEdgeArgs = {
-  orderBy?: Array<ProfilePictureOrderBy>
+  orderBy?: ReadonlyArray<ProfilePictureOrderBy>
 }
 
 /** All input for the `updateUploadByRowId` mutation. */
@@ -7911,11 +8651,11 @@ export type UpdateUploadByRowIdInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The upload's internal id. */
-  rowId: Scalars['UUID']['input']
+  readonly rowId: Scalars['UUID']['input']
   /** An object where the defined keys will be set on the `Upload` being updated. */
-  uploadPatch: UploadPatch
+  readonly uploadPatch: UploadPatch
 }
 
 /** All input for the `updateUploadByStorageKey` mutation. */
@@ -7924,11 +8664,11 @@ export type UpdateUploadByStorageKeyInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The upload's storage key. */
-  storageKey: Scalars['String']['input']
+  readonly storageKey: Scalars['String']['input']
   /** An object where the defined keys will be set on the `Upload` being updated. */
-  uploadPatch: UploadPatch
+  readonly uploadPatch: UploadPatch
 }
 
 /** All input for the `updateUpload` mutation. */
@@ -7937,61 +8677,61 @@ export type UpdateUploadInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  readonly clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Upload` to be updated. */
-  id: Scalars['ID']['input']
+  readonly id: Scalars['ID']['input']
   /** An object where the defined keys will be set on the `Upload` being updated. */
-  uploadPatch: UploadPatch
+  readonly uploadPatch: UploadPatch
 }
 
 /** The output of our update `Upload` mutation. */
 export type UpdateUploadPayload = {
-  __typename?: 'UpdateUploadPayload'
+  readonly __typename?: 'UpdateUploadPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
-  clientMutationId?: Maybe<Scalars['String']['output']>
+  readonly clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
+  readonly query?: Maybe<Query>
   /** The `Upload` that was updated by this mutation. */
-  upload?: Maybe<Upload>
+  readonly upload?: Maybe<Upload>
   /** An edge for our `Upload`. May be used by Relay 1. */
-  uploadEdge?: Maybe<UploadEdge>
+  readonly uploadEdge?: Maybe<UploadEdge>
 }
 
 /** The output of our update `Upload` mutation. */
 export type UpdateUploadPayloadUploadEdgeArgs = {
-  orderBy?: Array<UploadOrderBy>
+  orderBy?: ReadonlyArray<UploadOrderBy>
 }
 
 /** An upload. */
 export type Upload = Node & {
-  __typename?: 'Upload'
+  readonly __typename?: 'Upload'
   /** Reads a single `Account` that is related to this `Upload`. */
-  accountByCreatedBy?: Maybe<Account>
+  readonly accountByCreatedBy?: Maybe<Account>
   /** Timestamp of when the upload was created, defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
+  readonly createdAt: Scalars['Datetime']['output']
   /** The uploader's account id. */
-  createdBy: Scalars['UUID']['output']
+  readonly createdBy: Scalars['UUID']['output']
   /** Reads and enables pagination through a set of `EventUpload`. */
-  eventUploadsByUploadId: EventUploadConnection
+  readonly eventUploadsByUploadId: EventUploadConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  id: Scalars['ID']['output']
+  readonly id: Scalars['ID']['output']
   /** The name of the uploaded file. Must be non-empty and not exceed 300 characters. */
-  name?: Maybe<Scalars['String']['output']>
+  readonly name?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `ProfilePicture`. */
-  profilePicturesByUploadId: ProfilePictureConnection
+  readonly profilePicturesByUploadId: ProfilePictureConnection
   /** Reads and enables pagination through a set of `Report`. */
-  reportsByTargetUploadId: ReportConnection
+  readonly reportsByTargetUploadId: ReportConnection
   /** The upload's internal id. */
-  rowId: Scalars['UUID']['output']
+  readonly rowId: Scalars['UUID']['output']
   /** The upload's size in bytes. */
-  sizeByte: Scalars['BigInt']['output']
+  readonly sizeByte: Scalars['BigInt']['output']
   /** The upload's storage key. */
-  storageKey?: Maybe<Scalars['String']['output']>
+  readonly storageKey?: Maybe<Scalars['String']['output']>
   /** The type of the uploaded file, default is 'image'. */
-  type: Scalars['String']['output']
+  readonly type: Scalars['String']['output']
 }
 
 /** An upload. */
@@ -8002,7 +8742,7 @@ export type UploadEventUploadsByUploadIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventUploadOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<EventUploadOrderBy>>
 }
 
 /** An upload. */
@@ -8013,7 +8753,7 @@ export type UploadProfilePicturesByUploadIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ProfilePictureOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ProfilePictureOrderBy>>
 }
 
 /** An upload. */
@@ -8024,49 +8764,49 @@ export type UploadReportsByTargetUploadIdArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<ReportOrderBy>>
+  orderBy?: InputMaybe<ReadonlyArray<ReportOrderBy>>
 }
 
 /** A condition to be used against `Upload` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type UploadCondition = {
   /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
-  rowId?: InputMaybe<Scalars['UUID']['input']>
+  readonly rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `storageKey` field. */
-  storageKey?: InputMaybe<Scalars['String']['input']>
+  readonly storageKey?: InputMaybe<Scalars['String']['input']>
 }
 
 /** A connection to a list of `Upload` values. */
 export type UploadConnection = {
-  __typename?: 'UploadConnection'
+  readonly __typename?: 'UploadConnection'
   /** A list of edges which contains the `Upload` and cursor to aid in pagination. */
-  edges: Array<UploadEdge>
+  readonly edges: ReadonlyArray<UploadEdge>
   /** A list of `Upload` objects. */
-  nodes: Array<Upload>
+  readonly nodes: ReadonlyArray<Upload>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  readonly pageInfo: PageInfo
   /** The count of *all* `Upload` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
+  readonly totalCount: Scalars['Int']['output']
 }
 
 /** A `Upload` edge in the connection. */
 export type UploadEdge = {
-  __typename?: 'UploadEdge'
+  readonly __typename?: 'UploadEdge'
   /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
+  readonly cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Upload` at the end of the edge. */
-  node: Upload
+  readonly node: Upload
 }
 
 /** An input for mutations affecting `Upload` */
 export type UploadInput = {
   /** The uploader's account id. */
-  createdBy: Scalars['UUID']['input']
+  readonly createdBy: Scalars['UUID']['input']
   /** The name of the uploaded file. Must be non-empty and not exceed 300 characters. */
-  name?: InputMaybe<Scalars['String']['input']>
+  readonly name?: InputMaybe<Scalars['String']['input']>
   /** The upload's size in bytes. */
-  sizeByte: Scalars['BigInt']['input']
+  readonly sizeByte: Scalars['BigInt']['input']
 }
 
 /** Methods to use when ordering `Upload`. */
@@ -8085,9 +8825,9 @@ export enum UploadOrderBy {
 /** Represents an update to a `Upload`. Fields that are set will be updated. */
 export type UploadPatch = {
   /** The uploader's account id. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  readonly createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** The name of the uploaded file. Must be non-empty and not exceed 300 characters. */
-  name?: InputMaybe<Scalars['String']['input']>
+  readonly name?: InputMaybe<Scalars['String']['input']>
 }
 
 export type WithTypename<T extends { __typename?: any }> = Partial<T> & {
@@ -8164,6 +8904,21 @@ export type GraphCacheKeysConfig = {
   Contact?: (data: WithTypename<Contact>) => null | string
   ContactConnection?: (data: WithTypename<ContactConnection>) => null | string
   ContactEdge?: (data: WithTypename<ContactEdge>) => null | string
+  ContactGroup?: (data: WithTypename<ContactGroup>) => null | string
+  ContactGroupConnection?: (
+    data: WithTypename<ContactGroupConnection>,
+  ) => null | string
+  ContactGroupEdge?: (data: WithTypename<ContactGroupEdge>) => null | string
+  ContactGroupMember?: (data: WithTypename<ContactGroupMember>) => null | string
+  ContactGroupMemberConnection?: (
+    data: WithTypename<ContactGroupMemberConnection>,
+  ) => null | string
+  ContactGroupMemberEdge?: (
+    data: WithTypename<ContactGroupMemberEdge>,
+  ) => null | string
+  ContactMergePayload?: (
+    data: WithTypename<ContactMergePayload>,
+  ) => null | string
   CreateAccountBlockPayload?: (
     data: WithTypename<CreateAccountBlockPayload>,
   ) => null | string
@@ -8176,8 +8931,23 @@ export type GraphCacheKeysConfig = {
   CreateAttendancePayload?: (
     data: WithTypename<CreateAttendancePayload>,
   ) => null | string
+  CreateContactGroupMemberPayload?: (
+    data: WithTypename<CreateContactGroupMemberPayload>,
+  ) => null | string
+  CreateContactGroupMembersPayload?: (
+    data: WithTypename<CreateContactGroupMembersPayload>,
+  ) => null | string
+  CreateContactGroupPayload?: (
+    data: WithTypename<CreateContactGroupPayload>,
+  ) => null | string
+  CreateContactGroupsPayload?: (
+    data: WithTypename<CreateContactGroupsPayload>,
+  ) => null | string
   CreateContactPayload?: (
     data: WithTypename<CreateContactPayload>,
+  ) => null | string
+  CreateContactsPayload?: (
+    data: WithTypename<CreateContactsPayload>,
   ) => null | string
   CreateDevicePayload?: (
     data: WithTypename<CreateDevicePayload>,
@@ -8190,6 +8960,9 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   CreateEventFormatMappingPayload?: (
     data: WithTypename<CreateEventFormatMappingPayload>,
+  ) => null | string
+  CreateEventInvitationLinkPayload?: (
+    data: WithTypename<CreateEventInvitationLinkPayload>,
   ) => null | string
   CreateEventPayload?: (data: WithTypename<CreateEventPayload>) => null | string
   CreateEventUploadPayload?: (
@@ -8235,6 +9008,12 @@ export type GraphCacheKeysConfig = {
   DeleteAddressPayload?: (
     data: WithTypename<DeleteAddressPayload>,
   ) => null | string
+  DeleteContactGroupMemberPayload?: (
+    data: WithTypename<DeleteContactGroupMemberPayload>,
+  ) => null | string
+  DeleteContactGroupPayload?: (
+    data: WithTypename<DeleteContactGroupPayload>,
+  ) => null | string
   DeleteContactPayload?: (
     data: WithTypename<DeleteContactPayload>,
   ) => null | string
@@ -8249,6 +9028,9 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   DeleteEventFormatMappingPayload?: (
     data: WithTypename<DeleteEventFormatMappingPayload>,
+  ) => null | string
+  DeleteEventInvitationLinkPayload?: (
+    data: WithTypename<DeleteEventInvitationLinkPayload>,
   ) => null | string
   DeleteEventPayload?: (data: WithTypename<DeleteEventPayload>) => null | string
   DeleteEventUploadPayload?: (
@@ -8317,6 +9099,18 @@ export type GraphCacheKeysConfig = {
   EventFormatMappingEdge?: (
     data: WithTypename<EventFormatMappingEdge>,
   ) => null | string
+  EventInvitationLink?: (
+    data: WithTypename<EventInvitationLink>,
+  ) => null | string
+  EventInvitationLinkConnection?: (
+    data: WithTypename<EventInvitationLinkConnection>,
+  ) => null | string
+  EventInvitationLinkEdge?: (
+    data: WithTypename<EventInvitationLinkEdge>,
+  ) => null | string
+  EventInvitationLinkRedeemPayload?: (
+    data: WithTypename<EventInvitationLinkRedeemPayload>,
+  ) => null | string
   EventRecommendation?: (
     data: WithTypename<EventRecommendation>,
   ) => null | string
@@ -8346,11 +9140,6 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<GuestContactIdsEdge>,
   ) => null | string
   GuestEdge?: (data: WithTypename<GuestEdge>) => null | string
-  GuestFlat?: (data: WithTypename<GuestFlat>) => null | string
-  GuestFlatConnection?: (
-    data: WithTypename<GuestFlatConnection>,
-  ) => null | string
-  GuestFlatEdge?: (data: WithTypename<GuestFlatEdge>) => null | string
   InvitePayload?: (data: WithTypename<InvitePayload>) => null | string
   JwtCreatePayload?: (data: WithTypename<JwtCreatePayload>) => null | string
   JwtUpdateAttendanceAddPayload?: (
@@ -8436,6 +9225,9 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   UpdateAttendancePayload?: (
     data: WithTypename<UpdateAttendancePayload>,
+  ) => null | string
+  UpdateContactGroupPayload?: (
+    data: WithTypename<UpdateContactGroupPayload>,
   ) => null | string
   UpdateContactPayload?: (
     data: WithTypename<UpdateContactPayload>,
@@ -8576,6 +9368,16 @@ export type GraphCacheResolvers = {
       QueryAllAttendancesArgs,
       WithTypename<AttendanceConnection> | string
     >
+    allContactGroupMembers?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAllContactGroupMembersArgs,
+      WithTypename<ContactGroupMemberConnection> | string
+    >
+    allContactGroups?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAllContactGroupsArgs,
+      WithTypename<ContactGroupConnection> | string
+    >
     allContacts?: GraphCacheResolver<
       WithTypename<Query>,
       QueryAllContactsArgs,
@@ -8616,6 +9418,11 @@ export type GraphCacheResolvers = {
       QueryAllEventFormatsArgs,
       WithTypename<EventFormatConnection> | string
     >
+    allEventInvitationLinks?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAllEventInvitationLinksArgs,
+      WithTypename<EventInvitationLinkConnection> | string
+    >
     allEventRecommendations?: GraphCacheResolver<
       WithTypename<Query>,
       QueryAllEventRecommendationsArgs,
@@ -8635,11 +9442,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryAllFriendshipsArgs,
       WithTypename<FriendshipConnection> | string
-    >
-    allGuestFlats?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryAllGuestFlatsArgs,
-      WithTypename<GuestFlatConnection> | string
     >
     allGuests?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8741,6 +9543,26 @@ export type GraphCacheResolvers = {
       QueryContactByRowIdArgs,
       WithTypename<Contact> | string
     >
+    contactGroup?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryContactGroupArgs,
+      WithTypename<ContactGroup> | string
+    >
+    contactGroupByRowId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryContactGroupByRowIdArgs,
+      WithTypename<ContactGroup> | string
+    >
+    contactGroupMember?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryContactGroupMemberArgs,
+      WithTypename<ContactGroupMember> | string
+    >
+    contactGroupMemberByContactGroupIdAndContactId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryContactGroupMemberByContactGroupIdAndContactIdArgs,
+      WithTypename<ContactGroupMember> | string
+    >
     device?: GraphCacheResolver<
       WithTypename<Query>,
       QueryDeviceArgs,
@@ -8784,6 +9606,11 @@ export type GraphCacheResolvers = {
     eventByCreatedByAndSlug?: GraphCacheResolver<
       WithTypename<Query>,
       QueryEventByCreatedByAndSlugArgs,
+      WithTypename<Event> | string
+    >
+    eventByInvitationLink?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventByInvitationLinkArgs,
       WithTypename<Event> | string
     >
     eventByRowId?: GraphCacheResolver<
@@ -8860,6 +9687,21 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryEventGuestCountMaximumArgs,
       Scalars['Int']['output'] | string
+    >
+    eventInvitationLink?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventInvitationLinkArgs,
+      WithTypename<EventInvitationLink> | string
+    >
+    eventInvitationLinkByEventId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventInvitationLinkByEventIdArgs,
+      WithTypename<EventInvitationLink> | string
+    >
+    eventInvitationLinkByRowId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventInvitationLinkByRowIdArgs,
+      WithTypename<EventInvitationLink> | string
     >
     eventNearby?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8992,6 +9834,8 @@ export type GraphCacheResolvers = {
       | WithTypename<App>
       | WithTypename<Attendance>
       | WithTypename<Contact>
+      | WithTypename<ContactGroup>
+      | WithTypename<ContactGroupMember>
       | WithTypename<Device>
       | WithTypename<Event>
       | WithTypename<EventApp>
@@ -9000,6 +9844,7 @@ export type GraphCacheResolvers = {
       | WithTypename<EventFavorite>
       | WithTypename<EventFormat>
       | WithTypename<EventFormatMapping>
+      | WithTypename<EventInvitationLink>
       | WithTypename<EventRecommendation>
       | WithTypename<EventUpload>
       | WithTypename<Friendship>
@@ -9167,6 +10012,11 @@ export type GraphCacheResolvers = {
       WithTypename<Account>,
       AccountAttendancesByUpdatedByArgs,
       WithTypename<AttendanceConnection> | string
+    >
+    contactGroupsByCreatedBy?: GraphCacheResolver<
+      WithTypename<Account>,
+      AccountContactGroupsByCreatedByArgs,
+      WithTypename<ContactGroupConnection> | string
     >
     contactsByAccountId?: GraphCacheResolver<
       WithTypename<Account>,
@@ -9951,6 +10801,11 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       Scalars['UUID']['output'] | string
     >
+    tagSerialNumber?: GraphCacheResolver<
+      WithTypename<Attendance>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
     updatedAt?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
@@ -10027,6 +10882,11 @@ export type GraphCacheResolvers = {
       ContactAttendancesByContactIdArgs,
       WithTypename<AttendanceConnection> | string
     >
+    contactGroupMembersByContactId?: GraphCacheResolver<
+      WithTypename<Contact>,
+      ContactContactGroupMembersByContactIdArgs,
+      WithTypename<ContactGroupMemberConnection> | string
+    >
     createdAt?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
@@ -10037,15 +10897,15 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       Scalars['UUID']['output'] | string
     >
-    emailAddress?: GraphCacheResolver<
-      WithTypename<Contact>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
     emailAddressHash?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
       Scalars['String']['output'] | string
+    >
+    emailAddresses?: GraphCacheResolver<
+      WithTypename<Contact>,
+      Record<string, never>,
+      Array<Scalars['EmailAddress']['output'] | string>
     >
     firstName?: GraphCacheResolver<
       WithTypename<Contact>,
@@ -10133,6 +10993,160 @@ export type GraphCacheResolvers = {
     >
     node?: GraphCacheResolver<
       WithTypename<ContactEdge>,
+      Record<string, never>,
+      WithTypename<Contact> | string
+    >
+  }
+  ContactGroup?: {
+    accountByCreatedBy?: GraphCacheResolver<
+      WithTypename<ContactGroup>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    contactGroupMembersByContactGroupId?: GraphCacheResolver<
+      WithTypename<ContactGroup>,
+      ContactGroupContactGroupMembersByContactGroupIdArgs,
+      WithTypename<ContactGroupMemberConnection> | string
+    >
+    createdAt?: GraphCacheResolver<
+      WithTypename<ContactGroup>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
+    createdBy?: GraphCacheResolver<
+      WithTypename<ContactGroup>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<ContactGroup>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    name?: GraphCacheResolver<
+      WithTypename<ContactGroup>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    rowId?: GraphCacheResolver<
+      WithTypename<ContactGroup>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+  }
+  ContactGroupConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<ContactGroupConnection>,
+      Record<string, never>,
+      Array<WithTypename<ContactGroupEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<ContactGroupConnection>,
+      Record<string, never>,
+      Array<WithTypename<ContactGroup> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<ContactGroupConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<ContactGroupConnection>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+  }
+  ContactGroupEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<ContactGroupEdge>,
+      Record<string, never>,
+      Scalars['Cursor']['output'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<ContactGroupEdge>,
+      Record<string, never>,
+      WithTypename<ContactGroup> | string
+    >
+  }
+  ContactGroupMember?: {
+    contactByContactId?: GraphCacheResolver<
+      WithTypename<ContactGroupMember>,
+      Record<string, never>,
+      WithTypename<Contact> | string
+    >
+    contactGroupByContactGroupId?: GraphCacheResolver<
+      WithTypename<ContactGroupMember>,
+      Record<string, never>,
+      WithTypename<ContactGroup> | string
+    >
+    contactGroupId?: GraphCacheResolver<
+      WithTypename<ContactGroupMember>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    contactId?: GraphCacheResolver<
+      WithTypename<ContactGroupMember>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<ContactGroupMember>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+  }
+  ContactGroupMemberConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<ContactGroupMemberConnection>,
+      Record<string, never>,
+      Array<WithTypename<ContactGroupMemberEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<ContactGroupMemberConnection>,
+      Record<string, never>,
+      Array<WithTypename<ContactGroupMember> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<ContactGroupMemberConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<ContactGroupMemberConnection>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+  }
+  ContactGroupMemberEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<ContactGroupMemberEdge>,
+      Record<string, never>,
+      Scalars['Cursor']['output'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<ContactGroupMemberEdge>,
+      Record<string, never>,
+      WithTypename<ContactGroupMember> | string
+    >
+  }
+  ContactMergePayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<ContactMergePayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    contactEdge?: GraphCacheResolver<
+      WithTypename<ContactMergePayload>,
+      ContactMergePayloadContactEdgeArgs,
+      WithTypename<ContactEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<ContactMergePayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+    result?: GraphCacheResolver<
+      WithTypename<ContactMergePayload>,
       Record<string, never>,
       WithTypename<Contact> | string
     >
@@ -10225,6 +11239,84 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  CreateContactGroupMemberPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateContactGroupMemberPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    contactGroupMember?: GraphCacheResolver<
+      WithTypename<CreateContactGroupMemberPayload>,
+      Record<string, never>,
+      WithTypename<ContactGroupMember> | string
+    >
+    contactGroupMemberEdge?: GraphCacheResolver<
+      WithTypename<CreateContactGroupMemberPayload>,
+      CreateContactGroupMemberPayloadContactGroupMemberEdgeArgs,
+      WithTypename<ContactGroupMemberEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateContactGroupMemberPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateContactGroupMembersPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateContactGroupMembersPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateContactGroupMembersPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+    result?: GraphCacheResolver<
+      WithTypename<CreateContactGroupMembersPayload>,
+      Record<string, never>,
+      Array<WithTypename<ContactGroupMember> | string>
+    >
+  }
+  CreateContactGroupPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateContactGroupPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    contactGroup?: GraphCacheResolver<
+      WithTypename<CreateContactGroupPayload>,
+      Record<string, never>,
+      WithTypename<ContactGroup> | string
+    >
+    contactGroupEdge?: GraphCacheResolver<
+      WithTypename<CreateContactGroupPayload>,
+      CreateContactGroupPayloadContactGroupEdgeArgs,
+      WithTypename<ContactGroupEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateContactGroupPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateContactGroupsPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateContactGroupsPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateContactGroupsPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+    result?: GraphCacheResolver<
+      WithTypename<CreateContactGroupsPayload>,
+      Record<string, never>,
+      Array<WithTypename<ContactGroup> | string>
+    >
+  }
   CreateContactPayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateContactPayload>,
@@ -10245,6 +11337,23 @@ export type GraphCacheResolvers = {
       WithTypename<CreateContactPayload>,
       Record<string, never>,
       WithTypename<Query> | string
+    >
+  }
+  CreateContactsPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateContactsPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateContactsPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+    result?: GraphCacheResolver<
+      WithTypename<CreateContactsPayload>,
+      Record<string, never>,
+      Array<WithTypename<Contact> | string>
     >
   }
   CreateDevicePayload?: {
@@ -10331,6 +11440,28 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<CreateEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateEventInvitationLinkPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateEventInvitationLinkPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    eventInvitationLink?: GraphCacheResolver<
+      WithTypename<CreateEventInvitationLinkPayload>,
+      Record<string, never>,
+      WithTypename<EventInvitationLink> | string
+    >
+    eventInvitationLinkEdge?: GraphCacheResolver<
+      WithTypename<CreateEventInvitationLinkPayload>,
+      CreateEventInvitationLinkPayloadEventInvitationLinkEdgeArgs,
+      WithTypename<EventInvitationLinkEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateEventInvitationLinkPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -10697,6 +11828,60 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  DeleteContactGroupMemberPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupMemberPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    contactGroupMember?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupMemberPayload>,
+      Record<string, never>,
+      WithTypename<ContactGroupMember> | string
+    >
+    contactGroupMemberEdge?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupMemberPayload>,
+      DeleteContactGroupMemberPayloadContactGroupMemberEdgeArgs,
+      WithTypename<ContactGroupMemberEdge> | string
+    >
+    deletedContactGroupMemberId?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupMemberPayload>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupMemberPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  DeleteContactGroupPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    contactGroup?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupPayload>,
+      Record<string, never>,
+      WithTypename<ContactGroup> | string
+    >
+    contactGroupEdge?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupPayload>,
+      DeleteContactGroupPayloadContactGroupEdgeArgs,
+      WithTypename<ContactGroupEdge> | string
+    >
+    deletedContactGroupId?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupPayload>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteContactGroupPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   DeleteContactPayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteContactPayload>,
@@ -10828,6 +12013,33 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  DeleteEventInvitationLinkPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    deletedEventInvitationLinkId?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    eventInvitationLink?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
+      Record<string, never>,
+      WithTypename<EventInvitationLink> | string
+    >
+    eventInvitationLinkEdge?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
+      DeleteEventInvitationLinkPayloadEventInvitationLinkEdgeArgs,
+      WithTypename<EventInvitationLinkEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteEventInvitationLinkPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -11239,6 +12451,11 @@ export type GraphCacheResolvers = {
       EventEventFormatMappingsByEventIdArgs,
       WithTypename<EventFormatMappingConnection> | string
     >
+    eventInvitationLinkByEventId?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      WithTypename<EventInvitationLink> | string
+    >
     eventRecommendationsByEventId?: GraphCacheResolver<
       WithTypename<Event>,
       EventEventRecommendationsByEventIdArgs,
@@ -11249,7 +12466,17 @@ export type GraphCacheResolvers = {
       EventEventUploadsByEventIdArgs,
       WithTypename<EventUploadConnection> | string
     >
+    feedbackDeadline?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
     guestCount?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+    guestCountAccepted?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
       Scalars['Int']['output'] | string
@@ -11293,6 +12520,11 @@ export type GraphCacheResolvers = {
       WithTypename<Event>,
       Record<string, never>,
       Scalars['String']['output'] | string
+    >
+    publishedAt?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
     >
     reportsByTargetEventId?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11777,6 +13009,84 @@ export type GraphCacheResolvers = {
       WithTypename<EventFormatMapping> | string
     >
   }
+  EventInvitationLink?: {
+    createdAt?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
+    eventByEventId?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      WithTypename<Event> | string
+    >
+    eventId?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    rowId?: GraphCacheResolver<
+      WithTypename<EventInvitationLink>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+  }
+  EventInvitationLinkConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventInvitationLinkEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventInvitationLink> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkConnection>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+  }
+  EventInvitationLinkEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkEdge>,
+      Record<string, never>,
+      Scalars['Cursor']['output'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkEdge>,
+      Record<string, never>,
+      WithTypename<EventInvitationLink> | string
+    >
+  }
+  EventInvitationLinkRedeemPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkRedeemPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkRedeemPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+    result?: GraphCacheResolver<
+      WithTypename<EventInvitationLinkRedeemPayload>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+  }
   EventRecommendation?: {
     accountByAccountId?: GraphCacheResolver<
       WithTypename<EventRecommendation>,
@@ -12053,6 +13363,16 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       WithTypename<Attendance> | string
     >
+    companionCount?: GraphCacheResolver<
+      WithTypename<Guest>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+    companionCountRequested?: GraphCacheResolver<
+      WithTypename<Guest>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
     contactByContactId?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
@@ -12083,10 +13403,15 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       InvitationFeedback | string
     >
-    feedbackPaper?: GraphCacheResolver<
+    feedbackOverride?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      InvitationFeedbackPaper | string
+      InvitationFeedback | string
+    >
+    feedbackReason?: GraphCacheResolver<
+      WithTypename<Guest>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<Guest>,
@@ -12175,187 +13500,6 @@ export type GraphCacheResolvers = {
       WithTypename<GuestEdge>,
       Record<string, never>,
       WithTypename<Guest> | string
-    >
-  }
-  GuestFlat?: {
-    contactAccountId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    contactAddressId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    contactCreatedBy?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    contactEmailAddress?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactEmailAddressHash?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactFirstName?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    contactLastName?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactPhoneNumber?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactUrl?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventAddressId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    eventCreatedBy?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    eventDescription?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventEnd?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Datetime']['output'] | string
-    >
-    eventGuestCountMaximum?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Int']['output'] | string
-    >
-    eventId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    eventIsArchived?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Boolean']['output'] | string
-    >
-    eventIsInPerson?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Boolean']['output'] | string
-    >
-    eventIsRemote?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Boolean']['output'] | string
-    >
-    eventName?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventSlug?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventStart?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Datetime']['output'] | string
-    >
-    eventUrl?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventVisibility?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      EventVisibility | string
-    >
-    guestContactId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    guestEventId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    guestFeedback?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      InvitationFeedback | string
-    >
-    guestFeedbackPaper?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      InvitationFeedbackPaper | string
-    >
-    guestId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-  }
-  GuestFlatConnection?: {
-    edges?: GraphCacheResolver<
-      WithTypename<GuestFlatConnection>,
-      Record<string, never>,
-      Array<WithTypename<GuestFlatEdge> | string>
-    >
-    nodes?: GraphCacheResolver<
-      WithTypename<GuestFlatConnection>,
-      Record<string, never>,
-      Array<WithTypename<GuestFlat> | string>
-    >
-    pageInfo?: GraphCacheResolver<
-      WithTypename<GuestFlatConnection>,
-      Record<string, never>,
-      WithTypename<PageInfo> | string
-    >
-    totalCount?: GraphCacheResolver<
-      WithTypename<GuestFlatConnection>,
-      Record<string, never>,
-      Scalars['Int']['output'] | string
-    >
-  }
-  GuestFlatEdge?: {
-    cursor?: GraphCacheResolver<
-      WithTypename<GuestFlatEdge>,
-      Record<string, never>,
-      Scalars['Cursor']['output'] | string
-    >
-    node?: GraphCacheResolver<
-      WithTypename<GuestFlatEdge>,
-      Record<string, never>,
-      WithTypename<GuestFlat> | string
     >
   }
   InvitePayload?: {
@@ -13155,6 +14299,28 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  UpdateContactGroupPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateContactGroupPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    contactGroup?: GraphCacheResolver<
+      WithTypename<UpdateContactGroupPayload>,
+      Record<string, never>,
+      WithTypename<ContactGroup> | string
+    >
+    contactGroupEdge?: GraphCacheResolver<
+      WithTypename<UpdateContactGroupPayload>,
+      UpdateContactGroupPayloadContactGroupEdgeArgs,
+      WithTypename<ContactGroupEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateContactGroupPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   UpdateContactPayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateContactPayload>,
@@ -13440,6 +14606,10 @@ export type GraphCacheOptimisticUpdaters = {
     MutationAchievementUnlockArgs,
     Maybe<WithTypename<AchievementUnlockPayload>>
   >
+  contactMerge?: GraphCacheOptimisticMutationResolver<
+    MutationContactMergeArgs,
+    Maybe<WithTypename<ContactMergePayload>>
+  >
   createAccountBlock?: GraphCacheOptimisticMutationResolver<
     MutationCreateAccountBlockArgs,
     Maybe<WithTypename<CreateAccountBlockPayload>>
@@ -13460,6 +14630,26 @@ export type GraphCacheOptimisticUpdaters = {
     MutationCreateContactArgs,
     Maybe<WithTypename<CreateContactPayload>>
   >
+  createContactGroup?: GraphCacheOptimisticMutationResolver<
+    MutationCreateContactGroupArgs,
+    Maybe<WithTypename<CreateContactGroupPayload>>
+  >
+  createContactGroupMember?: GraphCacheOptimisticMutationResolver<
+    MutationCreateContactGroupMemberArgs,
+    Maybe<WithTypename<CreateContactGroupMemberPayload>>
+  >
+  createContactGroupMembers?: GraphCacheOptimisticMutationResolver<
+    MutationCreateContactGroupMembersArgs,
+    Maybe<WithTypename<CreateContactGroupMembersPayload>>
+  >
+  createContactGroups?: GraphCacheOptimisticMutationResolver<
+    MutationCreateContactGroupsArgs,
+    Maybe<WithTypename<CreateContactGroupsPayload>>
+  >
+  createContacts?: GraphCacheOptimisticMutationResolver<
+    MutationCreateContactsArgs,
+    Maybe<WithTypename<CreateContactsPayload>>
+  >
   createDevice?: GraphCacheOptimisticMutationResolver<
     MutationCreateDeviceArgs,
     Maybe<WithTypename<CreateDevicePayload>>
@@ -13479,6 +14669,10 @@ export type GraphCacheOptimisticUpdaters = {
   createEventFormatMapping?: GraphCacheOptimisticMutationResolver<
     MutationCreateEventFormatMappingArgs,
     Maybe<WithTypename<CreateEventFormatMappingPayload>>
+  >
+  createEventInvitationLink?: GraphCacheOptimisticMutationResolver<
+    MutationCreateEventInvitationLinkArgs,
+    Maybe<WithTypename<CreateEventInvitationLinkPayload>>
   >
   createEventUpload?: GraphCacheOptimisticMutationResolver<
     MutationCreateEventUploadArgs,
@@ -13568,6 +14762,22 @@ export type GraphCacheOptimisticUpdaters = {
     MutationDeleteContactByRowIdArgs,
     Maybe<WithTypename<DeleteContactPayload>>
   >
+  deleteContactGroup?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteContactGroupArgs,
+    Maybe<WithTypename<DeleteContactGroupPayload>>
+  >
+  deleteContactGroupByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteContactGroupByRowIdArgs,
+    Maybe<WithTypename<DeleteContactGroupPayload>>
+  >
+  deleteContactGroupMember?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteContactGroupMemberArgs,
+    Maybe<WithTypename<DeleteContactGroupMemberPayload>>
+  >
+  deleteContactGroupMemberByContactGroupIdAndContactId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteContactGroupMemberByContactGroupIdAndContactIdArgs,
+    Maybe<WithTypename<DeleteContactGroupMemberPayload>>
+  >
   deleteDevice?: GraphCacheOptimisticMutationResolver<
     MutationDeleteDeviceArgs,
     Maybe<WithTypename<DeleteDevicePayload>>
@@ -13619,6 +14829,18 @@ export type GraphCacheOptimisticUpdaters = {
   deleteEventFormatMappingByEventIdAndFormatId?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs,
     Maybe<WithTypename<DeleteEventFormatMappingPayload>>
+  >
+  deleteEventInvitationLink?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventInvitationLinkArgs,
+    Maybe<WithTypename<DeleteEventInvitationLinkPayload>>
+  >
+  deleteEventInvitationLinkByEventId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventInvitationLinkByEventIdArgs,
+    Maybe<WithTypename<DeleteEventInvitationLinkPayload>>
+  >
+  deleteEventInvitationLinkByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventInvitationLinkByRowIdArgs,
+    Maybe<WithTypename<DeleteEventInvitationLinkPayload>>
   >
   deleteEventUpload?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventUploadArgs,
@@ -13732,6 +14954,10 @@ export type GraphCacheOptimisticUpdaters = {
     MutationEventDeleteArgs,
     Maybe<WithTypename<EventDeletePayload>>
   >
+  eventInvitationLinkRedeem?: GraphCacheOptimisticMutationResolver<
+    MutationEventInvitationLinkRedeemArgs,
+    Maybe<WithTypename<EventInvitationLinkRedeemPayload>>
+  >
   invite?: GraphCacheOptimisticMutationResolver<
     MutationInviteArgs,
     Maybe<WithTypename<InvitePayload>>
@@ -13811,6 +15037,14 @@ export type GraphCacheOptimisticUpdaters = {
   updateContactByRowId?: GraphCacheOptimisticMutationResolver<
     MutationUpdateContactByRowIdArgs,
     Maybe<WithTypename<UpdateContactPayload>>
+  >
+  updateContactGroup?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateContactGroupArgs,
+    Maybe<WithTypename<UpdateContactGroupPayload>>
+  >
+  updateContactGroupByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateContactGroupByRowIdArgs,
+    Maybe<WithTypename<UpdateContactGroupPayload>>
   >
   updateDevice?: GraphCacheOptimisticMutationResolver<
     MutationUpdateDeviceArgs,
@@ -13998,6 +15232,18 @@ export type GraphCacheUpdaters = {
       { allAttendances: Maybe<WithTypename<AttendanceConnection>> },
       QueryAllAttendancesArgs
     >
+    allContactGroupMembers?: GraphCacheUpdateResolver<
+      {
+        allContactGroupMembers: Maybe<
+          WithTypename<ContactGroupMemberConnection>
+        >
+      },
+      QueryAllContactGroupMembersArgs
+    >
+    allContactGroups?: GraphCacheUpdateResolver<
+      { allContactGroups: Maybe<WithTypename<ContactGroupConnection>> },
+      QueryAllContactGroupsArgs
+    >
     allContacts?: GraphCacheUpdateResolver<
       { allContacts: Maybe<WithTypename<ContactConnection>> },
       QueryAllContactsArgs
@@ -14038,6 +15284,14 @@ export type GraphCacheUpdaters = {
       { allEventFormats: Maybe<WithTypename<EventFormatConnection>> },
       QueryAllEventFormatsArgs
     >
+    allEventInvitationLinks?: GraphCacheUpdateResolver<
+      {
+        allEventInvitationLinks: Maybe<
+          WithTypename<EventInvitationLinkConnection>
+        >
+      },
+      QueryAllEventInvitationLinksArgs
+    >
     allEventRecommendations?: GraphCacheUpdateResolver<
       {
         allEventRecommendations: Maybe<
@@ -14057,10 +15311,6 @@ export type GraphCacheUpdaters = {
     allFriendships?: GraphCacheUpdateResolver<
       { allFriendships: Maybe<WithTypename<FriendshipConnection>> },
       QueryAllFriendshipsArgs
-    >
-    allGuestFlats?: GraphCacheUpdateResolver<
-      { allGuestFlats: Maybe<WithTypename<GuestFlatConnection>> },
-      QueryAllGuestFlatsArgs
     >
     allGuests?: GraphCacheUpdateResolver<
       { allGuests: Maybe<WithTypename<GuestConnection>> },
@@ -14162,6 +15412,26 @@ export type GraphCacheUpdaters = {
       { contactByRowId: Maybe<WithTypename<Contact>> },
       QueryContactByRowIdArgs
     >
+    contactGroup?: GraphCacheUpdateResolver<
+      { contactGroup: Maybe<WithTypename<ContactGroup>> },
+      QueryContactGroupArgs
+    >
+    contactGroupByRowId?: GraphCacheUpdateResolver<
+      { contactGroupByRowId: Maybe<WithTypename<ContactGroup>> },
+      QueryContactGroupByRowIdArgs
+    >
+    contactGroupMember?: GraphCacheUpdateResolver<
+      { contactGroupMember: Maybe<WithTypename<ContactGroupMember>> },
+      QueryContactGroupMemberArgs
+    >
+    contactGroupMemberByContactGroupIdAndContactId?: GraphCacheUpdateResolver<
+      {
+        contactGroupMemberByContactGroupIdAndContactId: Maybe<
+          WithTypename<ContactGroupMember>
+        >
+      },
+      QueryContactGroupMemberByContactGroupIdAndContactIdArgs
+    >
     device?: GraphCacheUpdateResolver<
       { device: Maybe<WithTypename<Device>> },
       QueryDeviceArgs
@@ -14197,6 +15467,10 @@ export type GraphCacheUpdaters = {
     eventByCreatedByAndSlug?: GraphCacheUpdateResolver<
       { eventByCreatedByAndSlug: Maybe<WithTypename<Event>> },
       QueryEventByCreatedByAndSlugArgs
+    >
+    eventByInvitationLink?: GraphCacheUpdateResolver<
+      { eventByInvitationLink: Maybe<WithTypename<Event>> },
+      QueryEventByInvitationLinkArgs
     >
     eventByRowId?: GraphCacheUpdateResolver<
       { eventByRowId: Maybe<WithTypename<Event>> },
@@ -14267,6 +15541,20 @@ export type GraphCacheUpdaters = {
     eventGuestCountMaximum?: GraphCacheUpdateResolver<
       { eventGuestCountMaximum: Maybe<Scalars['Int']['output']> },
       QueryEventGuestCountMaximumArgs
+    >
+    eventInvitationLink?: GraphCacheUpdateResolver<
+      { eventInvitationLink: Maybe<WithTypename<EventInvitationLink>> },
+      QueryEventInvitationLinkArgs
+    >
+    eventInvitationLinkByEventId?: GraphCacheUpdateResolver<
+      {
+        eventInvitationLinkByEventId: Maybe<WithTypename<EventInvitationLink>>
+      },
+      QueryEventInvitationLinkByEventIdArgs
+    >
+    eventInvitationLinkByRowId?: GraphCacheUpdateResolver<
+      { eventInvitationLinkByRowId: Maybe<WithTypename<EventInvitationLink>> },
+      QueryEventInvitationLinkByRowIdArgs
     >
     eventNearby?: GraphCacheUpdateResolver<
       { eventNearby: Maybe<WithTypename<EventConnection>> },
@@ -14379,6 +15667,8 @@ export type GraphCacheUpdaters = {
           | WithTypename<App>
           | WithTypename<Attendance>
           | WithTypename<Contact>
+          | WithTypename<ContactGroup>
+          | WithTypename<ContactGroupMember>
           | WithTypename<Device>
           | WithTypename<Event>
           | WithTypename<EventApp>
@@ -14387,6 +15677,7 @@ export type GraphCacheUpdaters = {
           | WithTypename<EventFavorite>
           | WithTypename<EventFormat>
           | WithTypename<EventFormatMapping>
+          | WithTypename<EventInvitationLink>
           | WithTypename<EventRecommendation>
           | WithTypename<EventUpload>
           | WithTypename<Friendship>
@@ -14573,6 +15864,10 @@ export type GraphCacheUpdaters = {
       { achievementUnlock: Maybe<WithTypename<AchievementUnlockPayload>> },
       MutationAchievementUnlockArgs
     >
+    contactMerge?: GraphCacheUpdateResolver<
+      { contactMerge: Maybe<WithTypename<ContactMergePayload>> },
+      MutationContactMergeArgs
+    >
     createAccountBlock?: GraphCacheUpdateResolver<
       { createAccountBlock: Maybe<WithTypename<CreateAccountBlockPayload>> },
       MutationCreateAccountBlockArgs
@@ -14596,6 +15891,34 @@ export type GraphCacheUpdaters = {
     createContact?: GraphCacheUpdateResolver<
       { createContact: Maybe<WithTypename<CreateContactPayload>> },
       MutationCreateContactArgs
+    >
+    createContactGroup?: GraphCacheUpdateResolver<
+      { createContactGroup: Maybe<WithTypename<CreateContactGroupPayload>> },
+      MutationCreateContactGroupArgs
+    >
+    createContactGroupMember?: GraphCacheUpdateResolver<
+      {
+        createContactGroupMember: Maybe<
+          WithTypename<CreateContactGroupMemberPayload>
+        >
+      },
+      MutationCreateContactGroupMemberArgs
+    >
+    createContactGroupMembers?: GraphCacheUpdateResolver<
+      {
+        createContactGroupMembers: Maybe<
+          WithTypename<CreateContactGroupMembersPayload>
+        >
+      },
+      MutationCreateContactGroupMembersArgs
+    >
+    createContactGroups?: GraphCacheUpdateResolver<
+      { createContactGroups: Maybe<WithTypename<CreateContactGroupsPayload>> },
+      MutationCreateContactGroupsArgs
+    >
+    createContacts?: GraphCacheUpdateResolver<
+      { createContacts: Maybe<WithTypename<CreateContactsPayload>> },
+      MutationCreateContactsArgs
     >
     createDevice?: GraphCacheUpdateResolver<
       { createDevice: Maybe<WithTypename<CreateDevicePayload>> },
@@ -14624,6 +15947,14 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationCreateEventFormatMappingArgs
+    >
+    createEventInvitationLink?: GraphCacheUpdateResolver<
+      {
+        createEventInvitationLink: Maybe<
+          WithTypename<CreateEventInvitationLinkPayload>
+        >
+      },
+      MutationCreateEventInvitationLinkArgs
     >
     createEventUpload?: GraphCacheUpdateResolver<
       { createEventUpload: Maybe<WithTypename<CreateEventUploadPayload>> },
@@ -14755,6 +16086,34 @@ export type GraphCacheUpdaters = {
       { deleteContactByRowId: Maybe<WithTypename<DeleteContactPayload>> },
       MutationDeleteContactByRowIdArgs
     >
+    deleteContactGroup?: GraphCacheUpdateResolver<
+      { deleteContactGroup: Maybe<WithTypename<DeleteContactGroupPayload>> },
+      MutationDeleteContactGroupArgs
+    >
+    deleteContactGroupByRowId?: GraphCacheUpdateResolver<
+      {
+        deleteContactGroupByRowId: Maybe<
+          WithTypename<DeleteContactGroupPayload>
+        >
+      },
+      MutationDeleteContactGroupByRowIdArgs
+    >
+    deleteContactGroupMember?: GraphCacheUpdateResolver<
+      {
+        deleteContactGroupMember: Maybe<
+          WithTypename<DeleteContactGroupMemberPayload>
+        >
+      },
+      MutationDeleteContactGroupMemberArgs
+    >
+    deleteContactGroupMemberByContactGroupIdAndContactId?: GraphCacheUpdateResolver<
+      {
+        deleteContactGroupMemberByContactGroupIdAndContactId: Maybe<
+          WithTypename<DeleteContactGroupMemberPayload>
+        >
+      },
+      MutationDeleteContactGroupMemberByContactGroupIdAndContactIdArgs
+    >
     deleteDevice?: GraphCacheUpdateResolver<
       { deleteDevice: Maybe<WithTypename<DeleteDevicePayload>> },
       MutationDeleteDeviceArgs
@@ -14836,6 +16195,30 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs
+    >
+    deleteEventInvitationLink?: GraphCacheUpdateResolver<
+      {
+        deleteEventInvitationLink: Maybe<
+          WithTypename<DeleteEventInvitationLinkPayload>
+        >
+      },
+      MutationDeleteEventInvitationLinkArgs
+    >
+    deleteEventInvitationLinkByEventId?: GraphCacheUpdateResolver<
+      {
+        deleteEventInvitationLinkByEventId: Maybe<
+          WithTypename<DeleteEventInvitationLinkPayload>
+        >
+      },
+      MutationDeleteEventInvitationLinkByEventIdArgs
+    >
+    deleteEventInvitationLinkByRowId?: GraphCacheUpdateResolver<
+      {
+        deleteEventInvitationLinkByRowId: Maybe<
+          WithTypename<DeleteEventInvitationLinkPayload>
+        >
+      },
+      MutationDeleteEventInvitationLinkByRowIdArgs
     >
     deleteEventUpload?: GraphCacheUpdateResolver<
       { deleteEventUpload: Maybe<WithTypename<DeleteEventUploadPayload>> },
@@ -15021,6 +16404,14 @@ export type GraphCacheUpdaters = {
       { eventDelete: Maybe<WithTypename<EventDeletePayload>> },
       MutationEventDeleteArgs
     >
+    eventInvitationLinkRedeem?: GraphCacheUpdateResolver<
+      {
+        eventInvitationLinkRedeem: Maybe<
+          WithTypename<EventInvitationLinkRedeemPayload>
+        >
+      },
+      MutationEventInvitationLinkRedeemArgs
+    >
     invite?: GraphCacheUpdateResolver<
       { invite: Maybe<WithTypename<InvitePayload>> },
       MutationInviteArgs
@@ -15122,6 +16513,18 @@ export type GraphCacheUpdaters = {
     updateContactByRowId?: GraphCacheUpdateResolver<
       { updateContactByRowId: Maybe<WithTypename<UpdateContactPayload>> },
       MutationUpdateContactByRowIdArgs
+    >
+    updateContactGroup?: GraphCacheUpdateResolver<
+      { updateContactGroup: Maybe<WithTypename<UpdateContactGroupPayload>> },
+      MutationUpdateContactGroupArgs
+    >
+    updateContactGroupByRowId?: GraphCacheUpdateResolver<
+      {
+        updateContactGroupByRowId: Maybe<
+          WithTypename<UpdateContactGroupPayload>
+        >
+      },
+      MutationUpdateContactGroupByRowIdArgs
     >
     updateDevice?: GraphCacheUpdateResolver<
       { updateDevice: Maybe<WithTypename<UpdateDevicePayload>> },
@@ -15253,6 +16656,10 @@ export type GraphCacheUpdaters = {
     attendancesByUpdatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountAttendancesByUpdatedByArgs
+    >
+    contactGroupsByCreatedBy?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      AccountContactGroupsByCreatedByArgs
     >
     contactsByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
@@ -15892,6 +17299,10 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Attendance>>,
       Record<string, never>
     >
+    tagSerialNumber?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Attendance>>,
+      Record<string, never>
+    >
     updatedAt?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Attendance>>,
       Record<string, never>
@@ -15954,6 +17365,10 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Contact>>,
       ContactAttendancesByContactIdArgs
     >
+    contactGroupMembersByContactId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Contact>>,
+      ContactContactGroupMembersByContactIdArgs
+    >
     createdAt?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Contact>>,
       Record<string, never>
@@ -15962,11 +17377,11 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Contact>>,
       Record<string, never>
     >
-    emailAddress?: GraphCacheUpdateResolver<
+    emailAddressHash?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Contact>>,
       Record<string, never>
     >
-    emailAddressHash?: GraphCacheUpdateResolver<
+    emailAddresses?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Contact>>,
       Record<string, never>
     >
@@ -16043,6 +17458,132 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  ContactGroup?: {
+    accountByCreatedBy?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroup>>,
+      Record<string, never>
+    >
+    contactGroupMembersByContactGroupId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroup>>,
+      ContactGroupContactGroupMembersByContactGroupIdArgs
+    >
+    createdAt?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroup>>,
+      Record<string, never>
+    >
+    createdBy?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroup>>,
+      Record<string, never>
+    >
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroup>>,
+      Record<string, never>
+    >
+    name?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroup>>,
+      Record<string, never>
+    >
+    rowId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroup>>,
+      Record<string, never>
+    >
+  }
+  ContactGroupConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupConnection>>,
+      Record<string, never>
+    >
+  }
+  ContactGroupEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupEdge>>,
+      Record<string, never>
+    >
+  }
+  ContactGroupMember?: {
+    contactByContactId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMember>>,
+      Record<string, never>
+    >
+    contactGroupByContactGroupId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMember>>,
+      Record<string, never>
+    >
+    contactGroupId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMember>>,
+      Record<string, never>
+    >
+    contactId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMember>>,
+      Record<string, never>
+    >
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMember>>,
+      Record<string, never>
+    >
+  }
+  ContactGroupMemberConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMemberConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMemberConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMemberConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMemberConnection>>,
+      Record<string, never>
+    >
+  }
+  ContactGroupMemberEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMemberEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactGroupMemberEdge>>,
+      Record<string, never>
+    >
+  }
+  ContactMergePayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactMergePayload>>,
+      Record<string, never>
+    >
+    contactEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactMergePayload>>,
+      ContactMergePayloadContactEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactMergePayload>>,
+      Record<string, never>
+    >
+    result?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<ContactMergePayload>>,
+      Record<string, never>
+    >
+  }
   CreateAccountBlockPayload?: {
     accountBlock?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateAccountBlockPayload>>,
@@ -16115,6 +17656,70 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  CreateContactGroupMemberPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupMemberPayload>>,
+      Record<string, never>
+    >
+    contactGroupMember?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupMemberPayload>>,
+      Record<string, never>
+    >
+    contactGroupMemberEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupMemberPayload>>,
+      CreateContactGroupMemberPayloadContactGroupMemberEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupMemberPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateContactGroupMembersPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupMembersPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupMembersPayload>>,
+      Record<string, never>
+    >
+    result?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupMembersPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateContactGroupPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupPayload>>,
+      Record<string, never>
+    >
+    contactGroup?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupPayload>>,
+      Record<string, never>
+    >
+    contactGroupEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupPayload>>,
+      CreateContactGroupPayloadContactGroupEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateContactGroupsPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupsPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupsPayload>>,
+      Record<string, never>
+    >
+    result?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactGroupsPayload>>,
+      Record<string, never>
+    >
+  }
   CreateContactPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateContactPayload>>,
@@ -16130,6 +17735,20 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateContactPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateContactsPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactsPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactsPayload>>,
+      Record<string, never>
+    >
+    result?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateContactsPayload>>,
       Record<string, never>
     >
   }
@@ -16202,6 +17821,24 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateEventInvitationLinkPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    eventInvitationLink?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    eventInvitationLinkEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventInvitationLinkPayload>>,
+      CreateEventInvitationLinkPayloadEventInvitationLinkEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventInvitationLinkPayload>>,
       Record<string, never>
     >
   }
@@ -16501,6 +18138,50 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  DeleteContactGroupMemberPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupMemberPayload>>,
+      Record<string, never>
+    >
+    contactGroupMember?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupMemberPayload>>,
+      Record<string, never>
+    >
+    contactGroupMemberEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupMemberPayload>>,
+      DeleteContactGroupMemberPayloadContactGroupMemberEdgeArgs
+    >
+    deletedContactGroupMemberId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupMemberPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupMemberPayload>>,
+      Record<string, never>
+    >
+  }
+  DeleteContactGroupPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupPayload>>,
+      Record<string, never>
+    >
+    contactGroup?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupPayload>>,
+      Record<string, never>
+    >
+    contactGroupEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupPayload>>,
+      DeleteContactGroupPayloadContactGroupEdgeArgs
+    >
+    deletedContactGroupId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteContactGroupPayload>>,
+      Record<string, never>
+    >
+  }
   DeleteContactPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteContactPayload>>,
@@ -16608,6 +18289,28 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+  }
+  DeleteEventInvitationLinkPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    deletedEventInvitationLinkId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    eventInvitationLink?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
+      Record<string, never>
+    >
+    eventInvitationLinkEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
+      DeleteEventInvitationLinkPayloadEventInvitationLinkEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventInvitationLinkPayload>>,
       Record<string, never>
     >
   }
@@ -16942,6 +18645,10 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Event>>,
       EventEventFormatMappingsByEventIdArgs
     >
+    eventInvitationLinkByEventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
     eventRecommendationsByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       EventEventRecommendationsByEventIdArgs
@@ -16950,7 +18657,15 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Event>>,
       EventEventUploadsByEventIdArgs
     >
+    feedbackDeadline?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
     guestCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
+    guestCountAccepted?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
     >
@@ -16983,6 +18698,10 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     name?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
+    publishedAt?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
     >
@@ -17381,6 +19100,70 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  EventInvitationLink?: {
+    createdAt?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+    eventByEventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+    eventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+    rowId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLink>>,
+      Record<string, never>
+    >
+  }
+  EventInvitationLinkConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkConnection>>,
+      Record<string, never>
+    >
+  }
+  EventInvitationLinkEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkEdge>>,
+      Record<string, never>
+    >
+  }
+  EventInvitationLinkRedeemPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkRedeemPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkRedeemPayload>>,
+      Record<string, never>
+    >
+    result?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventInvitationLinkRedeemPayload>>,
+      Record<string, never>
+    >
+  }
   EventRecommendation?: {
     accountByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventRecommendation>>,
@@ -17606,6 +19389,14 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >
+    companionCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Guest>>,
+      Record<string, never>
+    >
+    companionCountRequested?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Guest>>,
+      Record<string, never>
+    >
     contactByContactId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Guest>>,
       Record<string, never>
@@ -17630,7 +19421,11 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >
-    feedbackPaper?: GraphCacheUpdateResolver<
+    feedbackOverride?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Guest>>,
+      Record<string, never>
+    >
+    feedbackReason?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >
@@ -17704,152 +19499,6 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<GuestEdge>>,
-      Record<string, never>
-    >
-  }
-  GuestFlat?: {
-    contactAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactAddressId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactEmailAddress?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactEmailAddressHash?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactFirstName?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactLastName?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactPhoneNumber?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactUrl?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventAddressId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventDescription?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventEnd?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventGuestCountMaximum?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventIsArchived?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventIsInPerson?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventIsRemote?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventName?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventSlug?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventStart?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventUrl?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventVisibility?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestContactId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestFeedback?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestFeedbackPaper?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-  }
-  GuestFlatConnection?: {
-    edges?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatConnection>>,
-      Record<string, never>
-    >
-    nodes?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatConnection>>,
-      Record<string, never>
-    >
-    pageInfo?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatConnection>>,
-      Record<string, never>
-    >
-    totalCount?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatConnection>>,
-      Record<string, never>
-    >
-  }
-  GuestFlatEdge?: {
-    cursor?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatEdge>>,
-      Record<string, never>
-    >
-    node?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatEdge>>,
       Record<string, never>
     >
   }
@@ -18502,6 +20151,24 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateAttendancePayload>>,
+      Record<string, never>
+    >
+  }
+  UpdateContactGroupPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateContactGroupPayload>>,
+      Record<string, never>
+    >
+    contactGroup?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateContactGroupPayload>>,
+      Record<string, never>
+    >
+    contactGroupEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateContactGroupPayload>>,
+      UpdateContactGroupPayloadContactGroupEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateContactGroupPayload>>,
       Record<string, never>
     >
   }
