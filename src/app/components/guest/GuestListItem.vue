@@ -15,26 +15,19 @@
     <ContactPreview :contact :feedback="guest.feedback" />
     <div class="flex shrink-0 items-center gap-4 text-fg-1">
       <AppButton
-        :aria-label="sendLabel"
+        :aria-label="t('guestShare')"
         class="hidden md:block"
-        :disabled="!isSendable"
-        :loading="pending.sends.includes(guest.rowId)"
         size="none"
         variant="ghost"
-        @click="void send(guest)"
+        @click="void share(guest)"
       >
         <AppIconPaperAirplane />
-        <template #loading />
       </AppButton>
       <AppDropdown>
-        <AppDropdownItem
-          class="md:hidden"
-          :disabled="!isSendable || pending.sends.includes(guest.rowId)"
-          @select="send(guest)"
-        >
+        <AppDropdownItem class="md:hidden" @select="share(guest)">
           <AppIconPaperAirplane />
           <span>
-            {{ sendLabel }}
+            {{ t('guestShare') }}
           </span>
         </AppDropdownItem>
         <AppDropdownItem @select="copyLink(guest)">
@@ -139,7 +132,7 @@ const { event, guest } = defineProps<{
   guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'rowId'>
 }>()
 
-const { defaultLocale, locale, t } = useI18n()
+const { defaultLocale, t } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
 const router = useRouter()
@@ -156,7 +149,6 @@ const pending = reactive({
   deletions: ref<string[]>([]),
   edits: ref<string[]>([]),
   feedbacks: ref<string[]>([]),
-  sends: ref<string[]>([]),
 })
 
 // api data
@@ -172,15 +164,6 @@ const deleteGuestByRowIdMutation = useMutation(
           id
           rowId
         }
-      }
-    }
-  `),
-)
-const inviteMutation = useMutation(
-  graphql(`
-    mutation Invite($input: InviteInput!) {
-      invite(input: $input) {
-        clientMutationId
       }
     }
   `),
@@ -256,13 +239,16 @@ const setFeedback = async (id: string, feedback: InvitationFeedback) => {
 
   toast.success(t('guestFeedbackSuccess'))
 }
+// the organizer passes the link on from their own device, as German courts
+// treat invitations the platform sends itself as its advertising, which needs
+// each invitee's prior consent (§ 7 UWG, BGH I ZR 65/14)
 // called without awaiting anything first, as iOS drops the user activation
 // that navigator.share requires once an await runs
 const share = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   if (!import.meta.client) return
 
   if (!navigator.share) {
-    await copyLink(guest)
+    await shareFallback(guest)
     return
   }
 
@@ -271,49 +257,31 @@ const share = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') return
 
-    await copyLink(guest)
+    await shareFallback(guest)
   }
 }
-// clicks discard the promise, which may wait on the share sheet, so `pending.sends` drives the loading state
-const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
-  // without an email address to send to, the organizer passes the link on
-  // from their own device, e.g. by text message
-  if (!isEmailable.value) {
-    await share(guest)
+// without a share sheet, a known email address opens a draft in the
+// organizer's own mail app
+const shareFallback = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
+  const emailAddress = contact.value?.emailAddress
+
+  if (!emailAddress) {
+    await copyLink(guest)
     return
   }
 
-  pending.sends.push(guest.rowId)
-
-  const result = await inviteMutation.executeMutation({
-    input: {
-      guestId: guest.rowId,
-      language: locale.value,
-    },
+  // mailto wants spaces as %20, which URLSearchParams writes as +
+  const query = new URLSearchParams({
+    body: `${t('shareText')}\n\n${getLink(guest)}`,
+    subject: t('shareSubject'),
   })
-
-  pending.sends.splice(pending.sends.indexOf(guest.rowId), 1)
-
-  if (!getResultData(result)) return
-
-  toast.success(t('sendSuccess'))
+    .toString()
+    .replaceAll('+', '%20')
+  window.location.href = `mailto:${emailAddress}?${query}`
 }
 
 // computations
 const contact = computed(() => getContactItem(guest.contactByContactId))
-const isEmailable = computed(
-  () => !!(contact.value?.accountId || contact.value?.emailAddress),
-)
-const isSendable = computed(
-  () => isEmailable.value || !!contact.value?.phoneNumber,
-)
-const sendLabel = computed(() =>
-  isEmailable.value
-    ? t('guestSend')
-    : isSendable.value
-      ? t('guestShare')
-      : t('disabledReasonContactWayNone'),
-)
 const contactName = computed(() =>
   contact.value
     ? getContactName({
@@ -329,34 +297,28 @@ de:
   actions: Aktionen für {name}
   contactEdit: Kontakt bearbeiten
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
-  disabledReasonContactWayNone: Diesem Kontakt fehlen E-Mail-Adresse und Telefonnummer.
   guestDelete: Gast löschen
   guestFeedbackAccept: Als zugesagt markieren
   guestFeedbackCancel: Als abgesagt markieren
   guestFeedbackSuccess: Der Rückmeldestatus wurde aktualisiert.
   guestLink: Einladungslink kopieren
   guestSelect: Gast {name} auswählen
-  guestSend: Einladung versenden
   guestShare: Einladung teilen
   guestView: Einladung anzeigen
-  sendSuccess: Die Einladung wurde erfolgreich per E-Mail versandt.
+  shareSubject: Du bist eingeladen!
   shareText: 'Du bist eingeladen! Hier ist Deine Einladung:'
-  # postgresP0002: Die Einladung konnte nicht versandt werden! Möglicherweise hast du aktuell keinen Zugriff auf die notwendigen Daten. Versuche die Seite neu zu laden.
 en:
   actions: Actions for {name}
   contactEdit: Edit contact
   copySuccess: The guest link has been copied to the clipboard.
-  disabledReasonContactWayNone: This contact has neither an email address nor a phone number.
   guestDelete: Delete guest
   guestFeedbackAccept: Mark as accepted
   guestFeedbackCancel: Mark as declined
   guestFeedbackSuccess: The feedback status was updated.
   guestLink: Copy invitation link
   guestSelect: Select guest {name}
-  guestSend: Send invitation
   guestShare: Share invitation
   guestView: View invitation
-  sendSuccess: The invitation was successfully sent by email.
+  shareSubject: You're invited!
   shareText: "You're invited! Here is your invitation:"
-  # postgresP0002: The guest could not be sent! You may not have access to the necessary data right now. Try reloading the page.
 </i18n>
