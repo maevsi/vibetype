@@ -1,3 +1,9 @@
+## [17.68.0](https://github.com/maevsi/vibetype/compare/17.67.0...17.68.0) (2026-11-28)
+
+### Features
+
+* **event:** flag location for camera submissions ([#2936](https://github.com/maevsi/vibetype/issues/2936)) ([0f9eeb2](https://github.com/maevsi/vibetype/commit/0f9eeb299c334d75917aa4ce3195de76bf0a0ea4))
+
 ## [17.67.0](https://github.com/maevsi/vibetype/compare/17.66.0...17.67.0) (2026-11-28)
 
 ### Features
